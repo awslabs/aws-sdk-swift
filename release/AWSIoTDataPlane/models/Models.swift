@@ -903,6 +903,38 @@ extension MethodNotAllowedExceptionBody: Swift.Decodable {
     }
 }
 
+extension IoTDataPlaneClientTypes {
+    public enum PayloadFormatIndicator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case unspecifiedBytes
+        case utf8Data
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PayloadFormatIndicator] {
+            return [
+                .unspecifiedBytes,
+                .utf8Data,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .unspecifiedBytes: return "UNSPECIFIED_BYTES"
+            case .utf8Data: return "UTF8_DATA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PayloadFormatIndicator(rawValue: rawValue) ?? PayloadFormatIndicator.sdkUnknown(rawValue)
+        }
+    }
+}
+
 public struct PublishInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "PublishInputBodyMiddleware"
 
@@ -942,6 +974,26 @@ extension PublishInput: Swift.Encodable {
     }
 }
 
+extension PublishInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let correlationData = correlationData {
+            items.add(Header(name: "x-amz-mqtt5-correlation-data", value: Swift.String(correlationData)))
+        }
+        if let payloadFormatIndicator = payloadFormatIndicator {
+            items.add(Header(name: "x-amz-mqtt5-payload-format-indicator", value: Swift.String(payloadFormatIndicator.rawValue)))
+        }
+        if let userProperties = userProperties {
+            do {
+                let base64EncodedValue = try userProperties.base64EncodedString()
+                items.add(Header(name: "x-amz-mqtt5-user-properties", value: Swift.String(base64EncodedValue)))
+            } catch let err {
+            }
+        }
+        return items
+    }
+}
+
 extension PublishInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -953,6 +1005,18 @@ extension PublishInput: ClientRuntime.QueryItemProvider {
             if retain != false {
                 let retainQueryItem = ClientRuntime.URLQueryItem(name: "retain".urlPercentEncoding(), value: Swift.String(retain).urlPercentEncoding())
                 items.append(retainQueryItem)
+            }
+            if let responseTopic = responseTopic {
+                let responseTopicQueryItem = ClientRuntime.URLQueryItem(name: "responseTopic".urlPercentEncoding(), value: Swift.String(responseTopic).urlPercentEncoding())
+                items.append(responseTopicQueryItem)
+            }
+            if let contentType = contentType {
+                let contentTypeQueryItem = ClientRuntime.URLQueryItem(name: "contentType".urlPercentEncoding(), value: Swift.String(contentType).urlPercentEncoding())
+                items.append(contentTypeQueryItem)
+            }
+            if messageExpiry != 0 {
+                let messageExpiryQueryItem = ClientRuntime.URLQueryItem(name: "messageExpiry".urlPercentEncoding(), value: Swift.String(messageExpiry).urlPercentEncoding())
+                items.append(messageExpiryQueryItem)
             }
             return items
         }
@@ -970,27 +1034,51 @@ extension PublishInput: ClientRuntime.URLPathProvider {
 
 /// The input for the Publish operation.
 public struct PublishInput: Swift.Equatable {
+    /// A UTF-8 encoded string that describes the content of the publishing message.
+    public var contentType: Swift.String?
+    /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. correlationData is an HTTP header value in the API.
+    public var correlationData: Swift.String?
+    /// A user-defined integer value that represents the message expiry interval in seconds. If absent, the message doesn't expire. For more information about the limits of messageExpiry, see [Amazon Web Services IoT Core message broker and protocol limits and quotas ](https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits) from the Amazon Web Services Reference Guide.
+    public var messageExpiry: Swift.Int
     /// The message body. MQTT accepts text, binary, and empty (null) message payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from Amazon Web Services IoT Core.
     public var payload: ClientRuntime.Data?
-    /// The Quality of Service (QoS) level.
+    /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API.
+    public var payloadFormatIndicator: IoTDataPlaneClientTypes.PayloadFormatIndicator?
+    /// The Quality of Service (QoS) level. The default QoS level is 0.
     public var qos: Swift.Int
+    /// A UTF-8 encoded string that's used as the topic name for a response message. The response topic is used to describe the topic which the receiver should publish to as part of the request-response flow. The topic must not contain wildcard characters.
+    public var responseTopic: Swift.String?
     /// A Boolean value that determines whether to set the RETAIN flag when the message is published. Setting the RETAIN flag causes the message to be retained and sent to new subscribers to the topic. Valid values: true | false Default value: false
     public var retain: Swift.Bool
     /// The name of the MQTT topic.
     /// This member is required.
     public var topic: Swift.String?
+    /// A JSON string that contains an array of JSON objects. If you don’t use Amazon Web Services SDK or CLI, you must encode the JSON string to base64 format before adding it to the HTTP header. userProperties is an HTTP header value in the API. The following example userProperties parameter is a JSON string which represents two User Properties. Note that it needs to be base64-encoded: [{"deviceName": "alpha"}, {"deviceCnt": "45"}]
+    public var userProperties: Swift.String?
 
     public init (
+        contentType: Swift.String? = nil,
+        correlationData: Swift.String? = nil,
+        messageExpiry: Swift.Int = 0,
         payload: ClientRuntime.Data? = nil,
+        payloadFormatIndicator: IoTDataPlaneClientTypes.PayloadFormatIndicator? = nil,
         qos: Swift.Int = 0,
+        responseTopic: Swift.String? = nil,
         retain: Swift.Bool = false,
-        topic: Swift.String? = nil
+        topic: Swift.String? = nil,
+        userProperties: Swift.String? = nil
     )
     {
+        self.contentType = contentType
+        self.correlationData = correlationData
+        self.messageExpiry = messageExpiry
         self.payload = payload
+        self.payloadFormatIndicator = payloadFormatIndicator
         self.qos = qos
+        self.responseTopic = responseTopic
         self.retain = retain
         self.topic = topic
+        self.userProperties = userProperties
     }
 }
 
@@ -1024,6 +1112,7 @@ extension PublishOutputError {
         case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedException" : self = .unauthorizedException(try UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
@@ -1034,6 +1123,7 @@ public enum PublishOutputError: Swift.Error, Swift.Equatable {
     case internalFailureException(InternalFailureException)
     case invalidRequestException(InvalidRequestException)
     case methodNotAllowedException(MethodNotAllowedException)
+    case throttlingException(ThrottlingException)
     case unauthorizedException(UnauthorizedException)
     case unknown(UnknownAWSHttpServiceError)
 }

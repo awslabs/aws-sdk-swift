@@ -607,6 +607,115 @@ public struct AuthorizeIpRulesOutputResponse: Swift.Equatable {
 }
 
 extension WorkSpacesClientTypes {
+    public enum BundleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case regular
+        case standby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BundleType] {
+            return [
+                .regular,
+                .standby,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .regular: return "REGULAR"
+            case .standby: return "STANDBY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BundleType(rawValue: rawValue) ?? BundleType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkSpacesClientTypes.CertificateBasedAuthProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateAuthorityArn = "CertificateAuthorityArn"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateAuthorityArn = self.certificateAuthorityArn {
+            try encodeContainer.encode(certificateAuthorityArn, forKey: .certificateAuthorityArn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.CertificateBasedAuthStatusEnum.self, forKey: .status)
+        status = statusDecoded
+        let certificateAuthorityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateAuthorityArn)
+        certificateAuthorityArn = certificateAuthorityArnDecoded
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Describes the properties of the certificate-based authentication you want to use with your WorkSpaces.
+    public struct CertificateBasedAuthProperties: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate Manager Private CA resource.
+        public var certificateAuthorityArn: Swift.String?
+        /// The status of the certificate-based authentication properties.
+        public var status: WorkSpacesClientTypes.CertificateBasedAuthStatusEnum?
+
+        public init (
+            certificateAuthorityArn: Swift.String? = nil,
+            status: WorkSpacesClientTypes.CertificateBasedAuthStatusEnum? = nil
+        )
+        {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.status = status
+        }
+    }
+
+}
+
+extension WorkSpacesClientTypes {
+    public enum CertificateBasedAuthStatusEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateBasedAuthStatusEnum] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CertificateBasedAuthStatusEnum(rawValue: rawValue) ?? CertificateBasedAuthStatusEnum.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
     public enum ClientDeviceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case deviceTypeAndroid
         case deviceTypeIos
@@ -1813,6 +1922,178 @@ extension CreateIpGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
         groupId = groupIdDecoded
+    }
+}
+
+extension CreateStandbyWorkspacesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case primaryRegion = "PrimaryRegion"
+        case standbyWorkspaces = "StandbyWorkspaces"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let primaryRegion = self.primaryRegion {
+            try encodeContainer.encode(primaryRegion, forKey: .primaryRegion)
+        }
+        if let standbyWorkspaces = standbyWorkspaces {
+            var standbyWorkspacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .standbyWorkspaces)
+            for standbyworkspaceslist0 in standbyWorkspaces {
+                try standbyWorkspacesContainer.encode(standbyworkspaceslist0)
+            }
+        }
+    }
+}
+
+extension CreateStandbyWorkspacesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateStandbyWorkspacesInput: Swift.Equatable {
+    /// The Region of the primary WorkSpace.
+    /// This member is required.
+    public var primaryRegion: Swift.String?
+    /// Information about the Standby WorkSpace to be created.
+    /// This member is required.
+    public var standbyWorkspaces: [WorkSpacesClientTypes.StandbyWorkspace]?
+
+    public init (
+        primaryRegion: Swift.String? = nil,
+        standbyWorkspaces: [WorkSpacesClientTypes.StandbyWorkspace]? = nil
+    )
+    {
+        self.primaryRegion = primaryRegion
+        self.standbyWorkspaces = standbyWorkspaces
+    }
+}
+
+struct CreateStandbyWorkspacesInputBody: Swift.Equatable {
+    let primaryRegion: Swift.String?
+    let standbyWorkspaces: [WorkSpacesClientTypes.StandbyWorkspace]?
+}
+
+extension CreateStandbyWorkspacesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case primaryRegion = "PrimaryRegion"
+        case standbyWorkspaces = "StandbyWorkspaces"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let primaryRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryRegion)
+        primaryRegion = primaryRegionDecoded
+        let standbyWorkspacesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.StandbyWorkspace?].self, forKey: .standbyWorkspaces)
+        var standbyWorkspacesDecoded0:[WorkSpacesClientTypes.StandbyWorkspace]? = nil
+        if let standbyWorkspacesContainer = standbyWorkspacesContainer {
+            standbyWorkspacesDecoded0 = [WorkSpacesClientTypes.StandbyWorkspace]()
+            for structure0 in standbyWorkspacesContainer {
+                if let structure0 = structure0 {
+                    standbyWorkspacesDecoded0?.append(structure0)
+                }
+            }
+        }
+        standbyWorkspaces = standbyWorkspacesDecoded0
+    }
+}
+
+extension CreateStandbyWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateStandbyWorkspacesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateStandbyWorkspacesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case invalidParameterValuesException(InvalidParameterValuesException)
+    case operationNotSupportedException(OperationNotSupportedException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateStandbyWorkspacesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateStandbyWorkspacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.failedStandbyRequests = output.failedStandbyRequests
+            self.pendingStandbyRequests = output.pendingStandbyRequests
+        } else {
+            self.failedStandbyRequests = nil
+            self.pendingStandbyRequests = nil
+        }
+    }
+}
+
+public struct CreateStandbyWorkspacesOutputResponse: Swift.Equatable {
+    /// Information about the Standby WorkSpace that could not be created.
+    public var failedStandbyRequests: [WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]?
+    /// Information about the Standby WorkSpace that was created.
+    public var pendingStandbyRequests: [WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]?
+
+    public init (
+        failedStandbyRequests: [WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]? = nil,
+        pendingStandbyRequests: [WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]? = nil
+    )
+    {
+        self.failedStandbyRequests = failedStandbyRequests
+        self.pendingStandbyRequests = pendingStandbyRequests
+    }
+}
+
+struct CreateStandbyWorkspacesOutputResponseBody: Swift.Equatable {
+    let failedStandbyRequests: [WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]?
+    let pendingStandbyRequests: [WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]?
+}
+
+extension CreateStandbyWorkspacesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failedStandbyRequests = "FailedStandbyRequests"
+        case pendingStandbyRequests = "PendingStandbyRequests"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let failedStandbyRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest?].self, forKey: .failedStandbyRequests)
+        var failedStandbyRequestsDecoded0:[WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]? = nil
+        if let failedStandbyRequestsContainer = failedStandbyRequestsContainer {
+            failedStandbyRequestsDecoded0 = [WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]()
+            for structure0 in failedStandbyRequestsContainer {
+                if let structure0 = structure0 {
+                    failedStandbyRequestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        failedStandbyRequests = failedStandbyRequestsDecoded0
+        let pendingStandbyRequestsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest?].self, forKey: .pendingStandbyRequests)
+        var pendingStandbyRequestsDecoded0:[WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]? = nil
+        if let pendingStandbyRequestsContainer = pendingStandbyRequestsContainer {
+            pendingStandbyRequestsDecoded0 = [WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]()
+            for structure0 in pendingStandbyRequestsContainer {
+                if let structure0 = structure0 {
+                    pendingStandbyRequestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        pendingStandbyRequests = pendingStandbyRequestsDecoded0
     }
 }
 
@@ -3072,6 +3353,35 @@ extension WorkSpacesClientTypes {
         }
     }
 
+}
+
+extension WorkSpacesClientTypes {
+    public enum DeletableCertificateBasedAuthProperty: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case certificateBasedAuthPropertiesCertificateAuthorityArn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletableCertificateBasedAuthProperty] {
+            return [
+                .certificateBasedAuthPropertiesCertificateAuthorityArn,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .certificateBasedAuthPropertiesCertificateAuthorityArn: return "CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeletableCertificateBasedAuthProperty(rawValue: rawValue) ?? DeletableCertificateBasedAuthProperty.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension WorkSpacesClientTypes {
@@ -6552,6 +6862,61 @@ public struct DisassociateIpGroupsOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+        case standbyWorkspaceRequest = "StandbyWorkspaceRequest"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let standbyWorkspaceRequest = self.standbyWorkspaceRequest {
+            try encodeContainer.encode(standbyWorkspaceRequest, forKey: .standbyWorkspaceRequest)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standbyWorkspaceRequestDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.StandbyWorkspace.self, forKey: .standbyWorkspaceRequest)
+        standbyWorkspaceRequest = standbyWorkspaceRequestDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Describes the Standby WorkSpace that could not be created.
+    public struct FailedCreateStandbyWorkspacesRequest: Swift.Equatable {
+        /// The error code that is returned if the Standby WorkSpace could not be created.
+        public var errorCode: Swift.String?
+        /// The text of the error message that is returned if the Standby WorkSpace could not be created.
+        public var errorMessage: Swift.String?
+        /// Information about the Standby WorkSpace that could not be created.
+        public var standbyWorkspaceRequest: WorkSpacesClientTypes.StandbyWorkspace?
+
+        public init (
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            standbyWorkspaceRequest: WorkSpacesClientTypes.StandbyWorkspace? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.standbyWorkspaceRequest = standbyWorkspaceRequest
+        }
+    }
+
+}
+
 extension WorkSpacesClientTypes.FailedCreateWorkspaceRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode = "ErrorCode"
@@ -8099,6 +8464,128 @@ public struct ModifyAccountOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension ModifyCertificateBasedAuthPropertiesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateBasedAuthProperties = "CertificateBasedAuthProperties"
+        case propertiesToDelete = "PropertiesToDelete"
+        case resourceId = "ResourceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateBasedAuthProperties = self.certificateBasedAuthProperties {
+            try encodeContainer.encode(certificateBasedAuthProperties, forKey: .certificateBasedAuthProperties)
+        }
+        if let propertiesToDelete = propertiesToDelete {
+            var propertiesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertiesToDelete)
+            for deletablecertificatebasedauthpropertieslist0 in propertiesToDelete {
+                try propertiesToDeleteContainer.encode(deletablecertificatebasedauthpropertieslist0.rawValue)
+            }
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+    }
+}
+
+extension ModifyCertificateBasedAuthPropertiesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyCertificateBasedAuthPropertiesInput: Swift.Equatable {
+    /// The properties of the certificate-based authentication.
+    public var certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties?
+    /// The properties of the certificate-based authentication you want to delete.
+    public var propertiesToDelete: [WorkSpacesClientTypes.DeletableCertificateBasedAuthProperty]?
+    /// The resource identifiers, in the form of directory IDs.
+    /// This member is required.
+    public var resourceId: Swift.String?
+
+    public init (
+        certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties? = nil,
+        propertiesToDelete: [WorkSpacesClientTypes.DeletableCertificateBasedAuthProperty]? = nil,
+        resourceId: Swift.String? = nil
+    )
+    {
+        self.certificateBasedAuthProperties = certificateBasedAuthProperties
+        self.propertiesToDelete = propertiesToDelete
+        self.resourceId = resourceId
+    }
+}
+
+struct ModifyCertificateBasedAuthPropertiesInputBody: Swift.Equatable {
+    let resourceId: Swift.String?
+    let certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties?
+    let propertiesToDelete: [WorkSpacesClientTypes.DeletableCertificateBasedAuthProperty]?
+}
+
+extension ModifyCertificateBasedAuthPropertiesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateBasedAuthProperties = "CertificateBasedAuthProperties"
+        case propertiesToDelete = "PropertiesToDelete"
+        case resourceId = "ResourceId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let certificateBasedAuthPropertiesDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.CertificateBasedAuthProperties.self, forKey: .certificateBasedAuthProperties)
+        certificateBasedAuthProperties = certificateBasedAuthPropertiesDecoded
+        let propertiesToDeleteContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.DeletableCertificateBasedAuthProperty?].self, forKey: .propertiesToDelete)
+        var propertiesToDeleteDecoded0:[WorkSpacesClientTypes.DeletableCertificateBasedAuthProperty]? = nil
+        if let propertiesToDeleteContainer = propertiesToDeleteContainer {
+            propertiesToDeleteDecoded0 = [WorkSpacesClientTypes.DeletableCertificateBasedAuthProperty]()
+            for enum0 in propertiesToDeleteContainer {
+                if let enum0 = enum0 {
+                    propertiesToDeleteDecoded0?.append(enum0)
+                }
+            }
+        }
+        propertiesToDelete = propertiesToDeleteDecoded0
+    }
+}
+
+extension ModifyCertificateBasedAuthPropertiesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ModifyCertificateBasedAuthPropertiesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ModifyCertificateBasedAuthPropertiesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case invalidParameterValuesException(InvalidParameterValuesException)
+    case operationNotSupportedException(OperationNotSupportedException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ModifyCertificateBasedAuthPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct ModifyCertificateBasedAuthPropertiesOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension ModifyClientPropertiesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientProperties = "ClientProperties"
@@ -8792,6 +9279,7 @@ extension ModifyWorkspaceStateOutputError {
         switch errorType {
         case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceStateException" : self = .invalidResourceStateException(try InvalidResourceStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
@@ -8801,6 +9289,7 @@ extension ModifyWorkspaceStateOutputError {
 public enum ModifyWorkspaceStateOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterValuesException(InvalidParameterValuesException)
     case invalidResourceStateException(InvalidResourceStateException)
+    case operationNotSupportedException(OperationNotSupportedException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -8997,6 +9486,71 @@ extension OperationNotSupportedExceptionBody: Swift.Decodable {
     }
 }
 
+extension WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case directoryId = "DirectoryId"
+        case state = "State"
+        case userName = "UserName"
+        case workspaceId = "WorkspaceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let directoryId = self.directoryId {
+            try encodeContainer.encode(directoryId, forKey: .directoryId)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let userName = self.userName {
+            try encodeContainer.encode(userName, forKey: .userName)
+        }
+        if let workspaceId = self.workspaceId {
+            try encodeContainer.encode(workspaceId, forKey: .workspaceId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userName)
+        userName = userNameDecoded
+        let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
+        directoryId = directoryIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.WorkspaceState.self, forKey: .state)
+        state = stateDecoded
+        let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
+        workspaceId = workspaceIdDecoded
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Information about the Standby WorkSpace.
+    public struct PendingCreateStandbyWorkspacesRequest: Swift.Equatable {
+        /// The identifier of the directory for the Standby WorkSpace.
+        public var directoryId: Swift.String?
+        /// The operational state of the Standby WorkSpace.
+        public var state: WorkSpacesClientTypes.WorkspaceState?
+        /// Describes the Standby WorkSpace that was created. Because this operation is asynchronous, the identifier returned is not immediately available for use with other operations. For example, if you call [ DescribeWorkspaces](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html) before the WorkSpace is created, the information returned can be incomplete.
+        public var userName: Swift.String?
+        /// The identifier of the Standby WorkSpace.
+        public var workspaceId: Swift.String?
+
+        public init (
+            directoryId: Swift.String? = nil,
+            state: WorkSpacesClientTypes.WorkspaceState? = nil,
+            userName: Swift.String? = nil,
+            workspaceId: Swift.String? = nil
+        )
+        {
+            self.directoryId = directoryId
+            self.state = state
+            self.userName = userName
+            self.workspaceId = workspaceId
+        }
+    }
+
+}
+
 extension WorkSpacesClientTypes {
     public enum ModelProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case pcoip
@@ -9136,12 +9690,14 @@ extension RebootWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
 extension RebootWorkspacesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
 }
 
 public enum RebootWorkspacesOutputError: Swift.Error, Swift.Equatable {
+    case operationNotSupportedException(OperationNotSupportedException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -9302,12 +9858,14 @@ extension RebuildWorkspacesOutputError: ClientRuntime.HttpResponseBinding {
 extension RebuildWorkspacesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
 }
 
 public enum RebuildWorkspacesOutputError: Swift.Error, Swift.Equatable {
+    case operationNotSupportedException(OperationNotSupportedException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -9570,6 +10128,71 @@ extension RegisterWorkspaceDirectoryOutputResponse: ClientRuntime.HttpResponseBi
 public struct RegisterWorkspaceDirectoryOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension WorkSpacesClientTypes.RelatedWorkspaceProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case region = "Region"
+        case state = "State"
+        case type = "Type"
+        case workspaceId = "WorkspaceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let workspaceId = self.workspaceId {
+            try encodeContainer.encode(workspaceId, forKey: .workspaceId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
+        workspaceId = workspaceIdDecoded
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.WorkspaceState.self, forKey: .state)
+        state = stateDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.StandbyWorkspaceRelationshipType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Describes the related WorkSpace. The related WorkSpace could be a Standby WorkSpace or Primary WorkSpace related to the specified WorkSpace.
+    public struct RelatedWorkspaceProperties: Swift.Equatable {
+        /// The Region of the related WorkSpace.
+        public var region: Swift.String?
+        /// Indicates the state of the WorkSpace.
+        public var state: WorkSpacesClientTypes.WorkspaceState?
+        /// Indicates the type of WorkSpace.
+        public var type: WorkSpacesClientTypes.StandbyWorkspaceRelationshipType?
+        /// The identifier of the related WorkSpace.
+        public var workspaceId: Swift.String?
+
+        public init (
+            region: Swift.String? = nil,
+            state: WorkSpacesClientTypes.WorkspaceState? = nil,
+            type: WorkSpacesClientTypes.StandbyWorkspaceRelationshipType? = nil,
+            workspaceId: Swift.String? = nil
+        )
+        {
+            self.region = region
+            self.state = state
+            self.type = type
+            self.workspaceId = workspaceId
+        }
+    }
+
 }
 
 extension ResourceAlreadyExistsException {
@@ -9968,6 +10591,7 @@ extension RestoreWorkspaceOutputError {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
@@ -9977,6 +10601,7 @@ extension RestoreWorkspaceOutputError {
 public enum RestoreWorkspaceOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case invalidParameterValuesException(InvalidParameterValuesException)
+    case operationNotSupportedException(OperationNotSupportedException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -10376,6 +11001,117 @@ extension WorkSpacesClientTypes {
         }
     }
 
+}
+
+extension WorkSpacesClientTypes.StandbyWorkspace: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case directoryId = "DirectoryId"
+        case primaryWorkspaceId = "PrimaryWorkspaceId"
+        case tags = "Tags"
+        case volumeEncryptionKey = "VolumeEncryptionKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let directoryId = self.directoryId {
+            try encodeContainer.encode(directoryId, forKey: .directoryId)
+        }
+        if let primaryWorkspaceId = self.primaryWorkspaceId {
+            try encodeContainer.encode(primaryWorkspaceId, forKey: .primaryWorkspaceId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for taglist0 in tags {
+                try tagsContainer.encode(taglist0)
+            }
+        }
+        if let volumeEncryptionKey = self.volumeEncryptionKey {
+            try encodeContainer.encode(volumeEncryptionKey, forKey: .volumeEncryptionKey)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let primaryWorkspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryWorkspaceId)
+        primaryWorkspaceId = primaryWorkspaceIdDecoded
+        let volumeEncryptionKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeEncryptionKey)
+        volumeEncryptionKey = volumeEncryptionKeyDecoded
+        let directoryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryId)
+        directoryId = directoryIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[WorkSpacesClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [WorkSpacesClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Describes a Standby WorkSpace.
+    public struct StandbyWorkspace: Swift.Equatable {
+        /// The identifier of the directory for the Standby WorkSpace.
+        /// This member is required.
+        public var directoryId: Swift.String?
+        /// The identifier of the Standby WorkSpace.
+        /// This member is required.
+        public var primaryWorkspaceId: Swift.String?
+        /// The tags associated with the Standby WorkSpace.
+        public var tags: [WorkSpacesClientTypes.Tag]?
+        /// The volume encryption key of the Standby WorkSpace.
+        public var volumeEncryptionKey: Swift.String?
+
+        public init (
+            directoryId: Swift.String? = nil,
+            primaryWorkspaceId: Swift.String? = nil,
+            tags: [WorkSpacesClientTypes.Tag]? = nil,
+            volumeEncryptionKey: Swift.String? = nil
+        )
+        {
+            self.directoryId = directoryId
+            self.primaryWorkspaceId = primaryWorkspaceId
+            self.tags = tags
+            self.volumeEncryptionKey = volumeEncryptionKey
+        }
+    }
+
+}
+
+extension WorkSpacesClientTypes {
+    public enum StandbyWorkspaceRelationshipType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case primary
+        case standby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StandbyWorkspaceRelationshipType] {
+            return [
+                .primary,
+                .standby,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .primary: return "PRIMARY"
+            case .standby: return "STANDBY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StandbyWorkspaceRelationshipType(rawValue: rawValue) ?? StandbyWorkspaceRelationshipType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension WorkSpacesClientTypes.StartRequest: Swift.Codable {
@@ -11544,6 +12280,7 @@ extension UpdateWorkspaceBundleOutputError {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValuesException" : self = .invalidParameterValuesException(try InvalidParameterValuesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceUnavailableException" : self = .resourceUnavailableException(try ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
@@ -11554,6 +12291,7 @@ extension UpdateWorkspaceBundleOutputError {
 public enum UpdateWorkspaceBundleOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case invalidParameterValuesException(InvalidParameterValuesException)
+    case operationNotSupportedException(OperationNotSupportedException)
     case resourceNotFoundException(ResourceNotFoundException)
     case resourceUnavailableException(ResourceUnavailableException)
     case unknown(UnknownAWSHttpServiceError)
@@ -11727,6 +12465,7 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
         case errorMessage = "ErrorMessage"
         case ipAddress = "IpAddress"
         case modificationStates = "ModificationStates"
+        case relatedWorkspaces = "RelatedWorkspaces"
         case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
         case state = "State"
         case subnetId = "SubnetId"
@@ -11761,6 +12500,12 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
             var modificationStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modificationStates)
             for modificationstatelist0 in modificationStates {
                 try modificationStatesContainer.encode(modificationstatelist0)
+            }
+        }
+        if let relatedWorkspaces = relatedWorkspaces {
+            var relatedWorkspacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedWorkspaces)
+            for relatedworkspaces0 in relatedWorkspaces {
+                try relatedWorkspacesContainer.encode(relatedworkspaces0)
             }
         }
         if let rootVolumeEncryptionEnabled = self.rootVolumeEncryptionEnabled {
@@ -11830,6 +12575,17 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
             }
         }
         modificationStates = modificationStatesDecoded0
+        let relatedWorkspacesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.RelatedWorkspaceProperties?].self, forKey: .relatedWorkspaces)
+        var relatedWorkspacesDecoded0:[WorkSpacesClientTypes.RelatedWorkspaceProperties]? = nil
+        if let relatedWorkspacesContainer = relatedWorkspacesContainer {
+            relatedWorkspacesDecoded0 = [WorkSpacesClientTypes.RelatedWorkspaceProperties]()
+            for structure0 in relatedWorkspacesContainer {
+                if let structure0 = structure0 {
+                    relatedWorkspacesDecoded0?.append(structure0)
+                }
+            }
+        }
+        relatedWorkspaces = relatedWorkspacesDecoded0
     }
 }
 
@@ -11850,6 +12606,8 @@ extension WorkSpacesClientTypes {
         public var ipAddress: Swift.String?
         /// The modification states of the WorkSpace.
         public var modificationStates: [WorkSpacesClientTypes.ModificationState]?
+        /// The Standby WorkSpace or Primary WorkSpace related to the specified WorkSpace.
+        public var relatedWorkspaces: [WorkSpacesClientTypes.RelatedWorkspaceProperties]?
         /// Indicates whether the data stored on the root volume is encrypted.
         public var rootVolumeEncryptionEnabled: Swift.Bool?
         /// The operational state of the WorkSpace. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using [ DescribeWorkSpaces](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html). If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.
@@ -11875,6 +12633,7 @@ extension WorkSpacesClientTypes {
             errorMessage: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             modificationStates: [WorkSpacesClientTypes.ModificationState]? = nil,
+            relatedWorkspaces: [WorkSpacesClientTypes.RelatedWorkspaceProperties]? = nil,
             rootVolumeEncryptionEnabled: Swift.Bool? = nil,
             state: WorkSpacesClientTypes.WorkspaceState? = nil,
             subnetId: Swift.String? = nil,
@@ -11892,6 +12651,7 @@ extension WorkSpacesClientTypes {
             self.errorMessage = errorMessage
             self.ipAddress = ipAddress
             self.modificationStates = modificationStates
+            self.relatedWorkspaces = relatedWorkspaces
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
             self.state = state
             self.subnetId = subnetId
@@ -12013,6 +12773,7 @@ extension WorkSpacesClientTypes {
 extension WorkSpacesClientTypes.WorkspaceBundle: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bundleId = "BundleId"
+        case bundleType = "BundleType"
         case computeType = "ComputeType"
         case creationTime = "CreationTime"
         case description = "Description"
@@ -12021,6 +12782,7 @@ extension WorkSpacesClientTypes.WorkspaceBundle: Swift.Codable {
         case name = "Name"
         case owner = "Owner"
         case rootStorage = "RootStorage"
+        case state = "State"
         case userStorage = "UserStorage"
     }
 
@@ -12028,6 +12790,9 @@ extension WorkSpacesClientTypes.WorkspaceBundle: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bundleId = self.bundleId {
             try encodeContainer.encode(bundleId, forKey: .bundleId)
+        }
+        if let bundleType = self.bundleType {
+            try encodeContainer.encode(bundleType.rawValue, forKey: .bundleType)
         }
         if let computeType = self.computeType {
             try encodeContainer.encode(computeType, forKey: .computeType)
@@ -12052,6 +12817,9 @@ extension WorkSpacesClientTypes.WorkspaceBundle: Swift.Codable {
         }
         if let rootStorage = self.rootStorage {
             try encodeContainer.encode(rootStorage, forKey: .rootStorage)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
         }
         if let userStorage = self.userStorage {
             try encodeContainer.encode(userStorage, forKey: .userStorage)
@@ -12080,6 +12848,10 @@ extension WorkSpacesClientTypes.WorkspaceBundle: Swift.Codable {
         lastUpdatedTime = lastUpdatedTimeDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.WorkspaceBundleState.self, forKey: .state)
+        state = stateDecoded
+        let bundleTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.BundleType.self, forKey: .bundleType)
+        bundleType = bundleTypeDecoded
     }
 }
 
@@ -12088,6 +12860,8 @@ extension WorkSpacesClientTypes {
     public struct WorkspaceBundle: Swift.Equatable {
         /// The identifier of the bundle.
         public var bundleId: Swift.String?
+        /// The type of WorkSpace bundle.
+        public var bundleType: WorkSpacesClientTypes.BundleType?
         /// The compute type of the bundle. For more information, see [Amazon WorkSpaces Bundles](http://aws.amazon.com/workspaces/details/#Amazon_WorkSpaces_Bundles).
         public var computeType: WorkSpacesClientTypes.ComputeType?
         /// The time when the bundle was created.
@@ -12104,11 +12878,14 @@ extension WorkSpacesClientTypes {
         public var owner: Swift.String?
         /// The size of the root volume.
         public var rootStorage: WorkSpacesClientTypes.RootStorage?
+        /// The state of the WorkSpace bundle.
+        public var state: WorkSpacesClientTypes.WorkspaceBundleState?
         /// The size of the user volume.
         public var userStorage: WorkSpacesClientTypes.UserStorage?
 
         public init (
             bundleId: Swift.String? = nil,
+            bundleType: WorkSpacesClientTypes.BundleType? = nil,
             computeType: WorkSpacesClientTypes.ComputeType? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
@@ -12117,10 +12894,12 @@ extension WorkSpacesClientTypes {
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
             rootStorage: WorkSpacesClientTypes.RootStorage? = nil,
+            state: WorkSpacesClientTypes.WorkspaceBundleState? = nil,
             userStorage: WorkSpacesClientTypes.UserStorage? = nil
         )
         {
             self.bundleId = bundleId
+            self.bundleType = bundleType
             self.computeType = computeType
             self.creationTime = creationTime
             self.description = description
@@ -12129,10 +12908,46 @@ extension WorkSpacesClientTypes {
             self.name = name
             self.owner = owner
             self.rootStorage = rootStorage
+            self.state = state
             self.userStorage = userStorage
         }
     }
 
+}
+
+extension WorkSpacesClientTypes {
+    public enum WorkspaceBundleState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case error
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkspaceBundleState] {
+            return [
+                .available,
+                .error,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .error: return "ERROR"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkspaceBundleState(rawValue: rawValue) ?? WorkspaceBundleState.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension WorkSpacesClientTypes.WorkspaceConnectionStatus: Swift.Codable {
@@ -12292,6 +13107,7 @@ extension WorkSpacesClientTypes {
 extension WorkSpacesClientTypes.WorkspaceDirectory: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias = "Alias"
+        case certificateBasedAuthProperties = "CertificateBasedAuthProperties"
         case customerUserName = "CustomerUserName"
         case directoryId = "DirectoryId"
         case directoryName = "DirectoryName"
@@ -12314,6 +13130,9 @@ extension WorkSpacesClientTypes.WorkspaceDirectory: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alias = self.alias {
             try encodeContainer.encode(alias, forKey: .alias)
+        }
+        if let certificateBasedAuthProperties = self.certificateBasedAuthProperties {
+            try encodeContainer.encode(certificateBasedAuthProperties, forKey: .certificateBasedAuthProperties)
         }
         if let customerUserName = self.customerUserName {
             try encodeContainer.encode(customerUserName, forKey: .customerUserName)
@@ -12437,6 +13256,8 @@ extension WorkSpacesClientTypes.WorkspaceDirectory: Swift.Codable {
         selfservicePermissions = selfservicePermissionsDecoded
         let samlPropertiesDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.SamlProperties.self, forKey: .samlProperties)
         samlProperties = samlPropertiesDecoded
+        let certificateBasedAuthPropertiesDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.CertificateBasedAuthProperties.self, forKey: .certificateBasedAuthProperties)
+        certificateBasedAuthProperties = certificateBasedAuthPropertiesDecoded
     }
 }
 
@@ -12445,6 +13266,8 @@ extension WorkSpacesClientTypes {
     public struct WorkspaceDirectory: Swift.Equatable {
         /// The directory alias.
         public var alias: Swift.String?
+        /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory for WorkSpaces login.
+        public var certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties?
         /// The user name for the service account.
         public var customerUserName: Swift.String?
         /// The directory identifier.
@@ -12480,6 +13303,7 @@ extension WorkSpacesClientTypes {
 
         public init (
             alias: Swift.String? = nil,
+            certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties? = nil,
             customerUserName: Swift.String? = nil,
             directoryId: Swift.String? = nil,
             directoryName: Swift.String? = nil,
@@ -12499,6 +13323,7 @@ extension WorkSpacesClientTypes {
         )
         {
             self.alias = alias
+            self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.customerUserName = customerUserName
             self.directoryId = directoryId
             self.directoryName = directoryName

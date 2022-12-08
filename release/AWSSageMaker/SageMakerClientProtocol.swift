@@ -79,6 +79,8 @@ public protocol SageMakerClientProtocol {
     func createFeatureGroup(input: CreateFeatureGroupInput) async throws -> CreateFeatureGroupOutputResponse
     /// Creates a flow definition.
     func createFlowDefinition(input: CreateFlowDefinitionInput) async throws -> CreateFlowDefinitionOutputResponse
+    /// Create a hub.
+    func createHub(input: CreateHubInput) async throws -> CreateHubOutputResponse
     /// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area.
     func createHumanTaskUi(input: CreateHumanTaskUiInput) async throws -> CreateHumanTaskUiOutputResponse
     /// Starts a hyperparameter tuning job. A hyperparameter tuning job finds the best version of a model by running many training jobs on your dataset using the algorithm you choose and values for hyperparameters within ranges that you specify. It then chooses the hyperparameter values that result in a model that performs the best, as measured by an objective metric that you choose. A hyperparameter tuning job automatically creates Amazon SageMaker experiments, trials, and trial components for each training job that it runs. You can view these entities in Amazon SageMaker Studio. For more information, see [View Experiments, Trials, and Trial Components](https://docs.aws.amazon.com/sagemaker/latest/dg/experiments-view-compare.html#experiments-view). Do not include any security-sensitive information including account access IDs, secrets or tokens in any hyperparameter field. If the use of security-sensitive credentials are detected, SageMaker will reject your training job request and return an exception error.
@@ -87,6 +89,8 @@ public protocol SageMakerClientProtocol {
     func createImage(input: CreateImageInput) async throws -> CreateImageOutputResponse
     /// Creates a version of the SageMaker image specified by ImageName. The version represents the Amazon Elastic Container Registry (ECR) container image specified by BaseImage.
     func createImageVersion(input: CreateImageVersionInput) async throws -> CreateImageVersionOutputResponse
+    /// Creates an inference experiment using the configurations specified in the request. Use this API to schedule an experiment to compare model variants on a Amazon SageMaker inference endpoint. For more information about inference experiments, see [Shadow tests](https://docs.aws.amazon.com/sagemaker/latest/dg/shadow-tests.html). Amazon SageMaker begins your experiment at the scheduled time and routes traffic to your endpoint's model variants based on your specified configuration. While the experiment is in progress or after it has concluded, you can view metrics that compare your model variants. For more information, see [View, monitor, and edit shadow tests](https://docs.aws.amazon.com/sagemaker/latest/dg/shadow-tests-view-monitor-edit.html).
+    func createInferenceExperiment(input: CreateInferenceExperimentInput) async throws -> CreateInferenceExperimentOutputResponse
     /// Starts a recommendation job. You can create either an instance recommendation or load test job.
     func createInferenceRecommendationsJob(input: CreateInferenceRecommendationsJobInput) async throws -> CreateInferenceRecommendationsJobOutputResponse
     /// Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models. You can select your workforce from one of three providers:
@@ -104,6 +108,10 @@ public protocol SageMakerClientProtocol {
     func createModel(input: CreateModelInput) async throws -> CreateModelOutputResponse
     /// Creates the definition for a model bias job.
     func createModelBiasJobDefinition(input: CreateModelBiasJobDefinitionInput) async throws -> CreateModelBiasJobDefinitionOutputResponse
+    /// Creates an Amazon SageMaker Model Card. For information about how to use model cards, see [Amazon SageMaker Model Card](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html).
+    func createModelCard(input: CreateModelCardInput) async throws -> CreateModelCardOutputResponse
+    /// Creates an Amazon SageMaker Model Card export job.
+    func createModelCardExportJob(input: CreateModelCardExportJobInput) async throws -> CreateModelCardExportJobOutputResponse
     /// Creates the definition for a model explainability job.
     func createModelExplainabilityJobDefinition(input: CreateModelExplainabilityJobDefinitionInput) async throws -> CreateModelExplainabilityJobDefinitionOutputResponse
     /// Creates a model package that you can use to create SageMaker models or list on Amazon Web Services Marketplace, or a versioned model that is part of a model group. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker. To create a model package by specifying a Docker container that contains your inference code and the Amazon S3 location of your model artifacts, provide values for InferenceSpecification. To create a model from an algorithm resource that you created or subscribed to in Amazon Web Services Marketplace, provide a value for SourceAlgorithmSpecification. There are two types of model packages:
@@ -141,6 +149,8 @@ public protocol SageMakerClientProtocol {
     func createProcessingJob(input: CreateProcessingJobInput) async throws -> CreateProcessingJobOutputResponse
     /// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
+    /// Creates a space used for real time collaboration in a Domain.
+    func createSpace(input: CreateSpaceInput) async throws -> CreateSpaceOutputResponse
     /// Creates a new Studio Lifecycle Configuration.
     func createStudioLifecycleConfig(input: CreateStudioLifecycleConfigInput) async throws -> CreateStudioLifecycleConfigOutputResponse
     /// Starts a model training job. After training completes, SageMaker saves the resulting model artifacts to an Amazon S3 location that you specify. If you choose to host your model using SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts in a machine learning service other than SageMaker, provided that you know how to use them for inference. In the request body, you provide the following:
@@ -229,16 +239,24 @@ public protocol SageMakerClientProtocol {
     func deleteFeatureGroup(input: DeleteFeatureGroupInput) async throws -> DeleteFeatureGroupOutputResponse
     /// Deletes the specified flow definition.
     func deleteFlowDefinition(input: DeleteFlowDefinitionInput) async throws -> DeleteFlowDefinitionOutputResponse
+    /// Delete a hub.
+    func deleteHub(input: DeleteHubInput) async throws -> DeleteHubOutputResponse
+    /// Delete the contents of a hub.
+    func deleteHubContent(input: DeleteHubContentInput) async throws -> DeleteHubContentOutputResponse
     /// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use . When you delete a worker task template, it no longer appears when you call ListHumanTaskUis.
     func deleteHumanTaskUi(input: DeleteHumanTaskUiInput) async throws -> DeleteHumanTaskUiOutputResponse
     /// Deletes a SageMaker image and all versions of the image. The container images aren't deleted.
     func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutputResponse
     /// Deletes a version of a SageMaker image. The container image the version represents isn't deleted.
     func deleteImageVersion(input: DeleteImageVersionInput) async throws -> DeleteImageVersionOutputResponse
+    /// Deletes an inference experiment. This operation does not delete your endpoint, variants, or any underlying resources. This operation only deletes the metadata of your experiment.
+    func deleteInferenceExperiment(input: DeleteInferenceExperimentInput) async throws -> DeleteInferenceExperimentOutputResponse
     /// Deletes a model. The DeleteModel API deletes only the model entry that was created in SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model.
     func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
     /// Deletes an Amazon SageMaker model bias job definition.
     func deleteModelBiasJobDefinition(input: DeleteModelBiasJobDefinitionInput) async throws -> DeleteModelBiasJobDefinitionOutputResponse
+    /// Deletes an Amazon SageMaker Model Card.
+    func deleteModelCard(input: DeleteModelCardInput) async throws -> DeleteModelCardOutputResponse
     /// Deletes an Amazon SageMaker model explainability job definition.
     func deleteModelExplainabilityJobDefinition(input: DeleteModelExplainabilityJobDefinitionInput) async throws -> DeleteModelExplainabilityJobDefinitionOutputResponse
     /// Deletes a model package. A model package is used to create SageMaker models or list on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker.
@@ -259,6 +277,8 @@ public protocol SageMakerClientProtocol {
     func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutputResponse
     /// Delete the specified project.
     func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
+    /// Used to delete a space.
+    func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutputResponse
     /// Deletes the Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
     func deleteStudioLifecycleConfig(input: DeleteStudioLifecycleConfigInput) async throws -> DeleteStudioLifecycleConfigOutputResponse
     /// Deletes the specified tags from an SageMaker resource. To list a resource's tags, use the ListTags API. When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API. When you call this API to delete tags from a SageMaker Studio Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Studio Domain or User Profile launched before you called this API.
@@ -317,6 +337,10 @@ public protocol SageMakerClientProtocol {
     func describeFeatureMetadata(input: DescribeFeatureMetadataInput) async throws -> DescribeFeatureMetadataOutputResponse
     /// Returns information about the specified flow definition.
     func describeFlowDefinition(input: DescribeFlowDefinitionInput) async throws -> DescribeFlowDefinitionOutputResponse
+    /// Describe a hub.
+    func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutputResponse
+    /// Describe the content of a hub.
+    func describeHubContent(input: DescribeHubContentInput) async throws -> DescribeHubContentOutputResponse
     /// Returns information about the requested human task user interface (worker task template).
     func describeHumanTaskUi(input: DescribeHumanTaskUiInput) async throws -> DescribeHumanTaskUiOutputResponse
     /// Gets a description of a hyperparameter tuning job.
@@ -325,6 +349,8 @@ public protocol SageMakerClientProtocol {
     func describeImage(input: DescribeImageInput) async throws -> DescribeImageOutputResponse
     /// Describes a version of a SageMaker image.
     func describeImageVersion(input: DescribeImageVersionInput) async throws -> DescribeImageVersionOutputResponse
+    /// Returns details about an inference experiment.
+    func describeInferenceExperiment(input: DescribeInferenceExperimentInput) async throws -> DescribeInferenceExperimentOutputResponse
     /// Provides the results of the Inference Recommender job. One or more recommendation jobs are returned.
     func describeInferenceRecommendationsJob(input: DescribeInferenceRecommendationsJobInput) async throws -> DescribeInferenceRecommendationsJobOutputResponse
     /// Gets information about a labeling job.
@@ -335,6 +361,10 @@ public protocol SageMakerClientProtocol {
     func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutputResponse
     /// Returns a description of a model bias job definition.
     func describeModelBiasJobDefinition(input: DescribeModelBiasJobDefinitionInput) async throws -> DescribeModelBiasJobDefinitionOutputResponse
+    /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.
+    func describeModelCard(input: DescribeModelCardInput) async throws -> DescribeModelCardOutputResponse
+    /// Describes an Amazon SageMaker Model Card export job.
+    func describeModelCardExportJob(input: DescribeModelCardExportJobInput) async throws -> DescribeModelCardExportJobOutputResponse
     /// Returns a description of a model explainability job definition.
     func describeModelExplainabilityJobDefinition(input: DescribeModelExplainabilityJobDefinitionInput) async throws -> DescribeModelExplainabilityJobDefinitionOutputResponse
     /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
@@ -359,6 +389,8 @@ public protocol SageMakerClientProtocol {
     func describeProcessingJob(input: DescribeProcessingJobInput) async throws -> DescribeProcessingJobOutputResponse
     /// Describes the details of a project.
     func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutputResponse
+    /// Describes the space.
+    func describeSpace(input: DescribeSpaceInput) async throws -> DescribeSpaceOutputResponse
     /// Describes the Studio Lifecycle Configuration.
     func describeStudioLifecycleConfig(input: DescribeStudioLifecycleConfigInput) async throws -> DescribeStudioLifecycleConfigOutputResponse
     /// Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the Amazon Web Services Marketplace.
@@ -393,6 +425,8 @@ public protocol SageMakerClientProtocol {
     func getSagemakerServicecatalogPortfolioStatus(input: GetSagemakerServicecatalogPortfolioStatusInput) async throws -> GetSagemakerServicecatalogPortfolioStatusOutputResponse
     /// An auto-complete API for the search functionality in the Amazon SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
     func getSearchSuggestions(input: GetSearchSuggestionsInput) async throws -> GetSearchSuggestionsOutputResponse
+    /// Import hub content.
+    func importHubContent(input: ImportHubContentInput) async throws -> ImportHubContentOutputResponse
     /// Lists the actions in your account and their properties.
     func listActions(input: ListActionsInput) async throws -> ListActionsOutputResponse
     /// Lists the machine learning algorithms that have been created.
@@ -437,6 +471,12 @@ public protocol SageMakerClientProtocol {
     func listFeatureGroups(input: ListFeatureGroupsInput) async throws -> ListFeatureGroupsOutputResponse
     /// Returns information about the flow definitions in your account.
     func listFlowDefinitions(input: ListFlowDefinitionsInput) async throws -> ListFlowDefinitionsOutputResponse
+    /// List the contents of a hub.
+    func listHubContents(input: ListHubContentsInput) async throws -> ListHubContentsOutputResponse
+    /// List hub content versions.
+    func listHubContentVersions(input: ListHubContentVersionsInput) async throws -> ListHubContentVersionsOutputResponse
+    /// List all existing hubs.
+    func listHubs(input: ListHubsInput) async throws -> ListHubsOutputResponse
     /// Returns information about the human task user interfaces in your account.
     func listHumanTaskUis(input: ListHumanTaskUisInput) async throws -> ListHumanTaskUisOutputResponse
     /// Gets a list of [HyperParameterTuningJobSummary] objects that describe the hyperparameter tuning jobs launched in your account.
@@ -445,6 +485,8 @@ public protocol SageMakerClientProtocol {
     func listImages(input: ListImagesInput) async throws -> ListImagesOutputResponse
     /// Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
     func listImageVersions(input: ListImageVersionsInput) async throws -> ListImageVersionsOutputResponse
+    /// Returns the list of all inference experiments.
+    func listInferenceExperiments(input: ListInferenceExperimentsInput) async throws -> ListInferenceExperimentsOutputResponse
     /// Lists recommendation jobs that satisfy various filters.
     func listInferenceRecommendationsJobs(input: ListInferenceRecommendationsJobsInput) async throws -> ListInferenceRecommendationsJobsOutputResponse
     /// Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
@@ -457,6 +499,12 @@ public protocol SageMakerClientProtocol {
     func listLineageGroups(input: ListLineageGroupsInput) async throws -> ListLineageGroupsOutputResponse
     /// Lists model bias jobs definitions that satisfy various filters.
     func listModelBiasJobDefinitions(input: ListModelBiasJobDefinitionsInput) async throws -> ListModelBiasJobDefinitionsOutputResponse
+    /// List the export jobs for the Amazon SageMaker Model Card.
+    func listModelCardExportJobs(input: ListModelCardExportJobsInput) async throws -> ListModelCardExportJobsOutputResponse
+    /// List existing model cards.
+    func listModelCards(input: ListModelCardsInput) async throws -> ListModelCardsOutputResponse
+    /// List existing versions of an Amazon SageMaker Model Card.
+    func listModelCardVersions(input: ListModelCardVersionsInput) async throws -> ListModelCardVersionsOutputResponse
     /// Lists model explainability job definitions that satisfy various filters.
     func listModelExplainabilityJobDefinitions(input: ListModelExplainabilityJobDefinitionsInput) async throws -> ListModelExplainabilityJobDefinitionsOutputResponse
     /// Lists the domain, framework, task, and model name of standard machine learning models found in common model zoos.
@@ -469,6 +517,10 @@ public protocol SageMakerClientProtocol {
     func listModelQualityJobDefinitions(input: ListModelQualityJobDefinitionsInput) async throws -> ListModelQualityJobDefinitionsOutputResponse
     /// Lists models created with the CreateModel API.
     func listModels(input: ListModelsInput) async throws -> ListModelsOutputResponse
+    /// Gets a list of past alerts in a model monitoring schedule.
+    func listMonitoringAlertHistory(input: ListMonitoringAlertHistoryInput) async throws -> ListMonitoringAlertHistoryOutputResponse
+    /// Gets the alerts for a single monitoring schedule.
+    func listMonitoringAlerts(input: ListMonitoringAlertsInput) async throws -> ListMonitoringAlertsOutputResponse
     /// Returns list of all monitoring job executions.
     func listMonitoringExecutions(input: ListMonitoringExecutionsInput) async throws -> ListMonitoringExecutionsOutputResponse
     /// Returns list of all monitoring schedules.
@@ -489,6 +541,8 @@ public protocol SageMakerClientProtocol {
     func listProcessingJobs(input: ListProcessingJobsInput) async throws -> ListProcessingJobsOutputResponse
     /// Gets a list of the projects in an Amazon Web Services account.
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
+    /// Lists spaces.
+    func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutputResponse
     /// Lists devices allocated to the stage, containing detailed device information and deployment status.
     func listStageDevices(input: ListStageDevicesInput) async throws -> ListStageDevicesOutputResponse
     /// Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
@@ -537,6 +591,8 @@ public protocol SageMakerClientProtocol {
     func sendPipelineExecutionStepSuccess(input: SendPipelineExecutionStepSuccessInput) async throws -> SendPipelineExecutionStepSuccessOutputResponse
     /// Starts a stage in an edge deployment plan.
     func startEdgeDeploymentStage(input: StartEdgeDeploymentStageInput) async throws -> StartEdgeDeploymentStageOutputResponse
+    /// Starts an inference experiment.
+    func startInferenceExperiment(input: StartInferenceExperimentInput) async throws -> StartInferenceExperimentOutputResponse
     /// Starts a previously stopped monitoring schedule. By default, when you successfully create a new schedule, the status of a monitoring schedule is scheduled.
     func startMonitoringSchedule(input: StartMonitoringScheduleInput) async throws -> StartMonitoringScheduleOutputResponse
     /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook.
@@ -553,6 +609,8 @@ public protocol SageMakerClientProtocol {
     func stopEdgePackagingJob(input: StopEdgePackagingJobInput) async throws -> StopEdgePackagingJobOutputResponse
     /// Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched. All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the Stopped state, it releases all reserved resources for the tuning job.
     func stopHyperParameterTuningJob(input: StopHyperParameterTuningJobInput) async throws -> StopHyperParameterTuningJobOutputResponse
+    /// Stops an inference experiment.
+    func stopInferenceExperiment(input: StopInferenceExperimentInput) async throws -> StopInferenceExperimentOutputResponse
     /// Stops an Inference Recommender job.
     func stopInferenceRecommendationsJob(input: StopInferenceRecommendationsJobInput) async throws -> StopInferenceRecommendationsJobOutputResponse
     /// Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
@@ -595,10 +653,18 @@ public protocol SageMakerClientProtocol {
     func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutputResponse
     /// Updates the description and parameters of the feature group.
     func updateFeatureMetadata(input: UpdateFeatureMetadataInput) async throws -> UpdateFeatureMetadataOutputResponse
+    /// Update a hub.
+    func updateHub(input: UpdateHubInput) async throws -> UpdateHubOutputResponse
     /// Updates the properties of a SageMaker image. To change the image's tags, use the [AddTags] and [DeleteTags] APIs.
     func updateImage(input: UpdateImageInput) async throws -> UpdateImageOutputResponse
+    /// Updates an inference experiment that you created. The status of the inference experiment has to be either Created, Running. For more information on the status of an inference experiment, see [DescribeInferenceExperimentResponse$Status].
+    func updateInferenceExperiment(input: UpdateInferenceExperimentInput) async throws -> UpdateInferenceExperimentOutputResponse
+    /// Update an Amazon SageMaker Model Card. You cannot update both model card content and model card status in a single call.
+    func updateModelCard(input: UpdateModelCardInput) async throws -> UpdateModelCardOutputResponse
     /// Updates a versioned model.
     func updateModelPackage(input: UpdateModelPackageInput) async throws -> UpdateModelPackageOutputResponse
+    /// Update the parameters of a model monitor alert.
+    func updateMonitoringAlert(input: UpdateMonitoringAlertInput) async throws -> UpdateMonitoringAlertOutputResponse
     /// Updates a previously created schedule.
     func updateMonitoringSchedule(input: UpdateMonitoringScheduleInput) async throws -> UpdateMonitoringScheduleOutputResponse
     /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
@@ -611,6 +677,8 @@ public protocol SageMakerClientProtocol {
     func updatePipelineExecution(input: UpdatePipelineExecutionInput) async throws -> UpdatePipelineExecutionOutputResponse
     /// Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model. You must not update a project that is in use. If you update the ServiceCatalogProvisioningUpdateDetails of a project that is active or being created, or updated, you may lose resources already created by the project.
     func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
+    /// Updates the settings of a space.
+    func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutputResponse
     /// Update a model training job to request a new Debugger profiling configuration or to change warm pool retention length.
     func updateTrainingJob(input: UpdateTrainingJobInput) async throws -> UpdateTrainingJobOutputResponse
     /// Updates the display name of a trial.

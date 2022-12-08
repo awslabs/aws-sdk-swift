@@ -44,7 +44,7 @@ public protocol AppflowClientProtocol {
     func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutputResponse
     /// Retrieves the tags that are associated with a specified flow.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
-    /// Registers a new connector with your Amazon Web Services account. Before you can register the connector, you must deploy lambda in your account.
+    /// Registers a new custom connector with your Amazon Web Services account. Before you can register the connector, you must deploy the associated AWS lambda function in your account.
     func registerConnector(input: RegisterConnectorInput) async throws -> RegisterConnectorOutputResponse
     /// Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this operation activates the flow.
     func startFlow(input: StartFlowInput) async throws -> StartFlowOutputResponse
@@ -52,12 +52,18 @@ public protocol AppflowClientProtocol {
     func stopFlow(input: StopFlowInput) async throws -> StopFlowOutputResponse
     /// Applies a tag to the specified flow.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
-    /// Unregisters the custom connector registered in your account that matches the connectorLabel provided in the request.
+    /// Unregisters the custom connector registered in your account that matches the connector label provided in the request.
     func unregisterConnector(input: UnregisterConnectorInput) async throws -> UnregisterConnectorOutputResponse
     /// Removes a tag from the specified flow.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates a given connector profile associated with your account.
     func updateConnectorProfile(input: UpdateConnectorProfileInput) async throws -> UpdateConnectorProfileOutputResponse
+    /// Updates a custom connector that you've previously registered. This operation updates the connector with one of the following:
+    ///
+    /// * The latest version of the AWS Lambda function that's assigned to the connector
+    ///
+    /// * A new AWS Lambda function that you specify
+    func updateConnectorRegistration(input: UpdateConnectorRegistrationInput) async throws -> UpdateConnectorRegistrationOutputResponse
     /// Updates an existing flow.
     func updateFlow(input: UpdateFlowInput) async throws -> UpdateFlowOutputResponse
 }

@@ -311,7 +311,7 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
         return result
     }
 
-    /// Checks out the specified license.
+    /// Checks out the specified license. If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary.
     public func checkoutLicense(input: CheckoutLicenseInput) async throws -> CheckoutLicenseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1466,6 +1466,41 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
         return result
     }
 
+    /// Lists the grants received for all accounts in the organization.
+    public func listReceivedGrantsForOrganization(input: ListReceivedGrantsForOrganizationInput) async throws -> ListReceivedGrantsForOrganizationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listReceivedGrantsForOrganization")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutputResponse, ListReceivedGrantsForOrganizationOutputError>(id: "listReceivedGrantsForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutputResponse, ListReceivedGrantsForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReceivedGrantsForOrganizationOutputResponse, ListReceivedGrantsForOrganizationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutputResponse>(xAmzTarget: "AWSLicenseManager.ListReceivedGrantsForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<ListReceivedGrantsForOrganizationOutputResponse, ListReceivedGrantsForOrganizationOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReceivedGrantsForOrganizationOutputResponse, ListReceivedGrantsForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListReceivedGrantsForOrganizationOutputResponse, ListReceivedGrantsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReceivedGrantsForOrganizationOutputResponse, ListReceivedGrantsForOrganizationOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
     /// Lists received licenses.
     public func listReceivedLicenses(input: ListReceivedLicensesInput) async throws -> ListReceivedLicensesOutputResponse
     {
@@ -1497,6 +1532,41 @@ extension LicenseManagerClient: LicenseManagerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReceivedLicensesOutputResponse, ListReceivedLicensesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListReceivedLicensesOutputResponse, ListReceivedLicensesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReceivedLicensesOutputResponse, ListReceivedLicensesOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Lists the licenses received for all accounts in the organization.
+    public func listReceivedLicensesForOrganization(input: ListReceivedLicensesForOrganizationInput) async throws -> ListReceivedLicensesForOrganizationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listReceivedLicensesForOrganization")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "license-manager")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutputResponse, ListReceivedLicensesForOrganizationOutputError>(id: "listReceivedLicensesForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutputResponse, ListReceivedLicensesForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReceivedLicensesForOrganizationOutputResponse, ListReceivedLicensesForOrganizationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutputResponse>(xAmzTarget: "AWSLicenseManager.ListReceivedLicensesForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<ListReceivedLicensesForOrganizationOutputResponse, ListReceivedLicensesForOrganizationOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReceivedLicensesForOrganizationOutputResponse, ListReceivedLicensesForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListReceivedLicensesForOrganizationOutputResponse, ListReceivedLicensesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReceivedLicensesForOrganizationOutputResponse, ListReceivedLicensesForOrganizationOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

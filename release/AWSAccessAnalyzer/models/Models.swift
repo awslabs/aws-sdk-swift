@@ -2266,7 +2266,7 @@ extension AccessAnalyzerClientTypes.Criterion: Swift.Codable {
 }
 
 extension AccessAnalyzerClientTypes {
-    /// The criteria to use in the filter that defines the archive rule.
+    /// The criteria to use in the filter that defines the archive rule. For more information on available filter keys, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html).
     public struct Criterion: Swift.Equatable {
         /// A "contains" operator to match for the filter used to create the rule.
         public var contains: [Swift.String]?
@@ -2960,11 +2960,15 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.FindingSourceDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessPointAccount
         case accessPointArn
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessPointAccount = self.accessPointAccount {
+            try encodeContainer.encode(accessPointAccount, forKey: .accessPointAccount)
+        }
         if let accessPointArn = self.accessPointArn {
             try encodeContainer.encode(accessPointArn, forKey: .accessPointArn)
         }
@@ -2974,19 +2978,25 @@ extension AccessAnalyzerClientTypes.FindingSourceDetail: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let accessPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessPointArn)
         accessPointArn = accessPointArnDecoded
+        let accessPointAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessPointAccount)
+        accessPointAccount = accessPointAccountDecoded
     }
 }
 
 extension AccessAnalyzerClientTypes {
     /// Includes details about how the access that generated the finding is granted. This is populated for Amazon S3 bucket findings.
     public struct FindingSourceDetail: Swift.Equatable {
+        /// The account of the cross-account access point that generated the finding.
+        public var accessPointAccount: Swift.String?
         /// The ARN of the access point that generated the finding. The ARN format depends on whether the ARN represents an access point or a multi-region access point.
         public var accessPointArn: Swift.String?
 
         public init (
+            accessPointAccount: Swift.String? = nil,
             accessPointArn: Swift.String? = nil
         )
         {
+            self.accessPointAccount = accessPointAccount
             self.accessPointArn = accessPointArn
         }
     }
@@ -2998,6 +3008,7 @@ extension AccessAnalyzerClientTypes {
         case bucketAcl
         case policy
         case s3AccessPoint
+        case s3AccessPointAccount
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FindingSourceType] {
@@ -3005,6 +3016,7 @@ extension AccessAnalyzerClientTypes {
                 .bucketAcl,
                 .policy,
                 .s3AccessPoint,
+                .s3AccessPointAccount,
                 .sdkUnknown("")
             ]
         }
@@ -3017,6 +3029,7 @@ extension AccessAnalyzerClientTypes {
             case .bucketAcl: return "BUCKET_ACL"
             case .policy: return "POLICY"
             case .s3AccessPoint: return "S3_ACCESS_POINT"
+            case .s3AccessPointAccount: return "S3_ACCESS_POINT_ACCOUNT"
             case let .sdkUnknown(s): return s
             }
         }

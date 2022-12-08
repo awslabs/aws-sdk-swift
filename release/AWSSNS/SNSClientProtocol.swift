@@ -5,7 +5,7 @@ import ClientRuntime
 
 /// Amazon Simple Notification Service Amazon Simple Notification Service (Amazon SNS) is a web service that enables you to build distributed web-enabled applications. Applications can use Amazon SNS to easily push real-time notification messages to interested subscribers over multiple delivery protocols. For more information about this product see the [Amazon SNS product page](http://aws.amazon.com/sns/). For detailed information about Amazon SNS features and their associated API calls, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/). For information on the permissions you need to use this API, see [Identity and access management in Amazon SNS](https://docs.aws.amazon.com/sns/latest/dg/sns-authentication-and-access-control.html) in the Amazon SNS Developer Guide. We also provide SDKs that enable you to access Amazon SNS from your preferred programming language. The SDKs contain functionality that automatically takes care of tasks such as: cryptographically signing your service requests, retrying requests, and handling error responses. For a list of available SDKs, go to [Tools for Amazon Web Services](http://aws.amazon.com/tools/).
 public protocol SNSClientProtocol {
-    /// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified actions.
+    /// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified actions. To remove the ability to change topic permissions, you must deny permissions to the AddPermission, RemovePermission, and SetTopicAttributes actions in your IAM policy.
     func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutputResponse
     /// Accepts a phone number and indicates whether the phone holder has opted out of receiving SMS messages from your Amazon Web Services account. You cannot send SMS messages to a number that is opted out. To resume sending messages, you can opt in the number by using the OptInPhoneNumber action.
     func checkIfPhoneNumberIsOptedOut(input: CheckIfPhoneNumberIsOptedOutInput) async throws -> CheckIfPhoneNumberIsOptedOutOutputResponse
@@ -84,7 +84,7 @@ public protocol SNSClientProtocol {
     func publishBatch(input: PublishBatchInput) async throws -> PublishBatchOutputResponse
     /// Adds or updates an inline policy document that is stored in the specified Amazon SNS topic.
     func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutputResponse
-    /// Removes a statement from a topic's access control policy.
+    /// Removes a statement from a topic's access control policy. To remove the ability to change topic permissions, you must deny permissions to the AddPermission, RemovePermission, and SetTopicAttributes actions in your IAM policy.
     func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutputResponse
     /// Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
     func setEndpointAttributes(input: SetEndpointAttributesInput) async throws -> SetEndpointAttributesOutputResponse
@@ -94,7 +94,7 @@ public protocol SNSClientProtocol {
     func setSMSAttributes(input: SetSMSAttributesInput) async throws -> SetSMSAttributesOutputResponse
     /// Allows a subscription owner to set an attribute of the subscription to a new value.
     func setSubscriptionAttributes(input: SetSubscriptionAttributesInput) async throws -> SetSubscriptionAttributesOutputResponse
-    /// Allows a topic owner to set an attribute of the topic to a new value.
+    /// Allows a topic owner to set an attribute of the topic to a new value. To remove the ability to change topic permissions, you must deny permissions to the AddPermission, RemovePermission, and SetTopicAttributes actions in your IAM policy.
     func setTopicAttributes(input: SetTopicAttributesInput) async throws -> SetTopicAttributesOutputResponse
     /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
     func subscribe(input: SubscribeInput) async throws -> SubscribeOutputResponse
@@ -110,7 +110,7 @@ public protocol SNSClientProtocol {
     ///
     /// * Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web Services Region. If your application requires a higher throughput, file a [technical support request](https://console.aws.amazon.com/support/home#/case/create?issueType=technical).
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
-    /// Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. This action is throttled at 100 transactions per second (TPS).
+    /// Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. Amazon SQS queue subscriptions require authentication for deletion. Only the owner of the subscription, or the owner of the topic can unsubscribe using the required Amazon Web Services signature. This action is throttled at 100 transactions per second (TPS).
     func unsubscribe(input: UnsubscribeInput) async throws -> UnsubscribeOutputResponse
     /// Remove tags from the specified Amazon SNS topic. For an overview, see [Amazon SNS Tags](https://docs.aws.amazon.com/sns/latest/dg/sns-tags.html) in the Amazon SNS Developer Guide.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse

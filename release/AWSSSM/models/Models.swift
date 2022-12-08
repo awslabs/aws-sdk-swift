@@ -6543,7 +6543,7 @@ public struct CreateActivationInput: Swift.Equatable {
     public var description: Swift.String?
     /// The date by which this activation request should expire, in timestamp format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance. If you don't provide an expiration date, the activation code expires in 24 hours.
     public var expirationDate: ClientRuntime.Date?
-    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see [Create an IAM service role for a hybrid environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html) in the Amazon Web Services Systems Manager User Guide.
+    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see [Create an IAM service role for a hybrid environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html) in the Amazon Web Services Systems Manager User Guide. You can't specify an IAM service-linked role for this parameter. You must create a unique role.
     /// This member is required.
     public var iamRole: Swift.String?
     /// Specify the maximum number of managed nodes you want to register. The default value is 1.
@@ -8229,6 +8229,7 @@ extension CreateMaintenanceWindowOutputResponseBody: Swift.Decodable {
 
 extension CreateOpsItemInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case actualEndTime = "ActualEndTime"
         case actualStartTime = "ActualStartTime"
         case category = "Category"
@@ -8248,6 +8249,9 @@ extension CreateOpsItemInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
         if let actualEndTime = self.actualEndTime {
             try encodeContainer.encodeTimestamp(actualEndTime, format: .epochSeconds, forKey: .actualEndTime)
         }
@@ -8315,6 +8319,8 @@ extension CreateOpsItemInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateOpsItemInput: Swift.Equatable {
+    /// The target Amazon Web Services account where you want to create an OpsItem. To make this call, your account must be configured to work with OpsItems across accounts. For more information, see [Setting up OpsCenter to work with OpsItems across accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-OpsCenter-multiple-accounts.html) in the Amazon Web Services Systems Manager User Guide.
+    public var accountId: Swift.String?
     /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
     public var actualEndTime: ClientRuntime.Date?
     /// The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
@@ -8328,7 +8334,13 @@ public struct CreateOpsItemInput: Swift.Equatable {
     public var notifications: [SSMClientTypes.OpsItemNotification]?
     /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB. Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm. You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the [DescribeOpsItems] API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the [GetOpsItem] API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see [Creating OpsItems manually](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems) in the Amazon Web Services Systems Manager User Guide.
     public var operationalData: [Swift.String:SSMClientTypes.OpsItemDataValue]?
-    /// The type of OpsItem to create. Currently, the only valid values are /aws/changerequest and /aws/issue.
+    /// The type of OpsItem to create. Systems Manager supports the following types of OpsItems:
+    ///
+    /// * /aws/issue This type of OpsItem is used for default OpsItems created by OpsCenter.
+    ///
+    /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
+    ///
+    /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
     public var opsItemType: Swift.String?
     /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
     public var plannedEndTime: ClientRuntime.Date?
@@ -8350,6 +8362,7 @@ public struct CreateOpsItemInput: Swift.Equatable {
     public var title: Swift.String?
 
     public init (
+        accountId: Swift.String? = nil,
         actualEndTime: ClientRuntime.Date? = nil,
         actualStartTime: ClientRuntime.Date? = nil,
         category: Swift.String? = nil,
@@ -8367,6 +8380,7 @@ public struct CreateOpsItemInput: Swift.Equatable {
         title: Swift.String? = nil
     )
     {
+        self.accountId = accountId
         self.actualEndTime = actualEndTime
         self.actualStartTime = actualStartTime
         self.category = category
@@ -8401,10 +8415,12 @@ struct CreateOpsItemInputBody: Swift.Equatable {
     let actualEndTime: ClientRuntime.Date?
     let plannedStartTime: ClientRuntime.Date?
     let plannedEndTime: ClientRuntime.Date?
+    let accountId: Swift.String?
 }
 
 extension CreateOpsItemInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case actualEndTime = "ActualEndTime"
         case actualStartTime = "ActualStartTime"
         case category = "Category"
@@ -8490,6 +8506,8 @@ extension CreateOpsItemInputBody: Swift.Decodable {
         plannedStartTime = plannedStartTimeDecoded
         let plannedEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .plannedEndTime)
         plannedEndTime = plannedEndTimeDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
     }
 }
 
@@ -8505,6 +8523,7 @@ extension CreateOpsItemOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OpsItemAccessDeniedException" : self = .opsItemAccessDeniedException(try OpsItemAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemAlreadyExistsException" : self = .opsItemAlreadyExistsException(try OpsItemAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemInvalidParameterException" : self = .opsItemInvalidParameterException(try OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemLimitExceededException" : self = .opsItemLimitExceededException(try OpsItemLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -8515,6 +8534,7 @@ extension CreateOpsItemOutputError {
 
 public enum CreateOpsItemOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
+    case opsItemAccessDeniedException(OpsItemAccessDeniedException)
     case opsItemAlreadyExistsException(OpsItemAlreadyExistsException)
     case opsItemInvalidParameterException(OpsItemInvalidParameterException)
     case opsItemLimitExceededException(OpsItemLimitExceededException)
@@ -8527,31 +8547,39 @@ extension CreateOpsItemOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: CreateOpsItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.opsItemArn = output.opsItemArn
             self.opsItemId = output.opsItemId
         } else {
+            self.opsItemArn = nil
             self.opsItemId = nil
         }
     }
 }
 
 public struct CreateOpsItemOutputResponse: Swift.Equatable {
+    /// The OpsItem Amazon Resource Name (ARN).
+    public var opsItemArn: Swift.String?
     /// The ID of the OpsItem.
     public var opsItemId: Swift.String?
 
     public init (
+        opsItemArn: Swift.String? = nil,
         opsItemId: Swift.String? = nil
     )
     {
+        self.opsItemArn = opsItemArn
         self.opsItemId = opsItemId
     }
 }
 
 struct CreateOpsItemOutputResponseBody: Swift.Equatable {
     let opsItemId: Swift.String?
+    let opsItemArn: Swift.String?
 }
 
 extension CreateOpsItemOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case opsItemArn = "OpsItemArn"
         case opsItemId = "OpsItemId"
     }
 
@@ -8559,6 +8587,8 @@ extension CreateOpsItemOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let opsItemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .opsItemId)
         opsItemId = opsItemIdDecoded
+        let opsItemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .opsItemArn)
+        opsItemArn = opsItemArnDecoded
     }
 }
 
@@ -10352,6 +10382,116 @@ extension DeleteResourceDataSyncOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct DeleteResourceDataSyncOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyHash = "PolicyHash"
+        case policyId = "PolicyId"
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let policyHash = self.policyHash {
+            try encodeContainer.encode(policyHash, forKey: .policyHash)
+        }
+        if let policyId = self.policyId {
+            try encodeContainer.encode(policyId, forKey: .policyId)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Equatable {
+    /// ID of the current policy version. The hash helps to prevent multiple calls from attempting to overwrite a policy.
+    /// This member is required.
+    public var policyHash: Swift.String?
+    /// The policy ID.
+    /// This member is required.
+    public var policyId: Swift.String?
+    /// Amazon Resource Name (ARN) of the resource to which the policies are attached.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        policyHash: Swift.String? = nil,
+        policyId: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.policyHash = policyHash
+        self.policyId = policyId
+        self.resourceArn = resourceArn
+    }
+}
+
+struct DeleteResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let policyId: Swift.String?
+    let policyHash: Swift.String?
+}
+
+extension DeleteResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyHash = "PolicyHash"
+        case policyId = "PolicyId"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
+        policyId = policyIdDecoded
+        let policyHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyHash)
+        policyHash = policyHashDecoded
+    }
+}
+
+extension DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyConflictException" : self = .resourcePolicyConflictException(try ResourcePolicyConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyInvalidParameterException" : self = .resourcePolicyInvalidParameterException(try ResourcePolicyInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case resourcePolicyConflictException(ResourcePolicyConflictException)
+    case resourcePolicyInvalidParameterException(ResourcePolicyInvalidParameterException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -22228,11 +22368,15 @@ extension GetMaintenanceWindowTaskOutputResponseBody: Swift.Decodable {
 
 extension GetOpsItemInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case opsItemArn = "OpsItemArn"
         case opsItemId = "OpsItemId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let opsItemArn = self.opsItemArn {
+            try encodeContainer.encode(opsItemArn, forKey: .opsItemArn)
+        }
         if let opsItemId = self.opsItemId {
             try encodeContainer.encode(opsItemId, forKey: .opsItemId)
         }
@@ -22246,24 +22390,30 @@ extension GetOpsItemInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetOpsItemInput: Swift.Equatable {
+    /// The OpsItem Amazon Resource Name (ARN).
+    public var opsItemArn: Swift.String?
     /// The ID of the OpsItem that you want to get.
     /// This member is required.
     public var opsItemId: Swift.String?
 
     public init (
+        opsItemArn: Swift.String? = nil,
         opsItemId: Swift.String? = nil
     )
     {
+        self.opsItemArn = opsItemArn
         self.opsItemId = opsItemId
     }
 }
 
 struct GetOpsItemInputBody: Swift.Equatable {
     let opsItemId: Swift.String?
+    let opsItemArn: Swift.String?
 }
 
 extension GetOpsItemInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case opsItemArn = "OpsItemArn"
         case opsItemId = "OpsItemId"
     }
 
@@ -22271,6 +22421,8 @@ extension GetOpsItemInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let opsItemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .opsItemId)
         opsItemId = opsItemIdDecoded
+        let opsItemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .opsItemArn)
+        opsItemArn = opsItemArnDecoded
     }
 }
 
@@ -22286,6 +22438,7 @@ extension GetOpsItemOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OpsItemAccessDeniedException" : self = .opsItemAccessDeniedException(try OpsItemAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemNotFoundException" : self = .opsItemNotFoundException(try OpsItemNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
@@ -22294,6 +22447,7 @@ extension GetOpsItemOutputError {
 
 public enum GetOpsItemOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
+    case opsItemAccessDeniedException(OpsItemAccessDeniedException)
     case opsItemNotFoundException(OpsItemNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -23852,6 +24006,217 @@ extension GetPatchBaselineOutputResponseBody: Swift.Decodable {
         }
         sources = sourcesDecoded0
     }
+}
+
+extension GetResourcePoliciesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension GetResourcePoliciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetResourcePoliciesInput: Swift.Equatable {
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// A token to start the list. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// Amazon Resource Name (ARN) of the resource to which the policies are attached.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceArn = resourceArn
+    }
+}
+
+struct GetResourcePoliciesInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension GetResourcePoliciesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension GetResourcePoliciesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetResourcePoliciesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyInvalidParameterException" : self = .resourcePolicyInvalidParameterException(try ResourcePolicyInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetResourcePoliciesOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case resourcePolicyInvalidParameterException(ResourcePolicyInvalidParameterException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourcePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetResourcePoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.policies = output.policies
+        } else {
+            self.nextToken = nil
+            self.policies = nil
+        }
+    }
+}
+
+public struct GetResourcePoliciesOutputResponse: Swift.Equatable {
+    /// The token for the next set of items to return. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// An array of the Policy object.
+    public var policies: [SSMClientTypes.GetResourcePoliciesResponseEntry]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        policies: [SSMClientTypes.GetResourcePoliciesResponseEntry]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.policies = policies
+    }
+}
+
+struct GetResourcePoliciesOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let policies: [SSMClientTypes.GetResourcePoliciesResponseEntry]?
+}
+
+extension GetResourcePoliciesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case policies = "Policies"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let policiesContainer = try containerValues.decodeIfPresent([SSMClientTypes.GetResourcePoliciesResponseEntry?].self, forKey: .policies)
+        var policiesDecoded0:[SSMClientTypes.GetResourcePoliciesResponseEntry]? = nil
+        if let policiesContainer = policiesContainer {
+            policiesDecoded0 = [SSMClientTypes.GetResourcePoliciesResponseEntry]()
+            for structure0 in policiesContainer {
+                if let structure0 = structure0 {
+                    policiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        policies = policiesDecoded0
+    }
+}
+
+extension SSMClientTypes.GetResourcePoliciesResponseEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+        case policyHash = "PolicyHash"
+        case policyId = "PolicyId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let policy = self.policy {
+            try encodeContainer.encode(policy, forKey: .policy)
+        }
+        if let policyHash = self.policyHash {
+            try encodeContainer.encode(policyHash, forKey: .policyHash)
+        }
+        if let policyId = self.policyId {
+            try encodeContainer.encode(policyId, forKey: .policyId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
+        policyId = policyIdDecoded
+        let policyHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyHash)
+        policyHash = policyHashDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+extension SSMClientTypes {
+    /// A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
+    public struct GetResourcePoliciesResponseEntry: Swift.Equatable {
+        /// A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
+        public var policy: Swift.String?
+        /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy. You must provide this hash when updating or deleting a policy.
+        public var policyHash: Swift.String?
+        /// A policy ID.
+        public var policyId: Swift.String?
+
+        public init (
+            policy: Swift.String? = nil,
+            policyHash: Swift.String? = nil,
+            policyId: Swift.String? = nil
+        )
+        {
+            self.policy = policy
+            self.policyHash = policyHash
+            self.policyId = policyId
+        }
+    }
+
 }
 
 extension GetServiceSettingInput: Swift.Encodable {
@@ -34476,6 +34841,7 @@ extension SSMClientTypes.OpsItem: Swift.Codable {
         case lastModifiedTime = "LastModifiedTime"
         case notifications = "Notifications"
         case operationalData = "OperationalData"
+        case opsItemArn = "OpsItemArn"
         case opsItemId = "OpsItemId"
         case opsItemType = "OpsItemType"
         case plannedEndTime = "PlannedEndTime"
@@ -34526,6 +34892,9 @@ extension SSMClientTypes.OpsItem: Swift.Codable {
             for (dictKey0, opsitemoperationaldata0) in operationalData {
                 try operationalDataContainer.encode(opsitemoperationaldata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let opsItemArn = self.opsItemArn {
+            try encodeContainer.encode(opsItemArn, forKey: .opsItemArn)
         }
         if let opsItemId = self.opsItemId {
             try encodeContainer.encode(opsItemId, forKey: .opsItemId)
@@ -34636,6 +35005,8 @@ extension SSMClientTypes.OpsItem: Swift.Codable {
         plannedStartTime = plannedStartTimeDecoded
         let plannedEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .plannedEndTime)
         plannedEndTime = plannedEndTimeDecoded
+        let opsItemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .opsItemArn)
+        opsItemArn = opsItemArnDecoded
     }
 }
 
@@ -34662,9 +35033,17 @@ extension SSMClientTypes {
         public var notifications: [SSMClientTypes.OpsItemNotification]?
         /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB. Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm. You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the [DescribeOpsItems] API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the [GetOpsItem] API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see [Creating OpsItems manually](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems) in the Amazon Web Services Systems Manager User Guide.
         public var operationalData: [Swift.String:SSMClientTypes.OpsItemDataValue]?
+        /// The OpsItem Amazon Resource Name (ARN).
+        public var opsItemArn: Swift.String?
         /// The ID of the OpsItem.
         public var opsItemId: Swift.String?
-        /// The type of OpsItem. Currently, the only valid values are /aws/changerequest and /aws/issue.
+        /// The type of OpsItem. Systems Manager supports the following types of OpsItems:
+        ///
+        /// * /aws/issue This type of OpsItem is used for default OpsItems created by OpsCenter.
+        ///
+        /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
+        ///
+        /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public var opsItemType: Swift.String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public var plannedEndTime: ClientRuntime.Date?
@@ -34696,6 +35075,7 @@ extension SSMClientTypes {
             lastModifiedTime: ClientRuntime.Date? = nil,
             notifications: [SSMClientTypes.OpsItemNotification]? = nil,
             operationalData: [Swift.String:SSMClientTypes.OpsItemDataValue]? = nil,
+            opsItemArn: Swift.String? = nil,
             opsItemId: Swift.String? = nil,
             opsItemType: Swift.String? = nil,
             plannedEndTime: ClientRuntime.Date? = nil,
@@ -34719,6 +35099,7 @@ extension SSMClientTypes {
             self.lastModifiedTime = lastModifiedTime
             self.notifications = notifications
             self.operationalData = operationalData
+            self.opsItemArn = opsItemArn
             self.opsItemId = opsItemId
             self.opsItemType = opsItemType
             self.plannedEndTime = plannedEndTime
@@ -34733,6 +35114,58 @@ extension SSMClientTypes {
         }
     }
 
+}
+
+extension OpsItemAccessDeniedException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: OpsItemAccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// You don't have permission to view OpsItems in the specified account. Verify that your account is configured either as a Systems Manager delegated administrator or that you are logged into the Organizations management account.
+public struct OpsItemAccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct OpsItemAccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension OpsItemAccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension OpsItemAlreadyExistsException {
@@ -35168,6 +35601,7 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
     public enum OpsItemFilterKey: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accountId
         case actualEndTime
         case actualStartTime
         case automationId
@@ -35199,6 +35633,7 @@ extension SSMClientTypes {
 
         public static var allCases: [OpsItemFilterKey] {
             return [
+                .accountId,
                 .actualEndTime,
                 .actualStartTime,
                 .automationId,
@@ -35235,6 +35670,7 @@ extension SSMClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .accountId: return "AccountId"
             case .actualEndTime: return "ActualEndTime"
             case .actualStartTime: return "ActualStartTime"
             case .automationId: return "AutomationId"
@@ -36193,7 +36629,13 @@ extension SSMClientTypes {
         public var operationalData: [Swift.String:SSMClientTypes.OpsItemDataValue]?
         /// The ID of the OpsItem.
         public var opsItemId: Swift.String?
-        /// The type of OpsItem. Currently, the only valid values are /aws/changerequest and /aws/issue.
+        /// The type of OpsItem. Systems Manager supports the following types of OpsItems:
+        ///
+        /// * /aws/issue This type of OpsItem is used for default OpsItems created by OpsCenter.
+        ///
+        /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
+        ///
+        /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public var opsItemType: Swift.String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public var plannedEndTime: ClientRuntime.Date?
@@ -40053,6 +40495,170 @@ extension PutParameterOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension PutResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+        case policyHash = "PolicyHash"
+        case policyId = "PolicyId"
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let policy = self.policy {
+            try encodeContainer.encode(policy, forKey: .policy)
+        }
+        if let policyHash = self.policyHash {
+            try encodeContainer.encode(policyHash, forKey: .policyHash)
+        }
+        if let policyId = self.policyId {
+            try encodeContainer.encode(policyId, forKey: .policyId)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Equatable {
+    /// A policy you want to associate with a resource.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy.
+    public var policyHash: Swift.String?
+    /// The policy ID.
+    public var policyId: Swift.String?
+    /// Amazon Resource Name (ARN) of the resource to which the policies are attached.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        policy: Swift.String? = nil,
+        policyHash: Swift.String? = nil,
+        policyId: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.policy = policy
+        self.policyHash = policyHash
+        self.policyId = policyId
+        self.resourceArn = resourceArn
+    }
+}
+
+struct PutResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let policy: Swift.String?
+    let policyId: Swift.String?
+    let policyHash: Swift.String?
+}
+
+extension PutResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+        case policyHash = "PolicyHash"
+        case policyId = "PolicyId"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+        let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
+        policyId = policyIdDecoded
+        let policyHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyHash)
+        policyHash = policyHashDecoded
+    }
+}
+
+extension PutResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyConflictException" : self = .resourcePolicyConflictException(try ResourcePolicyConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyInvalidParameterException" : self = .resourcePolicyInvalidParameterException(try ResourcePolicyInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyLimitExceededException" : self = .resourcePolicyLimitExceededException(try ResourcePolicyLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case resourcePolicyConflictException(ResourcePolicyConflictException)
+    case resourcePolicyInvalidParameterException(ResourcePolicyInvalidParameterException)
+    case resourcePolicyLimitExceededException(ResourcePolicyLimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.policyHash = output.policyHash
+            self.policyId = output.policyId
+        } else {
+            self.policyHash = nil
+            self.policyId = nil
+        }
+    }
+}
+
+public struct PutResourcePolicyOutputResponse: Swift.Equatable {
+    /// ID of the current policy version. The hash helps to prevent a situation where multiple users attempt to overwrite a policy. You must provide this hash when updating or deleting a policy.
+    public var policyHash: Swift.String?
+    /// The policy ID. To update a policy, you must specify PolicyId and PolicyHash.
+    public var policyId: Swift.String?
+
+    public init (
+        policyHash: Swift.String? = nil,
+        policyId: Swift.String? = nil
+    )
+    {
+        self.policyHash = policyHash
+        self.policyId = policyId
+    }
+}
+
+struct PutResourcePolicyOutputResponseBody: Swift.Equatable {
+    let policyId: Swift.String?
+    let policyHash: Swift.String?
+}
+
+extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policyHash = "PolicyHash"
+        case policyId = "PolicyId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
+        policyId = policyIdDecoded
+        let policyHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyHash)
+        policyHash = policyHashDecoded
+    }
+}
+
 extension SSMClientTypes {
     public enum RebootOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case noReboot
@@ -42328,6 +42934,198 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ResourcePolicyConflictException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ResourcePolicyConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The hash provided in the call doesn't match the stored hash. This exception is thrown when trying to update an obsolete policy version or when multiple requests to update a policy are sent.
+public struct ResourcePolicyConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ResourcePolicyConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourcePolicyConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ResourcePolicyInvalidParameterException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ResourcePolicyInvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.parameterNames = output.parameterNames
+        } else {
+            self.message = nil
+            self.parameterNames = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// One or more parameters specified for the call aren't valid. Verify the parameters and their values and try again.
+public struct ResourcePolicyInvalidParameterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+    public var parameterNames: [Swift.String]?
+
+    public init (
+        message: Swift.String? = nil,
+        parameterNames: [Swift.String]? = nil
+    )
+    {
+        self.message = message
+        self.parameterNames = parameterNames
+    }
+}
+
+struct ResourcePolicyInvalidParameterExceptionBody: Swift.Equatable {
+    let parameterNames: [Swift.String]?
+    let message: Swift.String?
+}
+
+extension ResourcePolicyInvalidParameterExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+        case parameterNames = "ParameterNames"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let parameterNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .parameterNames)
+        var parameterNamesDecoded0:[Swift.String]? = nil
+        if let parameterNamesContainer = parameterNamesContainer {
+            parameterNamesDecoded0 = [Swift.String]()
+            for string0 in parameterNamesContainer {
+                if let string0 = string0 {
+                    parameterNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        parameterNames = parameterNamesDecoded0
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ResourcePolicyLimitExceededException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ResourcePolicyLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.limit = output.limit
+            self.limitType = output.limitType
+            self.message = output.message
+        } else {
+            self.limit = 0
+            self.limitType = nil
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The [PutResourcePolicy] API action enforces two limits. A policy can't be greater than 1024 bytes in size. And only one policy can be attached to OpsItemGroup. Verify these limits and try again.
+public struct ResourcePolicyLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var limit: Swift.Int
+    public var limitType: Swift.String?
+    public var message: Swift.String?
+
+    public init (
+        limit: Swift.Int = 0,
+        limitType: Swift.String? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.limit = limit
+        self.limitType = limitType
+        self.message = message
+    }
+}
+
+struct ResourcePolicyLimitExceededExceptionBody: Swift.Equatable {
+    let limit: Swift.Int
+    let limitType: Swift.String?
+    let message: Swift.String?
+}
+
+extension ResourcePolicyLimitExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit = "Limit"
+        case limitType = "LimitType"
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        limit = limitDecoded
+        let limitTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .limitType)
+        limitType = limitTypeDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
@@ -49178,7 +49976,7 @@ extension UpdateManagedInstanceRoleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateManagedInstanceRoleInput: Swift.Equatable {
-    /// The IAM role you want to assign or change.
+    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see [Create an IAM service role for a hybrid environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html) in the Amazon Web Services Systems Manager User Guide. You can't specify an IAM service-linked role for this parameter. You must create a unique role.
     /// This member is required.
     public var iamRole: Swift.String?
     /// The ID of the managed node where you want to update the role.
@@ -49258,6 +50056,7 @@ extension UpdateOpsItemInput: Swift.Encodable {
         case notifications = "Notifications"
         case operationalData = "OperationalData"
         case operationalDataToDelete = "OperationalDataToDelete"
+        case opsItemArn = "OpsItemArn"
         case opsItemId = "OpsItemId"
         case plannedEndTime = "PlannedEndTime"
         case plannedStartTime = "PlannedStartTime"
@@ -49299,6 +50098,9 @@ extension UpdateOpsItemInput: Swift.Encodable {
             for opsitemopsdatakeyslist0 in operationalDataToDelete {
                 try operationalDataToDeleteContainer.encode(opsitemopsdatakeyslist0)
             }
+        }
+        if let opsItemArn = self.opsItemArn {
+            try encodeContainer.encode(opsItemArn, forKey: .opsItemArn)
         }
         if let opsItemId = self.opsItemId {
             try encodeContainer.encode(opsItemId, forKey: .opsItemId)
@@ -49351,6 +50153,8 @@ public struct UpdateOpsItemInput: Swift.Equatable {
     public var operationalData: [Swift.String:SSMClientTypes.OpsItemDataValue]?
     /// Keys that you want to remove from the OperationalData map.
     public var operationalDataToDelete: [Swift.String]?
+    /// The OpsItem Amazon Resource Name (ARN).
+    public var opsItemArn: Swift.String?
     /// The ID of the OpsItem.
     /// This member is required.
     public var opsItemId: Swift.String?
@@ -49377,6 +50181,7 @@ public struct UpdateOpsItemInput: Swift.Equatable {
         notifications: [SSMClientTypes.OpsItemNotification]? = nil,
         operationalData: [Swift.String:SSMClientTypes.OpsItemDataValue]? = nil,
         operationalDataToDelete: [Swift.String]? = nil,
+        opsItemArn: Swift.String? = nil,
         opsItemId: Swift.String? = nil,
         plannedEndTime: ClientRuntime.Date? = nil,
         plannedStartTime: ClientRuntime.Date? = nil,
@@ -49394,6 +50199,7 @@ public struct UpdateOpsItemInput: Swift.Equatable {
         self.notifications = notifications
         self.operationalData = operationalData
         self.operationalDataToDelete = operationalDataToDelete
+        self.opsItemArn = opsItemArn
         self.opsItemId = opsItemId
         self.plannedEndTime = plannedEndTime
         self.plannedStartTime = plannedStartTime
@@ -49421,6 +50227,7 @@ struct UpdateOpsItemInputBody: Swift.Equatable {
     let actualEndTime: ClientRuntime.Date?
     let plannedStartTime: ClientRuntime.Date?
     let plannedEndTime: ClientRuntime.Date?
+    let opsItemArn: Swift.String?
 }
 
 extension UpdateOpsItemInputBody: Swift.Decodable {
@@ -49432,6 +50239,7 @@ extension UpdateOpsItemInputBody: Swift.Decodable {
         case notifications = "Notifications"
         case operationalData = "OperationalData"
         case operationalDataToDelete = "OperationalDataToDelete"
+        case opsItemArn = "OpsItemArn"
         case opsItemId = "OpsItemId"
         case plannedEndTime = "PlannedEndTime"
         case plannedStartTime = "PlannedStartTime"
@@ -49510,6 +50318,8 @@ extension UpdateOpsItemInputBody: Swift.Decodable {
         plannedStartTime = plannedStartTimeDecoded
         let plannedEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .plannedEndTime)
         plannedEndTime = plannedEndTimeDecoded
+        let opsItemArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .opsItemArn)
+        opsItemArn = opsItemArnDecoded
     }
 }
 
@@ -49525,6 +50335,7 @@ extension UpdateOpsItemOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OpsItemAccessDeniedException" : self = .opsItemAccessDeniedException(try OpsItemAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemAlreadyExistsException" : self = .opsItemAlreadyExistsException(try OpsItemAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemInvalidParameterException" : self = .opsItemInvalidParameterException(try OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemLimitExceededException" : self = .opsItemLimitExceededException(try OpsItemLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -49536,6 +50347,7 @@ extension UpdateOpsItemOutputError {
 
 public enum UpdateOpsItemOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
+    case opsItemAccessDeniedException(OpsItemAccessDeniedException)
     case opsItemAlreadyExistsException(OpsItemAlreadyExistsException)
     case opsItemInvalidParameterException(OpsItemInvalidParameterException)
     case opsItemLimitExceededException(OpsItemLimitExceededException)

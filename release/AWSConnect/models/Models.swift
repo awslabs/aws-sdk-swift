@@ -1975,7 +1975,7 @@ extension ClaimPhoneNumberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ClaimPhoneNumberInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/). Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     public var clientToken: Swift.String?
     /// The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code].
     /// This member is required.
@@ -3141,7 +3141,7 @@ extension ContactNotFoundException {
     }
 }
 
-/// The contact with the specified ID is not active or does not exist.
+/// The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat, Task, or Voice Callback.
 public struct ContactNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5231,14 +5231,22 @@ extension CreateRoutingProfileOutputResponseBody: Swift.Decodable {
 
 extension CreateSecurityProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlTags = "AllowedAccessControlTags"
         case description = "Description"
         case permissions = "Permissions"
         case securityProfileName = "SecurityProfileName"
+        case tagRestrictedResources = "TagRestrictedResources"
         case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedAccessControlTags = allowedAccessControlTags {
+            var allowedAccessControlTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .allowedAccessControlTags)
+            for (dictKey0, allowedaccesscontroltags0) in allowedAccessControlTags {
+                try allowedAccessControlTagsContainer.encode(allowedaccesscontroltags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -5250,6 +5258,12 @@ extension CreateSecurityProfileInput: Swift.Encodable {
         }
         if let securityProfileName = self.securityProfileName {
             try encodeContainer.encode(securityProfileName, forKey: .securityProfileName)
+        }
+        if let tagRestrictedResources = tagRestrictedResources {
+            var tagRestrictedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagRestrictedResources)
+            for tagrestrictedresourcelist0 in tagRestrictedResources {
+                try tagRestrictedResourcesContainer.encode(tagrestrictedresourcelist0)
+            }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -5270,6 +5284,8 @@ extension CreateSecurityProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateSecurityProfileInput: Swift.Equatable {
+    /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+    public var allowedAccessControlTags: [Swift.String:Swift.String]?
     /// The description of the security profile.
     public var description: Swift.String?
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -5280,21 +5296,27 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
     /// The name of the security profile.
     /// This member is required.
     public var securityProfileName: Swift.String?
+    /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+    public var tagRestrictedResources: [Swift.String]?
     /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
+        allowedAccessControlTags: [Swift.String:Swift.String]? = nil,
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         permissions: [Swift.String]? = nil,
         securityProfileName: Swift.String? = nil,
+        tagRestrictedResources: [Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.allowedAccessControlTags = allowedAccessControlTags
         self.description = description
         self.instanceId = instanceId
         self.permissions = permissions
         self.securityProfileName = securityProfileName
+        self.tagRestrictedResources = tagRestrictedResources
         self.tags = tags
     }
 }
@@ -5304,13 +5326,17 @@ struct CreateSecurityProfileInputBody: Swift.Equatable {
     let description: Swift.String?
     let permissions: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
+    let allowedAccessControlTags: [Swift.String:Swift.String]?
+    let tagRestrictedResources: [Swift.String]?
 }
 
 extension CreateSecurityProfileInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlTags = "AllowedAccessControlTags"
         case description = "Description"
         case permissions = "Permissions"
         case securityProfileName = "SecurityProfileName"
+        case tagRestrictedResources = "TagRestrictedResources"
         case tags = "Tags"
     }
 
@@ -5342,6 +5368,28 @@ extension CreateSecurityProfileInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let allowedAccessControlTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .allowedAccessControlTags)
+        var allowedAccessControlTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let allowedAccessControlTagsContainer = allowedAccessControlTagsContainer {
+            allowedAccessControlTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, securityprofilepolicyvalue0) in allowedAccessControlTagsContainer {
+                if let securityprofilepolicyvalue0 = securityprofilepolicyvalue0 {
+                    allowedAccessControlTagsDecoded0?[key0] = securityprofilepolicyvalue0
+                }
+            }
+        }
+        allowedAccessControlTags = allowedAccessControlTagsDecoded0
+        let tagRestrictedResourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagRestrictedResources)
+        var tagRestrictedResourcesDecoded0:[Swift.String]? = nil
+        if let tagRestrictedResourcesContainer = tagRestrictedResourcesContainer {
+            tagRestrictedResourcesDecoded0 = [Swift.String]()
+            for string0 in tagRestrictedResourcesContainer {
+                if let string0 = string0 {
+                    tagRestrictedResourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        tagRestrictedResources = tagRestrictedResourcesDecoded0
     }
 }
 
@@ -11717,7 +11765,13 @@ public struct GetCurrentMetricDataInput: Swift.Equatable {
     /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.
     /// This member is required.
     public var filters: ConnectClientTypes.Filters?
-    /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported. If no Grouping is included in the request, a summary of metrics is returned.
+    /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.
+    ///
+    /// * If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.
+    ///
+    /// * If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter.
+    ///
+    /// * If no Grouping is included in the request, a summary of metrics is returned.
     public var groupings: [ConnectClientTypes.Grouping]?
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
     /// This member is required.
@@ -12135,8 +12189,14 @@ extension GetFederationTokenOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().toData()
             let output: GetFederationTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.credentials = output.credentials
+            self.signInUrl = output.signInUrl
+            self.userArn = output.userArn
+            self.userId = output.userId
         } else {
             self.credentials = nil
+            self.signInUrl = nil
+            self.userArn = nil
+            self.userId = nil
         }
     }
 }
@@ -12144,28 +12204,52 @@ extension GetFederationTokenOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetFederationTokenOutputResponse: Swift.Equatable {
     /// The credentials to use for federation.
     public var credentials: ConnectClientTypes.Credentials?
+    /// The URL to sign into the user's instance.
+    public var signInUrl: Swift.String?
+    /// The Amazon Resource Name (ARN) of the user.
+    public var userArn: Swift.String?
+    /// The identifier for the user.
+    public var userId: Swift.String?
 
     public init (
-        credentials: ConnectClientTypes.Credentials? = nil
+        credentials: ConnectClientTypes.Credentials? = nil,
+        signInUrl: Swift.String? = nil,
+        userArn: Swift.String? = nil,
+        userId: Swift.String? = nil
     )
     {
         self.credentials = credentials
+        self.signInUrl = signInUrl
+        self.userArn = userArn
+        self.userId = userId
     }
 }
 
 struct GetFederationTokenOutputResponseBody: Swift.Equatable {
     let credentials: ConnectClientTypes.Credentials?
+    let signInUrl: Swift.String?
+    let userArn: Swift.String?
+    let userId: Swift.String?
 }
 
 extension GetFederationTokenOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case credentials = "Credentials"
+        case signInUrl = "SignInUrl"
+        case userArn = "UserArn"
+        case userId = "UserId"
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let credentialsDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Credentials.self, forKey: .credentials)
         credentials = credentialsDecoded
+        let signInUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .signInUrl)
+        signInUrl = signInUrlDecoded
+        let userArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userArn)
+        userArn = userArnDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
     }
 }
 
@@ -14284,6 +14368,7 @@ extension ConnectClientTypes {
         case contactflowLogs
         case contactLens
         case earlyMedia
+        case enhancedContactMonitoring
         case highVolumeOutbound
         case inboundCalls
         case multiPartyConference
@@ -14297,6 +14382,7 @@ extension ConnectClientTypes {
                 .contactflowLogs,
                 .contactLens,
                 .earlyMedia,
+                .enhancedContactMonitoring,
                 .highVolumeOutbound,
                 .inboundCalls,
                 .multiPartyConference,
@@ -14315,6 +14401,7 @@ extension ConnectClientTypes {
             case .contactflowLogs: return "CONTACTFLOW_LOGS"
             case .contactLens: return "CONTACT_LENS"
             case .earlyMedia: return "EARLY_MEDIA"
+            case .enhancedContactMonitoring: return "ENHANCED_CONTACT_MONITORING"
             case .highVolumeOutbound: return "HIGH_VOLUME_OUTBOUND"
             case .inboundCalls: return "INBOUND_CALLS"
             case .multiPartyConference: return "MULTI_PARTY_CONFERENCE"
@@ -20320,6 +20407,233 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes {
+    public enum MonitorCapability: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case barge
+        case silentMonitor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MonitorCapability] {
+            return [
+                .barge,
+                .silentMonitor,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .barge: return "BARGE"
+            case .silentMonitor: return "SILENT_MONITOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MonitorCapability(rawValue: rawValue) ?? MonitorCapability.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MonitorContactInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedMonitorCapabilities = "AllowedMonitorCapabilities"
+        case clientToken = "ClientToken"
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedMonitorCapabilities = allowedMonitorCapabilities {
+            var allowedMonitorCapabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedMonitorCapabilities)
+            for allowedmonitorcapabilities0 in allowedMonitorCapabilities {
+                try allowedMonitorCapabilitiesContainer.encode(allowedmonitorcapabilities0.rawValue)
+            }
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let contactId = self.contactId {
+            try encodeContainer.encode(contactId, forKey: .contactId)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+}
+
+extension MonitorContactInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/contact/monitor"
+    }
+}
+
+public struct MonitorContactInput: Swift.Equatable {
+    /// Specify which monitoring actions the user is allowed to take. For example, whether the user is allowed to escalate from silent monitoring to barge.
+    public var allowedMonitorCapabilities: [ConnectClientTypes.MonitorCapability]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the contact.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the user account.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init (
+        allowedMonitorCapabilities: [ConnectClientTypes.MonitorCapability]? = nil,
+        clientToken: Swift.String? = nil,
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.allowedMonitorCapabilities = allowedMonitorCapabilities
+        self.clientToken = clientToken
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.userId = userId
+    }
+}
+
+struct MonitorContactInputBody: Swift.Equatable {
+    let instanceId: Swift.String?
+    let contactId: Swift.String?
+    let userId: Swift.String?
+    let allowedMonitorCapabilities: [ConnectClientTypes.MonitorCapability]?
+    let clientToken: Swift.String?
+}
+
+extension MonitorContactInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedMonitorCapabilities = "AllowedMonitorCapabilities"
+        case clientToken = "ClientToken"
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+        case userId = "UserId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let allowedMonitorCapabilitiesContainer = try containerValues.decodeIfPresent([ConnectClientTypes.MonitorCapability?].self, forKey: .allowedMonitorCapabilities)
+        var allowedMonitorCapabilitiesDecoded0:[ConnectClientTypes.MonitorCapability]? = nil
+        if let allowedMonitorCapabilitiesContainer = allowedMonitorCapabilitiesContainer {
+            allowedMonitorCapabilitiesDecoded0 = [ConnectClientTypes.MonitorCapability]()
+            for enum0 in allowedMonitorCapabilitiesContainer {
+                if let enum0 = enum0 {
+                    allowedMonitorCapabilitiesDecoded0?.append(enum0)
+                }
+            }
+        }
+        allowedMonitorCapabilities = allowedMonitorCapabilitiesDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension MonitorContactOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension MonitorContactOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "IdempotencyException" : self = .idempotencyException(try IdempotencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum MonitorContactOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case idempotencyException(IdempotencyException)
+    case internalServiceException(InternalServiceException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension MonitorContactOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: MonitorContactOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.contactArn = output.contactArn
+            self.contactId = output.contactId
+        } else {
+            self.contactArn = nil
+            self.contactId = nil
+        }
+    }
+}
+
+public struct MonitorContactOutputResponse: Swift.Equatable {
+    /// The ARN of the contact.
+    public var contactArn: Swift.String?
+    /// The identifier of the contact.
+    public var contactId: Swift.String?
+
+    public init (
+        contactArn: Swift.String? = nil,
+        contactId: Swift.String? = nil
+    )
+    {
+        self.contactArn = contactArn
+        self.contactId = contactId
+    }
+}
+
+struct MonitorContactOutputResponseBody: Swift.Equatable {
+    let contactId: Swift.String?
+    let contactArn: Swift.String?
+}
+
+extension MonitorContactOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactArn = "ContactArn"
+        case contactId = "ContactId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
+        let contactArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactArn)
+        contactArn = contactArnDecoded
+    }
+}
+
 extension ConnectClientTypes.NumberReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -22202,7 +22516,7 @@ extension ConnectClientTypes.QueueSearchCriteria: Swift.Codable {
 }
 
 extension ConnectClientTypes {
-    /// The search criteria to be used to return queues.
+    /// The search criteria to be used to return queues. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
     public struct QueueSearchCriteria: Swift.Equatable {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.QueueSearchCriteria]?
@@ -23035,7 +23349,7 @@ extension ReplicateInstanceInput: ClientRuntime.URLPathProvider {
 public struct ReplicateInstanceInput: Swift.Equatable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance. You can provide the InstanceId, or the entire ARN.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The alias for the replicated instance. The ReplicaAlias must be unique.
@@ -24037,7 +24351,7 @@ extension ConnectClientTypes.RoutingProfileSearchCriteria: Swift.Codable {
 }
 
 extension ConnectClientTypes {
-    /// The search criteria to be used to return routing profiles.
+    /// The search criteria to be used to return routing profiles. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
     public struct RoutingProfileSearchCriteria: Swift.Equatable {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]?
@@ -24452,7 +24766,7 @@ public struct SearchQueuesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The search criteria to be used to return queues.
+    /// The search criteria to be used to return queues. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
     public var searchCriteria: ConnectClientTypes.QueueSearchCriteria?
     /// Filters to be applied to search results.
     public var searchFilter: ConnectClientTypes.QueueSearchFilter?
@@ -24648,7 +24962,7 @@ public struct SearchRoutingProfilesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The search criteria to be used to return routing profiles.
+    /// The search criteria to be used to return routing profiles. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
     public var searchCriteria: ConnectClientTypes.RoutingProfileSearchCriteria?
     /// Filters to be applied to search results.
     public var searchFilter: ConnectClientTypes.RoutingProfileSearchFilter?
@@ -24844,7 +25158,7 @@ public struct SearchSecurityProfilesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The search criteria to be used to return security profiles. The currently supported value for FieldName: name
+    /// The search criteria to be used to return security profiles. The name field support "contains" queries with a minimum of 2 characters and maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results. The currently supported value for FieldName: name
     public var searchCriteria: ConnectClientTypes.SecurityProfileSearchCriteria?
     /// Filters to be applied to search results.
     public var searchFilter: ConnectClientTypes.SecurityProfilesSearchFilter?
@@ -25039,7 +25353,7 @@ public struct SearchUsersInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
-    /// The search criteria to be used to return users. The Username, Firstname, and Lastname fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range result in empty results.
+    /// The search criteria to be used to return users. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
     public var searchCriteria: ConnectClientTypes.UserSearchCriteria?
     /// Filters to be applied to search results.
     public var searchFilter: ConnectClientTypes.UserSearchFilter?
@@ -25469,16 +25783,24 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.SecurityProfile: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlTags = "AllowedAccessControlTags"
         case arn = "Arn"
         case description = "Description"
         case id = "Id"
         case organizationResourceId = "OrganizationResourceId"
         case securityProfileName = "SecurityProfileName"
+        case tagRestrictedResources = "TagRestrictedResources"
         case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedAccessControlTags = allowedAccessControlTags {
+            var allowedAccessControlTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .allowedAccessControlTags)
+            for (dictKey0, allowedaccesscontroltags0) in allowedAccessControlTags {
+                try allowedAccessControlTagsContainer.encode(allowedaccesscontroltags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -25493,6 +25815,12 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
         }
         if let securityProfileName = self.securityProfileName {
             try encodeContainer.encode(securityProfileName, forKey: .securityProfileName)
+        }
+        if let tagRestrictedResources = tagRestrictedResources {
+            var tagRestrictedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagRestrictedResources)
+            for tagrestrictedresourcelist0 in tagRestrictedResources {
+                try tagRestrictedResourcesContainer.encode(tagrestrictedresourcelist0)
+            }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -25525,12 +25853,36 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let allowedAccessControlTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .allowedAccessControlTags)
+        var allowedAccessControlTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let allowedAccessControlTagsContainer = allowedAccessControlTagsContainer {
+            allowedAccessControlTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, securityprofilepolicyvalue0) in allowedAccessControlTagsContainer {
+                if let securityprofilepolicyvalue0 = securityprofilepolicyvalue0 {
+                    allowedAccessControlTagsDecoded0?[key0] = securityprofilepolicyvalue0
+                }
+            }
+        }
+        allowedAccessControlTags = allowedAccessControlTagsDecoded0
+        let tagRestrictedResourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagRestrictedResources)
+        var tagRestrictedResourcesDecoded0:[Swift.String]? = nil
+        if let tagRestrictedResourcesContainer = tagRestrictedResourcesContainer {
+            tagRestrictedResourcesDecoded0 = [Swift.String]()
+            for string0 in tagRestrictedResourcesContainer {
+                if let string0 = string0 {
+                    tagRestrictedResourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        tagRestrictedResources = tagRestrictedResourcesDecoded0
     }
 }
 
 extension ConnectClientTypes {
     /// Contains information about a security profile.
     public struct SecurityProfile: Swift.Equatable {
+        /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+        public var allowedAccessControlTags: [Swift.String:Swift.String]?
         /// The Amazon Resource Name (ARN) for the secruity profile.
         public var arn: Swift.String?
         /// The description of the security profile.
@@ -25541,23 +25893,29 @@ extension ConnectClientTypes {
         public var organizationResourceId: Swift.String?
         /// The name for the security profile.
         public var securityProfileName: Swift.String?
+        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+        public var tagRestrictedResources: [Swift.String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
+            allowedAccessControlTags: [Swift.String:Swift.String]? = nil,
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             organizationResourceId: Swift.String? = nil,
             securityProfileName: Swift.String? = nil,
+            tagRestrictedResources: [Swift.String]? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.allowedAccessControlTags = allowedAccessControlTags
             self.arn = arn
             self.description = description
             self.id = id
             self.organizationResourceId = organizationResourceId
             self.securityProfileName = securityProfileName
+            self.tagRestrictedResources = tagRestrictedResources
             self.tags = tags
         }
     }
@@ -25620,7 +25978,7 @@ extension ConnectClientTypes.SecurityProfileSearchCriteria: Swift.Codable {
 }
 
 extension ConnectClientTypes {
-    /// The search criteria to be used to return security profiles.
+    /// The search criteria to be used to return security profiles. The name field support "contains" queries with a minimum of 2 characters and maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
     public struct SecurityProfileSearchCriteria: Swift.Equatable {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]?
@@ -31854,12 +32212,20 @@ public struct UpdateRoutingProfileQueuesOutputResponse: Swift.Equatable {
 
 extension UpdateSecurityProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlTags = "AllowedAccessControlTags"
         case description = "Description"
         case permissions = "Permissions"
+        case tagRestrictedResources = "TagRestrictedResources"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedAccessControlTags = allowedAccessControlTags {
+            var allowedAccessControlTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .allowedAccessControlTags)
+            for (dictKey0, allowedaccesscontroltags0) in allowedAccessControlTags {
+                try allowedAccessControlTagsContainer.encode(allowedaccesscontroltags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -31867,6 +32233,12 @@ extension UpdateSecurityProfileInput: Swift.Encodable {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
             for permissionslist0 in permissions {
                 try permissionsContainer.encode(permissionslist0)
+            }
+        }
+        if let tagRestrictedResources = tagRestrictedResources {
+            var tagRestrictedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagRestrictedResources)
+            for tagrestrictedresourcelist0 in tagRestrictedResources {
+                try tagRestrictedResourcesContainer.encode(tagrestrictedresourcelist0)
             }
         }
     }
@@ -31885,6 +32257,8 @@ extension UpdateSecurityProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateSecurityProfileInput: Swift.Equatable {
+    /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+    public var allowedAccessControlTags: [Swift.String:Swift.String]?
     /// The description of the security profile.
     public var description: Swift.String?
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -31895,30 +32269,40 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
     /// The identifier for the security profle.
     /// This member is required.
     public var securityProfileId: Swift.String?
+    /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+    public var tagRestrictedResources: [Swift.String]?
 
     public init (
+        allowedAccessControlTags: [Swift.String:Swift.String]? = nil,
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         permissions: [Swift.String]? = nil,
-        securityProfileId: Swift.String? = nil
+        securityProfileId: Swift.String? = nil,
+        tagRestrictedResources: [Swift.String]? = nil
     )
     {
+        self.allowedAccessControlTags = allowedAccessControlTags
         self.description = description
         self.instanceId = instanceId
         self.permissions = permissions
         self.securityProfileId = securityProfileId
+        self.tagRestrictedResources = tagRestrictedResources
     }
 }
 
 struct UpdateSecurityProfileInputBody: Swift.Equatable {
     let description: Swift.String?
     let permissions: [Swift.String]?
+    let allowedAccessControlTags: [Swift.String:Swift.String]?
+    let tagRestrictedResources: [Swift.String]?
 }
 
 extension UpdateSecurityProfileInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlTags = "AllowedAccessControlTags"
         case description = "Description"
         case permissions = "Permissions"
+        case tagRestrictedResources = "TagRestrictedResources"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -31936,6 +32320,28 @@ extension UpdateSecurityProfileInputBody: Swift.Decodable {
             }
         }
         permissions = permissionsDecoded0
+        let allowedAccessControlTagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .allowedAccessControlTags)
+        var allowedAccessControlTagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let allowedAccessControlTagsContainer = allowedAccessControlTagsContainer {
+            allowedAccessControlTagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, securityprofilepolicyvalue0) in allowedAccessControlTagsContainer {
+                if let securityprofilepolicyvalue0 = securityprofilepolicyvalue0 {
+                    allowedAccessControlTagsDecoded0?[key0] = securityprofilepolicyvalue0
+                }
+            }
+        }
+        allowedAccessControlTags = allowedAccessControlTagsDecoded0
+        let tagRestrictedResourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagRestrictedResources)
+        var tagRestrictedResourcesDecoded0:[Swift.String]? = nil
+        if let tagRestrictedResourcesContainer = tagRestrictedResourcesContainer {
+            tagRestrictedResourcesDecoded0 = [Swift.String]()
+            for string0 in tagRestrictedResourcesContainer {
+                if let string0 = string0 {
+                    tagRestrictedResourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        tagRestrictedResources = tagRestrictedResourcesDecoded0
     }
 }
 
@@ -34033,7 +34439,7 @@ extension ConnectClientTypes.UserSearchCriteria: Swift.Codable {
 }
 
 extension ConnectClientTypes {
-    /// The search criteria to be used to return users. The Username, Firstname, and Lastname fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range result in empty results.
+    /// The search criteria to be used to return users. The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
     public struct UserSearchCriteria: Swift.Equatable {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.UserSearchCriteria]?

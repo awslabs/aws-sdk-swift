@@ -142,7 +142,12 @@ extension ComprehendMedicalClientTypes {
 extension ComprehendMedicalClientTypes {
     public enum AttributeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case diagnosis
+        case future
+        case hypothetical
+        case lowConfidence
         case negation
+        case pastHistory
+        case pertainsToFamily
         case sign
         case symptom
         case sdkUnknown(Swift.String)
@@ -150,7 +155,12 @@ extension ComprehendMedicalClientTypes {
         public static var allCases: [AttributeName] {
             return [
                 .diagnosis,
+                .future,
+                .hypothetical,
+                .lowConfidence,
                 .negation,
+                .pastHistory,
+                .pertainsToFamily,
                 .sign,
                 .symptom,
                 .sdkUnknown("")
@@ -163,7 +173,12 @@ extension ComprehendMedicalClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .diagnosis: return "DIAGNOSIS"
+            case .future: return "FUTURE"
+            case .hypothetical: return "HYPOTHETICAL"
+            case .lowConfidence: return "LOW_CONFIDENCE"
             case .negation: return "NEGATION"
+            case .pastHistory: return "PAST_HISTORY"
+            case .pertainsToFamily: return "PERTAINS_TO_FAMILY"
             case .sign: return "SIGN"
             case .symptom: return "SYMPTOM"
             case let .sdkUnknown(s): return s
@@ -1665,6 +1680,9 @@ extension ComprehendMedicalClientTypes {
         case acuity
         case address
         case age
+        case alcoholConsumption
+        case allergies
+        case amount
         case brandName
         case contactPoint
         case date
@@ -1675,6 +1693,7 @@ extension ComprehendMedicalClientTypes {
         case email
         case form
         case frequency
+        case gender
         case genericName
         case id
         case identifier
@@ -1684,7 +1703,9 @@ extension ComprehendMedicalClientTypes {
         case profession
         case quality
         case quantity
+        case raceEthnicity
         case rate
+        case recDrugUse
         case routeOrMode
         case strength
         case systemOrganSite
@@ -1698,6 +1719,7 @@ extension ComprehendMedicalClientTypes {
         case timeToProcedureName
         case timeToTestName
         case timeToTreatmentName
+        case tobaccoUse
         case treatmentName
         case url
         case sdkUnknown(Swift.String)
@@ -1707,6 +1729,9 @@ extension ComprehendMedicalClientTypes {
                 .acuity,
                 .address,
                 .age,
+                .alcoholConsumption,
+                .allergies,
+                .amount,
                 .brandName,
                 .contactPoint,
                 .date,
@@ -1717,6 +1742,7 @@ extension ComprehendMedicalClientTypes {
                 .email,
                 .form,
                 .frequency,
+                .gender,
                 .genericName,
                 .id,
                 .identifier,
@@ -1726,7 +1752,9 @@ extension ComprehendMedicalClientTypes {
                 .profession,
                 .quality,
                 .quantity,
+                .raceEthnicity,
                 .rate,
+                .recDrugUse,
                 .routeOrMode,
                 .strength,
                 .systemOrganSite,
@@ -1740,6 +1768,7 @@ extension ComprehendMedicalClientTypes {
                 .timeToProcedureName,
                 .timeToTestName,
                 .timeToTreatmentName,
+                .tobaccoUse,
                 .treatmentName,
                 .url,
                 .sdkUnknown("")
@@ -1754,6 +1783,9 @@ extension ComprehendMedicalClientTypes {
             case .acuity: return "ACUITY"
             case .address: return "ADDRESS"
             case .age: return "AGE"
+            case .alcoholConsumption: return "ALCOHOL_CONSUMPTION"
+            case .allergies: return "ALLERGIES"
+            case .amount: return "AMOUNT"
             case .brandName: return "BRAND_NAME"
             case .contactPoint: return "CONTACT_POINT"
             case .date: return "DATE"
@@ -1764,6 +1796,7 @@ extension ComprehendMedicalClientTypes {
             case .email: return "EMAIL"
             case .form: return "FORM"
             case .frequency: return "FREQUENCY"
+            case .gender: return "GENDER"
             case .genericName: return "GENERIC_NAME"
             case .id: return "ID"
             case .identifier: return "IDENTIFIER"
@@ -1773,7 +1806,9 @@ extension ComprehendMedicalClientTypes {
             case .profession: return "PROFESSION"
             case .quality: return "QUALITY"
             case .quantity: return "QUANTITY"
+            case .raceEthnicity: return "RACE_ETHNICITY"
             case .rate: return "RATE"
+            case .recDrugUse: return "REC_DRUG_USE"
             case .routeOrMode: return "ROUTE_OR_MODE"
             case .strength: return "STRENGTH"
             case .systemOrganSite: return "SYSTEM_ORGAN_SITE"
@@ -1787,6 +1822,7 @@ extension ComprehendMedicalClientTypes {
             case .timeToProcedureName: return "TIME_TO_PROCEDURE_NAME"
             case .timeToTestName: return "TIME_TO_TEST_NAME"
             case .timeToTreatmentName: return "TIME_TO_TREATMENT_NAME"
+            case .tobaccoUse: return "TOBACCO_USE"
             case .treatmentName: return "TREATMENT_NAME"
             case .url: return "URL"
             case let .sdkUnknown(s): return s
@@ -1803,6 +1839,7 @@ extension ComprehendMedicalClientTypes {
 extension ComprehendMedicalClientTypes {
     public enum EntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case anatomy
+        case behavioralEnvironmentalSocial
         case medicalCondition
         case medication
         case protectedHealthInformation
@@ -1813,6 +1850,7 @@ extension ComprehendMedicalClientTypes {
         public static var allCases: [EntityType] {
             return [
                 .anatomy,
+                .behavioralEnvironmentalSocial,
                 .medicalCondition,
                 .medication,
                 .protectedHealthInformation,
@@ -1828,6 +1866,7 @@ extension ComprehendMedicalClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .anatomy: return "ANATOMY"
+            case .behavioralEnvironmentalSocial: return "BEHAVIORAL_ENVIRONMENTAL_SOCIAL"
             case .medicalCondition: return "MEDICAL_CONDITION"
             case .medication: return "MEDICATION"
             case .protectedHealthInformation: return "PROTECTED_HEALTH_INFORMATION"
@@ -2385,7 +2424,10 @@ extension ComprehendMedicalClientTypes {
 extension ComprehendMedicalClientTypes {
     public enum ICD10CMTraitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case diagnosis
+        case hypothetical
+        case lowConfidence
         case negation
+        case pertainsToFamily
         case sign
         case symptom
         case sdkUnknown(Swift.String)
@@ -2393,7 +2435,10 @@ extension ComprehendMedicalClientTypes {
         public static var allCases: [ICD10CMTraitName] {
             return [
                 .diagnosis,
+                .hypothetical,
+                .lowConfidence,
                 .negation,
+                .pertainsToFamily,
                 .sign,
                 .symptom,
                 .sdkUnknown("")
@@ -2406,7 +2451,10 @@ extension ComprehendMedicalClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .diagnosis: return "DIAGNOSIS"
+            case .hypothetical: return "HYPOTHETICAL"
+            case .lowConfidence: return "LOW_CONFIDENCE"
             case .negation: return "NEGATION"
+            case .pertainsToFamily: return "PERTAINS_TO_FAMILY"
             case .sign: return "SIGN"
             case .symptom: return "SYMPTOM"
             case let .sdkUnknown(s): return s
@@ -4016,6 +4064,7 @@ extension ComprehendMedicalClientTypes {
     public enum RelationshipType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case acuity
         case administeredVia
+        case amount
         case direction
         case dosage
         case duration
@@ -4039,6 +4088,7 @@ extension ComprehendMedicalClientTypes {
             return [
                 .acuity,
                 .administeredVia,
+                .amount,
                 .direction,
                 .dosage,
                 .duration,
@@ -4067,6 +4117,7 @@ extension ComprehendMedicalClientTypes {
             switch self {
             case .acuity: return "ACUITY"
             case .administeredVia: return "ADMINISTERED_VIA"
+            case .amount: return "AMOUNT"
             case .direction: return "DIRECTION"
             case .dosage: return "DOSAGE"
             case .duration: return "DURATION"
@@ -5301,7 +5352,12 @@ extension ComprehendMedicalClientTypes {
 extension ComprehendMedicalClientTypes {
     public enum SNOMEDCTTraitName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case diagnosis
+        case future
+        case hypothetical
+        case lowConfidence
         case negation
+        case pastHistory
+        case pertainsToFamily
         case sign
         case symptom
         case sdkUnknown(Swift.String)
@@ -5309,7 +5365,12 @@ extension ComprehendMedicalClientTypes {
         public static var allCases: [SNOMEDCTTraitName] {
             return [
                 .diagnosis,
+                .future,
+                .hypothetical,
+                .lowConfidence,
                 .negation,
+                .pastHistory,
+                .pertainsToFamily,
                 .sign,
                 .symptom,
                 .sdkUnknown("")
@@ -5322,7 +5383,12 @@ extension ComprehendMedicalClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .diagnosis: return "DIAGNOSIS"
+            case .future: return "FUTURE"
+            case .hypothetical: return "HYPOTHETICAL"
+            case .lowConfidence: return "LOW_CONFIDENCE"
             case .negation: return "NEGATION"
+            case .pastHistory: return "PAST_HISTORY"
+            case .pertainsToFamily: return "PERTAINS_TO_FAMILY"
             case .sign: return "SIGN"
             case .symptom: return "SYMPTOM"
             case let .sdkUnknown(s): return s

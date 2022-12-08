@@ -26,6 +26,52 @@ extension GetQueryResultsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+/// Paginate over `[ListApplicationDPUSizesOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListApplicationDPUSizesInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListApplicationDPUSizesOutputResponse`
+extension AthenaClient {
+    public func listApplicationDPUSizesPaginated(input: ListApplicationDPUSizesInput) -> ClientRuntime.PaginatorSequence<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse>(input: input, inputKey: \ListApplicationDPUSizesInput.nextToken, outputKey: \ListApplicationDPUSizesOutputResponse.nextToken, paginationFunction: self.listApplicationDPUSizes(input:))
+    }
+}
+
+extension ListApplicationDPUSizesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListApplicationDPUSizesInput {
+        return ListApplicationDPUSizesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+/// Paginate over `[ListCalculationExecutionsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListCalculationExecutionsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListCalculationExecutionsOutputResponse`
+extension AthenaClient {
+    public func listCalculationExecutionsPaginated(input: ListCalculationExecutionsInput) -> ClientRuntime.PaginatorSequence<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse>(input: input, inputKey: \ListCalculationExecutionsInput.nextToken, outputKey: \ListCalculationExecutionsOutputResponse.nextToken, paginationFunction: self.listCalculationExecutions(input:))
+    }
+}
+
+extension ListCalculationExecutionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCalculationExecutionsInput {
+        return ListCalculationExecutionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionId: self.sessionId,
+            stateFilter: self.stateFilter
+        )}
+}
+
 /// Paginate over `[ListDatabasesOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -111,6 +157,30 @@ extension ListEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+/// Paginate over `[ListExecutorsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListExecutorsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListExecutorsOutputResponse`
+extension AthenaClient {
+    public func listExecutorsPaginated(input: ListExecutorsInput) -> ClientRuntime.PaginatorSequence<ListExecutorsInput, ListExecutorsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListExecutorsInput, ListExecutorsOutputResponse>(input: input, inputKey: \ListExecutorsInput.nextToken, outputKey: \ListExecutorsOutputResponse.nextToken, paginationFunction: self.listExecutors(input:))
+    }
+}
+
+extension ListExecutorsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListExecutorsInput {
+        return ListExecutorsInput(
+            executorStateFilter: self.executorStateFilter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionId: self.sessionId
+        )}
+}
+
 /// Paginate over `[ListNamedQueriesOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -176,6 +246,30 @@ extension ListQueryExecutionsInput: ClientRuntime.PaginateToken {
         return ListQueryExecutionsInput(
             maxResults: self.maxResults,
             nextToken: token,
+            workGroup: self.workGroup
+        )}
+}
+
+/// Paginate over `[ListSessionsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListSessionsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListSessionsOutputResponse`
+extension AthenaClient {
+    public func listSessionsPaginated(input: ListSessionsInput) -> ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutputResponse>(input: input, inputKey: \ListSessionsInput.nextToken, outputKey: \ListSessionsOutputResponse.nextToken, paginationFunction: self.listSessions(input:))
+    }
+}
+
+extension ListSessionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSessionsInput {
+        return ListSessionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            stateFilter: self.stateFilter,
             workGroup: self.workGroup
         )}
 }

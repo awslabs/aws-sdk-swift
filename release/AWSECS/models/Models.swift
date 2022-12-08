@@ -99,6 +99,41 @@ extension ECSClientTypes {
 }
 
 extension ECSClientTypes {
+    public enum ApplicationProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case grpc
+        case http
+        case http2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationProtocol] {
+            return [
+                .grpc,
+                .http,
+                .http2,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .grpc: return "grpc"
+            case .http: return "http"
+            case .http2: return "http2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApplicationProtocol(rawValue: rawValue) ?? ApplicationProtocol.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ECSClientTypes {
     public enum AssignPublicIp: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -301,7 +336,7 @@ extension ECSClientTypes {
         public var targetId: Swift.String?
         /// The type of the target to attach the attribute with. This parameter is required if you use the short form ID for a resource instead of the full ARN.
         public var targetType: ECSClientTypes.TargetType?
-        /// The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (\), colons (:), or spaces. The value can't can't start or end with a space.
+        /// The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (\), colons (:), or spaces. The value can't start or end with a space.
         public var value: Swift.String?
 
         public init (
@@ -984,6 +1019,7 @@ extension ECSClientTypes.Cluster: Swift.Codable {
         case pendingTasksCount
         case registeredContainerInstancesCount
         case runningTasksCount
+        case serviceConnectDefaults
         case settings
         case statistics
         case status
@@ -1033,6 +1069,9 @@ extension ECSClientTypes.Cluster: Swift.Codable {
         }
         if runningTasksCount != 0 {
             try encodeContainer.encode(runningTasksCount, forKey: .runningTasksCount)
+        }
+        if let serviceConnectDefaults = self.serviceConnectDefaults {
+            try encodeContainer.encode(serviceConnectDefaults, forKey: .serviceConnectDefaults)
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
@@ -1143,6 +1182,8 @@ extension ECSClientTypes.Cluster: Swift.Codable {
         attachments = attachmentsDecoded0
         let attachmentsStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentsStatus)
         attachmentsStatus = attachmentsStatusDecoded
+        let serviceConnectDefaultsDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ClusterServiceConnectDefaults.self, forKey: .serviceConnectDefaults)
+        serviceConnectDefaults = serviceConnectDefaultsDecoded
     }
 }
 
@@ -1171,6 +1212,8 @@ extension ECSClientTypes {
         public var registeredContainerInstancesCount: Swift.Int
         /// The number of tasks in the cluster that are in the RUNNING state.
         public var runningTasksCount: Swift.Int
+        /// Use this parameter to set a default Service Connect namespace. After you set a default Service Connect namespace, any new services with Service Connect turned on that are created in the cluster are added as client services in the namespace. This setting only applies to new services that set the enabled parameter to true in the ServiceConnectConfiguration. You can set the namespace of each service individually in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        public var serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaults?
         /// The settings for the cluster. This parameter indicates whether CloudWatch Container Insights is enabled or disabled for a cluster.
         public var settings: [ECSClientTypes.ClusterSetting]?
         /// Additional information about your clusters that are separated by launch type. They include the following:
@@ -1222,6 +1265,7 @@ extension ECSClientTypes {
             pendingTasksCount: Swift.Int = 0,
             registeredContainerInstancesCount: Swift.Int = 0,
             runningTasksCount: Swift.Int = 0,
+            serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaults? = nil,
             settings: [ECSClientTypes.ClusterSetting]? = nil,
             statistics: [ECSClientTypes.KeyValuePair]? = nil,
             status: Swift.String? = nil,
@@ -1239,6 +1283,7 @@ extension ECSClientTypes {
             self.pendingTasksCount = pendingTasksCount
             self.registeredContainerInstancesCount = registeredContainerInstancesCount
             self.runningTasksCount = runningTasksCount
+            self.serviceConnectDefaults = serviceConnectDefaults
             self.settings = settings
             self.statistics = statistics
             self.status = status
@@ -1530,6 +1575,77 @@ extension ClusterNotFoundExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension ECSClientTypes.ClusterServiceConnectDefaults: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespace
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// Use this parameter to set a default Service Connect namespace. After you set a default Service Connect namespace, any new services with Service Connect turned on that are created in the cluster are added as client services in the namespace. This setting only applies to new services that set the enabled parameter to true in the ServiceConnectConfiguration. You can set the namespace of each service individually in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ClusterServiceConnectDefaults: Swift.Equatable {
+        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace. When you create a service and don't specify a Service Connect configuration, this namespace is used.
+        public var namespace: Swift.String?
+
+        public init (
+            namespace: Swift.String? = nil
+        )
+        {
+            self.namespace = namespace
+        }
+    }
+
+}
+
+extension ECSClientTypes.ClusterServiceConnectDefaultsRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespace
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// Use this parameter to set a default Service Connect namespace. After you set a default Service Connect namespace, any new services with Service Connect turned on that are created in the cluster are added as client services in the namespace. This setting only applies to new services that set the enabled parameter to true in the ServiceConnectConfiguration. You can set the namespace of each service individually in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ClusterServiceConnectDefaultsRequest: Swift.Equatable {
+        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace that's used when you create a service and don't specify a Service Connect configuration. The namespace name can include up to 1024 characters. The name is case-sensitive. The name can't include hyphens (-), tilde (~), greater than (>), less than (<), or slash (/). If you enter an existing namespace name or ARN, then that namespace will be used. Any namespace type is supported. The namespace must be in this account and this Amazon Web Services Region. If you enter a new name, a Cloud Map namespace will be created. Amazon ECS creates a Cloud Map namespace with the "API calls" method of instance discovery only. This instance discovery method is the "HTTP" namespace type in the Command Line Interface. Other types of instance discovery aren't used by Service Connect. If you update the service with an empty string "" for the namespace name, the cluster configuration for Service Connect is removed. Note that the namespace will remain in Cloud Map and must be deleted separately. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/) in the Cloud Map Developer Guide.
+        /// This member is required.
+        public var namespace: Swift.String?
+
+        public init (
+            namespace: Swift.String? = nil
+        )
+        {
+            self.namespace = namespace
+        }
+    }
+
 }
 
 extension ECSClientTypes.ClusterSetting: Swift.Codable {
@@ -3539,6 +3655,7 @@ extension CreateClusterInput: Swift.Encodable {
         case clusterName
         case configuration
         case defaultCapacityProviderStrategy
+        case serviceConnectDefaults
         case settings
         case tags
     }
@@ -3562,6 +3679,9 @@ extension CreateClusterInput: Swift.Encodable {
             for capacityproviderstrategy0 in defaultCapacityProviderStrategy {
                 try defaultCapacityProviderStrategyContainer.encode(capacityproviderstrategy0)
             }
+        }
+        if let serviceConnectDefaults = self.serviceConnectDefaults {
+            try encodeContainer.encode(serviceConnectDefaults, forKey: .serviceConnectDefaults)
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
@@ -3593,6 +3713,8 @@ public struct CreateClusterInput: Swift.Equatable {
     public var configuration: ECSClientTypes.ClusterConfiguration?
     /// The capacity provider strategy to set as the default for the cluster. After a default capacity provider strategy is set for a cluster, when you call the [RunTask] or [CreateService] APIs with no capacity provider strategy or launch type specified, the default capacity provider strategy for the cluster is used. If a default capacity provider strategy isn't defined for a cluster when it was created, it can be defined later with the [PutClusterCapacityProviders] API operation.
     public var defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+    /// Use this parameter to set a default Service Connect namespace. After you set a default Service Connect namespace, any new services with Service Connect turned on that are created in the cluster are added as client services in the namespace. This setting only applies to new services that set the enabled parameter to true in the ServiceConnectConfiguration. You can set the namespace of each service individually in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public var serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest?
     /// The setting to use when creating a cluster. This parameter is used to turn on CloudWatch Container Insights for a cluster. If this value is specified, it overrides the containerInsights value set with [PutAccountSetting] or [PutAccountSettingDefault].
     public var settings: [ECSClientTypes.ClusterSetting]?
     /// The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
@@ -3617,6 +3739,7 @@ public struct CreateClusterInput: Swift.Equatable {
         clusterName: Swift.String? = nil,
         configuration: ECSClientTypes.ClusterConfiguration? = nil,
         defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
+        serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest? = nil,
         settings: [ECSClientTypes.ClusterSetting]? = nil,
         tags: [ECSClientTypes.Tag]? = nil
     )
@@ -3625,6 +3748,7 @@ public struct CreateClusterInput: Swift.Equatable {
         self.clusterName = clusterName
         self.configuration = configuration
         self.defaultCapacityProviderStrategy = defaultCapacityProviderStrategy
+        self.serviceConnectDefaults = serviceConnectDefaults
         self.settings = settings
         self.tags = tags
     }
@@ -3637,6 +3761,7 @@ struct CreateClusterInputBody: Swift.Equatable {
     let configuration: ECSClientTypes.ClusterConfiguration?
     let capacityProviders: [Swift.String]?
     let defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+    let serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest?
 }
 
 extension CreateClusterInputBody: Swift.Decodable {
@@ -3645,6 +3770,7 @@ extension CreateClusterInputBody: Swift.Decodable {
         case clusterName
         case configuration
         case defaultCapacityProviderStrategy
+        case serviceConnectDefaults
         case settings
         case tags
     }
@@ -3699,6 +3825,8 @@ extension CreateClusterInputBody: Swift.Decodable {
             }
         }
         defaultCapacityProviderStrategy = defaultCapacityProviderStrategyDecoded0
+        let serviceConnectDefaultsDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ClusterServiceConnectDefaultsRequest.self, forKey: .serviceConnectDefaults)
+        serviceConnectDefaults = serviceConnectDefaultsDecoded
     }
 }
 
@@ -3789,6 +3917,7 @@ extension CreateServiceInput: Swift.Encodable {
         case propagateTags
         case role
         case schedulingStrategy
+        case serviceConnectConfiguration
         case serviceName
         case serviceRegistries
         case tags
@@ -3863,6 +3992,9 @@ extension CreateServiceInput: Swift.Encodable {
         if let schedulingStrategy = self.schedulingStrategy {
             try encodeContainer.encode(schedulingStrategy.rawValue, forKey: .schedulingStrategy)
         }
+        if let serviceConnectConfiguration = self.serviceConnectConfiguration {
+            try encodeContainer.encode(serviceConnectConfiguration, forKey: .serviceConnectConfiguration)
+        }
         if let serviceName = self.serviceName {
             try encodeContainer.encode(serviceName, forKey: .serviceName)
         }
@@ -3907,7 +4039,7 @@ public struct CreateServiceInput: Swift.Equatable {
     public var enableECSManagedTags: Swift.Bool
     /// Determines whether the execute command functionality is enabled for the service. If true, this enables execute command functionality on all containers in the service tasks.
     public var enableExecuteCommand: Swift.Bool
-    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks after a task has first started. This is only used when your service is configured to use a load balancer. If your service has a load balancer defined and you don't specify a health check grace period value, the default value of 0 is used. If you do not use an Elastic Load Balancing, we recomend that you use the startPeriod in the task definition healtch check parameters. For more information, see [Health check](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html). If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
+    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks after a task has first started. This is only used when your service is configured to use a load balancer. If your service has a load balancer defined and you don't specify a health check grace period value, the default value of 0 is used. If you do not use an Elastic Load Balancing, we recommend that you use the startPeriod in the task definition health check parameters. For more information, see [Health check](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html). If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
     public var healthCheckGracePeriodSeconds: Swift.Int?
     /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-capacity-providers.html) in the Amazon ECS User Guide for Fargate. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
     public var launchType: ECSClientTypes.LaunchType?
@@ -3931,6 +4063,8 @@ public struct CreateServiceInput: Swift.Equatable {
     ///
     /// * DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks and will stop tasks that don't meet the placement constraints. When you're using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies. Tasks using the Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't support the DAEMON scheduling strategy.
     public var schedulingStrategy: ECSClientTypes.SchedulingStrategy?
+    /// The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
     /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a Region or across multiple Regions.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -3974,6 +4108,7 @@ public struct CreateServiceInput: Swift.Equatable {
         propagateTags: ECSClientTypes.PropagateTags? = nil,
         role: Swift.String? = nil,
         schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil,
+        serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
         serviceName: Swift.String? = nil,
         serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
@@ -3998,6 +4133,7 @@ public struct CreateServiceInput: Swift.Equatable {
         self.propagateTags = propagateTags
         self.role = role
         self.schedulingStrategy = schedulingStrategy
+        self.serviceConnectConfiguration = serviceConnectConfiguration
         self.serviceName = serviceName
         self.serviceRegistries = serviceRegistries
         self.tags = tags
@@ -4028,6 +4164,7 @@ struct CreateServiceInputBody: Swift.Equatable {
     let enableECSManagedTags: Swift.Bool
     let propagateTags: ECSClientTypes.PropagateTags?
     let enableExecuteCommand: Swift.Bool
+    let serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
 }
 
 extension CreateServiceInputBody: Swift.Decodable {
@@ -4050,6 +4187,7 @@ extension CreateServiceInputBody: Swift.Decodable {
         case propagateTags
         case role
         case schedulingStrategy
+        case serviceConnectConfiguration
         case serviceName
         case serviceRegistries
         case tags
@@ -4156,6 +4294,8 @@ extension CreateServiceInputBody: Swift.Decodable {
         propagateTags = propagateTagsDecoded
         let enableExecuteCommandDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableExecuteCommand) ?? false
         enableExecuteCommand = enableExecuteCommandDecoded
+        let serviceConnectConfigurationDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ServiceConnectConfiguration.self, forKey: .serviceConnectConfiguration)
+        serviceConnectConfiguration = serviceConnectConfigurationDecoded
     }
 }
 
@@ -4174,6 +4314,7 @@ extension CreateServiceOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NamespaceNotFoundException" : self = .namespaceNotFoundException(try NamespaceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PlatformTaskDefinitionIncompatibilityException" : self = .platformTaskDefinitionIncompatibilityException(try PlatformTaskDefinitionIncompatibilityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PlatformUnknownException" : self = .platformUnknownException(try PlatformUnknownException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4188,6 +4329,7 @@ public enum CreateServiceOutputError: Swift.Error, Swift.Equatable {
     case clientException(ClientException)
     case clusterNotFoundException(ClusterNotFoundException)
     case invalidParameterException(InvalidParameterException)
+    case namespaceNotFoundException(NamespaceNotFoundException)
     case platformTaskDefinitionIncompatibilityException(PlatformTaskDefinitionIncompatibilityException)
     case platformUnknownException(PlatformUnknownException)
     case serverException(ServerException)
@@ -4507,6 +4649,7 @@ extension CreateTaskSetOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NamespaceNotFoundException" : self = .namespaceNotFoundException(try NamespaceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PlatformTaskDefinitionIncompatibilityException" : self = .platformTaskDefinitionIncompatibilityException(try PlatformTaskDefinitionIncompatibilityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PlatformUnknownException" : self = .platformUnknownException(try PlatformUnknownException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4523,6 +4666,7 @@ public enum CreateTaskSetOutputError: Swift.Error, Swift.Equatable {
     case clientException(ClientException)
     case clusterNotFoundException(ClusterNotFoundException)
     case invalidParameterException(InvalidParameterException)
+    case namespaceNotFoundException(NamespaceNotFoundException)
     case platformTaskDefinitionIncompatibilityException(PlatformTaskDefinitionIncompatibilityException)
     case platformUnknownException(PlatformUnknownException)
     case serverException(ServerException)
@@ -5411,6 +5555,8 @@ extension ECSClientTypes.Deployment: Swift.Codable {
         case rolloutState
         case rolloutStateReason
         case runningCount
+        case serviceConnectConfiguration
+        case serviceConnectResources
         case status
         case taskDefinition
         case updatedAt
@@ -5459,6 +5605,15 @@ extension ECSClientTypes.Deployment: Swift.Codable {
         }
         if runningCount != 0 {
             try encodeContainer.encode(runningCount, forKey: .runningCount)
+        }
+        if let serviceConnectConfiguration = self.serviceConnectConfiguration {
+            try encodeContainer.encode(serviceConnectConfiguration, forKey: .serviceConnectConfiguration)
+        }
+        if let serviceConnectResources = serviceConnectResources {
+            var serviceConnectResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceConnectResources)
+            for serviceconnectserviceresourcelist0 in serviceConnectResources {
+                try serviceConnectResourcesContainer.encode(serviceconnectserviceresourcelist0)
+            }
         }
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
@@ -5514,6 +5669,19 @@ extension ECSClientTypes.Deployment: Swift.Codable {
         rolloutState = rolloutStateDecoded
         let rolloutStateReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rolloutStateReason)
         rolloutStateReason = rolloutStateReasonDecoded
+        let serviceConnectConfigurationDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ServiceConnectConfiguration.self, forKey: .serviceConnectConfiguration)
+        serviceConnectConfiguration = serviceConnectConfigurationDecoded
+        let serviceConnectResourcesContainer = try containerValues.decodeIfPresent([ECSClientTypes.ServiceConnectServiceResource?].self, forKey: .serviceConnectResources)
+        var serviceConnectResourcesDecoded0:[ECSClientTypes.ServiceConnectServiceResource]? = nil
+        if let serviceConnectResourcesContainer = serviceConnectResourcesContainer {
+            serviceConnectResourcesDecoded0 = [ECSClientTypes.ServiceConnectServiceResource]()
+            for structure0 in serviceConnectResourcesContainer {
+                if let structure0 = structure0 {
+                    serviceConnectResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        serviceConnectResources = serviceConnectResourcesDecoded0
     }
 }
 
@@ -5546,6 +5714,10 @@ extension ECSClientTypes {
         public var rolloutStateReason: Swift.String?
         /// The number of tasks in the deployment that are in the RUNNING status.
         public var runningCount: Swift.Int
+        /// The details of the Service Connect configuration that's used by this deployment. Compare the configuration between multiple deployments when troubleshooting issues with new deployments. The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
+        /// The list of Service Connect resources that are associated with this deployment. Each list entry maps a discovery name to a Cloud Map service name.
+        public var serviceConnectResources: [ECSClientTypes.ServiceConnectServiceResource]?
         /// The status of the deployment. The following describes each state. PRIMARY The most recent deployment of a service. ACTIVE A service deployment that still has running tasks, but are in the process of being replaced with a new PRIMARY deployment. INACTIVE A deployment that has been completely replaced.
         public var status: Swift.String?
         /// The most recent task definition that was specified for the tasks in the service to use.
@@ -5567,6 +5739,8 @@ extension ECSClientTypes {
             rolloutState: ECSClientTypes.DeploymentRolloutState? = nil,
             rolloutStateReason: Swift.String? = nil,
             runningCount: Swift.Int = 0,
+            serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
+            serviceConnectResources: [ECSClientTypes.ServiceConnectServiceResource]? = nil,
             status: Swift.String? = nil,
             taskDefinition: Swift.String? = nil,
             updatedAt: ClientRuntime.Date? = nil
@@ -5585,6 +5759,8 @@ extension ECSClientTypes {
             self.rolloutState = rolloutState
             self.rolloutStateReason = rolloutStateReason
             self.runningCount = runningCount
+            self.serviceConnectConfiguration = serviceConnectConfiguration
+            self.serviceConnectResources = serviceConnectResources
             self.status = status
             self.taskDefinition = taskDefinition
             self.updatedAt = updatedAt
@@ -6317,7 +6493,7 @@ extension DescribeClustersInput: ClientRuntime.URLPathProvider {
 public struct DescribeClustersInput: Swift.Equatable {
     /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
     public var clusters: [Swift.String]?
-    /// Determines whether to include additional information about the clusters in the response. If this field is omitted, this information isn't included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included. If SETTINGS is specified, the settings for the cluster are included. If CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS is specified, the task and service count is included, separated by launch type. If TAGS is specified, the metadata tags associated with the cluster are included.
+    /// Determines whether to include additional information about the clusters in the response. If this field is omitted, this information isn't included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included, for example the capacity providers. If SETTINGS is specified, the settings for the cluster are included. If CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS is specified, the task and service count is included, separated by launch type. If TAGS is specified, the metadata tags associated with the cluster are included.
     public var include: [ECSClientTypes.ClusterField]?
 
     public init (
@@ -7656,9 +7832,11 @@ extension DiscoverPollEndpointOutputResponse: ClientRuntime.HttpResponseBinding 
             let data = reader.toBytes().toData()
             let output: DiscoverPollEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endpoint = output.endpoint
+            self.serviceConnectEndpoint = output.serviceConnectEndpoint
             self.telemetryEndpoint = output.telemetryEndpoint
         } else {
             self.endpoint = nil
+            self.serviceConnectEndpoint = nil
             self.telemetryEndpoint = nil
         }
     }
@@ -7667,15 +7845,19 @@ extension DiscoverPollEndpointOutputResponse: ClientRuntime.HttpResponseBinding 
 public struct DiscoverPollEndpointOutputResponse: Swift.Equatable {
     /// The endpoint for the Amazon ECS agent to poll.
     public var endpoint: Swift.String?
+    /// The endpoint for the Amazon ECS agent to poll for Service Connect configuration. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public var serviceConnectEndpoint: Swift.String?
     /// The telemetry endpoint for the Amazon ECS agent.
     public var telemetryEndpoint: Swift.String?
 
     public init (
         endpoint: Swift.String? = nil,
+        serviceConnectEndpoint: Swift.String? = nil,
         telemetryEndpoint: Swift.String? = nil
     )
     {
         self.endpoint = endpoint
+        self.serviceConnectEndpoint = serviceConnectEndpoint
         self.telemetryEndpoint = telemetryEndpoint
     }
 }
@@ -7683,11 +7865,13 @@ public struct DiscoverPollEndpointOutputResponse: Swift.Equatable {
 struct DiscoverPollEndpointOutputResponseBody: Swift.Equatable {
     let endpoint: Swift.String?
     let telemetryEndpoint: Swift.String?
+    let serviceConnectEndpoint: Swift.String?
 }
 
 extension DiscoverPollEndpointOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpoint
+        case serviceConnectEndpoint
         case telemetryEndpoint
     }
 
@@ -7697,6 +7881,8 @@ extension DiscoverPollEndpointOutputResponseBody: Swift.Decodable {
         endpoint = endpointDecoded
         let telemetryEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .telemetryEndpoint)
         telemetryEndpoint = telemetryEndpointDecoded
+        let serviceConnectEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceConnectEndpoint)
+        serviceConnectEndpoint = serviceConnectEndpointDecoded
     }
 }
 
@@ -8742,6 +8928,187 @@ extension ECSClientTypes {
     }
 }
 
+extension GetTaskProtectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+        case tasks
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cluster = self.cluster {
+            try encodeContainer.encode(cluster, forKey: .cluster)
+        }
+        if let tasks = tasks {
+            var tasksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tasks)
+            for stringlist0 in tasks {
+                try tasksContainer.encode(stringlist0)
+            }
+        }
+    }
+}
+
+extension GetTaskProtectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetTaskProtectionInput: Swift.Equatable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// A list of up to 100 task IDs or full ARN entries.
+    public var tasks: [Swift.String]?
+
+    public init (
+        cluster: Swift.String? = nil,
+        tasks: [Swift.String]? = nil
+    )
+    {
+        self.cluster = cluster
+        self.tasks = tasks
+    }
+}
+
+struct GetTaskProtectionInputBody: Swift.Equatable {
+    let cluster: Swift.String?
+    let tasks: [Swift.String]?
+}
+
+extension GetTaskProtectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+        case tasks
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cluster)
+        cluster = clusterDecoded
+        let tasksContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tasks)
+        var tasksDecoded0:[Swift.String]? = nil
+        if let tasksContainer = tasksContainer {
+            tasksDecoded0 = [Swift.String]()
+            for string0 in tasksContainer {
+                if let string0 = string0 {
+                    tasksDecoded0?.append(string0)
+                }
+            }
+        }
+        tasks = tasksDecoded0
+    }
+}
+
+extension GetTaskProtectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetTaskProtectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetTaskProtectionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case clientException(ClientException)
+    case clusterNotFoundException(ClusterNotFoundException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serverException(ServerException)
+    case unsupportedFeatureException(UnsupportedFeatureException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetTaskProtectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetTaskProtectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.failures = output.failures
+            self.protectedTasks = output.protectedTasks
+        } else {
+            self.failures = nil
+            self.protectedTasks = nil
+        }
+    }
+}
+
+public struct GetTaskProtectionOutputResponse: Swift.Equatable {
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+    /// A list of tasks with the following information.
+    ///
+    /// * taskArn: The task ARN.
+    ///
+    /// * protectionEnabled: The protection status of the task. If scale-in protection is enabled for a task, the value is true. Otherwise, it is false.
+    ///
+    /// * expirationDate: The epoch time when protection for the task will expire.
+    public var protectedTasks: [ECSClientTypes.ProtectedTask]?
+
+    public init (
+        failures: [ECSClientTypes.Failure]? = nil,
+        protectedTasks: [ECSClientTypes.ProtectedTask]? = nil
+    )
+    {
+        self.failures = failures
+        self.protectedTasks = protectedTasks
+    }
+}
+
+struct GetTaskProtectionOutputResponseBody: Swift.Equatable {
+    let protectedTasks: [ECSClientTypes.ProtectedTask]?
+    let failures: [ECSClientTypes.Failure]?
+}
+
+extension GetTaskProtectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failures
+        case protectedTasks
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let protectedTasksContainer = try containerValues.decodeIfPresent([ECSClientTypes.ProtectedTask?].self, forKey: .protectedTasks)
+        var protectedTasksDecoded0:[ECSClientTypes.ProtectedTask]? = nil
+        if let protectedTasksContainer = protectedTasksContainer {
+            protectedTasksDecoded0 = [ECSClientTypes.ProtectedTask]()
+            for structure0 in protectedTasksContainer {
+                if let structure0 = structure0 {
+                    protectedTasksDecoded0?.append(structure0)
+                }
+            }
+        }
+        protectedTasks = protectedTasksDecoded0
+        let failuresContainer = try containerValues.decodeIfPresent([ECSClientTypes.Failure?].self, forKey: .failures)
+        var failuresDecoded0:[ECSClientTypes.Failure]? = nil
+        if let failuresContainer = failuresContainer {
+            failuresDecoded0 = [ECSClientTypes.Failure]()
+            for structure0 in failuresContainer {
+                if let structure0 = structure0 {
+                    failuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        failures = failuresDecoded0
+    }
+}
+
 extension ECSClientTypes.HealthCheck: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case command
@@ -8807,16 +9174,16 @@ extension ECSClientTypes {
     /// * UNKNOWN-The container health check is being evaluated or there's no container health check defined.
     ///
     ///
-    /// The following describes the possible healthStatus values for a task. The container health check status of nonessential containers do not have an effect on the health status of a task.
+    /// The following describes the possible healthStatus values for a task. The container health check status of nonessential containers only affects the health status of a task if no essential containers have health checks defined.
     ///
     /// * HEALTHY-All essential containers within the task have passed their health checks.
     ///
     /// * UNHEALTHY-One or more essential containers have failed their health check.
     ///
-    /// * UNKNOWN-The essential containers within the task are still having their health checks evaluated or there are no container health checks defined.
+    /// * UNKNOWN-The essential containers within the task are still having their health checks evaluated or there are only nonessential containers with health checks defined.
     ///
     ///
-    /// If a task is run manually, and not as part of a service, the task will continue its lifecycle regardless of its health status. For tasks that are part of a service, if the task reports as unhealthy then the task will be stopped and the service scheduler will replace it. The following are notes about container health check support:
+    /// If a task is run manually, and not as part of a service, the task will continue its lifecycle regardless of its health status. For tasks that are part of a service, if the task reports as unhealthy then the task will be stopped and the service scheduler will replace it. For tasks that are a part of a service and the service uses the ECS rolling deployment type, the deployment is paused while the new tasks have the UNKNOWN task health check status. For example, tasks that define health checks for nonessential containers when no essential containers have health checks will have the UNKNOWN health check status indefinitely which prevents the deployment from completing. The following are notes about container health check support:
     ///
     /// * Container health checks require version 1.17.0 or greater of the Amazon ECS container agent. For more information, see [Updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html).
     ///
@@ -10315,6 +10682,166 @@ extension ListContainerInstancesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListServicesByNamespaceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case namespace
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListServicesByNamespaceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListServicesByNamespaceInput: Swift.Equatable {
+    /// The maximum number of service results that ListServicesByNamespace returns in paginated output. When this parameter is used, ListServicesByNamespace only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServicesByNamespace request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServicesByNamespace returns up to 10 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace to list the services in. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The nextToken value that's returned from a ListServicesByNamespace request. It indicates that more results are available to fulfill the request and further calls are needed. If maxResults is returned, it is possible the number of results is less than maxResults.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+    }
+}
+
+struct ListServicesByNamespaceInputBody: Swift.Equatable {
+    let namespace: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListServicesByNamespaceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case namespace
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListServicesByNamespaceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListServicesByNamespaceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NamespaceNotFoundException" : self = .namespaceNotFoundException(try NamespaceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListServicesByNamespaceOutputError: Swift.Error, Swift.Equatable {
+    case clientException(ClientException)
+    case invalidParameterException(InvalidParameterException)
+    case namespaceNotFoundException(NamespaceNotFoundException)
+    case serverException(ServerException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListServicesByNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListServicesByNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.serviceArns = output.serviceArns
+        } else {
+            self.nextToken = nil
+            self.serviceArns = nil
+        }
+    }
+}
+
+public struct ListServicesByNamespaceOutputResponse: Swift.Equatable {
+    /// The nextToken value to include in a future ListServicesByNamespace request. When the results of a ListServicesByNamespace request exceed maxResults, this value can be used to retrieve the next page of results. When there are no more results to return, this value is null.
+    public var nextToken: Swift.String?
+    /// The list of full ARN entries for each service that's associated with the specified namespace.
+    public var serviceArns: [Swift.String]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        serviceArns: [Swift.String]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.serviceArns = serviceArns
+    }
+}
+
+struct ListServicesByNamespaceOutputResponseBody: Swift.Equatable {
+    let serviceArns: [Swift.String]?
+    let nextToken: Swift.String?
+}
+
+extension ListServicesByNamespaceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case serviceArns
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .serviceArns)
+        var serviceArnsDecoded0:[Swift.String]? = nil
+        if let serviceArnsContainer = serviceArnsContainer {
+            serviceArnsDecoded0 = [Swift.String]()
+            for string0 in serviceArnsContainer {
+                if let string0 = string0 {
+                    serviceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        serviceArns = serviceArnsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListServicesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cluster
@@ -11042,7 +11569,7 @@ public struct ListTasksInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The name of the service to use when filtering the ListTasks results. Specifying a serviceName limits the results to tasks that belong to that service.
     public var serviceName: Swift.String?
-    /// The startedBy value to filter the task results with. Specifying a startedBy value limits the results to tasks that were started with that value.
+    /// The startedBy value to filter the task results with. Specifying a startedBy value limits the results to tasks that were started with that value. When you specify startedBy as the filter, it must be the only filter that you use.
     public var startedBy: Swift.String?
 
     public init (
@@ -11620,7 +12147,7 @@ extension ECSClientTypes {
     public struct ManagedScaling: Swift.Equatable {
         /// The period of time, in seconds, after a newly launched Amazon EC2 instance can contribute to CloudWatch metrics for Auto Scaling group. If this parameter is omitted, the default value of 300 seconds is used.
         public var instanceWarmupPeriod: Swift.Int?
-        /// The maximum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale in process is not affected by this parameter. If this parameter is omitted, the default value of 10000 is used.
+        /// The maximum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale in process is not affected by this parameter. If this parameter is omitted, the default value of 1 is used.
         public var maximumScalingStepSize: Swift.Int?
         /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale in process is not affected by this parameter If this parameter is omitted, the default value of 1 is used. When additional capacity is required, Amazon ECS will scale up the minimum scaling step size even if the actual demand is less than the minimum scaling step size. If you use a capacity provider with an Auto Scaling group configured with more than one Amazon EC2 instance type or Availability Zone, Amazon ECS will scale up by the exact minimum scaling step size value and will ignore both the maximum scaling step size as well as the capacity demand.
         public var minimumScalingStepSize: Swift.Int?
@@ -11816,6 +12343,58 @@ extension ECSClientTypes {
         }
     }
 
+}
+
+extension NamespaceNotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: NamespaceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The specified namespace wasn't found.
+public struct NamespaceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct NamespaceNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension NamespaceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension ECSClientTypes.NetworkBinding: Swift.Codable {
@@ -12484,18 +13063,26 @@ extension PlatformUnknownExceptionBody: Swift.Decodable {
 
 extension ECSClientTypes.PortMapping: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appProtocol
         case containerPort
         case hostPort
+        case name
         case `protocol` = "protocol"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appProtocol = self.appProtocol {
+            try encodeContainer.encode(appProtocol.rawValue, forKey: .appProtocol)
+        }
         if let containerPort = self.containerPort {
             try encodeContainer.encode(containerPort, forKey: .containerPort)
         }
         if let hostPort = self.hostPort {
             try encodeContainer.encode(hostPort, forKey: .hostPort)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
         }
         if let `protocol` = self.`protocol` {
             try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
@@ -12510,27 +13097,39 @@ extension ECSClientTypes.PortMapping: Swift.Codable {
         hostPort = hostPortDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(ECSClientTypes.TransportProtocol.self, forKey: .protocol)
         `protocol` = protocolDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let appProtocolDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ApplicationProtocol.self, forKey: .appProtocol)
+        appProtocol = appProtocolDecoded
     }
 }
 
 extension ECSClientTypes {
     /// Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. The hostPort can be left blank or it must be the same value as the containerPort. You can't expose the same container port for multiple protocols. If you attempt this, an error is returned. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks] API responses.
     public struct PortMapping: Swift.Equatable {
+        /// The application protocol that's used for the port mapping. This parameter only applies to Service Connect. We recommend that you set this parameter to be consistent with the protocol that your application uses. If you set this parameter, Amazon ECS adds protocol-specific connection handling to the Service Connect proxy. If you set this parameter, Amazon ECS adds protocol-specific telemetry in the Amazon ECS console and CloudWatch. If you don't set a value for this parameter, then TCP is used. However, Amazon ECS doesn't add protocol-specific telemetry for TCP. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        public var appProtocol: ECSClientTypes.ApplicationProtocol?
         /// The port number on the container that's bound to the user-specified or automatically assigned host port. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. If you use containers in a task with the bridge network mode and you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
         public var containerPort: Swift.Int?
         /// The port number on the container instance to reserve for your container. If you use containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you use containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running. That is, after a task stops, the host port is released. The current reserved ports are displayed in the remainingResources of [DescribeContainerInstances] output. A container instance can have up to 100 reserved ports at a time. This number includes the default reserved ports. Automatically assigned ports aren't included in the 100 reserved ports quota.
         public var hostPort: Swift.Int?
+        /// The name that's used for the port mapping. This parameter only applies to Service Connect. This parameter is the name that you use in the serviceConnectConfiguration of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        public var name: Swift.String?
         /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp.
         public var `protocol`: ECSClientTypes.TransportProtocol?
 
         public init (
+            appProtocol: ECSClientTypes.ApplicationProtocol? = nil,
             containerPort: Swift.Int? = nil,
             hostPort: Swift.Int? = nil,
+            name: Swift.String? = nil,
             `protocol`: ECSClientTypes.TransportProtocol? = nil
         )
         {
+            self.appProtocol = appProtocol
             self.containerPort = containerPort
             self.hostPort = hostPort
+            self.name = name
             self.`protocol` = `protocol`
         }
     }
@@ -12570,6 +13169,61 @@ extension ECSClientTypes {
             self = PropagateTags(rawValue: rawValue) ?? PropagateTags.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ECSClientTypes.ProtectedTask: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expirationDate
+        case protectionEnabled
+        case taskArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expirationDate = self.expirationDate {
+            try encodeContainer.encodeTimestamp(expirationDate, format: .epochSeconds, forKey: .expirationDate)
+        }
+        if protectionEnabled != false {
+            try encodeContainer.encode(protectionEnabled, forKey: .protectionEnabled)
+        }
+        if let taskArn = self.taskArn {
+            try encodeContainer.encode(taskArn, forKey: .taskArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
+        taskArn = taskArnDecoded
+        let protectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .protectionEnabled) ?? false
+        protectionEnabled = protectionEnabledDecoded
+        let expirationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expirationDate)
+        expirationDate = expirationDateDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// An object representing the protection status details for a task. You can set the protection status with the [UpdateTaskProtection] API and get the status of tasks with the [GetTaskProtection] API.
+    public struct ProtectedTask: Swift.Equatable {
+        /// The epoch time when protection for the task will expire.
+        public var expirationDate: ClientRuntime.Date?
+        /// The protection status of the task. If scale-in protection is enabled for a task, the value is true. Otherwise, it is false.
+        public var protectionEnabled: Swift.Bool
+        /// The task ARN.
+        public var taskArn: Swift.String?
+
+        public init (
+            expirationDate: ClientRuntime.Date? = nil,
+            protectionEnabled: Swift.Bool = false,
+            taskArn: Swift.String? = nil
+        )
+        {
+            self.expirationDate = expirationDate
+            self.protectionEnabled = protectionEnabled
+            self.taskArn = taskArn
+        }
+    }
+
 }
 
 extension ECSClientTypes.ProxyConfiguration: Swift.Codable {
@@ -14747,7 +15401,7 @@ extension ECSClientTypes.RuntimePlatform: Swift.Codable {
 extension ECSClientTypes {
     /// Information about the platform for the Amazon ECS service or task. For more information about RuntimePlatform, see [RuntimePlatform](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#runtime-platform) in the Amazon Elastic Container Service Developer Guide.
     public struct RuntimePlatform: Swift.Equatable {
-        /// The CPU architecture. You can run your Linux tasks on an ARM-based platform by setting the value to ARM64. This option is avaiable for tasks that run on Linux Amazon EC2 instance or Linux containers on Fargate.
+        /// The CPU architecture. You can run your Linux tasks on an ARM-based platform by setting the value to ARM64. This option is available for tasks that run on Linux Amazon EC2 instance or Linux containers on Fargate.
         public var cpuArchitecture: ECSClientTypes.CPUArchitecture?
         /// The operating system.
         public var operatingSystemFamily: ECSClientTypes.OSFamily?
@@ -15464,6 +16118,261 @@ extension ECSClientTypes {
             self.tags = tags
             self.taskDefinition = taskDefinition
             self.taskSets = taskSets
+        }
+    }
+
+}
+
+extension ECSClientTypes.ServiceConnectClientAlias: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dnsName
+        case port
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dnsName = self.dnsName {
+            try encodeContainer.encode(dnsName, forKey: .dnsName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let dnsNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dnsName)
+        dnsName = dnsNameDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// Each alias ("endpoint") is a fully-qualified name and port number that other tasks ("clients") can use to connect to this service. Each name and port mapping must be unique within the namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectClientAlias: Swift.Equatable {
+        /// The dnsName is the name that you use in the applications of client tasks to connect to this service. The name must be a valid DNS name but doesn't need to be fully-qualified. The name can include up to 127 characters. The name can include lowercase letters, numbers, underscores (_), hyphens (-), and periods (.). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace. To avoid changing your applications in client Amazon ECS services, set this to the same name that the client application uses by default. For example, a few common names are database, db, or the lowercase name of a database, such as mysql or redis. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        public var dnsName: Swift.String?
+        /// The listening port number for the Service Connect proxy. This port is available inside of all of the tasks within the same namespace. To avoid changing your applications in client Amazon ECS services, set this to the same port that the client application uses by default. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        /// This member is required.
+        public var port: Swift.Int?
+
+        public init (
+            dnsName: Swift.String? = nil,
+            port: Swift.Int? = nil
+        )
+        {
+            self.dnsName = dnsName
+            self.port = port
+        }
+    }
+
+}
+
+extension ECSClientTypes.ServiceConnectConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled
+        case logConfiguration
+        case namespace
+        case services
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let logConfiguration = self.logConfiguration {
+            try encodeContainer.encode(logConfiguration, forKey: .logConfiguration)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let services = services {
+            var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
+            for serviceconnectservicelist0 in services {
+                try servicesContainer.encode(serviceconnectservicelist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let servicesContainer = try containerValues.decodeIfPresent([ECSClientTypes.ServiceConnectService?].self, forKey: .services)
+        var servicesDecoded0:[ECSClientTypes.ServiceConnectService]? = nil
+        if let servicesContainer = servicesContainer {
+            servicesDecoded0 = [ECSClientTypes.ServiceConnectService]()
+            for structure0 in servicesContainer {
+                if let structure0 = structure0 {
+                    servicesDecoded0?.append(structure0)
+                }
+            }
+        }
+        services = servicesDecoded0
+        let logConfigurationDecoded = try containerValues.decodeIfPresent(ECSClientTypes.LogConfiguration.self, forKey: .logConfiguration)
+        logConfiguration = logConfigurationDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// The Service Connect configuration of your Amazon ECS service. The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectConfiguration: Swift.Equatable {
+        /// Specifies whether to use Service Connect with this service.
+        /// This member is required.
+        public var enabled: Swift.Bool
+        /// The log configuration for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/commandline/run/). By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. For more information about the options for different supported log drivers, see [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Understand the following when specifying a log configuration for your containers.
+        ///
+        /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the valid values below). Additional log drivers may be available in future releases of the Amazon ECS container agent.
+        ///
+        /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
+        ///
+        /// * For tasks that are hosted on Amazon EC2 instances, the Amazon ECS container agent must register the available logging drivers with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        ///
+        /// * For tasks that are on Fargate, because you don't have access to the underlying infrastructure your tasks are hosted on, any additional software needed must be installed outside of the task. For example, the Fluentd output aggregators or a remote host running Logstash to send Gelf logs to.
+        public var logConfiguration: ECSClientTypes.LogConfiguration?
+        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace for use with Service Connect. The namespace must be in the same Amazon Web Services Region as the Amazon ECS service and cluster. The type of namespace doesn't affect Service Connect. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/) in the Cloud Map Developer Guide.
+        public var namespace: Swift.String?
+        /// The list of Service Connect service objects. These are names and aliases (also known as endpoints) that are used by other Amazon ECS services to connect to this service. This field is not required for a "client" Amazon ECS service that's a member of a namespace only to connect to other services within the namespace. An example of this would be a frontend application that accepts incoming requests from either a load balancer that's attached to the service or by other means. An object selects a port from the task definition, assigns a name for the Cloud Map service, and a list of aliases (endpoints) and ports for client applications to refer to this service.
+        public var services: [ECSClientTypes.ServiceConnectService]?
+
+        public init (
+            enabled: Swift.Bool = false,
+            logConfiguration: ECSClientTypes.LogConfiguration? = nil,
+            namespace: Swift.String? = nil,
+            services: [ECSClientTypes.ServiceConnectService]? = nil
+        )
+        {
+            self.enabled = enabled
+            self.logConfiguration = logConfiguration
+            self.namespace = namespace
+            self.services = services
+        }
+    }
+
+}
+
+extension ECSClientTypes.ServiceConnectService: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientAliases
+        case discoveryName
+        case ingressPortOverride
+        case portName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientAliases = clientAliases {
+            var clientAliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientAliases)
+            for serviceconnectclientaliaslist0 in clientAliases {
+                try clientAliasesContainer.encode(serviceconnectclientaliaslist0)
+            }
+        }
+        if let discoveryName = self.discoveryName {
+            try encodeContainer.encode(discoveryName, forKey: .discoveryName)
+        }
+        if let ingressPortOverride = self.ingressPortOverride {
+            try encodeContainer.encode(ingressPortOverride, forKey: .ingressPortOverride)
+        }
+        if let portName = self.portName {
+            try encodeContainer.encode(portName, forKey: .portName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let portNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .portName)
+        portName = portNameDecoded
+        let discoveryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryName)
+        discoveryName = discoveryNameDecoded
+        let clientAliasesContainer = try containerValues.decodeIfPresent([ECSClientTypes.ServiceConnectClientAlias?].self, forKey: .clientAliases)
+        var clientAliasesDecoded0:[ECSClientTypes.ServiceConnectClientAlias]? = nil
+        if let clientAliasesContainer = clientAliasesContainer {
+            clientAliasesDecoded0 = [ECSClientTypes.ServiceConnectClientAlias]()
+            for structure0 in clientAliasesContainer {
+                if let structure0 = structure0 {
+                    clientAliasesDecoded0?.append(structure0)
+                }
+            }
+        }
+        clientAliases = clientAliasesDecoded0
+        let ingressPortOverrideDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ingressPortOverride)
+        ingressPortOverride = ingressPortOverrideDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// The Service Connect service object configuration. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectService: Swift.Equatable {
+        /// The list of client aliases for this Service Connect service. You use these to assign names that can be used by client applications. The maximum number of client aliases that you can have in this list is 1. Each alias ("endpoint") is a fully-qualified name and port number that other Amazon ECS tasks ("clients") can use to connect to this service. Each name and port mapping must be unique within the namespace. For each ServiceConnectService, you must provide at least one clientAlias with one port.
+        public var clientAliases: [ECSClientTypes.ServiceConnectClientAlias]?
+        /// The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
+        public var discoveryName: Swift.String?
+        /// The port number for the Service Connect proxy to listen on. Use the value of this field to bypass the proxy for traffic on the port number specified in the named portMapping in the task definition of this application, and then use it in your VPC security groups to allow traffic into the proxy for this Amazon ECS service. In awsvpc mode and Fargate, the default value is the container port number. The container port number is in the portMapping in the task definition. In bridge mode, the default value is the ephemeral port of the Service Connect proxy.
+        public var ingressPortOverride: Swift.Int?
+        /// The portName must match the name of one of the portMappings from all the containers in the task definition of this Amazon ECS service.
+        /// This member is required.
+        public var portName: Swift.String?
+
+        public init (
+            clientAliases: [ECSClientTypes.ServiceConnectClientAlias]? = nil,
+            discoveryName: Swift.String? = nil,
+            ingressPortOverride: Swift.Int? = nil,
+            portName: Swift.String? = nil
+        )
+        {
+            self.clientAliases = clientAliases
+            self.discoveryName = discoveryName
+            self.ingressPortOverride = ingressPortOverride
+            self.portName = portName
+        }
+    }
+
+}
+
+extension ECSClientTypes.ServiceConnectServiceResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryArn
+        case discoveryName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let discoveryArn = self.discoveryArn {
+            try encodeContainer.encode(discoveryArn, forKey: .discoveryArn)
+        }
+        if let discoveryName = self.discoveryName {
+            try encodeContainer.encode(discoveryName, forKey: .discoveryName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryName)
+        discoveryName = discoveryNameDecoded
+        let discoveryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryArn)
+        discoveryArn = discoveryArnDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// The Service Connect resource. Each configuration maps a discovery name to a Cloud Map service name. The data is stored in Cloud Map as part of the Service Connect configuration for each discovery name of this Amazon ECS service. A task can resolve the dnsName for each of the clientAliases of a service. However a task can't resolve the discovery names. If you want to connect to a service, refer to the ServiceConnectConfiguration of that service for the list of clientAliases that you can use.
+    public struct ServiceConnectServiceResource: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) for the namespace in Cloud Map that matches the discovery name for this Service Connect resource. You can use this ARN in other integrations with Cloud Map. However, Service Connect can't ensure connectivity outside of Amazon ECS.
+        public var discoveryArn: Swift.String?
+        /// The discovery name of this Service Connect resource. The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
+        public var discoveryName: Swift.String?
+
+        public init (
+            discoveryArn: Swift.String? = nil,
+            discoveryName: Swift.String? = nil
+        )
+        {
+            self.discoveryArn = discoveryArn
+            self.discoveryName = discoveryName
         }
     }
 
@@ -18553,7 +19462,7 @@ extension ECSClientTypes {
     public struct TaskOverride: Swift.Equatable {
         /// One or more container overrides that are sent to a task.
         public var containerOverrides: [ECSClientTypes.ContainerOverride]?
-        /// The cpu override for the task.
+        /// The CPU override for the task.
         public var cpu: Swift.String?
         /// The ephemeral storage setting override for the task. This parameter is only supported for tasks hosted on Fargate that use the following platform versions:
         ///
@@ -18832,7 +19741,7 @@ extension ECSClientTypes {
         public var serviceArn: Swift.String?
         /// The details for the service discovery registries to assign to this task set. For more information, see [Service discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
         public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
-        /// The stability status. This indicates whether the task set has reached a steady state. If the following conditions are met, the task set sre in STEADY_STATE:
+        /// The stability status. This indicates whether the task set has reached a steady state. If the following conditions are met, the task set are in STEADY_STATE:
         ///
         /// * The task runningCount is equal to the computedDesiredCount.
         ///
@@ -19014,14 +19923,20 @@ extension TaskSetNotFoundExceptionBody: Swift.Decodable {
 extension ECSClientTypes {
     public enum TaskStopCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case essentialContainerExited
+        case serviceSchedulerInitiated
+        case spotInterruption
         case taskFailedToStart
+        case terminationNotice
         case userInitiated
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TaskStopCode] {
             return [
                 .essentialContainerExited,
+                .serviceSchedulerInitiated,
+                .spotInterruption,
                 .taskFailedToStart,
+                .terminationNotice,
                 .userInitiated,
                 .sdkUnknown("")
             ]
@@ -19033,7 +19948,10 @@ extension ECSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .essentialContainerExited: return "EssentialContainerExited"
+            case .serviceSchedulerInitiated: return "ServiceSchedulerInitiated"
+            case .spotInterruption: return "SpotInterruption"
             case .taskFailedToStart: return "TaskFailedToStart"
+            case .terminationNotice: return "TerminationNotice"
             case .userInitiated: return "UserInitiated"
             case let .sdkUnknown(s): return s
             }
@@ -19573,6 +20491,7 @@ extension UpdateClusterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cluster
         case configuration
+        case serviceConnectDefaults
         case settings
     }
 
@@ -19583,6 +20502,9 @@ extension UpdateClusterInput: Swift.Encodable {
         }
         if let configuration = self.configuration {
             try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let serviceConnectDefaults = self.serviceConnectDefaults {
+            try encodeContainer.encode(serviceConnectDefaults, forKey: .serviceConnectDefaults)
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
@@ -19605,17 +20527,21 @@ public struct UpdateClusterInput: Swift.Equatable {
     public var cluster: Swift.String?
     /// The execute command configuration for the cluster.
     public var configuration: ECSClientTypes.ClusterConfiguration?
+    /// Use this parameter to set a default Service Connect namespace. After you set a default Service Connect namespace, any new services with Service Connect turned on that are created in the cluster are added as client services in the namespace. This setting only applies to new services that set the enabled parameter to true in the ServiceConnectConfiguration. You can set the namespace of each service individually in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public var serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest?
     /// The cluster settings for your cluster.
     public var settings: [ECSClientTypes.ClusterSetting]?
 
     public init (
         cluster: Swift.String? = nil,
         configuration: ECSClientTypes.ClusterConfiguration? = nil,
+        serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest? = nil,
         settings: [ECSClientTypes.ClusterSetting]? = nil
     )
     {
         self.cluster = cluster
         self.configuration = configuration
+        self.serviceConnectDefaults = serviceConnectDefaults
         self.settings = settings
     }
 }
@@ -19624,12 +20550,14 @@ struct UpdateClusterInputBody: Swift.Equatable {
     let cluster: Swift.String?
     let settings: [ECSClientTypes.ClusterSetting]?
     let configuration: ECSClientTypes.ClusterConfiguration?
+    let serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest?
 }
 
 extension UpdateClusterInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cluster
         case configuration
+        case serviceConnectDefaults
         case settings
     }
 
@@ -19650,6 +20578,8 @@ extension UpdateClusterInputBody: Swift.Decodable {
         settings = settingsDecoded0
         let configurationDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ClusterConfiguration.self, forKey: .configuration)
         configuration = configurationDecoded
+        let serviceConnectDefaultsDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ClusterServiceConnectDefaultsRequest.self, forKey: .serviceConnectDefaults)
+        serviceConnectDefaults = serviceConnectDefaultsDecoded
     }
 }
 
@@ -19752,7 +20682,7 @@ public struct UpdateClusterSettingsInput: Swift.Equatable {
     /// The name of the cluster to modify the settings for.
     /// This member is required.
     public var cluster: Swift.String?
-    /// The setting to use by default for a cluster. This parameter is used to turn on CloudWatch Container Insights for a cluster. If this value is specified, it overrides the containerInsights value set with [PutAccountSetting] or [PutAccountSettingDefault].
+    /// The setting to use by default for a cluster. This parameter is used to turn on CloudWatch Container Insights for a cluster. If this value is specified, it overrides the containerInsights value set with [PutAccountSetting] or [PutAccountSettingDefault]. Currently, if you delete an existing cluster that does not have Container Insights turned on, and then create a new cluster with the same name with Container Insights tuned on, Container Insights will not actually be turned on. If you want to preserve the same name for your existing cluster and turn on Container Insights, you must wait 7 days before you can re-create it.
     /// This member is required.
     public var settings: [ECSClientTypes.ClusterSetting]?
 
@@ -20250,6 +21180,7 @@ extension UpdateServiceInput: Swift.Encodable {
         case platformVersion
         case propagateTags
         case service
+        case serviceConnectConfiguration
         case serviceRegistries
         case taskDefinition
     }
@@ -20313,6 +21244,9 @@ extension UpdateServiceInput: Swift.Encodable {
         if let service = self.service {
             try encodeContainer.encode(service, forKey: .service)
         }
+        if let serviceConnectConfiguration = self.serviceConnectConfiguration {
+            try encodeContainer.encode(serviceConnectConfiguration, forKey: .serviceConnectConfiguration)
+        }
         if let serviceRegistries = serviceRegistries {
             var serviceRegistriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceRegistries)
             for serviceregistries0 in serviceRegistries {
@@ -20363,6 +21297,8 @@ public struct UpdateServiceInput: Swift.Equatable {
     /// The name of the service to update.
     /// This member is required.
     public var service: Swift.String?
+    /// The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
     /// The details for the service discovery registries to assign to this service. For more information, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html). When you add, update, or remove the service registries configuration, Amazon ECS starts new tasks with the updated service registries configuration, and then stops the old tasks when the new tasks are running. You can remove existing serviceRegistries by passing an empty list.
     public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
     /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running.
@@ -20384,6 +21320,7 @@ public struct UpdateServiceInput: Swift.Equatable {
         platformVersion: Swift.String? = nil,
         propagateTags: ECSClientTypes.PropagateTags? = nil,
         service: Swift.String? = nil,
+        serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
         serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
         taskDefinition: Swift.String? = nil
     )
@@ -20403,6 +21340,7 @@ public struct UpdateServiceInput: Swift.Equatable {
         self.platformVersion = platformVersion
         self.propagateTags = propagateTags
         self.service = service
+        self.serviceConnectConfiguration = serviceConnectConfiguration
         self.serviceRegistries = serviceRegistries
         self.taskDefinition = taskDefinition
     }
@@ -20426,6 +21364,7 @@ struct UpdateServiceInputBody: Swift.Equatable {
     let loadBalancers: [ECSClientTypes.LoadBalancer]?
     let propagateTags: ECSClientTypes.PropagateTags?
     let serviceRegistries: [ECSClientTypes.ServiceRegistry]?
+    let serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
 }
 
 extension UpdateServiceInputBody: Swift.Decodable {
@@ -20445,6 +21384,7 @@ extension UpdateServiceInputBody: Swift.Decodable {
         case platformVersion
         case propagateTags
         case service
+        case serviceConnectConfiguration
         case serviceRegistries
         case taskDefinition
     }
@@ -20530,6 +21470,8 @@ extension UpdateServiceInputBody: Swift.Decodable {
             }
         }
         serviceRegistries = serviceRegistriesDecoded0
+        let serviceConnectConfigurationDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ServiceConnectConfiguration.self, forKey: .serviceConnectConfiguration)
+        serviceConnectConfiguration = serviceConnectConfigurationDecoded
     }
 }
 
@@ -20548,6 +21490,7 @@ extension UpdateServiceOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NamespaceNotFoundException" : self = .namespaceNotFoundException(try NamespaceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PlatformTaskDefinitionIncompatibilityException" : self = .platformTaskDefinitionIncompatibilityException(try PlatformTaskDefinitionIncompatibilityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PlatformUnknownException" : self = .platformUnknownException(try PlatformUnknownException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -20563,6 +21506,7 @@ public enum UpdateServiceOutputError: Swift.Error, Swift.Equatable {
     case clientException(ClientException)
     case clusterNotFoundException(ClusterNotFoundException)
     case invalidParameterException(InvalidParameterException)
+    case namespaceNotFoundException(NamespaceNotFoundException)
     case platformTaskDefinitionIncompatibilityException(PlatformTaskDefinitionIncompatibilityException)
     case platformUnknownException(PlatformUnknownException)
     case serverException(ServerException)
@@ -20738,7 +21682,7 @@ extension UpdateServicePrimaryTaskSetOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct UpdateServicePrimaryTaskSetOutputResponse: Swift.Equatable {
-    /// etails about the task set.
+    /// The details about the task set.
     public var taskSet: ECSClientTypes.TaskSet?
 
     public init (
@@ -20762,6 +21706,213 @@ extension UpdateServicePrimaryTaskSetOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let taskSetDecoded = try containerValues.decodeIfPresent(ECSClientTypes.TaskSet.self, forKey: .taskSet)
         taskSet = taskSetDecoded
+    }
+}
+
+extension UpdateTaskProtectionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+        case expiresInMinutes
+        case protectionEnabled
+        case tasks
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cluster = self.cluster {
+            try encodeContainer.encode(cluster, forKey: .cluster)
+        }
+        if let expiresInMinutes = self.expiresInMinutes {
+            try encodeContainer.encode(expiresInMinutes, forKey: .expiresInMinutes)
+        }
+        if protectionEnabled != false {
+            try encodeContainer.encode(protectionEnabled, forKey: .protectionEnabled)
+        }
+        if let tasks = tasks {
+            var tasksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tasks)
+            for stringlist0 in tasks {
+                try tasksContainer.encode(stringlist0)
+            }
+        }
+    }
+}
+
+extension UpdateTaskProtectionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateTaskProtectionInput: Swift.Equatable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// If you set protectionEnabled to true, you can specify the duration for task protection in minutes. You can specify a value from 1 minute to up to 2,880 minutes (48 hours). During this time, your task will not be terminated by scale-in events from Service Auto Scaling or deployments. After this time period lapses, protectionEnabled will be reset to false. If you don’t specify the time, then the task is automatically protected for 120 minutes (2 hours).
+    public var expiresInMinutes: Swift.Int?
+    /// Specify true to mark a task for protection and false to unset protection, making it eligible for termination.
+    /// This member is required.
+    public var protectionEnabled: Swift.Bool
+    /// A list of up to 10 task IDs or full ARN entries.
+    /// This member is required.
+    public var tasks: [Swift.String]?
+
+    public init (
+        cluster: Swift.String? = nil,
+        expiresInMinutes: Swift.Int? = nil,
+        protectionEnabled: Swift.Bool = false,
+        tasks: [Swift.String]? = nil
+    )
+    {
+        self.cluster = cluster
+        self.expiresInMinutes = expiresInMinutes
+        self.protectionEnabled = protectionEnabled
+        self.tasks = tasks
+    }
+}
+
+struct UpdateTaskProtectionInputBody: Swift.Equatable {
+    let cluster: Swift.String?
+    let tasks: [Swift.String]?
+    let protectionEnabled: Swift.Bool
+    let expiresInMinutes: Swift.Int?
+}
+
+extension UpdateTaskProtectionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+        case expiresInMinutes
+        case protectionEnabled
+        case tasks
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cluster)
+        cluster = clusterDecoded
+        let tasksContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tasks)
+        var tasksDecoded0:[Swift.String]? = nil
+        if let tasksContainer = tasksContainer {
+            tasksDecoded0 = [Swift.String]()
+            for string0 in tasksContainer {
+                if let string0 = string0 {
+                    tasksDecoded0?.append(string0)
+                }
+            }
+        }
+        tasks = tasksDecoded0
+        let protectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .protectionEnabled) ?? false
+        protectionEnabled = protectionEnabledDecoded
+        let expiresInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expiresInMinutes)
+        expiresInMinutes = expiresInMinutesDecoded
+    }
+}
+
+extension UpdateTaskProtectionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateTaskProtectionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateTaskProtectionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case clientException(ClientException)
+    case clusterNotFoundException(ClusterNotFoundException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serverException(ServerException)
+    case unsupportedFeatureException(UnsupportedFeatureException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateTaskProtectionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: UpdateTaskProtectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.failures = output.failures
+            self.protectedTasks = output.protectedTasks
+        } else {
+            self.failures = nil
+            self.protectedTasks = nil
+        }
+    }
+}
+
+public struct UpdateTaskProtectionOutputResponse: Swift.Equatable {
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+    /// A list of tasks with the following information.
+    ///
+    /// * taskArn: The task ARN.
+    ///
+    /// * protectionEnabled: The protection status of the task. If scale-in protection is enabled for a task, the value is true. Otherwise, it is false.
+    ///
+    /// * expirationDate: The epoch time when protection for the task will expire.
+    public var protectedTasks: [ECSClientTypes.ProtectedTask]?
+
+    public init (
+        failures: [ECSClientTypes.Failure]? = nil,
+        protectedTasks: [ECSClientTypes.ProtectedTask]? = nil
+    )
+    {
+        self.failures = failures
+        self.protectedTasks = protectedTasks
+    }
+}
+
+struct UpdateTaskProtectionOutputResponseBody: Swift.Equatable {
+    let protectedTasks: [ECSClientTypes.ProtectedTask]?
+    let failures: [ECSClientTypes.Failure]?
+}
+
+extension UpdateTaskProtectionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failures
+        case protectedTasks
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let protectedTasksContainer = try containerValues.decodeIfPresent([ECSClientTypes.ProtectedTask?].self, forKey: .protectedTasks)
+        var protectedTasksDecoded0:[ECSClientTypes.ProtectedTask]? = nil
+        if let protectedTasksContainer = protectedTasksContainer {
+            protectedTasksDecoded0 = [ECSClientTypes.ProtectedTask]()
+            for structure0 in protectedTasksContainer {
+                if let structure0 = structure0 {
+                    protectedTasksDecoded0?.append(structure0)
+                }
+            }
+        }
+        protectedTasks = protectedTasksDecoded0
+        let failuresContainer = try containerValues.decodeIfPresent([ECSClientTypes.Failure?].self, forKey: .failures)
+        var failuresDecoded0:[ECSClientTypes.Failure]? = nil
+        if let failuresContainer = failuresContainer {
+            failuresDecoded0 = [ECSClientTypes.Failure]()
+            for structure0 in failuresContainer {
+                if let structure0 = structure0 {
+                    failuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        failures = failuresDecoded0
     }
 }
 

@@ -11,16 +11,22 @@ public protocol GroundStationClientProtocol {
     func createConfig(input: CreateConfigInput) async throws -> CreateConfigOutputResponse
     /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
     func createDataflowEndpointGroup(input: CreateDataflowEndpointGroupInput) async throws -> CreateDataflowEndpointGroupOutputResponse
+    /// Creates an Ephemeris with the specified EphemerisData.
+    func createEphemeris(input: CreateEphemerisInput) async throws -> CreateEphemerisOutputResponse
     /// Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
     func createMissionProfile(input: CreateMissionProfileInput) async throws -> CreateMissionProfileOutputResponse
     /// Deletes a Config.
     func deleteConfig(input: DeleteConfigInput) async throws -> DeleteConfigOutputResponse
     /// Deletes a dataflow endpoint group.
     func deleteDataflowEndpointGroup(input: DeleteDataflowEndpointGroupInput) async throws -> DeleteDataflowEndpointGroupOutputResponse
+    /// Deletes an ephemeris
+    func deleteEphemeris(input: DeleteEphemerisInput) async throws -> DeleteEphemerisOutputResponse
     /// Deletes a mission profile.
     func deleteMissionProfile(input: DeleteMissionProfileInput) async throws -> DeleteMissionProfileOutputResponse
     /// Describes an existing contact.
     func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutputResponse
+    /// Describes an existing ephemeris.
+    func describeEphemeris(input: DescribeEphemerisInput) async throws -> DescribeEphemerisOutputResponse
     /// Returns Config information. Only one Config response can be returned.
     func getConfig(input: GetConfigInput) async throws -> GetConfigOutputResponse
     /// Returns the dataflow endpoint group.
@@ -37,6 +43,8 @@ public protocol GroundStationClientProtocol {
     func listContacts(input: ListContactsInput) async throws -> ListContactsOutputResponse
     /// Returns a list of DataflowEndpoint groups.
     func listDataflowEndpointGroups(input: ListDataflowEndpointGroupsInput) async throws -> ListDataflowEndpointGroupsOutputResponse
+    /// List existing ephemerides.
+    func listEphemerides(input: ListEphemeridesInput) async throws -> ListEphemeridesOutputResponse
     /// Returns a list of ground stations.
     func listGroundStations(input: ListGroundStationsInput) async throws -> ListGroundStationsOutputResponse
     /// Returns a list of mission profiles.
@@ -53,6 +61,8 @@ public protocol GroundStationClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
     func updateConfig(input: UpdateConfigInput) async throws -> UpdateConfigOutputResponse
+    /// Updates an existing ephemeris
+    func updateEphemeris(input: UpdateEphemerisInput) async throws -> UpdateEphemerisOutputResponse
     /// Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
     func updateMissionProfile(input: UpdateMissionProfileInput) async throws -> UpdateMissionProfileOutputResponse
 }

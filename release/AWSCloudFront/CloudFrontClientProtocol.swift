@@ -7,6 +7,8 @@ import ClientRuntime
 public protocol CloudFrontClientProtocol {
     /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront distribution. With this operation you can move an alias that’s already in use on a CloudFront distribution to a different distribution in one step. This prevents the downtime that could occur if you first remove the alias from one distribution and then separately add the alias to another distribution. To use this operation to associate an alias with a distribution, you provide the alias and the ID of the target distribution for the alias. For more information, including how to set up the target distribution, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
     func associateAlias(input: AssociateAliasInput) async throws -> AssociateAliasOutputResponse
+    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution’s configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution.
+    func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutputResponse
     /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it’s attached to a cache behavior, the cache policy determines the following:
     ///
     /// * The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.
@@ -18,7 +20,9 @@ public protocol CloudFrontClientProtocol {
     func createCachePolicy(input: CreateCachePolicyInput) async throws -> CreateCachePolicyOutputResponse
     /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see [Serving Private Content through CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
     func createCloudFrontOriginAccessIdentity(input: CreateCloudFrontOriginAccessIdentityInput) async throws -> CreateCloudFrontOriginAccessIdentityOutputResponse
-    /// Creates a new web distribution. You create a CloudFront distribution to tell CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery. Send a POST request to the /CloudFront API version/distribution/distribution ID resource. When you update a distribution, there are more required fields than when you create a distribution. When you update your distribution by using [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html), follow the steps included in the documentation to get the current configuration and then make your updates. This helps to make sure that you include all of the required fields. To view a summary, see [Required Fields for Create Distribution and Update Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-overview-required-fields.html) in the Amazon CloudFront Developer Guide.
+    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution’s configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution’s configuration before moving all of your domain’s production traffic to the new configuration.
+    func createContinuousDeploymentPolicy(input: CreateContinuousDeploymentPolicyInput) async throws -> CreateContinuousDeploymentPolicyOutputResponse
+    /// Creates a CloudFront distribution.
     func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutputResponse
     /// Create a new distribution with tags.
     func createDistributionWithTags(input: CreateDistributionWithTagsInput) async throws -> CreateDistributionWithTagsOutputResponse
@@ -61,6 +65,8 @@ public protocol CloudFrontClientProtocol {
     func deleteCachePolicy(input: DeleteCachePolicyInput) async throws -> DeleteCachePolicyOutputResponse
     /// Delete an origin access identity.
     func deleteCloudFrontOriginAccessIdentity(input: DeleteCloudFrontOriginAccessIdentityInput) async throws -> DeleteCloudFrontOriginAccessIdentityOutputResponse
+    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that’s attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
+    func deleteContinuousDeploymentPolicy(input: DeleteContinuousDeploymentPolicyInput) async throws -> DeleteContinuousDeploymentPolicyOutputResponse
     /// Delete a distribution.
     func deleteDistribution(input: DeleteDistributionInput) async throws -> DeleteDistributionOutputResponse
     /// Remove a field-level encryption configuration.
@@ -121,6 +127,10 @@ public protocol CloudFrontClientProtocol {
     func getCloudFrontOriginAccessIdentity(input: GetCloudFrontOriginAccessIdentityInput) async throws -> GetCloudFrontOriginAccessIdentityOutputResponse
     /// Get the configuration information about an origin access identity.
     func getCloudFrontOriginAccessIdentityConfig(input: GetCloudFrontOriginAccessIdentityConfigInput) async throws -> GetCloudFrontOriginAccessIdentityConfigOutputResponse
+    /// Gets a continuous deployment policy, including metadata (the policy’s identifier and the date and time when the policy was last modified).
+    func getContinuousDeploymentPolicy(input: GetContinuousDeploymentPolicyInput) async throws -> GetContinuousDeploymentPolicyOutputResponse
+    /// Gets configuration information about a continuous deployment policy.
+    func getContinuousDeploymentPolicyConfig(input: GetContinuousDeploymentPolicyConfigInput) async throws -> GetContinuousDeploymentPolicyConfigOutputResponse
     /// Get the information about a distribution.
     func getDistribution(input: GetDistributionInput) async throws -> GetDistributionOutputResponse
     /// Get the configuration information about a distribution.
@@ -178,6 +188,8 @@ public protocol CloudFrontClientProtocol {
     func listCloudFrontOriginAccessIdentities(input: ListCloudFrontOriginAccessIdentitiesInput) async throws -> ListCloudFrontOriginAccessIdentitiesOutputResponse
     /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or overlap with the provided alias, and the associated CloudFront distributions and Amazon Web Services accounts for each conflicting alias. In the returned list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don’t own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap with the provided alias. For example, if you provide www.example.com as input, the returned list can include www.example.com and the overlapping wildcard alternate domain name (*.example.com), if they exist. If you provide *.example.com as input, the returned list can include *.example.com and any alternate domain names covered by that wildcard (for example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To list conflicting aliases, you provide the alias to search and the ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias. For more information, including how to set up the distribution and certificate, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     func listConflictingAliases(input: ListConflictingAliasesInput) async throws -> ListConflictingAliasesOutputResponse
+    /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    func listContinuousDeploymentPolicies(input: ListContinuousDeploymentPoliciesInput) async throws -> ListContinuousDeploymentPoliciesOutputResponse
     /// List CloudFront distributions.
     func listDistributions(input: ListDistributionsInput) async throws -> ListDistributionsOutputResponse
     /// Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
@@ -234,56 +246,28 @@ public protocol CloudFrontClientProtocol {
     func updateCachePolicy(input: UpdateCachePolicyInput) async throws -> UpdateCachePolicyOutputResponse
     /// Update an origin access identity.
     func updateCloudFrontOriginAccessIdentity(input: UpdateCloudFrontOriginAccessIdentityInput) async throws -> UpdateCloudFrontOriginAccessIdentityOutputResponse
-    /// Updates the configuration for a web distribution. When you update a distribution, there are more required fields than when you create a distribution. When you update your distribution by using this API action, follow the steps here to get the current configuration and then make your updates, to make sure that you include all of the required fields. To view a summary, see [Required Fields for Create Distribution and Update Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-overview-required-fields.html) in the Amazon CloudFront Developer Guide. The update process includes getting the current distribution configuration, updating the XML document that is returned to make your changes, and then submitting an UpdateDistribution request to make the updates. For information about updating a distribution using the CloudFront console instead, see [Creating a Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-creating-console.html) in the Amazon CloudFront Developer Guide. To update a web distribution using the CloudFront API
+    /// Updates a continuous deployment policy. You can update a continuous deployment policy to enable or disable it, to change the percentage of traffic that it sends to the staging distribution, or to change the staging distribution that it sends traffic to. When you update a continuous deployment policy configuration, all the fields are updated with the values that are provided in the request. You cannot update some fields independent of others. To update a continuous deployment policy configuration:
     ///
-    /// * Submit a [GetDistributionConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistributionConfig.html) request to get the current configuration and an Etag header
+    /// * Use GetContinuousDeploymentPolicyConfig to get the current configuration.
     ///
+    /// * Locally modify the fields in the continuous deployment policy configuration that you want to update.
     ///
-    /// for the distribution. If you update the distribution again, you must get a new Etag header.
+    /// * Use UpdateContinuousDeploymentPolicy, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn’t.
+    func updateContinuousDeploymentPolicy(input: UpdateContinuousDeploymentPolicyInput) async throws -> UpdateContinuousDeploymentPolicyOutputResponse
+    /// Updates the configuration for a CloudFront distribution. The update process includes getting the current distribution configuration, updating it to make your changes, and then submitting an UpdateDistribution request to make the updates. To update a web distribution using the CloudFront API
     ///
-    /// * Update the XML document that was returned in the response to your GetDistributionConfig request to include your changes. When you edit the XML file, be aware of the following:
+    /// * Use GetDistributionConfig to get the current configuration, including the version identifier (ETag).
     ///
-    /// * You must strip out the ETag parameter that is returned.
+    /// * Update the distribution configuration that was returned in the response. Note the following important requirements and restrictions:
     ///
-    /// * Additional fields are required when you update a distribution. There may be fields included in the XML file for features that you haven't configured for your distribution. This is expected and required to successfully update the distribution.
+    /// * You must rename the ETag field to IfMatch, leaving the value unchanged. (Set the value of IfMatch to the value of ETag, then remove the ETag field.)
     ///
-    /// * You can't change the value of CallerReference. If you try to change this value, CloudFront returns an
-    ///
-    ///
-    /// IllegalUpdate error.
-    ///
-    /// * The new configuration replaces the existing configuration; the values that you specify in an UpdateDistribution request are not merged into your existing configuration. When you add, delete, or replace values in an element that allows multiple values (for example, CNAME), you must specify all of the values that you want to appear in the updated distribution. In addition,
-    ///
-    ///
-    /// you must update the corresponding Quantity element.
+    /// * You can’t change the value of CallerReference.
     ///
     ///
     ///
     ///
-    /// * Submit an UpdateDistribution request to update the configuration for your distribution:
-    ///
-    /// * In the request body, include the XML document that you updated in Step 2. The request body must include an
-    ///
-    ///
-    /// XML document with a DistributionConfig element.
-    ///
-    /// * Set the value of the HTTP If-Match header to the value of the ETag header that CloudFront returned
-    ///
-    ///
-    /// when you submitted the GetDistributionConfig request in Step 1.
-    ///
-    ///
-    ///
-    ///
-    /// * Review the response to the UpdateDistribution request to confirm that the configuration was
-    ///
-    ///
-    /// successfully updated.
-    ///
-    /// * Optional: Submit a [GetDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistribution.html) request to confirm that your changes have propagated.
-    ///
-    ///
-    /// When propagation is complete, the value of Status is Deployed.
+    /// * Submit an UpdateDistribution request, providing the distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an UpdateDistribution request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn’t.
     func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutputResponse
     /// Update a field-level encryption configuration.
     func updateFieldLevelEncryptionConfig(input: UpdateFieldLevelEncryptionConfigInput) async throws -> UpdateFieldLevelEncryptionConfigOutputResponse

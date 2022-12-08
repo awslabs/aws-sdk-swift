@@ -1653,11 +1653,11 @@ extension AuditManagerClientTypes.AssessmentReportEvidenceError: Swift.Codable {
 }
 
 extension AuditManagerClientTypes {
-    /// An error entity for the AssessmentReportEvidence API. This is used to provide more meaningful errors than a simple string message.
+    /// An error entity for assessment report evidence errors. This is used to provide more meaningful errors than a simple string message.
     public struct AssessmentReportEvidenceError: Swift.Equatable {
-        /// The error code that the AssessmentReportEvidence API returned.
+        /// The error code that was returned.
         public var errorCode: Swift.String?
-        /// The error message that the AssessmentReportEvidence API returned.
+        /// The error message that was returned.
         public var errorMessage: Swift.String?
         /// The identifier for the evidence.
         public var evidenceId: Swift.String?
@@ -3194,7 +3194,7 @@ extension AuditManagerClientTypes {
         public var arn: Swift.String?
         /// The data mapping sources for the control.
         public var controlMappingSources: [AuditManagerClientTypes.ControlMappingSource]?
-        /// The data source that determines where Audit Manager collects evidence from for the control.
+        /// The data source types that determine where Audit Manager collects evidence from for the control.
         public var controlSources: Swift.String?
         /// Specifies when the control was created.
         public var createdAt: ClientRuntime.Date?
@@ -4449,6 +4449,7 @@ extension CreateAssessmentReportInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
         case name
+        case queryStatement
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4458,6 +4459,9 @@ extension CreateAssessmentReportInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let queryStatement = self.queryStatement {
+            try encodeContainer.encode(queryStatement, forKey: .queryStatement)
         }
     }
 }
@@ -4480,28 +4484,34 @@ public struct CreateAssessmentReportInput: Swift.Equatable {
     /// The name of the new assessment report.
     /// This member is required.
     public var name: Swift.String?
+    /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment report from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not include any assessment evidence that was manually [added to a report using the console](https://docs.aws.amazon.com/userguide/generate-assessment-report.html#generate-assessment-report-include-evidence), or [associated with a report using the API](https://docs.aws.amazon.com/APIReference-evidenceFinder/API_BatchAssociateAssessmentReportEvidence.html). To use this parameter, the [enablementStatus](https://docs.aws.amazon.com/APIReference-evidenceFinder/API_EvidenceFinderSetup.html#auditmanager-Type-EvidenceFinderSetup-enablementStatus) of evidence finder must be ENABLED. For examples and help resolving queryStatement validation exceptions, see [Troubleshooting evidence finder issues](https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-finder-issues.html#querystatement-exceptions) in the AWS Audit Manager User Guide.
+    public var queryStatement: Swift.String?
 
     public init (
         assessmentId: Swift.String? = nil,
         description: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        queryStatement: Swift.String? = nil
     )
     {
         self.assessmentId = assessmentId
         self.description = description
         self.name = name
+        self.queryStatement = queryStatement
     }
 }
 
 struct CreateAssessmentReportInputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
+    let queryStatement: Swift.String?
 }
 
 extension CreateAssessmentReportInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
         case name
+        case queryStatement
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -4510,6 +4520,8 @@ extension CreateAssessmentReportInputBody: Swift.Decodable {
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let queryStatementDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryStatement)
+        queryStatement = queryStatementDecoded
     }
 }
 
@@ -6010,7 +6022,13 @@ extension AuditManagerClientTypes {
         public var awsAccountId: Swift.String?
         /// The Amazon Web Services account that the evidence is collected from, and its organization path.
         public var awsOrganization: Swift.String?
-        /// The evaluation status for evidence that falls under the compliance check category. For evidence collected from Security Hub, a Pass or Fail result is shown. For evidence collected from Config, a Compliant or Noncompliant result is shown.
+        /// The evaluation status for automated evidence that falls under the compliance check category.
+        ///
+        /// * Audit Manager classes evidence as non-compliant if Security Hub reports a Fail result, or if Config reports a Non-compliant result.
+        ///
+        /// * Audit Manager classes evidence as compliant if Security Hub reports a Pass result, or if Config reports a Compliant result.
+        ///
+        /// * If a compliance check isn't available or applicable, then no compliance evaluation can be made for that evidence. This is the case if the evidence uses Config or Security Hub as the underlying data source type, but those services aren't enabled. This is also the case if the evidence uses an underlying data source type that doesn't support compliance checks (such as manual evidence, Amazon Web Services API calls, or CloudTrail).
         public var complianceCheck: Swift.String?
         /// The data source where the evidence was collected from.
         public var dataSource: Swift.String?
@@ -6069,6 +6087,158 @@ extension AuditManagerClientTypes {
         }
     }
 
+}
+
+extension AuditManagerClientTypes {
+    public enum EvidenceFinderBackfillStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case inProgress
+        case notStarted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvidenceFinderBackfillStatus] {
+            return [
+                .completed,
+                .inProgress,
+                .notStarted,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .inProgress: return "IN_PROGRESS"
+            case .notStarted: return "NOT_STARTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvidenceFinderBackfillStatus(rawValue: rawValue) ?? EvidenceFinderBackfillStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AuditManagerClientTypes.EvidenceFinderEnablement: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backfillStatus
+        case enablementStatus
+        case error
+        case eventDataStoreArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backfillStatus = self.backfillStatus {
+            try encodeContainer.encode(backfillStatus.rawValue, forKey: .backfillStatus)
+        }
+        if let enablementStatus = self.enablementStatus {
+            try encodeContainer.encode(enablementStatus.rawValue, forKey: .enablementStatus)
+        }
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+        if let eventDataStoreArn = self.eventDataStoreArn {
+            try encodeContainer.encode(eventDataStoreArn, forKey: .eventDataStoreArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventDataStoreArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventDataStoreArn)
+        eventDataStoreArn = eventDataStoreArnDecoded
+        let enablementStatusDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.EvidenceFinderEnablementStatus.self, forKey: .enablementStatus)
+        enablementStatus = enablementStatusDecoded
+        let backfillStatusDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.EvidenceFinderBackfillStatus.self, forKey: .backfillStatus)
+        backfillStatus = backfillStatusDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
+        error = errorDecoded
+    }
+}
+
+extension AuditManagerClientTypes {
+    /// The settings object that specifies whether evidence finder is enabled. This object also describes the related event data store, and the backfill status for populating the event data store with evidence data.
+    public struct EvidenceFinderEnablement: Swift.Equatable {
+        /// The current status of the evidence data backfill process. The backfill starts after you enable evidence finder. During this task, Audit Manager populates an event data store with your past evidence data so that your evidence can be queried.
+        ///
+        /// * NOT_STARTED means that the backfill hasn’t started yet.
+        ///
+        /// * IN_PROGRESS means that the backfill is in progress. This can take up to 24 hours to complete, depending on the amount of evidence data.
+        ///
+        /// * COMPLETED means that the backfill is complete. All of your past evidence is now queryable.
+        public var backfillStatus: AuditManagerClientTypes.EvidenceFinderBackfillStatus?
+        /// The current status of the evidence finder feature and the related event data store.
+        ///
+        /// * ENABLE_IN_PROGRESS means that you requested to enable evidence finder. An event data store is currently being created to support evidence finder queries.
+        ///
+        /// * ENABLED means that an event data store was successfully created and evidence finder is enabled. We recommend that you wait 24 hours until the event data store is backfilled with your past evidence data. You can use evidence finder in the meantime, but not all data might be available until the backfill is complete.
+        ///
+        /// * DISABLE_IN_PROGRESS means that you requested to disable evidence finder, and your request is pending the deletion of the event data store.
+        ///
+        /// * DISABLED means that you have permanently disabled evidence finder and the event data store has been deleted. You can't re-enable evidence finder after this point.
+        public var enablementStatus: AuditManagerClientTypes.EvidenceFinderEnablementStatus?
+        /// Represents any errors that occurred when enabling or disabling evidence finder.
+        public var error: Swift.String?
+        /// The Amazon Resource Name (ARN) of the CloudTrail Lake event data store that’s used by evidence finder. The event data store is the lake of evidence data that evidence finder runs queries against.
+        public var eventDataStoreArn: Swift.String?
+
+        public init (
+            backfillStatus: AuditManagerClientTypes.EvidenceFinderBackfillStatus? = nil,
+            enablementStatus: AuditManagerClientTypes.EvidenceFinderEnablementStatus? = nil,
+            error: Swift.String? = nil,
+            eventDataStoreArn: Swift.String? = nil
+        )
+        {
+            self.backfillStatus = backfillStatus
+            self.enablementStatus = enablementStatus
+            self.error = error
+            self.eventDataStoreArn = eventDataStoreArn
+        }
+    }
+
+}
+
+extension AuditManagerClientTypes {
+    public enum EvidenceFinderEnablementStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case disableInProgress
+        case enabled
+        case enableInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvidenceFinderEnablementStatus] {
+            return [
+                .disabled,
+                .disableInProgress,
+                .enabled,
+                .enableInProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disableInProgress: return "DISABLE_IN_PROGRESS"
+            case .enabled: return "ENABLED"
+            case .enableInProgress: return "ENABLE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvidenceFinderEnablementStatus(rawValue: rawValue) ?? EvidenceFinderEnablementStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AuditManagerClientTypes.EvidenceInsights: Swift.Codable {
@@ -10783,6 +10953,7 @@ extension RegisterOrganizationAdminAccountOutputResponseBody: Swift.Decodable {
 extension AuditManagerClientTypes.Resource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case complianceCheck
         case value
     }
 
@@ -10790,6 +10961,9 @@ extension AuditManagerClientTypes.Resource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let complianceCheck = self.complianceCheck {
+            try encodeContainer.encode(complianceCheck, forKey: .complianceCheck)
         }
         if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
@@ -10802,6 +10976,8 @@ extension AuditManagerClientTypes.Resource: Swift.Codable {
         arn = arnDecoded
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
+        let complianceCheckDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .complianceCheck)
+        complianceCheck = complianceCheckDecoded
     }
 }
 
@@ -10810,15 +10986,25 @@ extension AuditManagerClientTypes {
     public struct Resource: Swift.Equatable {
         /// The Amazon Resource Name (ARN) for the resource.
         public var arn: Swift.String?
+        /// The evaluation status for a resource that was assessed when collecting compliance check evidence.
+        ///
+        /// * Audit Manager classes the resource as non-compliant if Security Hub reports a Fail result, or if Config reports a Non-compliant result.
+        ///
+        /// * Audit Manager classes the resource as compliant if Security Hub reports a Pass result, or if Config reports a Compliant result.
+        ///
+        /// * If a compliance check isn't available or applicable, then no compliance evaluation can be made for that resource. This is the case if a resource assessment uses Config or Security Hub as the underlying data source type, but those services aren't enabled. This is also the case if the resource assessment uses an underlying data source type that doesn't support compliance checks (such as manual evidence, Amazon Web Services API calls, or CloudTrail).
+        public var complianceCheck: Swift.String?
         /// The value of the resource.
         public var value: Swift.String?
 
         public init (
             arn: Swift.String? = nil,
+            complianceCheck: Swift.String? = nil,
             value: Swift.String? = nil
         )
         {
             self.arn = arn
+            self.complianceCheck = complianceCheck
             self.value = value
         }
     }
@@ -11171,6 +11357,7 @@ extension AuditManagerClientTypes {
         case all
         case defaultAssessmentReportsDestination
         case defaultProcessOwners
+        case evidenceFinderEnablement
         case isAwsOrgEnabled
         case snsTopic
         case sdkUnknown(Swift.String)
@@ -11180,6 +11367,7 @@ extension AuditManagerClientTypes {
                 .all,
                 .defaultAssessmentReportsDestination,
                 .defaultProcessOwners,
+                .evidenceFinderEnablement,
                 .isAwsOrgEnabled,
                 .snsTopic,
                 .sdkUnknown("")
@@ -11194,6 +11382,7 @@ extension AuditManagerClientTypes {
             case .all: return "ALL"
             case .defaultAssessmentReportsDestination: return "DEFAULT_ASSESSMENT_REPORTS_DESTINATION"
             case .defaultProcessOwners: return "DEFAULT_PROCESS_OWNERS"
+            case .evidenceFinderEnablement: return "EVIDENCE_FINDER_ENABLEMENT"
             case .isAwsOrgEnabled: return "IS_AWS_ORG_ENABLED"
             case .snsTopic: return "SNS_TOPIC"
             case let .sdkUnknown(s): return s
@@ -11211,6 +11400,7 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultAssessmentReportsDestination
         case defaultProcessOwners
+        case evidenceFinderEnablement
         case isAwsOrgEnabled
         case kmsKey
         case snsTopic
@@ -11226,6 +11416,9 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
             for roles0 in defaultProcessOwners {
                 try defaultProcessOwnersContainer.encode(roles0)
             }
+        }
+        if let evidenceFinderEnablement = self.evidenceFinderEnablement {
+            try encodeContainer.encode(evidenceFinderEnablement, forKey: .evidenceFinderEnablement)
         }
         if let isAwsOrgEnabled = self.isAwsOrgEnabled {
             try encodeContainer.encode(isAwsOrgEnabled, forKey: .isAwsOrgEnabled)
@@ -11259,6 +11452,8 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
         defaultProcessOwners = defaultProcessOwnersDecoded0
         let kmsKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKey)
         kmsKey = kmsKeyDecoded
+        let evidenceFinderEnablementDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.EvidenceFinderEnablement.self, forKey: .evidenceFinderEnablement)
+        evidenceFinderEnablement = evidenceFinderEnablementDecoded
     }
 }
 
@@ -11269,6 +11464,8 @@ extension AuditManagerClientTypes {
         public var defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
         /// The designated default audit owners.
         public var defaultProcessOwners: [AuditManagerClientTypes.Role]?
+        /// The current evidence finder status and event data store details.
+        public var evidenceFinderEnablement: AuditManagerClientTypes.EvidenceFinderEnablement?
         /// Specifies whether Organizations is enabled.
         public var isAwsOrgEnabled: Swift.Bool?
         /// The KMS key details.
@@ -11279,6 +11476,7 @@ extension AuditManagerClientTypes {
         public init (
             defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination? = nil,
             defaultProcessOwners: [AuditManagerClientTypes.Role]? = nil,
+            evidenceFinderEnablement: AuditManagerClientTypes.EvidenceFinderEnablement? = nil,
             isAwsOrgEnabled: Swift.Bool? = nil,
             kmsKey: Swift.String? = nil,
             snsTopic: Swift.String? = nil
@@ -11286,6 +11484,7 @@ extension AuditManagerClientTypes {
         {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
             self.defaultProcessOwners = defaultProcessOwners
+            self.evidenceFinderEnablement = evidenceFinderEnablement
             self.isAwsOrgEnabled = isAwsOrgEnabled
             self.kmsKey = kmsKey
             self.snsTopic = snsTopic
@@ -11503,8 +11702,6 @@ extension AuditManagerClientTypes {
         /// * For [service-linked rules](https://docs.aws.amazon.com/config/latest/developerguide/service-linked-awsconfig-rules.html), you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.
         ///
         /// * Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w keywordValue: Custom_CustomRuleForAccount-conformance-pack
-        ///
-        /// * Service-linked rule name: securityhub-api-gw-cache-encrypted-101104e1 keywordValue: Custom_securityhub-api-gw-cache-encrypted
         ///
         /// * Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled
         public var keywordValue: Swift.String?
@@ -13228,6 +13425,7 @@ extension UpdateSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultAssessmentReportsDestination
         case defaultProcessOwners
+        case evidenceFinderEnabled
         case kmsKey
         case snsTopic
     }
@@ -13242,6 +13440,9 @@ extension UpdateSettingsInput: Swift.Encodable {
             for roles0 in defaultProcessOwners {
                 try defaultProcessOwnersContainer.encode(roles0)
             }
+        }
+        if let evidenceFinderEnabled = self.evidenceFinderEnabled {
+            try encodeContainer.encode(evidenceFinderEnabled, forKey: .evidenceFinderEnabled)
         }
         if let kmsKey = self.kmsKey {
             try encodeContainer.encode(kmsKey, forKey: .kmsKey)
@@ -13263,6 +13464,8 @@ public struct UpdateSettingsInput: Swift.Equatable {
     public var defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
     /// A list of the default audit owners.
     public var defaultProcessOwners: [AuditManagerClientTypes.Role]?
+    /// Specifies whether the evidence finder feature is enabled. Change this attribute to enable or disable evidence finder. When you use this attribute to disable evidence finder, Audit Manager deletes the event data store that’s used to query your evidence data. As a result, you can’t re-enable evidence finder and use the feature again. Your only alternative is to [deregister](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeregisterAccount.html) and then [re-register](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_RegisterAccount.html) Audit Manager. Disabling evidence finder is permanent, so consider this decision carefully before you proceed. If you’re using Audit Manager as a delegated administrator, keep in mind that this action applies to all member accounts in your organization.
+    public var evidenceFinderEnabled: Swift.Bool?
     /// The KMS key details.
     public var kmsKey: Swift.String?
     /// The Amazon Simple Notification Service (Amazon SNS) topic that Audit Manager sends notifications to.
@@ -13271,12 +13474,14 @@ public struct UpdateSettingsInput: Swift.Equatable {
     public init (
         defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination? = nil,
         defaultProcessOwners: [AuditManagerClientTypes.Role]? = nil,
+        evidenceFinderEnabled: Swift.Bool? = nil,
         kmsKey: Swift.String? = nil,
         snsTopic: Swift.String? = nil
     )
     {
         self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
         self.defaultProcessOwners = defaultProcessOwners
+        self.evidenceFinderEnabled = evidenceFinderEnabled
         self.kmsKey = kmsKey
         self.snsTopic = snsTopic
     }
@@ -13287,12 +13492,14 @@ struct UpdateSettingsInputBody: Swift.Equatable {
     let defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
     let defaultProcessOwners: [AuditManagerClientTypes.Role]?
     let kmsKey: Swift.String?
+    let evidenceFinderEnabled: Swift.Bool?
 }
 
 extension UpdateSettingsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultAssessmentReportsDestination
         case defaultProcessOwners
+        case evidenceFinderEnabled
         case kmsKey
         case snsTopic
     }
@@ -13316,6 +13523,8 @@ extension UpdateSettingsInputBody: Swift.Decodable {
         defaultProcessOwners = defaultProcessOwnersDecoded0
         let kmsKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKey)
         kmsKey = kmsKeyDecoded
+        let evidenceFinderEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .evidenceFinderEnabled)
+        evidenceFinderEnabled = evidenceFinderEnabledDecoded
     }
 }
 

@@ -38,6 +38,63 @@ extension AthenaClientTypes {
 
 }
 
+extension AthenaClientTypes.ApplicationDPUSizes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationRuntimeId = "ApplicationRuntimeId"
+        case supportedDPUSizes = "SupportedDPUSizes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationRuntimeId = self.applicationRuntimeId {
+            try encodeContainer.encode(applicationRuntimeId, forKey: .applicationRuntimeId)
+        }
+        if let supportedDPUSizes = supportedDPUSizes {
+            var supportedDPUSizesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDPUSizes)
+            for supporteddpusizelist0 in supportedDPUSizes {
+                try supportedDPUSizesContainer.encode(supporteddpusizelist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationRuntimeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationRuntimeId)
+        applicationRuntimeId = applicationRuntimeIdDecoded
+        let supportedDPUSizesContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .supportedDPUSizes)
+        var supportedDPUSizesDecoded0:[Swift.Int]? = nil
+        if let supportedDPUSizesContainer = supportedDPUSizesContainer {
+            supportedDPUSizesDecoded0 = [Swift.Int]()
+            for integer0 in supportedDPUSizesContainer {
+                if let integer0 = integer0 {
+                    supportedDPUSizesDecoded0?.append(integer0)
+                }
+            }
+        }
+        supportedDPUSizes = supportedDPUSizesDecoded0
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains the application runtime IDs and their supported DPU sizes.
+    public struct ApplicationDPUSizes: Swift.Equatable {
+        /// The name of the supported application runtime (for example, Jupyter 1.0).
+        public var applicationRuntimeId: Swift.String?
+        /// A list of the supported DPU sizes that the application runtime supports.
+        public var supportedDPUSizes: [Swift.Int]?
+
+        public init (
+            applicationRuntimeId: Swift.String? = nil,
+            supportedDPUSizes: [Swift.Int]? = nil
+        )
+        {
+            self.applicationRuntimeId = applicationRuntimeId
+            self.supportedDPUSizes = supportedDPUSizes
+        }
+    }
+
+}
+
 extension AthenaClientTypes.AthenaError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCategory = "ErrorCategory"
@@ -575,6 +632,321 @@ extension BatchGetQueryExecutionOutputResponseBody: Swift.Decodable {
         }
         unprocessedQueryExecutionIds = unprocessedQueryExecutionIdsDecoded0
     }
+}
+
+extension AthenaClientTypes.CalculationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codeBlock = "CodeBlock"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codeBlock = self.codeBlock {
+            try encodeContainer.encode(codeBlock, forKey: .codeBlock)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codeBlock)
+        codeBlock = codeBlockDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains configuration information for the calculation.
+    public struct CalculationConfiguration: Swift.Equatable {
+        /// A string that contains the code for the calculation.
+        public var codeBlock: Swift.String?
+
+        public init (
+            codeBlock: Swift.String? = nil
+        )
+        {
+            self.codeBlock = codeBlock
+        }
+    }
+
+}
+
+extension AthenaClientTypes {
+    public enum CalculationExecutionState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case canceled
+        case canceling
+        case completed
+        case created
+        case creating
+        case failed
+        case queued
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CalculationExecutionState] {
+            return [
+                .canceled,
+                .canceling,
+                .completed,
+                .created,
+                .creating,
+                .failed,
+                .queued,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .canceling: return "CANCELING"
+            case .completed: return "COMPLETED"
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .failed: return "FAILED"
+            case .queued: return "QUEUED"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CalculationExecutionState(rawValue: rawValue) ?? CalculationExecutionState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AthenaClientTypes.CalculationResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resultS3Uri = "ResultS3Uri"
+        case resultType = "ResultType"
+        case stdErrorS3Uri = "StdErrorS3Uri"
+        case stdOutS3Uri = "StdOutS3Uri"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resultS3Uri = self.resultS3Uri {
+            try encodeContainer.encode(resultS3Uri, forKey: .resultS3Uri)
+        }
+        if let resultType = self.resultType {
+            try encodeContainer.encode(resultType, forKey: .resultType)
+        }
+        if let stdErrorS3Uri = self.stdErrorS3Uri {
+            try encodeContainer.encode(stdErrorS3Uri, forKey: .stdErrorS3Uri)
+        }
+        if let stdOutS3Uri = self.stdOutS3Uri {
+            try encodeContainer.encode(stdOutS3Uri, forKey: .stdOutS3Uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stdOutS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stdOutS3Uri)
+        stdOutS3Uri = stdOutS3UriDecoded
+        let stdErrorS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stdErrorS3Uri)
+        stdErrorS3Uri = stdErrorS3UriDecoded
+        let resultS3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultS3Uri)
+        resultS3Uri = resultS3UriDecoded
+        let resultTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultType)
+        resultType = resultTypeDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains information about an application-specific calculation result.
+    public struct CalculationResult: Swift.Equatable {
+        /// The Amazon S3 location of the folder for the calculation results.
+        public var resultS3Uri: Swift.String?
+        /// The data format of the calculation result.
+        public var resultType: Swift.String?
+        /// The Amazon S3 location of the stderr error messages file for the calculation.
+        public var stdErrorS3Uri: Swift.String?
+        /// The Amazon S3 location of the stdout file for the calculation.
+        public var stdOutS3Uri: Swift.String?
+
+        public init (
+            resultS3Uri: Swift.String? = nil,
+            resultType: Swift.String? = nil,
+            stdErrorS3Uri: Swift.String? = nil,
+            stdOutS3Uri: Swift.String? = nil
+        )
+        {
+            self.resultS3Uri = resultS3Uri
+            self.resultType = resultType
+            self.stdErrorS3Uri = stdErrorS3Uri
+            self.stdOutS3Uri = stdOutS3Uri
+        }
+    }
+
+}
+
+extension AthenaClientTypes.CalculationStatistics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dpuExecutionInMillis = "DpuExecutionInMillis"
+        case progress = "Progress"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dpuExecutionInMillis = self.dpuExecutionInMillis {
+            try encodeContainer.encode(dpuExecutionInMillis, forKey: .dpuExecutionInMillis)
+        }
+        if let progress = self.progress {
+            try encodeContainer.encode(progress, forKey: .progress)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dpuExecutionInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dpuExecutionInMillis)
+        dpuExecutionInMillis = dpuExecutionInMillisDecoded
+        let progressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .progress)
+        progress = progressDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains statistics for a notebook calculation.
+    public struct CalculationStatistics: Swift.Equatable {
+        /// The data processing unit execution time in milliseconds for the calculation.
+        public var dpuExecutionInMillis: Swift.Int?
+        /// The progress of the calculation.
+        public var progress: Swift.String?
+
+        public init (
+            dpuExecutionInMillis: Swift.Int? = nil,
+            progress: Swift.String? = nil
+        )
+        {
+            self.dpuExecutionInMillis = dpuExecutionInMillis
+            self.progress = progress
+        }
+    }
+
+}
+
+extension AthenaClientTypes.CalculationStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case completionDateTime = "CompletionDateTime"
+        case state = "State"
+        case stateChangeReason = "StateChangeReason"
+        case submissionDateTime = "SubmissionDateTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let completionDateTime = self.completionDateTime {
+            try encodeContainer.encodeTimestamp(completionDateTime, format: .epochSeconds, forKey: .completionDateTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let stateChangeReason = self.stateChangeReason {
+            try encodeContainer.encode(stateChangeReason, forKey: .stateChangeReason)
+        }
+        if let submissionDateTime = self.submissionDateTime {
+            try encodeContainer.encodeTimestamp(submissionDateTime, format: .epochSeconds, forKey: .submissionDateTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let submissionDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .submissionDateTime)
+        submissionDateTime = submissionDateTimeDecoded
+        let completionDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completionDateTime)
+        completionDateTime = completionDateTimeDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationExecutionState.self, forKey: .state)
+        state = stateDecoded
+        let stateChangeReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateChangeReason)
+        stateChangeReason = stateChangeReasonDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains information about the status of a notebook calculation.
+    public struct CalculationStatus: Swift.Equatable {
+        /// The date and time the calculation completed processing.
+        public var completionDateTime: ClientRuntime.Date?
+        /// The state of the calculation execution. A description of each state follows. CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been received and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running.
+        public var state: AthenaClientTypes.CalculationExecutionState?
+        /// The reason for the calculation state change (for example, the calculation was canceled because the session was terminated).
+        public var stateChangeReason: Swift.String?
+        /// The date and time the calculation was submitted for processing.
+        public var submissionDateTime: ClientRuntime.Date?
+
+        public init (
+            completionDateTime: ClientRuntime.Date? = nil,
+            state: AthenaClientTypes.CalculationExecutionState? = nil,
+            stateChangeReason: Swift.String? = nil,
+            submissionDateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.completionDateTime = completionDateTime
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.submissionDateTime = submissionDateTime
+        }
+    }
+
+}
+
+extension AthenaClientTypes.CalculationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+        case description = "Description"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let calculationExecutionId = self.calculationExecutionId {
+            try encodeContainer.encode(calculationExecutionId, forKey: .calculationExecutionId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculationExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculationExecutionId)
+        calculationExecutionId = calculationExecutionIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Summary information for a notebook calculation.
+    public struct CalculationSummary: Swift.Equatable {
+        /// The calculation execution UUID.
+        public var calculationExecutionId: Swift.String?
+        /// A description of the calculation.
+        public var description: Swift.String?
+        /// Contains information about the status of the calculation.
+        public var status: AthenaClientTypes.CalculationStatus?
+
+        public init (
+            calculationExecutionId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            status: AthenaClientTypes.CalculationStatus? = nil
+        )
+        {
+            self.calculationExecutionId = calculationExecutionId
+            self.description = description
+            self.status = status
+        }
+    }
+
 }
 
 extension AthenaClientTypes.Column: Swift.Codable {
@@ -1144,6 +1516,146 @@ extension CreateNamedQueryOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateNotebookInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case name = "Name"
+        case workGroup = "WorkGroup"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
+        }
+    }
+}
+
+extension CreateNotebookInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateNotebookInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    public var clientRequestToken: Swift.String?
+    /// The name of the ipynb file to be created in the Spark workgroup, without the .ipynb extension.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the Spark enabled workgroup in which the notebook will be created.
+    /// This member is required.
+    public var workGroup: Swift.String?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        workGroup: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.name = name
+        self.workGroup = workGroup
+    }
+}
+
+struct CreateNotebookInputBody: Swift.Equatable {
+    let workGroup: Swift.String?
+    let name: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension CreateNotebookInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case name = "Name"
+        case workGroup = "WorkGroup"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension CreateNotebookOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateNotebookOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreateNotebookOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateNotebookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.notebookId = output.notebookId
+        } else {
+            self.notebookId = nil
+        }
+    }
+}
+
+public struct CreateNotebookOutputResponse: Swift.Equatable {
+    /// A unique identifier for the notebook.
+    public var notebookId: Swift.String?
+
+    public init (
+        notebookId: Swift.String? = nil
+    )
+    {
+        self.notebookId = notebookId
+    }
+}
+
+struct CreateNotebookOutputResponseBody: Swift.Equatable {
+    let notebookId: Swift.String?
+}
+
+extension CreateNotebookOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookId = "NotebookId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
+        notebookId = notebookIdDecoded
+    }
+}
+
 extension CreatePreparedStatementInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -1264,6 +1776,144 @@ public struct CreatePreparedStatementOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension CreatePresignedNotebookUrlInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+}
+
+extension CreatePresignedNotebookUrlInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreatePresignedNotebookUrlInput: Swift.Equatable {
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init (
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.sessionId = sessionId
+    }
+}
+
+struct CreatePresignedNotebookUrlInputBody: Swift.Equatable {
+    let sessionId: Swift.String?
+}
+
+extension CreatePresignedNotebookUrlInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+    }
+}
+
+extension CreatePresignedNotebookUrlOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreatePresignedNotebookUrlOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum CreatePresignedNotebookUrlOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreatePresignedNotebookUrlOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreatePresignedNotebookUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.authToken = output.authToken
+            self.authTokenExpirationTime = output.authTokenExpirationTime
+            self.notebookUrl = output.notebookUrl
+        } else {
+            self.authToken = nil
+            self.authTokenExpirationTime = nil
+            self.notebookUrl = nil
+        }
+    }
+}
+
+public struct CreatePresignedNotebookUrlOutputResponse: Swift.Equatable {
+    /// The authentication token for the notebook.
+    /// This member is required.
+    public var authToken: Swift.String?
+    /// The UTC epoch time when the authentication token expires.
+    /// This member is required.
+    public var authTokenExpirationTime: Swift.Int?
+    /// The URL of the notebook. The URL includes the authentication token and notebook file name and points directly to the opened notebook.
+    /// This member is required.
+    public var notebookUrl: Swift.String?
+
+    public init (
+        authToken: Swift.String? = nil,
+        authTokenExpirationTime: Swift.Int? = nil,
+        notebookUrl: Swift.String? = nil
+    )
+    {
+        self.authToken = authToken
+        self.authTokenExpirationTime = authTokenExpirationTime
+        self.notebookUrl = notebookUrl
+    }
+}
+
+struct CreatePresignedNotebookUrlOutputResponseBody: Swift.Equatable {
+    let notebookUrl: Swift.String?
+    let authToken: Swift.String?
+    let authTokenExpirationTime: Swift.Int?
+}
+
+extension CreatePresignedNotebookUrlOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authToken = "AuthToken"
+        case authTokenExpirationTime = "AuthTokenExpirationTime"
+        case notebookUrl = "NotebookUrl"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookUrl)
+        notebookUrl = notebookUrlDecoded
+        let authTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authToken)
+        authToken = authTokenDecoded
+        let authTokenExpirationTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .authTokenExpirationTime)
+        authTokenExpirationTime = authTokenExpirationTimeDecoded
+    }
+}
+
 extension CreateWorkGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "Configuration"
@@ -1299,7 +1949,7 @@ extension CreateWorkGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateWorkGroupInput: Swift.Equatable {
-    /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
+    /// Contains configuration information for creating an Athena SQL workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
     public var configuration: AthenaClientTypes.WorkGroupConfiguration?
     /// The workgroup description.
     public var description: Swift.String?
@@ -1392,6 +2042,42 @@ extension CreateWorkGroupOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateWorkGroupOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension AthenaClientTypes.CustomerContentEncryptionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKey = "KmsKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKey = self.kmsKey {
+            try encodeContainer.encode(kmsKey, forKey: .kmsKey)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKey)
+        kmsKey = kmsKeyDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
+    public struct CustomerContentEncryptionConfiguration: Swift.Equatable {
+        /// The KMS key that is used to encrypt the user's data stores in Athena.
+        /// This member is required.
+        public var kmsKey: Swift.String?
+
+        public init (
+            kmsKey: Swift.String? = nil
+        )
+        {
+            self.kmsKey = kmsKey
+        }
+    }
+
 }
 
 extension AthenaClientTypes.DataCatalog: Swift.Codable {
@@ -1837,6 +2523,90 @@ public struct DeleteNamedQueryOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteNotebookInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookId = "NotebookId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let notebookId = self.notebookId {
+            try encodeContainer.encode(notebookId, forKey: .notebookId)
+        }
+    }
+}
+
+extension DeleteNotebookInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteNotebookInput: Swift.Equatable {
+    /// The ID of the notebook to delete.
+    /// This member is required.
+    public var notebookId: Swift.String?
+
+    public init (
+        notebookId: Swift.String? = nil
+    )
+    {
+        self.notebookId = notebookId
+    }
+}
+
+struct DeleteNotebookInputBody: Swift.Equatable {
+    let notebookId: Swift.String?
+}
+
+extension DeleteNotebookInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookId = "NotebookId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
+        notebookId = notebookIdDecoded
+    }
+}
+
+extension DeleteNotebookOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteNotebookOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum DeleteNotebookOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteNotebookOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeletePreparedStatementInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case statementName = "StatementName"
@@ -2109,6 +2879,84 @@ extension AthenaClientTypes {
     }
 }
 
+extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalConfigs = "AdditionalConfigs"
+        case coordinatorDpuSize = "CoordinatorDpuSize"
+        case defaultExecutorDpuSize = "DefaultExecutorDpuSize"
+        case maxConcurrentDpus = "MaxConcurrentDpus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalConfigs = additionalConfigs {
+            var additionalConfigsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalConfigs)
+            for (dictKey0, parametersmap0) in additionalConfigs {
+                try additionalConfigsContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if coordinatorDpuSize != 0 {
+            try encodeContainer.encode(coordinatorDpuSize, forKey: .coordinatorDpuSize)
+        }
+        if defaultExecutorDpuSize != 0 {
+            try encodeContainer.encode(defaultExecutorDpuSize, forKey: .defaultExecutorDpuSize)
+        }
+        if maxConcurrentDpus != 0 {
+            try encodeContainer.encode(maxConcurrentDpus, forKey: .maxConcurrentDpus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let coordinatorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coordinatorDpuSize) ?? 0
+        coordinatorDpuSize = coordinatorDpuSizeDecoded
+        let maxConcurrentDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentDpus) ?? 0
+        maxConcurrentDpus = maxConcurrentDpusDecoded
+        let defaultExecutorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultExecutorDpuSize) ?? 0
+        defaultExecutorDpuSize = defaultExecutorDpuSizeDecoded
+        let additionalConfigsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalConfigs)
+        var additionalConfigsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalConfigsContainer = additionalConfigsContainer {
+            additionalConfigsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, parametersmapvalue0) in additionalConfigsContainer {
+                if let parametersmapvalue0 = parametersmapvalue0 {
+                    additionalConfigsDecoded0?[key0] = parametersmapvalue0
+                }
+            }
+        }
+        additionalConfigs = additionalConfigsDecoded0
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
+    public struct EngineConfiguration: Swift.Equatable {
+        /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Amazon S3 URI that the Jupyter server will download and serve, specify a value for the [StartSessionRequest$NotebookVersion] field, and then add a key named NotebookFileURI to AdditionalConfigs that has value of the Amazon S3 URI.
+        public var additionalConfigs: [Swift.String:Swift.String]?
+        /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session.
+        public var coordinatorDpuSize: Swift.Int
+        /// The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena.
+        public var defaultExecutorDpuSize: Swift.Int
+        /// The maximum number of DPUs that can run concurrently.
+        /// This member is required.
+        public var maxConcurrentDpus: Swift.Int
+
+        public init (
+            additionalConfigs: [Swift.String:Swift.String]? = nil,
+            coordinatorDpuSize: Swift.Int = 0,
+            defaultExecutorDpuSize: Swift.Int = 0,
+            maxConcurrentDpus: Swift.Int = 0
+        )
+        {
+            self.additionalConfigs = additionalConfigs
+            self.coordinatorDpuSize = coordinatorDpuSize
+            self.defaultExecutorDpuSize = defaultExecutorDpuSize
+            self.maxConcurrentDpus = maxConcurrentDpus
+        }
+    }
+
+}
+
 extension AthenaClientTypes.EngineVersion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case effectiveEngineVersion = "EffectiveEngineVersion"
@@ -2135,7 +2983,7 @@ extension AthenaClientTypes.EngineVersion: Swift.Codable {
 }
 
 extension AthenaClientTypes {
-    /// The Athena engine version for running queries.
+    /// The Athena engine version for running queries, or the PySpark engine version for running sessions.
     public struct EngineVersion: Swift.Equatable {
         /// Read only. The engine version on which the query runs. If the user requests a valid engine version other than Auto, the effective engine version is the same as the engine version that the user requested. If the user requests Auto, the effective engine version is chosen by Athena. When a request to update the engine version is made by a CreateWorkGroup or UpdateWorkGroup operation, the EffectiveEngineVersion field is ignored.
         public var effectiveEngineVersion: Swift.String?
@@ -2152,6 +3000,744 @@ extension AthenaClientTypes {
         }
     }
 
+}
+
+extension AthenaClientTypes {
+    public enum ExecutorState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case created
+        case creating
+        case failed
+        case registered
+        case terminated
+        case terminating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutorState] {
+            return [
+                .created,
+                .creating,
+                .failed,
+                .registered,
+                .terminated,
+                .terminating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .failed: return "FAILED"
+            case .registered: return "REGISTERED"
+            case .terminated: return "TERMINATED"
+            case .terminating: return "TERMINATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExecutorState(rawValue: rawValue) ?? ExecutorState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AthenaClientTypes {
+    public enum ExecutorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case coordinator
+        case gateway
+        case worker
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutorType] {
+            return [
+                .coordinator,
+                .gateway,
+                .worker,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .coordinator: return "COORDINATOR"
+            case .gateway: return "GATEWAY"
+            case .worker: return "WORKER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExecutorType(rawValue: rawValue) ?? ExecutorType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AthenaClientTypes.ExecutorsSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executorId = "ExecutorId"
+        case executorSize = "ExecutorSize"
+        case executorState = "ExecutorState"
+        case executorType = "ExecutorType"
+        case startDateTime = "StartDateTime"
+        case terminationDateTime = "TerminationDateTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executorId = self.executorId {
+            try encodeContainer.encode(executorId, forKey: .executorId)
+        }
+        if let executorSize = self.executorSize {
+            try encodeContainer.encode(executorSize, forKey: .executorSize)
+        }
+        if let executorState = self.executorState {
+            try encodeContainer.encode(executorState.rawValue, forKey: .executorState)
+        }
+        if let executorType = self.executorType {
+            try encodeContainer.encode(executorType.rawValue, forKey: .executorType)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encode(startDateTime, forKey: .startDateTime)
+        }
+        if let terminationDateTime = self.terminationDateTime {
+            try encodeContainer.encode(terminationDateTime, forKey: .terminationDateTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let executorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executorId)
+        executorId = executorIdDecoded
+        let executorTypeDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.ExecutorType.self, forKey: .executorType)
+        executorType = executorTypeDecoded
+        let startDateTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let terminationDateTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .terminationDateTime)
+        terminationDateTime = terminationDateTimeDecoded
+        let executorStateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.ExecutorState.self, forKey: .executorState)
+        executorState = executorStateDecoded
+        let executorSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .executorSize)
+        executorSize = executorSizeDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains summary information about an executor.
+    public struct ExecutorsSummary: Swift.Equatable {
+        /// The UUID of the executor.
+        /// This member is required.
+        public var executorId: Swift.String?
+        /// The smallest unit of compute that a session can request from Athena. Size is measured in data processing unit (DPU) values, a relative measure of processing power.
+        public var executorSize: Swift.Int?
+        /// The processing state of the executor. A description of each state follows. CREATING - The executor is being started, including acquiring resources. CREATED - The executor has been started. REGISTERED - The executor has been registered. TERMINATING - The executor is in the process of shutting down. TERMINATED - The executor is no longer running. FAILED - Due to a failure, the executor is no longer running.
+        public var executorState: AthenaClientTypes.ExecutorState?
+        /// The type of executor used for the application (COORDINATOR, GATEWAY, or WORKER).
+        public var executorType: AthenaClientTypes.ExecutorType?
+        /// The date and time that the executor started.
+        public var startDateTime: Swift.Int?
+        /// The date and time that the executor was terminated.
+        public var terminationDateTime: Swift.Int?
+
+        public init (
+            executorId: Swift.String? = nil,
+            executorSize: Swift.Int? = nil,
+            executorState: AthenaClientTypes.ExecutorState? = nil,
+            executorType: AthenaClientTypes.ExecutorType? = nil,
+            startDateTime: Swift.Int? = nil,
+            terminationDateTime: Swift.Int? = nil
+        )
+        {
+            self.executorId = executorId
+            self.executorSize = executorSize
+            self.executorState = executorState
+            self.executorType = executorType
+            self.startDateTime = startDateTime
+            self.terminationDateTime = terminationDateTime
+        }
+    }
+
+}
+
+extension ExportNotebookInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookId = "NotebookId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let notebookId = self.notebookId {
+            try encodeContainer.encode(notebookId, forKey: .notebookId)
+        }
+    }
+}
+
+extension ExportNotebookInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ExportNotebookInput: Swift.Equatable {
+    /// The ID of the notebook to export.
+    /// This member is required.
+    public var notebookId: Swift.String?
+
+    public init (
+        notebookId: Swift.String? = nil
+    )
+    {
+        self.notebookId = notebookId
+    }
+}
+
+struct ExportNotebookInputBody: Swift.Equatable {
+    let notebookId: Swift.String?
+}
+
+extension ExportNotebookInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookId = "NotebookId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
+        notebookId = notebookIdDecoded
+    }
+}
+
+extension ExportNotebookOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ExportNotebookOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ExportNotebookOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ExportNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ExportNotebookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.notebookMetadata = output.notebookMetadata
+            self.payload = output.payload
+        } else {
+            self.notebookMetadata = nil
+            self.payload = nil
+        }
+    }
+}
+
+public struct ExportNotebookOutputResponse: Swift.Equatable {
+    /// The notebook metadata, including notebook ID, notebook name, and workgroup name.
+    public var notebookMetadata: AthenaClientTypes.NotebookMetadata?
+    /// The content of the exported notebook.
+    public var payload: Swift.String?
+
+    public init (
+        notebookMetadata: AthenaClientTypes.NotebookMetadata? = nil,
+        payload: Swift.String? = nil
+    )
+    {
+        self.notebookMetadata = notebookMetadata
+        self.payload = payload
+    }
+}
+
+struct ExportNotebookOutputResponseBody: Swift.Equatable {
+    let notebookMetadata: AthenaClientTypes.NotebookMetadata?
+    let payload: Swift.String?
+}
+
+extension ExportNotebookOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookMetadata = "NotebookMetadata"
+        case payload = "Payload"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookMetadataDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.NotebookMetadata.self, forKey: .notebookMetadata)
+        notebookMetadata = notebookMetadataDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
+extension AthenaClientTypes.FilterDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// A string for searching notebook names.
+    public struct FilterDefinition: Swift.Equatable {
+        /// The name of the notebook to search for.
+        public var name: Swift.String?
+
+        public init (
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension GetCalculationExecutionCodeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let calculationExecutionId = self.calculationExecutionId {
+            try encodeContainer.encode(calculationExecutionId, forKey: .calculationExecutionId)
+        }
+    }
+}
+
+extension GetCalculationExecutionCodeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetCalculationExecutionCodeInput: Swift.Equatable {
+    /// The calculation execution UUID.
+    /// This member is required.
+    public var calculationExecutionId: Swift.String?
+
+    public init (
+        calculationExecutionId: Swift.String? = nil
+    )
+    {
+        self.calculationExecutionId = calculationExecutionId
+    }
+}
+
+struct GetCalculationExecutionCodeInputBody: Swift.Equatable {
+    let calculationExecutionId: Swift.String?
+}
+
+extension GetCalculationExecutionCodeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculationExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculationExecutionId)
+        calculationExecutionId = calculationExecutionIdDecoded
+    }
+}
+
+extension GetCalculationExecutionCodeOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetCalculationExecutionCodeOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetCalculationExecutionCodeOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCalculationExecutionCodeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetCalculationExecutionCodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.codeBlock = output.codeBlock
+        } else {
+            self.codeBlock = nil
+        }
+    }
+}
+
+public struct GetCalculationExecutionCodeOutputResponse: Swift.Equatable {
+    /// A pre-signed URL to the code that executed the calculation.
+    public var codeBlock: Swift.String?
+
+    public init (
+        codeBlock: Swift.String? = nil
+    )
+    {
+        self.codeBlock = codeBlock
+    }
+}
+
+struct GetCalculationExecutionCodeOutputResponseBody: Swift.Equatable {
+    let codeBlock: Swift.String?
+}
+
+extension GetCalculationExecutionCodeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codeBlock = "CodeBlock"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codeBlock)
+        codeBlock = codeBlockDecoded
+    }
+}
+
+extension GetCalculationExecutionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let calculationExecutionId = self.calculationExecutionId {
+            try encodeContainer.encode(calculationExecutionId, forKey: .calculationExecutionId)
+        }
+    }
+}
+
+extension GetCalculationExecutionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetCalculationExecutionInput: Swift.Equatable {
+    /// The calculation execution UUID.
+    /// This member is required.
+    public var calculationExecutionId: Swift.String?
+
+    public init (
+        calculationExecutionId: Swift.String? = nil
+    )
+    {
+        self.calculationExecutionId = calculationExecutionId
+    }
+}
+
+struct GetCalculationExecutionInputBody: Swift.Equatable {
+    let calculationExecutionId: Swift.String?
+}
+
+extension GetCalculationExecutionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculationExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculationExecutionId)
+        calculationExecutionId = calculationExecutionIdDecoded
+    }
+}
+
+extension GetCalculationExecutionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetCalculationExecutionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetCalculationExecutionOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCalculationExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetCalculationExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.calculationExecutionId = output.calculationExecutionId
+            self.description = output.description
+            self.result = output.result
+            self.sessionId = output.sessionId
+            self.statistics = output.statistics
+            self.status = output.status
+            self.workingDirectory = output.workingDirectory
+        } else {
+            self.calculationExecutionId = nil
+            self.description = nil
+            self.result = nil
+            self.sessionId = nil
+            self.statistics = nil
+            self.status = nil
+            self.workingDirectory = nil
+        }
+    }
+}
+
+public struct GetCalculationExecutionOutputResponse: Swift.Equatable {
+    /// The calculation execution UUID.
+    public var calculationExecutionId: Swift.String?
+    /// The description of the calculation execution.
+    public var description: Swift.String?
+    /// Contains result information. This field is populated only if the calculation is completed.
+    public var result: AthenaClientTypes.CalculationResult?
+    /// The session ID that the calculation ran in.
+    public var sessionId: Swift.String?
+    /// Contains information about the data processing unit (DPU) execution time and progress. This field is populated only when statistics are available.
+    public var statistics: AthenaClientTypes.CalculationStatistics?
+    /// Contains information about the status of the calculation.
+    public var status: AthenaClientTypes.CalculationStatus?
+    /// The Amazon S3 location in which calculation results are stored.
+    public var workingDirectory: Swift.String?
+
+    public init (
+        calculationExecutionId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        result: AthenaClientTypes.CalculationResult? = nil,
+        sessionId: Swift.String? = nil,
+        statistics: AthenaClientTypes.CalculationStatistics? = nil,
+        status: AthenaClientTypes.CalculationStatus? = nil,
+        workingDirectory: Swift.String? = nil
+    )
+    {
+        self.calculationExecutionId = calculationExecutionId
+        self.description = description
+        self.result = result
+        self.sessionId = sessionId
+        self.statistics = statistics
+        self.status = status
+        self.workingDirectory = workingDirectory
+    }
+}
+
+struct GetCalculationExecutionOutputResponseBody: Swift.Equatable {
+    let calculationExecutionId: Swift.String?
+    let sessionId: Swift.String?
+    let description: Swift.String?
+    let workingDirectory: Swift.String?
+    let status: AthenaClientTypes.CalculationStatus?
+    let statistics: AthenaClientTypes.CalculationStatistics?
+    let result: AthenaClientTypes.CalculationResult?
+}
+
+extension GetCalculationExecutionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+        case description = "Description"
+        case result = "Result"
+        case sessionId = "SessionId"
+        case statistics = "Statistics"
+        case status = "Status"
+        case workingDirectory = "WorkingDirectory"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculationExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculationExecutionId)
+        calculationExecutionId = calculationExecutionIdDecoded
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let workingDirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workingDirectory)
+        workingDirectory = workingDirectoryDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationStatus.self, forKey: .status)
+        status = statusDecoded
+        let statisticsDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationStatistics.self, forKey: .statistics)
+        statistics = statisticsDecoded
+        let resultDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationResult.self, forKey: .result)
+        result = resultDecoded
+    }
+}
+
+extension GetCalculationExecutionStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let calculationExecutionId = self.calculationExecutionId {
+            try encodeContainer.encode(calculationExecutionId, forKey: .calculationExecutionId)
+        }
+    }
+}
+
+extension GetCalculationExecutionStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetCalculationExecutionStatusInput: Swift.Equatable {
+    /// The calculation execution UUID.
+    /// This member is required.
+    public var calculationExecutionId: Swift.String?
+
+    public init (
+        calculationExecutionId: Swift.String? = nil
+    )
+    {
+        self.calculationExecutionId = calculationExecutionId
+    }
+}
+
+struct GetCalculationExecutionStatusInputBody: Swift.Equatable {
+    let calculationExecutionId: Swift.String?
+}
+
+extension GetCalculationExecutionStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculationExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculationExecutionId)
+        calculationExecutionId = calculationExecutionIdDecoded
+    }
+}
+
+extension GetCalculationExecutionStatusOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetCalculationExecutionStatusOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetCalculationExecutionStatusOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetCalculationExecutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetCalculationExecutionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.statistics = output.statistics
+            self.status = output.status
+        } else {
+            self.statistics = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetCalculationExecutionStatusOutputResponse: Swift.Equatable {
+    /// Contains information about the DPU execution time and progress.
+    public var statistics: AthenaClientTypes.CalculationStatistics?
+    /// Contains information about the calculation execution status.
+    public var status: AthenaClientTypes.CalculationStatus?
+
+    public init (
+        statistics: AthenaClientTypes.CalculationStatistics? = nil,
+        status: AthenaClientTypes.CalculationStatus? = nil
+    )
+    {
+        self.statistics = statistics
+        self.status = status
+    }
+}
+
+struct GetCalculationExecutionStatusOutputResponseBody: Swift.Equatable {
+    let status: AthenaClientTypes.CalculationStatus?
+    let statistics: AthenaClientTypes.CalculationStatistics?
+}
+
+extension GetCalculationExecutionStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case statistics = "Statistics"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationStatus.self, forKey: .status)
+        status = statusDecoded
+        let statisticsDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationStatistics.self, forKey: .statistics)
+        statistics = statisticsDecoded
+    }
 }
 
 extension GetDataCatalogInput: Swift.Encodable {
@@ -2505,6 +4091,121 @@ extension GetNamedQueryOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let namedQueryDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.NamedQuery.self, forKey: .namedQuery)
         namedQuery = namedQueryDecoded
+    }
+}
+
+extension GetNotebookMetadataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookId = "NotebookId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let notebookId = self.notebookId {
+            try encodeContainer.encode(notebookId, forKey: .notebookId)
+        }
+    }
+}
+
+extension GetNotebookMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetNotebookMetadataInput: Swift.Equatable {
+    /// The ID of the notebook whose metadata is to be retrieved.
+    /// This member is required.
+    public var notebookId: Swift.String?
+
+    public init (
+        notebookId: Swift.String? = nil
+    )
+    {
+        self.notebookId = notebookId
+    }
+}
+
+struct GetNotebookMetadataInputBody: Swift.Equatable {
+    let notebookId: Swift.String?
+}
+
+extension GetNotebookMetadataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookId = "NotebookId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
+        notebookId = notebookIdDecoded
+    }
+}
+
+extension GetNotebookMetadataOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetNotebookMetadataOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetNotebookMetadataOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetNotebookMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetNotebookMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.notebookMetadata = output.notebookMetadata
+        } else {
+            self.notebookMetadata = nil
+        }
+    }
+}
+
+public struct GetNotebookMetadataOutputResponse: Swift.Equatable {
+    /// The metadata that is returned for the specified notebook ID.
+    public var notebookMetadata: AthenaClientTypes.NotebookMetadata?
+
+    public init (
+        notebookMetadata: AthenaClientTypes.NotebookMetadata? = nil
+    )
+    {
+        self.notebookMetadata = notebookMetadata
+    }
+}
+
+struct GetNotebookMetadataOutputResponseBody: Swift.Equatable {
+    let notebookMetadata: AthenaClientTypes.NotebookMetadata?
+}
+
+extension GetNotebookMetadataOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookMetadata = "NotebookMetadata"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookMetadataDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.NotebookMetadata.self, forKey: .notebookMetadata)
+        notebookMetadata = notebookMetadataDecoded
     }
 }
 
@@ -3021,6 +4722,326 @@ extension GetQueryRuntimeStatisticsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetSessionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+}
+
+extension GetSessionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetSessionInput: Swift.Equatable {
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init (
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.sessionId = sessionId
+    }
+}
+
+struct GetSessionInputBody: Swift.Equatable {
+    let sessionId: Swift.String?
+}
+
+extension GetSessionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+    }
+}
+
+extension GetSessionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetSessionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetSessionOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.description = output.description
+            self.engineConfiguration = output.engineConfiguration
+            self.engineVersion = output.engineVersion
+            self.notebookVersion = output.notebookVersion
+            self.sessionConfiguration = output.sessionConfiguration
+            self.sessionId = output.sessionId
+            self.statistics = output.statistics
+            self.status = output.status
+            self.workGroup = output.workGroup
+        } else {
+            self.description = nil
+            self.engineConfiguration = nil
+            self.engineVersion = nil
+            self.notebookVersion = nil
+            self.sessionConfiguration = nil
+            self.sessionId = nil
+            self.statistics = nil
+            self.status = nil
+            self.workGroup = nil
+        }
+    }
+}
+
+public struct GetSessionOutputResponse: Swift.Equatable {
+    /// The session description.
+    public var description: Swift.String?
+    /// Contains engine configuration information like DPU usage.
+    public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
+    /// The engine version used by the session (for example, PySpark engine version 3). You can get a list of engine versions by calling [ListEngineVersions].
+    public var engineVersion: Swift.String?
+    /// The notebook version.
+    public var notebookVersion: Swift.String?
+    /// Contains the workgroup configuration information used by the session.
+    public var sessionConfiguration: AthenaClientTypes.SessionConfiguration?
+    /// The session ID.
+    public var sessionId: Swift.String?
+    /// Contains the DPU execution time.
+    public var statistics: AthenaClientTypes.SessionStatistics?
+    /// Contains information about the status of the session.
+    public var status: AthenaClientTypes.SessionStatus?
+    /// The workgroup to which the session belongs.
+    public var workGroup: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        engineConfiguration: AthenaClientTypes.EngineConfiguration? = nil,
+        engineVersion: Swift.String? = nil,
+        notebookVersion: Swift.String? = nil,
+        sessionConfiguration: AthenaClientTypes.SessionConfiguration? = nil,
+        sessionId: Swift.String? = nil,
+        statistics: AthenaClientTypes.SessionStatistics? = nil,
+        status: AthenaClientTypes.SessionStatus? = nil,
+        workGroup: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.engineConfiguration = engineConfiguration
+        self.engineVersion = engineVersion
+        self.notebookVersion = notebookVersion
+        self.sessionConfiguration = sessionConfiguration
+        self.sessionId = sessionId
+        self.statistics = statistics
+        self.status = status
+        self.workGroup = workGroup
+    }
+}
+
+struct GetSessionOutputResponseBody: Swift.Equatable {
+    let sessionId: Swift.String?
+    let description: Swift.String?
+    let workGroup: Swift.String?
+    let engineVersion: Swift.String?
+    let engineConfiguration: AthenaClientTypes.EngineConfiguration?
+    let notebookVersion: Swift.String?
+    let sessionConfiguration: AthenaClientTypes.SessionConfiguration?
+    let status: AthenaClientTypes.SessionStatus?
+    let statistics: AthenaClientTypes.SessionStatistics?
+}
+
+extension GetSessionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case engineConfiguration = "EngineConfiguration"
+        case engineVersion = "EngineVersion"
+        case notebookVersion = "NotebookVersion"
+        case sessionConfiguration = "SessionConfiguration"
+        case sessionId = "SessionId"
+        case statistics = "Statistics"
+        case status = "Status"
+        case workGroup = "WorkGroup"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
+        let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
+        engineVersion = engineVersionDecoded
+        let engineConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.EngineConfiguration.self, forKey: .engineConfiguration)
+        engineConfiguration = engineConfigurationDecoded
+        let notebookVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookVersion)
+        notebookVersion = notebookVersionDecoded
+        let sessionConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionConfiguration.self, forKey: .sessionConfiguration)
+        sessionConfiguration = sessionConfigurationDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionStatus.self, forKey: .status)
+        status = statusDecoded
+        let statisticsDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionStatistics.self, forKey: .statistics)
+        statistics = statisticsDecoded
+    }
+}
+
+extension GetSessionStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+}
+
+extension GetSessionStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetSessionStatusInput: Swift.Equatable {
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init (
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.sessionId = sessionId
+    }
+}
+
+struct GetSessionStatusInputBody: Swift.Equatable {
+    let sessionId: Swift.String?
+}
+
+extension GetSessionStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+    }
+}
+
+extension GetSessionStatusOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetSessionStatusOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum GetSessionStatusOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSessionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetSessionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.sessionId = output.sessionId
+            self.status = output.status
+        } else {
+            self.sessionId = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetSessionStatusOutputResponse: Swift.Equatable {
+    /// The session ID.
+    public var sessionId: Swift.String?
+    /// Contains information about the status of the session.
+    public var status: AthenaClientTypes.SessionStatus?
+
+    public init (
+        sessionId: Swift.String? = nil,
+        status: AthenaClientTypes.SessionStatus? = nil
+    )
+    {
+        self.sessionId = sessionId
+        self.status = status
+    }
+}
+
+struct GetSessionStatusOutputResponseBody: Swift.Equatable {
+    let sessionId: Swift.String?
+    let status: AthenaClientTypes.SessionStatus?
+}
+
+extension GetSessionStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 extension GetTableMetadataInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogName = "CatalogName"
@@ -3275,6 +5296,172 @@ extension GetWorkGroupOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ImportNotebookInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case name = "Name"
+        case payload = "Payload"
+        case type = "Type"
+        case workGroup = "WorkGroup"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let payload = self.payload {
+            try encodeContainer.encode(payload, forKey: .payload)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
+        }
+    }
+}
+
+extension ImportNotebookInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ImportNotebookInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure the request to import the notebook is idempotent (executes only once). This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    public var clientRequestToken: Swift.String?
+    /// The name of the notebook to import.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The notebook content to be imported.
+    /// This member is required.
+    public var payload: Swift.String?
+    /// The notebook content type. Currently, the only valid type is IPYNB.
+    /// This member is required.
+    public var type: AthenaClientTypes.NotebookType?
+    /// The name of the Spark enabled workgroup to import the notebook to.
+    /// This member is required.
+    public var workGroup: Swift.String?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        payload: Swift.String? = nil,
+        type: AthenaClientTypes.NotebookType? = nil,
+        workGroup: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.name = name
+        self.payload = payload
+        self.type = type
+        self.workGroup = workGroup
+    }
+}
+
+struct ImportNotebookInputBody: Swift.Equatable {
+    let workGroup: Swift.String?
+    let name: Swift.String?
+    let payload: Swift.String?
+    let type: AthenaClientTypes.NotebookType?
+    let clientRequestToken: Swift.String?
+}
+
+extension ImportNotebookInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case name = "Name"
+        case payload = "Payload"
+        case type = "Type"
+        case workGroup = "WorkGroup"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .payload)
+        payload = payloadDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.NotebookType.self, forKey: .type)
+        type = typeDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension ImportNotebookOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ImportNotebookOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ImportNotebookOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ImportNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ImportNotebookOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.notebookId = output.notebookId
+        } else {
+            self.notebookId = nil
+        }
+    }
+}
+
+public struct ImportNotebookOutputResponse: Swift.Equatable {
+    /// The ID of the notebook to import.
+    public var notebookId: Swift.String?
+
+    public init (
+        notebookId: Swift.String? = nil
+    )
+    {
+        self.notebookId = notebookId
+    }
+}
+
+struct ImportNotebookOutputResponseBody: Swift.Equatable {
+    let notebookId: Swift.String?
+}
+
+extension ImportNotebookOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case notebookId = "NotebookId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
+        notebookId = notebookIdDecoded
+    }
+}
+
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -3386,6 +5573,321 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         athenaErrorCode = athenaErrorCodeDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ListApplicationDPUSizesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListApplicationDPUSizesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListApplicationDPUSizesInput: Swift.Equatable {
+    /// Specifies the maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationDPUSizesInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationDPUSizesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListApplicationDPUSizesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListApplicationDPUSizesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListApplicationDPUSizesOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListApplicationDPUSizesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListApplicationDPUSizesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.applicationDPUSizes = output.applicationDPUSizes
+            self.nextToken = output.nextToken
+        } else {
+            self.applicationDPUSizes = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListApplicationDPUSizesOutputResponse: Swift.Equatable {
+    /// A list of the supported DPU sizes that the application runtime supports.
+    public var applicationDPUSizes: [AthenaClientTypes.ApplicationDPUSizes]?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+
+    public init (
+        applicationDPUSizes: [AthenaClientTypes.ApplicationDPUSizes]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationDPUSizes = applicationDPUSizes
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationDPUSizesOutputResponseBody: Swift.Equatable {
+    let applicationDPUSizes: [AthenaClientTypes.ApplicationDPUSizes]?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationDPUSizesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationDPUSizes = "ApplicationDPUSizes"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationDPUSizesContainer = try containerValues.decodeIfPresent([AthenaClientTypes.ApplicationDPUSizes?].self, forKey: .applicationDPUSizes)
+        var applicationDPUSizesDecoded0:[AthenaClientTypes.ApplicationDPUSizes]? = nil
+        if let applicationDPUSizesContainer = applicationDPUSizesContainer {
+            applicationDPUSizesDecoded0 = [AthenaClientTypes.ApplicationDPUSizes]()
+            for structure0 in applicationDPUSizesContainer {
+                if let structure0 = structure0 {
+                    applicationDPUSizesDecoded0?.append(structure0)
+                }
+            }
+        }
+        applicationDPUSizes = applicationDPUSizesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListCalculationExecutionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case sessionId = "SessionId"
+        case stateFilter = "StateFilter"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+        if let stateFilter = self.stateFilter {
+            try encodeContainer.encode(stateFilter.rawValue, forKey: .stateFilter)
+        }
+    }
+}
+
+extension ListCalculationExecutionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCalculationExecutionsInput: Swift.Equatable {
+    /// The maximum number of calculation executions to return.
+    public var maxResults: Swift.Int?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// A filter for a specific calculation execution state. A description of each state follows. CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been received and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running.
+    public var stateFilter: AthenaClientTypes.CalculationExecutionState?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        stateFilter: AthenaClientTypes.CalculationExecutionState? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sessionId = sessionId
+        self.stateFilter = stateFilter
+    }
+}
+
+struct ListCalculationExecutionsInputBody: Swift.Equatable {
+    let sessionId: Swift.String?
+    let stateFilter: AthenaClientTypes.CalculationExecutionState?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListCalculationExecutionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case sessionId = "SessionId"
+        case stateFilter = "StateFilter"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let stateFilterDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationExecutionState.self, forKey: .stateFilter)
+        stateFilter = stateFilterDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListCalculationExecutionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListCalculationExecutionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListCalculationExecutionsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListCalculationExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListCalculationExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.calculations = output.calculations
+            self.nextToken = output.nextToken
+        } else {
+            self.calculations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCalculationExecutionsOutputResponse: Swift.Equatable {
+    /// A list of [CalculationSummary] objects.
+    public var calculations: [AthenaClientTypes.CalculationSummary]?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+
+    public init (
+        calculations: [AthenaClientTypes.CalculationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.calculations = calculations
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCalculationExecutionsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let calculations: [AthenaClientTypes.CalculationSummary]?
+}
+
+extension ListCalculationExecutionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculations = "Calculations"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let calculationsContainer = try containerValues.decodeIfPresent([AthenaClientTypes.CalculationSummary?].self, forKey: .calculations)
+        var calculationsDecoded0:[AthenaClientTypes.CalculationSummary]? = nil
+        if let calculationsContainer = calculationsContainer {
+            calculationsDecoded0 = [AthenaClientTypes.CalculationSummary]()
+            for structure0 in calculationsContainer {
+                if let structure0 = structure0 {
+                    calculationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        calculations = calculationsDecoded0
     }
 }
 
@@ -3833,6 +6335,187 @@ extension ListEngineVersionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListExecutorsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executorStateFilter = "ExecutorStateFilter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case sessionId = "SessionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executorStateFilter = self.executorStateFilter {
+            try encodeContainer.encode(executorStateFilter.rawValue, forKey: .executorStateFilter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+}
+
+extension ListExecutorsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListExecutorsInput: Swift.Equatable {
+    /// A filter for a specific executor state. A description of each state follows. CREATING - The executor is being started, including acquiring resources. CREATED - The executor has been started. REGISTERED - The executor has been registered. TERMINATING - The executor is in the process of shutting down. TERMINATED - The executor is no longer running. FAILED - Due to a failure, the executor is no longer running.
+    public var executorStateFilter: AthenaClientTypes.ExecutorState?
+    /// The maximum number of executors to return.
+    public var maxResults: Swift.Int?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init (
+        executorStateFilter: AthenaClientTypes.ExecutorState? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.executorStateFilter = executorStateFilter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sessionId = sessionId
+    }
+}
+
+struct ListExecutorsInputBody: Swift.Equatable {
+    let sessionId: Swift.String?
+    let executorStateFilter: AthenaClientTypes.ExecutorState?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListExecutorsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executorStateFilter = "ExecutorStateFilter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case sessionId = "SessionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let executorStateFilterDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.ExecutorState.self, forKey: .executorStateFilter)
+        executorStateFilter = executorStateFilterDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListExecutorsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListExecutorsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListExecutorsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListExecutorsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListExecutorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.executorsSummary = output.executorsSummary
+            self.nextToken = output.nextToken
+            self.sessionId = output.sessionId
+        } else {
+            self.executorsSummary = nil
+            self.nextToken = nil
+            self.sessionId = nil
+        }
+    }
+}
+
+public struct ListExecutorsOutputResponse: Swift.Equatable {
+    /// Contains summary information about the executor.
+    public var executorsSummary: [AthenaClientTypes.ExecutorsSummary]?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init (
+        executorsSummary: [AthenaClientTypes.ExecutorsSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.executorsSummary = executorsSummary
+        self.nextToken = nextToken
+        self.sessionId = sessionId
+    }
+}
+
+struct ListExecutorsOutputResponseBody: Swift.Equatable {
+    let sessionId: Swift.String?
+    let nextToken: Swift.String?
+    let executorsSummary: [AthenaClientTypes.ExecutorsSummary]?
+}
+
+extension ListExecutorsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executorsSummary = "ExecutorsSummary"
+        case nextToken = "NextToken"
+        case sessionId = "SessionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let executorsSummaryContainer = try containerValues.decodeIfPresent([AthenaClientTypes.ExecutorsSummary?].self, forKey: .executorsSummary)
+        var executorsSummaryDecoded0:[AthenaClientTypes.ExecutorsSummary]? = nil
+        if let executorsSummaryContainer = executorsSummaryContainer {
+            executorsSummaryDecoded0 = [AthenaClientTypes.ExecutorsSummary]()
+            for structure0 in executorsSummaryContainer {
+                if let structure0 = structure0 {
+                    executorsSummaryDecoded0?.append(structure0)
+                }
+            }
+        }
+        executorsSummary = executorsSummaryDecoded0
+    }
+}
+
 extension ListNamedQueriesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -3983,6 +6666,335 @@ extension ListNamedQueriesOutputResponseBody: Swift.Decodable {
             }
         }
         namedQueryIds = namedQueryIdsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListNotebookMetadataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
+        }
+    }
+}
+
+extension ListNotebookMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListNotebookMetadataInput: Swift.Equatable {
+    /// Search filter string.
+    public var filters: AthenaClientTypes.FilterDefinition?
+    /// Specifies the maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
+    public var nextToken: Swift.String?
+    /// The name of the Spark enabled workgroup to retrieve notebook metadata for.
+    /// This member is required.
+    public var workGroup: Swift.String?
+
+    public init (
+        filters: AthenaClientTypes.FilterDefinition? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workGroup: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workGroup = workGroup
+    }
+}
+
+struct ListNotebookMetadataInputBody: Swift.Equatable {
+    let filters: AthenaClientTypes.FilterDefinition?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let workGroup: Swift.String?
+}
+
+extension ListNotebookMetadataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case workGroup = "WorkGroup"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.FilterDefinition.self, forKey: .filters)
+        filters = filtersDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
+    }
+}
+
+extension ListNotebookMetadataOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListNotebookMetadataOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListNotebookMetadataOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListNotebookMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListNotebookMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.notebookMetadataList = output.notebookMetadataList
+        } else {
+            self.nextToken = nil
+            self.notebookMetadataList = nil
+        }
+    }
+}
+
+public struct ListNotebookMetadataOutputResponse: Swift.Equatable {
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+    /// The list of notebook metadata for the specified workgroup.
+    public var notebookMetadataList: [AthenaClientTypes.NotebookMetadata]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        notebookMetadataList: [AthenaClientTypes.NotebookMetadata]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.notebookMetadataList = notebookMetadataList
+    }
+}
+
+struct ListNotebookMetadataOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let notebookMetadataList: [AthenaClientTypes.NotebookMetadata]?
+}
+
+extension ListNotebookMetadataOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case notebookMetadataList = "NotebookMetadataList"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let notebookMetadataListContainer = try containerValues.decodeIfPresent([AthenaClientTypes.NotebookMetadata?].self, forKey: .notebookMetadataList)
+        var notebookMetadataListDecoded0:[AthenaClientTypes.NotebookMetadata]? = nil
+        if let notebookMetadataListContainer = notebookMetadataListContainer {
+            notebookMetadataListDecoded0 = [AthenaClientTypes.NotebookMetadata]()
+            for structure0 in notebookMetadataListContainer {
+                if let structure0 = structure0 {
+                    notebookMetadataListDecoded0?.append(structure0)
+                }
+            }
+        }
+        notebookMetadataList = notebookMetadataListDecoded0
+    }
+}
+
+extension ListNotebookSessionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case notebookId = "NotebookId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let notebookId = self.notebookId {
+            try encodeContainer.encode(notebookId, forKey: .notebookId)
+        }
+    }
+}
+
+extension ListNotebookSessionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListNotebookSessionsInput: Swift.Equatable {
+    /// The maximum number of notebook sessions to return.
+    public var maxResults: Swift.Int?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+    /// The ID of the notebook to list sessions for.
+    /// This member is required.
+    public var notebookId: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        notebookId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.notebookId = notebookId
+    }
+}
+
+struct ListNotebookSessionsInputBody: Swift.Equatable {
+    let notebookId: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListNotebookSessionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case notebookId = "NotebookId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
+        notebookId = notebookIdDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListNotebookSessionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListNotebookSessionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListNotebookSessionsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListNotebookSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListNotebookSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.notebookSessionsList = output.notebookSessionsList
+        } else {
+            self.nextToken = nil
+            self.notebookSessionsList = nil
+        }
+    }
+}
+
+public struct ListNotebookSessionsOutputResponse: Swift.Equatable {
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+    /// A list of the sessions belonging to the notebook.
+    /// This member is required.
+    public var notebookSessionsList: [AthenaClientTypes.NotebookSessionSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        notebookSessionsList: [AthenaClientTypes.NotebookSessionSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.notebookSessionsList = notebookSessionsList
+    }
+}
+
+struct ListNotebookSessionsOutputResponseBody: Swift.Equatable {
+    let notebookSessionsList: [AthenaClientTypes.NotebookSessionSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListNotebookSessionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case notebookSessionsList = "NotebookSessionsList"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookSessionsListContainer = try containerValues.decodeIfPresent([AthenaClientTypes.NotebookSessionSummary?].self, forKey: .notebookSessionsList)
+        var notebookSessionsListDecoded0:[AthenaClientTypes.NotebookSessionSummary]? = nil
+        if let notebookSessionsListContainer = notebookSessionsListContainer {
+            notebookSessionsListDecoded0 = [AthenaClientTypes.NotebookSessionSummary]()
+            for structure0 in notebookSessionsListContainer {
+                if let structure0 = structure0 {
+                    notebookSessionsListDecoded0?.append(structure0)
+                }
+            }
+        }
+        notebookSessionsList = notebookSessionsListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -4296,6 +7308,176 @@ extension ListQueryExecutionsOutputResponseBody: Swift.Decodable {
         queryExecutionIds = queryExecutionIdsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension ListSessionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case stateFilter = "StateFilter"
+        case workGroup = "WorkGroup"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let stateFilter = self.stateFilter {
+            try encodeContainer.encode(stateFilter.rawValue, forKey: .stateFilter)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
+        }
+    }
+}
+
+extension ListSessionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListSessionsInput: Swift.Equatable {
+    /// The maximum number of sessions to return.
+    public var maxResults: Swift.Int?
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+    /// A filter for a specific session state. A description of each state follows. CREATING - The session is being started, including acquiring resources. CREATED - The session has been started. IDLE - The session is able to accept a calculation. BUSY - The session is processing another task and is unable to accept a calculation. TERMINATING - The session is in the process of shutting down. TERMINATED - The session and its resources are no longer running. DEGRADED - The session has no healthy coordinators. FAILED - Due to a failure, the session and its resources are no longer running.
+    public var stateFilter: AthenaClientTypes.SessionState?
+    /// The workgroup to which the session belongs.
+    /// This member is required.
+    public var workGroup: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        stateFilter: AthenaClientTypes.SessionState? = nil,
+        workGroup: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.stateFilter = stateFilter
+        self.workGroup = workGroup
+    }
+}
+
+struct ListSessionsInputBody: Swift.Equatable {
+    let workGroup: Swift.String?
+    let stateFilter: AthenaClientTypes.SessionState?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListSessionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case stateFilter = "StateFilter"
+        case workGroup = "WorkGroup"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
+        let stateFilterDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionState.self, forKey: .stateFilter)
+        stateFilter = stateFilterDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListSessionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListSessionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListSessionsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.sessions = output.sessions
+        } else {
+            self.nextToken = nil
+            self.sessions = nil
+        }
+    }
+}
+
+public struct ListSessionsOutputResponse: Swift.Equatable {
+    /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+    public var nextToken: Swift.String?
+    /// A list of sessions.
+    public var sessions: [AthenaClientTypes.SessionSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        sessions: [AthenaClientTypes.SessionSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.sessions = sessions
+    }
+}
+
+struct ListSessionsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let sessions: [AthenaClientTypes.SessionSummary]?
+}
+
+extension ListSessionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case sessions = "Sessions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let sessionsContainer = try containerValues.decodeIfPresent([AthenaClientTypes.SessionSummary?].self, forKey: .sessions)
+        var sessionsDecoded0:[AthenaClientTypes.SessionSummary]? = nil
+        if let sessionsContainer = sessionsContainer {
+            sessionsDecoded0 = [AthenaClientTypes.SessionSummary]()
+            for structure0 in sessionsContainer {
+                if let structure0 = structure0 {
+                    sessionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sessions = sessionsDecoded0
     }
 }
 
@@ -4921,6 +8103,165 @@ extension AthenaClientTypes {
         }
     }
 
+}
+
+extension AthenaClientTypes.NotebookMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case lastModifiedTime = "LastModifiedTime"
+        case name = "Name"
+        case notebookId = "NotebookId"
+        case type = "Type"
+        case workGroup = "WorkGroup"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let notebookId = self.notebookId {
+            try encodeContainer.encode(notebookId, forKey: .notebookId)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
+        notebookId = notebookIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.NotebookType.self, forKey: .type)
+        type = typeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains metadata for notebook, including the notebook name, ID, workgroup, and time created.
+    public struct NotebookMetadata: Swift.Equatable {
+        /// The time when the notebook was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The time when the notebook was last modified.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The name of the notebook.
+        public var name: Swift.String?
+        /// The notebook ID.
+        public var notebookId: Swift.String?
+        /// The type of notebook. Currently, the only valid type is IPYNB.
+        public var type: AthenaClientTypes.NotebookType?
+        /// The name of the Spark enabled workgroup to which the notebook belongs.
+        public var workGroup: Swift.String?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            notebookId: Swift.String? = nil,
+            type: AthenaClientTypes.NotebookType? = nil,
+            workGroup: Swift.String? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.notebookId = notebookId
+            self.type = type
+            self.workGroup = workGroup
+        }
+    }
+
+}
+
+extension AthenaClientTypes.NotebookSessionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case sessionId = "SessionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains the notebook session ID and notebook session creation time.
+    public struct NotebookSessionSummary: Swift.Equatable {
+        /// The time when the notebook session was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The notebook session ID.
+        public var sessionId: Swift.String?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            sessionId: Swift.String? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.sessionId = sessionId
+        }
+    }
+
+}
+
+extension AthenaClientTypes {
+    public enum NotebookType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ipynb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotebookType] {
+            return [
+                .ipynb,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipynb: return "IPYNB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NotebookType(rawValue: rawValue) ?? NotebookType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AthenaClientTypes.PreparedStatement: Swift.Codable {
@@ -6396,6 +9737,542 @@ extension AthenaClientTypes {
     }
 }
 
+extension SessionAlreadyExistsException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: SessionAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The specified session already exists.
+public struct SessionAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct SessionAlreadyExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension SessionAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension AthenaClientTypes.SessionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encryptionConfiguration = "EncryptionConfiguration"
+        case executionRole = "ExecutionRole"
+        case idleTimeoutSeconds = "IdleTimeoutSeconds"
+        case workingDirectory = "WorkingDirectory"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encryptionConfiguration = self.encryptionConfiguration {
+            try encodeContainer.encode(encryptionConfiguration, forKey: .encryptionConfiguration)
+        }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
+        }
+        if let idleTimeoutSeconds = self.idleTimeoutSeconds {
+            try encodeContainer.encode(idleTimeoutSeconds, forKey: .idleTimeoutSeconds)
+        }
+        if let workingDirectory = self.workingDirectory {
+            try encodeContainer.encode(workingDirectory, forKey: .workingDirectory)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
+        let workingDirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workingDirectory)
+        workingDirectory = workingDirectoryDecoded
+        let idleTimeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeoutSeconds)
+        idleTimeoutSeconds = idleTimeoutSecondsDecoded
+        let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
+        encryptionConfiguration = encryptionConfigurationDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains session configuration information.
+    public struct SessionConfiguration: Swift.Equatable {
+        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
+        public var encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration?
+        /// The ARN of the execution role used for the session.
+        public var executionRole: Swift.String?
+        /// The idle timeout in seconds for the session.
+        public var idleTimeoutSeconds: Swift.Int?
+        /// The Amazon S3 location that stores information for the notebook.
+        public var workingDirectory: Swift.String?
+
+        public init (
+            encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration? = nil,
+            executionRole: Swift.String? = nil,
+            idleTimeoutSeconds: Swift.Int? = nil,
+            workingDirectory: Swift.String? = nil
+        )
+        {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.executionRole = executionRole
+            self.idleTimeoutSeconds = idleTimeoutSeconds
+            self.workingDirectory = workingDirectory
+        }
+    }
+
+}
+
+extension AthenaClientTypes {
+    public enum SessionState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case busy
+        case created
+        case creating
+        case degraded
+        case failed
+        case idle
+        case terminated
+        case terminating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionState] {
+            return [
+                .busy,
+                .created,
+                .creating,
+                .degraded,
+                .failed,
+                .idle,
+                .terminated,
+                .terminating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .busy: return "BUSY"
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .degraded: return "DEGRADED"
+            case .failed: return "FAILED"
+            case .idle: return "IDLE"
+            case .terminated: return "TERMINATED"
+            case .terminating: return "TERMINATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SessionState(rawValue: rawValue) ?? SessionState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AthenaClientTypes.SessionStatistics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dpuExecutionInMillis = "DpuExecutionInMillis"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dpuExecutionInMillis = self.dpuExecutionInMillis {
+            try encodeContainer.encode(dpuExecutionInMillis, forKey: .dpuExecutionInMillis)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dpuExecutionInMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dpuExecutionInMillis)
+        dpuExecutionInMillis = dpuExecutionInMillisDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains statistics for a notebook session.
+    public struct SessionStatistics: Swift.Equatable {
+        /// The data processing unit execution time for a session in milliseconds.
+        public var dpuExecutionInMillis: Swift.Int?
+
+        public init (
+            dpuExecutionInMillis: Swift.Int? = nil
+        )
+        {
+            self.dpuExecutionInMillis = dpuExecutionInMillis
+        }
+    }
+
+}
+
+extension AthenaClientTypes.SessionStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDateTime = "EndDateTime"
+        case idleSinceDateTime = "IdleSinceDateTime"
+        case lastModifiedDateTime = "LastModifiedDateTime"
+        case startDateTime = "StartDateTime"
+        case state = "State"
+        case stateChangeReason = "StateChangeReason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encodeTimestamp(endDateTime, format: .epochSeconds, forKey: .endDateTime)
+        }
+        if let idleSinceDateTime = self.idleSinceDateTime {
+            try encodeContainer.encodeTimestamp(idleSinceDateTime, format: .epochSeconds, forKey: .idleSinceDateTime)
+        }
+        if let lastModifiedDateTime = self.lastModifiedDateTime {
+            try encodeContainer.encodeTimestamp(lastModifiedDateTime, format: .epochSeconds, forKey: .lastModifiedDateTime)
+        }
+        if let startDateTime = self.startDateTime {
+            try encodeContainer.encodeTimestamp(startDateTime, format: .epochSeconds, forKey: .startDateTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let stateChangeReason = self.stateChangeReason {
+            try encodeContainer.encode(stateChangeReason, forKey: .stateChangeReason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDateTime)
+        startDateTime = startDateTimeDecoded
+        let lastModifiedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDateTime)
+        lastModifiedDateTime = lastModifiedDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let idleSinceDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .idleSinceDateTime)
+        idleSinceDateTime = idleSinceDateTimeDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionState.self, forKey: .state)
+        state = stateDecoded
+        let stateChangeReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateChangeReason)
+        stateChangeReason = stateChangeReasonDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains information about the status of a notebook session.
+    public struct SessionStatus: Swift.Equatable {
+        /// The date and time that the session ended.
+        public var endDateTime: ClientRuntime.Date?
+        /// The date and time starting at which the session became idle. Can be empty if the session is not currently idle.
+        public var idleSinceDateTime: ClientRuntime.Date?
+        /// The most recent date and time that the session was modified.
+        public var lastModifiedDateTime: ClientRuntime.Date?
+        /// The date and time that the session started.
+        public var startDateTime: ClientRuntime.Date?
+        /// The state of the session. A description of each state follows. CREATING - The session is being started, including acquiring resources. CREATED - The session has been started. IDLE - The session is able to accept a calculation. BUSY - The session is processing another task and is unable to accept a calculation. TERMINATING - The session is in the process of shutting down. TERMINATED - The session and its resources are no longer running. DEGRADED - The session has no healthy coordinators. FAILED - Due to a failure, the session and its resources are no longer running.
+        public var state: AthenaClientTypes.SessionState?
+        /// The reason for the session state change (for example, canceled because the session was terminated).
+        public var stateChangeReason: Swift.String?
+
+        public init (
+            endDateTime: ClientRuntime.Date? = nil,
+            idleSinceDateTime: ClientRuntime.Date? = nil,
+            lastModifiedDateTime: ClientRuntime.Date? = nil,
+            startDateTime: ClientRuntime.Date? = nil,
+            state: AthenaClientTypes.SessionState? = nil,
+            stateChangeReason: Swift.String? = nil
+        )
+        {
+            self.endDateTime = endDateTime
+            self.idleSinceDateTime = idleSinceDateTime
+            self.lastModifiedDateTime = lastModifiedDateTime
+            self.startDateTime = startDateTime
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+        }
+    }
+
+}
+
+extension AthenaClientTypes.SessionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case engineVersion = "EngineVersion"
+        case notebookVersion = "NotebookVersion"
+        case sessionId = "SessionId"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let engineVersion = self.engineVersion {
+            try encodeContainer.encode(engineVersion, forKey: .engineVersion)
+        }
+        if let notebookVersion = self.notebookVersion {
+            try encodeContainer.encode(notebookVersion, forKey: .notebookVersion)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let engineVersionDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.EngineVersion.self, forKey: .engineVersion)
+        engineVersion = engineVersionDecoded
+        let notebookVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookVersion)
+        notebookVersion = notebookVersionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension AthenaClientTypes {
+    /// Contains summary information about a notebook session.
+    public struct SessionSummary: Swift.Equatable {
+        /// The session description.
+        public var description: Swift.String?
+        /// The engine version used by the session (for example, PySpark engine version 3).
+        public var engineVersion: AthenaClientTypes.EngineVersion?
+        /// The notebook version.
+        public var notebookVersion: Swift.String?
+        /// The session ID.
+        public var sessionId: Swift.String?
+        /// Contains information about the session status.
+        public var status: AthenaClientTypes.SessionStatus?
+
+        public init (
+            description: Swift.String? = nil,
+            engineVersion: AthenaClientTypes.EngineVersion? = nil,
+            notebookVersion: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            status: AthenaClientTypes.SessionStatus? = nil
+        )
+        {
+            self.description = description
+            self.engineVersion = engineVersion
+            self.notebookVersion = notebookVersion
+            self.sessionId = sessionId
+            self.status = status
+        }
+    }
+
+}
+
+extension StartCalculationExecutionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationConfiguration = "CalculationConfiguration"
+        case clientRequestToken = "ClientRequestToken"
+        case codeBlock = "CodeBlock"
+        case description = "Description"
+        case sessionId = "SessionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let calculationConfiguration = self.calculationConfiguration {
+            try encodeContainer.encode(calculationConfiguration, forKey: .calculationConfiguration)
+        }
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let codeBlock = self.codeBlock {
+            try encodeContainer.encode(codeBlock, forKey: .codeBlock)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+}
+
+extension StartCalculationExecutionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartCalculationExecutionInput: Swift.Equatable {
+    /// Contains configuration information for the calculation.
+    @available(*, deprecated, message: "Kepler Post GA Tasks : https://sim.amazon.com/issues/ATHENA-39828")
+    public var calculationConfiguration: AthenaClientTypes.CalculationConfiguration?
+    /// A unique case-sensitive string used to ensure the request to create the calculation is idempotent (executes only once). If another StartCalculationExecutionRequest is received, the same response is returned and another calculation is not created. If a parameter has changed, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    public var clientRequestToken: Swift.String?
+    /// A string that contains the code of the calculation.
+    public var codeBlock: Swift.String?
+    /// A description of the calculation.
+    public var description: Swift.String?
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init (
+        calculationConfiguration: AthenaClientTypes.CalculationConfiguration? = nil,
+        clientRequestToken: Swift.String? = nil,
+        codeBlock: Swift.String? = nil,
+        description: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.calculationConfiguration = calculationConfiguration
+        self.clientRequestToken = clientRequestToken
+        self.codeBlock = codeBlock
+        self.description = description
+        self.sessionId = sessionId
+    }
+}
+
+struct StartCalculationExecutionInputBody: Swift.Equatable {
+    let sessionId: Swift.String?
+    let description: Swift.String?
+    let calculationConfiguration: AthenaClientTypes.CalculationConfiguration?
+    let codeBlock: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension StartCalculationExecutionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationConfiguration = "CalculationConfiguration"
+        case clientRequestToken = "ClientRequestToken"
+        case codeBlock = "CodeBlock"
+        case description = "Description"
+        case sessionId = "SessionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let calculationConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationConfiguration.self, forKey: .calculationConfiguration)
+        calculationConfiguration = calculationConfigurationDecoded
+        let codeBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codeBlock)
+        codeBlock = codeBlockDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension StartCalculationExecutionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartCalculationExecutionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StartCalculationExecutionOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartCalculationExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartCalculationExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.calculationExecutionId = output.calculationExecutionId
+            self.state = output.state
+        } else {
+            self.calculationExecutionId = nil
+            self.state = nil
+        }
+    }
+}
+
+public struct StartCalculationExecutionOutputResponse: Swift.Equatable {
+    /// The calculation execution UUID.
+    public var calculationExecutionId: Swift.String?
+    /// CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been received and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running.
+    public var state: AthenaClientTypes.CalculationExecutionState?
+
+    public init (
+        calculationExecutionId: Swift.String? = nil,
+        state: AthenaClientTypes.CalculationExecutionState? = nil
+    )
+    {
+        self.calculationExecutionId = calculationExecutionId
+        self.state = state
+    }
+}
+
+struct StartCalculationExecutionOutputResponseBody: Swift.Equatable {
+    let calculationExecutionId: Swift.String?
+    let state: AthenaClientTypes.CalculationExecutionState?
+}
+
+extension StartCalculationExecutionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+        case state = "State"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculationExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculationExecutionId)
+        calculationExecutionId = calculationExecutionIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationExecutionState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
 extension StartQueryExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
@@ -6595,6 +10472,196 @@ extension StartQueryExecutionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension StartSessionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case description = "Description"
+        case engineConfiguration = "EngineConfiguration"
+        case notebookVersion = "NotebookVersion"
+        case sessionIdleTimeoutInMinutes = "SessionIdleTimeoutInMinutes"
+        case workGroup = "WorkGroup"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let engineConfiguration = self.engineConfiguration {
+            try encodeContainer.encode(engineConfiguration, forKey: .engineConfiguration)
+        }
+        if let notebookVersion = self.notebookVersion {
+            try encodeContainer.encode(notebookVersion, forKey: .notebookVersion)
+        }
+        if let sessionIdleTimeoutInMinutes = self.sessionIdleTimeoutInMinutes {
+            try encodeContainer.encode(sessionIdleTimeoutInMinutes, forKey: .sessionIdleTimeoutInMinutes)
+        }
+        if let workGroup = self.workGroup {
+            try encodeContainer.encode(workGroup, forKey: .workGroup)
+        }
+    }
+}
+
+extension StartSessionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartSessionInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure the request to create the session is idempotent (executes only once). If another StartSessionRequest is received, the same response is returned and another session is not created. If a parameter has changed, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    public var clientRequestToken: Swift.String?
+    /// The session description.
+    public var description: Swift.String?
+    /// Contains engine data processing unit (DPU) configuration settings and parameter mappings.
+    /// This member is required.
+    public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
+    /// The notebook version. This value is required only when requesting that a notebook server be started for the session. The only valid notebook version is Jupyter1.0.
+    public var notebookVersion: Swift.String?
+    /// The idle timeout in minutes for the session.
+    public var sessionIdleTimeoutInMinutes: Swift.Int?
+    /// The workgroup to which the session belongs.
+    /// This member is required.
+    public var workGroup: Swift.String?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        engineConfiguration: AthenaClientTypes.EngineConfiguration? = nil,
+        notebookVersion: Swift.String? = nil,
+        sessionIdleTimeoutInMinutes: Swift.Int? = nil,
+        workGroup: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.description = description
+        self.engineConfiguration = engineConfiguration
+        self.notebookVersion = notebookVersion
+        self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
+        self.workGroup = workGroup
+    }
+}
+
+struct StartSessionInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let workGroup: Swift.String?
+    let engineConfiguration: AthenaClientTypes.EngineConfiguration?
+    let notebookVersion: Swift.String?
+    let sessionIdleTimeoutInMinutes: Swift.Int?
+    let clientRequestToken: Swift.String?
+}
+
+extension StartSessionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case description = "Description"
+        case engineConfiguration = "EngineConfiguration"
+        case notebookVersion = "NotebookVersion"
+        case sessionIdleTimeoutInMinutes = "SessionIdleTimeoutInMinutes"
+        case workGroup = "WorkGroup"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let workGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workGroup)
+        workGroup = workGroupDecoded
+        let engineConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.EngineConfiguration.self, forKey: .engineConfiguration)
+        engineConfiguration = engineConfigurationDecoded
+        let notebookVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookVersion)
+        notebookVersion = notebookVersionDecoded
+        let sessionIdleTimeoutInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sessionIdleTimeoutInMinutes)
+        sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutesDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension StartSessionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartSessionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "SessionAlreadyExistsException" : self = .sessionAlreadyExistsException(try SessionAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StartSessionOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case sessionAlreadyExistsException(SessionAlreadyExistsException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.sessionId = output.sessionId
+            self.state = output.state
+        } else {
+            self.sessionId = nil
+            self.state = nil
+        }
+    }
+}
+
+public struct StartSessionOutputResponse: Swift.Equatable {
+    /// The session ID.
+    public var sessionId: Swift.String?
+    /// The state of the session. A description of each state follows. CREATING - The session is being started, including acquiring resources. CREATED - The session has been started. IDLE - The session is able to accept a calculation. BUSY - The session is processing another task and is unable to accept a calculation. TERMINATING - The session is in the process of shutting down. TERMINATED - The session and its resources are no longer running. DEGRADED - The session has no healthy coordinators. FAILED - Due to a failure, the session and its resources are no longer running.
+    public var state: AthenaClientTypes.SessionState?
+
+    public init (
+        sessionId: Swift.String? = nil,
+        state: AthenaClientTypes.SessionState? = nil
+    )
+    {
+        self.sessionId = sessionId
+        self.state = state
+    }
+}
+
+struct StartSessionOutputResponseBody: Swift.Equatable {
+    let sessionId: Swift.String?
+    let state: AthenaClientTypes.SessionState?
+}
+
+extension StartSessionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+        case state = "State"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
 extension AthenaClientTypes {
     public enum StatementType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ddl
@@ -6627,6 +10694,119 @@ extension AthenaClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = StatementType(rawValue: rawValue) ?? StatementType.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension StopCalculationExecutionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let calculationExecutionId = self.calculationExecutionId {
+            try encodeContainer.encode(calculationExecutionId, forKey: .calculationExecutionId)
+        }
+    }
+}
+
+extension StopCalculationExecutionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StopCalculationExecutionInput: Swift.Equatable {
+    /// The calculation execution UUID.
+    /// This member is required.
+    public var calculationExecutionId: Swift.String?
+
+    public init (
+        calculationExecutionId: Swift.String? = nil
+    )
+    {
+        self.calculationExecutionId = calculationExecutionId
+    }
+}
+
+struct StopCalculationExecutionInputBody: Swift.Equatable {
+    let calculationExecutionId: Swift.String?
+}
+
+extension StopCalculationExecutionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case calculationExecutionId = "CalculationExecutionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let calculationExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .calculationExecutionId)
+        calculationExecutionId = calculationExecutionIdDecoded
+    }
+}
+
+extension StopCalculationExecutionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StopCalculationExecutionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StopCalculationExecutionOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopCalculationExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StopCalculationExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.state = output.state
+        } else {
+            self.state = nil
+        }
+    }
+}
+
+public struct StopCalculationExecutionOutputResponse: Swift.Equatable {
+    /// CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been received and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running.
+    public var state: AthenaClientTypes.CalculationExecutionState?
+
+    public init (
+        state: AthenaClientTypes.CalculationExecutionState? = nil
+    )
+    {
+        self.state = state
+    }
+}
+
+struct StopCalculationExecutionOutputResponseBody: Swift.Equatable {
+    let state: AthenaClientTypes.CalculationExecutionState?
+}
+
+extension StopCalculationExecutionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case state = "State"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CalculationExecutionState.self, forKey: .state)
+        state = stateDecoded
     }
 }
 
@@ -6996,6 +11176,121 @@ extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct TagResourceOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension TerminateSessionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+}
+
+extension TerminateSessionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TerminateSessionInput: Swift.Equatable {
+    /// The session ID.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init (
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.sessionId = sessionId
+    }
+}
+
+struct TerminateSessionInputBody: Swift.Equatable {
+    let sessionId: Swift.String?
+}
+
+extension TerminateSessionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+    }
+}
+
+extension TerminateSessionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension TerminateSessionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum TerminateSessionOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TerminateSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: TerminateSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.state = output.state
+        } else {
+            self.state = nil
+        }
+    }
+}
+
+public struct TerminateSessionOutputResponse: Swift.Equatable {
+    /// The state of the session. A description of each state follows. CREATING - The session is being started, including acquiring resources. CREATED - The session has been started. IDLE - The session is able to accept a calculation. BUSY - The session is processing another task and is unable to accept a calculation. TERMINATING - The session is in the process of shutting down. TERMINATED - The session and its resources are no longer running. DEGRADED - The session has no healthy coordinators. FAILED - Due to a failure, the session and its resources are no longer running.
+    public var state: AthenaClientTypes.SessionState?
+
+    public init (
+        state: AthenaClientTypes.SessionState? = nil
+    )
+    {
+        self.state = state
+    }
+}
+
+struct TerminateSessionOutputResponseBody: Swift.Equatable {
+    let state: AthenaClientTypes.SessionState?
+}
+
+extension TerminateSessionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case state = "State"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.SessionState.self, forKey: .state)
+        state = stateDecoded
+    }
 }
 
 extension AthenaClientTypes {
@@ -7629,6 +11924,247 @@ public struct UpdateNamedQueryOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateNotebookInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case notebookId = "NotebookId"
+        case payload = "Payload"
+        case sessionId = "SessionId"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let notebookId = self.notebookId {
+            try encodeContainer.encode(notebookId, forKey: .notebookId)
+        }
+        if let payload = self.payload {
+            try encodeContainer.encode(payload, forKey: .payload)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension UpdateNotebookInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateNotebookInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    public var clientRequestToken: Swift.String?
+    /// The ID of the notebook to update.
+    /// This member is required.
+    public var notebookId: Swift.String?
+    /// The updated content for the notebook.
+    public var payload: Swift.String?
+    /// The ID of the session in which the notebook will be updated.
+    public var sessionId: Swift.String?
+    /// The notebook content type. Currently, the only valid type is IPYNB.
+    public var type: AthenaClientTypes.NotebookType?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        notebookId: Swift.String? = nil,
+        payload: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        type: AthenaClientTypes.NotebookType? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.notebookId = notebookId
+        self.payload = payload
+        self.sessionId = sessionId
+        self.type = type
+    }
+}
+
+struct UpdateNotebookInputBody: Swift.Equatable {
+    let notebookId: Swift.String?
+    let payload: Swift.String?
+    let type: AthenaClientTypes.NotebookType?
+    let sessionId: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension UpdateNotebookInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case notebookId = "NotebookId"
+        case payload = "Payload"
+        case sessionId = "SessionId"
+        case type = "Type"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
+        notebookId = notebookIdDecoded
+        let payloadDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .payload)
+        payload = payloadDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.NotebookType.self, forKey: .type)
+        type = typeDecoded
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension UpdateNotebookMetadataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case name = "Name"
+        case notebookId = "NotebookId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let notebookId = self.notebookId {
+            try encodeContainer.encode(notebookId, forKey: .notebookId)
+        }
+    }
+}
+
+extension UpdateNotebookMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateNotebookMetadataInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    public var clientRequestToken: Swift.String?
+    /// The name to update the notebook to.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ID of the notebook to update the metadata for.
+    /// This member is required.
+    public var notebookId: Swift.String?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        notebookId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.name = name
+        self.notebookId = notebookId
+    }
+}
+
+struct UpdateNotebookMetadataInputBody: Swift.Equatable {
+    let notebookId: Swift.String?
+    let clientRequestToken: Swift.String?
+    let name: Swift.String?
+}
+
+extension UpdateNotebookMetadataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case name = "Name"
+        case notebookId = "NotebookId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let notebookIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookId)
+        notebookId = notebookIdDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension UpdateNotebookMetadataOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateNotebookMetadataOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateNotebookMetadataOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateNotebookMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateNotebookMetadataOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension UpdateNotebookOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateNotebookOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UpdateNotebookOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case invalidRequestException(InvalidRequestException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateNotebookOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdatePreparedStatementInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -7783,7 +12319,7 @@ extension UpdateWorkGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateWorkGroupInput: Swift.Equatable {
-    /// The workgroup configuration that will be updated for the given workgroup.
+    /// Contains configuration updates for an Athena SQL workgroup.
     public var configurationUpdates: AthenaClientTypes.WorkGroupConfigurationUpdates?
     /// The workgroup description.
     public var description: Swift.String?
@@ -7947,9 +12483,12 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalConfiguration = "AdditionalConfiguration"
         case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
+        case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
         case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
         case engineVersion = "EngineVersion"
+        case executionRole = "ExecutionRole"
         case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
         case requesterPaysEnabled = "RequesterPaysEnabled"
         case resultConfiguration = "ResultConfiguration"
@@ -7957,14 +12496,23 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalConfiguration = self.additionalConfiguration {
+            try encodeContainer.encode(additionalConfiguration, forKey: .additionalConfiguration)
+        }
         if let bytesScannedCutoffPerQuery = self.bytesScannedCutoffPerQuery {
             try encodeContainer.encode(bytesScannedCutoffPerQuery, forKey: .bytesScannedCutoffPerQuery)
+        }
+        if let customerContentEncryptionConfiguration = self.customerContentEncryptionConfiguration {
+            try encodeContainer.encode(customerContentEncryptionConfiguration, forKey: .customerContentEncryptionConfiguration)
         }
         if let enforceWorkGroupConfiguration = self.enforceWorkGroupConfiguration {
             try encodeContainer.encode(enforceWorkGroupConfiguration, forKey: .enforceWorkGroupConfiguration)
         }
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
+        }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
         }
         if let publishCloudWatchMetricsEnabled = self.publishCloudWatchMetricsEnabled {
             try encodeContainer.encode(publishCloudWatchMetricsEnabled, forKey: .publishCloudWatchMetricsEnabled)
@@ -7991,18 +12539,30 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         requesterPaysEnabled = requesterPaysEnabledDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.EngineVersion.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
+        let additionalConfigurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .additionalConfiguration)
+        additionalConfiguration = additionalConfigurationDecoded
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
+        let customerContentEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CustomerContentEncryptionConfiguration.self, forKey: .customerContentEncryptionConfiguration)
+        customerContentEncryptionConfiguration = customerContentEncryptionConfigurationDecoded
     }
 }
 
 extension AthenaClientTypes {
     /// The configuration of the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption option, if any, used for query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup and whether workgroup settings override query settings, and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
     public struct WorkGroupConfiguration: Swift.Equatable {
+        /// Specifies a user defined JSON string that is passed to the notebook engine.
+        public var additionalConfiguration: Swift.String?
         /// The upper data usage limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public var bytesScannedCutoffPerQuery: Swift.Int?
+        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
+        public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
+        /// Role used in a notebook session for accessing the user's resources.
+        public var executionRole: Swift.String?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
         /// If set to true, allows members assigned to a workgroup to reference Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html) in the Amazon Simple Storage Service Developer Guide.
@@ -8011,17 +12571,23 @@ extension AthenaClientTypes {
         public var resultConfiguration: AthenaClientTypes.ResultConfiguration?
 
         public init (
+            additionalConfiguration: Swift.String? = nil,
             bytesScannedCutoffPerQuery: Swift.Int? = nil,
+            customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration? = nil,
             enforceWorkGroupConfiguration: Swift.Bool? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
+            executionRole: Swift.String? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
             resultConfiguration: AthenaClientTypes.ResultConfiguration? = nil
         )
         {
+            self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
+            self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
+            self.executionRole = executionRole
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.requesterPaysEnabled = requesterPaysEnabled
             self.resultConfiguration = resultConfiguration
@@ -8032,19 +12598,29 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalConfiguration = "AdditionalConfiguration"
         case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
+        case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
         case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
         case engineVersion = "EngineVersion"
+        case executionRole = "ExecutionRole"
         case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
         case removeBytesScannedCutoffPerQuery = "RemoveBytesScannedCutoffPerQuery"
+        case removeCustomerContentEncryptionConfiguration = "RemoveCustomerContentEncryptionConfiguration"
         case requesterPaysEnabled = "RequesterPaysEnabled"
         case resultConfigurationUpdates = "ResultConfigurationUpdates"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalConfiguration = self.additionalConfiguration {
+            try encodeContainer.encode(additionalConfiguration, forKey: .additionalConfiguration)
+        }
         if let bytesScannedCutoffPerQuery = self.bytesScannedCutoffPerQuery {
             try encodeContainer.encode(bytesScannedCutoffPerQuery, forKey: .bytesScannedCutoffPerQuery)
+        }
+        if let customerContentEncryptionConfiguration = self.customerContentEncryptionConfiguration {
+            try encodeContainer.encode(customerContentEncryptionConfiguration, forKey: .customerContentEncryptionConfiguration)
         }
         if let enforceWorkGroupConfiguration = self.enforceWorkGroupConfiguration {
             try encodeContainer.encode(enforceWorkGroupConfiguration, forKey: .enforceWorkGroupConfiguration)
@@ -8052,11 +12628,17 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         if let engineVersion = self.engineVersion {
             try encodeContainer.encode(engineVersion, forKey: .engineVersion)
         }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
+        }
         if let publishCloudWatchMetricsEnabled = self.publishCloudWatchMetricsEnabled {
             try encodeContainer.encode(publishCloudWatchMetricsEnabled, forKey: .publishCloudWatchMetricsEnabled)
         }
         if let removeBytesScannedCutoffPerQuery = self.removeBytesScannedCutoffPerQuery {
             try encodeContainer.encode(removeBytesScannedCutoffPerQuery, forKey: .removeBytesScannedCutoffPerQuery)
+        }
+        if let removeCustomerContentEncryptionConfiguration = self.removeCustomerContentEncryptionConfiguration {
+            try encodeContainer.encode(removeCustomerContentEncryptionConfiguration, forKey: .removeCustomerContentEncryptionConfiguration)
         }
         if let requesterPaysEnabled = self.requesterPaysEnabled {
             try encodeContainer.encode(requesterPaysEnabled, forKey: .requesterPaysEnabled)
@@ -8082,42 +12664,66 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         requesterPaysEnabled = requesterPaysEnabledDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.EngineVersion.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
+        let removeCustomerContentEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeCustomerContentEncryptionConfiguration)
+        removeCustomerContentEncryptionConfiguration = removeCustomerContentEncryptionConfigurationDecoded
+        let additionalConfigurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .additionalConfiguration)
+        additionalConfiguration = additionalConfigurationDecoded
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
+        let customerContentEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CustomerContentEncryptionConfiguration.self, forKey: .customerContentEncryptionConfiguration)
+        customerContentEncryptionConfiguration = customerContentEncryptionConfigurationDecoded
     }
 }
 
 extension AthenaClientTypes {
     /// The configuration information that will be updated for this workgroup, which includes the location in Amazon S3 where query results are stored, the encryption option, if any, used for query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, whether the workgroup settings override the client-side settings, and the data usage limit for the amount of bytes scanned per query, if it is specified.
     public struct WorkGroupConfigurationUpdates: Swift.Equatable {
+        /// Contains a user defined string in JSON format for a Spark-enabled workgroup.
+        public var additionalConfiguration: Swift.String?
         /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
         public var bytesScannedCutoffPerQuery: Swift.Int?
+        /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
+        public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false" client-side settings are used. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
+        /// Contains the ARN of the execution role for the workgroup
+        public var executionRole: Swift.String?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
         /// Indicates that the data usage control limit per query is removed. [WorkGroupConfiguration$BytesScannedCutoffPerQuery]
         public var removeBytesScannedCutoffPerQuery: Swift.Bool?
+        /// Removes content encryption configuration for a workgroup.
+        public var removeCustomerContentEncryptionConfiguration: Swift.Bool?
         /// If set to true, allows members assigned to a workgroup to specify Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html) in the Amazon Simple Storage Service Developer Guide.
         public var requesterPaysEnabled: Swift.Bool?
         /// The result configuration information about the queries in this workgroup that will be updated. Includes the updated results location and an updated option for encrypting query results.
         public var resultConfigurationUpdates: AthenaClientTypes.ResultConfigurationUpdates?
 
         public init (
+            additionalConfiguration: Swift.String? = nil,
             bytesScannedCutoffPerQuery: Swift.Int? = nil,
+            customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration? = nil,
             enforceWorkGroupConfiguration: Swift.Bool? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
+            executionRole: Swift.String? = nil,
             publishCloudWatchMetricsEnabled: Swift.Bool? = nil,
             removeBytesScannedCutoffPerQuery: Swift.Bool? = nil,
+            removeCustomerContentEncryptionConfiguration: Swift.Bool? = nil,
             requesterPaysEnabled: Swift.Bool? = nil,
             resultConfigurationUpdates: AthenaClientTypes.ResultConfigurationUpdates? = nil
         )
         {
+            self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
+            self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
+            self.executionRole = executionRole
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
+            self.removeCustomerContentEncryptionConfiguration = removeCustomerContentEncryptionConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
             self.resultConfigurationUpdates = resultConfigurationUpdates
         }

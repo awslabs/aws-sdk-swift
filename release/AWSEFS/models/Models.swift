@@ -879,7 +879,7 @@ public struct CreateFileSystemInput: Swift.Equatable {
     public var provisionedThroughputInMibps: Swift.Double?
     /// Use to create one or more tags associated with the file system. Each tag is a user-defined key-value pair. Name your file system on creation by including a "Key":"Name","Value":"{value}" key-value pair. Each key must be unique. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
     public var tags: [EFSClientTypes.Tag]?
-    /// Specifies the throughput mode for the file system, either bursting or provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps. After you create the file system, you can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes, as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more information, see [Specifying throughput with provisioned mode](https://docs.aws.amazon.com/efs/latest/ug/performance.html#provisioned-throughput) in the Amazon EFS User Guide. Default is bursting.
+    /// Specifies the throughput mode for the file system. The mode can be bursting, provisioned, or elastic. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps. After you create the file system, you can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes, with certain time restrictions. For more information, see [Specifying throughput with provisioned mode](https://docs.aws.amazon.com/efs/latest/ug/performance.html#provisioned-throughput) in the Amazon EFS User Guide. Default is bursting.
     public var throughputMode: EFSClientTypes.ThroughputMode?
 
     public init (
@@ -6497,9 +6497,9 @@ extension EFSClientTypes.ResourceIdPreference: Swift.Codable {
         var resourcesDecoded0:[EFSClientTypes.Resource]? = nil
         if let resourcesContainer = resourcesContainer {
             resourcesDecoded0 = [EFSClientTypes.Resource]()
-            for string0 in resourcesContainer {
-                if let string0 = string0 {
-                    resourcesDecoded0?.append(string0)
+            for enum0 in resourcesContainer {
+                if let enum0 = enum0 {
+                    resourcesDecoded0?.append(enum0)
                 }
             }
         }
@@ -7007,7 +7007,7 @@ extension ThrottlingException {
     }
 }
 
-/// Returned when the CreateAccessPoint API action is called too quickly and the number of Access Points in the account is nearing the limit of 120.
+/// Returned when the CreateAccessPoint API action is called too quickly and the number of Access Points on the file system is nearing the [limit of 120](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region).
 public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -7118,12 +7118,14 @@ extension ThroughputLimitExceededBody: Swift.Decodable {
 extension EFSClientTypes {
     public enum ThroughputMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case bursting
+        case elastic
         case provisioned
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ThroughputMode] {
             return [
                 .bursting,
+                .elastic,
                 .provisioned,
                 .sdkUnknown("")
             ]
@@ -7135,6 +7137,7 @@ extension EFSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .bursting: return "bursting"
+            case .elastic: return "elastic"
             case .provisioned: return "provisioned"
             case let .sdkUnknown(s): return s
             }
@@ -7214,6 +7217,7 @@ extension TooManyRequestsBody: Swift.Decodable {
 extension EFSClientTypes {
     public enum TransitionToIARules: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case after14Days
+        case after1Day
         case after30Days
         case after60Days
         case after7Days
@@ -7223,6 +7227,7 @@ extension EFSClientTypes {
         public static var allCases: [TransitionToIARules] {
             return [
                 .after14Days,
+                .after1Day,
                 .after30Days,
                 .after60Days,
                 .after7Days,
@@ -7237,6 +7242,7 @@ extension EFSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .after14Days: return "AFTER_14_DAYS"
+            case .after1Day: return "AFTER_1_DAY"
             case .after30Days: return "AFTER_30_DAYS"
             case .after60Days: return "AFTER_60_DAYS"
             case .after7Days: return "AFTER_7_DAYS"

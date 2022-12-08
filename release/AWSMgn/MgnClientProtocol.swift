@@ -5,15 +5,29 @@ import ClientRuntime
 
 /// The Application Migration Service service.
 public protocol MgnClientProtocol {
+    /// Archive application.
+    func archiveApplication(input: ArchiveApplicationInput) async throws -> ArchiveApplicationOutputResponse
+    /// Archive wave.
+    func archiveWave(input: ArchiveWaveInput) async throws -> ArchiveWaveOutputResponse
+    /// Associate applications to wave.
+    func associateApplications(input: AssociateApplicationsInput) async throws -> AssociateApplicationsOutputResponse
+    /// Associate source servers to application.
+    func associateSourceServers(input: AssociateSourceServersInput) async throws -> AssociateSourceServersOutputResponse
     /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
     func changeServerLifeCycleState(input: ChangeServerLifeCycleStateInput) async throws -> ChangeServerLifeCycleStateOutputResponse
-    /// Creates a new ReplicationConfigurationTemplate.
+    /// Create application.
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
+    /// Creates a new Launch Configuration Template.
     func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutputResponse
     /// Creates a new ReplicationConfigurationTemplate.
     func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutputResponse
+    /// Create wave.
+    func createWave(input: CreateWaveInput) async throws -> CreateWaveOutputResponse
+    /// Delete application.
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     /// Deletes a single Job by ID.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
-    /// Creates a new ReplicationConfigurationTemplate.
+    /// Deletes a single Launch Configuration Template by ID.
     func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutputResponse
     /// Deletes a single Replication Configuration Template by ID
     func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutputResponse
@@ -21,11 +35,13 @@ public protocol MgnClientProtocol {
     func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutputResponse
     /// Deletes a given vCenter client by ID.
     func deleteVcenterClient(input: DeleteVcenterClientInput) async throws -> DeleteVcenterClientOutputResponse
+    /// Delete wave.
+    func deleteWave(input: DeleteWaveInput) async throws -> DeleteWaveOutputResponse
     /// Retrieves detailed job log items with paging.
     func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutputResponse
     /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutputResponse
-    /// Creates a new ReplicationConfigurationTemplate.
+    /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutputResponse
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutputResponse
@@ -33,6 +49,10 @@ public protocol MgnClientProtocol {
     func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutputResponse
     /// Returns a list of the installed vCenter clients.
     func describeVcenterClients(input: DescribeVcenterClientsInput) async throws -> DescribeVcenterClientsOutputResponse
+    /// Disassociate applications from wave.
+    func disassociateApplications(input: DisassociateApplicationsInput) async throws -> DisassociateApplicationsOutputResponse
+    /// Disassociate source servers from application.
+    func disassociateSourceServers(input: DisassociateSourceServersInput) async throws -> DisassociateSourceServersOutputResponse
     /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     func disconnectFromService(input: DisconnectFromServiceInput) async throws -> DisconnectFromServiceOutputResponse
     /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
@@ -43,10 +63,26 @@ public protocol MgnClientProtocol {
     func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutputResponse
     /// Initialize Application Migration Service.
     func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutputResponse
+    /// Retrieves all applications or multiple applications by ID.
+    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
+    /// List source server post migration custom actions.
+    func listSourceServerActions(input: ListSourceServerActionsInput) async throws -> ListSourceServerActionsOutputResponse
     /// List all tags for your Application Migration Service resources.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// List template post migration custom actions.
+    func listTemplateActions(input: ListTemplateActionsInput) async throws -> ListTemplateActionsOutputResponse
+    /// Retrieves all waves or multiple waves by ID.
+    func listWaves(input: ListWavesInput) async throws -> ListWavesOutputResponse
     /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
     func markAsArchived(input: MarkAsArchivedInput) async throws -> MarkAsArchivedOutputResponse
+    /// Put source server post migration custom action.
+    func putSourceServerAction(input: PutSourceServerActionInput) async throws -> PutSourceServerActionOutputResponse
+    /// Put template post migration custom action.
+    func putTemplateAction(input: PutTemplateActionInput) async throws -> PutTemplateActionOutputResponse
+    /// Remove source server post migration custom action.
+    func removeSourceServerAction(input: RemoveSourceServerActionInput) async throws -> RemoveSourceServerActionOutputResponse
+    /// Remove template post migration custom action.
+    func removeTemplateAction(input: RemoveTemplateActionInput) async throws -> RemoveTemplateActionOutputResponse
     /// Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
     func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutputResponse
     /// Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
@@ -59,11 +95,17 @@ public protocol MgnClientProtocol {
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
     func terminateTargetInstances(input: TerminateTargetInstancesInput) async throws -> TerminateTargetInstancesOutputResponse
+    /// Unarchive application.
+    func unarchiveApplication(input: UnarchiveApplicationInput) async throws -> UnarchiveApplicationOutputResponse
+    /// Unarchive wave.
+    func unarchiveWave(input: UnarchiveWaveInput) async throws -> UnarchiveWaveOutputResponse
     /// Deletes the specified set of tags from the specified set of Application Migration Service resources.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// Update application.
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     /// Updates multiple LaunchConfigurations by Source Server ID.
     func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutputResponse
-    /// Creates a new ReplicationConfigurationTemplate.
+    /// Updates an existing Launch Configuration Template by ID.
     func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutputResponse
     /// Allows you to update multiple ReplicationConfigurations by Source Server ID.
     func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutputResponse
@@ -71,6 +113,8 @@ public protocol MgnClientProtocol {
     func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutputResponse
     /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
     func updateSourceServerReplicationType(input: UpdateSourceServerReplicationTypeInput) async throws -> UpdateSourceServerReplicationTypeOutputResponse
+    /// Update wave.
+    func updateWave(input: UpdateWaveInput) async throws -> UpdateWaveOutputResponse
 }
 
 public protocol MgnClientConfigurationProtocol : AWSClientRuntime.AWSClientConfiguration {

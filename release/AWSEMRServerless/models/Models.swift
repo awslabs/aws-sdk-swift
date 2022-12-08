@@ -5,6 +5,7 @@ import ClientRuntime
 extension EMRServerlessClientTypes.Application: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationId
+        case architecture
         case arn
         case autoStartConfiguration
         case autoStopConfiguration
@@ -25,6 +26,9 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationId = self.applicationId {
             try encodeContainer.encode(applicationId, forKey: .applicationId)
+        }
+        if let architecture = self.architecture {
+            try encodeContainer.encode(architecture.rawValue, forKey: .architecture)
         }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
@@ -126,6 +130,8 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         autoStopConfiguration = autoStopConfigurationDecoded
         let networkConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.NetworkConfiguration.self, forKey: .networkConfiguration)
         networkConfiguration = networkConfigurationDecoded
+        let architectureDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.Architecture.self, forKey: .architecture)
+        architecture = architectureDecoded
     }
 }
 
@@ -135,6 +141,8 @@ extension EMRServerlessClientTypes {
         /// The ID of the application.
         /// This member is required.
         public var applicationId: Swift.String?
+        /// The CPU architecture of an application.
+        public var architecture: EMRServerlessClientTypes.Architecture?
         /// The ARN of the application.
         /// This member is required.
         public var arn: Swift.String?
@@ -172,6 +180,7 @@ extension EMRServerlessClientTypes {
 
         public init (
             applicationId: Swift.String? = nil,
+            architecture: EMRServerlessClientTypes.Architecture? = nil,
             arn: Swift.String? = nil,
             autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
             autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
@@ -189,6 +198,7 @@ extension EMRServerlessClientTypes {
         )
         {
             self.applicationId = applicationId
+            self.architecture = architecture
             self.arn = arn
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
@@ -257,6 +267,7 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes.ApplicationSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case architecture
         case arn
         case createdAt
         case id
@@ -270,6 +281,9 @@ extension EMRServerlessClientTypes.ApplicationSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let architecture = self.architecture {
+            try encodeContainer.encode(architecture.rawValue, forKey: .architecture)
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -319,12 +333,16 @@ extension EMRServerlessClientTypes.ApplicationSummary: Swift.Codable {
         createdAt = createdAtDecoded
         let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
         updatedAt = updatedAtDecoded
+        let architectureDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.Architecture.self, forKey: .architecture)
+        architecture = architectureDecoded
     }
 }
 
 extension EMRServerlessClientTypes {
     /// The summary of attributes associated with an application.
     public struct ApplicationSummary: Swift.Equatable {
+        /// The CPU architecture of an application.
+        public var architecture: EMRServerlessClientTypes.Architecture?
         /// The ARN of the application.
         /// This member is required.
         public var arn: Swift.String?
@@ -352,6 +370,7 @@ extension EMRServerlessClientTypes {
         public var updatedAt: ClientRuntime.Date?
 
         public init (
+            architecture: EMRServerlessClientTypes.Architecture? = nil,
             arn: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
@@ -363,6 +382,7 @@ extension EMRServerlessClientTypes {
             updatedAt: ClientRuntime.Date? = nil
         )
         {
+            self.architecture = architecture
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -375,6 +395,38 @@ extension EMRServerlessClientTypes {
         }
     }
 
+}
+
+extension EMRServerlessClientTypes {
+    public enum Architecture: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case arm64
+        case x8664
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Architecture] {
+            return [
+                .arm64,
+                .x8664,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .arm64: return "ARM64"
+            case .x8664: return "X86_64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Architecture(rawValue: rawValue) ?? Architecture.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension EMRServerlessClientTypes.AutoStartConfig: Swift.Codable {
@@ -772,6 +824,7 @@ extension ConflictExceptionBody: Swift.Decodable {
 
 extension CreateApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case architecture
         case autoStartConfiguration
         case autoStopConfiguration
         case clientToken
@@ -786,6 +839,9 @@ extension CreateApplicationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let architecture = self.architecture {
+            try encodeContainer.encode(architecture.rawValue, forKey: .architecture)
+        }
         if let autoStartConfiguration = self.autoStartConfiguration {
             try encodeContainer.encode(autoStartConfiguration, forKey: .autoStartConfiguration)
         }
@@ -832,6 +888,8 @@ extension CreateApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateApplicationInput: Swift.Equatable {
+    /// The CPU architecture of an application.
+    public var architecture: EMRServerlessClientTypes.Architecture?
     /// The configuration for an application to automatically start on job submission.
     public var autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig?
     /// The configuration for an application to automatically stop after a certain amount of time being idle.
@@ -857,6 +915,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     public var type: Swift.String?
 
     public init (
+        architecture: EMRServerlessClientTypes.Architecture? = nil,
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
@@ -869,6 +928,7 @@ public struct CreateApplicationInput: Swift.Equatable {
         type: Swift.String? = nil
     )
     {
+        self.architecture = architecture
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
@@ -893,10 +953,12 @@ struct CreateApplicationInputBody: Swift.Equatable {
     let autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig?
     let autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig?
     let networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
+    let architecture: EMRServerlessClientTypes.Architecture?
 }
 
 extension CreateApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case architecture
         case autoStartConfiguration
         case autoStopConfiguration
         case clientToken
@@ -949,6 +1011,8 @@ extension CreateApplicationInputBody: Swift.Decodable {
         autoStopConfiguration = autoStopConfigurationDecoded
         let networkConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.NetworkConfiguration.self, forKey: .networkConfiguration)
         networkConfiguration = networkConfigurationDecoded
+        let architectureDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.Architecture.self, forKey: .architecture)
+        architecture = architectureDecoded
     }
 }
 
@@ -3526,6 +3590,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension UpdateApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case architecture
         case autoStartConfiguration
         case autoStopConfiguration
         case clientToken
@@ -3536,6 +3601,9 @@ extension UpdateApplicationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let architecture = self.architecture {
+            try encodeContainer.encode(architecture.rawValue, forKey: .architecture)
+        }
         if let autoStartConfiguration = self.autoStartConfiguration {
             try encodeContainer.encode(autoStartConfiguration, forKey: .autoStartConfiguration)
         }
@@ -3573,6 +3641,8 @@ public struct UpdateApplicationInput: Swift.Equatable {
     /// The ID of the application to update.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// The CPU architecture of an application.
+    public var architecture: EMRServerlessClientTypes.Architecture?
     /// The configuration for an application to automatically start on job submission.
     public var autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig?
     /// The configuration for an application to automatically stop after a certain amount of time being idle.
@@ -3589,6 +3659,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
 
     public init (
         applicationId: Swift.String? = nil,
+        architecture: EMRServerlessClientTypes.Architecture? = nil,
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
@@ -3598,6 +3669,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     )
     {
         self.applicationId = applicationId
+        self.architecture = architecture
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
@@ -3614,10 +3686,12 @@ struct UpdateApplicationInputBody: Swift.Equatable {
     let autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig?
     let autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig?
     let networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
+    let architecture: EMRServerlessClientTypes.Architecture?
 }
 
 extension UpdateApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case architecture
         case autoStartConfiguration
         case autoStopConfiguration
         case clientToken
@@ -3649,6 +3723,8 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         autoStopConfiguration = autoStopConfigurationDecoded
         let networkConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.NetworkConfiguration.self, forKey: .networkConfiguration)
         networkConfiguration = networkConfigurationDecoded
+        let architectureDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.Architecture.self, forKey: .architecture)
+        architecture = architectureDecoded
     }
 }
 

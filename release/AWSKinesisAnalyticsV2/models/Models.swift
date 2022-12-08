@@ -1709,7 +1709,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public var createTimestamp: ClientRuntime.Date?
         /// The current timestamp when the application was last updated.
         public var lastUpdateTimestamp: ClientRuntime.Date?
-        /// The runtime environment for the application (SQL-1_0, FLINK-1_6, FLINK-1_8, or FLINK-1_11).
+        /// The runtime environment for the application.
         /// This member is required.
         public var runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment?
         /// Specifies the IAM role that the application uses to access external resources.
@@ -3198,14 +3198,14 @@ public struct CreateApplicationInput: Swift.Equatable {
     public var applicationConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationConfiguration?
     /// A summary description of the application.
     public var applicationDescription: Swift.String?
-    /// Use the STREAMING mode to create a Kinesis Data Analytics Studio notebook. To create a Kinesis Data Analytics Studio notebook, use the INTERACTIVE mode.
+    /// Use the STREAMING mode to create a Kinesis Data Analytics For Flink application. To create a Kinesis Data Analytics Studio notebook, use the INTERACTIVE mode.
     public var applicationMode: KinesisAnalyticsV2ClientTypes.ApplicationMode?
     /// The name of your application (for example, sample-app).
     /// This member is required.
     public var applicationName: Swift.String?
     /// Use this parameter to configure an Amazon CloudWatch log stream to monitor application configuration errors.
     public var cloudWatchLoggingOptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOption]?
-    /// The runtime environment for the application (SQL-1_0, FLINK-1_6, FLINK-1_8, or FLINK-1_11).
+    /// The runtime environment for the application.
     /// This member is required.
     public var runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment?
     /// The IAM role used by the application to access Kinesis data streams, Kinesis Data Firehose delivery streams, Amazon S3 objects, and other external resources.
@@ -4572,6 +4572,7 @@ extension DeleteApplicationSnapshotOutputError: ClientRuntime.HttpResponseBindin
 extension DeleteApplicationSnapshotOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4583,6 +4584,7 @@ extension DeleteApplicationSnapshotOutputError {
 }
 
 public enum DeleteApplicationSnapshotOutputError: Swift.Error, Swift.Equatable {
+    case concurrentModificationException(ConcurrentModificationException)
     case invalidArgumentException(InvalidArgumentException)
     case invalidRequestException(InvalidRequestException)
     case resourceInUseException(ResourceInUseException)
@@ -9790,6 +9792,7 @@ extension KinesisAnalyticsV2ClientTypes {
     public enum RuntimeEnvironment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case flink111
         case flink113
+        case flink115
         case flink16
         case flink18
         case sql10
@@ -9801,6 +9804,7 @@ extension KinesisAnalyticsV2ClientTypes {
             return [
                 .flink111,
                 .flink113,
+                .flink115,
                 .flink16,
                 .flink18,
                 .sql10,
@@ -9817,6 +9821,7 @@ extension KinesisAnalyticsV2ClientTypes {
             switch self {
             case .flink111: return "FLINK-1_11"
             case .flink113: return "FLINK-1_13"
+            case .flink115: return "FLINK-1_15"
             case .flink16: return "FLINK-1_6"
             case .flink18: return "FLINK-1_8"
             case .sql10: return "SQL-1_0"

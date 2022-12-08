@@ -197,6 +197,7 @@ extension MarketplaceCatalogClientTypes.Change: Swift.Codable {
         case changeType = "ChangeType"
         case details = "Details"
         case entity = "Entity"
+        case entityTags = "EntityTags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -213,6 +214,12 @@ extension MarketplaceCatalogClientTypes.Change: Swift.Codable {
         if let entity = self.entity {
             try encodeContainer.encode(entity, forKey: .entity)
         }
+        if let entityTags = entityTags {
+            var entityTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTags)
+            for taglist0 in entityTags {
+                try entityTagsContainer.encode(taglist0)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -221,6 +228,17 @@ extension MarketplaceCatalogClientTypes.Change: Swift.Codable {
         changeType = changeTypeDecoded
         let entityDecoded = try containerValues.decodeIfPresent(MarketplaceCatalogClientTypes.Entity.self, forKey: .entity)
         entity = entityDecoded
+        let entityTagsContainer = try containerValues.decodeIfPresent([MarketplaceCatalogClientTypes.Tag?].self, forKey: .entityTags)
+        var entityTagsDecoded0:[MarketplaceCatalogClientTypes.Tag]? = nil
+        if let entityTagsContainer = entityTagsContainer {
+            entityTagsDecoded0 = [MarketplaceCatalogClientTypes.Tag]()
+            for structure0 in entityTagsContainer {
+                if let structure0 = structure0 {
+                    entityTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        entityTags = entityTagsDecoded0
         let detailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .details)
         details = detailsDecoded
         let changeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeName)
@@ -242,18 +260,22 @@ extension MarketplaceCatalogClientTypes {
         /// The entity to be changed.
         /// This member is required.
         public var entity: MarketplaceCatalogClientTypes.Entity?
+        /// The tags associated with the change.
+        public var entityTags: [MarketplaceCatalogClientTypes.Tag]?
 
         public init (
             changeName: Swift.String? = nil,
             changeType: Swift.String? = nil,
             details: Swift.String? = nil,
-            entity: MarketplaceCatalogClientTypes.Entity? = nil
+            entity: MarketplaceCatalogClientTypes.Entity? = nil,
+            entityTags: [MarketplaceCatalogClientTypes.Tag]? = nil
         )
         {
             self.changeName = changeName
             self.changeType = changeType
             self.details = details
             self.entity = entity
+            self.entityTags = entityTags
         }
     }
 
@@ -1623,6 +1645,144 @@ extension ListEntitiesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListTagsForResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListTagsForResource"
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Equatable {
+    /// Required. The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct ListTagsForResourceInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension ListTagsForResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListTagsForResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServiceException(InternalServiceException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.resourceArn = output.resourceArn
+            self.tags = output.tags
+        } else {
+            self.resourceArn = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+    /// Required. The ARN associated with the resource you want to list tags on.
+    public var resourceArn: Swift.String?
+    /// Required. A list of objects specifying each key name and value. Number of objects allowed: 1-50.
+    public var tags: [MarketplaceCatalogClientTypes.Tag]?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        tags: [MarketplaceCatalogClientTypes.Tag]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let tags: [MarketplaceCatalogClientTypes.Tag]?
+}
+
+extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([MarketplaceCatalogClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[MarketplaceCatalogClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [MarketplaceCatalogClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1913,6 +2073,7 @@ extension StartChangeSetInput: Swift.Encodable {
         case catalog = "Catalog"
         case changeSet = "ChangeSet"
         case changeSetName = "ChangeSetName"
+        case changeSetTags = "ChangeSetTags"
         case clientRequestToken = "ClientRequestToken"
     }
 
@@ -1929,6 +2090,12 @@ extension StartChangeSetInput: Swift.Encodable {
         }
         if let changeSetName = self.changeSetName {
             try encodeContainer.encode(changeSetName, forKey: .changeSetName)
+        }
+        if let changeSetTags = changeSetTags {
+            var changeSetTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .changeSetTags)
+            for taglist0 in changeSetTags {
+                try changeSetTagsContainer.encode(taglist0)
+            }
         }
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
@@ -1951,6 +2118,8 @@ public struct StartChangeSetInput: Swift.Equatable {
     public var changeSet: [MarketplaceCatalogClientTypes.Change]?
     /// Optional case sensitive string of up to 100 ASCII characters. The change set name can be used to filter the list of change sets.
     public var changeSetName: Swift.String?
+    /// A list of objects specifying each key name and value for the ChangeSetTags property.
+    public var changeSetTags: [MarketplaceCatalogClientTypes.Tag]?
     /// A unique token to identify the request to ensure idempotency.
     public var clientRequestToken: Swift.String?
 
@@ -1958,12 +2127,14 @@ public struct StartChangeSetInput: Swift.Equatable {
         catalog: Swift.String? = nil,
         changeSet: [MarketplaceCatalogClientTypes.Change]? = nil,
         changeSetName: Swift.String? = nil,
+        changeSetTags: [MarketplaceCatalogClientTypes.Tag]? = nil,
         clientRequestToken: Swift.String? = nil
     )
     {
         self.catalog = catalog
         self.changeSet = changeSet
         self.changeSetName = changeSetName
+        self.changeSetTags = changeSetTags
         self.clientRequestToken = clientRequestToken
     }
 }
@@ -1973,6 +2144,7 @@ struct StartChangeSetInputBody: Swift.Equatable {
     let changeSet: [MarketplaceCatalogClientTypes.Change]?
     let changeSetName: Swift.String?
     let clientRequestToken: Swift.String?
+    let changeSetTags: [MarketplaceCatalogClientTypes.Tag]?
 }
 
 extension StartChangeSetInputBody: Swift.Decodable {
@@ -1980,6 +2152,7 @@ extension StartChangeSetInputBody: Swift.Decodable {
         case catalog = "Catalog"
         case changeSet = "ChangeSet"
         case changeSetName = "ChangeSetName"
+        case changeSetTags = "ChangeSetTags"
         case clientRequestToken = "ClientRequestToken"
     }
 
@@ -2002,6 +2175,17 @@ extension StartChangeSetInputBody: Swift.Decodable {
         changeSetName = changeSetNameDecoded
         let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
         clientRequestToken = clientRequestTokenDecoded
+        let changeSetTagsContainer = try containerValues.decodeIfPresent([MarketplaceCatalogClientTypes.Tag?].self, forKey: .changeSetTags)
+        var changeSetTagsDecoded0:[MarketplaceCatalogClientTypes.Tag]? = nil
+        if let changeSetTagsContainer = changeSetTagsContainer {
+            changeSetTagsDecoded0 = [MarketplaceCatalogClientTypes.Tag]()
+            for structure0 in changeSetTagsContainer {
+                if let structure0 = structure0 {
+                    changeSetTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        changeSetTags = changeSetTagsDecoded0
     }
 }
 
@@ -2090,6 +2274,166 @@ extension StartChangeSetOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension MarketplaceCatalogClientTypes.Tag: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+    /// A list of objects specifying each key name and value.
+    public struct Tag: Swift.Equatable {
+        /// The key associated with the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value associated with the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init (
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for taglist0 in tags {
+                try tagsContainer.encode(taglist0)
+            }
+        }
+    }
+}
+
+extension TagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/TagResource"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// Required. The Amazon Resource Name (ARN) associated with the resource you want to tag.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// Required. A list of objects specifying each key name and value. Number of objects allowed: 1-50.
+    /// This member is required.
+    public var tags: [MarketplaceCatalogClientTypes.Tag]?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        tags: [MarketplaceCatalogClientTypes.Tag]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+struct TagResourceInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let tags: [MarketplaceCatalogClientTypes.Tag]?
+}
+
+extension TagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([MarketplaceCatalogClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[MarketplaceCatalogClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [MarketplaceCatalogClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension TagResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServiceException(InternalServiceException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct TagResourceOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2140,6 +2484,119 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension UntagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case tagKeys = "TagKeys"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let tagKeys = tagKeys {
+            var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
+            for tagkeylist0 in tagKeys {
+                try tagKeysContainer.encode(tagkeylist0)
+            }
+        }
+    }
+}
+
+extension UntagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/UntagResource"
+    }
+}
+
+public struct UntagResourceInput: Swift.Equatable {
+    /// Required. The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// Required. A list of key names of tags to be removed. Number of strings allowed: 0-256.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagResourceInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let tagKeys: [Swift.String]?
+}
+
+extension UntagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case tagKeys = "TagKeys"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let tagKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagKeys)
+        var tagKeysDecoded0:[Swift.String]? = nil
+        if let tagKeysContainer = tagKeysContainer {
+            tagKeysDecoded0 = [Swift.String]()
+            for string0 in tagKeysContainer {
+                if let string0 = string0 {
+                    tagKeysDecoded0?.append(string0)
+                }
+            }
+        }
+        tagKeys = tagKeysDecoded0
+    }
+}
+
+extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UntagResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServiceException(InternalServiceException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UntagResourceOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension ValidationException {

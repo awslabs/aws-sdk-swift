@@ -310,7 +310,7 @@ extension CloudHsmClusterInUseException {
     }
 }
 
-/// The request was rejected because the specified CloudHSM cluster is already associated with a custom key store or it shares a backup history with a cluster that is associated with a custom key store. Each custom key store must be associated with a different CloudHSM cluster. Clusters that share a backup history have the same cluster certificate. To view the cluster certificate of a cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
+/// The request was rejected because the specified CloudHSM cluster is already associated with an CloudHSM key store in the account, or it shares a backup history with an CloudHSM key store in the account. Each CloudHSM key store in the account must be associated with a different CloudHSM cluster. CloudHSM clusters that share a backup history have the same cluster certificate. To view the cluster certificate of an CloudHSM cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
 public struct CloudHsmClusterInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -362,16 +362,16 @@ extension CloudHsmClusterInvalidConfigurationException {
     }
 }
 
-/// The request was rejected because the associated CloudHSM cluster did not meet the configuration requirements for a custom key store.
+/// The request was rejected because the associated CloudHSM cluster did not meet the configuration requirements for an CloudHSM key store.
 ///
-/// * The cluster must be configured with private subnets in at least two different Availability Zones in the Region.
+/// * The CloudHSM cluster must be configured with private subnets in at least two different Availability Zones in the Region.
 ///
-/// * The [security group for the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) (cloudhsm-cluster--sg) must include inbound rules and outbound rules that allow TCP traffic on ports 2223-2225. The Source in the inbound rules and the Destination in the outbound rules must match the security group ID. These rules are set by default when you create the cluster. Do not delete or change them. To get information about a particular security group, use the [DescribeSecurityGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html) operation.
+/// * The [security group for the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) (cloudhsm-cluster--sg) must include inbound rules and outbound rules that allow TCP traffic on ports 2223-2225. The Source in the inbound rules and the Destination in the outbound rules must match the security group ID. These rules are set by default when you create the CloudHSM cluster. Do not delete or change them. To get information about a particular security group, use the [DescribeSecurityGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html) operation.
 ///
-/// * The cluster must contain at least as many HSMs as the operation requires. To add HSMs, use the CloudHSM [CreateHsm](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_CreateHsm.html) operation. For the [CreateCustomKeyStore], [UpdateCustomKeyStore], and [CreateKey] operations, the CloudHSM cluster must have at least two active HSMs, each in a different Availability Zone. For the [ConnectCustomKeyStore] operation, the CloudHSM must contain at least one active HSM.
+/// * The CloudHSM cluster must contain at least as many HSMs as the operation requires. To add HSMs, use the CloudHSM [CreateHsm](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_CreateHsm.html) operation. For the [CreateCustomKeyStore], [UpdateCustomKeyStore], and [CreateKey] operations, the CloudHSM cluster must have at least two active HSMs, each in a different Availability Zone. For the [ConnectCustomKeyStore] operation, the CloudHSM must contain at least one active HSM.
 ///
 ///
-/// For information about the requirements for an CloudHSM cluster that is associated with a custom key store, see [Assemble the Prerequisites](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) in the Key Management Service Developer Guide. For information about creating a private subnet for an CloudHSM cluster, see [Create a Private Subnet](https://docs.aws.amazon.com/cloudhsm/latest/userguide/create-subnets.html) in the CloudHSM User Guide. For information about cluster security groups, see [Configure a Default Security Group](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) in the CloudHSM User Guide .
+/// For information about the requirements for an CloudHSM cluster that is associated with an CloudHSM key store, see [Assemble the Prerequisites](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) in the Key Management Service Developer Guide. For information about creating a private subnet for an CloudHSM cluster, see [Create a Private Subnet](https://docs.aws.amazon.com/cloudhsm/latest/userguide/create-subnets.html) in the CloudHSM User Guide. For information about cluster security groups, see [Configure a Default Security Group](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) in the CloudHSM User Guide .
 public struct CloudHsmClusterInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -423,7 +423,7 @@ extension CloudHsmClusterNotActiveException {
     }
 }
 
-/// The request was rejected because the CloudHSM cluster that is associated with the custom key store is not active. Initialize and activate the cluster and try the command again. For detailed instructions, see [Getting Started](https://docs.aws.amazon.com/cloudhsm/latest/userguide/getting-started.html) in the CloudHSM User Guide.
+/// The request was rejected because the CloudHSM cluster associated with the CloudHSM key store is not active. Initialize and activate the cluster and try the command again. For detailed instructions, see [Getting Started](https://docs.aws.amazon.com/cloudhsm/latest/userguide/getting-started.html) in the CloudHSM User Guide.
 public struct CloudHsmClusterNotActiveException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -527,7 +527,7 @@ extension CloudHsmClusterNotRelatedException {
     }
 }
 
-/// The request was rejected because the specified CloudHSM cluster has a different cluster certificate than the original cluster. You cannot use the operation to specify an unrelated cluster. Specify a cluster that shares a backup history with the original cluster. This includes clusters that were created from a backup of the current cluster, and clusters that were created from the same backup that produced the current cluster. Clusters that share a backup history have the same cluster certificate. To view the cluster certificate of a cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
+/// The request was rejected because the specified CloudHSM cluster has a different cluster certificate than the original cluster. You cannot use the operation to specify an unrelated cluster for an CloudHSM key store. Specify an CloudHSM cluster that shares a backup history with the original cluster. This includes clusters that were created from a backup of the current cluster, and clusters that were created from the same backup that produced the current cluster. CloudHSM clusters that share a backup history have the same cluster certificate. To view the cluster certificate of an CloudHSM cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
 public struct CloudHsmClusterNotRelatedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -662,6 +662,14 @@ extension KMSClientTypes {
         case userLockedOut
         case userLoggedIn
         case userNotFound
+        case xksProxyAccessDenied
+        case xksProxyInvalidConfiguration
+        case xksProxyInvalidResponse
+        case xksProxyInvalidTlsConfiguration
+        case xksProxyNotReachable
+        case xksProxyTimedOut
+        case xksVpcEndpointServiceInvalidConfiguration
+        case xksVpcEndpointServiceNotFound
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectionErrorCodeType] {
@@ -676,6 +684,14 @@ extension KMSClientTypes {
                 .userLockedOut,
                 .userLoggedIn,
                 .userNotFound,
+                .xksProxyAccessDenied,
+                .xksProxyInvalidConfiguration,
+                .xksProxyInvalidResponse,
+                .xksProxyInvalidTlsConfiguration,
+                .xksProxyNotReachable,
+                .xksProxyTimedOut,
+                .xksVpcEndpointServiceInvalidConfiguration,
+                .xksVpcEndpointServiceNotFound,
                 .sdkUnknown("")
             ]
         }
@@ -695,6 +711,14 @@ extension KMSClientTypes {
             case .userLockedOut: return "USER_LOCKED_OUT"
             case .userLoggedIn: return "USER_LOGGED_IN"
             case .userNotFound: return "USER_NOT_FOUND"
+            case .xksProxyAccessDenied: return "XKS_PROXY_ACCESS_DENIED"
+            case .xksProxyInvalidConfiguration: return "XKS_PROXY_INVALID_CONFIGURATION"
+            case .xksProxyInvalidResponse: return "XKS_PROXY_INVALID_RESPONSE"
+            case .xksProxyInvalidTlsConfiguration: return "XKS_PROXY_INVALID_TLS_CONFIGURATION"
+            case .xksProxyNotReachable: return "XKS_PROXY_NOT_REACHABLE"
+            case .xksProxyTimedOut: return "XKS_PROXY_TIMED_OUT"
+            case .xksVpcEndpointServiceInvalidConfiguration: return "XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION"
+            case .xksVpcEndpointServiceNotFound: return "XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND"
             case let .sdkUnknown(s): return s
             }
         }
@@ -781,6 +805,9 @@ public struct CreateAliasInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var targetKeyId: Swift.String?
@@ -861,15 +888,21 @@ public struct CreateAliasOutputResponse: Swift.Equatable {
 
 extension CreateCustomKeyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreName: \(Swift.String(describing: customKeyStoreName)), trustAnchorCertificate: \(Swift.String(describing: trustAnchorCertificate)), keyStorePassword: \"CONTENT_REDACTED\")"}
+        "CreateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreName: \(Swift.String(describing: customKeyStoreName)), customKeyStoreType: \(Swift.String(describing: customKeyStoreType)), trustAnchorCertificate: \(Swift.String(describing: trustAnchorCertificate)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), keyStorePassword: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateCustomKeyStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudHsmClusterId = "CloudHsmClusterId"
         case customKeyStoreName = "CustomKeyStoreName"
+        case customKeyStoreType = "CustomKeyStoreType"
         case keyStorePassword = "KeyStorePassword"
         case trustAnchorCertificate = "TrustAnchorCertificate"
+        case xksProxyAuthenticationCredential = "XksProxyAuthenticationCredential"
+        case xksProxyConnectivity = "XksProxyConnectivity"
+        case xksProxyUriEndpoint = "XksProxyUriEndpoint"
+        case xksProxyUriPath = "XksProxyUriPath"
+        case xksProxyVpcEndpointServiceName = "XksProxyVpcEndpointServiceName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -880,11 +913,29 @@ extension CreateCustomKeyStoreInput: Swift.Encodable {
         if let customKeyStoreName = self.customKeyStoreName {
             try encodeContainer.encode(customKeyStoreName, forKey: .customKeyStoreName)
         }
+        if let customKeyStoreType = self.customKeyStoreType {
+            try encodeContainer.encode(customKeyStoreType.rawValue, forKey: .customKeyStoreType)
+        }
         if let keyStorePassword = self.keyStorePassword {
             try encodeContainer.encode(keyStorePassword, forKey: .keyStorePassword)
         }
         if let trustAnchorCertificate = self.trustAnchorCertificate {
             try encodeContainer.encode(trustAnchorCertificate, forKey: .trustAnchorCertificate)
+        }
+        if let xksProxyAuthenticationCredential = self.xksProxyAuthenticationCredential {
+            try encodeContainer.encode(xksProxyAuthenticationCredential, forKey: .xksProxyAuthenticationCredential)
+        }
+        if let xksProxyConnectivity = self.xksProxyConnectivity {
+            try encodeContainer.encode(xksProxyConnectivity.rawValue, forKey: .xksProxyConnectivity)
+        }
+        if let xksProxyUriEndpoint = self.xksProxyUriEndpoint {
+            try encodeContainer.encode(xksProxyUriEndpoint, forKey: .xksProxyUriEndpoint)
+        }
+        if let xksProxyUriPath = self.xksProxyUriPath {
+            try encodeContainer.encode(xksProxyUriPath, forKey: .xksProxyUriPath)
+        }
+        if let xksProxyVpcEndpointServiceName = self.xksProxyVpcEndpointServiceName {
+            try encodeContainer.encode(xksProxyVpcEndpointServiceName, forKey: .xksProxyVpcEndpointServiceName)
         }
     }
 }
@@ -896,27 +947,61 @@ extension CreateCustomKeyStoreInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateCustomKeyStoreInput: Swift.Equatable {
-    /// Identifies the CloudHSM cluster for the custom key store. Enter the cluster ID of any active CloudHSM cluster that is not already associated with a custom key store. To find the cluster ID, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
+    /// Identifies the CloudHSM cluster for an CloudHSM key store. This parameter is required for custom key stores with CustomKeyStoreType of AWS_CLOUDHSM. Enter the cluster ID of any active CloudHSM cluster that is not already associated with a custom key store. To find the cluster ID, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
     public var cloudHsmClusterId: Swift.String?
-    /// Specifies a friendly name for the custom key store. The name must be unique in your Amazon Web Services account.
+    /// Specifies a friendly name for the custom key store. The name must be unique in your Amazon Web Services account and Region. This parameter is required for all custom key stores.
     /// This member is required.
     public var customKeyStoreName: Swift.String?
-    /// Enter the password of the [kmsuser] crypto user (CU) account(https://docs.aws.amazon.com/kms/latest/developerguide/key-store-concepts.html#concept-kmsuser) in the specified CloudHSM cluster. KMS logs into the cluster as this user to manage key material on your behalf. The password must be a string of 7 to 32 characters. Its value is case sensitive. This parameter tells KMS the kmsuser account password; it does not change the password in the CloudHSM cluster.
+    /// Specifies the type of custom key store. The default value is AWS_CLOUDHSM. For a custom key store backed by an CloudHSM cluster, omit the parameter or enter AWS_CLOUDHSM. For a custom key store backed by an external key manager outside of Amazon Web Services, enter EXTERNAL_KEY_STORE. You cannot change this property after the key store is created.
+    public var customKeyStoreType: KMSClientTypes.CustomKeyStoreType?
+    /// Specifies the kmsuser password for an CloudHSM key store. This parameter is required for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM. Enter the password of the [kmsuser] crypto user (CU) account(https://docs.aws.amazon.com/kms/latest/developerguide/key-store-concepts.html#concept-kmsuser) in the specified CloudHSM cluster. KMS logs into the cluster as this user to manage key material on your behalf. The password must be a string of 7 to 32 characters. Its value is case sensitive. This parameter tells KMS the kmsuser account password; it does not change the password in the CloudHSM cluster.
     public var keyStorePassword: Swift.String?
-    /// Enter the content of the trust anchor certificate for the cluster. This is the content of the customerCA.crt file that you created when you [initialized the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html).
+    /// * CreateCustom Specifies the certificate for an CloudHSM key store. This parameter is required for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM. Enter the content of the trust anchor certificate for the CloudHSM cluster. This is the content of the customerCA.crt file that you created when you [initialized the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html).
     public var trustAnchorCertificate: Swift.String?
+    /// Specifies an authentication credential for the external key store proxy (XKS proxy). This parameter is required for all custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. The XksProxyAuthenticationCredential has two required elements: RawSecretAccessKey, a secret key, and AccessKeyId, a unique identifier for the RawSecretAccessKey. For character requirements, see [XksProxyAuthenticationCredentialType]. KMS uses this authentication credential to sign requests to the external key store proxy on your behalf. This credential is unrelated to Identity and Access Management (IAM) and Amazon Web Services credentials. This parameter doesn't set or change the authentication credentials on the XKS proxy. It just tells KMS the credential that you established on your external key store proxy. If you rotate your proxy authentication credential, use the [UpdateCustomKeyStore] operation to provide the new credential to KMS.
+    public var xksProxyAuthenticationCredential: KMSClientTypes.XksProxyAuthenticationCredentialType?
+    /// Indicates how KMS communicates with the external key store proxy. This parameter is required for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. If the external key store proxy uses a public endpoint, specify PUBLIC_ENDPOINT. If the external key store proxy uses a Amazon VPC endpoint service for communication with KMS, specify VPC_ENDPOINT_SERVICE. For help making this choice, see [Choosing a connectivity option](https://docs.aws.amazon.com/kms/latest/developerguide/plan-xks-keystore.html#choose-xks-connectivity) in the Key Management Service Developer Guide. An Amazon VPC endpoint service keeps your communication with KMS in a private address space entirely within Amazon Web Services, but it requires more configuration, including establishing a Amazon VPC with multiple subnets, a VPC endpoint service, a network load balancer, and a verified private DNS name. A public endpoint is simpler to set up, but it might be slower and might not fulfill your security requirements. You might consider testing with a public endpoint, and then establishing a VPC endpoint service for production tasks. Note that this choice does not determine the location of the external key store proxy. Even if you choose a VPC endpoint service, the proxy can be hosted within the VPC or outside of Amazon Web Services such as in your corporate data center.
+    public var xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType?
+    /// Specifies the endpoint that KMS uses to send requests to the external key store proxy (XKS proxy). This parameter is required for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. The protocol must be HTTPS. KMS communicates on port 443. Do not specify the port in the XksProxyUriEndpoint value. For external key stores with XksProxyConnectivity value of VPC_ENDPOINT_SERVICE, specify https:// followed by the private DNS name of the VPC endpoint service. For external key stores with PUBLIC_ENDPOINT connectivity, this endpoint must be reachable before you create the custom key store. KMS connects to the external key store proxy while creating the custom key store. For external key stores with VPC_ENDPOINT_SERVICE connectivity, KMS connects when you call the [ConnectCustomKeyStore] operation. The value of this parameter must begin with https://. The remainder can contain upper and lower case letters (A-Z and a-z), numbers (0-9), dots (.), and hyphens (-). Additional slashes (/ and \) are not permitted. Uniqueness requirements:
+    ///
+    /// * The combined XksProxyUriEndpoint and XksProxyUriPath values must be unique in the Amazon Web Services account and Region.
+    ///
+    /// * An external key store with PUBLIC_ENDPOINT connectivity cannot use the same XksProxyUriEndpoint value as an external key store with VPC_ENDPOINT_SERVICE connectivity in the same Amazon Web Services Region.
+    ///
+    /// * Each external key store with VPC_ENDPOINT_SERVICE connectivity must have its own private DNS name. The XksProxyUriEndpoint value for external key stores with VPC_ENDPOINT_SERVICE connectivity (private DNS name) must be unique in the Amazon Web Services account and Region.
+    public var xksProxyUriEndpoint: Swift.String?
+    /// Specifies the base path to the proxy APIs for this external key store. To find this value, see the documentation for your external key store proxy. This parameter is required for all custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. The value must start with / and must end with /kms/xks/v1 where v1 represents the version of the KMS external key store proxy API. This path can include an optional prefix between the required elements such as /prefix/kms/xks/v1. Uniqueness requirements:
+    ///
+    /// * The combined XksProxyUriEndpoint and XksProxyUriPath values must be unique in the Amazon Web Services account and Region.
+    public var xksProxyUriPath: Swift.String?
+    /// Specifies the name of the Amazon VPC endpoint service for interface endpoints that is used to communicate with your external key store proxy (XKS proxy). This parameter is required when the value of CustomKeyStoreType is EXTERNAL_KEY_STORE and the value of XksProxyConnectivity is VPC_ENDPOINT_SERVICE. The Amazon VPC endpoint service must [fulfill all requirements](https://docs.aws.amazon.com/kms/latest/developerguide/create-xks-keystore.html#xks-requirements) for use with an external key store. Uniqueness requirements:
+    ///
+    /// * External key stores with VPC_ENDPOINT_SERVICE connectivity can share an Amazon VPC, but each external key store must have its own VPC endpoint service and private DNS name.
+    public var xksProxyVpcEndpointServiceName: Swift.String?
 
     public init (
         cloudHsmClusterId: Swift.String? = nil,
         customKeyStoreName: Swift.String? = nil,
+        customKeyStoreType: KMSClientTypes.CustomKeyStoreType? = nil,
         keyStorePassword: Swift.String? = nil,
-        trustAnchorCertificate: Swift.String? = nil
+        trustAnchorCertificate: Swift.String? = nil,
+        xksProxyAuthenticationCredential: KMSClientTypes.XksProxyAuthenticationCredentialType? = nil,
+        xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType? = nil,
+        xksProxyUriEndpoint: Swift.String? = nil,
+        xksProxyUriPath: Swift.String? = nil,
+        xksProxyVpcEndpointServiceName: Swift.String? = nil
     )
     {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreName = customKeyStoreName
+        self.customKeyStoreType = customKeyStoreType
         self.keyStorePassword = keyStorePassword
         self.trustAnchorCertificate = trustAnchorCertificate
+        self.xksProxyAuthenticationCredential = xksProxyAuthenticationCredential
+        self.xksProxyConnectivity = xksProxyConnectivity
+        self.xksProxyUriEndpoint = xksProxyUriEndpoint
+        self.xksProxyUriPath = xksProxyUriPath
+        self.xksProxyVpcEndpointServiceName = xksProxyVpcEndpointServiceName
     }
 }
 
@@ -925,14 +1010,26 @@ struct CreateCustomKeyStoreInputBody: Swift.Equatable {
     let cloudHsmClusterId: Swift.String?
     let trustAnchorCertificate: Swift.String?
     let keyStorePassword: Swift.String?
+    let customKeyStoreType: KMSClientTypes.CustomKeyStoreType?
+    let xksProxyUriEndpoint: Swift.String?
+    let xksProxyUriPath: Swift.String?
+    let xksProxyVpcEndpointServiceName: Swift.String?
+    let xksProxyAuthenticationCredential: KMSClientTypes.XksProxyAuthenticationCredentialType?
+    let xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType?
 }
 
 extension CreateCustomKeyStoreInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudHsmClusterId = "CloudHsmClusterId"
         case customKeyStoreName = "CustomKeyStoreName"
+        case customKeyStoreType = "CustomKeyStoreType"
         case keyStorePassword = "KeyStorePassword"
         case trustAnchorCertificate = "TrustAnchorCertificate"
+        case xksProxyAuthenticationCredential = "XksProxyAuthenticationCredential"
+        case xksProxyConnectivity = "XksProxyConnectivity"
+        case xksProxyUriEndpoint = "XksProxyUriEndpoint"
+        case xksProxyUriPath = "XksProxyUriPath"
+        case xksProxyVpcEndpointServiceName = "XksProxyVpcEndpointServiceName"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -945,6 +1042,18 @@ extension CreateCustomKeyStoreInputBody: Swift.Decodable {
         trustAnchorCertificate = trustAnchorCertificateDecoded
         let keyStorePasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyStorePassword)
         keyStorePassword = keyStorePasswordDecoded
+        let customKeyStoreTypeDecoded = try containerValues.decodeIfPresent(KMSClientTypes.CustomKeyStoreType.self, forKey: .customKeyStoreType)
+        customKeyStoreType = customKeyStoreTypeDecoded
+        let xksProxyUriEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .xksProxyUriEndpoint)
+        xksProxyUriEndpoint = xksProxyUriEndpointDecoded
+        let xksProxyUriPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .xksProxyUriPath)
+        xksProxyUriPath = xksProxyUriPathDecoded
+        let xksProxyVpcEndpointServiceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .xksProxyVpcEndpointServiceName)
+        xksProxyVpcEndpointServiceName = xksProxyVpcEndpointServiceNameDecoded
+        let xksProxyAuthenticationCredentialDecoded = try containerValues.decodeIfPresent(KMSClientTypes.XksProxyAuthenticationCredentialType.self, forKey: .xksProxyAuthenticationCredential)
+        xksProxyAuthenticationCredential = xksProxyAuthenticationCredentialDecoded
+        let xksProxyConnectivityDecoded = try containerValues.decodeIfPresent(KMSClientTypes.XksProxyConnectivityType.self, forKey: .xksProxyConnectivity)
+        xksProxyConnectivity = xksProxyConnectivityDecoded
     }
 }
 
@@ -966,6 +1075,16 @@ extension CreateCustomKeyStoreOutputError {
         case "CustomKeyStoreNameInUseException" : self = .customKeyStoreNameInUseException(try CustomKeyStoreNameInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "IncorrectTrustAnchorException" : self = .incorrectTrustAnchorException(try IncorrectTrustAnchorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyIncorrectAuthenticationCredentialException" : self = .xksProxyIncorrectAuthenticationCredentialException(try XksProxyIncorrectAuthenticationCredentialException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyInvalidConfigurationException" : self = .xksProxyInvalidConfigurationException(try XksProxyInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyInvalidResponseException" : self = .xksProxyInvalidResponseException(try XksProxyInvalidResponseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyUriEndpointInUseException" : self = .xksProxyUriEndpointInUseException(try XksProxyUriEndpointInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyUriInUseException" : self = .xksProxyUriInUseException(try XksProxyUriInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyUriUnreachableException" : self = .xksProxyUriUnreachableException(try XksProxyUriUnreachableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyVpcEndpointServiceInUseException" : self = .xksProxyVpcEndpointServiceInUseException(try XksProxyVpcEndpointServiceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyVpcEndpointServiceInvalidConfigurationException" : self = .xksProxyVpcEndpointServiceInvalidConfigurationException(try XksProxyVpcEndpointServiceInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyVpcEndpointServiceNotFoundException" : self = .xksProxyVpcEndpointServiceNotFoundException(try XksProxyVpcEndpointServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -979,6 +1098,16 @@ public enum CreateCustomKeyStoreOutputError: Swift.Error, Swift.Equatable {
     case customKeyStoreNameInUseException(CustomKeyStoreNameInUseException)
     case incorrectTrustAnchorException(IncorrectTrustAnchorException)
     case kMSInternalException(KMSInternalException)
+    case limitExceededException(LimitExceededException)
+    case xksProxyIncorrectAuthenticationCredentialException(XksProxyIncorrectAuthenticationCredentialException)
+    case xksProxyInvalidConfigurationException(XksProxyInvalidConfigurationException)
+    case xksProxyInvalidResponseException(XksProxyInvalidResponseException)
+    case xksProxyUriEndpointInUseException(XksProxyUriEndpointInUseException)
+    case xksProxyUriInUseException(XksProxyUriInUseException)
+    case xksProxyUriUnreachableException(XksProxyUriUnreachableException)
+    case xksProxyVpcEndpointServiceInUseException(XksProxyVpcEndpointServiceInUseException)
+    case xksProxyVpcEndpointServiceInvalidConfigurationException(XksProxyVpcEndpointServiceInvalidConfigurationException)
+    case xksProxyVpcEndpointServiceNotFoundException(XksProxyVpcEndpointServiceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1087,6 +1216,9 @@ public struct CreateGrantInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -1151,9 +1283,9 @@ extension CreateGrantInputBody: Swift.Decodable {
         var operationsDecoded0:[KMSClientTypes.GrantOperation]? = nil
         if let operationsContainer = operationsContainer {
             operationsDecoded0 = [KMSClientTypes.GrantOperation]()
-            for string0 in operationsContainer {
-                if let string0 = string0 {
-                    operationsDecoded0?.append(string0)
+            for enum0 in operationsContainer {
+                if let enum0 = enum0 {
+                    operationsDecoded0?.append(enum0)
                 }
             }
         }
@@ -1275,6 +1407,7 @@ extension CreateKeyInput: Swift.Encodable {
         case origin = "Origin"
         case policy = "Policy"
         case tags = "Tags"
+        case xksKeyId = "XksKeyId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1312,6 +1445,9 @@ extension CreateKeyInput: Swift.Encodable {
                 try tagsContainer.encode(taglist0)
             }
         }
+        if let xksKeyId = self.xksKeyId {
+            try encodeContainer.encode(xksKeyId, forKey: .xksKeyId)
+        }
     }
 }
 
@@ -1324,14 +1460,14 @@ extension CreateKeyInput: ClientRuntime.URLPathProvider {
 public struct CreateKeyInput: Swift.Equatable {
     /// A flag to indicate whether to bypass the key policy lockout safety check. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam) section in the Key Management Service Developer Guide . Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy] request on the KMS key. The default value is false.
     public var bypassPolicyLockoutSafetyCheck: Swift.Bool
-    /// Creates the KMS key in the specified [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html) and the key material in its associated CloudHSM cluster. To create a KMS key in a custom key store, you must also specify the Origin parameter with a value of AWS_CLOUDHSM. The CloudHSM cluster that is associated with the custom key store must have at least two active HSMs, each in a different Availability Zone in the Region. This parameter is valid only for symmetric encryption KMS keys in a single Region. You cannot create any other type of KMS key in a custom key store. To find the ID of a custom key store, use the [DescribeCustomKeyStores] operation. The response includes the custom key store ID and the ID of the CloudHSM cluster. This operation is part of the [custom key store feature](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html) feature in KMS, which combines the convenience and extensive integration of KMS with the isolation and control of a single-tenant key store.
+    /// Creates the KMS key in the specified [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html). The ConnectionState of the custom key store must be CONNECTED. To find the CustomKeyStoreID and ConnectionState use the [DescribeCustomKeyStores] operation. This parameter is valid only for symmetric encryption KMS keys in a single Region. You cannot create any other type of KMS key in a custom key store. When you create a KMS key in an CloudHSM key store, KMS generates a non-exportable 256-bit symmetric key in its associated CloudHSM cluster and associates it with the KMS key. When you create a KMS key in an external key store, you must use the XksKeyId parameter to specify an external key that serves as key material for the KMS key.
     public var customKeyStoreId: Swift.String?
-    /// Instead, use the KeySpec parameter. The KeySpec and CustomerMasterKeySpec parameters work the same way. Only the names differ. We recommend that you use KeySpec parameter in your code. However, to avoid breaking changes, KMS will support both parameters.
+    /// Instead, use the KeySpec parameter. The KeySpec and CustomerMasterKeySpec parameters work the same way. Only the names differ. We recommend that you use KeySpec parameter in your code. However, to avoid breaking changes, KMS supports both parameters.
     @available(*, deprecated, message: "This parameter has been deprecated. Instead, use the KeySpec parameter.")
     public var customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec?
     /// A description of the KMS key. Use a description that helps you decide whether the KMS key is appropriate for a task. The default value is an empty string (no description). To set or change the description after the key is created, use [UpdateKeyDescription].
     public var description: Swift.String?
-    /// Specifies the type of KMS key to create. The default value, SYMMETRIC_DEFAULT, creates a KMS key with a 256-bit AES-GCM key that is used for encryption and decryption, except in China Regions, where it creates a 128-bit symmetric key that uses SM4 encryption. For help choosing a key spec for your KMS key, see [Choosing a KMS key type](https://docs.aws.amazon.com/kms/latest/developerguide/key-types.html#symm-asymm-choose) in the Key Management Service Developer Guide . The KeySpec determines whether the KMS key contains a symmetric key or an asymmetric key pair. It also determines the cryptographic algorithms that the KMS key supports. You can't change the KeySpec after the KMS key is created. To further restrict the algorithms that can be used with the KMS key, use a condition key in its key policy or IAM policy. For more information, see [kms:EncryptionAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-encryption-algorithm), [kms:MacAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-mac-algorithm) or [kms:Signing Algorithm](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-signing-algorithm) in the Key Management Service Developer Guide . [Amazon Web Services services that are integrated with KMS](http://aws.amazon.com/kms/features/#AWS_Service_Integration) use symmetric encryption KMS keys to protect your data. These services do not support asymmetric KMS keys or HMAC KMS keys. KMS supports the following key specs for KMS keys:
+    /// Specifies the type of KMS key to create. The default value, SYMMETRIC_DEFAULT, creates a KMS key with a 256-bit AES-GCM key that is used for encryption and decryption, except in China Regions, where it creates a 128-bit symmetric key that uses SM4 encryption. For help choosing a key spec for your KMS key, see [Choosing a KMS key type](https://docs.aws.amazon.com/kms/latest/developerguide/key-types.html#symm-asymm-choose) in the Key Management Service Developer Guide . The KeySpec determines whether the KMS key contains a symmetric key or an asymmetric key pair. It also determines the algorithms that the KMS key supports. You can't change the KeySpec after the KMS key is created. To further restrict the algorithms that can be used with the KMS key, use a condition key in its key policy or IAM policy. For more information, see [kms:EncryptionAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-encryption-algorithm), [kms:MacAlgorithm](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-mac-algorithm) or [kms:Signing Algorithm](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-signing-algorithm) in the Key Management Service Developer Guide . [Amazon Web Services services that are integrated with KMS](http://aws.amazon.com/kms/features/#AWS_Service_Integration) use symmetric encryption KMS keys to protect your data. These services do not support asymmetric KMS keys or HMAC KMS keys. KMS supports the following key specs for KMS keys:
     ///
     /// * Symmetric encryption key (default)
     ///
@@ -1398,30 +1534,23 @@ public struct CreateKeyInput: Swift.Equatable {
     ///
     /// * For asymmetric KMS keys with SM2 key material (China Regions only), specify ENCRYPT_DECRYPT or SIGN_VERIFY.
     public var keyUsage: KMSClientTypes.KeyUsageType?
-    /// Creates a multi-Region primary key that you can replicate into other Amazon Web Services Regions. You cannot change this value after you create the KMS key. For a multi-Region key, set this parameter to True. For a single-Region KMS key, omit this parameter or set it to False. The default value is False. This operation supports multi-Region keys, an KMS feature that lets you create multiple interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see [Multi-Region keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. This value creates a primary key, not a replica. To create a replica key, use the [ReplicateKey] operation. You can create a multi-Region version of a symmetric encryption KMS key, an HMAC KMS key, an asymmetric KMS key, or a KMS key with imported key material. However, you cannot create a multi-Region key in a custom key store.
+    /// Creates a multi-Region primary key that you can replicate into other Amazon Web Services Regions. You cannot change this value after you create the KMS key. For a multi-Region key, set this parameter to True. For a single-Region KMS key, omit this parameter or set it to False. The default value is False. This operation supports multi-Region keys, an KMS feature that lets you create multiple interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see [Multi-Region keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. This value creates a primary key, not a replica. To create a replica key, use the [ReplicateKey] operation. You can create a symmetric or asymmetric multi-Region key, and you can create a multi-Region key with imported key material. However, you cannot create a multi-Region key in a custom key store.
     public var multiRegion: Swift.Bool?
-    /// The source of the key material for the KMS key. You cannot change the origin after you create the KMS key. The default is AWS_KMS, which means that KMS creates the key material. To create a KMS key with no key material (for imported key material), set the value to EXTERNAL. For more information about importing key material into KMS, see [Importing Key Material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html) in the Key Management Service Developer Guide. This value is valid only for symmetric encryption KMS keys. To create a KMS key in an KMS [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html) and create its key material in the associated CloudHSM cluster, set this value to AWS_CLOUDHSM. You must also use the CustomKeyStoreId parameter to identify the custom key store. This value is valid only for symmetric encryption KMS keys.
+    /// The source of the key material for the KMS key. You cannot change the origin after you create the KMS key. The default is AWS_KMS, which means that KMS creates the key material. To [create a KMS key with no key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-create-cmk.html) (for imported key material), set this value to EXTERNAL. For more information about importing key material into KMS, see [Importing Key Material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html) in the Key Management Service Developer Guide. The EXTERNAL origin value is valid only for symmetric KMS keys. To [create a KMS key in an CloudHSM key store](https://docs.aws.amazon.com/kms/latest/developerguide/create-cmk-keystore.html) and create its key material in the associated CloudHSM cluster, set this value to AWS_CLOUDHSM. You must also use the CustomKeyStoreId parameter to identify the CloudHSM key store. The KeySpec value must be SYMMETRIC_DEFAULT. To [create a KMS key in an external key store](https://docs.aws.amazon.com/kms/latest/developerguide/create-xks-keys.html), set this value to EXTERNAL_KEY_STORE. You must also use the CustomKeyStoreId parameter to identify the external key store and the XksKeyId parameter to identify the associated external key. The KeySpec value must be SYMMETRIC_DEFAULT.
     public var origin: KMSClientTypes.OriginType?
-    /// The key policy to attach to the KMS key. If you do not specify a key policy, KMS attaches a default key policy to the KMS key. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default) in the Key Management Service Developer Guide. If you provide a key policy, it must meet the following criteria:
+    /// The key policy to attach to the KMS key. If you provide a key policy, it must meet the following criteria:
     ///
-    /// * If you don't set BypassPolicyLockoutSafetyCheck to True, the key policy must allow the principal that is making the CreateKey request to make a subsequent [PutKeyPolicy] request on the KMS key. This reduces the risk that the KMS key becomes unmanageable. For more information, refer to the scenario in the [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam) section of the Key Management Service Developer Guide .
+    /// * If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the CreateKey request to make a subsequent [PutKeyPolicy] request on the KMS key. This reduces the risk that the KMS key becomes unmanageable. For more information, refer to the scenario in the [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam) section of the Key Management Service Developer Guide .
     ///
     /// * Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to KMS. When you create a new Amazon Web Services principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to KMS. For more information, see [Changes that I make are not always immediately visible](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency) in the Amazon Web Services Identity and Access Management User Guide.
     ///
     ///
-    /// A key policy document can include only the following characters:
-    ///
-    /// * Printable ASCII characters from the space character (\u0020) through the end of the ASCII character range.
-    ///
-    /// * Printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF).
-    ///
-    /// * The tab (\u0009), line feed (\u000A), and carriage return (\u000D) special characters
-    ///
-    ///
-    /// For information about key policies, see [Key policies in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) in the Key Management Service Developer Guide. For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide .
+    /// If you do not provide a key policy, KMS attaches a default key policy to the KMS key. For more information, see [Default Key Policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default) in the Key Management Service Developer Guide. The key policy size quota is 32 kilobytes (32768 bytes). For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide .
     public var policy: Swift.String?
-    /// Assigns one or more tags to the KMS key. Use this parameter to tag the KMS key when it is created. To tag an existing KMS key, use the [TagResource] operation. Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see [ABAC in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in the Key Management Service Developer Guide. To use this parameter, you must have [kms:TagResource](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) permission in an IAM policy. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You cannot have more than one tag on a KMS key with the same tag key. If you specify an existing tag key with a different tag value, KMS replaces the current tag value with the specified one. When you add tags to an Amazon Web Services resource, Amazon Web Services generates a cost allocation report with usage and costs aggregated by tags. Tags can also be used to control access to a KMS key. For details, see [Tagging Keys](https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html).
+    /// Assigns one or more tags to the KMS key. Use this parameter to tag the KMS key when it is created. To tag an existing KMS key, use the [TagResource] operation. Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see [ABAC for KMS](https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in the Key Management Service Developer Guide. To use this parameter, you must have [kms:TagResource](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) permission in an IAM policy. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You cannot have more than one tag on a KMS key with the same tag key. If you specify an existing tag key with a different tag value, KMS replaces the current tag value with the specified one. When you add tags to an Amazon Web Services resource, Amazon Web Services generates a cost allocation report with usage and costs aggregated by tags. Tags can also be used to control access to a KMS key. For details, see [Tagging Keys](https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html).
     public var tags: [KMSClientTypes.Tag]?
+    /// Identifies the [external key](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key) that serves as key material for the KMS key in an [external key store](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html). Specify the ID that the [external key store proxy](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-xks-proxy) uses to refer to the external key. For help, see the documentation for your external key store proxy. This parameter is required for a KMS key with an Origin value of EXTERNAL_KEY_STORE. It is not valid for KMS keys with any other Origin value. The external key must be an existing 256-bit AES symmetric encryption key hosted outside of Amazon Web Services in an external key manager associated with the external key store specified by the CustomKeyStoreId parameter. This key must be enabled and configured to perform encryption and decryption. Each KMS key in an external key store must use a different external key. For details, see [Requirements for a KMS key in an external key store](https://docs.aws.amazon.com/create-xks-keys.html#xks-key-requirements) in the Key Management Service Developer Guide. Each KMS key in an external key store is associated two backing keys. One is key material that KMS generates. The other is the external key specified by this parameter. When you use the KMS key in an external key store to encrypt data, the encryption operation is performed first by KMS using the KMS key material, and then by the external key manager using the specified external key, a process known as double encryption. For details, see [Double encryption](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-double-encryption) in the Key Management Service Developer Guide.
+    public var xksKeyId: Swift.String?
 
     public init (
         bypassPolicyLockoutSafetyCheck: Swift.Bool = false,
@@ -1433,7 +1562,8 @@ public struct CreateKeyInput: Swift.Equatable {
         multiRegion: Swift.Bool? = nil,
         origin: KMSClientTypes.OriginType? = nil,
         policy: Swift.String? = nil,
-        tags: [KMSClientTypes.Tag]? = nil
+        tags: [KMSClientTypes.Tag]? = nil,
+        xksKeyId: Swift.String? = nil
     )
     {
         self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
@@ -1446,6 +1576,7 @@ public struct CreateKeyInput: Swift.Equatable {
         self.origin = origin
         self.policy = policy
         self.tags = tags
+        self.xksKeyId = xksKeyId
     }
 }
 
@@ -1460,6 +1591,7 @@ struct CreateKeyInputBody: Swift.Equatable {
     let bypassPolicyLockoutSafetyCheck: Swift.Bool
     let tags: [KMSClientTypes.Tag]?
     let multiRegion: Swift.Bool?
+    let xksKeyId: Swift.String?
 }
 
 extension CreateKeyInputBody: Swift.Decodable {
@@ -1474,6 +1606,7 @@ extension CreateKeyInputBody: Swift.Decodable {
         case origin = "Origin"
         case policy = "Policy"
         case tags = "Tags"
+        case xksKeyId = "XksKeyId"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1507,6 +1640,8 @@ extension CreateKeyInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let multiRegionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiRegion)
         multiRegion = multiRegionDecoded
+        let xksKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .xksKeyId)
+        xksKeyId = xksKeyIdDecoded
     }
 }
 
@@ -1531,6 +1666,9 @@ extension CreateKeyOutputError {
         case "MalformedPolicyDocument" : self = .malformedPolicyDocumentException(try MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagException" : self = .tagException(try TagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksKeyAlreadyInUse" : self = .xksKeyAlreadyInUseException(try XksKeyAlreadyInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksKeyInvalidConfiguration" : self = .xksKeyInvalidConfigurationException(try XksKeyInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksKeyNotFoundException" : self = .xksKeyNotFoundException(try XksKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -1547,6 +1685,9 @@ public enum CreateKeyOutputError: Swift.Error, Swift.Equatable {
     case malformedPolicyDocumentException(MalformedPolicyDocumentException)
     case tagException(TagException)
     case unsupportedOperationException(UnsupportedOperationException)
+    case xksKeyAlreadyInUseException(XksKeyAlreadyInUseException)
+    case xksKeyInvalidConfigurationException(XksKeyInvalidConfigurationException)
+    case xksKeyNotFoundException(XksKeyNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1662,11 +1803,15 @@ extension CustomKeyStoreInvalidStateException {
 
 /// The request was rejected because of the ConnectionState of the custom key store. To get the ConnectionState of a custom key store, use the [DescribeCustomKeyStores] operation. This exception is thrown under the following conditions:
 ///
-/// * You requested the [CreateKey] or [GenerateRandom] operation in a custom key store that is not connected. These operations are valid only when the custom key store ConnectionState is CONNECTED.
+/// * You requested the [ConnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values. To reconnect a custom key store in a FAILED state, disconnect it ([DisconnectCustomKeyStore]), then connect it (ConnectCustomKeyStore).
+///
+/// * You requested the [CreateKey] operation in a custom key store that is not connected. This operations is valid only when the custom key store ConnectionState is CONNECTED.
+///
+/// * You requested the [DisconnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or DISCONNECTED. This operation is valid for all other ConnectionState values.
 ///
 /// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
 ///
-/// * You requested the [ConnectCustomKeyStore] operation on a custom key store with a ConnectionState of DISCONNECTING or FAILED. This operation is valid for all other ConnectionState values.
+/// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
 public struct CustomKeyStoreInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1805,6 +1950,38 @@ extension CustomKeyStoreNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension KMSClientTypes {
+    public enum CustomKeyStoreType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsCloudhsm
+        case externalKeyStore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomKeyStoreType] {
+            return [
+                .awsCloudhsm,
+                .externalKeyStore,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsCloudhsm: return "AWS_CLOUDHSM"
+            case .externalKeyStore: return "EXTERNAL_KEY_STORE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomKeyStoreType(rawValue: rawValue) ?? CustomKeyStoreType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension KMSClientTypes.CustomKeyStoresListEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudHsmClusterId = "CloudHsmClusterId"
@@ -1813,7 +1990,9 @@ extension KMSClientTypes.CustomKeyStoresListEntry: Swift.Codable {
         case creationDate = "CreationDate"
         case customKeyStoreId = "CustomKeyStoreId"
         case customKeyStoreName = "CustomKeyStoreName"
+        case customKeyStoreType = "CustomKeyStoreType"
         case trustAnchorCertificate = "TrustAnchorCertificate"
+        case xksProxyConfiguration = "XksProxyConfiguration"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1836,8 +2015,14 @@ extension KMSClientTypes.CustomKeyStoresListEntry: Swift.Codable {
         if let customKeyStoreName = self.customKeyStoreName {
             try encodeContainer.encode(customKeyStoreName, forKey: .customKeyStoreName)
         }
+        if let customKeyStoreType = self.customKeyStoreType {
+            try encodeContainer.encode(customKeyStoreType.rawValue, forKey: .customKeyStoreType)
+        }
         if let trustAnchorCertificate = self.trustAnchorCertificate {
             try encodeContainer.encode(trustAnchorCertificate, forKey: .trustAnchorCertificate)
+        }
+        if let xksProxyConfiguration = self.xksProxyConfiguration {
+            try encodeContainer.encode(xksProxyConfiguration, forKey: .xksProxyConfiguration)
         }
     }
 
@@ -1857,35 +2042,85 @@ extension KMSClientTypes.CustomKeyStoresListEntry: Swift.Codable {
         connectionErrorCode = connectionErrorCodeDecoded
         let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
         creationDate = creationDateDecoded
+        let customKeyStoreTypeDecoded = try containerValues.decodeIfPresent(KMSClientTypes.CustomKeyStoreType.self, forKey: .customKeyStoreType)
+        customKeyStoreType = customKeyStoreTypeDecoded
+        let xksProxyConfigurationDecoded = try containerValues.decodeIfPresent(KMSClientTypes.XksProxyConfigurationType.self, forKey: .xksProxyConfiguration)
+        xksProxyConfiguration = xksProxyConfigurationDecoded
     }
 }
 
 extension KMSClientTypes {
     /// Contains information about each custom key store in the custom key store list.
     public struct CustomKeyStoresListEntry: Swift.Equatable {
-        /// A unique identifier for the CloudHSM cluster that is associated with the custom key store.
+        /// A unique identifier for the CloudHSM cluster that is associated with an CloudHSM key store. This field appears only when the CustomKeyStoreType is AWS_CLOUDHSM.
         public var cloudHsmClusterId: Swift.String?
-        /// Describes the connection error. This field appears in the response only when the ConnectionState is FAILED. For help resolving these errors, see [How to Fix a Connection Failure](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed) in Key Management Service Developer Guide. Valid values are:
+        /// Describes the connection error. This field appears in the response only when the ConnectionState is FAILED. Many failures can be resolved by updating the properties of the custom key store. To update a custom key store, disconnect it ([DisconnectCustomKeyStore]), correct the errors ([UpdateCustomKeyStore]), and try to connect again ([ConnectCustomKeyStore]). For additional help resolving these errors, see [How to Fix a Connection Failure](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed) in Key Management Service Developer Guide. All custom key stores:
         ///
-        /// * CLUSTER_NOT_FOUND - KMS cannot find the CloudHSM cluster with the specified cluster ID.
+        /// * INTERNAL_ERROR — KMS could not complete the request due to an internal error. Retry the request. For ConnectCustomKeyStore requests, disconnect the custom key store before trying to connect again.
         ///
-        /// * INSUFFICIENT_CLOUDHSM_HSMS - The associated CloudHSM cluster does not contain any active HSMs. To connect a custom key store to its CloudHSM cluster, the cluster must contain at least one active HSM.
+        /// * NETWORK_ERRORS — Network errors are preventing KMS from connecting the custom key store to its backing key store.
         ///
-        /// * INTERNAL_ERROR - KMS could not complete the request due to an internal error. Retry the request. For ConnectCustomKeyStore requests, disconnect the custom key store before trying to connect again.
         ///
-        /// * INVALID_CREDENTIALS - KMS does not have the correct password for the kmsuser crypto user in the CloudHSM cluster. Before you can connect your custom key store to its CloudHSM cluster, you must change the kmsuser account password and update the key store password value for the custom key store.
+        /// CloudHSM key stores:
         ///
-        /// * NETWORK_ERRORS - Network errors are preventing KMS from connecting to the custom key store.
+        /// * CLUSTER_NOT_FOUND — KMS cannot find the CloudHSM cluster with the specified cluster ID.
         ///
-        /// * SUBNET_NOT_FOUND - A subnet in the CloudHSM cluster configuration was deleted. If KMS cannot find all of the subnets in the cluster configuration, attempts to connect the custom key store to the CloudHSM cluster fail. To fix this error, create a cluster from a recent backup and associate it with your custom key store. (This process creates a new cluster configuration with a VPC and private subnets.) For details, see [How to Fix a Connection Failure](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed) in the Key Management Service Developer Guide.
+        /// * INSUFFICIENT_CLOUDHSM_HSMS — The associated CloudHSM cluster does not contain any active HSMs. To connect a custom key store to its CloudHSM cluster, the cluster must contain at least one active HSM.
         ///
-        /// * USER_LOCKED_OUT - The kmsuser CU account is locked out of the associated CloudHSM cluster due to too many failed password attempts. Before you can connect your custom key store to its CloudHSM cluster, you must change the kmsuser account password and update the key store password value for the custom key store.
+        /// * INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET — At least one private subnet associated with the CloudHSM cluster doesn't have any available IP addresses. A CloudHSM key store connection requires one free IP address in each of the associated private subnets, although two are preferable. For details, see [How to Fix a Connection Failure](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed) in the Key Management Service Developer Guide.
         ///
-        /// * USER_LOGGED_IN - The kmsuser CU account is logged into the the associated CloudHSM cluster. This prevents KMS from rotating the kmsuser account password and logging into the cluster. Before you can connect your custom key store to its CloudHSM cluster, you must log the kmsuser CU out of the cluster. If you changed the kmsuser password to log into the cluster, you must also and update the key store password value for the custom key store. For help, see [How to Log Out and Reconnect](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#login-kmsuser-2) in the Key Management Service Developer Guide.
+        /// * INVALID_CREDENTIALS — The KeyStorePassword for the custom key store doesn't match the current password of the kmsuser crypto user in the CloudHSM cluster. Before you can connect your custom key store to its CloudHSM cluster, you must change the kmsuser account password and update the KeyStorePassword value for the custom key store.
         ///
-        /// * USER_NOT_FOUND - KMS cannot find a kmsuser CU account in the associated CloudHSM cluster. Before you can connect your custom key store to its CloudHSM cluster, you must create a kmsuser CU account in the cluster, and then update the key store password value for the custom key store.
+        /// * SUBNET_NOT_FOUND — A subnet in the CloudHSM cluster configuration was deleted. If KMS cannot find all of the subnets in the cluster configuration, attempts to connect the custom key store to the CloudHSM cluster fail. To fix this error, create a cluster from a recent backup and associate it with your custom key store. (This process creates a new cluster configuration with a VPC and private subnets.) For details, see [How to Fix a Connection Failure](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#fix-keystore-failed) in the Key Management Service Developer Guide.
+        ///
+        /// * USER_LOCKED_OUT — The kmsuser CU account is locked out of the associated CloudHSM cluster due to too many failed password attempts. Before you can connect your custom key store to its CloudHSM cluster, you must change the kmsuser account password and update the key store password value for the custom key store.
+        ///
+        /// * USER_LOGGED_IN — The kmsuser CU account is logged into the associated CloudHSM cluster. This prevents KMS from rotating the kmsuser account password and logging into the cluster. Before you can connect your custom key store to its CloudHSM cluster, you must log the kmsuser CU out of the cluster. If you changed the kmsuser password to log into the cluster, you must also and update the key store password value for the custom key store. For help, see [How to Log Out and Reconnect](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html#login-kmsuser-2) in the Key Management Service Developer Guide.
+        ///
+        /// * USER_NOT_FOUND — KMS cannot find a kmsuser CU account in the associated CloudHSM cluster. Before you can connect your custom key store to its CloudHSM cluster, you must create a kmsuser CU account in the cluster, and then update the key store password value for the custom key store.
+        ///
+        ///
+        /// External key stores:
+        ///
+        /// * INVALID_CREDENTIALS — One or both of the XksProxyAuthenticationCredential values is not valid on the specified external key store proxy.
+        ///
+        /// * XKS_PROXY_ACCESS_DENIED — KMS requests are denied access to the external key store proxy. If the external key store proxy has authorization rules, verify that they permit KMS to communicate with the proxy on your behalf.
+        ///
+        /// * XKS_PROXY_INVALID_CONFIGURATION — A configuration error is preventing the external key store from connecting to its proxy. Verify the value of the XksProxyUriPath.
+        ///
+        /// * XKS_PROXY_INVALID_RESPONSE — KMS cannot interpret the response from the external key store proxy. If you see this connection error code repeatedly, notify your external key store proxy vendor.
+        ///
+        /// * XKS_PROXY_INVALID_TLS_CONFIGURATION — KMS cannot connect to the external key store proxy because the TLS configuration is invalid. Verify that the XKS proxy supports TLS 1.2 or 1.3. Also, verify that the TLS certificate is not expired, and that it matches the hostname in the XksProxyUriEndpoint value, and that it is signed by a certificate authority included in the [Trusted Certificate Authorities](https://github.com/aws/aws-kms-xksproxy-api-spec/blob/main/TrustedCertificateAuthorities) list.
+        ///
+        /// * XKS_PROXY_NOT_REACHABLE — KMS can't communicate with your external key store proxy. Verify that the XksProxyUriEndpoint and XksProxyUriPath are correct. Use the tools for your external key store proxy to verify that the proxy is active and available on its network. Also, verify that your external key manager instances are operating properly. Connection attempts fail with this connection error code if the proxy reports that all external key manager instances are unavailable.
+        ///
+        /// * XKS_PROXY_TIMED_OUT — KMS can connect to the external key store proxy, but the proxy does not respond to KMS in the time allotted. If you see this connection error code repeatedly, notify your external key store proxy vendor.
+        ///
+        /// * XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION — The Amazon VPC endpoint service configuration doesn't conform to the requirements for an KMS external key store.
+        ///
+        /// * The VPC endpoint service must be an endpoint service for interface endpoints in the caller's Amazon Web Services account.
+        ///
+        /// * It must have a network load balancer (NLB) connected to at least two subnets, each in a different Availability Zone.
+        ///
+        /// * The Allow principals list must include the KMS service principal for the Region, cks.kms..amazonaws.com,
+        ///
+        ///
+        /// such as cks.kms.us-east-1.amazonaws.com.
+        ///
+        /// * It must not require [acceptance](https://docs.aws.amazon.com/vpc/latest/privatelink/create-endpoint-service.html) of connection requests.
+        ///
+        /// * It must have a private DNS name. The private DNS name for an external key store with VPC_ENDPOINT_SERVICE connectivity must be unique in its Amazon Web Services Region.
+        ///
+        /// * The domain of the private DNS name must have a [verification status](https://docs.aws.amazon.com/vpc/latest/privatelink/verify-domains.html) of verified.
+        ///
+        /// * The [TLS certificate](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html) specifies the private DNS hostname at which the endpoint is reachable.
+        ///
+        ///
+        ///
+        ///
+        /// * XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND — KMS can't find the VPC endpoint service that it uses to communicate with the external key store proxy. Verify that the XksProxyVpcEndpointServiceName is correct and the KMS service principal has service consumer permissions on the Amazon VPC endpoint service.
         public var connectionErrorCode: KMSClientTypes.ConnectionErrorCodeType?
-        /// Indicates whether the custom key store is connected to its CloudHSM cluster. You can create and use KMS keys in your custom key stores only when its connection state is CONNECTED. The value is DISCONNECTED if the key store has never been connected or you use the [DisconnectCustomKeyStore] operation to disconnect it. If the value is CONNECTED but you are having trouble using the custom key store, make sure that its associated CloudHSM cluster is active and contains at least one active HSM. A value of FAILED indicates that an attempt to connect was unsuccessful. The ConnectionErrorCode field in the response indicates the cause of the failure. For help resolving a connection failure, see [Troubleshooting a Custom Key Store](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html) in the Key Management Service Developer Guide.
+        /// Indicates whether the custom key store is connected to its backing key store. For an CloudHSM key store, the ConnectionState indicates whether it is connected to its CloudHSM cluster. For an external key store, the ConnectionState indicates whether it is connected to the external key store proxy that communicates with your external key manager. You can create and use KMS keys in your custom key stores only when its ConnectionState is CONNECTED. The ConnectionState value is DISCONNECTED only if the key store has never been connected or you use the [DisconnectCustomKeyStore] operation to disconnect it. If the value is CONNECTED but you are having trouble using the custom key store, make sure that the backing key store is reachable and active. For an CloudHSM key store, verify that its associated CloudHSM cluster is active and contains at least one active HSM. For an external key store, verify that the external key store proxy and external key manager are connected and enabled. A value of FAILED indicates that an attempt to connect was unsuccessful. The ConnectionErrorCode field in the response indicates the cause of the failure. For help resolving a connection failure, see [Troubleshooting a custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html) in the Key Management Service Developer Guide.
         public var connectionState: KMSClientTypes.ConnectionStateType?
         /// The date and time when the custom key store was created.
         public var creationDate: ClientRuntime.Date?
@@ -1893,8 +2128,12 @@ extension KMSClientTypes {
         public var customKeyStoreId: Swift.String?
         /// The user-specified friendly name for the custom key store.
         public var customKeyStoreName: Swift.String?
-        /// The trust anchor certificate of the associated CloudHSM cluster. When you [initialize the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html#sign-csr), you create this certificate and save it in the customerCA.crt file.
+        /// Indicates the type of the custom key store. AWS_CLOUDHSM indicates a custom key store backed by an CloudHSM cluster. EXTERNAL_KEY_STORE indicates a custom key store backed by an external key store proxy and external key manager outside of Amazon Web Services.
+        public var customKeyStoreType: KMSClientTypes.CustomKeyStoreType?
+        /// The trust anchor certificate of the CloudHSM cluster associated with an CloudHSM key store. When you [initialize the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html#sign-csr), you create this certificate and save it in the customerCA.crt file. This field appears only when the CustomKeyStoreType is AWS_CLOUDHSM.
         public var trustAnchorCertificate: Swift.String?
+        /// Configuration settings for the external key store proxy (XKS proxy). The external key store proxy translates KMS requests into a format that your external key manager can understand. The proxy configuration includes connection information that KMS requires. This field appears only when the CustomKeyStoreType is EXTERNAL_KEY_STORE.
+        public var xksProxyConfiguration: KMSClientTypes.XksProxyConfigurationType?
 
         public init (
             cloudHsmClusterId: Swift.String? = nil,
@@ -1903,7 +2142,9 @@ extension KMSClientTypes {
             creationDate: ClientRuntime.Date? = nil,
             customKeyStoreId: Swift.String? = nil,
             customKeyStoreName: Swift.String? = nil,
-            trustAnchorCertificate: Swift.String? = nil
+            customKeyStoreType: KMSClientTypes.CustomKeyStoreType? = nil,
+            trustAnchorCertificate: Swift.String? = nil,
+            xksProxyConfiguration: KMSClientTypes.XksProxyConfigurationType? = nil
         )
         {
             self.cloudHsmClusterId = cloudHsmClusterId
@@ -1912,7 +2153,9 @@ extension KMSClientTypes {
             self.creationDate = creationDate
             self.customKeyStoreId = customKeyStoreId
             self.customKeyStoreName = customKeyStoreName
+            self.customKeyStoreType = customKeyStoreType
             self.trustAnchorCertificate = trustAnchorCertificate
+            self.xksProxyConfiguration = xksProxyConfiguration
         }
     }
 
@@ -2595,7 +2838,7 @@ extension DependencyTimeoutException {
     }
 }
 
-/// The system timed out while trying to fulfill the request. The request can be retried.
+/// The system timed out while trying to fulfill the request. You can retry the request.
 public struct DependencyTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2662,9 +2905,9 @@ extension DescribeCustomKeyStoresInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeCustomKeyStoresInput: Swift.Equatable {
-    /// Gets only information about the specified custom key store. Enter the key store ID. By default, this operation gets information about all custom key stores in the account and Region. To limit the output to a particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
+    /// Gets only information about the specified custom key store. Enter the key store ID. By default, this operation gets information about all custom key stores in the account and Region. To limit the output to a particular custom key store, provide either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
     public var customKeyStoreId: Swift.String?
-    /// Gets only information about the specified custom key store. Enter the friendly name of the custom key store. By default, this operation gets information about all custom key stores in the account and Region. To limit the output to a particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
+    /// Gets only information about the specified custom key store. Enter the friendly name of the custom key store. By default, this operation gets information about all custom key stores in the account and Region. To limit the output to a particular custom key store, provide either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
     public var customKeyStoreName: Swift.String?
     /// Use this parameter to specify the maximum number of items to return. When this value is present, KMS does not return more than the specified number of items, but it might return fewer.
     public var limit: Swift.Int?
@@ -2991,6 +3234,9 @@ public struct DisableKeyInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -3084,6 +3330,9 @@ public struct DisableKeyRotationInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -3321,6 +3570,9 @@ public struct EnableKeyInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -3411,7 +3663,7 @@ extension EnableKeyRotationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct EnableKeyRotationInput: Swift.Equatable {
-    /// Identifies a symmetric encryption KMS key. You cannot enable or disable automatic rotation of [asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html), [HMAC KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html), KMS keys with [imported key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html), or KMS keys in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html). The key rotation status of these KMS keys is always false. To enable or disable automatic rotation of a set of related [multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-manage.html#multi-region-rotate), set the property on the primary key. Specify the key ID or key ARN of the KMS key. For example:
+    /// Identifies a symmetric encryption KMS key. You cannot enable automatic rotation of [asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html), [HMAC KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html), KMS keys with [imported key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html), or KMS keys in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html). To enable or disable automatic rotation of a set of related [multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-manage.html#multi-region-rotate), set the property on the primary key. Specify the key ID or key ARN of the KMS key. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -3540,7 +3792,7 @@ extension EncryptInput: ClientRuntime.URLPathProvider {
 }
 
 public struct EncryptInput: Swift.Equatable {
-    /// Specifies the encryption algorithm that KMS will use to encrypt the plaintext message. The algorithm must be compatible with the KMS key that you specify. This parameter is required only for asymmetric KMS keys. The default value, SYMMETRIC_DEFAULT, is the algorithm used for symmetric encryption KMS keys. If you are using an asymmetric KMS key, we recommend RSAES_OAEP_SHA_256.
+    /// Specifies the encryption algorithm that KMS will use to encrypt the plaintext message. The algorithm must be compatible with the KMS key that you specify. This parameter is required only for asymmetric KMS keys. The default value, SYMMETRIC_DEFAULT, is the algorithm used for symmetric encryption KMS keys. If you are using an asymmetric KMS key, we recommend RSAES_OAEP_SHA_256. The SM2PKE algorithm is only available in China Regions.
     public var encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// Specifies the encryption context that will be used to encrypt the data. An encryption context is valid only for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations) with a symmetric encryption KMS key. The standard asymmetric encryption algorithms and HMAC algorithms that KMS uses do not support an encryption context. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide.
     public var encryptionContext: [Swift.String:Swift.String]?
@@ -4147,7 +4399,7 @@ public struct GenerateDataKeyPairInput: Swift.Equatable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and verify, are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions. RSA and ECC asymmetric key pairs are also available in China Regions.
+    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and verify, are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
     /// This member is required.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
 
@@ -4383,6 +4635,9 @@ public struct GenerateDataKeyPairWithoutPlaintextInput: Swift.Equatable {
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
+    ///
+    ///
+    ///
     /// * Alias name: alias/ExampleAlias
     ///
     /// * Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
@@ -4391,7 +4646,7 @@ public struct GenerateDataKeyPairWithoutPlaintextInput: Swift.Equatable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and verify, are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions. RSA and ECC asymmetric key pairs are also available in China Regions.
+    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and verify, are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
     /// This member is required.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
 
@@ -4942,7 +5197,7 @@ extension GenerateMacOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GenerateMacOutputResponse: Swift.Equatable {
     /// The HMAC KMS key used in the operation.
     public var keyId: Swift.String?
-    /// The hash-based message authentication code (HMAC) for the given message, key, and MAC algorithm.
+    /// The hash-based message authentication code (HMAC) that was generated for the specified message, HMAC KMS key, and MAC algorithm. This is the standard, raw HMAC defined in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104).
     public var mac: ClientRuntime.Data?
     /// The MAC algorithm that was used to generate the HMAC.
     public var macAlgorithm: KMSClientTypes.MacAlgorithmSpec?
@@ -5007,7 +5262,7 @@ extension GenerateRandomInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GenerateRandomInput: Swift.Equatable {
-    /// Generates the random byte string in the CloudHSM cluster that is associated with the specified [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html). To find the ID of a custom key store, use the [DescribeCustomKeyStores] operation.
+    /// Generates the random byte string in the CloudHSM cluster that is associated with the specified CloudHSM key store. To find the ID of a custom key store, use the [DescribeCustomKeyStores] operation. External key store IDs are not valid for this parameter. If you specify the ID of an external key store, GenerateRandom throws an UnsupportedOperationException.
     public var customKeyStoreId: Swift.String?
     /// The length of the random byte string. This parameter is required.
     public var numberOfBytes: Swift.Int?
@@ -5057,6 +5312,7 @@ extension GenerateRandomOutputError {
         case "CustomKeyStoreNotFoundException" : self = .customKeyStoreNotFoundException(try CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DependencyTimeout" : self = .dependencyTimeoutException(try DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -5067,6 +5323,7 @@ public enum GenerateRandomOutputError: Swift.Error, Swift.Equatable {
     case customKeyStoreNotFoundException(CustomKeyStoreNotFoundException)
     case dependencyTimeoutException(DependencyTimeoutException)
     case kMSInternalException(KMSInternalException)
+    case unsupportedOperationException(UnsupportedOperationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -5145,6 +5402,9 @@ public struct GetKeyPolicyInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -5730,7 +5990,7 @@ extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetPublicKeyOutputResponse: Swift.Equatable {
-    /// Instead, use the KeySpec field in the GetPublicKey response. The KeySpec and CustomerMasterKeySpec fields have the same value. We recommend that you use the KeySpec field in your code. However, to avoid breaking changes, KMS will support both fields.
+    /// Instead, use the KeySpec field in the GetPublicKey response. The KeySpec and CustomerMasterKeySpec fields have the same value. We recommend that you use the KeySpec field in your code. However, to avoid breaking changes, KMS supports both fields.
     @available(*, deprecated, message: "This field has been deprecated. Instead, use the KeySpec field.")
     public var customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec?
     /// The encryption algorithms that KMS supports for this key. This information is critical. If a public key encrypts data outside of KMS by using an unsupported encryption algorithm, the ciphertext cannot be decrypted. This field appears in the response only when the KeyUsage of the public key is ENCRYPT_DECRYPT.
@@ -5803,9 +6063,9 @@ extension GetPublicKeyOutputResponseBody: Swift.Decodable {
         var encryptionAlgorithmsDecoded0:[KMSClientTypes.EncryptionAlgorithmSpec]? = nil
         if let encryptionAlgorithmsContainer = encryptionAlgorithmsContainer {
             encryptionAlgorithmsDecoded0 = [KMSClientTypes.EncryptionAlgorithmSpec]()
-            for string0 in encryptionAlgorithmsContainer {
-                if let string0 = string0 {
-                    encryptionAlgorithmsDecoded0?.append(string0)
+            for enum0 in encryptionAlgorithmsContainer {
+                if let enum0 = enum0 {
+                    encryptionAlgorithmsDecoded0?.append(enum0)
                 }
             }
         }
@@ -5814,9 +6074,9 @@ extension GetPublicKeyOutputResponseBody: Swift.Decodable {
         var signingAlgorithmsDecoded0:[KMSClientTypes.SigningAlgorithmSpec]? = nil
         if let signingAlgorithmsContainer = signingAlgorithmsContainer {
             signingAlgorithmsDecoded0 = [KMSClientTypes.SigningAlgorithmSpec]()
-            for string0 in signingAlgorithmsContainer {
-                if let string0 = string0 {
-                    signingAlgorithmsDecoded0?.append(string0)
+            for enum0 in signingAlgorithmsContainer {
+                if let enum0 = enum0 {
+                    signingAlgorithmsDecoded0?.append(enum0)
                 }
             }
         }
@@ -5874,7 +6134,7 @@ extension KMSClientTypes.GrantConstraints: Swift.Codable {
 }
 
 extension KMSClientTypes {
-    /// Use this structure to allow [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations) in the grant only when the operation request includes the specified [encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context). KMS applies the grant constraints only to cryptographic operations that support an encryption context, that is, all cryptographic operations with a [symmetric encryption KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html#symmetric-cmks). Grant constraints are not applied to operations that do not support an encryption context, such as cryptographic operations with HMAC KMS keys or asymmetric KMS keys, and management operations, such as [DescribeKey] or [RetireGrant]. In a cryptographic operation, the encryption context in the decryption operation must be an exact, case-sensitive match for the keys and values in the encryption context of the encryption operation. Only the order of the pairs can vary. However, in a grant constraint, the key in each key-value pair is not case sensitive, but the value is case sensitive. To avoid confusion, do not use multiple encryption context pairs that differ only by case. To require a fully case-sensitive encryption context, use the kms:EncryptionContext: and kms:EncryptionContextKeys conditions in an IAM or key policy. For details, see [kms:EncryptionContext:](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-encryption-context) in the Key Management Service Developer Guide .
+    /// Use this structure to allow [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations) in the grant only when the operation request includes the specified [encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context). KMS applies the grant constraints only to cryptographic operations that support an encryption context, that is, all cryptographic operations with a [symmetric KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html#symmetric-cmks). Grant constraints are not applied to operations that do not support an encryption context, such as cryptographic operations with asymmetric KMS keys and management operations, such as [DescribeKey] or [RetireGrant]. In a cryptographic operation, the encryption context in the decryption operation must be an exact, case-sensitive match for the keys and values in the encryption context of the encryption operation. Only the order of the pairs can vary. However, in a grant constraint, the key in each key-value pair is not case sensitive, but the value is case sensitive. To avoid confusion, do not use multiple encryption context pairs that differ only by case. To require a fully case-sensitive encryption context, use the kms:EncryptionContext: and kms:EncryptionContextKeys conditions in an IAM or key policy. For details, see [kms:EncryptionContext:](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-encryption-context) in the Key Management Service Developer Guide .
     public struct GrantConstraints: Swift.Equatable {
         /// A list of key-value pairs that must match the encryption context in the [cryptographic operation](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations) request. The grant allows the operation only when the encryption context in the request is the same as the encryption context specified in this constraint.
         public var encryptionContextEquals: [Swift.String:Swift.String]?
@@ -5960,9 +6220,9 @@ extension KMSClientTypes.GrantListEntry: Swift.Codable {
         var operationsDecoded0:[KMSClientTypes.GrantOperation]? = nil
         if let operationsContainer = operationsContainer {
             operationsDecoded0 = [KMSClientTypes.GrantOperation]()
-            for string0 in operationsContainer {
-                if let string0 = string0 {
-                    operationsDecoded0?.append(string0)
+            for enum0 in operationsContainer {
+                if let enum0 = enum0 {
+                    operationsDecoded0?.append(enum0)
                 }
             }
         }
@@ -6133,7 +6393,7 @@ public struct ImportKeyMaterialInput: Swift.Equatable {
     /// The encrypted key material to import. The key material must be encrypted with the public wrapping key that [GetParametersForImport] returned, using the wrapping algorithm that you specified in the same GetParametersForImport request.
     /// This member is required.
     public var encryptedKeyMaterial: ClientRuntime.Data?
-    /// Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES, in which case you must include the ValidTo parameter. When this parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter.
+    /// Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES. When the value of ExpirationModel is KEY_MATERIAL_EXPIRES, you must specify a value for the ValidTo parameter. When value is KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter. You cannot change the ExpirationModel or ValidTo values for the current import after the request completes. To change either value, you must delete ([DeleteImportedKeyMaterial]) and reimport the key material.
     public var expirationModel: KMSClientTypes.ExpirationModelType?
     /// The import token that you received in the response to a previous [GetParametersForImport] request. It must be from the same response that contained the public key that you used to encrypt the key material.
     /// This member is required.
@@ -6145,10 +6405,13 @@ public struct ImportKeyMaterialInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
-    /// The time at which the imported key material expires. When the key material expires, KMS deletes the key material and the KMS key becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE. Otherwise it is required.
+    /// The date and time when the imported key material expires. This parameter is required when the value of the ExpirationModel parameter is KEY_MATERIAL_EXPIRES. Otherwise it is not valid. The value of this parameter must be a future date and time. The maximum value is 365 days from the request date. When the key material expires, KMS deletes the key material from the KMS key. Without its key material, the KMS key is unusable. To use the KMS key in cryptographic operations, you must reimport the same key material. You cannot change the ExpirationModel or ValidTo values for the current import after the request completes. To change either value, you must delete ([DeleteImportedKeyMaterial]) and reimport the key material.
     public var validTo: ClientRuntime.Date?
 
     public init (
@@ -6370,7 +6633,7 @@ extension IncorrectTrustAnchorException {
     }
 }
 
-/// The request was rejected because the trust anchor certificate in the request is not the trust anchor certificate for the specified CloudHSM cluster. When you [initialize the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html#sign-csr), you create the trust anchor certificate and save it in the customerCA.crt file.
+/// The request was rejected because the trust anchor certificate in the request to create an CloudHSM key store is not the trust anchor certificate for the specified CloudHSM cluster. When you [initialize the CloudHSM cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html#sign-csr), you create the trust anchor certificate and save it in the customerCA.crt file.
 public struct IncorrectTrustAnchorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -7001,7 +7264,11 @@ extension KMSInvalidStateException {
     }
 }
 
-/// The request was rejected because the state of the specified resource is not valid for this request. For more information about how key state affects the use of a KMS key, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+/// The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+///
+/// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+///
+/// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
 public struct KMSInvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -7138,6 +7405,7 @@ extension KMSClientTypes.KeyMetadata: Swift.Codable {
         case pendingDeletionWindowInDays = "PendingDeletionWindowInDays"
         case signingAlgorithms = "SigningAlgorithms"
         case validTo = "ValidTo"
+        case xksKeyConfiguration = "XksKeyConfiguration"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7220,6 +7488,9 @@ extension KMSClientTypes.KeyMetadata: Swift.Codable {
         if let validTo = self.validTo {
             try encodeContainer.encodeTimestamp(validTo, format: .epochSeconds, forKey: .validTo)
         }
+        if let xksKeyConfiguration = self.xksKeyConfiguration {
+            try encodeContainer.encode(xksKeyConfiguration, forKey: .xksKeyConfiguration)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -7262,9 +7533,9 @@ extension KMSClientTypes.KeyMetadata: Swift.Codable {
         var encryptionAlgorithmsDecoded0:[KMSClientTypes.EncryptionAlgorithmSpec]? = nil
         if let encryptionAlgorithmsContainer = encryptionAlgorithmsContainer {
             encryptionAlgorithmsDecoded0 = [KMSClientTypes.EncryptionAlgorithmSpec]()
-            for string0 in encryptionAlgorithmsContainer {
-                if let string0 = string0 {
-                    encryptionAlgorithmsDecoded0?.append(string0)
+            for enum0 in encryptionAlgorithmsContainer {
+                if let enum0 = enum0 {
+                    encryptionAlgorithmsDecoded0?.append(enum0)
                 }
             }
         }
@@ -7273,9 +7544,9 @@ extension KMSClientTypes.KeyMetadata: Swift.Codable {
         var signingAlgorithmsDecoded0:[KMSClientTypes.SigningAlgorithmSpec]? = nil
         if let signingAlgorithmsContainer = signingAlgorithmsContainer {
             signingAlgorithmsDecoded0 = [KMSClientTypes.SigningAlgorithmSpec]()
-            for string0 in signingAlgorithmsContainer {
-                if let string0 = string0 {
-                    signingAlgorithmsDecoded0?.append(string0)
+            for enum0 in signingAlgorithmsContainer {
+                if let enum0 = enum0 {
+                    signingAlgorithmsDecoded0?.append(enum0)
                 }
             }
         }
@@ -7290,30 +7561,32 @@ extension KMSClientTypes.KeyMetadata: Swift.Codable {
         var macAlgorithmsDecoded0:[KMSClientTypes.MacAlgorithmSpec]? = nil
         if let macAlgorithmsContainer = macAlgorithmsContainer {
             macAlgorithmsDecoded0 = [KMSClientTypes.MacAlgorithmSpec]()
-            for string0 in macAlgorithmsContainer {
-                if let string0 = string0 {
-                    macAlgorithmsDecoded0?.append(string0)
+            for enum0 in macAlgorithmsContainer {
+                if let enum0 = enum0 {
+                    macAlgorithmsDecoded0?.append(enum0)
                 }
             }
         }
         macAlgorithms = macAlgorithmsDecoded0
+        let xksKeyConfigurationDecoded = try containerValues.decodeIfPresent(KMSClientTypes.XksKeyConfigurationType.self, forKey: .xksKeyConfiguration)
+        xksKeyConfiguration = xksKeyConfigurationDecoded
     }
 }
 
 extension KMSClientTypes {
-    /// Contains metadata about a KMS key. This data type is used as a response element for the [CreateKey] and [DescribeKey] operations.
+    /// Contains metadata about a KMS key. This data type is used as a response element for the [CreateKey], [DescribeKey], and [ReplicateKey] operations.
     public struct KeyMetadata: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the KMS key. For examples, see [Key Management Service (KMS)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms) in the Example ARNs section of the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
         public var awsAccountId: Swift.String?
-        /// The cluster ID of the CloudHSM cluster that contains the key material for the KMS key. When you create a KMS key in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html), KMS creates the key material for the KMS key in the associated CloudHSM cluster. This value is present only when the KMS key is created in a custom key store.
+        /// The cluster ID of the CloudHSM cluster that contains the key material for the KMS key. When you create a KMS key in an CloudHSM [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html), KMS creates the key material for the KMS key in the associated CloudHSM cluster. This field is present only when the KMS key is created in an CloudHSM key store.
         public var cloudHsmClusterId: Swift.String?
         /// The date and time when the KMS key was created.
         public var creationDate: ClientRuntime.Date?
-        /// A unique identifier for the [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html) that contains the KMS key. This value is present only when the KMS key is created in a custom key store.
+        /// A unique identifier for the [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html) that contains the KMS key. This field is present only when the KMS key is created in a custom key store.
         public var customKeyStoreId: Swift.String?
-        /// Instead, use the KeySpec field. The KeySpec and CustomerMasterKeySpec fields have the same value. We recommend that you use the KeySpec field in your code. However, to avoid breaking changes, KMS will support both fields.
+        /// Instead, use the KeySpec field. The KeySpec and CustomerMasterKeySpec fields have the same value. We recommend that you use the KeySpec field in your code. However, to avoid breaking changes, KMS supports both fields.
         @available(*, deprecated, message: "This field has been deprecated. Instead, use the KeySpec field.")
         public var customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec?
         /// The date and time after which KMS deletes this KMS key. This value is present only when the KMS key is scheduled for deletion, that is, when its KeyState is PendingDeletion. When the primary key in a multi-Region key is scheduled for deletion but still has replica keys, its key state is PendingReplicaDeletion and the length of its waiting period is displayed in the PendingDeletionWindowInDays field.
@@ -7357,6 +7630,8 @@ extension KMSClientTypes {
         public var signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]?
         /// The time at which the imported key material expires. When the key material expires, KMS deletes the key material and the KMS key becomes unusable. This value is present only for KMS keys whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
         public var validTo: ClientRuntime.Date?
+        /// Information about the external key that is associated with a KMS key in an external key store. For more information, see [External key](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key) in the Key Management Service Developer Guide.
+        public var xksKeyConfiguration: KMSClientTypes.XksKeyConfigurationType?
 
         public init (
             arn: Swift.String? = nil,
@@ -7381,7 +7656,8 @@ extension KMSClientTypes {
             origin: KMSClientTypes.OriginType? = nil,
             pendingDeletionWindowInDays: Swift.Int? = nil,
             signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]? = nil,
-            validTo: ClientRuntime.Date? = nil
+            validTo: ClientRuntime.Date? = nil,
+            xksKeyConfiguration: KMSClientTypes.XksKeyConfigurationType? = nil
         )
         {
             self.arn = arn
@@ -7407,6 +7683,7 @@ extension KMSClientTypes {
             self.pendingDeletionWindowInDays = pendingDeletionWindowInDays
             self.signingAlgorithms = signingAlgorithms
             self.validTo = validTo
+            self.xksKeyConfiguration = xksKeyConfiguration
         }
     }
 
@@ -7699,6 +7976,9 @@ public struct ListAliasesInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
@@ -8089,6 +8369,9 @@ public struct ListKeyPoliciesInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -8423,6 +8706,9 @@ public struct ListResourceTagsInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -8515,7 +8801,7 @@ extension ListResourceTagsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListResourceTagsOutputResponse: Swift.Equatable {
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request. Do not assume or infer any information from this value.
     public var nextMarker: Swift.String?
-    /// A list of tags. Each tag consists of a tag key and a tag value. Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see [ABAC in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in the Key Management Service Developer Guide.
+    /// A list of tags. Each tag consists of a tag key and a tag value. Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see [ABAC for KMS](https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in the Key Management Service Developer Guide.
     public var tags: [KMSClientTypes.Tag]?
     /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
     public var truncated: Swift.Bool
@@ -9060,6 +9346,7 @@ extension KMSClientTypes {
         case awsCloudhsm
         case awsKms
         case external
+        case externalKeyStore
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OriginType] {
@@ -9067,6 +9354,7 @@ extension KMSClientTypes {
                 .awsCloudhsm,
                 .awsKms,
                 .external,
+                .externalKeyStore,
                 .sdkUnknown("")
             ]
         }
@@ -9079,6 +9367,7 @@ extension KMSClientTypes {
             case .awsCloudhsm: return "AWS_CLOUDHSM"
             case .awsKms: return "AWS_KMS"
             case .external: return "EXTERNAL"
+            case .externalKeyStore: return "EXTERNAL_KEY_STORE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9131,6 +9420,9 @@ public struct PutKeyPolicyInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -9150,7 +9442,7 @@ public struct PutKeyPolicyInput: Swift.Equatable {
     /// * The tab (\u0009), line feed (\u000A), and carriage return (\u000D) special characters
     ///
     ///
-    /// For information about key policies, see [Key policies in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) in the Key Management Service Developer Guide. For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide .
+    /// For information about key policies, see [Key policies in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) in the Key Management Service Developer Guide.For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide .
     /// This member is required.
     public var policy: Swift.String?
     /// The name of the key policy. The only valid value is default.
@@ -9314,6 +9606,9 @@ public struct ReEncryptInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    ///
     ///
     /// * Alias name: alias/ExampleAlias
     ///
@@ -9641,7 +9936,7 @@ public struct ReplicateKeyInput: Swift.Equatable {
     /// The Region ID of the Amazon Web Services Region for this replica key. Enter the Region ID, such as us-east-1 or ap-southeast-2. For a list of Amazon Web Services Regions in which KMS is supported, see [KMS service endpoints](https://docs.aws.amazon.com/general/latest/gr/kms.html#kms_region) in the Amazon Web Services General Reference. HMAC KMS keys are not supported in all Amazon Web Services Regions. If you try to replicate an HMAC KMS key in an Amazon Web Services Region in which HMAC keys are not supported, the ReplicateKey operation returns an UnsupportedOperationException. For a list of Regions in which HMAC KMS keys are supported, see [HMAC keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html) in the Key Management Service Developer Guide. The replica must be in a different Amazon Web Services Region than its primary key and other replicas of that primary key, but in the same Amazon Web Services partition. KMS must be available in the replica Region. If the Region is not enabled by default, the Amazon Web Services account must be enabled in the Region. For information about Amazon Web Services partitions, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. For information about enabling and disabling Regions, see [Enabling a Region](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable) and [Disabling a Region](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-disable) in the Amazon Web Services General Reference.
     /// This member is required.
     public var replicaRegion: Swift.String?
-    /// Assigns one or more tags to the replica key. Use this parameter to tag the KMS key when it is created. To tag an existing KMS key, use the [TagResource] operation. Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see [ABAC in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in the Key Management Service Developer Guide. To use this parameter, you must have [kms:TagResource](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) permission in an IAM policy. Tags are not a shared property of multi-Region keys. You can specify the same tags or different tags for each key in a set of related multi-Region keys. KMS does not synchronize this property. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You cannot have more than one tag on a KMS key with the same tag key. If you specify an existing tag key with a different tag value, KMS replaces the current tag value with the specified one. When you add tags to an Amazon Web Services resource, Amazon Web Services generates a cost allocation report with usage and costs aggregated by tags. Tags can also be used to control access to a KMS key. For details, see [Tagging Keys](https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html).
+    /// Assigns one or more tags to the replica key. Use this parameter to tag the KMS key when it is created. To tag an existing KMS key, use the [TagResource] operation. Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see [ABAC for KMS](https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in the Key Management Service Developer Guide. To use this parameter, you must have [kms:TagResource](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) permission in an IAM policy. Tags are not a shared property of multi-Region keys. You can specify the same tags or different tags for each key in a set of related multi-Region keys. KMS does not synchronize this property. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You cannot have more than one tag on a KMS key with the same tag key. If you specify an existing tag key with a different tag value, KMS replaces the current tag value with the specified one. When you add tags to an Amazon Web Services resource, Amazon Web Services generates a cost allocation report with usage and costs aggregated by tags. Tags can also be used to control access to a KMS key. For details, see [Tagging Keys](https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html).
     public var tags: [KMSClientTypes.Tag]?
 
     public init (
@@ -10078,6 +10373,9 @@ public struct ScheduleKeyDeletionInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -10266,6 +10564,9 @@ public struct SignInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    ///
     ///
     /// * Alias name: alias/ExampleAlias
     ///
@@ -10927,11 +11228,14 @@ public struct UpdateAliasInput: Swift.Equatable {
     /// Identifies the alias that is changing its KMS key. This value must begin with alias/ followed by the alias name, such as alias/ExampleAlias. You cannot use UpdateAlias to change the alias name.
     /// This member is required.
     public var aliasName: Swift.String?
-    /// Identifies the [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) to associate with the alias. You don't have permission to associate an alias with an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk). The KMS key must be in the same Amazon Web Services account and Region as the alias. Also, the new target KMS key must be the same type as the current target KMS key (both symmetric or both asymmetric) and they must have the same key usage. Specify the key ID or key ARN of the KMS key. For example:
+    /// Identifies the [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) to associate with the alias. You don't have permission to associate an alias with an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk). The KMS key must be in the same Amazon Web Services account and Region as the alias. Also, the new target KMS key must be the same type as the current target KMS key (both symmetric or both asymmetric or both HMAC) and they must have the same key usage. Specify the key ID or key ARN of the KMS key. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    ///
     ///
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To verify that the alias is mapped to the correct KMS key, use [ListAliases].
@@ -11010,7 +11314,7 @@ public struct UpdateAliasOutputResponse: Swift.Equatable {
 
 extension UpdateCustomKeyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreId: \(Swift.String(describing: customKeyStoreId)), newCustomKeyStoreName: \(Swift.String(describing: newCustomKeyStoreName)), keyStorePassword: \"CONTENT_REDACTED\")"}
+        "UpdateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreId: \(Swift.String(describing: customKeyStoreId)), newCustomKeyStoreName: \(Swift.String(describing: newCustomKeyStoreName)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), keyStorePassword: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateCustomKeyStoreInput: Swift.Encodable {
@@ -11019,6 +11323,11 @@ extension UpdateCustomKeyStoreInput: Swift.Encodable {
         case customKeyStoreId = "CustomKeyStoreId"
         case keyStorePassword = "KeyStorePassword"
         case newCustomKeyStoreName = "NewCustomKeyStoreName"
+        case xksProxyAuthenticationCredential = "XksProxyAuthenticationCredential"
+        case xksProxyConnectivity = "XksProxyConnectivity"
+        case xksProxyUriEndpoint = "XksProxyUriEndpoint"
+        case xksProxyUriPath = "XksProxyUriPath"
+        case xksProxyVpcEndpointServiceName = "XksProxyVpcEndpointServiceName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11035,6 +11344,21 @@ extension UpdateCustomKeyStoreInput: Swift.Encodable {
         if let newCustomKeyStoreName = self.newCustomKeyStoreName {
             try encodeContainer.encode(newCustomKeyStoreName, forKey: .newCustomKeyStoreName)
         }
+        if let xksProxyAuthenticationCredential = self.xksProxyAuthenticationCredential {
+            try encodeContainer.encode(xksProxyAuthenticationCredential, forKey: .xksProxyAuthenticationCredential)
+        }
+        if let xksProxyConnectivity = self.xksProxyConnectivity {
+            try encodeContainer.encode(xksProxyConnectivity.rawValue, forKey: .xksProxyConnectivity)
+        }
+        if let xksProxyUriEndpoint = self.xksProxyUriEndpoint {
+            try encodeContainer.encode(xksProxyUriEndpoint, forKey: .xksProxyUriEndpoint)
+        }
+        if let xksProxyUriPath = self.xksProxyUriPath {
+            try encodeContainer.encode(xksProxyUriPath, forKey: .xksProxyUriPath)
+        }
+        if let xksProxyVpcEndpointServiceName = self.xksProxyVpcEndpointServiceName {
+            try encodeContainer.encode(xksProxyVpcEndpointServiceName, forKey: .xksProxyVpcEndpointServiceName)
+        }
     }
 }
 
@@ -11045,27 +11369,47 @@ extension UpdateCustomKeyStoreInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateCustomKeyStoreInput: Swift.Equatable {
-    /// Associates the custom key store with a related CloudHSM cluster. Enter the cluster ID of the cluster that you used to create the custom key store or a cluster that shares a backup history and has the same cluster certificate as the original cluster. You cannot use this parameter to associate a custom key store with an unrelated cluster. In addition, the replacement cluster must [fulfill the requirements](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) for a cluster associated with a custom key store. To view the cluster certificate of a cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
+    /// Associates the custom key store with a related CloudHSM cluster. This parameter is valid only for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM. Enter the cluster ID of the cluster that you used to create the custom key store or a cluster that shares a backup history and has the same cluster certificate as the original cluster. You cannot use this parameter to associate a custom key store with an unrelated cluster. In addition, the replacement cluster must [fulfill the requirements](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) for a cluster associated with a custom key store. To view the cluster certificate of a cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation. To change this value, the CloudHSM key store must be disconnected.
     public var cloudHsmClusterId: Swift.String?
     /// Identifies the custom key store that you want to update. Enter the ID of the custom key store. To find the ID of a custom key store, use the [DescribeCustomKeyStores] operation.
     /// This member is required.
     public var customKeyStoreId: Swift.String?
-    /// Enter the current password of the kmsuser crypto user (CU) in the CloudHSM cluster that is associated with the custom key store. This parameter tells KMS the current password of the kmsuser crypto user (CU). It does not set or change the password of any users in the CloudHSM cluster.
+    /// Enter the current password of the kmsuser crypto user (CU) in the CloudHSM cluster that is associated with the custom key store. This parameter is valid only for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM. This parameter tells KMS the current password of the kmsuser crypto user (CU). It does not set or change the password of any users in the CloudHSM cluster. To change this value, the CloudHSM key store must be disconnected.
     public var keyStorePassword: Swift.String?
-    /// Changes the friendly name of the custom key store to the value that you specify. The custom key store name must be unique in the Amazon Web Services account.
+    /// Changes the friendly name of the custom key store to the value that you specify. The custom key store name must be unique in the Amazon Web Services account. To change this value, an CloudHSM key store must be disconnected. An external key store can be connected or disconnected.
     public var newCustomKeyStoreName: Swift.String?
+    /// Changes the credentials that KMS uses to sign requests to the external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. You must specify both the AccessKeyId and SecretAccessKey value in the authentication credential, even if you are only updating one value. This parameter doesn't establish or change your authentication credentials on the proxy. It just tells KMS the credential that you established with your external key store proxy. For example, if you rotate the credential on your external key store proxy, you can use this parameter to update the credential in KMS. You can change this value when the external key store is connected or disconnected.
+    public var xksProxyAuthenticationCredential: KMSClientTypes.XksProxyAuthenticationCredentialType?
+    /// Changes the connectivity setting for the external key store. To indicate that the external key store proxy uses a Amazon VPC endpoint service to communicate with KMS, specify VPC_ENDPOINT_SERVICE. Otherwise, specify PUBLIC_ENDPOINT. If you change the XksProxyConnectivity to VPC_ENDPOINT_SERVICE, you must also change the XksProxyUriEndpoint and add an XksProxyVpcEndpointServiceName value. If you change the XksProxyConnectivity to PUBLIC_ENDPOINT, you must also change the XksProxyUriEndpoint and specify a null or empty string for the XksProxyVpcEndpointServiceName value. To change this value, the external key store must be disconnected.
+    public var xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType?
+    /// Changes the URI endpoint that KMS uses to connect to your external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. For external key stores with an XksProxyConnectivity value of PUBLIC_ENDPOINT, the protocol must be HTTPS. For external key stores with an XksProxyConnectivity value of VPC_ENDPOINT_SERVICE, specify https:// followed by the private DNS name associated with the VPC endpoint service. Each external key store must use a different private DNS name. The combined XksProxyUriEndpoint and XksProxyUriPath values must be unique in the Amazon Web Services account and Region. To change this value, the external key store must be disconnected.
+    public var xksProxyUriEndpoint: Swift.String?
+    /// Changes the base path to the proxy APIs for this external key store. To find this value, see the documentation for your external key manager and external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. The value must start with / and must end with /kms/xks/v1, where v1 represents the version of the KMS external key store proxy API. You can include an optional prefix between the required elements such as /example/kms/xks/v1. The combined XksProxyUriEndpoint and XksProxyUriPath values must be unique in the Amazon Web Services account and Region. You can change this value when the external key store is connected or disconnected.
+    public var xksProxyUriPath: Swift.String?
+    /// Changes the name that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is valid when the CustomKeyStoreType is EXTERNAL_KEY_STORE and the XksProxyConnectivity is VPC_ENDPOINT_SERVICE. To change this value, the external key store must be disconnected.
+    public var xksProxyVpcEndpointServiceName: Swift.String?
 
     public init (
         cloudHsmClusterId: Swift.String? = nil,
         customKeyStoreId: Swift.String? = nil,
         keyStorePassword: Swift.String? = nil,
-        newCustomKeyStoreName: Swift.String? = nil
+        newCustomKeyStoreName: Swift.String? = nil,
+        xksProxyAuthenticationCredential: KMSClientTypes.XksProxyAuthenticationCredentialType? = nil,
+        xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType? = nil,
+        xksProxyUriEndpoint: Swift.String? = nil,
+        xksProxyUriPath: Swift.String? = nil,
+        xksProxyVpcEndpointServiceName: Swift.String? = nil
     )
     {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreId = customKeyStoreId
         self.keyStorePassword = keyStorePassword
         self.newCustomKeyStoreName = newCustomKeyStoreName
+        self.xksProxyAuthenticationCredential = xksProxyAuthenticationCredential
+        self.xksProxyConnectivity = xksProxyConnectivity
+        self.xksProxyUriEndpoint = xksProxyUriEndpoint
+        self.xksProxyUriPath = xksProxyUriPath
+        self.xksProxyVpcEndpointServiceName = xksProxyVpcEndpointServiceName
     }
 }
 
@@ -11074,6 +11418,11 @@ struct UpdateCustomKeyStoreInputBody: Swift.Equatable {
     let newCustomKeyStoreName: Swift.String?
     let keyStorePassword: Swift.String?
     let cloudHsmClusterId: Swift.String?
+    let xksProxyUriEndpoint: Swift.String?
+    let xksProxyUriPath: Swift.String?
+    let xksProxyVpcEndpointServiceName: Swift.String?
+    let xksProxyAuthenticationCredential: KMSClientTypes.XksProxyAuthenticationCredentialType?
+    let xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType?
 }
 
 extension UpdateCustomKeyStoreInputBody: Swift.Decodable {
@@ -11082,6 +11431,11 @@ extension UpdateCustomKeyStoreInputBody: Swift.Decodable {
         case customKeyStoreId = "CustomKeyStoreId"
         case keyStorePassword = "KeyStorePassword"
         case newCustomKeyStoreName = "NewCustomKeyStoreName"
+        case xksProxyAuthenticationCredential = "XksProxyAuthenticationCredential"
+        case xksProxyConnectivity = "XksProxyConnectivity"
+        case xksProxyUriEndpoint = "XksProxyUriEndpoint"
+        case xksProxyUriPath = "XksProxyUriPath"
+        case xksProxyVpcEndpointServiceName = "XksProxyVpcEndpointServiceName"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -11094,6 +11448,16 @@ extension UpdateCustomKeyStoreInputBody: Swift.Decodable {
         keyStorePassword = keyStorePasswordDecoded
         let cloudHsmClusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cloudHsmClusterId)
         cloudHsmClusterId = cloudHsmClusterIdDecoded
+        let xksProxyUriEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .xksProxyUriEndpoint)
+        xksProxyUriEndpoint = xksProxyUriEndpointDecoded
+        let xksProxyUriPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .xksProxyUriPath)
+        xksProxyUriPath = xksProxyUriPathDecoded
+        let xksProxyVpcEndpointServiceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .xksProxyVpcEndpointServiceName)
+        xksProxyVpcEndpointServiceName = xksProxyVpcEndpointServiceNameDecoded
+        let xksProxyAuthenticationCredentialDecoded = try containerValues.decodeIfPresent(KMSClientTypes.XksProxyAuthenticationCredentialType.self, forKey: .xksProxyAuthenticationCredential)
+        xksProxyAuthenticationCredential = xksProxyAuthenticationCredentialDecoded
+        let xksProxyConnectivityDecoded = try containerValues.decodeIfPresent(KMSClientTypes.XksProxyConnectivityType.self, forKey: .xksProxyConnectivity)
+        xksProxyConnectivity = xksProxyConnectivityDecoded
     }
 }
 
@@ -11116,6 +11480,15 @@ extension UpdateCustomKeyStoreOutputError {
         case "CustomKeyStoreNameInUseException" : self = .customKeyStoreNameInUseException(try CustomKeyStoreNameInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CustomKeyStoreNotFoundException" : self = .customKeyStoreNotFoundException(try CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyIncorrectAuthenticationCredentialException" : self = .xksProxyIncorrectAuthenticationCredentialException(try XksProxyIncorrectAuthenticationCredentialException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyInvalidConfigurationException" : self = .xksProxyInvalidConfigurationException(try XksProxyInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyInvalidResponseException" : self = .xksProxyInvalidResponseException(try XksProxyInvalidResponseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyUriEndpointInUseException" : self = .xksProxyUriEndpointInUseException(try XksProxyUriEndpointInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyUriInUseException" : self = .xksProxyUriInUseException(try XksProxyUriInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyUriUnreachableException" : self = .xksProxyUriUnreachableException(try XksProxyUriUnreachableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyVpcEndpointServiceInUseException" : self = .xksProxyVpcEndpointServiceInUseException(try XksProxyVpcEndpointServiceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyVpcEndpointServiceInvalidConfigurationException" : self = .xksProxyVpcEndpointServiceInvalidConfigurationException(try XksProxyVpcEndpointServiceInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "XksProxyVpcEndpointServiceNotFoundException" : self = .xksProxyVpcEndpointServiceNotFoundException(try XksProxyVpcEndpointServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
         }
     }
@@ -11130,6 +11503,15 @@ public enum UpdateCustomKeyStoreOutputError: Swift.Error, Swift.Equatable {
     case customKeyStoreNameInUseException(CustomKeyStoreNameInUseException)
     case customKeyStoreNotFoundException(CustomKeyStoreNotFoundException)
     case kMSInternalException(KMSInternalException)
+    case xksProxyIncorrectAuthenticationCredentialException(XksProxyIncorrectAuthenticationCredentialException)
+    case xksProxyInvalidConfigurationException(XksProxyInvalidConfigurationException)
+    case xksProxyInvalidResponseException(XksProxyInvalidResponseException)
+    case xksProxyUriEndpointInUseException(XksProxyUriEndpointInUseException)
+    case xksProxyUriInUseException(XksProxyUriInUseException)
+    case xksProxyUriUnreachableException(XksProxyUriUnreachableException)
+    case xksProxyVpcEndpointServiceInUseException(XksProxyVpcEndpointServiceInUseException)
+    case xksProxyVpcEndpointServiceInvalidConfigurationException(XksProxyVpcEndpointServiceInvalidConfigurationException)
+    case xksProxyVpcEndpointServiceNotFoundException(XksProxyVpcEndpointServiceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -11285,6 +11667,9 @@ public struct UpdatePrimaryRegionInput: Swift.Equatable {
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab
     ///
     ///
+    ///
+    ///
+    ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
@@ -11419,6 +11804,9 @@ public struct VerifyInput: Swift.Equatable {
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
     /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    ///
     ///
     /// * Alias name: alias/ExampleAlias
     ///
@@ -11841,5 +12229,828 @@ extension KMSClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = WrappingKeySpec(rawValue: rawValue) ?? WrappingKeySpec.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension XksKeyAlreadyInUseException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksKeyAlreadyInUseExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because the (XksKeyId) is already associated with a KMS key in this external key store. Each KMS key in an external key store must be associated with a different external key.
+public struct XksKeyAlreadyInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksKeyAlreadyInUseExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksKeyAlreadyInUseExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KMSClientTypes.XksKeyConfigurationType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension KMSClientTypes {
+    /// Information about the [external key ](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key)that is associated with a KMS key in an external key store. These fields appear in a [CreateKey] or [DescribeKey] response only for a KMS key in an external key store. The external key is a symmetric encryption key that is hosted by an external key manager outside of Amazon Web Services. When you use the KMS key in an external key store in a cryptographic operation, the cryptographic operation is performed in the external key manager using the specified external key. For more information, see [External key](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key) in the Key Management Service Developer Guide.
+    public struct XksKeyConfigurationType: Swift.Equatable {
+        /// The ID of the external key in its external key manager. This is the ID that the external key store proxy uses to identify the external key.
+        public var id: Swift.String?
+
+        public init (
+            id: Swift.String? = nil
+        )
+        {
+            self.id = id
+        }
+    }
+
+}
+
+extension XksKeyInvalidConfigurationException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksKeyInvalidConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because the external key specified by the XksKeyId parameter did not meet the configuration requirements for an external key store. The external key must be an AES-256 symmetric key that is enabled and performs encryption and decryption.
+public struct XksKeyInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksKeyInvalidConfigurationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksKeyInvalidConfigurationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension XksKeyNotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksKeyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because the external key store proxy could not find the external key. This exception is thrown when the value of the XksKeyId parameter doesn't identify a key in the external key manager associated with the external key proxy. Verify that the XksKeyId represents an existing key in the external key manager. Use the key identifier that the external key store proxy uses to identify the key. For details, see the documentation provided with your external key store proxy or key manager.
+public struct XksKeyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksKeyNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksKeyNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension KMSClientTypes.XksProxyAuthenticationCredentialType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessKeyId = "AccessKeyId"
+        case rawSecretAccessKey = "RawSecretAccessKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessKeyId = self.accessKeyId {
+            try encodeContainer.encode(accessKeyId, forKey: .accessKeyId)
+        }
+        if let rawSecretAccessKey = self.rawSecretAccessKey {
+            try encodeContainer.encode(rawSecretAccessKey, forKey: .rawSecretAccessKey)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessKeyId)
+        accessKeyId = accessKeyIdDecoded
+        let rawSecretAccessKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rawSecretAccessKey)
+        rawSecretAccessKey = rawSecretAccessKeyDecoded
+    }
+}
+
+extension KMSClientTypes.XksProxyAuthenticationCredentialType: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "XksProxyAuthenticationCredentialType(accessKeyId: \"CONTENT_REDACTED\", rawSecretAccessKey: \"CONTENT_REDACTED\")"}
+}
+
+extension KMSClientTypes {
+    /// KMS uses the authentication credential to sign requests that it sends to the external key store proxy (XKS proxy) on your behalf. You establish these credentials on your external key store proxy and report them to KMS. The XksProxyAuthenticationCredential includes two required elements.
+    public struct XksProxyAuthenticationCredentialType: Swift.Equatable {
+        /// A unique identifier for the raw secret access key.
+        /// This member is required.
+        public var accessKeyId: Swift.String?
+        /// A secret string of 43-64 characters. Valid characters are a-z, A-Z, 0-9, /, +, and =.
+        /// This member is required.
+        public var rawSecretAccessKey: Swift.String?
+
+        public init (
+            accessKeyId: Swift.String? = nil,
+            rawSecretAccessKey: Swift.String? = nil
+        )
+        {
+            self.accessKeyId = accessKeyId
+            self.rawSecretAccessKey = rawSecretAccessKey
+        }
+    }
+
+}
+
+extension KMSClientTypes.XksProxyConfigurationType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessKeyId = "AccessKeyId"
+        case connectivity = "Connectivity"
+        case uriEndpoint = "UriEndpoint"
+        case uriPath = "UriPath"
+        case vpcEndpointServiceName = "VpcEndpointServiceName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessKeyId = self.accessKeyId {
+            try encodeContainer.encode(accessKeyId, forKey: .accessKeyId)
+        }
+        if let connectivity = self.connectivity {
+            try encodeContainer.encode(connectivity.rawValue, forKey: .connectivity)
+        }
+        if let uriEndpoint = self.uriEndpoint {
+            try encodeContainer.encode(uriEndpoint, forKey: .uriEndpoint)
+        }
+        if let uriPath = self.uriPath {
+            try encodeContainer.encode(uriPath, forKey: .uriPath)
+        }
+        if let vpcEndpointServiceName = self.vpcEndpointServiceName {
+            try encodeContainer.encode(vpcEndpointServiceName, forKey: .vpcEndpointServiceName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectivityDecoded = try containerValues.decodeIfPresent(KMSClientTypes.XksProxyConnectivityType.self, forKey: .connectivity)
+        connectivity = connectivityDecoded
+        let accessKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessKeyId)
+        accessKeyId = accessKeyIdDecoded
+        let uriEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uriEndpoint)
+        uriEndpoint = uriEndpointDecoded
+        let uriPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uriPath)
+        uriPath = uriPathDecoded
+        let vpcEndpointServiceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcEndpointServiceName)
+        vpcEndpointServiceName = vpcEndpointServiceNameDecoded
+    }
+}
+
+extension KMSClientTypes.XksProxyConfigurationType: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "XksProxyConfigurationType(connectivity: \(Swift.String(describing: connectivity)), uriEndpoint: \(Swift.String(describing: uriEndpoint)), uriPath: \(Swift.String(describing: uriPath)), vpcEndpointServiceName: \(Swift.String(describing: vpcEndpointServiceName)), accessKeyId: \"CONTENT_REDACTED\")"}
+}
+
+extension KMSClientTypes {
+    /// Detailed information about the external key store proxy (XKS proxy). Your external key store proxy translates KMS requests into a format that your external key manager can understand. These fields appear in a [DescribeCustomKeyStores] response only when the CustomKeyStoreType is EXTERNAL_KEY_STORE.
+    public struct XksProxyConfigurationType: Swift.Equatable {
+        /// The part of the external key store [proxy authentication credential](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateCustomKeyStore.html#KMS-CreateCustomKeyStore-request-XksProxyAuthenticationCredential) that uniquely identifies the secret access key.
+        public var accessKeyId: Swift.String?
+        /// Indicates whether the external key store proxy uses a public endpoint or an Amazon VPC endpoint service to communicate with KMS.
+        public var connectivity: KMSClientTypes.XksProxyConnectivityType?
+        /// The URI endpoint for the external key store proxy. If the external key store proxy has a public endpoint, it is displayed here. If the external key store proxy uses an Amazon VPC endpoint service name, this field displays the private DNS name associated with the VPC endpoint service.
+        public var uriEndpoint: Swift.String?
+        /// The path to the external key store proxy APIs.
+        public var uriPath: Swift.String?
+        /// The Amazon VPC endpoint service used to communicate with the external key store proxy. This field appears only when the external key store proxy uses an Amazon VPC endpoint service to communicate with KMS.
+        public var vpcEndpointServiceName: Swift.String?
+
+        public init (
+            accessKeyId: Swift.String? = nil,
+            connectivity: KMSClientTypes.XksProxyConnectivityType? = nil,
+            uriEndpoint: Swift.String? = nil,
+            uriPath: Swift.String? = nil,
+            vpcEndpointServiceName: Swift.String? = nil
+        )
+        {
+            self.accessKeyId = accessKeyId
+            self.connectivity = connectivity
+            self.uriEndpoint = uriEndpoint
+            self.uriPath = uriPath
+            self.vpcEndpointServiceName = vpcEndpointServiceName
+        }
+    }
+
+}
+
+extension KMSClientTypes {
+    public enum XksProxyConnectivityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case publicEndpoint
+        case vpcEndpointService
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [XksProxyConnectivityType] {
+            return [
+                .publicEndpoint,
+                .vpcEndpointService,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .publicEndpoint: return "PUBLIC_ENDPOINT"
+            case .vpcEndpointService: return "VPC_ENDPOINT_SERVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = XksProxyConnectivityType(rawValue: rawValue) ?? XksProxyConnectivityType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension XksProxyIncorrectAuthenticationCredentialException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksProxyIncorrectAuthenticationCredentialExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because the proxy credentials failed to authenticate to the specified external key store proxy. The specified external key store proxy rejected a status request from KMS due to invalid credentials. This can indicate an error in the credentials or in the identification of the external key store proxy.
+public struct XksProxyIncorrectAuthenticationCredentialException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksProxyIncorrectAuthenticationCredentialExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksProxyIncorrectAuthenticationCredentialExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension XksProxyInvalidConfigurationException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksProxyInvalidConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message.
+public struct XksProxyInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksProxyInvalidConfigurationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksProxyInvalidConfigurationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension XksProxyInvalidResponseException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksProxyInvalidResponseExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// KMS cannot interpret the response it received from the external key store proxy. The problem might be a poorly constructed response, but it could also be a transient network issue. If you see this error repeatedly, report it to the proxy vendor.
+public struct XksProxyInvalidResponseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksProxyInvalidResponseExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksProxyInvalidResponseExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension XksProxyUriEndpointInUseException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksProxyUriEndpointInUseExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because the concatenation of the XksProxyUriEndpoint is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an account and Region must use a unique external key store proxy address.
+public struct XksProxyUriEndpointInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksProxyUriEndpointInUseExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksProxyUriEndpointInUseExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension XksProxyUriInUseException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksProxyUriInUseExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because the concatenation of the XksProxyUriEndpoint and XksProxyUriPath is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an account and Region must use a unique external key store proxy API address.
+public struct XksProxyUriInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksProxyUriInUseExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksProxyUriInUseExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension XksProxyUriUnreachableException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksProxyUriUnreachableExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// KMS was unable to reach the specified XksProxyUriPath. The path must be reachable before you create the external key store or update its settings. This exception is also thrown when the external key store proxy response to a GetHealthStatus request indicates that all external key manager instances are unavailable.
+public struct XksProxyUriUnreachableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksProxyUriUnreachableExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksProxyUriUnreachableExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension XksProxyVpcEndpointServiceInUseException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksProxyVpcEndpointServiceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because the specified Amazon VPC endpoint service is already associated with an external key store in the Amazon Web Services account and Region. Each external key store in an Amazon Web Services account and Region must use a different Amazon VPC endpoint service.
+public struct XksProxyVpcEndpointServiceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksProxyVpcEndpointServiceInUseExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksProxyVpcEndpointServiceInUseExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension XksProxyVpcEndpointServiceInvalidConfigurationException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksProxyVpcEndpointServiceInvalidConfigurationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store proxy. For details, see the exception message and [review the requirements] for Amazon VPC endpoint service connectivity for an external key store.
+public struct XksProxyVpcEndpointServiceInvalidConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksProxyVpcEndpointServiceInvalidConfigurationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksProxyVpcEndpointServiceInvalidConfigurationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension XksProxyVpcEndpointServiceNotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: XksProxyVpcEndpointServiceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request was rejected because KMS could not find the specified VPC endpoint service. Use [DescribeCustomKeyStores] to verify the VPC endpoint service name for the external key store. Also, confirm that the Allow principals list for the VPC endpoint service includes the KMS service principal for the Region, such as cks.kms.us-east-1.amazonaws.com.
+public struct XksProxyVpcEndpointServiceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct XksProxyVpcEndpointServiceNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension XksProxyVpcEndpointServiceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }

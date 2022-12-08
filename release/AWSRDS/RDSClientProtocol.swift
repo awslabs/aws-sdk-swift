@@ -55,6 +55,8 @@ public protocol RDSClientProtocol {
     func copyDBSnapshot(input: CopyDBSnapshotInput) async throws -> CopyDBSnapshotOutputResponse
     /// Copies the specified option group.
     func copyOptionGroup(input: CopyOptionGroupInput) async throws -> CopyOptionGroupOutputResponse
+    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment. The staging environment stays in sync with the current production environment using logical replication. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, change database parameters, or make schema changes in the staging environment. You can thoroughly test changes in the green environment. When ready, you can switch over the environments to promote the green environment to be the new production environment. The switchover typically takes under a minute. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    func createBlueGreenDeployment(input: CreateBlueGreenDeploymentInput) async throws -> CreateBlueGreenDeploymentOutputResponse
     /// Creates a custom DB engine version (CEV). A CEV is a binary volume snapshot of a database engine and specific AMI. The supported engines are the following:
     ///
     /// * Oracle Database 12.1 Enterprise Edition with the January 2021 or later RU/RUR
@@ -94,6 +96,8 @@ public protocol RDSClientProtocol {
     func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutputResponse
     /// Creates a new option group. You can create up to 20 option groups. This command doesn't apply to RDS Custom.
     func createOptionGroup(input: CreateOptionGroupInput) async throws -> CreateOptionGroupOutputResponse
+    /// Deletes a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    func deleteBlueGreenDeployment(input: DeleteBlueGreenDeploymentInput) async throws -> DeleteBlueGreenDeploymentOutputResponse
     /// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites:
     ///
     /// * The CEV must not be the default for RDS Custom. If it is, change the default before running this command.
@@ -144,6 +148,8 @@ public protocol RDSClientProtocol {
     func deregisterDBProxyTargets(input: DeregisterDBProxyTargetsInput) async throws -> DeregisterDBProxyTargetsOutputResponse
     /// Lists all of the attributes for a customer account. The attributes include Amazon RDS quotas for the account, such as the number of DB instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. This command doesn't take any parameters.
     func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutputResponse
+    /// Returns information about blue/green deployments. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    func describeBlueGreenDeployments(input: DescribeBlueGreenDeploymentsInput) async throws -> DescribeBlueGreenDeploymentsOutputResponse
     /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account.
     func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutputResponse
     /// Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. This action only applies to Aurora MySQL DB clusters.
@@ -333,6 +339,8 @@ public protocol RDSClientProtocol {
     func stopDBInstance(input: StopDBInstanceInput) async throws -> StopDBInstanceOutputResponse
     /// Stops automated backup replication for a DB instance. This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For more information, see [ Replicating Automated Backups to Another Amazon Web Services Region](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html) in the Amazon RDS User Guide.
     func stopDBInstanceAutomatedBackupsReplication(input: StopDBInstanceAutomatedBackupsReplicationInput) async throws -> StopDBInstanceAutomatedBackupsReplicationOutputResponse
+    /// Switches over a blue/green deployment. Before you switch over, production traffic is routed to the databases in the blue environment. After you switch over, production traffic is routed to the databases in the green environment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    func switchoverBlueGreenDeployment(input: SwitchoverBlueGreenDeploymentInput) async throws -> SwitchoverBlueGreenDeploymentOutputResponse
     /// Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database.
     func switchoverReadReplica(input: SwitchoverReadReplicaInput) async throws -> SwitchoverReadReplicaOutputResponse
 }

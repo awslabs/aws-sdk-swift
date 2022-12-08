@@ -26,7 +26,16 @@ public protocol AuditManagerClientProtocol {
     func batchDeleteDelegationByAssessment(input: BatchDeleteDelegationByAssessmentInput) async throws -> BatchDeleteDelegationByAssessmentOutputResponse
     /// Disassociates a list of evidence from an assessment report in Audit Manager.
     func batchDisassociateAssessmentReportEvidence(input: BatchDisassociateAssessmentReportEvidenceInput) async throws -> BatchDisassociateAssessmentReportEvidenceOutputResponse
-    /// Uploads one or more pieces of evidence to a control in an Audit Manager assessment.
+    /// Uploads one or more pieces of evidence to a control in an Audit Manager assessment. You can upload manual evidence from any Amazon Simple Storage Service (Amazon S3) bucket by specifying the S3 URI of the evidence. You must upload manual evidence to your S3 bucket before you can upload it to your assessment. For instructions, see [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html) and [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html) in the Amazon Simple Storage Service API Reference. The following restrictions apply to this action:
+    ///
+    /// * Maximum size of an individual evidence file: 100 MB
+    ///
+    /// * Number of daily manual evidence uploads per control: 100
+    ///
+    /// * Supported file formats: See [Supported file types for manual evidence](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files) in the Audit Manager User Guide
+    ///
+    ///
+    /// For more information about Audit Manager service restrictions, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     func batchImportEvidenceToAssessmentControl(input: BatchImportEvidenceToAssessmentControlInput) async throws -> BatchImportEvidenceToAssessmentControlOutputResponse
     /// Creates an assessment in Audit Manager.
     func createAssessment(input: CreateAssessmentInput) async throws -> CreateAssessmentOutputResponse
@@ -68,7 +77,7 @@ public protocol AuditManagerClientProtocol {
     ///
     /// At this time, Audit Manager doesn't provide an option to delete evidence. All available delete operations are listed above.
     func deregisterAccount(input: DeregisterAccountInput) async throws -> DeregisterAccountOutputResponse
-    /// Removes the specified Amazon Web Services account as a delegated administrator for Audit Manager. When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager will stop collecting and attaching evidence to that delegated administrator account moving forward. When you deregister a delegated administrator account for Audit Manager, the data for that account isn’t deleted. If you want to delete resource data for a delegated administrator account, you must perform that task separately before you deregister the account. Either, you can do this in the Audit Manager console. Or, you can use one of the delete API operations that are provided by Audit Manager. To delete your Audit Manager resource data, see the following instructions:
+    /// Removes the specified Amazon Web Services account as a delegated administrator for Audit Manager. When you remove a delegated administrator from your Audit Manager settings, you continue to have access to the evidence that you previously collected under that account. This is also the case when you deregister a delegated administrator from Organizations. However, Audit Manager will stop collecting and attaching evidence to that delegated administrator account moving forward. Keep in mind the following cleanup task if you use evidence finder: Before you use your management account to remove a delegated administrator, make sure that the current delegated administrator account signs in to Audit Manager and disables evidence finder first. Disabling evidence finder automatically deletes the event data store that was created in their account when they enabled evidence finder. If this task isn’t completed, the event data store remains in their account. In this case, we recommend that the original delegated administrator goes to CloudTrail Lake and manually [deletes the event data store](https://docs.aws.amazon.com/userguide/awscloudtrail/latest/userguide/query-eds-disable-termination.html). This cleanup task is necessary to ensure that you don't end up with multiple event data stores. Audit Manager will ignore an unused event data store after you remove or change a delegated administrator account. However, the unused event data store continues to incur storage costs from CloudTrail Lake if you don't delete it. When you deregister a delegated administrator account for Audit Manager, the data for that account isn’t deleted. If you want to delete resource data for a delegated administrator account, you must perform that task separately before you deregister the account. Either, you can do this in the Audit Manager console. Or, you can use one of the delete API operations that are provided by Audit Manager. To delete your Audit Manager resource data, see the following instructions:
     ///
     /// * [DeleteAssessment](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessment.html) (see also: [Deleting an assessment](https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-assessment.html) in the Audit Manager User Guide)
     ///
@@ -115,7 +124,7 @@ public protocol AuditManagerClientProtocol {
     func getInsightsByAssessment(input: GetInsightsByAssessmentInput) async throws -> GetInsightsByAssessmentOutputResponse
     /// Returns the name of the delegated Amazon Web Services administrator account for the organization.
     func getOrganizationAdminAccount(input: GetOrganizationAdminAccountInput) async throws -> GetOrganizationAdminAccountOutputResponse
-    /// Returns a list of the in-scope Amazon Web Services for the specified assessment.
+    /// Returns a list of all of the Amazon Web Services that you can choose to include in your assessment. When you [create an assessment](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_CreateAssessment.html), specify which of these services you want to include to narrow the assessment's [scope](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Scope.html).
     func getServicesInScope(input: GetServicesInScopeInput) async throws -> GetServicesInScopeOutputResponse
     /// Returns the settings for the specified Amazon Web Services account.
     func getSettings(input: GetSettingsInput) async throws -> GetSettingsOutputResponse

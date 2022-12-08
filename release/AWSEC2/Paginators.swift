@@ -70,6 +70,39 @@ extension PaginatorSequence where Input == DescribeAddressTransfersInput, Output
     }
 }
 
+/// Paginate over `[DescribeAwsNetworkPerformanceMetricSubscriptionsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[DescribeAwsNetworkPerformanceMetricSubscriptionsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `DescribeAwsNetworkPerformanceMetricSubscriptionsOutputResponse`
+extension EC2Client {
+    public func describeAwsNetworkPerformanceMetricSubscriptionsPaginated(input: DescribeAwsNetworkPerformanceMetricSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeAwsNetworkPerformanceMetricSubscriptionsInput, DescribeAwsNetworkPerformanceMetricSubscriptionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeAwsNetworkPerformanceMetricSubscriptionsInput, DescribeAwsNetworkPerformanceMetricSubscriptionsOutputResponse>(input: input, inputKey: \DescribeAwsNetworkPerformanceMetricSubscriptionsInput.nextToken, outputKey: \DescribeAwsNetworkPerformanceMetricSubscriptionsOutputResponse.nextToken, paginationFunction: self.describeAwsNetworkPerformanceMetricSubscriptions(input:))
+    }
+}
+
+extension DescribeAwsNetworkPerformanceMetricSubscriptionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeAwsNetworkPerformanceMetricSubscriptionsInput {
+        return DescribeAwsNetworkPerformanceMetricSubscriptionsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `describeAwsNetworkPerformanceMetricSubscriptionsPaginated`
+/// to access the nested member `[EC2ClientTypes.Subscription]`
+/// - Returns: `[EC2ClientTypes.Subscription]`
+extension PaginatorSequence where Input == DescribeAwsNetworkPerformanceMetricSubscriptionsInput, Output == DescribeAwsNetworkPerformanceMetricSubscriptionsOutputResponse {
+    public func subscriptions() async throws -> [EC2ClientTypes.Subscription] {
+        return try await self.asyncCompactMap { item in item.subscriptions }
+    }
+}
+
 /// Paginate over `[DescribeByoipCidrsOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -3083,6 +3116,179 @@ extension PaginatorSequence where Input == DescribeTrunkInterfaceAssociationsInp
     }
 }
 
+/// Paginate over `[DescribeVerifiedAccessEndpointsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[DescribeVerifiedAccessEndpointsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessEndpointsOutputResponse`
+extension EC2Client {
+    public func describeVerifiedAccessEndpointsPaginated(input: DescribeVerifiedAccessEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessEndpointsInput, DescribeVerifiedAccessEndpointsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessEndpointsInput, DescribeVerifiedAccessEndpointsOutputResponse>(input: input, inputKey: \DescribeVerifiedAccessEndpointsInput.nextToken, outputKey: \DescribeVerifiedAccessEndpointsOutputResponse.nextToken, paginationFunction: self.describeVerifiedAccessEndpoints(input:))
+    }
+}
+
+extension DescribeVerifiedAccessEndpointsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeVerifiedAccessEndpointsInput {
+        return DescribeVerifiedAccessEndpointsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            verifiedAccessEndpointIds: self.verifiedAccessEndpointIds,
+            verifiedAccessGroupId: self.verifiedAccessGroupId,
+            verifiedAccessInstanceId: self.verifiedAccessInstanceId
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessEndpointsPaginated`
+/// to access the nested member `[EC2ClientTypes.VerifiedAccessEndpoint]`
+/// - Returns: `[EC2ClientTypes.VerifiedAccessEndpoint]`
+extension PaginatorSequence where Input == DescribeVerifiedAccessEndpointsInput, Output == DescribeVerifiedAccessEndpointsOutputResponse {
+    public func verifiedAccessEndpoints() async throws -> [EC2ClientTypes.VerifiedAccessEndpoint] {
+        return try await self.asyncCompactMap { item in item.verifiedAccessEndpoints }
+    }
+}
+
+/// Paginate over `[DescribeVerifiedAccessGroupsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[DescribeVerifiedAccessGroupsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessGroupsOutputResponse`
+extension EC2Client {
+    public func describeVerifiedAccessGroupsPaginated(input: DescribeVerifiedAccessGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessGroupsInput, DescribeVerifiedAccessGroupsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessGroupsInput, DescribeVerifiedAccessGroupsOutputResponse>(input: input, inputKey: \DescribeVerifiedAccessGroupsInput.nextToken, outputKey: \DescribeVerifiedAccessGroupsOutputResponse.nextToken, paginationFunction: self.describeVerifiedAccessGroups(input:))
+    }
+}
+
+extension DescribeVerifiedAccessGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeVerifiedAccessGroupsInput {
+        return DescribeVerifiedAccessGroupsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            verifiedAccessGroupIds: self.verifiedAccessGroupIds,
+            verifiedAccessInstanceId: self.verifiedAccessInstanceId
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessGroupsPaginated`
+/// to access the nested member `[EC2ClientTypes.VerifiedAccessGroup]`
+/// - Returns: `[EC2ClientTypes.VerifiedAccessGroup]`
+extension PaginatorSequence where Input == DescribeVerifiedAccessGroupsInput, Output == DescribeVerifiedAccessGroupsOutputResponse {
+    public func verifiedAccessGroups() async throws -> [EC2ClientTypes.VerifiedAccessGroup] {
+        return try await self.asyncCompactMap { item in item.verifiedAccessGroups }
+    }
+}
+
+/// Paginate over `[DescribeVerifiedAccessInstanceLoggingConfigurationsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[DescribeVerifiedAccessInstanceLoggingConfigurationsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessInstanceLoggingConfigurationsOutputResponse`
+extension EC2Client {
+    public func describeVerifiedAccessInstanceLoggingConfigurationsPaginated(input: DescribeVerifiedAccessInstanceLoggingConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstanceLoggingConfigurationsInput, DescribeVerifiedAccessInstanceLoggingConfigurationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstanceLoggingConfigurationsInput, DescribeVerifiedAccessInstanceLoggingConfigurationsOutputResponse>(input: input, inputKey: \DescribeVerifiedAccessInstanceLoggingConfigurationsInput.nextToken, outputKey: \DescribeVerifiedAccessInstanceLoggingConfigurationsOutputResponse.nextToken, paginationFunction: self.describeVerifiedAccessInstanceLoggingConfigurations(input:))
+    }
+}
+
+extension DescribeVerifiedAccessInstanceLoggingConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeVerifiedAccessInstanceLoggingConfigurationsInput {
+        return DescribeVerifiedAccessInstanceLoggingConfigurationsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            verifiedAccessInstanceIds: self.verifiedAccessInstanceIds
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessInstanceLoggingConfigurationsPaginated`
+/// to access the nested member `[EC2ClientTypes.VerifiedAccessInstanceLoggingConfiguration]`
+/// - Returns: `[EC2ClientTypes.VerifiedAccessInstanceLoggingConfiguration]`
+extension PaginatorSequence where Input == DescribeVerifiedAccessInstanceLoggingConfigurationsInput, Output == DescribeVerifiedAccessInstanceLoggingConfigurationsOutputResponse {
+    public func loggingConfigurations() async throws -> [EC2ClientTypes.VerifiedAccessInstanceLoggingConfiguration] {
+        return try await self.asyncCompactMap { item in item.loggingConfigurations }
+    }
+}
+
+/// Paginate over `[DescribeVerifiedAccessInstancesOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[DescribeVerifiedAccessInstancesInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessInstancesOutputResponse`
+extension EC2Client {
+    public func describeVerifiedAccessInstancesPaginated(input: DescribeVerifiedAccessInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstancesInput, DescribeVerifiedAccessInstancesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstancesInput, DescribeVerifiedAccessInstancesOutputResponse>(input: input, inputKey: \DescribeVerifiedAccessInstancesInput.nextToken, outputKey: \DescribeVerifiedAccessInstancesOutputResponse.nextToken, paginationFunction: self.describeVerifiedAccessInstances(input:))
+    }
+}
+
+extension DescribeVerifiedAccessInstancesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeVerifiedAccessInstancesInput {
+        return DescribeVerifiedAccessInstancesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            verifiedAccessInstanceIds: self.verifiedAccessInstanceIds
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessInstancesPaginated`
+/// to access the nested member `[EC2ClientTypes.VerifiedAccessInstance]`
+/// - Returns: `[EC2ClientTypes.VerifiedAccessInstance]`
+extension PaginatorSequence where Input == DescribeVerifiedAccessInstancesInput, Output == DescribeVerifiedAccessInstancesOutputResponse {
+    public func verifiedAccessInstances() async throws -> [EC2ClientTypes.VerifiedAccessInstance] {
+        return try await self.asyncCompactMap { item in item.verifiedAccessInstances }
+    }
+}
+
+/// Paginate over `[DescribeVerifiedAccessTrustProvidersOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[DescribeVerifiedAccessTrustProvidersInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessTrustProvidersOutputResponse`
+extension EC2Client {
+    public func describeVerifiedAccessTrustProvidersPaginated(input: DescribeVerifiedAccessTrustProvidersInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessTrustProvidersInput, DescribeVerifiedAccessTrustProvidersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessTrustProvidersInput, DescribeVerifiedAccessTrustProvidersOutputResponse>(input: input, inputKey: \DescribeVerifiedAccessTrustProvidersInput.nextToken, outputKey: \DescribeVerifiedAccessTrustProvidersOutputResponse.nextToken, paginationFunction: self.describeVerifiedAccessTrustProviders(input:))
+    }
+}
+
+extension DescribeVerifiedAccessTrustProvidersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeVerifiedAccessTrustProvidersInput {
+        return DescribeVerifiedAccessTrustProvidersInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            verifiedAccessTrustProviderIds: self.verifiedAccessTrustProviderIds
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessTrustProvidersPaginated`
+/// to access the nested member `[EC2ClientTypes.VerifiedAccessTrustProvider]`
+/// - Returns: `[EC2ClientTypes.VerifiedAccessTrustProvider]`
+extension PaginatorSequence where Input == DescribeVerifiedAccessTrustProvidersInput, Output == DescribeVerifiedAccessTrustProvidersOutputResponse {
+    public func verifiedAccessTrustProviders() async throws -> [EC2ClientTypes.VerifiedAccessTrustProvider] {
+        return try await self.asyncCompactMap { item in item.verifiedAccessTrustProviders }
+    }
+}
+
 /// Paginate over `[DescribeVolumesOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -3484,6 +3690,41 @@ extension GetAssociatedIpv6PoolCidrsInput: ClientRuntime.PaginateToken {
 extension PaginatorSequence where Input == GetAssociatedIpv6PoolCidrsInput, Output == GetAssociatedIpv6PoolCidrsOutputResponse {
     public func ipv6CidrAssociations() async throws -> [EC2ClientTypes.Ipv6CidrAssociation] {
         return try await self.asyncCompactMap { item in item.ipv6CidrAssociations }
+    }
+}
+
+/// Paginate over `[GetAwsNetworkPerformanceDataOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[GetAwsNetworkPerformanceDataInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `GetAwsNetworkPerformanceDataOutputResponse`
+extension EC2Client {
+    public func getAwsNetworkPerformanceDataPaginated(input: GetAwsNetworkPerformanceDataInput) -> ClientRuntime.PaginatorSequence<GetAwsNetworkPerformanceDataInput, GetAwsNetworkPerformanceDataOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetAwsNetworkPerformanceDataInput, GetAwsNetworkPerformanceDataOutputResponse>(input: input, inputKey: \GetAwsNetworkPerformanceDataInput.nextToken, outputKey: \GetAwsNetworkPerformanceDataOutputResponse.nextToken, paginationFunction: self.getAwsNetworkPerformanceData(input:))
+    }
+}
+
+extension GetAwsNetworkPerformanceDataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetAwsNetworkPerformanceDataInput {
+        return GetAwsNetworkPerformanceDataInput(
+            dataQueries: self.dataQueries,
+            dryRun: self.dryRun,
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `getAwsNetworkPerformanceDataPaginated`
+/// to access the nested member `[EC2ClientTypes.DataResponse]`
+/// - Returns: `[EC2ClientTypes.DataResponse]`
+extension PaginatorSequence where Input == GetAwsNetworkPerformanceDataInput, Output == GetAwsNetworkPerformanceDataOutputResponse {
+    public func dataResponses() async throws -> [EC2ClientTypes.DataResponse] {
+        return try await self.asyncCompactMap { item in item.dataResponses }
     }
 }
 

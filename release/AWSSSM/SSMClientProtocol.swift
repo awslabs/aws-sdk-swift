@@ -74,6 +74,8 @@ public protocol SSMClientProtocol {
     func deletePatchBaseline(input: DeletePatchBaselineInput) async throws -> DeletePatchBaselineOutputResponse
     /// Deletes a resource data sync configuration. After the configuration is deleted, changes to data on managed nodes are no longer synced to or from the target. Deleting a sync configuration doesn't delete data.
     func deleteResourceDataSync(input: DeleteResourceDataSyncInput) async throws -> DeleteResourceDataSyncOutputResponse
+    /// Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
+    func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     /// Removes the server or virtual machine from the list of registered servers. You can reregister the node again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling SSM Agent first.
     func deregisterManagedInstance(input: DeregisterManagedInstanceInput) async throws -> DeregisterManagedInstanceOutputResponse
     /// Removes a patch group from a patch baseline.
@@ -194,6 +196,8 @@ public protocol SSMClientProtocol {
     func getPatchBaseline(input: GetPatchBaselineInput) async throws -> GetPatchBaselineOutputResponse
     /// Retrieves the patch baseline that should be used for the specified patch group.
     func getPatchBaselineForPatchGroup(input: GetPatchBaselineForPatchGroupInput) async throws -> GetPatchBaselineForPatchGroupOutputResponse
+    /// Returns an array of the Policy object.
+    func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutputResponse
     /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of false. This means the user can't use this feature unless they change the setting to true and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the [UpdateServiceSetting] API operation to change the default setting. Or use the [ResetServiceSetting] to change the value back to the original value defined by the Amazon Web Services service team. Query the current service setting for the Amazon Web Services account.
     func getServiceSetting(input: GetServiceSettingInput) async throws -> GetServiceSettingOutputResponse
     /// A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions. Parameter labels have the following requirements and restrictions.
@@ -284,6 +288,8 @@ public protocol SSMClientProtocol {
     func putInventory(input: PutInventoryInput) async throws -> PutInventoryOutputResponse
     /// Add a parameter to the system.
     func putParameter(input: PutParameterInput) async throws -> PutParameterOutputResponse
+    /// Creates or updates a Systems Manager resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your Systems Manager resources. Currently, OpsItemGroup is the only resource that supports Systems Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
+    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
     /// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the default, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed.
     func registerDefaultPatchBaseline(input: RegisterDefaultPatchBaselineInput) async throws -> RegisterDefaultPatchBaselineOutputResponse
     /// Registers a patch baseline for a patch group.

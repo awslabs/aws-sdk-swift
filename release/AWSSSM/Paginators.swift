@@ -1065,6 +1065,38 @@ extension GetParametersByPathInput: ClientRuntime.PaginateToken {
         )}
 }
 
+/// Paginate over `[GetResourcePoliciesOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[GetResourcePoliciesInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutputResponse`
+extension SSMClient {
+    public func getResourcePoliciesPaginated(input: GetResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse>(input: input, inputKey: \GetResourcePoliciesInput.nextToken, outputKey: \GetResourcePoliciesOutputResponse.nextToken, paginationFunction: self.getResourcePolicies(input:))
+    }
+}
+
+extension GetResourcePoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetResourcePoliciesInput {
+        return GetResourcePoliciesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `getResourcePoliciesPaginated`
+/// to access the nested member `[SSMClientTypes.GetResourcePoliciesResponseEntry]`
+/// - Returns: `[SSMClientTypes.GetResourcePoliciesResponseEntry]`
+extension PaginatorSequence where Input == GetResourcePoliciesInput, Output == GetResourcePoliciesOutputResponse {
+    public func policies() async throws -> [SSMClientTypes.GetResourcePoliciesResponseEntry] {
+        return try await self.asyncCompactMap { item in item.policies }
+    }
+}
+
 /// Paginate over `[ListAssociationsOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

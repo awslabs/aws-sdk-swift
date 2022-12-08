@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>clientRuntimeVersion</key>
-	<string>0.5.0</string>
+	<string>0.6.0</string>
 	<key>awsCRTSwiftVersion</key>
-	<string>0.3.1</string>
+	<string>0.4.0</string>
 	<key>clientRuntimeBranch</key>
 	<string>jbe/acceptors</string>
 	<key>awsCRTSwiftBranch</key>

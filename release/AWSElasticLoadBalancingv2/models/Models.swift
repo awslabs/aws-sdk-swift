@@ -2302,7 +2302,7 @@ extension CreateTargetGroupInput: ClientRuntime.URLPathProvider {
 public struct CreateTargetGroupInput: Swift.Equatable {
     /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and cannot be disabled.
     public var healthCheckEnabled: Swift.Bool?
-    /// The approximate amount of time, in seconds, between health checks of an individual target. If the target group protocol is HTTP or HTTPS, the default is 30 seconds. If the target group protocol is TCP, TLS, UDP, or TCP_UDP, the supported values are 10 and 30 seconds and the default is 30 seconds. If the target group protocol is GENEVE, the default is 10 seconds. If the target type is lambda, the default is 35 seconds.
+    /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group protocol is TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds. If the target group protocol is GENEVE, the default is 10 seconds. If the target type is lambda, the default is 35 seconds.
     public var healthCheckIntervalSeconds: Swift.Int?
     /// [HTTP/HTTPS health checks] The destination for health checks on the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol version] The path of a custom health check method with the format /package.service/method. The default is /Amazon Web Services.ALB/healthcheck.
     public var healthCheckPath: Swift.String?
@@ -2310,13 +2310,13 @@ public struct CreateTargetGroupInput: Swift.Equatable {
     public var healthCheckPort: Swift.String?
     /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks.
     public var healthCheckProtocol: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
-    /// The amount of time, in seconds, during which no response from a target means a failed health check. For target groups with a protocol of HTTP, HTTPS, or GENEVE, the default is 5 seconds. For target groups with a protocol of TCP or TLS, this value must be 6 seconds for HTTP health checks and 10 seconds for TCP and HTTPS health checks. If the target type is lambda, the default is 30 seconds.
+    /// The amount of time, in seconds, during which no response from a target means a failed health check. The range is 2–120 seconds. For target groups with a protocol of HTTP, the default is 6 seconds. For target groups with a protocol of TCP, TLS or HTTPS, the default is 10 seconds. For target groups with a protocol of GENEVE, the default is 5 seconds. If the target type is lambda, the default is 30 seconds.
     public var healthCheckTimeoutSeconds: Swift.Int?
-    /// The number of consecutive health checks successes required before considering an unhealthy target healthy. For target groups with a protocol of HTTP or HTTPS, the default is 5. For target groups with a protocol of TCP, TLS, or GENEVE, the default is 3. If the target type is lambda, the default is 5.
+    /// The number of consecutive health check successes required before considering a target healthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups with a protocol of GENEVE, the default is 3. If the target type is lambda, the default is 5.
     public var healthyThresholdCount: Swift.Int?
     /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.TargetGroupIpAddressTypeEnum?
-    /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target.
+    /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399.
     public var matcher: ElasticLoadBalancingv2ClientTypes.Matcher?
     /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
     /// This member is required.
@@ -2339,7 +2339,7 @@ public struct CreateTargetGroupInput: Swift.Equatable {
     ///
     /// * alb - Register a single Application Load Balancer as a target.
     public var targetType: ElasticLoadBalancingv2ClientTypes.TargetTypeEnum?
-    /// The number of consecutive health check failures required before considering a target unhealthy. If the target group protocol is HTTP or HTTPS, the default is 2. If the target group protocol is TCP or TLS, this value must be the same as the healthy threshold count. If the target group protocol is GENEVE, the default is 3. If the target type is lambda, the default is 2.
+    /// The number of consecutive health check failures required before considering a target unhealthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For target groups with a protocol of GENEVE, the default is 3. If the target type is lambda, the default is 5.
     public var unhealthyThresholdCount: Swift.Int?
     /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
     public var vpcId: Swift.String?
@@ -5242,7 +5242,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     public struct ForwardActionConfig: Swift.Equatable {
         /// The target group stickiness for the rule.
         public var targetGroupStickinessConfig: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig?
-        /// One or more target groups. For Network Load Balancers, you can specify a single target group.
+        /// The target groups. For Network Load Balancers, you can specify a single target group.
         public var targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroupTuple]?
 
         public init (
@@ -5357,7 +5357,7 @@ extension ElasticLoadBalancingv2ClientTypes.HostHeaderConditionConfig: Swift.Cod
 extension ElasticLoadBalancingv2ClientTypes {
     /// Information about a host header condition.
     public struct HostHeaderConditionConfig: Swift.Equatable {
-        /// One or more host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
+        /// The host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
         public var values: [Swift.String]?
 
         public init (
@@ -5426,7 +5426,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     public struct HttpHeaderConditionConfig: Swift.Equatable {
         /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Use [HostHeaderConditionConfig] to specify a host header condition.
         public var httpHeaderName: Swift.String?
-        /// One or more strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
+        /// The strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
         public var values: [Swift.String]?
 
         public init (
@@ -6514,9 +6514,11 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancerAttribute: Swift.Codable
 extension ElasticLoadBalancingv2ClientTypes {
     /// Information about a load balancer attribute.
     public struct LoadBalancerAttribute: Swift.Equatable {
-        /// The name of the attribute. The following attribute is supported by all load balancers:
+        /// The name of the attribute. The following attributes are supported by all load balancers:
         ///
         /// * deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.
+        ///
+        /// * load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false. The default for Application Load Balancers is true, and cannot be changed.
         ///
         ///
         /// The following attributes are supported by both Application Load Balancers and Network Load Balancers:
@@ -6558,11 +6560,6 @@ extension ElasticLoadBalancingv2ClientTypes {
         /// * routing.http2.enabled - Indicates whether HTTP/2 is enabled. The possible values are true and false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.
         ///
         /// * waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.
-        ///
-        ///
-        /// The following attribute is supported by Network Load Balancers and Gateway Load Balancers:
-        ///
-        /// * load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default is false.
         public var key: Swift.String?
         /// The value of the attribute.
         public var value: Swift.String?
@@ -6811,7 +6808,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     public struct Matcher: Swift.Equatable {
         /// You can specify values between 0 and 99. You can specify multiple values (for example, "0,1") or a range of values (for example, "0-5"). The default value is 12.
         public var grpcCode: Swift.String?
-        /// For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers and Gateway Load Balancers, this must be "200–399". Note that when using shorthand syntax, some values such as commas need to be escaped.
+        /// For Application Load Balancers, you can specify values between 200 and 499, with the default value being 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, you can specify values between 200 and 599, with the default value being 200-399. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Gateway Load Balancers, this must be "200–399". Note that when using shorthand syntax, some values such as commas need to be escaped.
         public var httpCode: Swift.String?
 
         public init (
@@ -7740,7 +7737,7 @@ extension ModifyTargetGroupInput: ClientRuntime.URLPathProvider {
 public struct ModifyTargetGroupInput: Swift.Equatable {
     /// Indicates whether health checks are enabled.
     public var healthCheckEnabled: Swift.Bool?
-    /// The approximate amount of time, in seconds, between health checks of an individual target. For TCP health checks, the supported values are 10 or 30 seconds.
+    /// The approximate amount of time, in seconds, between health checks of an individual target.
     public var healthCheckIntervalSeconds: Swift.Int?
     /// [HTTP/HTTPS health checks] The destination for health checks on the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol version] The path of a custom health check method with the format /package.service/method. The default is /Amazon Web Services.ALB/healthcheck.
     public var healthCheckPath: Swift.String?
@@ -7752,12 +7749,12 @@ public struct ModifyTargetGroupInput: Swift.Equatable {
     public var healthCheckTimeoutSeconds: Swift.Int?
     /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
     public var healthyThresholdCount: Swift.Int?
-    /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target.
+    /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399.
     public var matcher: ElasticLoadBalancingv2ClientTypes.Matcher?
     /// The Amazon Resource Name (ARN) of the target group.
     /// This member is required.
     public var targetGroupArn: Swift.String?
-    /// The number of consecutive health check failures required before considering the target unhealthy. For target groups with a protocol of TCP or TLS, this value must be the same as the healthy threshold count.
+    /// The number of consecutive health check failures required before considering the target unhealthy.
     public var unhealthyThresholdCount: Swift.Int?
 
     public init (
@@ -8020,7 +8017,7 @@ extension ElasticLoadBalancingv2ClientTypes.PathPatternConditionConfig: Swift.Co
 extension ElasticLoadBalancingv2ClientTypes {
     /// Information about a path pattern condition.
     public struct PathPatternConditionConfig: Swift.Equatable {
-        /// One or more path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use [QueryStringConditionConfig].
+        /// The path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use [QueryStringConditionConfig].
         public var values: [Swift.String]?
 
         public init (
@@ -8180,7 +8177,7 @@ extension ElasticLoadBalancingv2ClientTypes.QueryStringConditionConfig: Swift.Co
 extension ElasticLoadBalancingv2ClientTypes {
     /// Information about a query string condition. The query string component of a URI starts after the first '?' character and is terminated by either a '#' character or the end of the URI. A typical query string contains key/value pairs separated by '&' characters. The allowed characters are specified by RFC 3986. Any character can be percentage encoded.
     public struct QueryStringConditionConfig: Swift.Equatable {
-        /// One or more key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
+        /// The key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
         public var values: [ElasticLoadBalancingv2ClientTypes.QueryStringKeyValuePair]?
 
         public init (
@@ -9976,7 +9973,7 @@ extension ElasticLoadBalancingv2ClientTypes.SourceIpConditionConfig: Swift.Codab
 extension ElasticLoadBalancingv2ClientTypes {
     /// Information about a source IP condition. You can use this condition to route based on the IP address of the source that connects to the load balancer. If a client is behind a proxy, this is the IP address of the proxy not the IP address of the client.
     public struct SourceIpConditionConfig: Swift.Equatable {
-        /// One or more source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use [HttpHeaderConditionConfig].
+        /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use [HttpHeaderConditionConfig].
         public var values: [Swift.String]?
 
         public init (
@@ -10400,7 +10397,7 @@ extension ElasticLoadBalancingv2ClientTypes.TargetDescription: Swift.Codable {
 extension ElasticLoadBalancingv2ClientTypes {
     /// Information about a target.
     public struct TargetDescription: Swift.Equatable {
-        /// An Availability Zone or all. This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. This parameter is not supported if the target type of the target group is instance or alb. If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. With an Application Load Balancer, if the target type is ip and the IP address is outside the VPC for the target group, the only supported value is all. If the target type is lambda, this parameter is optional and the only supported value is all.
+        /// An Availability Zone or all. This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. For Application Load Balancer target groups, the specified Availability Zone value is only applicable when cross-zone load balancing is off. Otherwise the parameter is ignored and treated as all. This parameter is not supported if the target type of the target group is instance or alb. If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. For Application Load Balancer target groups with cross-zone load balancing off, if the target type is ip and the IP address is outside of the VPC for the target group, this should be an Availability Zone inside the VPC for the target group. If the target type is lambda, this parameter is optional and the only supported value is all.
         public var availabilityZone: Swift.String?
         /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function. If the target type is alb, specify the ARN of the Application Load Balancer target.
         /// This member is required.
@@ -10733,12 +10730,9 @@ extension ElasticLoadBalancingv2ClientTypes.TargetGroupAttribute: Swift.Codable 
 extension ElasticLoadBalancingv2ClientTypes {
     /// Information about a target group attribute.
     public struct TargetGroupAttribute: Swift.Equatable {
-        /// The name of the attribute. The following attribute is supported by all load balancers:
+        /// The name of the attribute. The following attributes are supported by all load balancers:
         ///
         /// * deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.
-        ///
-        ///
-        /// The following attributes are supported by Application Load Balancers, Network Load Balancers, and Gateway Load Balancers:
         ///
         /// * stickiness.enabled - Indicates whether target stickiness is enabled. The value is true or false. The default is false.
         ///
@@ -10752,6 +10746,22 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         ///
         ///
+        ///
+        ///
+        /// The following attributes are supported by Application Load Balancers and Network Load Balancers:
+        ///
+        /// * load_balancing.cross_zone.enabled - Indicates whether cross zone load balancing is enabled. The value is true, false or use_load_balancer_configuration. The default is use_load_balancer_configuration.
+        ///
+        /// * target_group_health.dns_failover.minimum_healthy_targets.count - The minimum number of targets that must be healthy. If the number of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to the maximum number of targets. The default is off.
+        ///
+        /// * target_group_health.dns_failover.minimum_healthy_targets.percentage - The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to 100. The default is off.
+        ///
+        /// * target_group_health.unhealthy_state_routing.minimum_healthy_targets.count - The minimum number of targets that must be healthy.
+        ///
+        ///
+        /// If the number of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are 1 to the maximum number of targets. The default is 1.
+        ///
+        /// * target_group_health.unhealthy_state_routing.minimum_healthy_targets.percentage - The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are off or an integer from 1 to 100. The default is off.
         ///
         ///
         /// The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:

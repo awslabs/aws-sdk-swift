@@ -311,3 +311,64 @@ extension PaginatorSequence where Input == GetTraceSummariesInput, Output == Get
         return try await self.asyncCompactMap { item in item.traceSummaries }
     }
 }
+
+/// Paginate over `[ListResourcePoliciesOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListResourcePoliciesInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListResourcePoliciesOutputResponse`
+extension XRayClient {
+    public func listResourcePoliciesPaginated(input: ListResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutputResponse>(input: input, inputKey: \ListResourcePoliciesInput.nextToken, outputKey: \ListResourcePoliciesOutputResponse.nextToken, paginationFunction: self.listResourcePolicies(input:))
+    }
+}
+
+extension ListResourcePoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourcePoliciesInput {
+        return ListResourcePoliciesInput(
+            nextToken: token
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listResourcePoliciesPaginated`
+/// to access the nested member `[XRayClientTypes.ResourcePolicy]`
+/// - Returns: `[XRayClientTypes.ResourcePolicy]`
+extension PaginatorSequence where Input == ListResourcePoliciesInput, Output == ListResourcePoliciesOutputResponse {
+    public func resourcePolicies() async throws -> [XRayClientTypes.ResourcePolicy] {
+        return try await self.asyncCompactMap { item in item.resourcePolicies }
+    }
+}
+
+/// Paginate over `[ListTagsForResourceOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListTagsForResourceInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
+extension XRayClient {
+    public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
+    }
+}
+
+extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTagsForResourceInput {
+        return ListTagsForResourceInput(
+            nextToken: token,
+            resourceARN: self.resourceARN
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
+/// to access the nested member `[XRayClientTypes.Tag]`
+/// - Returns: `[XRayClientTypes.Tag]`
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+    public func tags() async throws -> [XRayClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
+}

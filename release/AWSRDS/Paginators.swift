@@ -3,6 +3,39 @@
 import ClientRuntime
 
 
+/// Paginate over `[DescribeBlueGreenDeploymentsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[DescribeBlueGreenDeploymentsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `DescribeBlueGreenDeploymentsOutputResponse`
+extension RDSClient {
+    public func describeBlueGreenDeploymentsPaginated(input: DescribeBlueGreenDeploymentsInput) -> ClientRuntime.PaginatorSequence<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutputResponse>(input: input, inputKey: \DescribeBlueGreenDeploymentsInput.marker, outputKey: \DescribeBlueGreenDeploymentsOutputResponse.marker, paginationFunction: self.describeBlueGreenDeployments(input:))
+    }
+}
+
+extension DescribeBlueGreenDeploymentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeBlueGreenDeploymentsInput {
+        return DescribeBlueGreenDeploymentsInput(
+            blueGreenDeploymentIdentifier: self.blueGreenDeploymentIdentifier,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `describeBlueGreenDeploymentsPaginated`
+/// to access the nested member `[RDSClientTypes.BlueGreenDeployment]`
+/// - Returns: `[RDSClientTypes.BlueGreenDeployment]`
+extension PaginatorSequence where Input == DescribeBlueGreenDeploymentsInput, Output == DescribeBlueGreenDeploymentsOutputResponse {
+    public func blueGreenDeployments() async throws -> [RDSClientTypes.BlueGreenDeployment] {
+        return try await self.asyncCompactMap { item in item.blueGreenDeployments }
+    }
+}
+
 /// Paginate over `[DescribeCertificatesOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

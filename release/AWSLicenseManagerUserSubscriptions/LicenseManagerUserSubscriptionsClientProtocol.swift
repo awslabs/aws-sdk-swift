@@ -5,7 +5,7 @@ import ClientRuntime
 
 /// With License Manager, you can create user-based subscriptions to utilize licensed software with a per user subscription fee on Amazon EC2 instances.
 public protocol LicenseManagerUserSubscriptionsClientProtocol {
-    /// Associates the user to an EC2 instance to utilize user-based subscriptions.
+    /// Associates the user to an EC2 instance to utilize user-based subscriptions. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
     func associateUser(input: AssociateUserInput) async throws -> AssociateUserOutputResponse
     /// Deregisters the identity provider from providing user-based subscriptions.
     func deregisterIdentityProvider(input: DeregisterIdentityProviderInput) async throws -> DeregisterIdentityProviderOutputResponse
@@ -21,10 +21,12 @@ public protocol LicenseManagerUserSubscriptionsClientProtocol {
     func listUserAssociations(input: ListUserAssociationsInput) async throws -> ListUserAssociationsOutputResponse
     /// Registers an identity provider for user-based subscriptions.
     func registerIdentityProvider(input: RegisterIdentityProviderInput) async throws -> RegisterIdentityProviderOutputResponse
-    /// Starts a product subscription for a user with the specified identity provider.
+    /// Starts a product subscription for a user with the specified identity provider. Your estimated bill for charges on the number of users and related costs will take 48 hours to appear for billing periods that haven't closed (marked as Pending billing status) in Amazon Web Services Billing. For more information, see [Viewing your monthly charges](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/invoice.html) in the Amazon Web Services Billing User Guide.
     func startProductSubscription(input: StartProductSubscriptionInput) async throws -> StartProductSubscriptionOutputResponse
     /// Stops a product subscription for a user with the specified identity provider.
     func stopProductSubscription(input: StopProductSubscriptionInput) async throws -> StopProductSubscriptionOutputResponse
+    /// Updates additional product configuration settings for the registered identity provider.
+    func updateIdentityProviderSettings(input: UpdateIdentityProviderSettingsInput) async throws -> UpdateIdentityProviderSettingsOutputResponse
 }
 
 public protocol LicenseManagerUserSubscriptionsClientConfigurationProtocol : AWSClientRuntime.AWSClientConfiguration {

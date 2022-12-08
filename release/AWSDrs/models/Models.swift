@@ -3346,7 +3346,7 @@ public enum DisconnectSourceServerOutputError: Swift.Error, Swift.Equatable {
 
 extension DisconnectSourceServerOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DisconnectSourceServerOutputResponse(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+        "DisconnectSourceServerOutputResponse(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DisconnectSourceServerOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3360,6 +3360,9 @@ extension DisconnectSourceServerOutputResponse: ClientRuntime.HttpResponseBindin
             self.lastLaunchResult = output.lastLaunchResult
             self.lifeCycle = output.lifeCycle
             self.recoveryInstanceId = output.recoveryInstanceId
+            self.replicationDirection = output.replicationDirection
+            self.reversedDirectionSourceServerArn = output.reversedDirectionSourceServerArn
+            self.sourceCloudProperties = output.sourceCloudProperties
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.stagingArea = output.stagingArea
@@ -3370,6 +3373,9 @@ extension DisconnectSourceServerOutputResponse: ClientRuntime.HttpResponseBindin
             self.lastLaunchResult = nil
             self.lifeCycle = nil
             self.recoveryInstanceId = nil
+            self.replicationDirection = nil
+            self.reversedDirectionSourceServerArn = nil
+            self.sourceCloudProperties = nil
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.stagingArea = nil
@@ -3389,6 +3395,12 @@ public struct DisconnectSourceServerOutputResponse: Swift.Equatable {
     public var lifeCycle: DrsClientTypes.LifeCycle?
     /// The ID of the Recovery Instance associated with this Source Server.
     public var recoveryInstanceId: Swift.String?
+    /// Replication direction of the Source Server.
+    public var replicationDirection: DrsClientTypes.ReplicationDirection?
+    /// For EC2-originated Source Servers which have been failed over and then failed back, this value will mean the ARN of the Source Server on the opposite replication direction.
+    public var reversedDirectionSourceServerArn: Swift.String?
+    /// Source cloud properties of the Source Server.
+    public var sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
     /// The source properties of the Source Server.
     public var sourceProperties: DrsClientTypes.SourceProperties?
     /// The ID of the Source Server.
@@ -3404,6 +3416,9 @@ public struct DisconnectSourceServerOutputResponse: Swift.Equatable {
         lastLaunchResult: DrsClientTypes.LastLaunchResult? = nil,
         lifeCycle: DrsClientTypes.LifeCycle? = nil,
         recoveryInstanceId: Swift.String? = nil,
+        replicationDirection: DrsClientTypes.ReplicationDirection? = nil,
+        reversedDirectionSourceServerArn: Swift.String? = nil,
+        sourceCloudProperties: DrsClientTypes.SourceCloudProperties? = nil,
         sourceProperties: DrsClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         stagingArea: DrsClientTypes.StagingArea? = nil,
@@ -3415,6 +3430,9 @@ public struct DisconnectSourceServerOutputResponse: Swift.Equatable {
         self.lastLaunchResult = lastLaunchResult
         self.lifeCycle = lifeCycle
         self.recoveryInstanceId = recoveryInstanceId
+        self.replicationDirection = replicationDirection
+        self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
+        self.sourceCloudProperties = sourceCloudProperties
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.stagingArea = stagingArea
@@ -3432,6 +3450,9 @@ struct DisconnectSourceServerOutputResponseBody: Swift.Equatable {
     let lifeCycle: DrsClientTypes.LifeCycle?
     let sourceProperties: DrsClientTypes.SourceProperties?
     let stagingArea: DrsClientTypes.StagingArea?
+    let sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
+    let replicationDirection: DrsClientTypes.ReplicationDirection?
+    let reversedDirectionSourceServerArn: Swift.String?
 }
 
 extension DisconnectSourceServerOutputResponseBody: Swift.Decodable {
@@ -3441,6 +3462,9 @@ extension DisconnectSourceServerOutputResponseBody: Swift.Decodable {
         case lastLaunchResult
         case lifeCycle
         case recoveryInstanceId
+        case replicationDirection
+        case reversedDirectionSourceServerArn
+        case sourceCloudProperties
         case sourceProperties
         case sourceServerID
         case stagingArea
@@ -3476,6 +3500,12 @@ extension DisconnectSourceServerOutputResponseBody: Swift.Decodable {
         sourceProperties = sourcePropertiesDecoded
         let stagingAreaDecoded = try containerValues.decodeIfPresent(DrsClientTypes.StagingArea.self, forKey: .stagingArea)
         stagingArea = stagingAreaDecoded
+        let sourceCloudPropertiesDecoded = try containerValues.decodeIfPresent(DrsClientTypes.SourceCloudProperties.self, forKey: .sourceCloudProperties)
+        sourceCloudProperties = sourceCloudPropertiesDecoded
+        let replicationDirectionDecoded = try containerValues.decodeIfPresent(DrsClientTypes.ReplicationDirection.self, forKey: .replicationDirection)
+        replicationDirection = replicationDirectionDecoded
+        let reversedDirectionSourceServerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reversedDirectionSourceServerArn)
+        reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
     }
 }
 
@@ -3607,15 +3637,59 @@ extension DrsClientTypes {
 }
 
 extension DrsClientTypes {
+    public enum FailbackLaunchType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case drill
+        case recovery
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FailbackLaunchType] {
+            return [
+                .drill,
+                .recovery,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .drill: return "DRILL"
+            case .recovery: return "RECOVERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FailbackLaunchType(rawValue: rawValue) ?? FailbackLaunchType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DrsClientTypes {
     public enum FailbackReplicationError: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case agentNotSeen
         case failbackClientNotSeen
+        case failedGettingReplicationState
+        case failedToAttachStagingDisks
+        case failedToAuthenticateWithService
+        case failedToBootReplicationServer
         case failedToConfigureReplicationSoftware
+        case failedToConnectAgentToReplicationServer
+        case failedToCreateSecurityGroup
+        case failedToCreateStagingDisks
+        case failedToDownloadReplicationSoftware
         case failedToDownloadReplicationSoftwareToFailbackClient
         case failedToEstablishAgentReplicatorSoftwareCommunication
         case failedToEstablishRecoveryInstanceCommunication
+        case failedToLaunchReplicationServer
         case failedToPairAgentWithReplicationSoftware
+        case failedToPairReplicationServerWithAgent
+        case failedToStartDataTransfer
         case notConverging
+        case snapshotsFailure
         case unstableNetwork
         case sdkUnknown(Swift.String)
 
@@ -3623,12 +3697,24 @@ extension DrsClientTypes {
             return [
                 .agentNotSeen,
                 .failbackClientNotSeen,
+                .failedGettingReplicationState,
+                .failedToAttachStagingDisks,
+                .failedToAuthenticateWithService,
+                .failedToBootReplicationServer,
                 .failedToConfigureReplicationSoftware,
+                .failedToConnectAgentToReplicationServer,
+                .failedToCreateSecurityGroup,
+                .failedToCreateStagingDisks,
+                .failedToDownloadReplicationSoftware,
                 .failedToDownloadReplicationSoftwareToFailbackClient,
                 .failedToEstablishAgentReplicatorSoftwareCommunication,
                 .failedToEstablishRecoveryInstanceCommunication,
+                .failedToLaunchReplicationServer,
                 .failedToPairAgentWithReplicationSoftware,
+                .failedToPairReplicationServerWithAgent,
+                .failedToStartDataTransfer,
                 .notConverging,
+                .snapshotsFailure,
                 .unstableNetwork,
                 .sdkUnknown("")
             ]
@@ -3641,12 +3727,24 @@ extension DrsClientTypes {
             switch self {
             case .agentNotSeen: return "AGENT_NOT_SEEN"
             case .failbackClientNotSeen: return "FAILBACK_CLIENT_NOT_SEEN"
+            case .failedGettingReplicationState: return "FAILED_GETTING_REPLICATION_STATE"
+            case .failedToAttachStagingDisks: return "FAILED_TO_ATTACH_STAGING_DISKS"
+            case .failedToAuthenticateWithService: return "FAILED_TO_AUTHENTICATE_WITH_SERVICE"
+            case .failedToBootReplicationServer: return "FAILED_TO_BOOT_REPLICATION_SERVER"
             case .failedToConfigureReplicationSoftware: return "FAILED_TO_CONFIGURE_REPLICATION_SOFTWARE"
+            case .failedToConnectAgentToReplicationServer: return "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER"
+            case .failedToCreateSecurityGroup: return "FAILED_TO_CREATE_SECURITY_GROUP"
+            case .failedToCreateStagingDisks: return "FAILED_TO_CREATE_STAGING_DISKS"
+            case .failedToDownloadReplicationSoftware: return "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE"
             case .failedToDownloadReplicationSoftwareToFailbackClient: return "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE_TO_FAILBACK_CLIENT"
             case .failedToEstablishAgentReplicatorSoftwareCommunication: return "FAILED_TO_ESTABLISH_AGENT_REPLICATOR_SOFTWARE_COMMUNICATION"
             case .failedToEstablishRecoveryInstanceCommunication: return "FAILED_TO_ESTABLISH_RECOVERY_INSTANCE_COMMUNICATION"
+            case .failedToLaunchReplicationServer: return "FAILED_TO_LAUNCH_REPLICATION_SERVER"
             case .failedToPairAgentWithReplicationSoftware: return "FAILED_TO_PAIR_AGENT_WITH_REPLICATION_SOFTWARE"
+            case .failedToPairReplicationServerWithAgent: return "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT"
+            case .failedToStartDataTransfer: return "FAILED_TO_START_DATA_TRANSFER"
             case .notConverging: return "NOT_CONVERGING"
+            case .snapshotsFailure: return "SNAPSHOTS_FAILURE"
             case .unstableNetwork: return "UNSTABLE_NETWORK"
             case let .sdkUnknown(s): return s
             }
@@ -3664,6 +3762,8 @@ extension DrsClientTypes {
         case failbackCompleted
         case failbackError
         case failbackInProgress
+        case failbackLaunchStateNotAvailable
+        case failbackNotReadyForLaunch
         case failbackNotStarted
         case failbackReadyForLaunch
         case sdkUnknown(Swift.String)
@@ -3673,6 +3773,8 @@ extension DrsClientTypes {
                 .failbackCompleted,
                 .failbackError,
                 .failbackInProgress,
+                .failbackLaunchStateNotAvailable,
+                .failbackNotReadyForLaunch,
                 .failbackNotStarted,
                 .failbackReadyForLaunch,
                 .sdkUnknown("")
@@ -3687,6 +3789,8 @@ extension DrsClientTypes {
             case .failbackCompleted: return "FAILBACK_COMPLETED"
             case .failbackError: return "FAILBACK_ERROR"
             case .failbackInProgress: return "FAILBACK_IN_PROGRESS"
+            case .failbackLaunchStateNotAvailable: return "FAILBACK_LAUNCH_STATE_NOT_AVAILABLE"
+            case .failbackNotReadyForLaunch: return "FAILBACK_NOT_READY_FOR_LAUNCH"
             case .failbackNotStarted: return "FAILBACK_NOT_STARTED"
             case .failbackReadyForLaunch: return "FAILBACK_READY_FOR_LAUNCH"
             case let .sdkUnknown(s): return s
@@ -5857,6 +5961,38 @@ extension DrsClientTypes {
 
 }
 
+extension DrsClientTypes {
+    public enum OriginEnvironment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case aws
+        case onPremises
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OriginEnvironment] {
+            return [
+                .aws,
+                .onPremises,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .onPremises: return "ON_PREMISES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OriginEnvironment(rawValue: rawValue) ?? OriginEnvironment.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DrsClientTypes.PITPolicyRule: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled
@@ -6034,6 +6170,7 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         case failback
         case isDrill
         case jobID
+        case originEnvironment
         case pointInTimeSnapshotDateTime
         case recoveryInstanceID
         case recoveryInstanceProperties
@@ -6063,6 +6200,9 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         }
         if let jobID = self.jobID {
             try encodeContainer.encode(jobID, forKey: .jobID)
+        }
+        if let originEnvironment = self.originEnvironment {
+            try encodeContainer.encode(originEnvironment.rawValue, forKey: .originEnvironment)
         }
         if let pointInTimeSnapshotDateTime = self.pointInTimeSnapshotDateTime {
             try encodeContainer.encode(pointInTimeSnapshotDateTime, forKey: .pointInTimeSnapshotDateTime)
@@ -6119,12 +6259,14 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         pointInTimeSnapshotDateTime = pointInTimeSnapshotDateTimeDecoded
         let isDrillDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDrill)
         isDrill = isDrillDecoded
+        let originEnvironmentDecoded = try containerValues.decodeIfPresent(DrsClientTypes.OriginEnvironment.self, forKey: .originEnvironment)
+        originEnvironment = originEnvironmentDecoded
     }
 }
 
 extension DrsClientTypes.RecoveryInstance: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RecoveryInstance(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), ec2InstanceID: \(Swift.String(describing: ec2InstanceID)), ec2InstanceState: \(Swift.String(describing: ec2InstanceState)), failback: \(Swift.String(describing: failback)), isDrill: \(Swift.String(describing: isDrill)), jobID: \(Swift.String(describing: jobID)), pointInTimeSnapshotDateTime: \(Swift.String(describing: pointInTimeSnapshotDateTime)), recoveryInstanceID: \(Swift.String(describing: recoveryInstanceID)), recoveryInstanceProperties: \(Swift.String(describing: recoveryInstanceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), tags: \"CONTENT_REDACTED\")"}
+        "RecoveryInstance(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), ec2InstanceID: \(Swift.String(describing: ec2InstanceID)), ec2InstanceState: \(Swift.String(describing: ec2InstanceState)), failback: \(Swift.String(describing: failback)), isDrill: \(Swift.String(describing: isDrill)), jobID: \(Swift.String(describing: jobID)), originEnvironment: \(Swift.String(describing: originEnvironment)), pointInTimeSnapshotDateTime: \(Swift.String(describing: pointInTimeSnapshotDateTime)), recoveryInstanceID: \(Swift.String(describing: recoveryInstanceID)), recoveryInstanceProperties: \(Swift.String(describing: recoveryInstanceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -6144,6 +6286,8 @@ extension DrsClientTypes {
         public var isDrill: Swift.Bool?
         /// The ID of the Job that created the Recovery Instance.
         public var jobID: Swift.String?
+        /// Environment (On Premises / AWS) of the instance that the recovery instance originated from.
+        public var originEnvironment: DrsClientTypes.OriginEnvironment?
         /// The date and time of the Point in Time (PIT) snapshot that this Recovery Instance was launched from.
         public var pointInTimeSnapshotDateTime: Swift.String?
         /// The ID of the Recovery Instance.
@@ -6163,6 +6307,7 @@ extension DrsClientTypes {
             failback: DrsClientTypes.RecoveryInstanceFailback? = nil,
             isDrill: Swift.Bool? = nil,
             jobID: Swift.String? = nil,
+            originEnvironment: DrsClientTypes.OriginEnvironment? = nil,
             pointInTimeSnapshotDateTime: Swift.String? = nil,
             recoveryInstanceID: Swift.String? = nil,
             recoveryInstanceProperties: DrsClientTypes.RecoveryInstanceProperties? = nil,
@@ -6177,6 +6322,7 @@ extension DrsClientTypes {
             self.failback = failback
             self.isDrill = isDrill
             self.jobID = jobID
+            self.originEnvironment = originEnvironment
             self.pointInTimeSnapshotDateTime = pointInTimeSnapshotDateTime
             self.recoveryInstanceID = recoveryInstanceID
             self.recoveryInstanceProperties = recoveryInstanceProperties
@@ -6508,24 +6654,46 @@ extension DrsClientTypes {
 
 extension DrsClientTypes {
     public enum RecoveryInstanceDataReplicationInitiationStepName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case attachStagingDisks
+        case authenticateWithService
+        case bootReplicationServer
         case completeVolumeMapping
         case configureReplicationSoftware
+        case connectAgentToReplicationServer
+        case createSecurityGroup
+        case createStagingDisks
+        case downloadReplicationSoftware
         case downloadReplicationSoftwareToFailbackClient
         case establishAgentReplicatorSoftwareCommunication
         case establishRecoveryInstanceCommunication
+        case launchReplicationServer
         case linkFailbackClientWithRecoveryInstance
         case pairAgentWithReplicationSoftware
+        case pairReplicationServerWithAgent
+        case startDataTransfer
+        case wait
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecoveryInstanceDataReplicationInitiationStepName] {
             return [
+                .attachStagingDisks,
+                .authenticateWithService,
+                .bootReplicationServer,
                 .completeVolumeMapping,
                 .configureReplicationSoftware,
+                .connectAgentToReplicationServer,
+                .createSecurityGroup,
+                .createStagingDisks,
+                .downloadReplicationSoftware,
                 .downloadReplicationSoftwareToFailbackClient,
                 .establishAgentReplicatorSoftwareCommunication,
                 .establishRecoveryInstanceCommunication,
+                .launchReplicationServer,
                 .linkFailbackClientWithRecoveryInstance,
                 .pairAgentWithReplicationSoftware,
+                .pairReplicationServerWithAgent,
+                .startDataTransfer,
+                .wait,
                 .sdkUnknown("")
             ]
         }
@@ -6535,13 +6703,24 @@ extension DrsClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .attachStagingDisks: return "ATTACH_STAGING_DISKS"
+            case .authenticateWithService: return "AUTHENTICATE_WITH_SERVICE"
+            case .bootReplicationServer: return "BOOT_REPLICATION_SERVER"
             case .completeVolumeMapping: return "COMPLETE_VOLUME_MAPPING"
             case .configureReplicationSoftware: return "CONFIGURE_REPLICATION_SOFTWARE"
+            case .connectAgentToReplicationServer: return "CONNECT_AGENT_TO_REPLICATION_SERVER"
+            case .createSecurityGroup: return "CREATE_SECURITY_GROUP"
+            case .createStagingDisks: return "CREATE_STAGING_DISKS"
+            case .downloadReplicationSoftware: return "DOWNLOAD_REPLICATION_SOFTWARE"
             case .downloadReplicationSoftwareToFailbackClient: return "DOWNLOAD_REPLICATION_SOFTWARE_TO_FAILBACK_CLIENT"
             case .establishAgentReplicatorSoftwareCommunication: return "ESTABLISH_AGENT_REPLICATOR_SOFTWARE_COMMUNICATION"
             case .establishRecoveryInstanceCommunication: return "ESTABLISH_RECOVERY_INSTANCE_COMMUNICATION"
+            case .launchReplicationServer: return "LAUNCH_REPLICATION_SERVER"
             case .linkFailbackClientWithRecoveryInstance: return "LINK_FAILBACK_CLIENT_WITH_RECOVERY_INSTANCE"
             case .pairAgentWithReplicationSoftware: return "PAIR_AGENT_WITH_REPLICATION_SOFTWARE"
+            case .pairReplicationServerWithAgent: return "PAIR_REPLICATION_SERVER_WITH_AGENT"
+            case .startDataTransfer: return "START_DATA_TRANSFER"
+            case .wait: return "WAIT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6602,7 +6781,9 @@ extension DrsClientTypes {
         case disconnected
         case initialSync
         case initiating
+        case notStarted
         case paused
+        case replicationStateNotAvailable
         case rescan
         case stalled
         case stopped
@@ -6616,7 +6797,9 @@ extension DrsClientTypes {
                 .disconnected,
                 .initialSync,
                 .initiating,
+                .notStarted,
                 .paused,
+                .replicationStateNotAvailable,
                 .rescan,
                 .stalled,
                 .stopped,
@@ -6635,7 +6818,9 @@ extension DrsClientTypes {
             case .disconnected: return "DISCONNECTED"
             case .initialSync: return "INITIAL_SYNC"
             case .initiating: return "INITIATING"
+            case .notStarted: return "NOT_STARTED"
             case .paused: return "PAUSED"
+            case .replicationStateNotAvailable: return "REPLICATION_STATE_NOT_AVAILABLE"
             case .rescan: return "RESCAN"
             case .stalled: return "STALLED"
             case .stopped: return "STOPPED"
@@ -6713,6 +6898,7 @@ extension DrsClientTypes.RecoveryInstanceFailback: Swift.Codable {
         case failbackClientLastSeenByServiceDateTime
         case failbackInitiationTime
         case failbackJobID
+        case failbackLaunchType
         case failbackToOriginalServer
         case firstByteDateTime
         case state
@@ -6737,6 +6923,9 @@ extension DrsClientTypes.RecoveryInstanceFailback: Swift.Codable {
         }
         if let failbackJobID = self.failbackJobID {
             try encodeContainer.encode(failbackJobID, forKey: .failbackJobID)
+        }
+        if let failbackLaunchType = self.failbackLaunchType {
+            try encodeContainer.encode(failbackLaunchType.rawValue, forKey: .failbackLaunchType)
         }
         if let failbackToOriginalServer = self.failbackToOriginalServer {
             try encodeContainer.encode(failbackToOriginalServer, forKey: .failbackToOriginalServer)
@@ -6769,6 +6958,8 @@ extension DrsClientTypes.RecoveryInstanceFailback: Swift.Codable {
         firstByteDateTime = firstByteDateTimeDecoded
         let elapsedReplicationDurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .elapsedReplicationDuration)
         elapsedReplicationDuration = elapsedReplicationDurationDecoded
+        let failbackLaunchTypeDecoded = try containerValues.decodeIfPresent(DrsClientTypes.FailbackLaunchType.self, forKey: .failbackLaunchType)
+        failbackLaunchType = failbackLaunchTypeDecoded
     }
 }
 
@@ -6787,6 +6978,8 @@ extension DrsClientTypes {
         public var failbackInitiationTime: Swift.String?
         /// The Job ID of the last failback log for this Recovery Instance.
         public var failbackJobID: Swift.String?
+        /// The launch type (Recovery / Drill) of the last launch for the failback replication of this recovery instance.
+        public var failbackLaunchType: DrsClientTypes.FailbackLaunchType?
         /// Whether we are failing back to the original Source Server for this Recovery Instance.
         public var failbackToOriginalServer: Swift.Bool?
         /// The date and time of the first byte that was replicated from the Recovery Instance.
@@ -6801,6 +6994,7 @@ extension DrsClientTypes {
             failbackClientLastSeenByServiceDateTime: Swift.String? = nil,
             failbackInitiationTime: Swift.String? = nil,
             failbackJobID: Swift.String? = nil,
+            failbackLaunchType: DrsClientTypes.FailbackLaunchType? = nil,
             failbackToOriginalServer: Swift.Bool? = nil,
             firstByteDateTime: Swift.String? = nil,
             state: DrsClientTypes.FailbackState? = nil
@@ -6812,6 +7006,7 @@ extension DrsClientTypes {
             self.failbackClientLastSeenByServiceDateTime = failbackClientLastSeenByServiceDateTime
             self.failbackInitiationTime = failbackInitiationTime
             self.failbackJobID = failbackJobID
+            self.failbackLaunchType = failbackLaunchType
             self.failbackToOriginalServer = failbackToOriginalServer
             self.firstByteDateTime = firstByteDateTime
             self.state = state
@@ -7233,7 +7428,7 @@ extension DrsClientTypes {
         public var iops: Swift.Int
         /// Whether to boot from this disk or not.
         public var isBootDisk: Swift.Bool?
-        /// The Staging Disk EBS volume type to be used during replication when stagingDiskType is set to Auto. This is a read-only field.
+        /// When stagingDiskType is set to Auto, this field shows the current staging disk EBS volume type as it is constantly updated by the service. This is a read-only field.
         public var optimizedStagingDiskType: DrsClientTypes.ReplicationConfigurationReplicatedDiskStagingDiskType?
         /// The Staging Disk EBS volume type to be used during replication.
         public var stagingDiskType: DrsClientTypes.ReplicationConfigurationReplicatedDiskStagingDiskType?
@@ -7545,6 +7740,39 @@ extension DrsClientTypes {
 
 }
 
+extension DrsClientTypes {
+    /// Replication direction designates if this is a failover replication, or a failback replication. When a DRS agent is installed on an instance, the replication direction is failover. In cases where a recovery launch was made in the recovery location and a new recovery instance was created, and then a failback replication was initiated from that recovery instance back to the origin location, then the replication direction will be failback.
+    public enum ReplicationDirection: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failback
+        case failover
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationDirection] {
+            return [
+                .failback,
+                .failover,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failback: return "FAILBACK"
+            case .failover: return "FAILOVER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReplicationDirection(rawValue: rawValue) ?? ReplicationDirection.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7706,7 +7934,7 @@ public enum RetryDataReplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension RetryDataReplicationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RetryDataReplicationOutputResponse(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+        "RetryDataReplicationOutputResponse(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7720,6 +7948,9 @@ extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding 
             self.lastLaunchResult = output.lastLaunchResult
             self.lifeCycle = output.lifeCycle
             self.recoveryInstanceId = output.recoveryInstanceId
+            self.replicationDirection = output.replicationDirection
+            self.reversedDirectionSourceServerArn = output.reversedDirectionSourceServerArn
+            self.sourceCloudProperties = output.sourceCloudProperties
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.stagingArea = output.stagingArea
@@ -7730,6 +7961,9 @@ extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding 
             self.lastLaunchResult = nil
             self.lifeCycle = nil
             self.recoveryInstanceId = nil
+            self.replicationDirection = nil
+            self.reversedDirectionSourceServerArn = nil
+            self.sourceCloudProperties = nil
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.stagingArea = nil
@@ -7749,6 +7983,12 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
     public var lifeCycle: DrsClientTypes.LifeCycle?
     /// The ID of the Recovery Instance associated with this Source Server.
     public var recoveryInstanceId: Swift.String?
+    /// Replication direction of the Source Server.
+    public var replicationDirection: DrsClientTypes.ReplicationDirection?
+    /// For EC2-originated Source Servers which have been failed over and then failed back, this value will mean the ARN of the Source Server on the opposite replication direction.
+    public var reversedDirectionSourceServerArn: Swift.String?
+    /// Source cloud properties of the Source Server.
+    public var sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
     /// The source properties of the Source Server.
     public var sourceProperties: DrsClientTypes.SourceProperties?
     /// The ID of the Source Server.
@@ -7764,6 +8004,9 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
         lastLaunchResult: DrsClientTypes.LastLaunchResult? = nil,
         lifeCycle: DrsClientTypes.LifeCycle? = nil,
         recoveryInstanceId: Swift.String? = nil,
+        replicationDirection: DrsClientTypes.ReplicationDirection? = nil,
+        reversedDirectionSourceServerArn: Swift.String? = nil,
+        sourceCloudProperties: DrsClientTypes.SourceCloudProperties? = nil,
         sourceProperties: DrsClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         stagingArea: DrsClientTypes.StagingArea? = nil,
@@ -7775,6 +8018,9 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
         self.lastLaunchResult = lastLaunchResult
         self.lifeCycle = lifeCycle
         self.recoveryInstanceId = recoveryInstanceId
+        self.replicationDirection = replicationDirection
+        self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
+        self.sourceCloudProperties = sourceCloudProperties
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.stagingArea = stagingArea
@@ -7792,6 +8038,9 @@ struct RetryDataReplicationOutputResponseBody: Swift.Equatable {
     let lifeCycle: DrsClientTypes.LifeCycle?
     let sourceProperties: DrsClientTypes.SourceProperties?
     let stagingArea: DrsClientTypes.StagingArea?
+    let sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
+    let replicationDirection: DrsClientTypes.ReplicationDirection?
+    let reversedDirectionSourceServerArn: Swift.String?
 }
 
 extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
@@ -7801,6 +8050,9 @@ extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
         case lastLaunchResult
         case lifeCycle
         case recoveryInstanceId
+        case replicationDirection
+        case reversedDirectionSourceServerArn
+        case sourceCloudProperties
         case sourceProperties
         case sourceServerID
         case stagingArea
@@ -7836,6 +8088,135 @@ extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
         sourceProperties = sourcePropertiesDecoded
         let stagingAreaDecoded = try containerValues.decodeIfPresent(DrsClientTypes.StagingArea.self, forKey: .stagingArea)
         stagingArea = stagingAreaDecoded
+        let sourceCloudPropertiesDecoded = try containerValues.decodeIfPresent(DrsClientTypes.SourceCloudProperties.self, forKey: .sourceCloudProperties)
+        sourceCloudProperties = sourceCloudPropertiesDecoded
+        let replicationDirectionDecoded = try containerValues.decodeIfPresent(DrsClientTypes.ReplicationDirection.self, forKey: .replicationDirection)
+        replicationDirection = replicationDirectionDecoded
+        let reversedDirectionSourceServerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reversedDirectionSourceServerArn)
+        reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
+    }
+}
+
+extension ReverseReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recoveryInstanceID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recoveryInstanceID = self.recoveryInstanceID {
+            try encodeContainer.encode(recoveryInstanceID, forKey: .recoveryInstanceID)
+        }
+    }
+}
+
+extension ReverseReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ReverseReplication"
+    }
+}
+
+public struct ReverseReplicationInput: Swift.Equatable {
+    /// The ID of the Recovery Instance that we want to reverse the replication for.
+    /// This member is required.
+    public var recoveryInstanceID: Swift.String?
+
+    public init (
+        recoveryInstanceID: Swift.String? = nil
+    )
+    {
+        self.recoveryInstanceID = recoveryInstanceID
+    }
+}
+
+struct ReverseReplicationInputBody: Swift.Equatable {
+    let recoveryInstanceID: Swift.String?
+}
+
+extension ReverseReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recoveryInstanceID
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recoveryInstanceIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recoveryInstanceID)
+        recoveryInstanceID = recoveryInstanceIDDecoded
+    }
+}
+
+extension ReverseReplicationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ReverseReplicationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum ReverseReplicationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case uninitializedAccountException(UninitializedAccountException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ReverseReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ReverseReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.reversedDirectionSourceServerArn = output.reversedDirectionSourceServerArn
+        } else {
+            self.reversedDirectionSourceServerArn = nil
+        }
+    }
+}
+
+public struct ReverseReplicationOutputResponse: Swift.Equatable {
+    /// ARN of created SourceServer.
+    public var reversedDirectionSourceServerArn: Swift.String?
+
+    public init (
+        reversedDirectionSourceServerArn: Swift.String? = nil
+    )
+    {
+        self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
+    }
+}
+
+struct ReverseReplicationOutputResponseBody: Swift.Equatable {
+    let reversedDirectionSourceServerArn: Swift.String?
+}
+
+extension ReverseReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reversedDirectionSourceServerArn
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reversedDirectionSourceServerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reversedDirectionSourceServerArn)
+        reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
     }
 }
 
@@ -7938,6 +8319,61 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
         quotaCode = quotaCodeDecoded
     }
+}
+
+extension DrsClientTypes.SourceCloudProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case originAccountID
+        case originAvailabilityZone
+        case originRegion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let originAccountID = self.originAccountID {
+            try encodeContainer.encode(originAccountID, forKey: .originAccountID)
+        }
+        if let originAvailabilityZone = self.originAvailabilityZone {
+            try encodeContainer.encode(originAvailabilityZone, forKey: .originAvailabilityZone)
+        }
+        if let originRegion = self.originRegion {
+            try encodeContainer.encode(originRegion, forKey: .originRegion)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let originAccountIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originAccountID)
+        originAccountID = originAccountIDDecoded
+        let originRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originRegion)
+        originRegion = originRegionDecoded
+        let originAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originAvailabilityZone)
+        originAvailabilityZone = originAvailabilityZoneDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// Properties of the cloud environment where this Source Server originated from.
+    public struct SourceCloudProperties: Swift.Equatable {
+        /// AWS Account ID for an EC2-originated Source Server.
+        public var originAccountID: Swift.String?
+        /// AWS Availability Zone for an EC2-originated Source Server.
+        public var originAvailabilityZone: Swift.String?
+        /// AWS Region for an EC2-originated Source Server.
+        public var originRegion: Swift.String?
+
+        public init (
+            originAccountID: Swift.String? = nil,
+            originAvailabilityZone: Swift.String? = nil,
+            originRegion: Swift.String? = nil
+        )
+        {
+            self.originAccountID = originAccountID
+            self.originAvailabilityZone = originAvailabilityZone
+            self.originRegion = originRegion
+        }
+    }
+
 }
 
 extension DrsClientTypes.SourceProperties: Swift.Codable {
@@ -8088,6 +8524,9 @@ extension DrsClientTypes.SourceServer: Swift.Codable {
         case lastLaunchResult
         case lifeCycle
         case recoveryInstanceId
+        case replicationDirection
+        case reversedDirectionSourceServerArn
+        case sourceCloudProperties
         case sourceProperties
         case sourceServerID
         case stagingArea
@@ -8110,6 +8549,15 @@ extension DrsClientTypes.SourceServer: Swift.Codable {
         }
         if let recoveryInstanceId = self.recoveryInstanceId {
             try encodeContainer.encode(recoveryInstanceId, forKey: .recoveryInstanceId)
+        }
+        if let replicationDirection = self.replicationDirection {
+            try encodeContainer.encode(replicationDirection.rawValue, forKey: .replicationDirection)
+        }
+        if let reversedDirectionSourceServerArn = self.reversedDirectionSourceServerArn {
+            try encodeContainer.encode(reversedDirectionSourceServerArn, forKey: .reversedDirectionSourceServerArn)
+        }
+        if let sourceCloudProperties = self.sourceCloudProperties {
+            try encodeContainer.encode(sourceCloudProperties, forKey: .sourceCloudProperties)
         }
         if let sourceProperties = self.sourceProperties {
             try encodeContainer.encode(sourceProperties, forKey: .sourceProperties)
@@ -8157,12 +8605,18 @@ extension DrsClientTypes.SourceServer: Swift.Codable {
         sourceProperties = sourcePropertiesDecoded
         let stagingAreaDecoded = try containerValues.decodeIfPresent(DrsClientTypes.StagingArea.self, forKey: .stagingArea)
         stagingArea = stagingAreaDecoded
+        let sourceCloudPropertiesDecoded = try containerValues.decodeIfPresent(DrsClientTypes.SourceCloudProperties.self, forKey: .sourceCloudProperties)
+        sourceCloudProperties = sourceCloudPropertiesDecoded
+        let replicationDirectionDecoded = try containerValues.decodeIfPresent(DrsClientTypes.ReplicationDirection.self, forKey: .replicationDirection)
+        replicationDirection = replicationDirectionDecoded
+        let reversedDirectionSourceServerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reversedDirectionSourceServerArn)
+        reversedDirectionSourceServerArn = reversedDirectionSourceServerArnDecoded
     }
 }
 
 extension DrsClientTypes.SourceServer: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SourceServer(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
+        "SourceServer(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), lastLaunchResult: \(Swift.String(describing: lastLaunchResult)), lifeCycle: \(Swift.String(describing: lifeCycle)), recoveryInstanceId: \(Swift.String(describing: recoveryInstanceId)), replicationDirection: \(Swift.String(describing: replicationDirection)), reversedDirectionSourceServerArn: \(Swift.String(describing: reversedDirectionSourceServerArn)), sourceCloudProperties: \(Swift.String(describing: sourceCloudProperties)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingArea: \(Swift.String(describing: stagingArea)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -8177,6 +8631,12 @@ extension DrsClientTypes {
         public var lifeCycle: DrsClientTypes.LifeCycle?
         /// The ID of the Recovery Instance associated with this Source Server.
         public var recoveryInstanceId: Swift.String?
+        /// Replication direction of the Source Server.
+        public var replicationDirection: DrsClientTypes.ReplicationDirection?
+        /// For EC2-originated Source Servers which have been failed over and then failed back, this value will mean the ARN of the Source Server on the opposite replication direction.
+        public var reversedDirectionSourceServerArn: Swift.String?
+        /// Source cloud properties of the Source Server.
+        public var sourceCloudProperties: DrsClientTypes.SourceCloudProperties?
         /// The source properties of the Source Server.
         public var sourceProperties: DrsClientTypes.SourceProperties?
         /// The ID of the Source Server.
@@ -8192,6 +8652,9 @@ extension DrsClientTypes {
             lastLaunchResult: DrsClientTypes.LastLaunchResult? = nil,
             lifeCycle: DrsClientTypes.LifeCycle? = nil,
             recoveryInstanceId: Swift.String? = nil,
+            replicationDirection: DrsClientTypes.ReplicationDirection? = nil,
+            reversedDirectionSourceServerArn: Swift.String? = nil,
+            sourceCloudProperties: DrsClientTypes.SourceCloudProperties? = nil,
             sourceProperties: DrsClientTypes.SourceProperties? = nil,
             sourceServerID: Swift.String? = nil,
             stagingArea: DrsClientTypes.StagingArea? = nil,
@@ -8203,6 +8666,9 @@ extension DrsClientTypes {
             self.lastLaunchResult = lastLaunchResult
             self.lifeCycle = lifeCycle
             self.recoveryInstanceId = recoveryInstanceId
+            self.replicationDirection = replicationDirection
+            self.reversedDirectionSourceServerArn = reversedDirectionSourceServerArn
+            self.sourceCloudProperties = sourceCloudProperties
             self.sourceProperties = sourceProperties
             self.sourceServerID = sourceServerID
             self.stagingArea = stagingArea
@@ -8729,6 +9195,125 @@ extension DrsClientTypes {
 
 }
 
+extension StartReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceServerID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceServerID = self.sourceServerID {
+            try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
+        }
+    }
+}
+
+extension StartReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StartReplication"
+    }
+}
+
+public struct StartReplicationInput: Swift.Equatable {
+    /// The ID of the Source Server to start replication for.
+    /// This member is required.
+    public var sourceServerID: Swift.String?
+
+    public init (
+        sourceServerID: Swift.String? = nil
+    )
+    {
+        self.sourceServerID = sourceServerID
+    }
+}
+
+struct StartReplicationInputBody: Swift.Equatable {
+    let sourceServerID: Swift.String?
+}
+
+extension StartReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceServerID
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
+        sourceServerID = sourceServerIDDecoded
+    }
+}
+
+extension StartReplicationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartReplicationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StartReplicationOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case uninitializedAccountException(UninitializedAccountException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.sourceServer = output.sourceServer
+        } else {
+            self.sourceServer = nil
+        }
+    }
+}
+
+public struct StartReplicationOutputResponse: Swift.Equatable {
+    /// The Source Server that this action was targeted on.
+    public var sourceServer: DrsClientTypes.SourceServer?
+
+    public init (
+        sourceServer: DrsClientTypes.SourceServer? = nil
+    )
+    {
+        self.sourceServer = sourceServer
+    }
+}
+
+struct StartReplicationOutputResponseBody: Swift.Equatable {
+    let sourceServer: DrsClientTypes.SourceServer?
+}
+
+extension StartReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceServer
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerDecoded = try containerValues.decodeIfPresent(DrsClientTypes.SourceServer.self, forKey: .sourceServer)
+        sourceServer = sourceServerDecoded
+    }
+}
+
 extension StopFailbackInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recoveryInstanceID
@@ -8813,6 +9398,125 @@ extension StopFailbackOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct StopFailbackOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension StopReplicationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceServerID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceServerID = self.sourceServerID {
+            try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
+        }
+    }
+}
+
+extension StopReplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StopReplication"
+    }
+}
+
+public struct StopReplicationInput: Swift.Equatable {
+    /// The ID of the Source Server to stop replication for.
+    /// This member is required.
+    public var sourceServerID: Swift.String?
+
+    public init (
+        sourceServerID: Swift.String? = nil
+    )
+    {
+        self.sourceServerID = sourceServerID
+    }
+}
+
+struct StopReplicationInputBody: Swift.Equatable {
+    let sourceServerID: Swift.String?
+}
+
+extension StopReplicationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceServerID
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
+        sourceServerID = sourceServerIDDecoded
+    }
+}
+
+extension StopReplicationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StopReplicationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StopReplicationOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case uninitializedAccountException(UninitializedAccountException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StopReplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.sourceServer = output.sourceServer
+        } else {
+            self.sourceServer = nil
+        }
+    }
+}
+
+public struct StopReplicationOutputResponse: Swift.Equatable {
+    /// The Source Server that this action was targeted on.
+    public var sourceServer: DrsClientTypes.SourceServer?
+
+    public init (
+        sourceServer: DrsClientTypes.SourceServer? = nil
+    )
+    {
+        self.sourceServer = sourceServer
+    }
+}
+
+struct StopReplicationOutputResponseBody: Swift.Equatable {
+    let sourceServer: DrsClientTypes.SourceServer?
+}
+
+extension StopReplicationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceServer
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerDecoded = try containerValues.decodeIfPresent(DrsClientTypes.SourceServer.self, forKey: .sourceServer)
+        sourceServer = sourceServerDecoded
+    }
 }
 
 extension TagResourceInput: Swift.CustomDebugStringConvertible {

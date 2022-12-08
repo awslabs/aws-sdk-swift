@@ -58,13 +58,13 @@ extension TranscribeStreamingClientTypes.Alternative: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// A list of possible transcriptions for the audio.
+    /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
     public struct Alternative: Swift.Equatable {
-        /// Contains the entities identified as personally identifiable information (PII) in the transcription output.
+        /// Contains entities identified as personally identifiable information (PII) in your transcription output.
         public var entities: [TranscribeStreamingClientTypes.Entity]?
-        /// One or more alternative interpretations of the input audio.
+        /// Contains words, phrases, or punctuation marks in your transcription output.
         public var items: [TranscribeStreamingClientTypes.Item]?
-        /// The text that was transcribed from the audio.
+        /// Contains transcribed text.
         public var transcript: Swift.String?
 
         public init (
@@ -101,7 +101,7 @@ extension TranscribeStreamingClientTypes.AudioEvent: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// Provides a wrapper for the audio chunks that you are sending. For information on audio encoding in Amazon Transcribe, see [Speech input](https://docs.aws.amazon.com/transcribe/latest/dg/input.html). For information on audio encoding formats in Amazon Transcribe Medical, see [Speech input](https://docs.aws.amazon.com/transcribe/latest/dg/input-med.html).
+    /// A wrapper for your audio chunks. Your audio stream consists of one or more audio events, which consist of one or more audio chunks. For more information, see [Event stream encoding](https://docs.aws.amazon.com/transcribe/latest/dg/event-stream.html).
     public struct AudioEvent: Swift.Equatable {
         /// An audio blob that contains the next part of the audio that you want to transcribe. The maximum audio chunk size is 32 KB.
         public var audioChunk: ClientRuntime.Data?
@@ -119,6 +119,7 @@ extension TranscribeStreamingClientTypes {
 extension TranscribeStreamingClientTypes.AudioStream: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case audioevent = "AudioEvent"
+        case configurationevent = "ConfigurationEvent"
         case sdkUnknown
     }
 
@@ -127,6 +128,8 @@ extension TranscribeStreamingClientTypes.AudioStream: Swift.Codable {
         switch self {
             case let .audioevent(audioevent):
                 try container.encode(audioevent, forKey: .audioevent)
+            case let .configurationevent(configurationevent):
+                try container.encode(configurationevent, forKey: .configurationevent)
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
@@ -139,15 +142,22 @@ extension TranscribeStreamingClientTypes.AudioStream: Swift.Codable {
             self = .audioevent(audioevent)
             return
         }
+        let configurationeventDecoded = try values.decodeIfPresent(TranscribeStreamingClientTypes.ConfigurationEvent.self, forKey: .configurationevent)
+        if let configurationevent = configurationeventDecoded {
+            self = .configurationevent(configurationevent)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
 
 extension TranscribeStreamingClientTypes {
-    /// Represents the audio stream from your application to Amazon Transcribe.
+    /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     public enum AudioStream: Swift.Equatable {
-        /// A blob of audio from your application. You audio stream consists of one or more audio events. For information on audio encoding formats in Amazon Transcribe, see [Speech input](https://docs.aws.amazon.com/transcribe/latest/dg/input.html). For information on audio encoding formats in Amazon Transcribe Medical, see [Speech input](https://docs.aws.amazon.com/transcribe/latest/dg/input-med.html). For more information on stream encoding in Amazon Transcribe, see [Event stream encoding](https://docs.aws.amazon.com/transcribe/latest/dg/event-stream.html). For information on stream encoding in Amazon Transcribe Medical, see [Event stream encoding](https://docs.aws.amazon.com/transcribe/latest/dg/event-stream-med.html).
+        /// A blob of audio from your application. Your audio stream consists of one or more audio events. For more information, see [Event stream encoding](https://docs.aws.amazon.com/transcribe/latest/dg/event-stream.html).
         case audioevent(TranscribeStreamingClientTypes.AudioEvent)
+        /// Contains audio channel definitions and post-call analytics settings.
+        case configurationevent(TranscribeStreamingClientTypes.ConfigurationEvent)
         case sdkUnknown(Swift.String)
     }
 
@@ -189,7 +199,7 @@ extension BadRequestException {
     }
 }
 
-/// One or more arguments to the StartStreamTranscription or StartMedicalStreamTranscription operation was invalid. For example, MediaEncoding was not set to a valid encoding, or LanguageCode was not set to a valid code. Check the parameters and try your request again.
+/// One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
 public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -222,6 +232,554 @@ extension BadRequestExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension TranscribeStreamingClientTypes.CallAnalyticsEntity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case beginOffsetMillis = "BeginOffsetMillis"
+        case category = "Category"
+        case confidence = "Confidence"
+        case content = "Content"
+        case endOffsetMillis = "EndOffsetMillis"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let beginOffsetMillis = self.beginOffsetMillis {
+            try encodeContainer.encode(beginOffsetMillis, forKey: .beginOffsetMillis)
+        }
+        if let category = self.category {
+            try encodeContainer.encode(category, forKey: .category)
+        }
+        if let confidence = self.confidence {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let endOffsetMillis = self.endOffsetMillis {
+            try encodeContainer.encode(endOffsetMillis, forKey: .endOffsetMillis)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis)
+        beginOffsetMillis = beginOffsetMillisDecoded
+        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis)
+        endOffsetMillis = endOffsetMillisDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .category)
+        category = categoryDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
+        content = contentDecoded
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .confidence)
+        confidence = confidenceDecoded
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Contains entities identified as personally identifiable information (PII) in your transcription output, along with various associated attributes. Examples include category, confidence score, content, type, and start and end times.
+    public struct CallAnalyticsEntity: Swift.Equatable {
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the identified entity.
+        public var beginOffsetMillis: Swift.Int?
+        /// The category of information identified. For example, PII.
+        public var category: Swift.String?
+        /// The confidence score associated with the identification of an entity in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified entity correctly matches the entity spoken in your media.
+        public var confidence: Swift.Double?
+        /// The word or words that represent the identified entity.
+        public var content: Swift.String?
+        /// The time, in milliseconds, from the beginning of the audio stream to the end of the identified entity.
+        public var endOffsetMillis: Swift.Int?
+        /// The type of PII identified. For example, NAME or CREDIT_DEBIT_NUMBER.
+        public var type: Swift.String?
+
+        public init (
+            beginOffsetMillis: Swift.Int? = nil,
+            category: Swift.String? = nil,
+            confidence: Swift.Double? = nil,
+            content: Swift.String? = nil,
+            endOffsetMillis: Swift.Int? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.beginOffsetMillis = beginOffsetMillis
+            self.category = category
+            self.confidence = confidence
+            self.content = content
+            self.endOffsetMillis = endOffsetMillis
+            self.type = type
+        }
+    }
+
+}
+
+extension TranscribeStreamingClientTypes.CallAnalyticsItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case beginOffsetMillis = "BeginOffsetMillis"
+        case confidence = "Confidence"
+        case content = "Content"
+        case endOffsetMillis = "EndOffsetMillis"
+        case stable = "Stable"
+        case type = "Type"
+        case vocabularyFilterMatch = "VocabularyFilterMatch"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let beginOffsetMillis = self.beginOffsetMillis {
+            try encodeContainer.encode(beginOffsetMillis, forKey: .beginOffsetMillis)
+        }
+        if let confidence = self.confidence {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let endOffsetMillis = self.endOffsetMillis {
+            try encodeContainer.encode(endOffsetMillis, forKey: .endOffsetMillis)
+        }
+        if let stable = self.stable {
+            try encodeContainer.encode(stable, forKey: .stable)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if vocabularyFilterMatch != false {
+            try encodeContainer.encode(vocabularyFilterMatch, forKey: .vocabularyFilterMatch)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis)
+        beginOffsetMillis = beginOffsetMillisDecoded
+        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis)
+        endOffsetMillis = endOffsetMillisDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.ItemType.self, forKey: .type)
+        type = typeDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
+        content = contentDecoded
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .confidence)
+        confidence = confidenceDecoded
+        let vocabularyFilterMatchDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vocabularyFilterMatch) ?? false
+        vocabularyFilterMatch = vocabularyFilterMatchDecoded
+        let stableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .stable)
+        stable = stableDecoded
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// A word, phrase, or punctuation mark in your Call Analytics transcription output, along with various associated attributes, such as confidence score, type, and start and end times.
+    public struct CallAnalyticsItem: Swift.Equatable {
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the identified item.
+        public var beginOffsetMillis: Swift.Int?
+        /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
+        public var confidence: Swift.Double?
+        /// The word or punctuation that was transcribed.
+        public var content: Swift.String?
+        /// The time, in milliseconds, from the beginning of the audio stream to the end of the identified item.
+        public var endOffsetMillis: Swift.Int?
+        /// If partial result stabilization is enabled, Stable indicates whether the specified item is stable (true) or if it may change when the segment is complete (false).
+        public var stable: Swift.Bool?
+        /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
+        public var type: TranscribeStreamingClientTypes.ItemType?
+        /// Indicates whether the specified item matches a word in the vocabulary filter included in your Call Analytics request. If true, there is a vocabulary filter match.
+        public var vocabularyFilterMatch: Swift.Bool
+
+        public init (
+            beginOffsetMillis: Swift.Int? = nil,
+            confidence: Swift.Double? = nil,
+            content: Swift.String? = nil,
+            endOffsetMillis: Swift.Int? = nil,
+            stable: Swift.Bool? = nil,
+            type: TranscribeStreamingClientTypes.ItemType? = nil,
+            vocabularyFilterMatch: Swift.Bool = false
+        )
+        {
+            self.beginOffsetMillis = beginOffsetMillis
+            self.confidence = confidence
+            self.content = content
+            self.endOffsetMillis = endOffsetMillis
+            self.stable = stable
+            self.type = type
+            self.vocabularyFilterMatch = vocabularyFilterMatch
+        }
+    }
+
+}
+
+extension TranscribeStreamingClientTypes {
+    public enum CallAnalyticsLanguageCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deDe
+        case enAu
+        case enGb
+        case enUs
+        case esUs
+        case frCa
+        case frFr
+        case itIt
+        case ptBr
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CallAnalyticsLanguageCode] {
+            return [
+                .deDe,
+                .enAu,
+                .enGb,
+                .enUs,
+                .esUs,
+                .frCa,
+                .frFr,
+                .itIt,
+                .ptBr,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deDe: return "de-DE"
+            case .enAu: return "en-AU"
+            case .enGb: return "en-GB"
+            case .enUs: return "en-US"
+            case .esUs: return "es-US"
+            case .frCa: return "fr-CA"
+            case .frFr: return "fr-FR"
+            case .itIt: return "it-IT"
+            case .ptBr: return "pt-BR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CallAnalyticsLanguageCode(rawValue: rawValue) ?? CallAnalyticsLanguageCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case badrequestexception = "BadRequestException"
+        case categoryevent = "CategoryEvent"
+        case conflictexception = "ConflictException"
+        case internalfailureexception = "InternalFailureException"
+        case limitexceededexception = "LimitExceededException"
+        case serviceunavailableexception = "ServiceUnavailableException"
+        case utteranceevent = "UtteranceEvent"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .badrequestexception(badrequestexception):
+                try container.encode(badrequestexception, forKey: .badrequestexception)
+            case let .categoryevent(categoryevent):
+                try container.encode(categoryevent, forKey: .categoryevent)
+            case let .conflictexception(conflictexception):
+                try container.encode(conflictexception, forKey: .conflictexception)
+            case let .internalfailureexception(internalfailureexception):
+                try container.encode(internalfailureexception, forKey: .internalfailureexception)
+            case let .limitexceededexception(limitexceededexception):
+                try container.encode(limitexceededexception, forKey: .limitexceededexception)
+            case let .serviceunavailableexception(serviceunavailableexception):
+                try container.encode(serviceunavailableexception, forKey: .serviceunavailableexception)
+            case let .utteranceevent(utteranceevent):
+                try container.encode(utteranceevent, forKey: .utteranceevent)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let utteranceeventDecoded = try values.decodeIfPresent(TranscribeStreamingClientTypes.UtteranceEvent.self, forKey: .utteranceevent)
+        if let utteranceevent = utteranceeventDecoded {
+            self = .utteranceevent(utteranceevent)
+            return
+        }
+        let categoryeventDecoded = try values.decodeIfPresent(TranscribeStreamingClientTypes.CategoryEvent.self, forKey: .categoryevent)
+        if let categoryevent = categoryeventDecoded {
+            self = .categoryevent(categoryevent)
+            return
+        }
+        let badrequestexceptionDecoded = try values.decodeIfPresent(BadRequestException.self, forKey: .badrequestexception)
+        if let badrequestexception = badrequestexceptionDecoded {
+            self = .badrequestexception(badrequestexception)
+            return
+        }
+        let limitexceededexceptionDecoded = try values.decodeIfPresent(LimitExceededException.self, forKey: .limitexceededexception)
+        if let limitexceededexception = limitexceededexceptionDecoded {
+            self = .limitexceededexception(limitexceededexception)
+            return
+        }
+        let internalfailureexceptionDecoded = try values.decodeIfPresent(InternalFailureException.self, forKey: .internalfailureexception)
+        if let internalfailureexception = internalfailureexceptionDecoded {
+            self = .internalfailureexception(internalfailureexception)
+            return
+        }
+        let conflictexceptionDecoded = try values.decodeIfPresent(ConflictException.self, forKey: .conflictexception)
+        if let conflictexception = conflictexceptionDecoded {
+            self = .conflictexception(conflictexception)
+            return
+        }
+        let serviceunavailableexceptionDecoded = try values.decodeIfPresent(ServiceUnavailableException.self, forKey: .serviceunavailableexception)
+        if let serviceunavailableexception = serviceunavailableexceptionDecoded {
+            self = .serviceunavailableexception(serviceunavailableexception)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Contains detailed information about your Call Analytics streaming session. These details are provided in the UtteranceEvent and CategoryEvent objects.
+    public enum CallAnalyticsTranscriptResultStream: Swift.Equatable {
+        /// Contains set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to channel definitions, partial result stabilization, sentiment, issue detection, and other transcription-related data.
+        case utteranceevent(TranscribeStreamingClientTypes.UtteranceEvent)
+        /// Provides information on matched categories that were used to generate real-time supervisor alerts.
+        case categoryevent(TranscribeStreamingClientTypes.CategoryEvent)
+        /// One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
+        case badrequestexception(BadRequestException)
+        /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+        case limitexceededexception(LimitExceededException)
+        /// A problem occurred while processing the audio. Amazon Transcribe terminated processing.
+        case internalfailureexception(InternalFailureException)
+        /// A new stream started with the same session ID. The current stream has been terminated.
+        case conflictexception(ConflictException)
+        /// The service is currently unavailable. Try your request later.
+        case serviceunavailableexception(ServiceUnavailableException)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension TranscribeStreamingClientTypes.CategoryEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case matchedCategories = "MatchedCategories"
+        case matchedDetails = "MatchedDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let matchedCategories = matchedCategories {
+            var matchedCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchedCategories)
+            for stringlist0 in matchedCategories {
+                try matchedCategoriesContainer.encode(stringlist0)
+            }
+        }
+        if let matchedDetails = matchedDetails {
+            var matchedDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .matchedDetails)
+            for (dictKey0, matchedcategorydetails0) in matchedDetails {
+                try matchedDetailsContainer.encode(matchedcategorydetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let matchedCategoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .matchedCategories)
+        var matchedCategoriesDecoded0:[Swift.String]? = nil
+        if let matchedCategoriesContainer = matchedCategoriesContainer {
+            matchedCategoriesDecoded0 = [Swift.String]()
+            for string0 in matchedCategoriesContainer {
+                if let string0 = string0 {
+                    matchedCategoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        matchedCategories = matchedCategoriesDecoded0
+        let matchedDetailsContainer = try containerValues.decodeIfPresent([Swift.String: TranscribeStreamingClientTypes.PointsOfInterest?].self, forKey: .matchedDetails)
+        var matchedDetailsDecoded0: [Swift.String:TranscribeStreamingClientTypes.PointsOfInterest]? = nil
+        if let matchedDetailsContainer = matchedDetailsContainer {
+            matchedDetailsDecoded0 = [Swift.String:TranscribeStreamingClientTypes.PointsOfInterest]()
+            for (key0, pointsofinterest0) in matchedDetailsContainer {
+                if let pointsofinterest0 = pointsofinterest0 {
+                    matchedDetailsDecoded0?[key0] = pointsofinterest0
+                }
+            }
+        }
+        matchedDetails = matchedDetailsDecoded0
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Provides information on any TranscriptFilterType categories that matched your transcription output. Matches are identified for each segment upon completion of that segment.
+    public struct CategoryEvent: Swift.Equatable {
+        /// Lists the categories that were matched in your audio segment.
+        public var matchedCategories: [Swift.String]?
+        /// Contains information about the matched categories, including category names and timestamps.
+        public var matchedDetails: [Swift.String:TranscribeStreamingClientTypes.PointsOfInterest]?
+
+        public init (
+            matchedCategories: [Swift.String]? = nil,
+            matchedDetails: [Swift.String:TranscribeStreamingClientTypes.PointsOfInterest]? = nil
+        )
+        {
+            self.matchedCategories = matchedCategories
+            self.matchedDetails = matchedDetails
+        }
+    }
+
+}
+
+extension TranscribeStreamingClientTypes.ChannelDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelId = "ChannelId"
+        case participantRole = "ParticipantRole"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if channelId != 0 {
+            try encodeContainer.encode(channelId, forKey: .channelId)
+        }
+        if let participantRole = self.participantRole {
+            try encodeContainer.encode(participantRole.rawValue, forKey: .participantRole)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .channelId) ?? 0
+        channelId = channelIdDecoded
+        let participantRoleDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.ParticipantRole.self, forKey: .participantRole)
+        participantRole = participantRoleDecoded
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Makes it possible to specify which speaker is on which audio channel. For example, if your agent is the first participant to speak, you would set ChannelId to 0 (to indicate the first channel) and ParticipantRole to AGENT (to indicate that it's the agent speaking).
+    public struct ChannelDefinition: Swift.Equatable {
+        /// Specify the audio channel you want to define.
+        /// This member is required.
+        public var channelId: Swift.Int
+        /// Specify the speaker you want to define. Omitting this parameter is equivalent to specifying both participants.
+        /// This member is required.
+        public var participantRole: TranscribeStreamingClientTypes.ParticipantRole?
+
+        public init (
+            channelId: Swift.Int = 0,
+            participantRole: TranscribeStreamingClientTypes.ParticipantRole? = nil
+        )
+        {
+            self.channelId = channelId
+            self.participantRole = participantRole
+        }
+    }
+
+}
+
+extension TranscribeStreamingClientTypes.CharacterOffsets: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case begin = "Begin"
+        case end = "End"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let begin = self.begin {
+            try encodeContainer.encode(begin, forKey: .begin)
+        }
+        if let end = self.end {
+            try encodeContainer.encode(end, forKey: .end)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let beginDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .begin)
+        begin = beginDecoded
+        let endDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .end)
+        end = endDecoded
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Provides the location, using character count, in your transcript where a match is identified. For example, the location of an issue or a category match within a segment.
+    public struct CharacterOffsets: Swift.Equatable {
+        /// Provides the character count of the first character where a match is identified. For example, the first character associated with an issue or a category match in a segment transcript.
+        public var begin: Swift.Int?
+        /// Provides the character count of the last character where a match is identified. For example, the last character associated with an issue or a category match in a segment transcript.
+        public var end: Swift.Int?
+
+        public init (
+            begin: Swift.Int? = nil,
+            end: Swift.Int? = nil
+        )
+        {
+            self.begin = begin
+            self.end = end
+        }
+    }
+
+}
+
+extension TranscribeStreamingClientTypes.ConfigurationEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelDefinitions = "ChannelDefinitions"
+        case postCallAnalyticsSettings = "PostCallAnalyticsSettings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channelDefinitions = channelDefinitions {
+            var channelDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channelDefinitions)
+            for channeldefinitions0 in channelDefinitions {
+                try channelDefinitionsContainer.encode(channeldefinitions0)
+            }
+        }
+        if let postCallAnalyticsSettings = self.postCallAnalyticsSettings {
+            try encodeContainer.encode(postCallAnalyticsSettings, forKey: .postCallAnalyticsSettings)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelDefinitionsContainer = try containerValues.decodeIfPresent([TranscribeStreamingClientTypes.ChannelDefinition?].self, forKey: .channelDefinitions)
+        var channelDefinitionsDecoded0:[TranscribeStreamingClientTypes.ChannelDefinition]? = nil
+        if let channelDefinitionsContainer = channelDefinitionsContainer {
+            channelDefinitionsDecoded0 = [TranscribeStreamingClientTypes.ChannelDefinition]()
+            for structure0 in channelDefinitionsContainer {
+                if let structure0 = structure0 {
+                    channelDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        channelDefinitions = channelDefinitionsDecoded0
+        let postCallAnalyticsSettingsDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.PostCallAnalyticsSettings.self, forKey: .postCallAnalyticsSettings)
+        postCallAnalyticsSettings = postCallAnalyticsSettingsDecoded
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Allows you to set audio channel definitions and post-call analytics settings.
+    public struct ConfigurationEvent: Swift.Equatable {
+        /// Indicates which speaker is on which audio channel.
+        public var channelDefinitions: [TranscribeStreamingClientTypes.ChannelDefinition]?
+        /// Provides additional optional settings for your Call Analytics post-call request, including encryption and output locations for your redacted and unredacted transcript.
+        public var postCallAnalyticsSettings: TranscribeStreamingClientTypes.PostCallAnalyticsSettings?
+
+        public init (
+            channelDefinitions: [TranscribeStreamingClientTypes.ChannelDefinition]? = nil,
+            postCallAnalyticsSettings: TranscribeStreamingClientTypes.PostCallAnalyticsSettings? = nil
+        )
+        {
+            self.channelDefinitions = channelDefinitions
+            self.postCallAnalyticsSettings = postCallAnalyticsSettings
+        }
+    }
+
 }
 
 extension ConflictException: Swift.Codable {
@@ -325,6 +883,38 @@ extension TranscribeStreamingClientTypes {
 }
 
 extension TranscribeStreamingClientTypes {
+    public enum ContentRedactionOutput: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case redacted
+        case redactedAndUnredacted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentRedactionOutput] {
+            return [
+                .redacted,
+                .redactedAndUnredacted,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .redacted: return "redacted"
+            case .redactedAndUnredacted: return "redacted_and_unredacted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContentRedactionOutput(rawValue: rawValue) ?? ContentRedactionOutput.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes {
     public enum ContentRedactionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case pii
         case sdkUnknown(Swift.String)
@@ -403,19 +993,19 @@ extension TranscribeStreamingClientTypes.Entity: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// The entity identified as personally identifiable information (PII).
+    /// Contains entities identified as personally identifiable information (PII) in your transcription output, along with various associated attributes. Examples include category, confidence score, type, stability score, and start and end times.
     public struct Entity: Swift.Equatable {
-        /// The category of information identified in this entity; for example, PII.
+        /// The category of information identified. The only category is PII.
         public var category: Swift.String?
-        /// A value between zero and one that Amazon Transcribe assigns to PII identified in the source audio. Larger values indicate a higher confidence in PII identification.
+        /// The confidence score associated with the identified PII entity in your audio. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified entity correctly matches the entity spoken in your media.
         public var confidence: Swift.Double?
-        /// The words in the transcription output that have been identified as a PII entity.
+        /// The word or words identified as PII.
         public var content: Swift.String?
-        /// The end time of speech that was identified as PII.
+        /// The end time, in milliseconds, of the utterance that was identified as PII.
         public var endTime: Swift.Double
-        /// The start time of speech that was identified as PII.
+        /// The start time, in milliseconds, of the utterance that was identified as PII.
         public var startTime: Swift.Double
-        /// The type of PII identified in this entity; for example, name or credit card number.
+        /// The type of PII identified. For example, NAME or CREDIT_DEBIT_NUMBER.
         public var type: Swift.String?
 
         public init (
@@ -474,7 +1064,7 @@ extension InternalFailureException {
     }
 }
 
-/// A problem occurred while processing the audio. Amazon Transcribe or Amazon Transcribe Medical terminated processing. Try your request again.
+/// A problem occurred while processing the audio. Amazon Transcribe terminated processing.
 public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -507,6 +1097,41 @@ extension InternalFailureExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension TranscribeStreamingClientTypes.IssueDetected: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case characterOffsets = "CharacterOffsets"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let characterOffsets = self.characterOffsets {
+            try encodeContainer.encode(characterOffsets, forKey: .characterOffsets)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let characterOffsetsDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.CharacterOffsets.self, forKey: .characterOffsets)
+        characterOffsets = characterOffsetsDecoded
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Lists the issues that were identified in your audio segment.
+    public struct IssueDetected: Swift.Equatable {
+        /// Provides the timestamps that identify when in an audio segment the specified issue occurs.
+        public var characterOffsets: TranscribeStreamingClientTypes.CharacterOffsets?
+
+        public init (
+            characterOffsets: TranscribeStreamingClientTypes.CharacterOffsets? = nil
+        )
+        {
+            self.characterOffsets = characterOffsets
+        }
+    }
+
 }
 
 extension TranscribeStreamingClientTypes.Item: Swift.Codable {
@@ -571,23 +1196,23 @@ extension TranscribeStreamingClientTypes.Item: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// A word, phrase, or punctuation mark that is transcribed from the input audio.
+    /// A word, phrase, or punctuation mark in your transcription output, along with various associated attributes, such as confidence score, type, and start and end times.
     public struct Item: Swift.Equatable {
-        /// A value between zero and one for an item that is a confidence score that Amazon Transcribe assigns to each word or phrase that it transcribes.
+        /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
         public var confidence: Swift.Double?
-        /// The word or punctuation that was recognized in the input audio.
+        /// The word or punctuation that was transcribed.
         public var content: Swift.String?
-        /// The offset from the beginning of the audio stream to the end of the audio that resulted in the item.
+        /// The end time, in milliseconds, of the transcribed item.
         public var endTime: Swift.Double
-        /// If speaker identification is enabled, shows the speakers identified in the media stream.
+        /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public var speaker: Swift.String?
-        /// If partial result stabilization has been enabled, indicates whether the word or phrase in the item is stable. If Stable is true, the result is stable.
+        /// If partial result stabilization is enabled, Stable indicates whether the specified item is stable (true) or if it may change when the segment is complete (false).
         public var stable: Swift.Bool?
-        /// The offset from the beginning of the audio stream to the beginning of the audio that resulted in the item.
+        /// The start time, in milliseconds, of the transcribed item.
         public var startTime: Swift.Double
-        /// The type of the item. PRONUNCIATION indicates that the item is a word that was recognized in the input audio. PUNCTUATION indicates that the item was interpreted as a pause in the input audio.
+        /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
         public var type: TranscribeStreamingClientTypes.ItemType?
-        /// Indicates whether a word in the item matches a word in the vocabulary filter you've chosen for your media stream. If true then a word in the item matches your vocabulary filter.
+        /// Indicates whether the specified item matches a word in the vocabulary filter included in your request. If true, there is a vocabulary filter match.
         public var vocabularyFilterMatch: Swift.Bool
 
         public init (
@@ -655,10 +1280,12 @@ extension TranscribeStreamingClientTypes {
         case esUs
         case frCa
         case frFr
+        case hiIn
         case itIt
         case jaJp
         case koKr
         case ptBr
+        case thTh
         case zhCn
         case sdkUnknown(Swift.String)
 
@@ -671,10 +1298,12 @@ extension TranscribeStreamingClientTypes {
                 .esUs,
                 .frCa,
                 .frFr,
+                .hiIn,
                 .itIt,
                 .jaJp,
                 .koKr,
                 .ptBr,
+                .thTh,
                 .zhCn,
                 .sdkUnknown("")
             ]
@@ -692,10 +1321,12 @@ extension TranscribeStreamingClientTypes {
             case .esUs: return "es-US"
             case .frCa: return "fr-CA"
             case .frFr: return "fr-FR"
+            case .hiIn: return "hi-IN"
             case .itIt: return "it-IT"
             case .jaJp: return "ja-JP"
             case .koKr: return "ko-KR"
             case .ptBr: return "pt-BR"
+            case .thTh: return "th-TH"
             case .zhCn: return "zh-CN"
             case let .sdkUnknown(s): return s
             }
@@ -734,11 +1365,11 @@ extension TranscribeStreamingClientTypes.LanguageWithScore: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// The language codes of the identified languages and their associated confidence scores. The confidence score is a value between zero and one; a larger value indicates a higher confidence in the identified language.
+    /// The language code that represents the language identified in your audio, including the associated confidence score. If you enabled channel identification in your request and each channel contained a different language, you will have more than one LanguageWithScore result.
     public struct LanguageWithScore: Swift.Equatable {
-        /// The language code of the language identified by Amazon Transcribe.
+        /// The language code of the identified language.
         public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
-        /// The confidence score for the associated language code. Confidence scores are values between zero and one; larger values indicate a higher confidence in the identified language.
+        /// The confidence score associated with the identified language code. Confidence scores are values between zero and one; larger values indicate a higher confidence in the identified language.
         public var score: Swift.Double
 
         public init (
@@ -789,7 +1420,7 @@ extension LimitExceededException {
     }
 }
 
-/// You have exceeded the maximum number of concurrent transcription streams, are starting transcription streams too quickly, or the maximum audio length of 4 hours. Wait until a stream has finished processing, or break your audio stream into smaller chunks and try your request again.
+/// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
 public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -915,13 +1546,13 @@ extension TranscribeStreamingClientTypes.MedicalAlternative: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// A list of possible transcriptions for the audio.
+    /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
     public struct MedicalAlternative: Swift.Equatable {
-        /// Contains the medical entities identified as personal health information in the transcription output.
+        /// Contains entities identified as personal health information (PHI) in your transcription output.
         public var entities: [TranscribeStreamingClientTypes.MedicalEntity]?
-        /// A list of objects that contains words and punctuation marks that represents one or more interpretations of the input audio.
+        /// Contains words, phrases, or punctuation marks in your transcription output.
         public var items: [TranscribeStreamingClientTypes.MedicalItem]?
-        /// The text that was transcribed from the audio.
+        /// Contains transcribed text.
         public var transcript: Swift.String?
 
         public init (
@@ -1011,17 +1642,17 @@ extension TranscribeStreamingClientTypes.MedicalEntity: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// The medical entity identified as personal health information.
+    /// Contains entities identified as personal health information (PHI) in your transcription output, along with various associated attributes. Examples include category, confidence score, type, stability score, and start and end times.
     public struct MedicalEntity: Swift.Equatable {
-        /// The type of personal health information of the medical entity.
+        /// The category of information identified. The only category is PHI.
         public var category: Swift.String?
-        /// A value between zero and one that Amazon Transcribe Medical assigned to the personal health information that it identified in the source audio. Larger values indicate that Amazon Transcribe Medical has higher confidence in the personal health information that it identified.
+        /// The confidence score associated with the identified PHI entity in your audio. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified entity correctly matches the entity spoken in your media.
         public var confidence: Swift.Double?
-        /// The word or words in the transcription output that have been identified as a medical entity.
+        /// The word or words identified as PHI.
         public var content: Swift.String?
-        /// The end time of the speech that was identified as a medical entity.
+        /// The end time, in milliseconds, of the utterance that was identified as PHI.
         public var endTime: Swift.Double
-        /// The start time of the speech that was identified as a medical entity.
+        /// The start time, in milliseconds, of the utterance that was identified as PHI.
         public var startTime: Swift.Double
 
         public init (
@@ -1092,19 +1723,19 @@ extension TranscribeStreamingClientTypes.MedicalItem: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// A word, phrase, or punctuation mark that is transcribed from the input audio.
+    /// A word, phrase, or punctuation mark in your transcription output, along with various associated attributes, such as confidence score, type, and start and end times.
     public struct MedicalItem: Swift.Equatable {
-        /// A value between 0 and 1 for an item that is a confidence score that Amazon Transcribe Medical assigns to each word that it transcribes.
+        /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
         public var confidence: Swift.Double?
-        /// The word or punctuation mark that was recognized in the input audio.
+        /// The word or punctuation that was transcribed.
         public var content: Swift.String?
-        /// The number of seconds into an audio stream that indicates the creation time of an item.
+        /// The end time, in milliseconds, of the transcribed item.
         public var endTime: Swift.Double
-        /// If speaker identification is enabled, shows the integer values that correspond to the different speakers identified in the stream. For example, if the value of Speaker in the stream is either a 0 or a 1, that indicates that Amazon Transcribe Medical has identified two speakers in the stream. The value of 0 corresponds to one speaker and the value of 1 corresponds to the other speaker.
+        /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public var speaker: Swift.String?
-        /// The number of seconds into an audio stream that indicates the creation time of an item.
+        /// The start time, in milliseconds, of the transcribed item.
         public var startTime: Swift.Double
-        /// The type of the item. PRONUNCIATION indicates that the item is a word that was recognized in the input audio. PUNCTUATION indicates that the item was interpreted as a pause in the input audio, such as a period to indicate the end of a sentence.
+        /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
         public var type: TranscribeStreamingClientTypes.ItemType?
 
         public init (
@@ -1189,19 +1820,19 @@ extension TranscribeStreamingClientTypes.MedicalResult: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// The results of transcribing a portion of the input audio stream.
+    /// The Result associated with a . Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
     public struct MedicalResult: Swift.Equatable {
-        /// A list of possible transcriptions of the audio. Each alternative typically contains one Item that contains the result of the transcription.
+        /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
         public var alternatives: [TranscribeStreamingClientTypes.MedicalAlternative]?
-        /// When channel identification is enabled, Amazon Transcribe Medical transcribes the speech from each audio channel separately. You can use ChannelId to retrieve the transcription results for a single channel in your audio stream.
+        /// Indicates the channel identified for the Result.
         public var channelId: Swift.String?
-        /// The time, in seconds, from the beginning of the audio stream to the end of the result.
+        /// The end time, in milliseconds, of the Result.
         public var endTime: Swift.Double
-        /// Amazon Transcribe Medical divides the incoming audio stream into segments at natural points in the audio. Transcription results are returned based on these segments. The IsPartial field is true to indicate that Amazon Transcribe Medical has additional transcription data to send. The IsPartial field is false to indicate that this is the last transcription result for the segment.
+        /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public var isPartial: Swift.Bool
-        /// A unique identifier for the result.
+        /// Provides a unique identifier for the Result.
         public var resultId: Swift.String?
-        /// The time, in seconds, from the beginning of the audio stream to the beginning of the result.
+        /// The start time, in milliseconds, of the Result.
         public var startTime: Swift.Double
 
         public init (
@@ -1256,9 +1887,9 @@ extension TranscribeStreamingClientTypes.MedicalTranscript: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// The medical transcript in a [MedicalTranscriptEvent].
+    /// The MedicalTranscript associated with a . MedicalTranscript contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
     public struct MedicalTranscript: Swift.Equatable {
-        /// [MedicalResult] objects that contain the results of transcribing a portion of the input audio stream. The array can be empty.
+        /// Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public var results: [TranscribeStreamingClientTypes.MedicalResult]?
 
         public init (
@@ -1291,9 +1922,9 @@ extension TranscribeStreamingClientTypes.MedicalTranscriptEvent: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// Represents a set of transcription results from the server to the client. It contains one or more segments of the transcription.
+    /// The MedicalTranscriptEvent associated with a MedicalTranscriptResultStream. Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
     public struct MedicalTranscriptEvent: Swift.Equatable {
-        /// The transcription of the audio stream. The transcription is composed of all of the items in the results list.
+        /// Contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public var transcript: TranscribeStreamingClientTypes.MedicalTranscript?
 
         public init (
@@ -1374,19 +2005,19 @@ extension TranscribeStreamingClientTypes.MedicalTranscriptResultStream: Swift.Co
 }
 
 extension TranscribeStreamingClientTypes {
-    /// Represents the transcription result stream from Amazon Transcribe Medical to your application.
+    /// Contains detailed information about your streaming session.
     public enum MedicalTranscriptResultStream: Swift.Equatable {
-        /// A portion of the transcription of the audio stream. Events are sent periodically from Amazon Transcribe Medical to your application. The event can be a partial transcription of a section of the audio stream, or it can be the entire transcription of that portion of the audio stream.
+        /// The MedicalTranscriptEvent associated with a MedicalTranscriptResultStream. Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         case transcriptevent(TranscribeStreamingClientTypes.MedicalTranscriptEvent)
-        /// One or more arguments to the StartStreamTranscription or StartMedicalStreamTranscription operation was invalid. For example, MediaEncoding was not set to a valid encoding, or LanguageCode was not set to a valid code. Check the parameters and try your request again.
+        /// One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
         case badrequestexception(BadRequestException)
-        /// You have exceeded the maximum number of concurrent transcription streams, are starting transcription streams too quickly, or the maximum audio length of 4 hours. Wait until a stream has finished processing, or break your audio stream into smaller chunks and try your request again.
+        /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
         case limitexceededexception(LimitExceededException)
-        /// A problem occurred while processing the audio. Amazon Transcribe or Amazon Transcribe Medical terminated processing. Try your request again.
+        /// A problem occurred while processing the audio. Amazon Transcribe terminated processing.
         case internalfailureexception(InternalFailureException)
         /// A new stream started with the same session ID. The current stream has been terminated.
         case conflictexception(ConflictException)
-        /// Service is currently unavailable. Try your request later.
+        /// The service is currently unavailable. Try your request later.
         case serviceunavailableexception(ServiceUnavailableException)
         case sdkUnknown(Swift.String)
     }
@@ -1426,6 +2057,176 @@ extension TranscribeStreamingClientTypes {
             self = PartialResultsStability(rawValue: rawValue) ?? PartialResultsStability.sdkUnknown(rawValue)
         }
     }
+}
+
+extension TranscribeStreamingClientTypes {
+    public enum ParticipantRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case agent
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParticipantRole] {
+            return [
+                .agent,
+                .customer,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case .customer: return "CUSTOMER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ParticipantRole(rawValue: rawValue) ?? ParticipantRole.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes.PointsOfInterest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case timestampRanges = "TimestampRanges"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let timestampRanges = timestampRanges {
+            var timestampRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timestampRanges)
+            for timestampranges0 in timestampRanges {
+                try timestampRangesContainer.encode(timestampranges0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timestampRangesContainer = try containerValues.decodeIfPresent([TranscribeStreamingClientTypes.TimestampRange?].self, forKey: .timestampRanges)
+        var timestampRangesDecoded0:[TranscribeStreamingClientTypes.TimestampRange]? = nil
+        if let timestampRangesContainer = timestampRangesContainer {
+            timestampRangesDecoded0 = [TranscribeStreamingClientTypes.TimestampRange]()
+            for structure0 in timestampRangesContainer {
+                if let structure0 = structure0 {
+                    timestampRangesDecoded0?.append(structure0)
+                }
+            }
+        }
+        timestampRanges = timestampRangesDecoded0
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Contains the timestamps of matched categories.
+    public struct PointsOfInterest: Swift.Equatable {
+        /// Contains the timestamp ranges (start time through end time) of matched categories and rules.
+        public var timestampRanges: [TranscribeStreamingClientTypes.TimestampRange]?
+
+        public init (
+            timestampRanges: [TranscribeStreamingClientTypes.TimestampRange]? = nil
+        )
+        {
+            self.timestampRanges = timestampRanges
+        }
+    }
+
+}
+
+extension TranscribeStreamingClientTypes.PostCallAnalyticsSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contentRedactionOutput = "ContentRedactionOutput"
+        case dataAccessRoleArn = "DataAccessRoleArn"
+        case outputEncryptionKMSKeyId = "OutputEncryptionKMSKeyId"
+        case outputLocation = "OutputLocation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contentRedactionOutput = self.contentRedactionOutput {
+            try encodeContainer.encode(contentRedactionOutput.rawValue, forKey: .contentRedactionOutput)
+        }
+        if let dataAccessRoleArn = self.dataAccessRoleArn {
+            try encodeContainer.encode(dataAccessRoleArn, forKey: .dataAccessRoleArn)
+        }
+        if let outputEncryptionKMSKeyId = self.outputEncryptionKMSKeyId {
+            try encodeContainer.encode(outputEncryptionKMSKeyId, forKey: .outputEncryptionKMSKeyId)
+        }
+        if let outputLocation = self.outputLocation {
+            try encodeContainer.encode(outputLocation, forKey: .outputLocation)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outputLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputLocation)
+        outputLocation = outputLocationDecoded
+        let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
+        dataAccessRoleArn = dataAccessRoleArnDecoded
+        let contentRedactionOutputDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.ContentRedactionOutput.self, forKey: .contentRedactionOutput)
+        contentRedactionOutput = contentRedactionOutputDecoded
+        let outputEncryptionKMSKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputEncryptionKMSKeyId)
+        outputEncryptionKMSKeyId = outputEncryptionKMSKeyIdDecoded
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Allows you to specify additional settings for your streaming Call Analytics post-call request, including output locations for your redacted and unredacted transcript, which IAM role to use, and, optionally, which encryption key to use. ContentRedactionOutput, DataAccessRoleArn, and OutputLocation are required fields.
+    public struct PostCallAnalyticsSettings: Swift.Equatable {
+        /// Specify whether you want only a redacted transcript or both a redacted and an unredacted transcript. If you choose redacted and unredacted, two JSON files are generated and stored in the Amazon S3 output location you specify. Note that to include ContentRedactionOutput in your request, you must enable content redaction (ContentRedactionType).
+        public var contentRedactionOutput: TranscribeStreamingClientTypes.ContentRedactionOutput?
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+        /// This member is required.
+        public var dataAccessRoleArn: Swift.String?
+        /// The KMS key you want to use to encrypt your Call Analytics post-call output. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:
+        ///
+        /// * Use the KMS key ID itself. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
+        ///
+        /// * Use an alias for the KMS key ID. For example, alias/ExampleAlias.
+        ///
+        /// * Use the Amazon Resource Name (ARN) for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+        ///
+        /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+        ///
+        ///
+        /// If using a key located in a different Amazon Web Services account than the current Amazon Web Services account, you can specify your KMS key in one of two ways:
+        ///
+        /// * Use the ARN for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+        ///
+        /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+        ///
+        ///
+        /// Note that the user making the request must have permission to use the specified KMS key.
+        public var outputEncryptionKMSKeyId: Swift.String?
+        /// The Amazon S3 location where you want your Call Analytics post-call transcription output stored. You can use any of the following formats to specify the output location:
+        ///
+        /// * s3://DOC-EXAMPLE-BUCKET
+        ///
+        /// * s3://DOC-EXAMPLE-BUCKET/my-output-folder/
+        ///
+        /// * s3://DOC-EXAMPLE-BUCKET/my-output-folder/my-call-analytics-job.json
+        /// This member is required.
+        public var outputLocation: Swift.String?
+
+        public init (
+            contentRedactionOutput: TranscribeStreamingClientTypes.ContentRedactionOutput? = nil,
+            dataAccessRoleArn: Swift.String? = nil,
+            outputEncryptionKMSKeyId: Swift.String? = nil,
+            outputLocation: Swift.String? = nil
+        )
+        {
+            self.contentRedactionOutput = contentRedactionOutput
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
+            self.outputLocation = outputLocation
+        }
+    }
+
 }
 
 extension TranscribeStreamingClientTypes.Result: Swift.Codable {
@@ -1514,23 +2315,23 @@ extension TranscribeStreamingClientTypes.Result: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// The result of transcribing a portion of the input audio stream.
+    /// The Result associated with a . Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
     public struct Result: Swift.Equatable {
-        /// A list of possible transcriptions for the audio. Each alternative typically contains one item that contains the result of the transcription.
+        /// A list of possible alternative transcriptions for the input audio. Each alternative may contain one or more of Items, Entities, or Transcript.
         public var alternatives: [TranscribeStreamingClientTypes.Alternative]?
-        /// When channel identification is enabled, Amazon Transcribe transcribes the speech from each audio channel separately. You can use ChannelId to retrieve the transcription results for a single channel in your audio stream.
+        /// Indicates which audio channel is associated with the Result.
         public var channelId: Swift.String?
-        /// The offset in seconds from the beginning of the audio stream to the end of the result.
+        /// The end time, in milliseconds, of the Result.
         public var endTime: Swift.Double
-        /// Amazon Transcribe divides the incoming audio stream into segments at natural points in the audio. Transcription results are returned based on these segments. The IsPartial field is true to indicate that Amazon Transcribe has additional transcription data to send, false to indicate that this is the last transcription result for the segment.
+        /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public var isPartial: Swift.Bool
-        /// The language code of the identified language in your media stream.
+        /// The language code that represents the language spoken in your audio stream.
         public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
-        /// The language code of the dominant language identified in your media.
+        /// The language code of the dominant language identified in your stream. If you enabled channel identification and each channel of your audio contains a different language, you may have more than one result.
         public var languageIdentification: [TranscribeStreamingClientTypes.LanguageWithScore]?
-        /// A unique identifier for the result.
+        /// Provides a unique identifier for the Result.
         public var resultId: Swift.String?
-        /// The offset in seconds from the beginning of the audio stream to the beginning of the result.
+        /// The start time, in milliseconds, of the Result.
         public var startTime: Swift.Double
 
         public init (
@@ -1555,6 +2356,44 @@ extension TranscribeStreamingClientTypes {
         }
     }
 
+}
+
+extension TranscribeStreamingClientTypes {
+    public enum Sentiment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case mixed
+        case negative
+        case neutral
+        case positive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Sentiment] {
+            return [
+                .mixed,
+                .negative,
+                .neutral,
+                .positive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .mixed: return "MIXED"
+            case .negative: return "NEGATIVE"
+            case .neutral: return "NEUTRAL"
+            case .positive: return "POSITIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Sentiment(rawValue: rawValue) ?? Sentiment.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ServiceUnavailableException: Swift.Codable {
@@ -1593,7 +2432,7 @@ extension ServiceUnavailableException {
     }
 }
 
-/// Service is currently unavailable. Try your request later.
+/// The service is currently unavailable. Try your request later.
 public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1669,6 +2508,402 @@ extension TranscribeStreamingClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = Specialty(rawValue: rawValue) ?? Specialty.sdkUnknown(rawValue)
         }
+    }
+}
+
+public struct StartCallAnalyticsStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "StartCallAnalyticsStreamTranscriptionInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<StartCallAnalyticsStreamTranscriptionInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        do {
+            let encoder = context.getEncoder()
+            if let audioStream = input.operationInput.audioStream {
+                let audioStreamdata = try encoder.encode(audioStream)
+                let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
+                input.builder.withBody(audioStreambody)
+            } else {
+                if encoder is JSONEncoder {
+                    // Encode an empty body as an empty structure in JSON
+                    let audioStreamdata = "{}".data(using: .utf8)!
+                    let audioStreambody = ClientRuntime.HttpBody.data(audioStreamdata)
+                    input.builder.withBody(audioStreambody)
+                }
+            }
+        } catch let err {
+            throw SdkError<StartCallAnalyticsStreamTranscriptionOutputError>.client(ClientRuntime.ClientError.serializationFailed(err.localizedDescription))
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<StartCallAnalyticsStreamTranscriptionInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension StartCallAnalyticsStreamTranscriptionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audioStream = "AudioStream"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let audioStream = self.audioStream {
+            try encodeContainer.encode(audioStream, forKey: .audioStream)
+        }
+    }
+}
+
+extension StartCallAnalyticsStreamTranscriptionInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let contentIdentificationType = contentIdentificationType {
+            items.add(Header(name: "x-amzn-transcribe-content-identification-type", value: Swift.String(contentIdentificationType.rawValue)))
+        }
+        if let contentRedactionType = contentRedactionType {
+            items.add(Header(name: "x-amzn-transcribe-content-redaction-type", value: Swift.String(contentRedactionType.rawValue)))
+        }
+        if enablePartialResultsStabilization != false {
+            items.add(Header(name: "x-amzn-transcribe-enable-partial-results-stabilization", value: Swift.String(enablePartialResultsStabilization)))
+        }
+        if let languageCode = languageCode {
+            items.add(Header(name: "x-amzn-transcribe-language-code", value: Swift.String(languageCode.rawValue)))
+        }
+        if let languageModelName = languageModelName {
+            items.add(Header(name: "x-amzn-transcribe-language-model-name", value: Swift.String(languageModelName)))
+        }
+        if let mediaEncoding = mediaEncoding {
+            items.add(Header(name: "x-amzn-transcribe-media-encoding", value: Swift.String(mediaEncoding.rawValue)))
+        }
+        if let mediaSampleRateHertz = mediaSampleRateHertz {
+            items.add(Header(name: "x-amzn-transcribe-sample-rate", value: Swift.String(mediaSampleRateHertz)))
+        }
+        if let partialResultsStability = partialResultsStability {
+            items.add(Header(name: "x-amzn-transcribe-partial-results-stability", value: Swift.String(partialResultsStability.rawValue)))
+        }
+        if let piiEntityTypes = piiEntityTypes {
+            items.add(Header(name: "x-amzn-transcribe-pii-entity-types", value: Swift.String(piiEntityTypes)))
+        }
+        if let sessionId = sessionId {
+            items.add(Header(name: "x-amzn-transcribe-session-id", value: Swift.String(sessionId)))
+        }
+        if let vocabularyFilterMethod = vocabularyFilterMethod {
+            items.add(Header(name: "x-amzn-transcribe-vocabulary-filter-method", value: Swift.String(vocabularyFilterMethod.rawValue)))
+        }
+        if let vocabularyFilterName = vocabularyFilterName {
+            items.add(Header(name: "x-amzn-transcribe-vocabulary-filter-name", value: Swift.String(vocabularyFilterName)))
+        }
+        if let vocabularyName = vocabularyName {
+            items.add(Header(name: "x-amzn-transcribe-vocabulary-name", value: Swift.String(vocabularyName)))
+        }
+        return items
+    }
+}
+
+extension StartCallAnalyticsStreamTranscriptionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/call-analytics-stream-transcription"
+    }
+}
+
+public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
+    /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
+    /// This member is required.
+    public var audioStream: TranscribeStreamingClientTypes.AudioStream?
+    /// Labels all personally identifiable information (PII) identified in your transcript. Content identification is performed at the segment level; PII specified in PiiEntityTypes is flagged upon complete transcription of an audio segment. You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
+    public var contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType?
+    /// Redacts all personally identifiable information (PII) identified in your transcript. Content redaction is performed at the segment level; PII specified in PiiEntityTypes is redacted upon complete transcription of an audio segment. You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
+    public var contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType?
+    /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
+    public var enablePartialResultsStabilization: Swift.Bool
+    /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages supported with streaming Call Analytics, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
+    /// This member is required.
+    public var languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode?
+    /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch. For more information, see [Custom language models](https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html).
+    public var languageModelName: Swift.String?
+    /// Specify the encoding of your input audio. Supported formats are:
+    ///
+    /// * FLAC
+    ///
+    /// * OPUS-encoded audio in an Ogg container
+    ///
+    /// * PCM (only signed 16-bit little-endian audio formats, which does not include WAV)
+    ///
+    ///
+    /// For more information, see [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio).
+    /// This member is required.
+    public var mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding?
+    /// The sample rate of the input audio (in hertz). Low-quality audio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
+    /// This member is required.
+    public var mediaSampleRateHertz: Swift.Int?
+    /// Specify the level of stability to use when you enable partial results stabilization (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
+    public var partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability?
+    /// Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL. To include PiiEntityTypes in your Call Analytics request, you must also include either ContentIdentificationType or ContentRedactionType. Values must be comma-separated and can include: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL, ADDRESS, NAME, PHONE, SSN, or ALL.
+    public var piiEntityTypes: Swift.String?
+    /// Specify a name for your Call Analytics transcription session. If you don't include this parameter in your request, Amazon Transcribe generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
+    public var sessionId: Swift.String?
+    /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
+    public var vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod?
+    /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription. For more information, see [Using vocabulary filtering with unwanted words](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
+    public var vocabularyFilterName: Swift.String?
+    /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
+    public var vocabularyName: Swift.String?
+
+    public init (
+        audioStream: TranscribeStreamingClientTypes.AudioStream? = nil,
+        contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType? = nil,
+        contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType? = nil,
+        enablePartialResultsStabilization: Swift.Bool = false,
+        languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode? = nil,
+        languageModelName: Swift.String? = nil,
+        mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding? = nil,
+        mediaSampleRateHertz: Swift.Int? = nil,
+        partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability? = nil,
+        piiEntityTypes: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
+        vocabularyFilterName: Swift.String? = nil,
+        vocabularyName: Swift.String? = nil
+    )
+    {
+        self.audioStream = audioStream
+        self.contentIdentificationType = contentIdentificationType
+        self.contentRedactionType = contentRedactionType
+        self.enablePartialResultsStabilization = enablePartialResultsStabilization
+        self.languageCode = languageCode
+        self.languageModelName = languageModelName
+        self.mediaEncoding = mediaEncoding
+        self.mediaSampleRateHertz = mediaSampleRateHertz
+        self.partialResultsStability = partialResultsStability
+        self.piiEntityTypes = piiEntityTypes
+        self.sessionId = sessionId
+        self.vocabularyFilterMethod = vocabularyFilterMethod
+        self.vocabularyFilterName = vocabularyFilterName
+        self.vocabularyName = vocabularyName
+    }
+}
+
+struct StartCallAnalyticsStreamTranscriptionInputBody: Swift.Equatable {
+    let audioStream: TranscribeStreamingClientTypes.AudioStream?
+}
+
+extension StartCallAnalyticsStreamTranscriptionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audioStream = "AudioStream"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let audioStreamDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.AudioStream.self, forKey: .audioStream)
+        audioStream = audioStreamDecoded
+    }
+}
+
+extension StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartCallAnalyticsStreamTranscriptionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        }
+    }
+}
+
+public enum StartCallAnalyticsStreamTranscriptionOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case limitExceededException(LimitExceededException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
+            self.contentIdentificationType = TranscribeStreamingClientTypes.ContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
+        } else {
+            self.contentIdentificationType = nil
+        }
+        if let contentRedactionTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-redaction-type") {
+            self.contentRedactionType = TranscribeStreamingClientTypes.ContentRedactionType(rawValue: contentRedactionTypeHeaderValue)
+        } else {
+            self.contentRedactionType = nil
+        }
+        if let enablePartialResultsStabilizationHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-enable-partial-results-stabilization") {
+            self.enablePartialResultsStabilization = Swift.Bool(enablePartialResultsStabilizationHeaderValue) ?? false
+        } else {
+            self.enablePartialResultsStabilization = false
+        }
+        if let languageCodeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-language-code") {
+            self.languageCode = TranscribeStreamingClientTypes.CallAnalyticsLanguageCode(rawValue: languageCodeHeaderValue)
+        } else {
+            self.languageCode = nil
+        }
+        if let languageModelNameHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-language-model-name") {
+            self.languageModelName = languageModelNameHeaderValue
+        } else {
+            self.languageModelName = nil
+        }
+        if let mediaEncodingHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-media-encoding") {
+            self.mediaEncoding = TranscribeStreamingClientTypes.MediaEncoding(rawValue: mediaEncodingHeaderValue)
+        } else {
+            self.mediaEncoding = nil
+        }
+        if let mediaSampleRateHertzHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-sample-rate") {
+            self.mediaSampleRateHertz = Swift.Int(mediaSampleRateHertzHeaderValue) ?? 0
+        } else {
+            self.mediaSampleRateHertz = nil
+        }
+        if let partialResultsStabilityHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-partial-results-stability") {
+            self.partialResultsStability = TranscribeStreamingClientTypes.PartialResultsStability(rawValue: partialResultsStabilityHeaderValue)
+        } else {
+            self.partialResultsStability = nil
+        }
+        if let piiEntityTypesHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-pii-entity-types") {
+            self.piiEntityTypes = piiEntityTypesHeaderValue
+        } else {
+            self.piiEntityTypes = nil
+        }
+        if let requestIdHeaderValue = httpResponse.headers.value(for: "x-amzn-request-id") {
+            self.requestId = requestIdHeaderValue
+        } else {
+            self.requestId = nil
+        }
+        if let sessionIdHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-session-id") {
+            self.sessionId = sessionIdHeaderValue
+        } else {
+            self.sessionId = nil
+        }
+        if let vocabularyFilterMethodHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-vocabulary-filter-method") {
+            self.vocabularyFilterMethod = TranscribeStreamingClientTypes.VocabularyFilterMethod(rawValue: vocabularyFilterMethodHeaderValue)
+        } else {
+            self.vocabularyFilterMethod = nil
+        }
+        if let vocabularyFilterNameHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-vocabulary-filter-name") {
+            self.vocabularyFilterName = vocabularyFilterNameHeaderValue
+        } else {
+            self.vocabularyFilterName = nil
+        }
+        if let vocabularyNameHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-vocabulary-name") {
+            self.vocabularyName = vocabularyNameHeaderValue
+        } else {
+            self.vocabularyName = nil
+        }
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            if let responseDecoder = decoder {
+                let output: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream = try responseDecoder.decode(responseBody: data)
+                self.callAnalyticsTranscriptResultStream = output
+            } else {
+                self.callAnalyticsTranscriptResultStream = nil
+            }
+        } else {
+            self.callAnalyticsTranscriptResultStream = nil
+        }
+    }
+}
+
+public struct StartCallAnalyticsStreamTranscriptionOutputResponse: Swift.Equatable {
+    /// Provides detailed information about your Call Analytics streaming session.
+    public var callAnalyticsTranscriptResultStream: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream?
+    /// Shows whether content identification was enabled for your Call Analytics transcription.
+    public var contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType?
+    /// Shows whether content redaction was enabled for your Call Analytics transcription.
+    public var contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType?
+    /// Shows whether partial results stabilization was enabled for your Call Analytics transcription.
+    public var enablePartialResultsStabilization: Swift.Bool
+    /// Provides the language code that you specified in your Call Analytics request.
+    public var languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode?
+    /// Provides the name of the custom language model that you specified in your Call Analytics request.
+    public var languageModelName: Swift.String?
+    /// Provides the media encoding you specified in your Call Analytics request.
+    public var mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding?
+    /// Provides the sample rate that you specified in your Call Analytics request.
+    public var mediaSampleRateHertz: Swift.Int?
+    /// Provides the stabilization level used for your transcription.
+    public var partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability?
+    /// Lists the PII entity types you specified in your Call Analytics request.
+    public var piiEntityTypes: Swift.String?
+    /// Provides the identifier for your Call Analytics streaming request.
+    public var requestId: Swift.String?
+    /// Provides the identifier for your Call Analytics transcription session.
+    public var sessionId: Swift.String?
+    /// Provides the vocabulary filtering method used in your Call Analytics transcription.
+    public var vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod?
+    /// Provides the name of the custom vocabulary filter that you specified in your Call Analytics request.
+    public var vocabularyFilterName: Swift.String?
+    /// Provides the name of the custom vocabulary that you specified in your Call Analytics request.
+    public var vocabularyName: Swift.String?
+
+    public init (
+        callAnalyticsTranscriptResultStream: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream? = nil,
+        contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType? = nil,
+        contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType? = nil,
+        enablePartialResultsStabilization: Swift.Bool = false,
+        languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode? = nil,
+        languageModelName: Swift.String? = nil,
+        mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding? = nil,
+        mediaSampleRateHertz: Swift.Int? = nil,
+        partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability? = nil,
+        piiEntityTypes: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
+        vocabularyFilterName: Swift.String? = nil,
+        vocabularyName: Swift.String? = nil
+    )
+    {
+        self.callAnalyticsTranscriptResultStream = callAnalyticsTranscriptResultStream
+        self.contentIdentificationType = contentIdentificationType
+        self.contentRedactionType = contentRedactionType
+        self.enablePartialResultsStabilization = enablePartialResultsStabilization
+        self.languageCode = languageCode
+        self.languageModelName = languageModelName
+        self.mediaEncoding = mediaEncoding
+        self.mediaSampleRateHertz = mediaSampleRateHertz
+        self.partialResultsStability = partialResultsStability
+        self.piiEntityTypes = piiEntityTypes
+        self.requestId = requestId
+        self.sessionId = sessionId
+        self.vocabularyFilterMethod = vocabularyFilterMethod
+        self.vocabularyFilterName = vocabularyFilterName
+        self.vocabularyName = vocabularyName
+    }
+}
+
+struct StartCallAnalyticsStreamTranscriptionOutputResponseBody: Swift.Equatable {
+    let callAnalyticsTranscriptResultStream: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream?
+}
+
+extension StartCallAnalyticsStreamTranscriptionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callAnalyticsTranscriptResultStream = "CallAnalyticsTranscriptResultStream"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let callAnalyticsTranscriptResultStreamDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream.self, forKey: .callAnalyticsTranscriptResultStream)
+        callAnalyticsTranscriptResultStream = callAnalyticsTranscriptResultStreamDecoded
     }
 }
 
@@ -1770,35 +3005,44 @@ extension StartMedicalStreamTranscriptionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
-    /// Represents the audio stream from your application to Amazon Transcribe.
+    /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     /// This member is required.
     public var audioStream: TranscribeStreamingClientTypes.AudioStream?
-    /// Set this field to PHI to identify personal health information in the transcription output.
+    /// Labels all personal health information (PHI) identified in your transcript. Content identification is performed at the segment level; PHI is flagged upon complete transcription of an audio segment. For more information, see [Identifying personal health information (PHI) in a transcription](https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html).
     public var contentIdentificationType: TranscribeStreamingClientTypes.MedicalContentIdentificationType?
-    /// When true, instructs Amazon Transcribe Medical to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe Medical also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions. You can't set both ShowSpeakerLabel and EnableChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
+    /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is transcribed in a continuous manner and your transcript is not separated by channel. For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
     public var enableChannelIdentification: Swift.Bool
-    /// Indicates the source language used in the input audio stream. For Amazon Transcribe Medical, this is US English (en-US).
+    /// Specify the language code that represents the language spoken in your audio. Amazon Transcribe Medical only supports US English (en-US).
     /// This member is required.
     public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
-    /// The encoding used for the input audio.
+    /// Specify the encoding used for the input audio. Supported formats are:
+    ///
+    /// * FLAC
+    ///
+    /// * OPUS-encoded audio in an Ogg container
+    ///
+    /// * PCM (only signed 16-bit little-endian audio formats, which does not include WAV)
+    ///
+    ///
+    /// For more information, see [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio).
     /// This member is required.
     public var mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding?
-    /// The sample rate of the input audio (in Hertz). Amazon Transcribe medical supports a range from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
+    /// The sample rate of the input audio (in hertz). Amazon Transcribe Medical supports a range from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
     /// This member is required.
     public var mediaSampleRateHertz: Swift.Int?
-    /// The number of channels that are in your audio stream.
+    /// Specify the number of channels in your audio stream. Up to two channels are supported.
     public var numberOfChannels: Swift.Int?
-    /// Optional. An identifier for the transcription session. If you don't provide a session ID, Amazon Transcribe generates one for you and returns it in the response.
+    /// Specify a name for your transcription session. If you don't include this parameter in your request, Amazon Transcribe Medical generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
     public var sessionId: Swift.String?
-    /// When true, enables speaker identification in your real-time stream.
+    /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
     public var showSpeakerLabel: Swift.Bool
-    /// The medical specialty of the clinician or provider.
+    /// Specify the medical specialty contained in your audio.
     /// This member is required.
     public var specialty: TranscribeStreamingClientTypes.Specialty?
-    /// The type of input audio. Choose DICTATION for a provider dictating patient notes. Choose CONVERSATION for a dialogue between a patient and one or more medical professionanls.
+    /// Specify the type of input audio. For example, choose DICTATION for a provider dictating patient notes and CONVERSATION for a dialogue between a patient and a medical professional.
     /// This member is required.
     public var type: TranscribeStreamingClientTypes.ModelType?
-    /// The name of the medical custom vocabulary to use when processing the real-time stream.
+    /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive.
     public var vocabularyName: Swift.String?
 
     public init (
@@ -1954,31 +3198,31 @@ extension StartMedicalStreamTranscriptionOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct StartMedicalStreamTranscriptionOutputResponse: Swift.Equatable {
-    /// If the value is PHI, indicates that you've configured your stream to identify personal health information.
+    /// Shows whether content identification was enabled for your transcription.
     public var contentIdentificationType: TranscribeStreamingClientTypes.MedicalContentIdentificationType?
-    /// Shows whether channel identification has been enabled in the stream.
+    /// Shows whether channel identification was enabled for your transcription.
     public var enableChannelIdentification: Swift.Bool
-    /// The language code for the response transcript. For Amazon Transcribe Medical, this is US English (en-US).
+    /// Provides the language code that you specified in your request. This must be en-US.
     public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
-    /// The encoding used for the input audio stream.
+    /// Provides the media encoding you specified in your request.
     public var mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding?
-    /// The sample rate of the input audio, in Hertz (Hz).
+    /// Provides the sample rate that you specified in your request.
     public var mediaSampleRateHertz: Swift.Int?
-    /// The number of channels identified in the stream.
+    /// Provides the number of channels that you specified in your request.
     public var numberOfChannels: Swift.Int?
-    /// An identifier for the streaming transcription.
+    /// Provides the identifier for your streaming request.
     public var requestId: Swift.String?
-    /// Optional. An identifier for the transcription session. If you don't provide a session ID, Amazon Transcribe generates one for you and returns it in the response.
+    /// Provides the identifier for your transcription session.
     public var sessionId: Swift.String?
-    /// Shows whether speaker identification was enabled in the stream.
+    /// Shows whether speaker partitioning was enabled for your transcription.
     public var showSpeakerLabel: Swift.Bool
-    /// The specialty in the medical domain.
+    /// Provides the medical specialty that you specified in your request.
     public var specialty: TranscribeStreamingClientTypes.Specialty?
-    /// Represents the stream of transcription events from Amazon Transcribe Medical to your application.
+    /// Provides detailed information about your streaming session.
     public var transcriptResultStream: TranscribeStreamingClientTypes.MedicalTranscriptResultStream?
-    /// The type of audio that was transcribed.
+    /// Provides the type of audio you specified in your request.
     public var type: TranscribeStreamingClientTypes.ModelType?
-    /// The name of the vocabulary used when processing the stream.
+    /// Provides the name of the custom vocabulary that you specified in your request.
     public var vocabularyName: Swift.String?
 
     public init (
@@ -2157,52 +3401,61 @@ extension StartStreamTranscriptionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartStreamTranscriptionInput: Swift.Equatable {
-    /// PCM-encoded stream of audio blobs. The audio stream is encoded as an HTTP/2 data frame.
+    /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     /// This member is required.
     public var audioStream: TranscribeStreamingClientTypes.AudioStream?
-    /// Set this field to PII to identify personally identifiable information (PII) in the transcription output. Content identification is performed only upon complete transcription of the audio segments. You can’t set both ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException.
+    /// Labels all personally identifiable information (PII) identified in your transcript. Content identification is performed at the segment level; PII specified in PiiEntityTypes is flagged upon complete transcription of an audio segment. You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
     public var contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType?
-    /// Set this field to PII to redact personally identifiable information (PII) in the transcription output. Content redaction is performed only upon complete transcription of the audio segments. You can’t set both ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException.
+    /// Redacts all personally identifiable information (PII) identified in your transcript. Content redaction is performed at the segment level; PII specified in PiiEntityTypes is redacted upon complete transcription of an audio segment. You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
     public var contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType?
-    /// When true, instructs Amazon Transcribe to process each audio channel separately, then merges the transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions.
+    /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is transcribed in a continuous manner and your transcript is not separated by channel. For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
     public var enableChannelIdentification: Swift.Bool
-    /// When true, instructs Amazon Transcribe to present transcription results that have the partial results stabilized. Normally, any word or phrase from one partial result can change in a subsequent partial result. With partial results stabilization enabled, only the last few words of one partial result can change in another partial result.
+    /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
     public var enablePartialResultsStabilization: Swift.Bool
-    /// Optional. Set this value to true to enable language identification for your media stream.
+    /// Enables automatic language identification for your transcription. If you include IdentifyLanguage, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your audio stream. Including language options can improve transcription accuracy. You can also include a preferred language using PreferredLanguage. Adding a preferred language can help Amazon Transcribe identify the language faster than if you omit this parameter. If you have multi-channel audio that contains different languages on each channel, and you've enabled channel identification, automatic language identification identifies the dominant language on each audio channel. Note that you must include either LanguageCode or IdentifyLanguage in your request. If you include both parameters, your request fails. Streaming language identification can't be combined with custom language models or redaction.
     public var identifyLanguage: Swift.Bool
-    /// The language code of the input audio stream.
+    /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages supported with Amazon Transcribe streaming, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
-    /// The name of the language model you want to use.
+    /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch. For more information, see [Custom language models](https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html).
     public var languageModelName: Swift.String?
-    /// An object containing a list of languages that might be present in your audio. You must provide two or more language codes to help Amazon Transcribe identify the correct language of your media stream with the highest possible accuracy. You can only select one variant per language; for example, you can't include both en-US and en-UK in the same request. You can only use this parameter if you've set IdentifyLanguage to truein your request.
+    /// Specify two or more language codes that represent the languages you think may be present in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For a list of languages supported with Amazon Transcribe streaming, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. You can only include one language dialect per language per stream. For example, you cannot include en-US and en-AU in the same request.
     public var languageOptions: Swift.String?
-    /// The encoding used for the input audio.
+    /// Specify the encoding of your input audio. Supported formats are:
+    ///
+    /// * FLAC
+    ///
+    /// * OPUS-encoded audio in an Ogg container
+    ///
+    /// * PCM (only signed 16-bit little-endian audio formats, which does not include WAV)
+    ///
+    ///
+    /// For more information, see [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio).
     /// This member is required.
     public var mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding?
-    /// The sample rate of the input audio (in Hertz). Low-quality audio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
+    /// The sample rate of the input audio (in hertz). Low-quality audio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
     /// This member is required.
     public var mediaSampleRateHertz: Swift.Int?
-    /// The number of channels that are in your audio stream.
+    /// Specify the number of channels in your audio stream. Up to two channels are supported.
     public var numberOfChannels: Swift.Int?
-    /// You can use this field to set the stability level of the transcription results. A higher stability level means that the transcription results are less likely to change. Higher stability levels can come with lower overall transcription accuracy.
+    /// Specify the level of stability to use when you enable partial results stabilization (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
     public var partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability?
-    /// List the PII entity types you want to identify or redact. In order to specify entity types, you must have either ContentIdentificationType or ContentRedactionType enabled. PIIEntityTypes must be comma-separated; the available values are: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL, ADDRESS, NAME, PHONE, SSN, and ALL. PiiEntityTypes is an optional parameter with a default value of ALL.
+    /// Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL. To include PiiEntityTypes in your request, you must also include either ContentIdentificationType or ContentRedactionType. Values must be comma-separated and can include: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL, ADDRESS, NAME, PHONE, SSN, or ALL.
     public var piiEntityTypes: Swift.String?
-    /// Optional. From the subset of languages codes you provided for LanguageOptions, you can select one preferred language for your transcription. You can only use this parameter if you've set IdentifyLanguage to truein your request.
+    /// Specify a preferred language from the subset of languages codes you specified in LanguageOptions. You can only use this parameter if you've included IdentifyLanguage and LanguageOptions in your request.
     public var preferredLanguage: TranscribeStreamingClientTypes.LanguageCode?
-    /// A identifier for the transcription session. Use this parameter when you want to retry a session. If you don't provide a session ID, Amazon Transcribe will generate one for you and return it in the response.
+    /// Specify a name for your transcription session. If you don't include this parameter in your request, Amazon Transcribe generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
     public var sessionId: Swift.String?
-    /// When true, enables speaker identification in your media stream.
+    /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
     public var showSpeakerLabel: Swift.Bool
-    /// The manner in which you use your vocabulary filter to filter words in your transcript. Remove removes filtered words from your transcription results. Mask masks filtered words with a *** in your transcription results. Tag keeps the filtered words in your transcription results and tags them. The tag appears as VocabularyFilterMatch equal to True.
+    /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
     public var vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod?
-    /// The name of the vocabulary filter you want to use with your transcription. This operation is not intended for use in conjunction with the IdentifyLanguage operation. If you're using IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames operation instead.
+    /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription. This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead. For more information, see [Using vocabulary filtering with unwanted words](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
     public var vocabularyFilterName: Swift.String?
-    /// The names of the vocabulary filters you want to use with your transcription. Note that if the vocabulary filters you specify are in languages that don't match the language identified in your media, your job fails. This operation is only intended for use in conjunction with the IdentifyLanguage operation. If you're not using IdentifyLanguage in your request and want to use a vocabulary filter with your transcription, use the VocabularyFilterName operation instead.
+    /// Specify the names of the custom vocabulary filters that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If none of the languages of the specified custom vocabulary filters match the language identified in your media, your job fails. This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary filter with your transcription, use the VocabularyFilterName parameter instead. For more information, see [Using vocabulary filtering with unwanted words](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
     public var vocabularyFilterNames: Swift.String?
-    /// The name of the custom vocabulary you want to use with your transcription. This operation is not intended for use in conjunction with the IdentifyLanguage operation. If you're using IdentifyLanguage in your request and want to use one or more custom vocabularies with your transcription, use the VocabularyNames operation instead.
+    /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription. This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more custom vocabularies with your transcription, use the VocabularyNames parameter instead. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     public var vocabularyName: Swift.String?
-    /// The names of the custom vocabularies you want to use with your transcription. Note that if the custom vocabularies you specify are in languages that don't match the language identified in your media, your job fails. This operation is only intended for use in conjunction with the IdentifyLanguage operation. If you're not using IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the VocabularyName operation instead.
+    /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If none of the languages of the specified custom vocabularies match the language identified in your media, your job fails. This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     public var vocabularyNames: Swift.String?
 
     public init (
@@ -2428,51 +3681,51 @@ extension StartStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct StartStreamTranscriptionOutputResponse: Swift.Equatable {
-    /// Shows whether content identification was enabled in this stream.
+    /// Shows whether content identification was enabled for your transcription.
     public var contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType?
-    /// Shows whether content redaction was enabled in this stream.
+    /// Shows whether content redaction was enabled for your transcription.
     public var contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType?
-    /// Shows whether channel identification was enabled in the stream.
+    /// Shows whether channel identification was enabled for your transcription.
     public var enableChannelIdentification: Swift.Bool
-    /// Shows whether partial results stabilization was enabled in the transcription.
+    /// Shows whether partial results stabilization was enabled for your transcription.
     public var enablePartialResultsStabilization: Swift.Bool
-    /// The language code of the language identified in your media stream.
+    /// Shows whether automatic language identification was enabled for your transcription.
     public var identifyLanguage: Swift.Bool
-    /// The language code of the input audio stream.
+    /// Provides the language code that you specified in your request.
     public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
-    /// The name of the custom language model used in the transcription.
+    /// Provides the name of the custom language model that you specified in your request.
     public var languageModelName: Swift.String?
-    /// The language codes used in the identification of your media stream's predominant language.
+    /// Provides the language codes that you specified in your request.
     public var languageOptions: Swift.String?
-    /// The encoding used for the input audio stream.
+    /// Provides the media encoding you specified in your request.
     public var mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding?
-    /// The sample rate, in Hertz (Hz), for the input audio stream.
+    /// Provides the sample rate that you specified in your request.
     public var mediaSampleRateHertz: Swift.Int?
-    /// The number of channels identified in the stream.
+    /// Provides the number of channels that you specified in your request.
     public var numberOfChannels: Swift.Int?
-    /// If partial results stabilization has been enabled in the stream, shows the stability level.
+    /// Provides the stabilization level used for your transcription.
     public var partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability?
     /// Lists the PII entity types you specified in your request.
     public var piiEntityTypes: Swift.String?
-    /// The preferred language you specified in your request.
+    /// Provides the preferred language that you specified in your request.
     public var preferredLanguage: TranscribeStreamingClientTypes.LanguageCode?
-    /// An identifier for the transcription.
+    /// Provides the identifier for your streaming request.
     public var requestId: Swift.String?
-    /// An identifier for a specific transcription session.
+    /// Provides the identifier for your transcription session.
     public var sessionId: Swift.String?
-    /// Shows whether speaker identification was enabled in the transcription.
+    /// Shows whether speaker partitioning was enabled for your transcription.
     public var showSpeakerLabel: Swift.Bool
-    /// Represents the stream of transcription events from Amazon Transcribe to your application.
+    /// Provides detailed information about your streaming session.
     public var transcriptResultStream: TranscribeStreamingClientTypes.TranscriptResultStream?
-    /// The vocabulary filtering method used when processing the stream.
+    /// Provides the vocabulary filtering method used in your transcription.
     public var vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod?
-    /// The name of the vocabulary filter used when processing the stream.
+    /// Provides the name of the custom vocabulary filter that you specified in your request.
     public var vocabularyFilterName: Swift.String?
-    /// The name of the vocabulary filter used when processing the stream.
+    /// Provides the names of the custom vocabulary filters that you specified in your request.
     public var vocabularyFilterNames: Swift.String?
-    /// The name of the custom vocabulary used when processing the stream.
+    /// Provides the name of the custom vocabulary that you specified in your request.
     public var vocabularyName: Swift.String?
-    /// The name of the custom vocabulary used when processing the stream.
+    /// Provides the names of the custom vocabularies that you specified in your request.
     public var vocabularyNames: Swift.String?
 
     public init (
@@ -2543,6 +3796,51 @@ extension StartStreamTranscriptionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension TranscribeStreamingClientTypes.TimestampRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case beginOffsetMillis = "BeginOffsetMillis"
+        case endOffsetMillis = "EndOffsetMillis"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let beginOffsetMillis = self.beginOffsetMillis {
+            try encodeContainer.encode(beginOffsetMillis, forKey: .beginOffsetMillis)
+        }
+        if let endOffsetMillis = self.endOffsetMillis {
+            try encodeContainer.encode(endOffsetMillis, forKey: .endOffsetMillis)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis)
+        beginOffsetMillis = beginOffsetMillisDecoded
+        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis)
+        endOffsetMillis = endOffsetMillisDecoded
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Contains the timestamp range (start time through end time) of a matched category.
+    public struct TimestampRange: Swift.Equatable {
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the category match.
+        public var beginOffsetMillis: Swift.Int?
+        /// The time, in milliseconds, from the beginning of the audio stream to the end of the category match.
+        public var endOffsetMillis: Swift.Int?
+
+        public init (
+            beginOffsetMillis: Swift.Int? = nil,
+            endOffsetMillis: Swift.Int? = nil
+        )
+        {
+            self.beginOffsetMillis = beginOffsetMillis
+            self.endOffsetMillis = endOffsetMillis
+        }
+    }
+
+}
+
 extension TranscribeStreamingClientTypes.Transcript: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case results = "Results"
@@ -2575,9 +3873,9 @@ extension TranscribeStreamingClientTypes.Transcript: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// The transcription in a [TranscriptEvent].
+    /// The Transcript associated with a . Transcript contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
     public struct Transcript: Swift.Equatable {
-        /// [Result] objects that contain the results of transcribing a portion of the input audio stream. The array can be empty.
+        /// Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public var results: [TranscribeStreamingClientTypes.Result]?
 
         public init (
@@ -2610,9 +3908,9 @@ extension TranscribeStreamingClientTypes.TranscriptEvent: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// Represents a set of transcription results from the server to the client. It contains one or more segments of the transcription.
+    /// The TranscriptEvent associated with a TranscriptResultStream. Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
     public struct TranscriptEvent: Swift.Equatable {
-        /// The transcription of the audio stream. The transcription is composed of all of the items in the results list.
+        /// Contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public var transcript: TranscribeStreamingClientTypes.Transcript?
 
         public init (
@@ -2693,19 +3991,19 @@ extension TranscribeStreamingClientTypes.TranscriptResultStream: Swift.Codable {
 }
 
 extension TranscribeStreamingClientTypes {
-    /// Represents the transcription result stream from Amazon Transcribe to your application.
+    /// Contains detailed information about your streaming session.
     public enum TranscriptResultStream: Swift.Equatable {
-        /// A portion of the transcription of the audio stream. Events are sent periodically from Amazon Transcribe to your application. The event can be a partial transcription of a section of the audio stream, or it can be the entire transcription of that portion of the audio stream.
+        /// Contains Transcript, which contains Results. The  object contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
         case transcriptevent(TranscribeStreamingClientTypes.TranscriptEvent)
         /// A client error occurred when the stream was created. Check the parameters of the request and try your request again.
         case badrequestexception(BadRequestException)
-        /// Your client has exceeded one of the Amazon Transcribe limits, typically the limit on audio length. Break your audio stream into smaller chunks and try your request again.
+        /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
         case limitexceededexception(LimitExceededException)
         /// A problem occurred while processing the audio. Amazon Transcribe terminated processing.
         case internalfailureexception(InternalFailureException)
         /// A new stream started with the same session ID. The current stream has been terminated.
         case conflictexception(ConflictException)
-        /// Service is currently unavailable. Try your request later.
+        /// The service is currently unavailable. Try your request later.
         case serviceunavailableexception(ServiceUnavailableException)
         case sdkUnknown(Swift.String)
     }
@@ -2742,6 +4040,167 @@ extension TranscribeStreamingClientTypes {
             self = ModelType(rawValue: rawValue) ?? ModelType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension TranscribeStreamingClientTypes.UtteranceEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case beginOffsetMillis = "BeginOffsetMillis"
+        case endOffsetMillis = "EndOffsetMillis"
+        case entities = "Entities"
+        case isPartial = "IsPartial"
+        case issuesDetected = "IssuesDetected"
+        case items = "Items"
+        case participantRole = "ParticipantRole"
+        case sentiment = "Sentiment"
+        case transcript = "Transcript"
+        case utteranceId = "UtteranceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let beginOffsetMillis = self.beginOffsetMillis {
+            try encodeContainer.encode(beginOffsetMillis, forKey: .beginOffsetMillis)
+        }
+        if let endOffsetMillis = self.endOffsetMillis {
+            try encodeContainer.encode(endOffsetMillis, forKey: .endOffsetMillis)
+        }
+        if let entities = entities {
+            var entitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entities)
+            for callanalyticsentitylist0 in entities {
+                try entitiesContainer.encode(callanalyticsentitylist0)
+            }
+        }
+        if isPartial != false {
+            try encodeContainer.encode(isPartial, forKey: .isPartial)
+        }
+        if let issuesDetected = issuesDetected {
+            var issuesDetectedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issuesDetected)
+            for issuesdetected0 in issuesDetected {
+                try issuesDetectedContainer.encode(issuesdetected0)
+            }
+        }
+        if let items = items {
+            var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
+            for callanalyticsitemlist0 in items {
+                try itemsContainer.encode(callanalyticsitemlist0)
+            }
+        }
+        if let participantRole = self.participantRole {
+            try encodeContainer.encode(participantRole.rawValue, forKey: .participantRole)
+        }
+        if let sentiment = self.sentiment {
+            try encodeContainer.encode(sentiment.rawValue, forKey: .sentiment)
+        }
+        if let transcript = self.transcript {
+            try encodeContainer.encode(transcript, forKey: .transcript)
+        }
+        if let utteranceId = self.utteranceId {
+            try encodeContainer.encode(utteranceId, forKey: .utteranceId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let utteranceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .utteranceId)
+        utteranceId = utteranceIdDecoded
+        let isPartialDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isPartial) ?? false
+        isPartial = isPartialDecoded
+        let participantRoleDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.ParticipantRole.self, forKey: .participantRole)
+        participantRole = participantRoleDecoded
+        let beginOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .beginOffsetMillis)
+        beginOffsetMillis = beginOffsetMillisDecoded
+        let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis)
+        endOffsetMillis = endOffsetMillisDecoded
+        let transcriptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transcript)
+        transcript = transcriptDecoded
+        let itemsContainer = try containerValues.decodeIfPresent([TranscribeStreamingClientTypes.CallAnalyticsItem?].self, forKey: .items)
+        var itemsDecoded0:[TranscribeStreamingClientTypes.CallAnalyticsItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [TranscribeStreamingClientTypes.CallAnalyticsItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let entitiesContainer = try containerValues.decodeIfPresent([TranscribeStreamingClientTypes.CallAnalyticsEntity?].self, forKey: .entities)
+        var entitiesDecoded0:[TranscribeStreamingClientTypes.CallAnalyticsEntity]? = nil
+        if let entitiesContainer = entitiesContainer {
+            entitiesDecoded0 = [TranscribeStreamingClientTypes.CallAnalyticsEntity]()
+            for structure0 in entitiesContainer {
+                if let structure0 = structure0 {
+                    entitiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        entities = entitiesDecoded0
+        let sentimentDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.Sentiment.self, forKey: .sentiment)
+        sentiment = sentimentDecoded
+        let issuesDetectedContainer = try containerValues.decodeIfPresent([TranscribeStreamingClientTypes.IssueDetected?].self, forKey: .issuesDetected)
+        var issuesDetectedDecoded0:[TranscribeStreamingClientTypes.IssueDetected]? = nil
+        if let issuesDetectedContainer = issuesDetectedContainer {
+            issuesDetectedDecoded0 = [TranscribeStreamingClientTypes.IssueDetected]()
+            for structure0 in issuesDetectedContainer {
+                if let structure0 = structure0 {
+                    issuesDetectedDecoded0?.append(structure0)
+                }
+            }
+        }
+        issuesDetected = issuesDetectedDecoded0
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+    /// Contains set of transcription results from one or more audio segments, along with additional information about the parameters included in your request. For example, channel definitions, partial result stabilization, sentiment, and issue detection.
+    public struct UtteranceEvent: Swift.Equatable {
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the UtteranceEvent.
+        public var beginOffsetMillis: Swift.Int?
+        /// The time, in milliseconds, from the beginning of the audio stream to the start of the UtteranceEvent.
+        public var endOffsetMillis: Swift.Int?
+        /// Contains entities identified as personally identifiable information (PII) in your transcription output.
+        public var entities: [TranscribeStreamingClientTypes.CallAnalyticsEntity]?
+        /// Indicates whether the segment in the UtteranceEvent is complete (FALSE) or partial (TRUE).
+        public var isPartial: Swift.Bool
+        /// Provides the issue that was detected in the specified segment.
+        public var issuesDetected: [TranscribeStreamingClientTypes.IssueDetected]?
+        /// Contains words, phrases, or punctuation marks that are associated with the specified UtteranceEvent.
+        public var items: [TranscribeStreamingClientTypes.CallAnalyticsItem]?
+        /// Provides the role of the speaker for each audio channel, either CUSTOMER or AGENT.
+        public var participantRole: TranscribeStreamingClientTypes.ParticipantRole?
+        /// Provides the sentiment that was detected in the specified segment.
+        public var sentiment: TranscribeStreamingClientTypes.Sentiment?
+        /// Contains transcribed text.
+        public var transcript: Swift.String?
+        /// The unique identifier that is associated with the specified UtteranceEvent.
+        public var utteranceId: Swift.String?
+
+        public init (
+            beginOffsetMillis: Swift.Int? = nil,
+            endOffsetMillis: Swift.Int? = nil,
+            entities: [TranscribeStreamingClientTypes.CallAnalyticsEntity]? = nil,
+            isPartial: Swift.Bool = false,
+            issuesDetected: [TranscribeStreamingClientTypes.IssueDetected]? = nil,
+            items: [TranscribeStreamingClientTypes.CallAnalyticsItem]? = nil,
+            participantRole: TranscribeStreamingClientTypes.ParticipantRole? = nil,
+            sentiment: TranscribeStreamingClientTypes.Sentiment? = nil,
+            transcript: Swift.String? = nil,
+            utteranceId: Swift.String? = nil
+        )
+        {
+            self.beginOffsetMillis = beginOffsetMillis
+            self.endOffsetMillis = endOffsetMillis
+            self.entities = entities
+            self.isPartial = isPartial
+            self.issuesDetected = issuesDetected
+            self.items = items
+            self.participantRole = participantRole
+            self.sentiment = sentiment
+            self.transcript = transcript
+            self.utteranceId = utteranceId
+        }
+    }
+
 }
 
 extension TranscribeStreamingClientTypes {

@@ -2133,7 +2133,7 @@ public struct BatchWriteItemOutputResponse: Swift.Equatable {
     ///
     /// * SizeEstimateRangeGB - An estimate of item collection size, expressed in GB. This is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on the table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
     public var itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]?
-    /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name and, for that table, a list of operations to perform (DeleteRequest or PutRequest).
+    /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchWriteItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name and, for that table, a list of operations to perform (DeleteRequest or PutRequest).
     ///
     /// * DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
     ///
@@ -2288,7 +2288,7 @@ extension DynamoDBClientTypes.BillingModeSummary: Swift.Codable {
 }
 
 extension DynamoDBClientTypes {
-    /// Contains the details for the read/write capacity mode.
+    /// Contains the details for the read/write capacity mode. This page talks about PROVISIONED and PAY_PER_REQUEST billing modes. For more information about these modes, see [Read/write capacity mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html). You may need to switch to on-demand mode at least once in order to return a BillingModeSummary response.
     public struct BillingModeSummary: Swift.Equatable {
         /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.
         ///
@@ -8813,13 +8813,13 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexDescription: Swift.Codable {
         if let indexName = self.indexName {
             try encodeContainer.encode(indexName, forKey: .indexName)
         }
-        if indexSizeBytes != 0 {
+        if let indexSizeBytes = self.indexSizeBytes {
             try encodeContainer.encode(indexSizeBytes, forKey: .indexSizeBytes)
         }
         if let indexStatus = self.indexStatus {
             try encodeContainer.encode(indexStatus.rawValue, forKey: .indexStatus)
         }
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
         if let keySchema = keySchema {
@@ -8859,9 +8859,9 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexDescription: Swift.Codable {
         backfilling = backfillingDecoded
         let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughputDescription.self, forKey: .provisionedThroughput)
         provisionedThroughput = provisionedThroughputDecoded
-        let indexSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .indexSizeBytes) ?? 0
+        let indexSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .indexSizeBytes)
         indexSizeBytes = indexSizeBytesDecoded
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
         let indexArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexArn)
         indexArn = indexArnDecoded
@@ -8878,7 +8878,7 @@ extension DynamoDBClientTypes {
         /// The name of the global secondary index.
         public var indexName: Swift.String?
         /// The total size of the specified index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-        public var indexSizeBytes: Swift.Int
+        public var indexSizeBytes: Swift.Int?
         /// The current state of the global secondary index:
         ///
         /// * CREATING - The index is being created.
@@ -8890,7 +8890,7 @@ extension DynamoDBClientTypes {
         /// * ACTIVE - The index is ready for use.
         public var indexStatus: DynamoDBClientTypes.IndexStatus?
         /// The number of items in the specified index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:
         ///
         /// * HASH - partition key
@@ -8909,9 +8909,9 @@ extension DynamoDBClientTypes {
             backfilling: Swift.Bool? = nil,
             indexArn: Swift.String? = nil,
             indexName: Swift.String? = nil,
-            indexSizeBytes: Swift.Int = 0,
+            indexSizeBytes: Swift.Int? = nil,
             indexStatus: DynamoDBClientTypes.IndexStatus? = nil,
-            itemCount: Swift.Int = 0,
+            itemCount: Swift.Int? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription? = nil
@@ -9802,7 +9802,7 @@ extension DynamoDBClientTypes.ImportTableDescription: Swift.Codable {
         if processedItemCount != 0 {
             try encodeContainer.encode(processedItemCount, forKey: .processedItemCount)
         }
-        if processedSizeBytes != 0 {
+        if let processedSizeBytes = self.processedSizeBytes {
             try encodeContainer.encode(processedSizeBytes, forKey: .processedSizeBytes)
         }
         if let s3BucketSource = self.s3BucketSource {
@@ -9852,7 +9852,7 @@ extension DynamoDBClientTypes.ImportTableDescription: Swift.Codable {
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
         endTime = endTimeDecoded
-        let processedSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .processedSizeBytes) ?? 0
+        let processedSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .processedSizeBytes)
         processedSizeBytes = processedSizeBytesDecoded
         let processedItemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .processedItemCount) ?? 0
         processedItemCount = processedItemCountDecoded
@@ -9895,7 +9895,7 @@ extension DynamoDBClientTypes {
         /// The total number of items processed from the source file.
         public var processedItemCount: Swift.Int
         /// The total size of data processed from the source file, in Bytes.
-        public var processedSizeBytes: Swift.Int
+        public var processedSizeBytes: Swift.Int?
         /// Values for the S3 bucket the source file is imported from. Includes bucket name (required), key prefix (optional) and bucket account owner ID (optional).
         public var s3BucketSource: DynamoDBClientTypes.S3BucketSource?
         /// The time when this import task started.
@@ -9921,7 +9921,7 @@ extension DynamoDBClientTypes {
             inputFormat: DynamoDBClientTypes.InputFormat? = nil,
             inputFormatOptions: DynamoDBClientTypes.InputFormatOptions? = nil,
             processedItemCount: Swift.Int = 0,
-            processedSizeBytes: Swift.Int = 0,
+            processedSizeBytes: Swift.Int? = nil,
             s3BucketSource: DynamoDBClientTypes.S3BucketSource? = nil,
             startTime: ClientRuntime.Date? = nil,
             tableArn: Swift.String? = nil,
@@ -11009,7 +11009,7 @@ extension LimitExceededException {
     }
 }
 
-/// There is no limit to the number of daily on-demand backups that can be taken. Up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. The only exception is when you are creating a table with one or more secondary indexes. You can have up to 250 such requests running at a time; however, if the table or index specifications are complex, DynamoDB might temporarily reduce the number of concurrent operations. There is a soft account quota of 2,500 tables.
+/// There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables.
 public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -12246,10 +12246,10 @@ extension DynamoDBClientTypes.LocalSecondaryIndexDescription: Swift.Codable {
         if let indexName = self.indexName {
             try encodeContainer.encode(indexName, forKey: .indexName)
         }
-        if indexSizeBytes != 0 {
+        if let indexSizeBytes = self.indexSizeBytes {
             try encodeContainer.encode(indexSizeBytes, forKey: .indexSizeBytes)
         }
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
         if let keySchema = keySchema {
@@ -12280,9 +12280,9 @@ extension DynamoDBClientTypes.LocalSecondaryIndexDescription: Swift.Codable {
         keySchema = keySchemaDecoded0
         let projectionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.Projection.self, forKey: .projection)
         projection = projectionDecoded
-        let indexSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .indexSizeBytes) ?? 0
+        let indexSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .indexSizeBytes)
         indexSizeBytes = indexSizeBytesDecoded
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
         let indexArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexArn)
         indexArn = indexArnDecoded
@@ -12297,9 +12297,9 @@ extension DynamoDBClientTypes {
         /// Represents the name of the local secondary index.
         public var indexName: Swift.String?
         /// The total size of the specified index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-        public var indexSizeBytes: Swift.Int
+        public var indexSizeBytes: Swift.Int?
         /// The number of items in the specified index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// The complete key schema for the local secondary index, consisting of one or more pairs of attribute names and key types:
         ///
         /// * HASH - partition key
@@ -12315,8 +12315,8 @@ extension DynamoDBClientTypes {
         public init (
             indexArn: Swift.String? = nil,
             indexName: Swift.String? = nil,
-            indexSizeBytes: Swift.Int = 0,
-            itemCount: Swift.Int = 0,
+            indexSizeBytes: Swift.Int? = nil,
+            itemCount: Swift.Int? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             projection: DynamoDBClientTypes.Projection? = nil
         )
@@ -14501,7 +14501,7 @@ extension DynamoDBClientTypes {
         ///
         /// * CREATING - The index is being created.
         ///
-        /// * UPDATING - The index is being updated.
+        /// * UPDATING - The table/index configuration is being updated. The table/index remains available for data operations when UPDATING
         ///
         /// * DELETING - The index is being deleted.
         ///
@@ -16935,7 +16935,7 @@ extension DynamoDBClientTypes.SourceTableDetails: Swift.Codable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
-        if tableSizeBytes != 0 {
+        if let tableSizeBytes = self.tableSizeBytes {
             try encodeContainer.encode(tableSizeBytes, forKey: .tableSizeBytes)
         }
     }
@@ -16948,7 +16948,7 @@ extension DynamoDBClientTypes.SourceTableDetails: Swift.Codable {
         tableId = tableIdDecoded
         let tableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableArn)
         tableArn = tableArnDecoded
-        let tableSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableSizeBytes) ?? 0
+        let tableSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableSizeBytes)
         tableSizeBytes = tableSizeBytesDecoded
         let keySchemaContainer = try containerValues.decodeIfPresent([DynamoDBClientTypes.KeySchemaElement?].self, forKey: .keySchema)
         var keySchemaDecoded0:[DynamoDBClientTypes.KeySchemaElement]? = nil
@@ -17001,7 +17001,7 @@ extension DynamoDBClientTypes {
         /// This member is required.
         public var tableName: Swift.String?
         /// Size of the table in bytes. Note that this is an approximate value.
-        public var tableSizeBytes: Swift.Int
+        public var tableSizeBytes: Swift.Int?
 
         public init (
             billingMode: DynamoDBClientTypes.BillingMode? = nil,
@@ -17012,7 +17012,7 @@ extension DynamoDBClientTypes {
             tableCreationDateTime: ClientRuntime.Date? = nil,
             tableId: Swift.String? = nil,
             tableName: Swift.String? = nil,
-            tableSizeBytes: Swift.Int = 0
+            tableSizeBytes: Swift.Int? = nil
         )
         {
             self.billingMode = billingMode
@@ -17610,7 +17610,7 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         if let globalTableVersion = self.globalTableVersion {
             try encodeContainer.encode(globalTableVersion, forKey: .globalTableVersion)
         }
-        if itemCount != 0 {
+        if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
         }
         if let keySchema = keySchema {
@@ -17661,7 +17661,7 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         if let tableName = self.tableName {
             try encodeContainer.encode(tableName, forKey: .tableName)
         }
-        if tableSizeBytes != 0 {
+        if let tableSizeBytes = self.tableSizeBytes {
             try encodeContainer.encode(tableSizeBytes, forKey: .tableSizeBytes)
         }
         if let tableStatus = self.tableStatus {
@@ -17701,9 +17701,9 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         creationDateTime = creationDateTimeDecoded
         let provisionedThroughputDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ProvisionedThroughputDescription.self, forKey: .provisionedThroughput)
         provisionedThroughput = provisionedThroughputDecoded
-        let tableSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableSizeBytes) ?? 0
+        let tableSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tableSizeBytes)
         tableSizeBytes = tableSizeBytesDecoded
-        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount) ?? 0
+        let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
         let tableArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableArn)
         tableArn = tableArnDecoded
@@ -17829,7 +17829,7 @@ extension DynamoDBClientTypes {
         /// Represents the version of [global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) in use, if the table is replicated across Amazon Web Services Regions.
         public var globalTableVersion: Swift.String?
         /// The number of items in the specified table. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-        public var itemCount: Swift.Int
+        public var itemCount: Swift.Int?
         /// The primary key structure for the table. Each KeySchemaElement consists of:
         ///
         /// * AttributeName - The name of the attribute.
@@ -17906,12 +17906,12 @@ extension DynamoDBClientTypes {
         /// The name of the table.
         public var tableName: Swift.String?
         /// The total size of the specified table, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-        public var tableSizeBytes: Swift.Int
+        public var tableSizeBytes: Swift.Int?
         /// The current state of the table:
         ///
         /// * CREATING - The table is being created.
         ///
-        /// * UPDATING - The table is being updated.
+        /// * UPDATING - The table/index configuration is being updated. The table/index remains available for data operations when UPDATING.
         ///
         /// * DELETING - The table is being deleted.
         ///
@@ -17931,7 +17931,7 @@ extension DynamoDBClientTypes {
             creationDateTime: ClientRuntime.Date? = nil,
             globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndexDescription]? = nil,
             globalTableVersion: Swift.String? = nil,
-            itemCount: Swift.Int = 0,
+            itemCount: Swift.Int? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             latestStreamArn: Swift.String? = nil,
             latestStreamLabel: Swift.String? = nil,
@@ -17945,7 +17945,7 @@ extension DynamoDBClientTypes {
             tableClassSummary: DynamoDBClientTypes.TableClassSummary? = nil,
             tableId: Swift.String? = nil,
             tableName: Swift.String? = nil,
-            tableSizeBytes: Swift.Int = 0,
+            tableSizeBytes: Swift.Int? = nil,
             tableStatus: DynamoDBClientTypes.TableStatus? = nil
         )
         {
