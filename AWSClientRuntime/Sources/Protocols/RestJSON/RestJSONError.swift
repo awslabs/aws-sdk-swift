@@ -50,7 +50,7 @@ public struct RestJSONError {
     }
 
     /// Filter additional information from error name and sanitize it
-    // Reference: https://awslabs.github.io/smithy/1.0/spec/aws/aws-restjson1-protocol.html#operation-error-serialization
+    /// Reference: https://awslabs.github.io/smithy/1.0/spec/aws/aws-restjson1-protocol.html#operation-error-serialization
     static func sanitizeErrorType(_ type: String?) -> String? {
         guard let errorType = type else {
             return type
