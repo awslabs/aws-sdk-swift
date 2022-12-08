@@ -25,7 +25,12 @@ public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
 }
 
 extension UnknownAWSHttpServiceError {
-    public init(httpResponse: HttpResponse, message: String? = nil, requestID: String? = nil, errorCode: String? = nil) {
+    public init(
+        httpResponse: HttpResponse,
+        message: String? = nil,
+        requestID: String? = nil,
+        errorCode: String? = nil
+    ) {
         self._errorCode = errorCode
         self._statusCode = httpResponse.statusCode
         self._headers = httpResponse.headers
