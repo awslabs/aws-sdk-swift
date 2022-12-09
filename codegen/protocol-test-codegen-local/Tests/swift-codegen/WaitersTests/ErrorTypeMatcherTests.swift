@@ -18,21 +18,21 @@ class ErrorTypeMatcherTests: XCTestCase {
     // MARK: - errorType matcher
 
     func test_errorType_matchesWhenErrorTypeMatchesAndErrorIsAWaiterTypedError() async throws {
-        let error = WaiterTypedErrorImpl()
+        let error = WaiterTypedErrorThatMatches()
         let subject = try WaitersClient.errorTypeMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .failure(error))
         XCTAssertEqual(match, .success(.failure(error)))
     }
 
     func test_errorType_doesNotMatchWhenErrorTypeDoesNotMatchAndErrorIsAWaiterTypedError() async throws {
-        let error = WaiterTypedErrorNoMatchImpl()
+        let error = WaiterTypedErrorThatDoesntMatch()
         let subject = try WaitersClient.errorTypeMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .failure(error))
         XCTAssertNil(match)
     }
 
     func test_errorType_doesNotMatchWhenErrorTypeMatchesButErrorIsNotAWaiterTypedError() async throws {
-        let error = WaiterTypedErrorNoMatchImpl()
+        let error = NotAWaiterTypedError()
         let subject = try WaitersClient.errorTypeMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .failure(error))
         XCTAssertNil(match)
@@ -48,17 +48,17 @@ class ErrorTypeMatcherTests: XCTestCase {
 
 // Error types used in tests above
 
-private struct WaiterTypedErrorImpl: WaiterTypedError, Equatable {
+private struct WaiterTypedErrorThatMatches: WaiterTypedError, Equatable {
 
     var waiterErrorType: String? { "MyError" }
 }
 
-private struct WaiterTypedErrorNoMatchImpl: WaiterTypedError, Equatable {
+private struct WaiterTypedErrorThatDoesntMatch: WaiterTypedError, Equatable {
 
     var waiterErrorType: String? { "OtherError" }
 }
 
-private struct NotAWaiterTypedErrorImpl: Error, Equatable {  // An error but not a WaiterTypedError
+private struct NotAWaiterTypedError: Error, Equatable {  // An error but not a WaiterTypedError
 
     var waiterErrorType: String? { "MyError" }
 }
