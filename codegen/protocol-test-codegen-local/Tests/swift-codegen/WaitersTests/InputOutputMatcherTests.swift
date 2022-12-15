@@ -9,7 +9,6 @@ import XCTest
 @testable import Waiters
 @testable import ClientRuntime
 
-#if swift(>=5.7)
 class InputOutputMatcherTests: XCTestCase {
 
     // JMESPath expression: input.stringProperty == output.stringProperty
@@ -37,4 +36,4 @@ class InputOutputMatcherTests: XCTestCase {
         XCTAssertNil(match)
     }
 }
-#endif
+

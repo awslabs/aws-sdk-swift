@@ -9,7 +9,6 @@ import XCTest
 @testable import Waiters
 @testable import ClientRuntime
 
-#if swift(>=5.7)
 class SuccessMatcherTests: XCTestCase {
 
     // MARK: - success matcher
@@ -47,4 +46,4 @@ class SuccessMatcherTests: XCTestCase {
         XCTAssertEqual(match, .success(.failure(error)))
     }
 }
-#endif
+

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eo pipefail
 
 # Regenerates the SDK.  For use during development only.
 # Run this script from the SDK project root directory.

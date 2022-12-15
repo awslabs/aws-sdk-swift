@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eo pipefail
 
 # This script may be used to regenerate protocol tests during development.
 # Run this script from the SDK project's root dir.

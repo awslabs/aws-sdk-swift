@@ -9,8 +9,6 @@ import XCTest
 @testable import Waiters
 @testable import ClientRuntime
 
-#if swift(>=5.7)
-
 class ErrorTypeMatcherTests: XCTestCase {
 
     // expected errorType for these tests: "MyError"
@@ -63,4 +61,3 @@ private struct NotAWaiterTypedError: Error, Equatable {  // An error but not a W
     var waiterErrorType: String? { "MyError" }
 }
 
-#endif
