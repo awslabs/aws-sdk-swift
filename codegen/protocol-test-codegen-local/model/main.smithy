@@ -292,7 +292,7 @@ service Waiters {
             }
         ]
     }
-    ProjectedLengthMatcher: {
+    FlattenFilterMatcher: {
         documentation: "Matches when exactly one child has 3 grandchildren"
         acceptors: [
             {
@@ -307,7 +307,7 @@ service Waiters {
             }
         ]
     }
-    FilterMatcher: {
+    LengthFlattenFilterMatcher: {
         documentation: "Matches when exactly 3 grandchildren have numbers above 4"
         acceptors: [
             {
@@ -317,6 +317,21 @@ service Waiters {
                         path: "length((children[].grandchildren[])[?number > `4`]) == `3`"
                         expected: "true"
                         comparator: "booleanEquals"
+                    }
+                }
+            }
+        ]
+    }
+    ProjectionMatcher: {
+        documentation: "Matches when dataMap values are all `abc`"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "dataMap.*"
+                        expected: "abc"
+                        comparator: "allStringEquals"
                     }
                 }
             }
@@ -339,6 +354,7 @@ structure WidgetOutput {
     booleanProperty: Boolean
     booleanArrayProperty: BooleanArray
     children: ChildArray
+    dataMap: DataMap
 }
 
 structure Child {
@@ -364,6 +380,11 @@ list ChildArray {
 
 list GrandchildArray {
     member: Grandchild
+}
+
+map DataMap {
+    key: String
+    value: String
 }
 
 @error("client")

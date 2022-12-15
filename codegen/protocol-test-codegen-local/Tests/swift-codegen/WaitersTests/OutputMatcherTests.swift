@@ -179,36 +179,64 @@ class OutputMatcherTests: XCTestCase {
         XCTAssertEqual(match, .success(.success(output)))
     }
 
-    // MARK: - Filter
+    // MARK: - Length - Flatten - Filter
 
     // JMESPath expression: length((children[].grandchildren[])[?number > `4`]) == `3`
     // JMESPath comparator: booleanEquals
     // JMESPath expected value: true
 
-    func test_filter_acceptorMatchesWhenFilterMatches() async throws {
-        let output1 = outputTree()
-        let subject = try WaitersClient.filterMatcherWaiterConfig().acceptors[0]
-        let match1 = subject.evaluate(input: anInput, result: .success(output1))
-        XCTAssertNil(match1)
-        let output2 = outputTree(appendBonusKid: true)
-        let match2 = subject.evaluate(input: anInput, result: .success(output2))
-        XCTAssertEqual(match2, .success(.success(output2)))
+    func test_lengthFlattenFilter_acceptorMatchesWhenFilterMatches() async throws {
+        let output = outputTree(appendBonusKid: true)
+        let subject = try WaitersClient.lengthFlattenFilterMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertEqual(match, .success(.success(output)))
     }
 
-    // MARK: - Projections
+    func test_lengthFlattenFilter_acceptorDoesNotMatchWhenFilterDoesNotMatch() async throws {
+        let output = outputTree()
+        let subject = try WaitersClient.lengthFlattenFilterMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertNil(match)
+    }
+
+    // MARK: - Flatten - Filter
 
     // JMESPath expression: length(children[?length(grandchildren) == `3`]) == `1`
     // JMESPath comparator: booleanEquals
     // JMESPath expected value: true
 
-    func test_projectedLength_acceptorMatchesWhenFlattenedValueMatchesCount() async throws {
-        let output1 = outputTree()
-        let subject = try WaitersClient.projectedLengthMatcherWaiterConfig().acceptors[0]
-        let match1 = subject.evaluate(input: anInput, result: .success(output1))
-        XCTAssertNil(match1)
-        let output2 = outputTree(appendBonusKid: true)
-        let match2 = subject.evaluate(input: anInput, result: .success(output2))
-        XCTAssertEqual(match2, .success(.success(output2)))
+    func test_flattenFilter_acceptorMatchesWhenFlattenedValueMatchesCount() async throws {
+        let output = outputTree(appendBonusKid: true)
+        let subject = try WaitersClient.flattenFilterMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertEqual(match, .success(.success(output)))
+    }
+
+    func test_flattenFilter_acceptorDoesNotMatchWhenFlattenedValueDoesntMatchCount() async throws {
+        let output = outputTree()
+        let subject = try WaitersClient.flattenFilterMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertNil(match)
+    }
+
+    // MARK: - Projection
+
+    // JMESPath expression: "dataMap.*"
+    // JMESPath comparator: "allStringEquals"
+    // JMESPath expected value: "abc"
+
+    func test_projection_acceptorMatchesWhenProjectedValuesMatchExpectation() async throws {
+        let output = GetWidgetOutputResponse(dataMap: ["x": "abc", "y": "abc", "z": "abc"])
+        let subject = try WaitersClient.projectionMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertEqual(match, .success(.success(output)))
+    }
+
+    func test_projection_acceptorDoesNotMatchWhenProjectedValuesDontMatchExpectation() async throws {
+        let output = GetWidgetOutputResponse(dataMap: ["x": "abc", "y": "abc", "z": "def"])
+        let subject = try WaitersClient.projectionMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertNil(match)
     }
 
     // MARK: - Helper methods
