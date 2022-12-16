@@ -337,6 +337,21 @@ service Waiters {
             }
         ]
     }
+    ContainsFieldMatcher: {
+        documentation: "Matches when any value of dataMap is the same as stringProperty"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "contains(dataMap.*, stringProperty)"
+                        expected: "true"
+                        comparator: "booleanEquals"
+                    }
+                }
+            }
+        ]
+    }
 )
 operation GetWidget {
     input: WidgetInput,

@@ -239,6 +239,26 @@ class OutputMatcherTests: XCTestCase {
         XCTAssertNil(match)
     }
 
+    // MARK: - Contains with non-literal, optional search param
+
+    // JMESPath expression: "contains(dataMap.*, stringProperty)"
+    // JMESPath comparator: "booleanEquals"
+    // JMESPath expected value: "true"
+
+    func test_containsNonLiteral_acceptorMatchesWhenStringPropertyIsFound() async throws {
+        let output = GetWidgetOutputResponse(dataMap: ["a": "abc", "b": "xyz"], stringProperty: "xyz")
+        let subject = try WaitersClient.containsFieldMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertEqual(match, .success(.success(output)))
+    }
+
+    func test_containsNonLiteral_acceptorDoesNotMatchWhenStringPropertyIsNotFound() async throws {
+        let output = GetWidgetOutputResponse(dataMap: ["a": "abc", "b": "xyz"], stringProperty: "def")
+        let subject = try WaitersClient.containsFieldMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertNil(match)
+    }
+
     // MARK: - Helper methods
 
     private func outputTree(globalName: String? = nil, embeddedName: String? = "c", appendBonusKid: Bool = false) -> GetWidgetOutputResponse {
