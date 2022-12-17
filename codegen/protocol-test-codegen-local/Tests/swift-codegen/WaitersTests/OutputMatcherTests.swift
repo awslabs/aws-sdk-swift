@@ -239,7 +239,7 @@ class OutputMatcherTests: XCTestCase {
         XCTAssertNil(match)
     }
 
-    // MARK: - Contains with non-literal, optional search param
+    // MARK: - Contains non-literal, optional search param
 
     // JMESPath expression: "contains(dataMap.*, stringProperty)"
     // JMESPath comparator: "booleanEquals"
@@ -255,6 +255,26 @@ class OutputMatcherTests: XCTestCase {
     func test_containsNonLiteral_acceptorDoesNotMatchWhenStringPropertyIsNotFound() async throws {
         let output = GetWidgetOutputResponse(dataMap: ["a": "abc", "b": "xyz"], stringProperty: "def")
         let subject = try WaitersClient.containsFieldMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertNil(match)
+    }
+
+    // MARK: - Contains AND expression and number equality/inequality comparison
+
+    // JMESPath expression: "length(dataMap) == `3` && length(stringArrayProperty) != `3`"
+    // JMESPath comparator: "booleanEquals"
+    // JMESPath expected value: "true"
+
+    func test_andInequality_acceptorMatchesWhenCountsAreThreeAndNotThree() async throws {
+        let output = GetWidgetOutputResponse(dataMap: ["a": "a", "b": "b", "c": "c"], stringArrayProperty: ["a", "b"])
+        let subject = try WaitersClient.andInequalityMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertEqual(match, .success(.success(output)))
+    }
+
+    func test_andInequality_acceptorDoesNotMatchWhenCountsAreNotThreeAndThree() async throws {
+        let output = GetWidgetOutputResponse(dataMap: ["a": "a", "b": "b"], stringArrayProperty: ["a", "b", "c"])
+        let subject = try WaitersClient.andInequalityMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
     }
