@@ -1,10 +1,19 @@
-#!/bin/bash -eo pipefail
+#!/bin/bash
+
+# Stop on any failed step of this script
+set -eo pipefail
 
 # This script may be used to regenerate protocol tests during development.
+
+# May be used on Mac or Linux.
+# When run on Mac, kills Xcode before codegen & restarts it after.
+
 # Run this script from the SDK project's root dir.
 
-# Quit Xcode since it tends to get hung up when files are being changed for a local project.
-osascript -e 'quit app "Xcode"'
+# If on Mac, quit Xcode so it doesn't get overwhelmed by source file changes.
+if [ -x "$(command -v osascript)" ]; then
+  osascript -e 'quit app "Xcode"'
+fi
 
 # Delete the build products from any previous run of protocol tests.
 rm -rf codegen/protocol-test-codegen/build
@@ -32,5 +41,7 @@ rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-cod
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/rest_json_extras/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/Waiters/swift-codegen/Package.swift
 
-# Work's done, reopen Xcode to the refreshed tests
-open -a Xcode
+# If on Mac, reopen Xcode to the refreshed tests
+if [ -x "$(command -v osascript)" ]; then
+  open -a Xcode
+fi
