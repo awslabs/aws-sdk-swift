@@ -352,6 +352,21 @@ service Waiters {
             }
         ]
     }
+    AndInequalityMatcher: {
+        documentation: "Matches when there are three elements in dataMap but not three in stringArrayProperty"
+        acceptors: [
+            {
+                state: "success"
+                matcher: {
+                    output: {
+                        path: "length(dataMap) == `3` && length(stringArrayProperty) != `3`"
+                        expected: "true"
+                        comparator: "booleanEquals"
+                    }
+                }
+            }
+        ]
+    }
 )
 operation GetWidget {
     input: WidgetInput,
