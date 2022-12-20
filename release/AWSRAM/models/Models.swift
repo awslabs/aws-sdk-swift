@@ -83,7 +83,7 @@ extension AcceptResourceShareInvitationOutputError {
         case "InvalidResourceShareInvitationArn.Expired" : self = .resourceShareInvitationExpiredException(try ResourceShareInvitationExpiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -296,7 +296,7 @@ extension AssociateResourceShareOutputError {
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -491,7 +491,7 @@ extension AssociateResourceSharePermissionOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -761,7 +761,7 @@ extension CreateResourceShareOutputError {
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagPolicyViolation" : self = .tagPolicyViolationException(try TagPolicyViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -903,7 +903,7 @@ extension DeleteResourceShareOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1114,7 +1114,7 @@ extension DisassociateResourceShareOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1285,7 +1285,7 @@ extension DisassociateResourceSharePermissionOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1387,7 +1387,7 @@ extension EnableSharingWithAwsOrganizationOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1517,7 +1517,7 @@ extension GetPermissionOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1686,7 +1686,7 @@ extension GetResourcePoliciesOutputError {
         case "InvalidResourceArn.NotFound" : self = .resourceArnNotFoundException(try ResourceArnNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1915,7 +1915,7 @@ extension GetResourceShareAssociationsOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2117,7 +2117,7 @@ extension GetResourceShareInvitationsOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2371,7 +2371,7 @@ extension GetResourceSharesOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2930,7 +2930,7 @@ extension ListPendingInvitationResourcesOutputError {
         case "InvalidResourceShareInvitationArn.Expired" : self = .resourceShareInvitationExpiredException(try ResourceShareInvitationExpiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3098,7 +3098,7 @@ extension ListPermissionVersionsOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3261,7 +3261,7 @@ extension ListPermissionsOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3513,7 +3513,7 @@ extension ListPrincipalsOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3678,7 +3678,7 @@ extension ListResourceSharePermissionsOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3849,7 +3849,7 @@ extension ListResourceTypesOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4109,7 +4109,7 @@ extension ListResourcesOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4481,7 +4481,7 @@ extension PromoteResourceShareCreatedFromPolicyOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4620,7 +4620,7 @@ extension RejectResourceShareInvitationOutputError {
         case "InvalidResourceShareInvitationArn.Expired" : self = .resourceShareInvitationExpiredException(try ResourceShareInvitationExpiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6549,7 +6549,7 @@ extension TagResourceOutputError {
         case "TagLimitExceeded" : self = .tagLimitExceededException(try TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagPolicyViolation" : self = .tagPolicyViolationException(try TagPolicyViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6769,7 +6769,7 @@ extension UntagResourceOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6895,7 +6895,7 @@ extension UpdateResourceShareOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Unavailable" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceShareArn.NotFound" : self = .unknownResourceException(try UnknownResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

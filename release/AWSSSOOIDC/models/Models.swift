@@ -292,7 +292,7 @@ extension CreateTokenOutputError {
         case "SlowDownException" : self = .slowDownException(try SlowDownException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedGrantTypeException" : self = .unsupportedGrantTypeException(try UnsupportedGrantTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -920,7 +920,7 @@ extension RegisterClientOutputError {
         case "InvalidClientMetadataException" : self = .invalidClientMetadataException(try InvalidClientMetadataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidScopeException" : self = .invalidScopeException(try InvalidScopeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1175,7 +1175,7 @@ extension StartDeviceAuthorizationOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SlowDownException" : self = .slowDownException(try SlowDownException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

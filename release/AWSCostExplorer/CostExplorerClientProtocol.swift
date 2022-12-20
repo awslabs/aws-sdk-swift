@@ -12,7 +12,7 @@ import ClientRuntime
 public protocol CostExplorerClientProtocol {
     /// Creates a new cost anomaly detection monitor with the requested type and monitor specification.
     func createAnomalyMonitor(input: CreateAnomalyMonitorInput) async throws -> CreateAnomalyMonitorOutputResponse
-    /// Adds a subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifications. Email subscribers can set a dollar threshold and a time frequency for receiving notifications.
+    /// Adds an alert subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifications. Email subscribers can set an absolute or percentage threshold and a time frequency for receiving notifications.
     func createAnomalySubscription(input: CreateAnomalySubscriptionInput) async throws -> CreateAnomalySubscriptionOutputResponse
     /// Creates a new Cost Category with the requested name and rules.
     func createCostCategoryDefinition(input: CreateCostCategoryDefinitionInput) async throws -> CreateCostCategoryDefinitionOutputResponse
@@ -24,7 +24,7 @@ public protocol CostExplorerClientProtocol {
     func deleteCostCategoryDefinition(input: DeleteCostCategoryDefinitionInput) async throws -> DeleteCostCategoryDefinitionOutputResponse
     /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response.
     func describeCostCategoryDefinition(input: DescribeCostCategoryDefinitionInput) async throws -> DescribeCostCategoryDefinitionOutputResponse
-    /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object.
+    /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days.
     func getAnomalies(input: GetAnomaliesInput) async throws -> GetAnomaliesOutputResponse
     /// Retrieves the cost anomaly monitor definitions for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
     func getAnomalyMonitors(input: GetAnomalyMonitorsInput) async throws -> GetAnomalyMonitorsOutputResponse

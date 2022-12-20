@@ -312,7 +312,7 @@ extension AddTagsOutputError {
         case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagsLimitExceeded" : self = .tagsLimitExceededException(try TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -754,7 +754,7 @@ extension CancelQueryOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "QueryIdNotFound" : self = .queryIdNotFoundException(try QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1476,6 +1476,7 @@ extension CreateEventDataStoreOutputError {
         case "EventDataStoreMaxLimitExceeded" : self = .eventDataStoreMaxLimitExceededException(try EventDataStoreMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidEventSelectors" : self = .invalidEventSelectorsException(try InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidKmsKeyId" : self = .invalidKmsKeyIdException(try InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagParameter" : self = .invalidTagParameterException(try InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1487,7 +1488,7 @@ extension CreateEventDataStoreOutputError {
         case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1499,6 +1500,7 @@ public enum CreateEventDataStoreOutputError: Swift.Error, Swift.Equatable {
     case eventDataStoreMaxLimitExceededException(EventDataStoreMaxLimitExceededException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
+    case invalidEventSelectorsException(InvalidEventSelectorsException)
     case invalidKmsKeyIdException(InvalidKmsKeyIdException)
     case invalidParameterException(InvalidParameterException)
     case invalidTagParameterException(InvalidTagParameterException)
@@ -1932,10 +1934,11 @@ extension CreateTrailOutputError {
         case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "S3BucketDoesNotExist" : self = .s3BucketDoesNotExistException(try S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TagsLimitExceeded" : self = .tagsLimitExceededException(try TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailAlreadyExists" : self = .trailAlreadyExistsException(try TrailAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotProvided" : self = .trailNotProvidedException(try TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1968,6 +1971,7 @@ public enum CreateTrailOutputError: Swift.Error, Swift.Equatable {
     case organizationNotInAllFeaturesModeException(OrganizationNotInAllFeaturesModeException)
     case organizationsNotInUseException(OrganizationsNotInUseException)
     case s3BucketDoesNotExistException(S3BucketDoesNotExistException)
+    case tagsLimitExceededException(TagsLimitExceededException)
     case trailAlreadyExistsException(TrailAlreadyExistsException)
     case trailNotProvidedException(TrailNotProvidedException)
     case unsupportedOperationException(UnsupportedOperationException)
@@ -2362,13 +2366,14 @@ extension DeleteEventDataStoreOutputError {
         case "EventDataStoreHasOngoingImport" : self = .eventDataStoreHasOngoingImportException(try EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreTerminationProtectedException" : self = .eventDataStoreTerminationProtectedException(try EventDataStoreTerminationProtectedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotOrganizationMasterAccount" : self = .notOrganizationMasterAccountException(try NotOrganizationMasterAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2378,6 +2383,7 @@ public enum DeleteEventDataStoreOutputError: Swift.Error, Swift.Equatable {
     case eventDataStoreHasOngoingImportException(EventDataStoreHasOngoingImportException)
     case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
     case eventDataStoreTerminationProtectedException(EventDataStoreTerminationProtectedException)
+    case inactiveEventDataStoreException(InactiveEventDataStoreException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidParameterException(InvalidParameterException)
     case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
@@ -2457,6 +2463,7 @@ extension DeleteTrailOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteTrailOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2466,12 +2473,13 @@ extension DeleteTrailOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum DeleteTrailOutputError: Swift.Error, Swift.Equatable {
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case conflictException(ConflictException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidHomeRegionException(InvalidHomeRegionException)
@@ -2618,7 +2626,7 @@ extension DeregisterOrganizationDelegatedAdminOutputError {
         case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2728,7 +2736,7 @@ extension DescribeQueryOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "QueryIdNotFound" : self = .queryIdNotFoundException(try QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2940,7 +2948,7 @@ extension DescribeTrailsOutputError {
         case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3889,7 +3897,7 @@ extension GetChannelOutputError {
         case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4057,7 +4065,7 @@ extension GetEventDataStoreOutputError {
         case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4294,17 +4302,19 @@ extension GetEventSelectorsOutputError: ClientRuntime.HttpResponseBinding {
 extension GetEventSelectorsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetEventSelectorsOutputError: Swift.Error, Swift.Equatable {
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case invalidTrailNameException(InvalidTrailNameException)
     case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
     case operationNotPermittedException(OperationNotPermittedException)
@@ -4455,7 +4465,7 @@ extension GetImportOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4670,18 +4680,20 @@ extension GetInsightSelectorsOutputError: ClientRuntime.HttpResponseBinding {
 extension GetInsightSelectorsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsightNotEnabled" : self = .insightNotEnabledException(try InsightNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetInsightSelectorsOutputError: Swift.Error, Swift.Equatable {
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case insightNotEnabledException(InsightNotEnabledException)
     case invalidTrailNameException(InvalidTrailNameException)
     case noManagementAccountSLRExistsException(NoManagementAccountSLRExistsException)
@@ -4858,7 +4870,7 @@ extension GetQueryResultsOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "QueryIdNotFound" : self = .queryIdNotFoundException(try QueryIdNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5045,16 +5057,18 @@ extension GetTrailOutputError: ClientRuntime.HttpResponseBinding {
 extension GetTrailOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetTrailOutputError: Swift.Error, Swift.Equatable {
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case invalidTrailNameException(InvalidTrailNameException)
     case operationNotPermittedException(OperationNotPermittedException)
     case trailNotFoundException(TrailNotFoundException)
@@ -5163,16 +5177,18 @@ extension GetTrailStatusOutputError: ClientRuntime.HttpResponseBinding {
 extension GetTrailStatusOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetTrailStatusOutputError: Swift.Error, Swift.Equatable {
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case invalidTrailNameException(InvalidTrailNameException)
     case operationNotPermittedException(OperationNotPermittedException)
     case trailNotFoundException(TrailNotFoundException)
@@ -7798,7 +7814,7 @@ extension ListChannelsOutputError {
         case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7945,7 +7961,7 @@ extension ListEventDataStoresOutputError {
         case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8105,7 +8121,7 @@ extension ListImportFailuresOutputError {
         case "InvalidNextToken" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8276,7 +8292,7 @@ extension ListImportsOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8437,7 +8453,7 @@ extension ListPublicKeysOutputError {
         case "InvalidToken" : self = .invalidTokenException(try InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8641,7 +8657,7 @@ extension ListQueriesOutputError {
         case "NoManagementAccountSLRExists" : self = .noManagementAccountSLRExistsException(try NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8815,7 +8831,7 @@ extension ListTagsOutputError {
         case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8955,7 +8971,7 @@ extension ListTrailsOutputError {
         switch errorType {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9261,7 +9277,7 @@ extension LookupEventsOutputError {
         case "InvalidTimeRange" : self = .invalidTimeRangeException(try InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9947,6 +9963,7 @@ extension PutEventSelectorsOutputError: ClientRuntime.HttpResponseBinding {
 extension PutEventSelectorsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidEventSelectors" : self = .invalidEventSelectorsException(try InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -9956,12 +9973,13 @@ extension PutEventSelectorsOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum PutEventSelectorsOutputError: Swift.Error, Swift.Equatable {
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidEventSelectorsException(InvalidEventSelectorsException)
     case invalidHomeRegionException(InvalidHomeRegionException)
@@ -10137,6 +10155,7 @@ extension PutInsightSelectorsOutputError: ClientRuntime.HttpResponseBinding {
 extension PutInsightSelectorsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientS3BucketPolicy" : self = .insufficientS3BucketPolicyException(try InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -10149,12 +10168,13 @@ extension PutInsightSelectorsOutputError {
         case "S3BucketDoesNotExist" : self = .s3BucketDoesNotExistException(try S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum PutInsightSelectorsOutputError: Swift.Error, Swift.Equatable {
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
     case insufficientS3BucketPolicyException(InsufficientS3BucketPolicyException)
     case invalidHomeRegionException(InvalidHomeRegionException)
@@ -10619,7 +10639,7 @@ extension RegisterOrganizationDelegatedAdminOutputError {
         case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10747,7 +10767,7 @@ extension RemoveTagsOutputError {
         case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11058,7 +11078,7 @@ extension RestoreEventDataStoreOutputError {
         case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11527,7 +11547,7 @@ extension StartImportOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11727,6 +11747,7 @@ extension StartLoggingOutputError: ClientRuntime.HttpResponseBinding {
 extension StartLoggingOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -11735,12 +11756,13 @@ extension StartLoggingOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum StartLoggingOutputError: Swift.Error, Swift.Equatable {
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidHomeRegionException(InvalidHomeRegionException)
     case invalidTrailNameException(InvalidTrailNameException)
@@ -11848,7 +11870,7 @@ extension StartQueryOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "S3BucketDoesNotExist" : self = .s3BucketDoesNotExistException(try S3BucketDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11975,7 +11997,7 @@ extension StopImportOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12178,6 +12200,7 @@ extension StopLoggingOutputError: ClientRuntime.HttpResponseBinding {
 extension StopLoggingOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -12186,12 +12209,13 @@ extension StopLoggingOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum StopLoggingOutputError: Swift.Error, Swift.Equatable {
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidHomeRegionException(InvalidHomeRegionException)
     case invalidTrailNameException(InvalidTrailNameException)
@@ -12936,6 +12960,7 @@ extension UpdateEventDataStoreOutputError {
         case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidEventSelectors" : self = .invalidEventSelectorsException(try InvalidEventSelectorsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidKmsKeyId" : self = .invalidKmsKeyIdException(try InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KmsException" : self = .kmsException(try KmsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -12946,7 +12971,7 @@ extension UpdateEventDataStoreOutputError {
         case "OrganizationNotInAllFeaturesMode" : self = .organizationNotInAllFeaturesModeException(try OrganizationNotInAllFeaturesModeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationsNotInUse" : self = .organizationsNotInUseException(try OrganizationsNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12959,6 +12984,7 @@ public enum UpdateEventDataStoreOutputError: Swift.Error, Swift.Equatable {
     case inactiveEventDataStoreException(InactiveEventDataStoreException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
+    case invalidEventSelectorsException(InvalidEventSelectorsException)
     case invalidKmsKeyIdException(InvalidKmsKeyIdException)
     case invalidParameterException(InvalidParameterException)
     case kmsException(KmsException)
@@ -13324,6 +13350,7 @@ extension UpdateTrailOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudTrailInvalidClientTokenId" : self = .cloudTrailInvalidClientTokenIdException(try CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudWatchLogsDeliveryUnavailable" : self = .cloudWatchLogsDeliveryUnavailableException(try CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -13353,13 +13380,14 @@ extension UpdateTrailOutputError {
         case "TrailNotFound" : self = .trailNotFoundException(try TrailNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrailNotProvided" : self = .trailNotProvidedException(try TrailNotProvidedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum UpdateTrailOutputError: Swift.Error, Swift.Equatable {
     case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
+    case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case cloudTrailInvalidClientTokenIdException(CloudTrailInvalidClientTokenIdException)
     case cloudWatchLogsDeliveryUnavailableException(CloudWatchLogsDeliveryUnavailableException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)

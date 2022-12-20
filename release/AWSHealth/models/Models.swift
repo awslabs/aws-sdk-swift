@@ -300,7 +300,7 @@ extension DescribeAffectedAccountsForOrganizationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -495,7 +495,7 @@ extension DescribeAffectedEntitiesForOrganizationOutputError {
         switch errorType {
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedLocale" : self = .unsupportedLocale(try UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -682,7 +682,7 @@ extension DescribeAffectedEntitiesOutputError {
         switch errorType {
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedLocale" : self = .unsupportedLocale(try UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -823,7 +823,7 @@ extension DescribeEntityAggregatesOutputError: ClientRuntime.HttpResponseBinding
 extension DescribeEntityAggregatesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -978,7 +978,7 @@ extension DescribeEventAggregatesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1132,7 +1132,7 @@ extension DescribeEventDetailsForOrganizationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "UnsupportedLocale" : self = .unsupportedLocale(try UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1295,7 +1295,7 @@ extension DescribeEventDetailsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "UnsupportedLocale" : self = .unsupportedLocale(try UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1470,7 +1470,7 @@ extension DescribeEventTypesOutputError {
         switch errorType {
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedLocale" : self = .unsupportedLocale(try UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1637,7 +1637,7 @@ extension DescribeEventsForOrganizationOutputError {
         switch errorType {
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedLocale" : self = .unsupportedLocale(try UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1804,7 +1804,7 @@ extension DescribeEventsOutputError {
         switch errorType {
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedLocale" : self = .unsupportedLocale(try UnsupportedLocale(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1914,7 +1914,7 @@ extension DescribeHealthServiceStatusForOrganizationOutputError: ClientRuntime.H
 extension DescribeHealthServiceStatusForOrganizationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2004,7 +2004,7 @@ extension DisableHealthServiceAccessForOrganizationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2064,7 +2064,7 @@ extension EnableHealthServiceAccessForOrganizationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

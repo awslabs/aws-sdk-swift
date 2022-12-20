@@ -153,7 +153,7 @@ extension AssociateServiceQuotaTemplateOutputError {
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplatesNotAvailableInRegionException" : self = .templatesNotAvailableInRegionException(try TemplatesNotAvailableInRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -274,7 +274,7 @@ extension DeleteServiceQuotaIncreaseRequestFromTemplateOutputError {
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplatesNotAvailableInRegionException" : self = .templatesNotAvailableInRegionException(try TemplatesNotAvailableInRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -401,7 +401,7 @@ extension DisassociateServiceQuotaTemplateOutputError {
         case "ServiceQuotaTemplateNotInUseException" : self = .serviceQuotaTemplateNotInUseException(try ServiceQuotaTemplateNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplatesNotAvailableInRegionException" : self = .templatesNotAvailableInRegionException(try TemplatesNotAvailableInRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -596,7 +596,7 @@ extension GetAWSDefaultServiceQuotaOutputError {
         case "NoSuchResourceException" : self = .noSuchResourceException(try NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -698,7 +698,7 @@ extension GetAssociationForServiceQuotaTemplateOutputError {
         case "ServiceQuotaTemplateNotInUseException" : self = .serviceQuotaTemplateNotInUseException(try ServiceQuotaTemplateNotInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplatesNotAvailableInRegionException" : self = .templatesNotAvailableInRegionException(try TemplatesNotAvailableInRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -820,7 +820,7 @@ extension GetRequestedServiceQuotaChangeOutputError {
         case "NoSuchResourceException" : self = .noSuchResourceException(try NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -969,7 +969,7 @@ extension GetServiceQuotaIncreaseRequestFromTemplateOutputError {
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplatesNotAvailableInRegionException" : self = .templatesNotAvailableInRegionException(try TemplatesNotAvailableInRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1105,7 +1105,7 @@ extension GetServiceQuotaOutputError {
         case "NoSuchResourceException" : self = .noSuchResourceException(try NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1405,7 +1405,7 @@ extension ListAWSDefaultServiceQuotasOutputError {
         case "NoSuchResourceException" : self = .noSuchResourceException(try NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1594,7 +1594,7 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaOutputError {
         case "NoSuchResourceException" : self = .noSuchResourceException(try NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1769,7 +1769,7 @@ extension ListRequestedServiceQuotaChangeHistoryOutputError {
         case "NoSuchResourceException" : self = .noSuchResourceException(try NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1946,7 +1946,7 @@ extension ListServiceQuotaIncreaseRequestsInTemplateOutputError {
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplatesNotAvailableInRegionException" : self = .templatesNotAvailableInRegionException(try TemplatesNotAvailableInRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2112,7 +2112,7 @@ extension ListServiceQuotasOutputError {
         case "NoSuchResourceException" : self = .noSuchResourceException(try NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2262,7 +2262,7 @@ extension ListServicesOutputError {
         case "InvalidPaginationTokenException" : self = .invalidPaginationTokenException(try InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2400,7 +2400,7 @@ extension ListTagsForResourceOutputError {
         case "NoSuchResourceException" : self = .noSuchResourceException(try NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2852,7 +2852,7 @@ extension PutServiceQuotaIncreaseRequestIntoTemplateOutputError {
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplatesNotAvailableInRegionException" : self = .templatesNotAvailableInRegionException(try TemplatesNotAvailableInRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3103,7 +3103,7 @@ extension RequestServiceQuotaIncreaseOutputError {
         case "ResourceAlreadyExistsException" : self = .resourceAlreadyExistsException(try ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4041,7 +4041,7 @@ extension TagResourceOutputError {
         case "TagPolicyViolationException" : self = .tagPolicyViolationException(try TagPolicyViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4312,7 +4312,7 @@ extension UntagResourceOutputError {
         case "NoSuchResourceException" : self = .noSuchResourceException(try NoSuchResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

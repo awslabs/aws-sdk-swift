@@ -150,7 +150,7 @@ extension AddPermissionOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -458,7 +458,7 @@ extension CheckIfPhoneNumberIsOptedOutOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -656,7 +656,7 @@ extension ConfirmSubscriptionOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionLimitExceeded" : self = .subscriptionLimitExceededException(try SubscriptionLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -824,7 +824,7 @@ extension CreatePlatformApplicationOutputError {
         case "AuthorizationError" : self = .authorizationErrorException(try AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1000,7 +1000,7 @@ extension CreatePlatformEndpointOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1129,7 +1129,7 @@ extension CreateSMSSandboxPhoneNumberOutputError {
         case "OptedOut" : self = .optedOutException(try OptedOutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserError" : self = .userErrorException(try UserErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1333,7 +1333,7 @@ extension CreateTopicOutputError {
         case "TagLimitExceeded" : self = .tagLimitExceededException(try TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagPolicy" : self = .tagPolicyException(try TagPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TopicLimitExceeded" : self = .topicLimitExceededException(try TopicLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1454,7 +1454,7 @@ extension DeleteEndpointOutputError {
         case "AuthorizationError" : self = .authorizationErrorException(try AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1536,7 +1536,7 @@ extension DeletePlatformApplicationOutputError {
         case "AuthorizationError" : self = .authorizationErrorException(try AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1620,7 +1620,7 @@ extension DeleteSMSSandboxPhoneNumberOutputError {
         case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserError" : self = .userErrorException(try UserErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1708,7 +1708,7 @@ extension DeleteTopicOutputError {
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StaleTag" : self = .staleTagException(try StaleTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagPolicy" : self = .tagPolicyException(try TagPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2023,7 +2023,7 @@ extension GetDataProtectionPolicyOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSecurity" : self = .invalidSecurityException(try InvalidSecurityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2140,7 +2140,7 @@ extension GetEndpointAttributesOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2280,7 +2280,7 @@ extension GetPlatformApplicationAttributesOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2453,7 +2453,7 @@ extension GetSMSAttributesOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2558,7 +2558,7 @@ extension GetSMSSandboxAccountStatusOutputError {
         case "AuthorizationError" : self = .authorizationErrorException(try AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2674,7 +2674,7 @@ extension GetSubscriptionAttributesOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2850,7 +2850,7 @@ extension GetTopicAttributesOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSecurity" : self = .invalidSecurityException(try InvalidSecurityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3680,7 +3680,7 @@ extension ListEndpointsByPlatformApplicationOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3834,7 +3834,7 @@ extension ListOriginationNumbersOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3977,7 +3977,7 @@ extension ListPhoneNumbersOptedOutOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4119,7 +4119,7 @@ extension ListPlatformApplicationsOutputError {
         case "AuthorizationError" : self = .authorizationErrorException(try AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4272,7 +4272,7 @@ extension ListSMSSandboxPhoneNumbersOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4428,7 +4428,7 @@ extension ListSubscriptionsByTopicOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4570,7 +4570,7 @@ extension ListSubscriptionsOutputError {
         case "AuthorizationError" : self = .authorizationErrorException(try AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4713,7 +4713,7 @@ extension ListTagsForResourceOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagPolicy" : self = .tagPolicyException(try TagPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4844,7 +4844,7 @@ extension ListTopicsOutputError {
         case "AuthorizationError" : self = .authorizationErrorException(try AuthorizationErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5139,7 +5139,7 @@ extension OptInPhoneNumberOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5564,7 +5564,7 @@ extension PublishBatchOutputError {
         case "PlatformApplicationDisabled" : self = .platformApplicationDisabledException(try PlatformApplicationDisabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyEntriesInBatchRequest" : self = .tooManyEntriesInBatchRequestException(try TooManyEntriesInBatchRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6102,7 +6102,7 @@ extension PublishOutputError {
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PlatformApplicationDisabled" : self = .platformApplicationDisabledException(try PlatformApplicationDisabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6252,7 +6252,7 @@ extension PutDataProtectionPolicyOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSecurity" : self = .invalidSecurityException(try InvalidSecurityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6349,7 +6349,7 @@ extension RemovePermissionOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6643,7 +6643,7 @@ extension SetEndpointAttributesOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6818,7 +6818,7 @@ extension SetPlatformApplicationAttributesOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6954,7 +6954,7 @@ extension SetSMSAttributesOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7092,7 +7092,7 @@ extension SetSubscriptionAttributesOutputError {
         case "InternalError" : self = .internalErrorException(try InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7225,7 +7225,7 @@ extension SetTopicAttributesOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSecurity" : self = .invalidSecurityException(try InvalidSecurityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7501,7 +7501,7 @@ extension SubscribeOutputError {
         case "InvalidSecurity" : self = .invalidSecurityException(try InvalidSecurityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionLimitExceeded" : self = .subscriptionLimitExceededException(try SubscriptionLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7939,7 +7939,7 @@ extension TagResourceOutputError {
         case "StaleTag" : self = .staleTagException(try StaleTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceeded" : self = .tagLimitExceededException(try TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagPolicy" : self = .tagPolicyException(try TagPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8219,7 +8219,7 @@ extension UnsubscribeOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSecurity" : self = .invalidSecurityException(try InvalidSecurityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8344,7 +8344,7 @@ extension UntagResourceOutputError {
         case "StaleTag" : self = .staleTagException(try StaleTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceeded" : self = .tagLimitExceededException(try TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagPolicy" : self = .tagPolicyException(try TagPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8613,7 +8613,7 @@ extension VerifySMSSandboxPhoneNumberOutputError {
         case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Throttled" : self = .throttledException(try ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VerificationException" : self = .verificationException(try VerificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

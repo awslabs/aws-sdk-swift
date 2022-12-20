@@ -1030,7 +1030,7 @@ extension SendCommandOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OccConflictException" : self = .occConflictException(try OccConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateExceededException" : self = .rateExceededException(try RateExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

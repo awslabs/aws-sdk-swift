@@ -77,7 +77,7 @@ extension AcceptReservedNodeExchangeOutputError {
         case "ReservedNodeNotFound" : self = .reservedNodeNotFoundFault(try ReservedNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNodeOfferingNotFound" : self = .reservedNodeOfferingNotFoundFault(try ReservedNodeOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -485,7 +485,7 @@ extension AddPartnerOutputError {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PartnerNotFound" : self = .partnerNotFoundFault(try PartnerNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedPartnerIntegration" : self = .unauthorizedPartnerIntegrationFault(try UnauthorizedPartnerIntegrationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -755,7 +755,7 @@ extension AssociateDataShareConsumerOutputError {
         switch errorType {
         case "InvalidDataShareFault" : self = .invalidDataShareFault(try InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNamespaceFault" : self = .invalidNamespaceFault(try InvalidNamespaceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1383,7 +1383,7 @@ extension AuthorizeClusterSecurityGroupIngressOutputError {
         case "AuthorizationQuotaExceeded" : self = .authorizationQuotaExceededFault(try AuthorizationQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClusterSecurityGroupNotFound" : self = .clusterSecurityGroupNotFoundFault(try ClusterSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSecurityGroupState" : self = .invalidClusterSecurityGroupStateFault(try InvalidClusterSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1507,7 +1507,7 @@ extension AuthorizeDataShareOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidDataShareFault" : self = .invalidDataShareFault(try InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1726,7 +1726,7 @@ extension AuthorizeEndpointAccessOutputError {
         case "InvalidAuthorizationState" : self = .invalidAuthorizationStateFault(try InvalidAuthorizationStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1978,7 +1978,7 @@ extension AuthorizeSnapshotAccessOutputError {
         case "InvalidClusterSnapshotState" : self = .invalidClusterSnapshotStateFault(try InvalidClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2190,7 +2190,7 @@ extension BatchDeleteClusterSnapshotsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "BatchDeleteRequestSizeExceeded" : self = .batchDeleteRequestSizeExceededFault(try BatchDeleteRequestSizeExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2496,7 +2496,7 @@ extension BatchModifyClusterSnapshotsOutputError {
         switch errorType {
         case "BatchModifyClusterSnapshotsLimitExceededFault" : self = .batchModifyClusterSnapshotsLimitExceededFault(try BatchModifyClusterSnapshotsLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRetentionPeriodFault" : self = .invalidRetentionPeriodFault(try InvalidRetentionPeriodFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2705,7 +2705,7 @@ extension CancelResizeOutputError {
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResizeNotFound" : self = .resizeNotFoundFault(try ResizeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5705,7 +5705,7 @@ extension CopyClusterSnapshotOutputError {
         case "ClusterSnapshotQuotaExceeded" : self = .clusterSnapshotQuotaExceededFault(try ClusterSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSnapshotState" : self = .invalidClusterSnapshotStateFault(try InvalidClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRetentionPeriodFault" : self = .invalidRetentionPeriodFault(try InvalidRetentionPeriodFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5884,7 +5884,7 @@ extension CreateAuthenticationProfileOutputError {
         case "AuthenticationProfileAlreadyExistsFault" : self = .authenticationProfileAlreadyExistsFault(try AuthenticationProfileAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AuthenticationProfileQuotaExceededFault" : self = .authenticationProfileQuotaExceededFault(try AuthenticationProfileQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAuthenticationProfileRequestFault" : self = .invalidAuthenticationProfileRequestFault(try InvalidAuthenticationProfileRequestFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6545,7 +6545,7 @@ extension CreateClusterOutputError {
         case "SnapshotScheduleNotFound" : self = .snapshotScheduleNotFoundFault(try SnapshotScheduleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6751,7 +6751,7 @@ extension CreateClusterParameterGroupOutputError {
         case "ClusterParameterGroupQuotaExceeded" : self = .clusterParameterGroupQuotaExceededFault(try ClusterParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6925,7 +6925,7 @@ extension CreateClusterSecurityGroupOutputError {
         case "QuotaExceeded.ClusterSecurityGroup" : self = .clusterSecurityGroupQuotaExceededFault(try ClusterSecurityGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7115,7 +7115,7 @@ extension CreateClusterSnapshotOutputError {
         case "InvalidRetentionPeriodFault" : self = .invalidRetentionPeriodFault(try InvalidRetentionPeriodFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7334,7 +7334,7 @@ extension CreateClusterSubnetGroupOutputError {
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7530,7 +7530,7 @@ extension CreateEndpointAccessOutputError {
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7931,7 +7931,7 @@ extension CreateEventSubscriptionOutputError {
         case "SubscriptionEventIdNotFound" : self = .subscriptionEventIdNotFoundFault(try SubscriptionEventIdNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionSeverityNotFound" : self = .subscriptionSeverityNotFoundFault(try SubscriptionSeverityNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8091,7 +8091,7 @@ extension CreateHsmClientCertificateOutputError {
         case "HsmClientCertificateQuotaExceededFault" : self = .hsmClientCertificateQuotaExceededFault(try HsmClientCertificateQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8304,7 +8304,7 @@ extension CreateHsmConfigurationOutputError {
         case "HsmConfigurationQuotaExceededFault" : self = .hsmConfigurationQuotaExceededFault(try HsmConfigurationQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8501,7 +8501,7 @@ extension CreateScheduledActionOutputError {
         case "ScheduledActionQuotaExceeded" : self = .scheduledActionQuotaExceededFault(try ScheduledActionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ScheduledActionTypeUnsupported" : self = .scheduledActionTypeUnsupportedFault(try ScheduledActionTypeUnsupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8777,7 +8777,7 @@ extension CreateSnapshotCopyGrantOutputError {
         case "SnapshotCopyGrantAlreadyExistsFault" : self = .snapshotCopyGrantAlreadyExistsFault(try SnapshotCopyGrantAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotCopyGrantQuotaExceededFault" : self = .snapshotCopyGrantQuotaExceededFault(try SnapshotCopyGrantQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9002,7 +9002,7 @@ extension CreateSnapshotScheduleOutputError {
         case "SnapshotScheduleAlreadyExists" : self = .snapshotScheduleAlreadyExistsFault(try SnapshotScheduleAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotScheduleQuotaExceeded" : self = .snapshotScheduleQuotaExceededFault(try SnapshotScheduleQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9287,7 +9287,7 @@ extension CreateTagsOutputError {
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9468,7 +9468,7 @@ extension CreateUsageLimitOutputError {
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UsageLimitAlreadyExists" : self = .usageLimitAlreadyExistsFault(try UsageLimitAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10066,7 +10066,7 @@ extension DeauthorizeDataShareOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidDataShareFault" : self = .invalidDataShareFault(try InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10369,7 +10369,7 @@ extension DeleteAuthenticationProfileOutputError {
         switch errorType {
         case "AuthenticationProfileNotFoundFault" : self = .authenticationProfileNotFoundFault(try AuthenticationProfileNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAuthenticationProfileRequestFault" : self = .invalidAuthenticationProfileRequestFault(try InvalidAuthenticationProfileRequestFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10531,7 +10531,7 @@ extension DeleteClusterOutputError {
         case "ClusterSnapshotQuotaExceeded" : self = .clusterSnapshotQuotaExceededFault(try ClusterSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRetentionPeriodFault" : self = .invalidRetentionPeriodFault(try InvalidRetentionPeriodFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10650,7 +10650,7 @@ extension DeleteClusterParameterGroupOutputError {
         switch errorType {
         case "ClusterParameterGroupNotFound" : self = .clusterParameterGroupNotFoundFault(try ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterParameterGroupState" : self = .invalidClusterParameterGroupStateFault(try InvalidClusterParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10730,7 +10730,7 @@ extension DeleteClusterSecurityGroupOutputError {
         switch errorType {
         case "ClusterSecurityGroupNotFound" : self = .clusterSecurityGroupNotFoundFault(try ClusterSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSecurityGroupState" : self = .invalidClusterSecurityGroupStateFault(try InvalidClusterSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10867,7 +10867,7 @@ extension DeleteClusterSnapshotOutputError {
         switch errorType {
         case "ClusterSnapshotNotFound" : self = .clusterSnapshotNotFoundFault(try ClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSnapshotState" : self = .invalidClusterSnapshotStateFault(try InvalidClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10980,7 +10980,7 @@ extension DeleteClusterSubnetGroupOutputError {
         case "ClusterSubnetGroupNotFoundFault" : self = .clusterSubnetGroupNotFoundFault(try ClusterSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSubnetGroupStateFault" : self = .invalidClusterSubnetGroupStateFault(try InvalidClusterSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSubnetStateFault" : self = .invalidClusterSubnetStateFault(try InvalidClusterSubnetStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11063,7 +11063,7 @@ extension DeleteEndpointAccessOutputError {
         case "InvalidClusterSecurityGroupState" : self = .invalidClusterSecurityGroupStateFault(try InvalidClusterSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidEndpointState" : self = .invalidEndpointStateFault(try InvalidEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11286,7 +11286,7 @@ extension DeleteEventSubscriptionOutputError {
         switch errorType {
         case "InvalidSubscriptionStateFault" : self = .invalidSubscriptionStateFault(try InvalidSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11366,7 +11366,7 @@ extension DeleteHsmClientCertificateOutputError {
         switch errorType {
         case "HsmClientCertificateNotFoundFault" : self = .hsmClientCertificateNotFoundFault(try HsmClientCertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHsmClientCertificateStateFault" : self = .invalidHsmClientCertificateStateFault(try InvalidHsmClientCertificateStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11446,7 +11446,7 @@ extension DeleteHsmConfigurationOutputError {
         switch errorType {
         case "HsmConfigurationNotFoundFault" : self = .hsmConfigurationNotFoundFault(try HsmConfigurationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHsmConfigurationStateFault" : self = .invalidHsmConfigurationStateFault(try InvalidHsmConfigurationStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11562,7 +11562,7 @@ extension DeletePartnerOutputError {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PartnerNotFound" : self = .partnerNotFoundFault(try PartnerNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedPartnerIntegration" : self = .unauthorizedPartnerIntegrationFault(try UnauthorizedPartnerIntegrationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11684,7 +11684,7 @@ extension DeleteScheduledActionOutputError {
         switch errorType {
         case "ScheduledActionNotFound" : self = .scheduledActionNotFoundFault(try ScheduledActionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11764,7 +11764,7 @@ extension DeleteSnapshotCopyGrantOutputError {
         switch errorType {
         case "InvalidSnapshotCopyGrantStateFault" : self = .invalidSnapshotCopyGrantStateFault(try InvalidSnapshotCopyGrantStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotCopyGrantNotFoundFault" : self = .snapshotCopyGrantNotFoundFault(try SnapshotCopyGrantNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11843,7 +11843,7 @@ extension DeleteSnapshotScheduleOutputError {
         switch errorType {
         case "InvalidClusterSnapshotScheduleState" : self = .invalidClusterSnapshotScheduleStateFault(try InvalidClusterSnapshotScheduleStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotScheduleNotFound" : self = .snapshotScheduleNotFoundFault(try SnapshotScheduleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11961,7 +11961,7 @@ extension DeleteTagsOutputError {
         switch errorType {
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12040,7 +12040,7 @@ extension DeleteUsageLimitOutputError {
         switch errorType {
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UsageLimitNotFound" : self = .usageLimitNotFoundFault(try UsageLimitNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12246,7 +12246,7 @@ extension DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseBindin
 extension DescribeAccountAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12371,7 +12371,7 @@ extension DescribeAuthenticationProfilesOutputError {
         switch errorType {
         case "AuthenticationProfileNotFoundFault" : self = .authenticationProfileNotFoundFault(try AuthenticationProfileNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAuthenticationProfileRequestFault" : self = .invalidAuthenticationProfileRequestFault(try InvalidAuthenticationProfileRequestFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12520,7 +12520,7 @@ extension DescribeClusterDbRevisionsOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12754,7 +12754,7 @@ extension DescribeClusterParameterGroupsOutputError {
         switch errorType {
         case "ClusterParameterGroupNotFound" : self = .clusterParameterGroupNotFoundFault(try ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12926,7 +12926,7 @@ extension DescribeClusterParametersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ClusterParameterGroupNotFound" : self = .clusterParameterGroupNotFoundFault(try ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13160,7 +13160,7 @@ extension DescribeClusterSecurityGroupsOutputError {
         switch errorType {
         case "ClusterSecurityGroupNotFound" : self = .clusterSecurityGroupNotFoundFault(try ClusterSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13519,7 +13519,7 @@ extension DescribeClusterSnapshotsOutputError {
         case "ClusterSnapshotNotFound" : self = .clusterSnapshotNotFoundFault(try ClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13756,7 +13756,7 @@ extension DescribeClusterSubnetGroupsOutputError {
         switch errorType {
         case "ClusterSubnetGroupNotFoundFault" : self = .clusterSubnetGroupNotFoundFault(try ClusterSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13916,7 +13916,7 @@ extension DescribeClusterTracksOutputError {
         switch errorType {
         case "InvalidClusterTrack" : self = .invalidClusterTrackFault(try InvalidClusterTrackFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14091,7 +14091,7 @@ extension DescribeClusterVersionsOutputError: ClientRuntime.HttpResponseBinding 
 extension DescribeClusterVersionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14324,7 +14324,20 @@ extension DescribeClustersOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeClustersOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .clusterNotFoundFault: return "ClusterNotFound"
+        case .invalidTagFault: return "InvalidTagFault"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -14494,7 +14507,7 @@ extension DescribeDataSharesForConsumerOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNamespaceFault" : self = .invalidNamespaceFault(try InvalidNamespaceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14662,7 +14675,7 @@ extension DescribeDataSharesForProducerOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNamespaceFault" : self = .invalidNamespaceFault(try InvalidNamespaceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14819,7 +14832,7 @@ extension DescribeDataSharesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidDataShareFault" : self = .invalidDataShareFault(try InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14977,7 +14990,7 @@ extension DescribeDefaultClusterParametersOutputError: ClientRuntime.HttpRespons
 extension DescribeDefaultClusterParametersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15141,7 +15154,7 @@ extension DescribeEndpointAccessOutputError {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EndpointNotFound" : self = .endpointNotFoundFault(try EndpointNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15323,7 +15336,7 @@ extension DescribeEndpointAuthorizationOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15459,7 +15472,7 @@ extension DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseBinding 
 extension DescribeEventCategoriesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15682,7 +15695,7 @@ extension DescribeEventSubscriptionsOutputError {
         switch errorType {
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15901,7 +15914,7 @@ extension DescribeEventsOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeEventsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16134,7 +16147,7 @@ extension DescribeHsmClientCertificatesOutputError {
         switch errorType {
         case "HsmClientCertificateNotFoundFault" : self = .hsmClientCertificateNotFoundFault(try HsmClientCertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16369,7 +16382,7 @@ extension DescribeHsmConfigurationsOutputError {
         switch errorType {
         case "HsmConfigurationNotFoundFault" : self = .hsmConfigurationNotFoundFault(try HsmConfigurationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16508,7 +16521,7 @@ extension DescribeLoggingStatusOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16812,7 +16825,7 @@ extension DescribeNodeConfigurationOptionsOutputError {
         case "ClusterSnapshotNotFound" : self = .clusterSnapshotNotFoundFault(try ClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSnapshotState" : self = .invalidClusterSnapshotStateFault(try InvalidClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16984,7 +16997,7 @@ extension DescribeOrderableClusterOptionsOutputError: ClientRuntime.HttpResponse
 extension DescribeOrderableClusterOptionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17155,7 +17168,7 @@ extension DescribePartnersOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedPartnerIntegration" : self = .unauthorizedPartnerIntegrationFault(try UnauthorizedPartnerIntegrationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17316,7 +17329,7 @@ extension DescribeReservedNodeExchangeStatusOutputError {
         case "ReservedNodeExchangeNotFond" : self = .reservedNodeExchangeNotFoundFault(try ReservedNodeExchangeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNodeNotFound" : self = .reservedNodeNotFoundFault(try ReservedNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17478,7 +17491,7 @@ extension DescribeReservedNodeOfferingsOutputError {
         case "DependentServiceUnavailableFault" : self = .dependentServiceUnavailableFault(try DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNodeOfferingNotFound" : self = .reservedNodeOfferingNotFoundFault(try ReservedNodeOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17640,7 +17653,7 @@ extension DescribeReservedNodesOutputError {
         switch errorType {
         case "DependentServiceUnavailableFault" : self = .dependentServiceUnavailableFault(try DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNodeNotFound" : self = .reservedNodeNotFoundFault(try ReservedNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17780,7 +17793,7 @@ extension DescribeResizeOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResizeNotFound" : self = .resizeNotFoundFault(try ResizeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18195,7 +18208,7 @@ extension DescribeScheduledActionsOutputError {
         switch errorType {
         case "ScheduledActionNotFound" : self = .scheduledActionNotFoundFault(try ScheduledActionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18429,7 +18442,7 @@ extension DescribeSnapshotCopyGrantsOutputError {
         switch errorType {
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotCopyGrantNotFoundFault" : self = .snapshotCopyGrantNotFoundFault(try SnapshotCopyGrantNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18672,7 +18685,7 @@ extension DescribeSnapshotSchedulesOutputError: ClientRuntime.HttpResponseBindin
 extension DescribeSnapshotSchedulesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18779,7 +18792,7 @@ extension DescribeStorageOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeStorageOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18931,7 +18944,7 @@ extension DescribeTableRestoreStatusOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TableRestoreNotFoundFault" : self = .tableRestoreNotFoundFault(try TableRestoreNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19200,7 +19213,7 @@ extension DescribeTagsOutputError {
         switch errorType {
         case "InvalidTagFault" : self = .invalidTagFault(try InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19456,7 +19469,7 @@ extension DescribeUsageLimitsOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19595,7 +19608,7 @@ extension DisableLoggingOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19797,7 +19810,7 @@ extension DisableSnapshotCopyOutputError {
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotCopyAlreadyDisabledFault" : self = .snapshotCopyAlreadyDisabledFault(try SnapshotCopyAlreadyDisabledFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19943,7 +19956,7 @@ extension DisassociateDataShareConsumerOutputError {
         switch errorType {
         case "InvalidDataShareFault" : self = .invalidDataShareFault(try InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNamespaceFault" : self = .invalidNamespaceFault(try InvalidNamespaceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20340,7 +20353,7 @@ extension EnableLoggingOutputError {
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidS3BucketNameFault" : self = .invalidS3BucketNameFault(try InvalidS3BucketNameFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidS3KeyPrefixFault" : self = .invalidS3KeyPrefixFault(try InvalidS3KeyPrefixFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20598,7 +20611,7 @@ extension EnableSnapshotCopyOutputError {
         case "SnapshotCopyGrantNotFoundFault" : self = .snapshotCopyGrantNotFoundFault(try SnapshotCopyGrantNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownSnapshotCopyRegionFault" : self = .unknownSnapshotCopyRegionFault(try UnknownSnapshotCopyRegionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22120,7 +22133,7 @@ extension GetClusterCredentialsOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22279,7 +22292,7 @@ extension GetClusterCredentialsWithIAMOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22475,7 +22488,7 @@ extension GetReservedNodeExchangeConfigurationOptionsOutputError {
         case "ReservedNodeNotFound" : self = .reservedNodeNotFoundFault(try ReservedNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNodeOfferingNotFound" : self = .reservedNodeOfferingNotFoundFault(try ReservedNodeOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22646,7 +22659,7 @@ extension GetReservedNodeExchangeOfferingsOutputError {
         case "ReservedNodeNotFound" : self = .reservedNodeNotFoundFault(try ReservedNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNodeOfferingNotFound" : self = .reservedNodeOfferingNotFoundFault(try ReservedNodeOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25395,7 +25408,7 @@ extension ModifyAquaConfigurationOutputError {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25520,7 +25533,7 @@ extension ModifyAuthenticationProfileOutputError {
         case "AuthenticationProfileNotFoundFault" : self = .authenticationProfileNotFoundFault(try AuthenticationProfileNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AuthenticationProfileQuotaExceededFault" : self = .authenticationProfileQuotaExceededFault(try AuthenticationProfileQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAuthenticationProfileRequestFault" : self = .invalidAuthenticationProfileRequestFault(try InvalidAuthenticationProfileRequestFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25655,7 +25668,7 @@ extension ModifyClusterDbRevisionOutputError {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClusterOnLatestRevision" : self = .clusterOnLatestRevisionFault(try ClusterOnLatestRevisionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25853,7 +25866,7 @@ extension ModifyClusterIamRolesOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26411,7 +26424,7 @@ extension ModifyClusterMaintenanceOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26493,7 +26506,7 @@ extension ModifyClusterOutputError {
         case "TableLimitExceeded" : self = .tableLimitExceededFault(try TableLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOptionFault" : self = .unsupportedOptionFault(try UnsupportedOptionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26660,7 +26673,7 @@ extension ModifyClusterParameterGroupOutputError {
         switch errorType {
         case "ClusterParameterGroupNotFound" : self = .clusterParameterGroupNotFoundFault(try ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterParameterGroupState" : self = .invalidClusterParameterGroupStateFault(try InvalidClusterParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26805,7 +26818,7 @@ extension ModifyClusterSnapshotOutputError {
         case "ClusterSnapshotNotFound" : self = .clusterSnapshotNotFoundFault(try ClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSnapshotState" : self = .invalidClusterSnapshotStateFault(try InvalidClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRetentionPeriodFault" : self = .invalidRetentionPeriodFault(try InvalidRetentionPeriodFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26940,7 +26953,7 @@ extension ModifyClusterSnapshotScheduleOutputError {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSnapshotScheduleState" : self = .invalidClusterSnapshotScheduleStateFault(try InvalidClusterSnapshotScheduleStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotScheduleNotFound" : self = .snapshotScheduleNotFoundFault(try SnapshotScheduleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27074,7 +27087,7 @@ extension ModifyClusterSubnetGroupOutputError {
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetAlreadyInUse" : self = .subnetAlreadyInUse(try SubnetAlreadyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27230,7 +27243,7 @@ extension ModifyEndpointAccessOutputError {
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidEndpointState" : self = .invalidEndpointStateFault(try InvalidEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27579,7 +27592,7 @@ extension ModifyEventSubscriptionOutputError {
         case "SubscriptionEventIdNotFound" : self = .subscriptionEventIdNotFoundFault(try SubscriptionEventIdNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionSeverityNotFound" : self = .subscriptionSeverityNotFoundFault(try SubscriptionSeverityNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27777,7 +27790,7 @@ extension ModifyScheduledActionOutputError {
         case "ScheduledActionNotFound" : self = .scheduledActionNotFoundFault(try ScheduledActionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ScheduledActionTypeUnsupported" : self = .scheduledActionTypeUnsupportedFault(try ScheduledActionTypeUnsupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28016,7 +28029,7 @@ extension ModifySnapshotCopyRetentionPeriodOutputError {
         case "InvalidRetentionPeriodFault" : self = .invalidRetentionPeriodFault(try InvalidRetentionPeriodFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotCopyDisabledFault" : self = .snapshotCopyDisabledFault(try SnapshotCopyDisabledFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28169,7 +28182,7 @@ extension ModifySnapshotScheduleOutputError {
         case "InvalidSchedule" : self = .invalidScheduleFault(try InvalidScheduleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotScheduleNotFound" : self = .snapshotScheduleNotFoundFault(try SnapshotScheduleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotScheduleUpdateInProgress" : self = .snapshotScheduleUpdateInProgressFault(try SnapshotScheduleUpdateInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28433,7 +28446,7 @@ extension ModifyUsageLimitOutputError {
         case "InvalidUsageLimit" : self = .invalidUsageLimitFault(try InvalidUsageLimitFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UsageLimitNotFound" : self = .usageLimitNotFoundFault(try UsageLimitNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29489,7 +29502,7 @@ extension PauseClusterOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29749,7 +29762,7 @@ extension PurchaseReservedNodeOfferingOutputError {
         case "ReservedNodeOfferingNotFound" : self = .reservedNodeOfferingNotFoundFault(try ReservedNodeOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNodeQuotaExceeded" : self = .reservedNodeQuotaExceededFault(try ReservedNodeQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29863,7 +29876,7 @@ extension RebootClusterOutputError {
         switch errorType {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -30018,7 +30031,7 @@ extension RejectDataShareOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidDataShareFault" : self = .invalidDataShareFault(try InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31156,7 +31169,7 @@ extension ResetClusterParameterGroupOutputError {
         switch errorType {
         case "ClusterParameterGroupNotFound" : self = .clusterParameterGroupNotFoundFault(try ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterParameterGroupState" : self = .invalidClusterParameterGroupStateFault(try InvalidClusterParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31454,7 +31467,7 @@ extension ResizeClusterOutputError {
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOptionFault" : self = .unsupportedOptionFault(try UnsupportedOptionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32204,7 +32217,7 @@ extension RestoreFromClusterSnapshotOutputError {
         case "TagLimitExceededFault" : self = .tagLimitExceededFault(try TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperation(try UnauthorizedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32528,7 +32541,7 @@ extension RestoreTableFromClusterSnapshotOutputError {
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTableRestoreArgument" : self = .invalidTableRestoreArgumentFault(try InvalidTableRestoreArgumentFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32682,7 +32695,7 @@ extension ResumeClusterOutputError {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientClusterCapacity" : self = .insufficientClusterCapacityFault(try InsufficientClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32884,7 +32897,7 @@ extension RevokeClusterSecurityGroupIngressOutputError {
         case "AuthorizationNotFound" : self = .authorizationNotFoundFault(try AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClusterSecurityGroupNotFound" : self = .clusterSecurityGroupNotFoundFault(try ClusterSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterSecurityGroupState" : self = .invalidClusterSecurityGroupStateFault(try InvalidClusterSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -33059,7 +33072,7 @@ extension RevokeEndpointAccessOutputError {
         case "InvalidClusterSecurityGroupState" : self = .invalidClusterSecurityGroupStateFault(try InvalidClusterSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidEndpointState" : self = .invalidEndpointStateFault(try InvalidEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -33309,7 +33322,7 @@ extension RevokeSnapshotAccessOutputError {
         case "AuthorizationNotFound" : self = .authorizationNotFoundFault(try AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClusterSnapshotNotFound" : self = .clusterSnapshotNotFoundFault(try ClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationFault(try UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -33424,7 +33437,7 @@ extension RotateEncryptionKeyOutputError {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DependentServiceRequestThrottlingFault" : self = .dependentServiceRequestThrottlingFault(try DependentServiceRequestThrottlingFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClusterState" : self = .invalidClusterStateFault(try InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37115,7 +37128,7 @@ extension UpdatePartnerStatusOutputError {
         case "ClusterNotFound" : self = .clusterNotFoundFault(try ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PartnerNotFound" : self = .partnerNotFoundFault(try PartnerNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedPartnerIntegration" : self = .unauthorizedPartnerIntegrationFault(try UnauthorizedPartnerIntegrationFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

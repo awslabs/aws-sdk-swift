@@ -160,6 +160,7 @@ extension M2ClientTypes {
         case created
         case creating
         case deleting
+        case deletingFromEnvironment
         case failed
         case ready
         case running
@@ -174,6 +175,7 @@ extension M2ClientTypes {
                 .created,
                 .creating,
                 .deleting,
+                .deletingFromEnvironment,
                 .failed,
                 .ready,
                 .running,
@@ -193,6 +195,7 @@ extension M2ClientTypes {
             case .created: return "Created"
             case .creating: return "Creating"
             case .deleting: return "Deleting"
+            case .deletingFromEnvironment: return "Deleting From Environment"
             case .failed: return "Failed"
             case .ready: return "Ready"
             case .running: return "Running"
@@ -310,7 +313,7 @@ extension M2ClientTypes {
         /// The timestamp when the application was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
-        /// Indicates whether there is an ongoing deployment or if the application has ever deployed successfully.
+        /// Indicates either an ongoing deployment or if the application has ever deployed successfully.
         public var deploymentStatus: M2ClientTypes.ApplicationDeploymentLifecycle?
         /// The description of the application.
         public var description: Swift.String?
@@ -319,7 +322,7 @@ extension M2ClientTypes {
         public var engineType: M2ClientTypes.EngineType?
         /// The unique identifier of the runtime environment that hosts this application.
         public var environmentId: Swift.String?
-        /// The timestamp when the application was last started. Null until the application has started running for the first time.
+        /// The timestamp when you last started the application. Null until the application runs for the first time.
         public var lastStartTime: ClientRuntime.Date?
         /// The name of the application.
         /// This member is required.
@@ -812,7 +815,7 @@ extension CancelBatchJobExecutionOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -916,6 +919,7 @@ extension CreateApplicationInput: Swift.Encodable {
         case definition
         case description
         case engineType
+        case kmsKeyId
         case name
         case tags
     }
@@ -933,6 +937,9 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let engineType = self.engineType {
             try encodeContainer.encode(engineType.rawValue, forKey: .engineType)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -963,6 +970,8 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// The type of the target platform for this application.
     /// This member is required.
     public var engineType: M2ClientTypes.EngineType?
+    /// The identifier of a customer managed key.
+    public var kmsKeyId: Swift.String?
     /// The unique identifier of the application.
     /// This member is required.
     public var name: Swift.String?
@@ -974,6 +983,7 @@ public struct CreateApplicationInput: Swift.Equatable {
         definition: M2ClientTypes.Definition? = nil,
         description: Swift.String? = nil,
         engineType: M2ClientTypes.EngineType? = nil,
+        kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -982,6 +992,7 @@ public struct CreateApplicationInput: Swift.Equatable {
         self.definition = definition
         self.description = description
         self.engineType = engineType
+        self.kmsKeyId = kmsKeyId
         self.name = name
         self.tags = tags
     }
@@ -994,6 +1005,7 @@ struct CreateApplicationInputBody: Swift.Equatable {
     let definition: M2ClientTypes.Definition?
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
+    let kmsKeyId: Swift.String?
 }
 
 extension CreateApplicationInputBody: Swift.Decodable {
@@ -1002,6 +1014,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
         case definition
         case description
         case engineType
+        case kmsKeyId
         case name
         case tags
     }
@@ -1029,6 +1042,8 @@ extension CreateApplicationInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
     }
 }
 
@@ -1049,7 +1064,7 @@ extension CreateApplicationOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1214,7 +1229,7 @@ extension CreateDataSetImportTaskOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1311,7 +1326,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     public var applicationVersion: Swift.Int?
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create a deployment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
     public var clientToken: Swift.String?
-    /// The identifier of the environment where this application will be deployed.
+    /// The identifier of the runtime environment where you want to deploy this application.
     /// This member is required.
     public var environmentId: Swift.String?
 
@@ -1371,7 +1386,7 @@ extension CreateDeploymentOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1437,6 +1452,7 @@ extension CreateEnvironmentInput: Swift.Encodable {
         case engineVersion
         case highAvailabilityConfig
         case instanceType
+        case kmsKeyId
         case name
         case preferredMaintenanceWindow
         case publiclyAccessible
@@ -1465,6 +1481,9 @@ extension CreateEnvironmentInput: Swift.Encodable {
         }
         if let instanceType = self.instanceType {
             try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -1511,32 +1530,34 @@ extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
 public struct CreateEnvironmentInput: Swift.Equatable {
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create an environment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
     public var clientToken: Swift.String?
-    /// The description of the environment.
+    /// The description of the runtime environment.
     public var description: Swift.String?
-    /// The engine type for the environment.
+    /// The engine type for the runtime environment.
     /// This member is required.
     public var engineType: M2ClientTypes.EngineType?
-    /// The version of the engine type for the environment.
+    /// The version of the engine type for the runtime environment.
     public var engineVersion: Swift.String?
     /// The details of a high availability configuration for this runtime environment.
     public var highAvailabilityConfig: M2ClientTypes.HighAvailabilityConfig?
-    /// The type of instance for the environment.
+    /// The type of instance for the runtime environment.
     /// This member is required.
     public var instanceType: Swift.String?
-    /// The unique identifier of the environment.
+    /// The identifier of a customer managed key.
+    public var kmsKeyId: Swift.String?
+    /// The name of the runtime environment. Must be unique within the account.
     /// This member is required.
     public var name: Swift.String?
-    /// Configures a desired maintenance window for the environment. If you do not provide a value, a random system-generated value will be assigned.
+    /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
     public var preferredMaintenanceWindow: Swift.String?
-    /// Specifies whether the environment is publicly accessible.
+    /// Specifies whether the runtime environment is publicly accessible.
     public var publiclyAccessible: Swift.Bool
-    /// The list of security groups for the VPC associated with this environment.
+    /// The list of security groups for the VPC associated with this runtime environment.
     public var securityGroupIds: [Swift.String]?
-    /// Optional. The storage configurations for this environment.
+    /// Optional. The storage configurations for this runtime environment.
     public var storageConfigurations: [M2ClientTypes.StorageConfiguration]?
-    /// The list of subnets associated with the VPC for this environment.
+    /// The list of subnets associated with the VPC for this runtime environment.
     public var subnetIds: [Swift.String]?
-    /// The tags for the environment.
+    /// The tags for the runtime environment.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -1546,6 +1567,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
         engineVersion: Swift.String? = nil,
         highAvailabilityConfig: M2ClientTypes.HighAvailabilityConfig? = nil,
         instanceType: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool = false,
@@ -1561,6 +1583,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
         self.engineVersion = engineVersion
         self.highAvailabilityConfig = highAvailabilityConfig
         self.instanceType = instanceType
+        self.kmsKeyId = kmsKeyId
         self.name = name
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
@@ -1585,6 +1608,7 @@ struct CreateEnvironmentInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let preferredMaintenanceWindow: Swift.String?
     let clientToken: Swift.String?
+    let kmsKeyId: Swift.String?
 }
 
 extension CreateEnvironmentInputBody: Swift.Decodable {
@@ -1595,6 +1619,7 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
         case engineVersion
         case highAvailabilityConfig
         case instanceType
+        case kmsKeyId
         case name
         case preferredMaintenanceWindow
         case publiclyAccessible
@@ -1668,6 +1693,8 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
     }
 }
 
@@ -1688,7 +1715,7 @@ extension CreateEnvironmentOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1717,7 +1744,7 @@ extension CreateEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateEnvironmentOutputResponse: Swift.Equatable {
-    /// The identifier of this environment.
+    /// The unique identifier of the runtime environment.
     /// This member is required.
     public var environmentId: Swift.String?
 
@@ -1794,7 +1821,7 @@ extension M2ClientTypes {
         /// The logical identifier for a specific data set (in mainframe format).
         /// This member is required.
         public var datasetName: Swift.String?
-        /// The type of dataset. Possible values include VSAM, IS, PS, GDG, PO, PS, UNKNOWN etc.
+        /// The type of dataset. The only supported value is VSAM.
         /// This member is required.
         public var datasetOrg: M2ClientTypes.DatasetOrgAttributes?
         /// The length of a record.
@@ -2124,7 +2151,7 @@ extension M2ClientTypes {
         /// The name of the data set.
         /// This member is required.
         public var dataSetName: Swift.String?
-        /// The type of data set. Possible values include VSAM, IS, PS, GDG, PO, PS, or unknown.
+        /// The type of data set. The only supported value is VSAM.
         public var dataSetOrg: Swift.String?
         /// The format of the data set.
         public var format: Swift.String?
@@ -2385,7 +2412,7 @@ extension DeleteApplicationFromEnvironmentOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2457,7 +2484,7 @@ extension DeleteApplicationOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2528,7 +2555,7 @@ extension DeleteEnvironmentOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2714,7 +2741,7 @@ extension M2ClientTypes {
         /// The unique identifier of the deployment.
         /// This member is required.
         public var deploymentId: Swift.String?
-        /// The unique identifier of the environment.
+        /// The unique identifier of the runtime environment.
         /// This member is required.
         public var environmentId: Swift.String?
         /// The current status of the deployment.
@@ -2877,6 +2904,7 @@ extension M2ClientTypes {
         case creating
         case deleting
         case failed
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EnvironmentLifecycle] {
@@ -2885,6 +2913,7 @@ extension M2ClientTypes {
                 .creating,
                 .deleting,
                 .failed,
+                .updating,
                 .sdkUnknown("")
             ]
         }
@@ -2898,6 +2927,7 @@ extension M2ClientTypes {
             case .creating: return "Creating"
             case .deleting: return "Deleting"
             case .failed: return "Failed"
+            case .updating: return "Updating"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2971,12 +3001,12 @@ extension M2ClientTypes.EnvironmentSummary: Swift.Codable {
 }
 
 extension M2ClientTypes {
-    /// Contains a subset of the possible environment attributes. Used in the environment list.
+    /// Contains a subset of the possible runtime environment attributes. Used in the environment list.
     public struct EnvironmentSummary: Swift.Equatable {
-        /// The timestamp when the environment was created.
+        /// The timestamp when the runtime environment was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
-        /// The target platform for the environment.
+        /// The target platform for the runtime environment.
         /// This member is required.
         public var engineType: M2ClientTypes.EngineType?
         /// The version of the runtime engine.
@@ -2988,13 +3018,13 @@ extension M2ClientTypes {
         /// The unique identifier of a particular runtime environment.
         /// This member is required.
         public var environmentId: Swift.String?
-        /// The instance type of the environment.
+        /// The instance type of the runtime environment.
         /// This member is required.
         public var instanceType: Swift.String?
-        /// The name of the environment.
+        /// The name of the runtime environment.
         /// This member is required.
         public var name: Swift.String?
-        /// The status of the environment
+        /// The status of the runtime environment
         /// This member is required.
         public var status: M2ClientTypes.EnvironmentLifecycle?
 
@@ -3335,7 +3365,7 @@ extension GetApplicationOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3362,6 +3392,7 @@ extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
             self.description = output.description
             self.engineType = output.engineType
             self.environmentId = output.environmentId
+            self.kmsKeyId = output.kmsKeyId
             self.lastStartTime = output.lastStartTime
             self.latestVersion = output.latestVersion
             self.listenerArns = output.listenerArns
@@ -3381,6 +3412,7 @@ extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
             self.description = nil
             self.engineType = nil
             self.environmentId = nil
+            self.kmsKeyId = nil
             self.lastStartTime = nil
             self.latestVersion = nil
             self.listenerArns = nil
@@ -3413,20 +3445,22 @@ public struct GetApplicationOutputResponse: Swift.Equatable {
     /// The type of the target platform for the application.
     /// This member is required.
     public var engineType: M2ClientTypes.EngineType?
-    /// The identifier of the environment where the application will be deployed.
+    /// The identifier of the runtime environment where you want to deploy the application.
     public var environmentId: Swift.String?
-    /// The timestamp when the application was last started. Null until the application has started running for the first time.
+    /// The identifier of a customer managed key.
+    public var kmsKeyId: Swift.String?
+    /// The timestamp when you last started the application. Null until the application runs for the first time.
     public var lastStartTime: ClientRuntime.Date?
     /// The latest version of the application.
     /// This member is required.
     public var latestVersion: M2ClientTypes.ApplicationVersionSummary?
-    /// The Amazon Resource Name (ARN) for the network load balancer listener created in your Amazon Web Services account. Amazon Web Services Mainframe Modernization creates this listener on your behalf the first time you deploy an application.
+    /// The Amazon Resource Name (ARN) for the network load balancer listener created in your Amazon Web Services account. Amazon Web Services Mainframe Modernization creates this listener for you the first time you deploy an application.
     public var listenerArns: [Swift.String]?
     /// The port associated with the network load balancer listener created in your Amazon Web Services account.
     public var listenerPorts: [Swift.Int]?
     /// The public DNS name of the load balancer created in your Amazon Web Services account.
     public var loadBalancerDnsName: Swift.String?
-    /// The list of log summaries. Each log summary includes the log type as well as the log group identifier. These are CloudWatch logs. The Amazon Web Services Mainframe Modernization application log is pushed to CloudWatch under the customer's account.
+    /// The list of log summaries. Each log summary includes the log type as well as the log group identifier. These are CloudWatch logs. Amazon Web Services Mainframe Modernization pushes the application log to CloudWatch under the customer's account.
     public var logGroups: [M2ClientTypes.LogGroupSummary]?
     /// The unique identifier of the application.
     /// This member is required.
@@ -3449,6 +3483,7 @@ public struct GetApplicationOutputResponse: Swift.Equatable {
         description: Swift.String? = nil,
         engineType: M2ClientTypes.EngineType? = nil,
         environmentId: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
         lastStartTime: ClientRuntime.Date? = nil,
         latestVersion: M2ClientTypes.ApplicationVersionSummary? = nil,
         listenerArns: [Swift.String]? = nil,
@@ -3469,6 +3504,7 @@ public struct GetApplicationOutputResponse: Swift.Equatable {
         self.description = description
         self.engineType = engineType
         self.environmentId = environmentId
+        self.kmsKeyId = kmsKeyId
         self.lastStartTime = lastStartTime
         self.latestVersion = latestVersion
         self.listenerArns = listenerArns
@@ -3502,6 +3538,7 @@ struct GetApplicationOutputResponseBody: Swift.Equatable {
     let listenerPorts: [Swift.Int]?
     let loadBalancerDnsName: Swift.String?
     let statusReason: Swift.String?
+    let kmsKeyId: Swift.String?
 }
 
 extension GetApplicationOutputResponseBody: Swift.Decodable {
@@ -3513,6 +3550,7 @@ extension GetApplicationOutputResponseBody: Swift.Decodable {
         case description
         case engineType
         case environmentId
+        case kmsKeyId
         case lastStartTime
         case latestVersion
         case listenerArns
@@ -3609,6 +3647,8 @@ extension GetApplicationOutputResponseBody: Swift.Decodable {
         loadBalancerDnsName = loadBalancerDnsNameDecoded
         let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
         statusReason = statusReasonDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
     }
 }
 
@@ -3667,7 +3707,7 @@ extension GetApplicationVersionOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3713,7 +3753,7 @@ public struct GetApplicationVersionOutputResponse: Swift.Equatable {
     /// The timestamp when the application version was created.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
-    /// The content of the application definition. This is a JSON object that contains the resource configuration/definitions that identify an application.
+    /// The content of the application definition. This is a JSON object that contains the resource configuration and definitions that identify an application.
     /// This member is required.
     public var definitionContent: Swift.String?
     /// The application description.
@@ -3842,7 +3882,7 @@ extension GetBatchJobExecutionOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4046,7 +4086,7 @@ extension GetDataSetDetailsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4095,13 +4135,13 @@ public struct GetDataSetDetailsOutputResponse: Swift.Equatable {
     /// The name of the data set.
     /// This member is required.
     public var dataSetName: Swift.String?
-    /// The type of data set. Possible values include VSAM, IS, PS, GDG, PO, PS, or unknown.
+    /// The type of data set. The only supported value is VSAM.
     public var dataSetOrg: M2ClientTypes.DatasetDetailOrgAttributes?
     /// The last time the data set was referenced.
     public var lastReferencedTime: ClientRuntime.Date?
     /// The last time the data set was updated.
     public var lastUpdatedTime: ClientRuntime.Date?
-    /// The locaion where the data set is stored.
+    /// The location where the data set is stored.
     public var location: Swift.String?
     /// The length of records in the data set.
     public var recordLength: Swift.Int?
@@ -4227,7 +4267,7 @@ extension GetDataSetImportTaskOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4359,7 +4399,7 @@ extension GetDeploymentOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4527,7 +4567,7 @@ extension GetEnvironmentOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4556,6 +4596,7 @@ extension GetEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.environmentId = output.environmentId
             self.highAvailabilityConfig = output.highAvailabilityConfig
             self.instanceType = output.instanceType
+            self.kmsKeyId = output.kmsKeyId
             self.loadBalancerArn = output.loadBalancerArn
             self.name = output.name
             self.pendingMaintenance = output.pendingMaintenance
@@ -4578,6 +4619,7 @@ extension GetEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.environmentId = nil
             self.highAvailabilityConfig = nil
             self.instanceType = nil
+            self.kmsKeyId = nil
             self.loadBalancerArn = nil
             self.name = nil
             self.pendingMaintenance = nil
@@ -4619,14 +4661,16 @@ public struct GetEnvironmentOutputResponse: Swift.Equatable {
     /// The type of instance underlying the runtime environment.
     /// This member is required.
     public var instanceType: Swift.String?
+    /// The identifier of a customer managed key.
+    public var kmsKeyId: Swift.String?
     /// The Amazon Resource Name (ARN) for the load balancer used with the runtime environment.
     public var loadBalancerArn: Swift.String?
-    /// The name of the runtime environment.
+    /// The name of the runtime environment. Must be unique within the account.
     /// This member is required.
     public var name: Swift.String?
     /// Indicates the pending maintenance scheduled on this environment.
     public var pendingMaintenance: M2ClientTypes.PendingMaintenance?
-    /// Configures a desired maintenance window for the environment. If you do not provide a value, a random system-generated value will be assigned.
+    /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
     public var preferredMaintenanceWindow: Swift.String?
     /// Whether applications running in this runtime environment are publicly accessible.
     public var publiclyAccessible: Swift.Bool
@@ -4659,6 +4703,7 @@ public struct GetEnvironmentOutputResponse: Swift.Equatable {
         environmentId: Swift.String? = nil,
         highAvailabilityConfig: M2ClientTypes.HighAvailabilityConfig? = nil,
         instanceType: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
         loadBalancerArn: Swift.String? = nil,
         name: Swift.String? = nil,
         pendingMaintenance: M2ClientTypes.PendingMaintenance? = nil,
@@ -4682,6 +4727,7 @@ public struct GetEnvironmentOutputResponse: Swift.Equatable {
         self.environmentId = environmentId
         self.highAvailabilityConfig = highAvailabilityConfig
         self.instanceType = instanceType
+        self.kmsKeyId = kmsKeyId
         self.loadBalancerArn = loadBalancerArn
         self.name = name
         self.pendingMaintenance = pendingMaintenance
@@ -4719,6 +4765,7 @@ struct GetEnvironmentOutputResponseBody: Swift.Equatable {
     let statusReason: Swift.String?
     let preferredMaintenanceWindow: Swift.String?
     let pendingMaintenance: M2ClientTypes.PendingMaintenance?
+    let kmsKeyId: Swift.String?
 }
 
 extension GetEnvironmentOutputResponseBody: Swift.Decodable {
@@ -4732,6 +4779,7 @@ extension GetEnvironmentOutputResponseBody: Swift.Decodable {
         case environmentId
         case highAvailabilityConfig
         case instanceType
+        case kmsKeyId
         case loadBalancerArn
         case name
         case pendingMaintenance
@@ -4826,6 +4874,8 @@ extension GetEnvironmentOutputResponseBody: Swift.Decodable {
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
         let pendingMaintenanceDecoded = try containerValues.decodeIfPresent(M2ClientTypes.PendingMaintenance.self, forKey: .pendingMaintenance)
         pendingMaintenance = pendingMaintenanceDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
     }
 }
 
@@ -4999,7 +5049,7 @@ extension ListApplicationVersionsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5155,7 +5205,7 @@ extension ListApplicationsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5184,7 +5234,7 @@ extension ListApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListApplicationsOutputResponse: Swift.Equatable {
-    /// Returns a list of summary details for all the applications in an environment.
+    /// Returns a list of summary details for all the applications in a runtime environment.
     /// This member is required.
     public var applications: [M2ClientTypes.ApplicationSummary]?
     /// A pagination token that's returned when the response doesn't contain all applications.
@@ -5309,7 +5359,7 @@ extension ListBatchJobDefinitionsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5498,7 +5548,7 @@ extension ListBatchJobExecutionsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5645,7 +5695,7 @@ extension ListDataSetImportHistoryOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5800,7 +5850,7 @@ extension ListDataSetsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5830,7 +5880,7 @@ extension ListDataSetsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListDataSetsOutputResponse: Swift.Equatable {
-    /// The list of data sets, containing ionformation including the creating time, the data set name, the data set organization, the data set format, and the last time the data set was referenced or updated.
+    /// The list of data sets, containing information including the creation time, the data set name, the data set organization, the data set format, and the last time the data set was referenced or updated.
     /// This member is required.
     public var dataSets: [M2ClientTypes.DataSetSummary]?
     /// If there are more items to return, this contains a token that is passed to a subsequent call to this operation to retrieve the next set of items.
@@ -5947,7 +5997,7 @@ extension ListDeploymentsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6093,7 +6143,7 @@ extension ListEngineVersionsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6201,13 +6251,13 @@ extension ListEnvironmentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListEnvironmentsInput: Swift.Equatable {
-    /// The engine type for the environment.
+    /// The engine type for the runtime environment.
     public var engineType: M2ClientTypes.EngineType?
-    /// The maximum number of environments to return.
+    /// The maximum number of runtime environments to return.
     public var maxResults: Swift.Int?
-    /// The name of the environment.
+    /// The names of the runtime environments. Must be unique within the account.
     public var names: [Swift.String]?
-    /// A pagination token to control the number of environments displayed in the list.
+    /// A pagination token to control the number of runtime environments displayed in the list.
     public var nextToken: Swift.String?
 
     public init (
@@ -6248,7 +6298,7 @@ extension ListEnvironmentsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6277,10 +6327,10 @@ extension ListEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListEnvironmentsOutputResponse: Swift.Equatable {
-    /// Returns a list of summary details for all the environments in your account.
+    /// Returns a list of summary details for all the runtime environments in your account.
     /// This member is required.
     public var environments: [M2ClientTypes.EnvironmentSummary]?
-    /// A pagination token that's returned when the response doesn't contain all the environments.
+    /// A pagination token that's returned when the response doesn't contain all the runtime environments.
     public var nextToken: Swift.String?
 
     public init (
@@ -6369,7 +6419,7 @@ extension ListTagsForResourceOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6460,7 +6510,7 @@ extension M2ClientTypes.LogGroupSummary: Swift.Codable {
 }
 
 extension M2ClientTypes {
-    /// A subset of the attributes about a log group. In CloudWatch a log group is a group of log streams that share the same retention, monitoring, and access control settings.
+    /// A subset of the attributes that describe a log group. In CloudWatch a log group is a group of log streams that share the same retention, monitoring, and access control settings.
     public struct LogGroupSummary: Swift.Equatable {
         /// The name of the log group.
         /// This member is required.
@@ -6556,7 +6606,7 @@ extension M2ClientTypes {
     public struct PendingMaintenance: Swift.Equatable {
         /// The specific runtime engine that the maintenance schedule applies to.
         public var engineVersion: Swift.String?
-        /// The maintenance schedule for the engine version.
+        /// The maintenance schedule for the runtime engine version.
         public var schedule: M2ClientTypes.MaintenanceSchedule?
 
         public init (
@@ -6961,7 +7011,7 @@ extension StartApplicationOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7083,7 +7133,7 @@ extension StartBatchJobOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7212,7 +7262,7 @@ extension StopApplicationOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7273,7 +7323,7 @@ extension M2ClientTypes.StorageConfiguration: Swift.Codable {
 }
 
 extension M2ClientTypes {
-    /// Defines the storage configuration for an environment.
+    /// Defines the storage configuration for a runtime environment.
     public enum StorageConfiguration: Swift.Equatable {
         /// Defines the storage configuration for an Amazon EFS file system.
         case efs(M2ClientTypes.EfsStorageConfiguration)
@@ -7369,7 +7419,7 @@ extension TagResourceOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7545,7 +7595,7 @@ extension UntagResourceOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7666,7 +7716,7 @@ extension UpdateApplicationOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7762,18 +7812,18 @@ extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateEnvironmentInput: Swift.Equatable {
-    /// Indicates whether to update the environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
+    /// Indicates whether to update the runtime environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
     public var applyDuringMaintenanceWindow: Swift.Bool
-    /// The desired capacity for the environment to update.
+    /// The desired capacity for the runtime environment to update.
     public var desiredCapacity: Swift.Int?
-    /// The version of the runtime engine for the environment.
+    /// The version of the runtime engine for the runtime environment.
     public var engineVersion: Swift.String?
     /// The unique identifier of the runtime environment that you want to update.
     /// This member is required.
     public var environmentId: Swift.String?
-    /// The instance type for the environment to update.
+    /// The instance type for the runtime environment to update.
     public var instanceType: Swift.String?
-    /// Configures a desired maintenance window for the environment. If you do not provide a value, a random system-generated value will be assigned.
+    /// Configures the maintenance window you want for the runtime environment. If you do not provide a value, a random system-generated value will be assigned.
     public var preferredMaintenanceWindow: Swift.String?
 
     public init (
@@ -7844,7 +7894,7 @@ extension UpdateEnvironmentOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

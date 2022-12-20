@@ -229,7 +229,7 @@ extension CancelClusterOutputError {
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -313,7 +313,7 @@ extension CancelJobOutputError {
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -844,7 +844,7 @@ extension CreateAddressOutputError {
         switch errorType {
         case "InvalidAddressException" : self = .invalidAddressException(try InvalidAddressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedAddressException" : self = .unsupportedAddressException(try UnsupportedAddressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1127,7 +1127,7 @@ extension CreateClusterOutputError {
         case "InvalidInputCombinationException" : self = .invalidInputCombinationException(try InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1444,7 +1444,7 @@ extension CreateJobOutputError {
         case "InvalidInputCombinationException" : self = .invalidInputCombinationException(try InvalidInputCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1583,7 +1583,7 @@ extension CreateLongTermPricingOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1710,7 +1710,7 @@ extension CreateReturnShippingLabelOutputError {
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReturnShippingLabelAlreadyExistsException" : self = .returnShippingLabelAlreadyExistsException(try ReturnShippingLabelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1890,7 +1890,7 @@ extension DescribeAddressOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2013,7 +2013,7 @@ extension DescribeAddressesOutputError {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2144,7 +2144,7 @@ extension DescribeClusterOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2255,7 +2255,7 @@ extension DescribeJobOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2387,7 +2387,7 @@ extension DescribeReturnShippingLabelOutputError {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2721,7 +2721,7 @@ extension GetJobManifestOutputError {
         switch errorType {
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2834,7 +2834,7 @@ extension GetJobUnlockCodeOutputError {
         switch errorType {
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2925,7 +2925,7 @@ extension GetSnowballUsageOutputError: ClientRuntime.HttpResponseBinding {
 extension GetSnowballUsageOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3046,7 +3046,7 @@ extension GetSoftwareUpdatesOutputError {
         switch errorType {
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4228,7 +4228,7 @@ extension ListClusterJobsOutputError {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4370,7 +4370,7 @@ extension ListClustersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4512,7 +4512,7 @@ extension ListCompatibleImagesOutputError {
         switch errorType {
         case "Ec2RequestFailedException" : self = .ec2RequestFailedException(try Ec2RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4654,7 +4654,7 @@ extension ListJobsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4796,7 +4796,7 @@ extension ListLongTermPricingOutputError {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6099,7 +6099,7 @@ extension UpdateClusterOutputError {
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6296,7 +6296,7 @@ extension UpdateJobOutputError {
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSRequestFailedException" : self = .kMSRequestFailedException(try KMSRequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6395,7 +6395,7 @@ extension UpdateJobShipmentStateOutputError {
         switch errorType {
         case "InvalidJobStateException" : self = .invalidJobStateException(try InvalidJobStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6500,7 +6500,7 @@ extension UpdateLongTermPricingOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

@@ -1012,7 +1012,7 @@ extension CreateCertificateAuthorityAuditReportOutputError {
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestInProgressException" : self = .requestInProgressException(try RequestInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1233,7 +1233,7 @@ extension CreateCertificateAuthorityOutputError {
         case "InvalidPolicyException" : self = .invalidPolicyException(try InvalidPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagException" : self = .invalidTagException(try InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1402,7 +1402,7 @@ extension CreatePermissionOutputError {
         case "PermissionAlreadyExistsException" : self = .permissionAlreadyExistsException(try PermissionAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1781,7 +1781,7 @@ extension DeleteCertificateAuthorityOutputError {
         case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidStateException" : self = .invalidStateException(try InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1892,7 +1892,7 @@ extension DeletePermissionOutputError {
         case "InvalidStateException" : self = .invalidStateException(try InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1980,7 +1980,7 @@ extension DeletePolicyOutputError {
         case "LockoutPreventedException" : self = .lockoutPreventedException(try LockoutPreventedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2080,7 +2080,7 @@ extension DescribeCertificateAuthorityAuditReportOutputError {
         case "InvalidArgsException" : self = .invalidArgsException(try InvalidArgsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2224,7 +2224,7 @@ extension DescribeCertificateAuthorityOutputError {
         switch errorType {
         case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2745,7 +2745,7 @@ extension GetCertificateAuthorityCertificateOutputError {
         case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidStateException" : self = .invalidStateException(try InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2872,7 +2872,23 @@ extension GetCertificateAuthorityCsrOutputError {
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestInProgressException" : self = .requestInProgressException(try RequestInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension GetCertificateAuthorityCsrOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .invalidArnException: return "InvalidArnException"
+        case .invalidStateException: return "InvalidStateException"
+        case .requestFailedException: return "RequestFailedException"
+        case .requestInProgressException: return "RequestInProgressException"
+        case .resourceNotFoundException: return "ResourceNotFoundException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -3004,7 +3020,23 @@ extension GetCertificateOutputError {
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestInProgressException" : self = .requestInProgressException(try RequestInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension GetCertificateOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .invalidArnException: return "InvalidArnException"
+        case .invalidStateException: return "InvalidStateException"
+        case .requestFailedException: return "RequestFailedException"
+        case .requestInProgressException: return "RequestInProgressException"
+        case .resourceNotFoundException: return "ResourceNotFoundException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -3132,7 +3164,7 @@ extension GetPolicyOutputError {
         case "InvalidStateException" : self = .invalidStateException(try InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3279,7 +3311,7 @@ extension ImportCertificateAuthorityCertificateOutputError {
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestInProgressException" : self = .requestInProgressException(try RequestInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3823,7 +3855,7 @@ extension IssueCertificateOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MalformedCSRException" : self = .malformedCSRException(try MalformedCSRException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4199,7 +4231,7 @@ extension ListCertificateAuthoritiesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4357,7 +4389,7 @@ extension ListPermissionsOutputError {
         case "InvalidStateException" : self = .invalidStateException(try InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4517,7 +4549,7 @@ extension ListTagsOutputError {
         case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidStateException" : self = .invalidStateException(try InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5200,7 +5232,7 @@ extension PutPolicyOutputError {
         case "LockoutPreventedException" : self = .lockoutPreventedException(try LockoutPreventedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5564,7 +5596,7 @@ extension RestoreCertificateAuthorityOutputError {
         case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidStateException" : self = .invalidStateException(try InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5775,7 +5807,7 @@ extension RevokeCertificateOutputError {
         case "RequestFailedException" : self = .requestFailedException(try RequestFailedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestInProgressException" : self = .requestInProgressException(try RequestInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6014,7 +6046,7 @@ extension TagCertificateAuthorityOutputError {
         case "InvalidTagException" : self = .invalidTagException(try InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6178,7 +6210,7 @@ extension UntagCertificateAuthorityOutputError {
         case "InvalidStateException" : self = .invalidStateException(try InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagException" : self = .invalidTagException(try InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6290,7 +6322,7 @@ extension UpdateCertificateAuthorityOutputError {
         case "InvalidPolicyException" : self = .invalidPolicyException(try InvalidPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidStateException" : self = .invalidStateException(try InvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

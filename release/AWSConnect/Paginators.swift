@@ -801,6 +801,40 @@ extension PaginatorSequence where Input == ListRoutingProfilesInput, Output == L
     }
 }
 
+/// Paginate over `[ListRulesOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListRulesInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutputResponse`
+extension ConnectClient {
+    public func listRulesPaginated(input: ListRulesInput) -> ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutputResponse>(input: input, inputKey: \ListRulesInput.nextToken, outputKey: \ListRulesOutputResponse.nextToken, paginationFunction: self.listRules(input:))
+    }
+}
+
+extension ListRulesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRulesInput {
+        return ListRulesInput(
+            eventSourceName: self.eventSourceName,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            publishStatus: self.publishStatus
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
+/// to access the nested member `[ConnectClientTypes.RuleSummary]`
+/// - Returns: `[ConnectClientTypes.RuleSummary]`
+extension PaginatorSequence where Input == ListRulesInput, Output == ListRulesOutputResponse {
+    public func ruleSummaryList() async throws -> [ConnectClientTypes.RuleSummary] {
+        return try await self.asyncCompactMap { item in item.ruleSummaryList }
+    }
+}
+
 /// Paginate over `[ListSecurityKeysOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

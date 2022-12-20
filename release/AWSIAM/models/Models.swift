@@ -421,7 +421,7 @@ extension AddClientIDToOpenIDConnectProviderOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -517,7 +517,7 @@ extension AddRoleToInstanceProfileOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -612,7 +612,7 @@ extension AddUserToGroupOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -742,7 +742,7 @@ extension AttachGroupPolicyOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotAttachable" : self = .policyNotAttachableException(try PolicyNotAttachableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -840,7 +840,7 @@ extension AttachRolePolicyOutputError {
         case "PolicyNotAttachable" : self = .policyNotAttachableException(try PolicyNotAttachableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -938,7 +938,7 @@ extension AttachUserPolicyOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotAttachable" : self = .policyNotAttachableException(try PolicyNotAttachableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1131,7 +1131,7 @@ extension ChangePasswordOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PasswordPolicyViolation" : self = .passwordPolicyViolationException(try PasswordPolicyViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1409,7 +1409,7 @@ extension CreateAccessKeyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1524,7 +1524,7 @@ extension CreateAccountAliasOutputError {
         case "EntityAlreadyExists" : self = .entityAlreadyExistsException(try EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1617,7 +1617,7 @@ extension CreateGroupOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1783,7 +1783,7 @@ extension CreateInstanceProfileOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1930,7 +1930,7 @@ extension CreateLoginProfileOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PasswordPolicyViolation" : self = .passwordPolicyViolationException(try PasswordPolicyViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2161,7 +2161,7 @@ extension CreateOpenIDConnectProviderOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2384,7 +2384,7 @@ extension CreatePolicyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MalformedPolicyDocument" : self = .malformedPolicyDocumentException(try MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2532,7 +2532,7 @@ extension CreatePolicyVersionOutputError {
         case "MalformedPolicyDocument" : self = .malformedPolicyDocumentException(try MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2753,7 +2753,7 @@ extension CreateRoleOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MalformedPolicyDocument" : self = .malformedPolicyDocumentException(try MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2922,7 +2922,7 @@ extension CreateSAMLProviderOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3088,7 +3088,7 @@ extension CreateServiceLinkedRoleOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3214,7 +3214,7 @@ extension CreateServiceSpecificCredentialOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotSupportedService" : self = .serviceNotSupportedException(try ServiceNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3389,7 +3389,7 @@ extension CreateUserOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3556,7 +3556,7 @@ extension CreateVirtualMFADeviceOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3842,7 +3842,7 @@ extension DeactivateMFADeviceOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3935,7 +3935,7 @@ extension DeleteAccessKeyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4016,7 +4016,7 @@ extension DeleteAccountAliasOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4070,7 +4070,7 @@ extension DeleteAccountPasswordPolicyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4204,7 +4204,7 @@ extension DeleteGroupOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4298,7 +4298,7 @@ extension DeleteGroupPolicyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4380,7 +4380,7 @@ extension DeleteInstanceProfileOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4463,7 +4463,7 @@ extension DeleteLoginProfileOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4545,7 +4545,7 @@ extension DeleteOpenIDConnectProviderOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4628,7 +4628,7 @@ extension DeletePolicyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4725,7 +4725,7 @@ extension DeletePolicyVersionOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4811,7 +4811,7 @@ extension DeleteRoleOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4895,7 +4895,7 @@ extension DeleteRolePermissionsBoundaryOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4989,7 +4989,7 @@ extension DeleteRolePolicyOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5072,7 +5072,7 @@ extension DeleteSAMLProviderOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5164,7 +5164,7 @@ extension DeleteSSHPublicKeyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5244,7 +5244,7 @@ extension DeleteServerCertificateOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5326,7 +5326,7 @@ extension DeleteServiceLinkedRoleOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5449,7 +5449,7 @@ extension DeleteServiceSpecificCredentialOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5539,7 +5539,7 @@ extension DeleteSigningCertificateOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5622,7 +5622,7 @@ extension DeleteUserOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5704,7 +5704,7 @@ extension DeleteUserPermissionsBoundaryOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5796,7 +5796,7 @@ extension DeleteUserPolicyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5878,7 +5878,7 @@ extension DeleteVirtualMFADeviceOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6082,7 +6082,7 @@ extension DetachGroupPolicyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6178,7 +6178,7 @@ extension DetachRolePolicyOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6274,7 +6274,7 @@ extension DetachUserPolicyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6499,7 +6499,7 @@ extension EnableMFADeviceOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7125,7 +7125,7 @@ extension GenerateCredentialReportOutputError {
         switch errorType {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7257,7 +7257,7 @@ extension GenerateOrganizationsAccessReportOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ReportGenerationLimitExceeded" : self = .reportGenerationLimitExceededException(try ReportGenerationLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7378,7 +7378,7 @@ extension GenerateServiceLastAccessedDetailsOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7488,7 +7488,7 @@ extension GetAccessKeyLastUsedOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7655,7 +7655,7 @@ extension GetAccountAuthorizationDetailsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7857,7 +7857,7 @@ extension GetAccountPasswordPolicyOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7942,7 +7942,7 @@ extension GetAccountSummaryOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8101,7 +8101,7 @@ extension GetContextKeysForCustomPolicyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8272,7 +8272,7 @@ extension GetContextKeysForPrincipalPolicyOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8376,7 +8376,7 @@ extension GetCredentialReportOutputError {
         case "ReportNotPresent" : self = .credentialReportNotPresentException(try CredentialReportNotPresentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReportInProgress" : self = .credentialReportNotReadyException(try CredentialReportNotReadyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8540,7 +8540,7 @@ extension GetGroupOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8713,7 +8713,7 @@ extension GetGroupPolicyOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8848,7 +8848,20 @@ extension GetInstanceProfileOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension GetInstanceProfileOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .noSuchEntityException: return "NoSuchEntity"
+        case .serviceFailureException: return "ServiceFailure"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -8961,7 +8974,7 @@ extension GetLoginProfileOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9075,7 +9088,7 @@ extension GetOpenIDConnectProviderOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9311,7 +9324,7 @@ extension GetOrganizationsAccessReportOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9521,7 +9534,21 @@ extension GetPolicyOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension GetPolicyOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .invalidInputException: return "InvalidInput"
+        case .noSuchEntityException: return "NoSuchEntity"
+        case .serviceFailureException: return "ServiceFailure"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -9647,7 +9674,7 @@ extension GetPolicyVersionOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9760,7 +9787,20 @@ extension GetRoleOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension GetRoleOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .noSuchEntityException: return "NoSuchEntity"
+        case .serviceFailureException: return "ServiceFailure"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -9885,7 +9925,7 @@ extension GetRolePolicyOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10021,7 +10061,7 @@ extension GetSAMLProviderOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10205,7 +10245,7 @@ extension GetSSHPublicKeyOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnrecognizedPublicKeyEncoding" : self = .unrecognizedPublicKeyEncodingException(try UnrecognizedPublicKeyEncodingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10317,7 +10357,7 @@ extension GetServerCertificateOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10452,7 +10492,7 @@ extension GetServiceLastAccessedDetailsOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10688,7 +10728,7 @@ extension GetServiceLastAccessedDetailsWithEntitiesOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10881,7 +10921,7 @@ extension GetServiceLinkedRoleDeletionStatusOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11003,7 +11043,20 @@ extension GetUserOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension GetUserOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .noSuchEntityException: return "NoSuchEntity"
+        case .serviceFailureException: return "ServiceFailure"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -11128,7 +11181,7 @@ extension GetUserPolicyOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12109,7 +12162,7 @@ extension ListAccessKeysOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12268,7 +12321,7 @@ extension ListAccountAliasesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12451,7 +12504,7 @@ extension ListAttachedGroupPoliciesOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12635,7 +12688,7 @@ extension ListAttachedRolePoliciesOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12819,7 +12872,7 @@ extension ListAttachedUserPoliciesOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13025,7 +13078,7 @@ extension ListEntitiesForPolicyOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13251,7 +13304,7 @@ extension ListGroupPoliciesOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13423,7 +13476,7 @@ extension ListGroupsForUserOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13593,7 +13646,7 @@ extension ListGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13764,7 +13817,7 @@ extension ListInstanceProfileTagsOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13935,7 +13988,7 @@ extension ListInstanceProfilesForRoleOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14105,7 +14158,7 @@ extension ListInstanceProfilesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14277,7 +14330,7 @@ extension ListMFADeviceTagsOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14448,7 +14501,7 @@ extension ListMFADevicesOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14621,7 +14674,7 @@ extension ListOpenIDConnectProviderTagsOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14743,7 +14796,7 @@ extension ListOpenIDConnectProvidersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14991,7 +15044,7 @@ extension ListPoliciesGrantingServiceAccessOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15193,7 +15246,7 @@ extension ListPoliciesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15364,7 +15417,7 @@ extension ListPolicyTagsOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15537,7 +15590,7 @@ extension ListPolicyVersionsOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15709,7 +15762,7 @@ extension ListRolePoliciesOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15881,7 +15934,7 @@ extension ListRoleTagsOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16050,7 +16103,7 @@ extension ListRolesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16222,7 +16275,7 @@ extension ListSAMLProviderTagsOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16344,7 +16397,7 @@ extension ListSAMLProvidersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16492,7 +16545,7 @@ extension ListSSHPublicKeysOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16662,7 +16715,7 @@ extension ListServerCertificateTagsOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16831,7 +16884,7 @@ extension ListServerCertificatesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16990,7 +17043,7 @@ extension ListServiceSpecificCredentialsOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotSupportedService" : self = .serviceNotSupportedException(try ServiceNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17139,7 +17192,7 @@ extension ListSigningCertificatesOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17311,7 +17364,7 @@ extension ListUserPoliciesOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17483,7 +17536,7 @@ extension ListUserTagsOutputError {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17652,7 +17705,7 @@ extension ListUsersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17820,7 +17873,7 @@ extension ListVirtualMFADevicesOutputError: ClientRuntime.HttpResponseBinding {
 extension ListVirtualMFADevicesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19612,7 +19665,7 @@ extension PutGroupPolicyOutputError {
         case "MalformedPolicyDocument" : self = .malformedPolicyDocumentException(try MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19708,7 +19761,7 @@ extension PutRolePermissionsBoundaryOutputError {
         case "PolicyNotAttachable" : self = .policyNotAttachableException(try PolicyNotAttachableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19823,7 +19876,7 @@ extension PutRolePolicyOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19919,7 +19972,7 @@ extension PutUserPermissionsBoundaryOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotAttachable" : self = .policyNotAttachableException(try PolicyNotAttachableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20032,7 +20085,7 @@ extension PutUserPolicyOutputError {
         case "MalformedPolicyDocument" : self = .malformedPolicyDocumentException(try MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20126,7 +20179,7 @@ extension RemoveClientIDFromOpenIDConnectProviderOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20220,7 +20273,7 @@ extension RemoveRoleFromInstanceProfileOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20314,7 +20367,7 @@ extension RemoveUserFromGroupOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20520,7 +20573,7 @@ extension ResetServiceSpecificCredentialOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20833,7 +20886,7 @@ extension ResyncMFADeviceOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22280,7 +22333,7 @@ extension SetDefaultPolicyVersionOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22360,7 +22413,7 @@ extension SetSecurityTokenServicePreferencesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22784,7 +22837,7 @@ extension SimulateCustomPolicyOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyEvaluation" : self = .policyEvaluationException(try PolicyEvaluationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23212,7 +23265,7 @@ extension SimulatePrincipalPolicyOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyEvaluation" : self = .policyEvaluationException(try PolicyEvaluationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23689,7 +23742,7 @@ extension TagInstanceProfileOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23812,7 +23865,7 @@ extension TagMFADeviceOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23935,7 +23988,7 @@ extension TagOpenIDConnectProviderOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24058,7 +24111,7 @@ extension TagPolicyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24181,7 +24234,7 @@ extension TagRoleOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24304,7 +24357,7 @@ extension TagSAMLProviderOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24427,7 +24480,7 @@ extension TagServerCertificateOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24550,7 +24603,7 @@ extension TagUserOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24841,7 +24894,7 @@ extension UntagInstanceProfileOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24962,7 +25015,7 @@ extension UntagMFADeviceOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25083,7 +25136,7 @@ extension UntagOpenIDConnectProviderOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25204,7 +25257,7 @@ extension UntagPolicyOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25324,7 +25377,7 @@ extension UntagRoleOutputError {
         case "ConcurrentModification" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25444,7 +25497,7 @@ extension UntagSAMLProviderOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25565,7 +25618,7 @@ extension UntagServerCertificateOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25685,7 +25738,7 @@ extension UntagUserOutputError {
         case "ConcurrentModification" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25789,7 +25842,7 @@ extension UpdateAccessKeyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25958,7 +26011,7 @@ extension UpdateAccountPasswordPolicyOutputError {
         case "MalformedPolicyDocument" : self = .malformedPolicyDocumentException(try MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26060,7 +26113,7 @@ extension UpdateAssumeRolePolicyOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26166,7 +26219,7 @@ extension UpdateGroupOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26286,7 +26339,7 @@ extension UpdateLoginProfileOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PasswordPolicyViolation" : self = .passwordPolicyViolationException(try PasswordPolicyViolationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26407,7 +26460,7 @@ extension UpdateOpenIDConnectProviderThumbprintOutputError {
         case "InvalidInput" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26500,7 +26553,7 @@ extension UpdateRoleDescriptionOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26635,7 +26688,7 @@ extension UpdateRoleOutputError {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnmodifiableEntity" : self = .unmodifiableEntityException(try UnmodifiableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26729,7 +26782,7 @@ extension UpdateSAMLProviderOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26866,7 +26919,7 @@ extension UpdateSSHPublicKeyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26968,7 +27021,7 @@ extension UpdateServerCertificateOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27071,7 +27124,7 @@ extension UpdateServiceSpecificCredentialOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27173,7 +27226,7 @@ extension UpdateSigningCertificateOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27279,7 +27332,7 @@ extension UpdateUserOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27383,7 +27436,7 @@ extension UploadSSHPublicKeyOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnrecognizedPublicKeyEncoding" : self = .unrecognizedPublicKeyEncodingException(try UnrecognizedPublicKeyEncodingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27609,7 +27662,7 @@ extension UploadServerCertificateOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MalformedCertificate" : self = .malformedCertificateException(try MalformedCertificateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27775,7 +27828,7 @@ extension UploadSigningCertificateOutputError {
         case "MalformedCertificate" : self = .malformedCertificateException(try MalformedCertificateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntity" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFailure" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

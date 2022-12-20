@@ -13,8 +13,14 @@ public protocol KinesisVideoClientProtocol {
     func deleteSignalingChannel(input: DeleteSignalingChannelInput) async throws -> DeleteSignalingChannelOutputResponse
     /// Deletes a Kinesis video stream and the data contained in the stream. This method marks the stream for deletion, and makes the data in the stream inaccessible immediately. To ensure that you have the latest version of the stream before deleting it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. This operation requires permission for the KinesisVideo:DeleteStream action.
     func deleteStream(input: DeleteStreamInput) async throws -> DeleteStreamOutputResponse
+    /// Describes a stream’s edge configuration that was set using the StartEdgeConfigurationUpdate API. Use this API to get the status of the configuration if the configuration is in sync with the Edge Agent.
+    func describeEdgeConfiguration(input: DescribeEdgeConfigurationInput) async throws -> DescribeEdgeConfigurationOutputResponse
     /// Gets the ImageGenerationConfiguration for a given Kinesis video stream.
     func describeImageGenerationConfiguration(input: DescribeImageGenerationConfigurationInput) async throws -> DescribeImageGenerationConfigurationOutputResponse
+    /// Returns the most current information about the stream. Either streamName or streamARN should be provided in the input. Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
+    func describeMappedResourceConfiguration(input: DescribeMappedResourceConfigurationInput) async throws -> DescribeMappedResourceConfigurationOutputResponse
+    /// Returns the most current information about the channel. Specify the ChannelName or ChannelARN in the input.
+    func describeMediaStorageConfiguration(input: DescribeMediaStorageConfigurationInput) async throws -> DescribeMediaStorageConfigurationOutputResponse
     /// Gets the NotificationConfiguration for a given Kinesis video stream.
     func describeNotificationConfiguration(input: DescribeNotificationConfigurationInput) async throws -> DescribeNotificationConfigurationOutputResponse
     /// Returns the most current information about the signaling channel. You must specify either the name or the Amazon Resource Name (ARN) of the channel that you want to describe.
@@ -33,6 +39,8 @@ public protocol KinesisVideoClientProtocol {
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Returns a list of tags associated with the specified stream. In the request, you must specify either the StreamName or the StreamARN.
     func listTagsForStream(input: ListTagsForStreamInput) async throws -> ListTagsForStreamOutputResponse
+    /// An asynchronous API that updates a stream’s existing edge configuration. The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device. The SyncStatus will be updated as the edge configuration is acknowledged, and synced with the Edge Agent. If this API is invoked for the first time, a new edge configuration will be created for the stream, and the sync status will be set to SYNCING. You will have to wait for the sync status to reach a terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again. If you invoke this API during the syncing process, a ResourceInUseException will be thrown. The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes, the status will transition into the SYNC_FAILED state.
+    func startEdgeConfigurationUpdate(input: StartEdgeConfigurationUpdateInput) async throws -> StartEdgeConfigurationUpdateOutputResponse
     /// Adds one or more tags to a signaling channel. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management and Cost Management User Guide.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management and Cost Management User Guide. You must provide either the StreamName or the StreamARN. This operation requires permission for the KinesisVideo:TagStream action. A Kinesis video stream can support up to 50 tags.
@@ -49,6 +57,12 @@ public protocol KinesisVideoClientProtocol {
     func updateDataRetention(input: UpdateDataRetentionInput) async throws -> UpdateDataRetentionOutputResponse
     /// Updates the StreamInfo and ImageProcessingConfiguration fields.
     func updateImageGenerationConfiguration(input: UpdateImageGenerationConfigurationInput) async throws -> UpdateImageGenerationConfigurationOutputResponse
+    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that can specified :
+    ///
+    /// * If the StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed.
+    ///
+    /// * If the StorageStatus is enabled, the data will be stored in the StreamARN provided.
+    func updateMediaStorageConfiguration(input: UpdateMediaStorageConfigurationInput) async throws -> UpdateMediaStorageConfigurationOutputResponse
     /// Updates the notification information for a stream.
     func updateNotificationConfiguration(input: UpdateNotificationConfigurationInput) async throws -> UpdateNotificationConfigurationOutputResponse
     /// Updates the existing signaling channel. This is an asynchronous operation and takes time to complete. If the MessageTtlSeconds value is updated (either increased or reduced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the previous MessageTtlSeconds value.

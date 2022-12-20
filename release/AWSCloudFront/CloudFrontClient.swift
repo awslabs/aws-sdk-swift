@@ -17,9 +17,11 @@ public class CloudFrontClient {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.encoder = config.encoder ?? encoder
         let decoder = ClientRuntime.XMLDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         decoder.trimValueWhitespaces = false
         decoder.removeWhitespaceElements = true
         self.decoder = config.decoder ?? decoder
@@ -206,7 +208,7 @@ public struct CloudFrontClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 }
 
 extension CloudFrontClient: CloudFrontClientProtocol {
-    /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront distribution. With this operation you can move an alias that’s already in use on a CloudFront distribution to a different distribution in one step. This prevents the downtime that could occur if you first remove the alias from one distribution and then separately add the alias to another distribution. To use this operation to associate an alias with a distribution, you provide the alias and the ID of the target distribution for the alias. For more information, including how to set up the target distribution, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
+    /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront distribution. With this operation you can move an alias that's already in use on a CloudFront distribution to a different distribution in one step. This prevents the downtime that could occur if you first remove the alias from one distribution and then separately add the alias to another distribution. To use this operation to associate an alias with a distribution, you provide the alias and the ID of the target distribution for the alias. For more information, including how to set up the target distribution, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
     public func associateAlias(input: AssociateAliasInput) async throws -> AssociateAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -241,7 +243,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution’s configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution.
+    /// Creates a staging distribution using the configuration of the provided primary distribution. A staging distribution is a copy of an existing distribution (called the primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution to modify the staging distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to incrementally move traffic to the staging distribution.
     public func copyDistribution(input: CopyDistributionInput) async throws -> CopyDistributionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -268,7 +270,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CopyDistributionInput, CopyDistributionOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CopyDistributionInput, CopyDistributionOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CopyDistributionInput, CopyDistributionOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CopyDistributionInput, CopyDistributionOutputResponse>(xmlName: "CopyDistributionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<CopyDistributionOutputResponse, CopyDistributionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
@@ -279,14 +281,14 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it’s attached to a cache behavior, the cache policy determines the following:
+    /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the cache policy determines the following:
     ///
     /// * The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.
     ///
     /// * The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.
     ///
     ///
-    /// The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can’t find an object in its cache that matches the request’s cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see [Controlling the cache key](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html) in the Amazon CloudFront Developer Guide.
+    /// The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see [Controlling the cache key](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html) in the Amazon CloudFront Developer Guide.
     public func createCachePolicy(input: CreateCachePolicyInput) async throws -> CreateCachePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -360,7 +362,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution’s configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution’s configuration before moving all of your domain’s production traffic to the new configuration.
+    /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
     public func createContinuousDeploymentPolicy(input: CreateContinuousDeploymentPolicyInput) async throws -> CreateContinuousDeploymentPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -546,7 +548,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it’s in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update it with UpdateFunction. When you’re ready to use your function with a CloudFront distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE. When it’s live, you can attach the function to a distribution’s cache behavior, using the function’s ARN.
+    /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update it with UpdateFunction. When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
     public func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -572,7 +574,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>(xmlName: "CreateFunctionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
@@ -731,7 +733,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it’s attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:
+    /// Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it's attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:
     ///
     /// * The request body and the URL path (without the domain name) from the viewer request.
     ///
@@ -740,7 +742,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     /// * All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.
     ///
     ///
-    /// CloudFront sends a request when it can’t find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy. For more information about origin request policies, see [Controlling origin requests](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html) in the Amazon CloudFront Developer Guide.
+    /// CloudFront sends a request when it can't find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy. For more information about origin request policies, see [Controlling origin requests](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html) in the Amazon CloudFront Developer Guide.
     public func createOriginRequestPolicy(input: CreateOriginRequestPolicyInput) async throws -> CreateOriginRequestPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -840,7 +842,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRealtimeLogConfigInput, CreateRealtimeLogConfigOutputResponse>(xmlName: "CreateRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<CreateRealtimeLogConfigOutputResponse, CreateRealtimeLogConfigOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
@@ -851,7 +853,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP response headers and their values. To create a response headers policy, you provide some metadata about the policy, and a set of configurations that specify the response headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it’s attached to a cache behavior, CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match the cache behavior.
+    /// Creates a response headers policy. A response headers policy contains information about a set of HTTP response headers and their values. To create a response headers policy, you provide some metadata about the policy, and a set of configurations that specify the response headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match the cache behavior.
     public func createResponseHeadersPolicy(input: CreateResponseHeadersPolicyInput) async throws -> CreateResponseHeadersPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -963,7 +965,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Deletes a cache policy. You cannot delete a cache policy if it’s attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy’s identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy.
+    /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy.
     public func deleteCachePolicy(input: DeleteCachePolicyInput) async throws -> DeleteCachePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1033,7 +1035,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that’s attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
+    /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
     public func deleteContinuousDeploymentPolicy(input: DeleteContinuousDeploymentPolicyInput) async throws -> DeleteContinuousDeploymentPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1173,7 +1175,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Deletes a CloudFront function. You cannot delete a function if it’s associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function’s name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
+    /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     public func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1208,7 +1210,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group’s identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
+    /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group's identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
     public func deleteKeyGroup(input: DeleteKeyGroupInput) async throws -> DeleteKeyGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1312,7 +1314,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Deletes an origin request policy. You cannot delete an origin request policy if it’s attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy’s identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
+    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
     public func deleteOriginRequestPolicy(input: DeleteOriginRequestPolicyInput) async throws -> DeleteOriginRequestPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1382,7 +1384,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it’s attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration’s name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
+    /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
     public func deleteRealtimeLogConfig(input: DeleteRealtimeLogConfigInput) async throws -> DeleteRealtimeLogConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1408,7 +1410,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRealtimeLogConfigInput, DeleteRealtimeLogConfigOutputResponse>(xmlName: "DeleteRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<DeleteRealtimeLogConfigOutputResponse, DeleteRealtimeLogConfigOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
@@ -1419,7 +1421,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Deletes a response headers policy. You cannot delete a response headers policy if it’s attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy’s identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
+    /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
     public func deleteResponseHeadersPolicy(input: DeleteResponseHeadersPolicyInput) async throws -> DeleteResponseHeadersPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1508,7 +1510,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets configuration information and metadata about a CloudFront function, but not the function’s code. To get a function’s code, use GetFunction. To get configuration information and metadata about a function, you must provide the function’s name and stage. To get these values, you can use ListFunctions.
+    /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     public func describeFunction(input: DescribeFunctionInput) async throws -> DescribeFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1545,12 +1547,12 @@ extension CloudFrontClient: CloudFrontClientProtocol {
 
     /// Gets a cache policy, including the following metadata:
     ///
-    /// * The policy’s identifier.
+    /// * The policy's identifier.
     ///
     /// * The date and time when the policy was last modified.
     ///
     ///
-    /// To get a cache policy, you must provide the policy’s identifier. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
+    /// To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     public func getCachePolicy(input: GetCachePolicyInput) async throws -> GetCachePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1584,7 +1586,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy’s identifier. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
+    /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     public func getCachePolicyConfig(input: GetCachePolicyConfigInput) async throws -> GetCachePolicyConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1686,7 +1688,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a continuous deployment policy, including metadata (the policy’s identifier and the date and time when the policy was last modified).
+    /// Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
     public func getContinuousDeploymentPolicy(input: GetContinuousDeploymentPolicyInput) async throws -> GetContinuousDeploymentPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1958,7 +1960,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction. To get a function’s code, you must provide the function’s name and stage. To get these values, you can use ListFunctions.
+    /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction. To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     public func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2027,7 +2029,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group’s identifier. If the key group is referenced in a distribution’s cache behavior, you can get the key group’s identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
+    /// Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     public func getKeyGroup(input: GetKeyGroupInput) async throws -> GetKeyGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2061,7 +2063,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a key group configuration. To get a key group configuration, you must provide the key group’s identifier. If the key group is referenced in a distribution’s cache behavior, you can get the key group’s identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
+    /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     public func getKeyGroupConfig(input: GetKeyGroupConfigInput) async throws -> GetKeyGroupConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2199,12 +2201,12 @@ extension CloudFrontClient: CloudFrontClientProtocol {
 
     /// Gets an origin request policy, including the following metadata:
     ///
-    /// * The policy’s identifier.
+    /// * The policy's identifier.
     ///
     /// * The date and time when the policy was last modified.
     ///
     ///
-    /// To get an origin request policy, you must provide the policy’s identifier. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+    /// To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     public func getOriginRequestPolicy(input: GetOriginRequestPolicyInput) async throws -> GetOriginRequestPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2238,7 +2240,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy’s identifier. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+    /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     public func getOriginRequestPolicyConfig(input: GetOriginRequestPolicyConfigInput) async throws -> GetOriginRequestPolicyConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2340,7 +2342,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration’s name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
+    /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
     public func getRealtimeLogConfig(input: GetRealtimeLogConfigInput) async throws -> GetRealtimeLogConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2366,7 +2368,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRealtimeLogConfigInput, GetRealtimeLogConfigOutputResponse>(xmlName: "GetRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetRealtimeLogConfigOutputResponse, GetRealtimeLogConfigOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
@@ -2377,7 +2379,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a response headers policy, including metadata (the policy’s identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy’s identifier. If the response headers policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+    /// Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     public func getResponseHeadersPolicy(input: GetResponseHeadersPolicyInput) async throws -> GetResponseHeadersPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2411,7 +2413,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy’s identifier. If the response headers policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+    /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     public func getResponseHeadersPolicyConfig(input: GetResponseHeadersPolicyConfigInput) async throws -> GetResponseHeadersPolicyConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2583,7 +2585,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or overlap with the provided alias, and the associated CloudFront distributions and Amazon Web Services accounts for each conflicting alias. In the returned list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don’t own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap with the provided alias. For example, if you provide www.example.com as input, the returned list can include www.example.com and the overlapping wildcard alternate domain name (*.example.com), if they exist. If you provide *.example.com as input, the returned list can include *.example.com and any alternate domain names covered by that wildcard (for example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To list conflicting aliases, you provide the alias to search and the ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias. For more information, including how to set up the distribution and certificate, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or overlap with the provided alias, and the associated CloudFront distributions and Amazon Web Services accounts for each conflicting alias. In the returned list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don't own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap with the provided alias. For example, if you provide www.example.com as input, the returned list can include www.example.com and the overlapping wildcard alternate domain name (*.example.com), if they exist. If you provide *.example.com as input, the returned list can include *.example.com and any alternate domain names covered by that wildcard (for example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To list conflicting aliases, you provide the alias to search and the ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias. For more information, including how to set up the distribution and certificate, see [Moving an alternate domain name to a different distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listConflictingAliases(input: ListConflictingAliasesInput) async throws -> ListConflictingAliasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2688,7 +2690,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listDistributionsByCachePolicyId(input: ListDistributionsByCachePolicyIdInput) async throws -> ListDistributionsByCachePolicyIdOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2758,7 +2760,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listDistributionsByOriginRequestPolicyId(input: ListDistributionsByOriginRequestPolicyIdInput) async throws -> ListDistributionsByOriginRequestPolicyIdOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2793,7 +2795,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a list of distributions that have a cache behavior that’s associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listDistributionsByRealtimeLogConfig(input: ListDistributionsByRealtimeLogConfigInput) async throws -> ListDistributionsByRealtimeLogConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2819,7 +2821,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDistributionsByRealtimeLogConfigInput, ListDistributionsByRealtimeLogConfigOutputResponse>(xmlName: "ListDistributionsByRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<ListDistributionsByRealtimeLogConfigOutputResponse, ListDistributionsByRealtimeLogConfigOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
@@ -2830,7 +2832,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listDistributionsByResponseHeadersPolicyId(input: ListDistributionsByResponseHeadersPolicyIdInput) async throws -> ListDistributionsByResponseHeadersPolicyIdOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3320,7 +3322,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE. This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution’s cache behavior, using the function’s Amazon Resource Name (ARN). To publish a function, you must provide the function’s name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
+    /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE. This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     public func publishFunction(input: PublishFunctionInput) async throws -> PublishFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3393,7 +3395,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function’s result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see [Testing functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function) in the Amazon CloudFront Developer Guide. To test a function, you provide the function’s name and version (ETag value) along with the event object. To get the function’s name and version, you can use ListFunctions and DescribeFunction.
+    /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see [Testing functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function) in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag value) along with the event object. To get the function's name and version, you can use ListFunctions and DescribeFunction.
     public func testFunction(input: TestFunctionInput) async throws -> TestFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3420,7 +3422,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<TestFunctionInput, TestFunctionOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestFunctionInput, TestFunctionOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestFunctionInput, TestFunctionOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestFunctionInput, TestFunctionOutputResponse>(xmlName: "TestFunctionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<TestFunctionOutputResponse, TestFunctionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
@@ -3475,7 +3477,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// * Locally modify the fields in the cache policy configuration that you want to update.
     ///
-    /// * Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn’t.
+    /// * Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.
     public func updateCachePolicy(input: UpdateCachePolicyInput) async throws -> UpdateCachePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3557,7 +3559,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// * Locally modify the fields in the continuous deployment policy configuration that you want to update.
     ///
-    /// * Use UpdateContinuousDeploymentPolicy, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn’t.
+    /// * Use UpdateContinuousDeploymentPolicy, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
     public func updateContinuousDeploymentPolicy(input: UpdateContinuousDeploymentPolicyInput) async throws -> UpdateContinuousDeploymentPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3603,12 +3605,12 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// * You must rename the ETag field to IfMatch, leaving the value unchanged. (Set the value of IfMatch to the value of ETag, then remove the ETag field.)
     ///
-    /// * You can’t change the value of CallerReference.
+    /// * You can't change the value of CallerReference.
     ///
     ///
     ///
     ///
-    /// * Submit an UpdateDistribution request, providing the distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an UpdateDistribution request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn’t.
+    /// * Submit an UpdateDistribution request, providing the distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an UpdateDistribution request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
     public func updateDistribution(input: UpdateDistributionInput) async throws -> UpdateDistributionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3642,6 +3644,42 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Copies the staging distribution's configuration to its corresponding primary distribution. The primary distribution retains its Aliases (also known as alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value, but otherwise its configuration is overwritten to match the staging distribution. You can use this operation in a continuous deployment workflow after you have tested configuration changes on the staging distribution. After using a continuous deployment policy to move a portion of your domain name's traffic to the staging distribution and verifying that it works as intended, you can use this operation to copy the staging distribution's configuration to the primary distribution. This action will disable the continuous deployment policy and move your domain's traffic back to the primary distribution.
+    public func updateDistributionWithStagingConfig(input: UpdateDistributionWithStagingConfigInput) async throws -> UpdateDistributionWithStagingConfigOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateDistributionWithStagingConfig")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudfront")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(id: "updateDistributionWithStagingConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse>())
+        guard let region = config.region else {
+            throw SdkError<UpdateDistributionWithStagingConfigOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdateDistributionWithStagingConfigInput, UpdateDistributionWithStagingConfigOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDistributionWithStagingConfigOutputResponse, UpdateDistributionWithStagingConfigOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -3722,7 +3760,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         return result
     }
 
-    /// Updates a CloudFront function. You can update a function’s code or the comment that describes the function. You cannot update a function’s name. To update a function, you provide the function’s name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction.
+    /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction.
     public func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3749,7 +3787,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFunctionInput, UpdateFunctionOutputResponse>(xmlName: "UpdateFunctionRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<UpdateFunctionOutputResponse, UpdateFunctionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
@@ -3766,7 +3804,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// * Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs.
     ///
-    /// * Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn’t.
+    /// * Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't.
     public func updateKeyGroup(input: UpdateKeyGroupInput) async throws -> UpdateKeyGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3848,7 +3886,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// * Locally modify the fields in the origin request policy configuration that you want to update.
     ///
-    /// * Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn’t.
+    /// * Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
     public func updateOriginRequestPolicy(input: UpdateOriginRequestPolicyInput) async throws -> UpdateOriginRequestPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3930,10 +3968,10 @@ extension CloudFrontClient: CloudFrontClientProtocol {
     ///
     /// * Locally modify the parameters in the real-time log configuration that you want to update.
     ///
-    /// * Call this API (UpdateRealtimeLogConfig) by providing the entire real-time log configuration, including the parameters that you modified and those that you didn’t.
+    /// * Call this API (UpdateRealtimeLogConfig) by providing the entire real-time log configuration, including the parameters that you modified and those that you didn't.
     ///
     ///
-    /// You cannot update a real-time log configuration’s Name or ARN.
+    /// You cannot update a real-time log configuration's Name or ARN.
     public func updateRealtimeLogConfig(input: UpdateRealtimeLogConfigInput) async throws -> UpdateRealtimeLogConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3959,7 +3997,7 @@ extension CloudFrontClient: CloudFrontClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRealtimeLogConfigInput, UpdateRealtimeLogConfigOutputResponse>(xmlName: "UpdateRealtimeLogConfigRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<UpdateRealtimeLogConfigOutputResponse, UpdateRealtimeLogConfigOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
@@ -3972,11 +4010,11 @@ extension CloudFrontClient: CloudFrontClientProtocol {
 
     /// Updates a response headers policy. When you update a response headers policy, the entire policy is replaced. You cannot update some policy fields independent of others. To update a response headers policy configuration:
     ///
-    /// * Use GetResponseHeadersPolicyConfig to get the current policy’s configuration.
+    /// * Use GetResponseHeadersPolicyConfig to get the current policy's configuration.
     ///
     /// * Modify the fields in the response headers policy configuration that you want to update.
     ///
-    /// * Call UpdateResponseHeadersPolicy, providing the entire response headers policy configuration, including the fields that you modified and those that you didn’t.
+    /// * Call UpdateResponseHeadersPolicy, providing the entire response headers policy configuration, including the fields that you modified and those that you didn't.
     public func updateResponseHeadersPolicy(input: UpdateResponseHeadersPolicyInput) async throws -> UpdateResponseHeadersPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

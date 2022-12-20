@@ -70,7 +70,7 @@ extension AbortEnvironmentUpdateOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -767,7 +767,7 @@ extension ApplyEnvironmentManagedActionOutputError {
         switch errorType {
         case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ManagedActionInvalidStateException" : self = .managedActionInvalidStateException(try ManagedActionInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -921,7 +921,7 @@ extension AssociateEnvironmentOperationsRoleOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1256,7 +1256,7 @@ extension CheckDNSAvailabilityOutputError: ClientRuntime.HttpResponseBinding {
 extension CheckDNSAvailabilityOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1481,7 +1481,7 @@ extension ComposeEnvironmentsOutputError {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyEnvironmentsException" : self = .tooManyEnvironmentsException(try TooManyEnvironmentsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2187,7 +2187,7 @@ extension CreateApplicationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "TooManyApplicationsException" : self = .tooManyApplicationsException(try TooManyApplicationsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2417,7 +2417,7 @@ extension CreateApplicationVersionOutputError {
         case "S3LocationNotInServiceRegionException" : self = .s3LocationNotInServiceRegionException(try S3LocationNotInServiceRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyApplicationsException" : self = .tooManyApplicationsException(try TooManyApplicationsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyApplicationVersionsException" : self = .tooManyApplicationVersionsException(try TooManyApplicationVersionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2675,7 +2675,7 @@ extension CreateConfigurationTemplateOutputError {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyConfigurationTemplatesException" : self = .tooManyConfigurationTemplatesException(try TooManyConfigurationTemplatesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3125,7 +3125,7 @@ extension CreateEnvironmentOutputError {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyEnvironmentsException" : self = .tooManyEnvironmentsException(try TooManyEnvironmentsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3586,7 +3586,7 @@ extension CreatePlatformVersionOutputError {
         case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyPlatformsException" : self = .tooManyPlatformsException(try TooManyPlatformsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3682,7 +3682,7 @@ extension CreateStorageLocationOutputError {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "S3SubscriptionRequiredException" : self = .s3SubscriptionRequiredException(try S3SubscriptionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3851,7 +3851,7 @@ extension DeleteApplicationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "OperationInProgressFailure" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3955,7 +3955,7 @@ extension DeleteApplicationVersionOutputError {
         case "OperationInProgressFailure" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "S3LocationNotInServiceRegionException" : self = .s3LocationNotInServiceRegionException(try S3LocationNotInServiceRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SourceBundleDeletionFailure" : self = .sourceBundleDeletionException(try SourceBundleDeletionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4048,7 +4048,7 @@ extension DeleteConfigurationTemplateOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "OperationInProgressFailure" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4137,7 +4137,7 @@ extension DeleteEnvironmentConfigurationOutputError: ClientRuntime.HttpResponseB
 extension DeleteEnvironmentConfigurationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4215,7 +4215,7 @@ extension DeletePlatformVersionOutputError {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationInProgressFailure" : self = .operationInProgressException(try OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PlatformVersionStillReferencedException" : self = .platformVersionStillReferencedException(try PlatformVersionStillReferencedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4371,7 +4371,7 @@ extension DescribeAccountAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4538,7 +4538,7 @@ extension DescribeApplicationVersionsOutputError: ClientRuntime.HttpResponseBind
 extension DescribeApplicationVersionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4699,7 +4699,7 @@ extension DescribeApplicationsOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeApplicationsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4906,7 +4906,7 @@ extension DescribeConfigurationOptionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5076,7 +5076,7 @@ extension DescribeConfigurationSettingsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5252,7 +5252,7 @@ extension DescribeEnvironmentHealthOutputError {
         switch errorType {
         case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5483,7 +5483,7 @@ extension DescribeEnvironmentManagedActionHistoryOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5642,7 +5642,7 @@ extension DescribeEnvironmentManagedActionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5780,7 +5780,7 @@ extension DescribeEnvironmentResourcesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6018,7 +6018,7 @@ extension DescribeEnvironmentsOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeEnvironmentsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6274,7 +6274,7 @@ extension DescribeEventsOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeEventsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6470,7 +6470,7 @@ extension DescribeInstancesHealthOutputError {
         switch errorType {
         case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6618,7 +6618,7 @@ extension DescribePlatformVersionOutputError {
         switch errorType {
         case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6729,7 +6729,7 @@ extension DisassociateEnvironmentOperationsRoleOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8517,7 +8517,7 @@ extension ListAvailableSolutionStacksOutputError: ClientRuntime.HttpResponseBind
 extension ListAvailableSolutionStacksOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8751,7 +8751,7 @@ extension ListPlatformBranchesOutputError: ClientRuntime.HttpResponseBinding {
 extension ListPlatformBranchesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8934,7 +8934,7 @@ extension ListPlatformVersionsOutputError {
         switch errorType {
         case "ElasticBeanstalkServiceException" : self = .elasticBeanstalkServiceException(try ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9073,7 +9073,7 @@ extension ListTagsForResourceOutputError {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceTypeNotSupportedException" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10862,7 +10862,7 @@ extension RebuildEnvironmentOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10961,7 +10961,7 @@ extension RequestEnvironmentInfoOutputError: ClientRuntime.HttpResponseBinding {
 extension RequestEnvironmentInfoOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11263,7 +11263,7 @@ extension RestartAppServerOutputError: ClientRuntime.HttpResponseBinding {
 extension RestartAppServerOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11361,7 +11361,7 @@ extension RetrieveEnvironmentInfoOutputError: ClientRuntime.HttpResponseBinding 
 extension RetrieveEnvironmentInfoOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12276,7 +12276,7 @@ extension SwapEnvironmentCNAMEsOutputError: ClientRuntime.HttpResponseBinding {
 extension SwapEnvironmentCNAMEsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12508,7 +12508,7 @@ extension TerminateEnvironmentOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13273,7 +13273,7 @@ extension UpdateApplicationOutputError: ClientRuntime.HttpResponseBinding {
 extension UpdateApplicationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13394,7 +13394,7 @@ extension UpdateApplicationResourceLifecycleOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13536,7 +13536,7 @@ extension UpdateApplicationVersionOutputError: ClientRuntime.HttpResponseBinding
 extension UpdateApplicationVersionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13744,7 +13744,7 @@ extension UpdateConfigurationTemplateOutputError {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14144,7 +14144,7 @@ extension UpdateEnvironmentOutputError {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14571,7 +14571,7 @@ extension UpdateTagsForResourceOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceTypeNotSupportedException" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14714,7 +14714,7 @@ extension ValidateConfigurationSettingsOutputError {
         switch errorType {
         case "InsufficientPrivilegesException" : self = .insufficientPrivilegesException(try InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyBucketsException" : self = .tooManyBucketsException(try TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

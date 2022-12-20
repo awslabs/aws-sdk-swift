@@ -211,6 +211,9 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// * Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret. When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.
     ///
     /// * Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name. Also, permission to call the redshift:GetClusterCredentials operation is required. When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
+    ///
+    ///
+    /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -226,6 +229,14 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
                       .withSigningName(value: "redshift-data")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<BatchExecuteStatementInput, BatchExecuteStatementOutputResponse, BatchExecuteStatementOutputError>(id: "batchExecuteStatement")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<BatchExecuteStatementOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutputResponse, BatchExecuteStatementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -233,7 +244,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutputResponse>(xAmzTarget: "RedshiftData.BatchExecuteStatement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutputResponse>(xmlName: "BatchExecuteStatementInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<BatchExecuteStatementOutputResponse, BatchExecuteStatementOutputError>(retryer: config.retryer))
@@ -245,7 +256,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         return result
     }
 
-    /// Cancels a running query. To be canceled, a query must be running.
+    /// Cancels a running query. To be canceled, a query must be running. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -268,7 +279,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelStatementInput, CancelStatementOutputResponse>(xAmzTarget: "RedshiftData.CancelStatement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelStatementInput, CancelStatementOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelStatementInput, CancelStatementOutputResponse>(xmlName: "CancelStatementRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelStatementInput, CancelStatementOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<CancelStatementOutputResponse, CancelStatementOutputError>(retryer: config.retryer))
@@ -280,7 +291,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         return result
     }
 
-    /// Describes the details about a specific instance when a query was run by the Amazon Redshift Data API. The information includes when the query started, when it finished, the query status, the number of rows returned, and the SQL statement.
+    /// Describes the details about a specific instance when a query was run by the Amazon Redshift Data API. The information includes when the query started, when it finished, the query status, the number of rows returned, and the SQL statement. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func describeStatement(input: DescribeStatementInput) async throws -> DescribeStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -303,7 +314,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStatementInput, DescribeStatementOutputResponse>(xAmzTarget: "RedshiftData.DescribeStatement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStatementInput, DescribeStatementOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStatementInput, DescribeStatementOutputResponse>(xmlName: "DescribeStatementRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStatementInput, DescribeStatementOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<DescribeStatementOutputResponse, DescribeStatementOutputError>(retryer: config.retryer))
@@ -320,6 +331,9 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// * Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret. When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.
     ///
     /// * Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name. Also, permission to call the redshift:GetClusterCredentials operation is required. When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
+    ///
+    ///
+    /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -342,7 +356,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTableInput, DescribeTableOutputResponse>(xAmzTarget: "RedshiftData.DescribeTable"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTableInput, DescribeTableOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTableInput, DescribeTableOutputResponse>(xmlName: "DescribeTableRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTableInput, DescribeTableOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<DescribeTableOutputResponse, DescribeTableOutputError>(retryer: config.retryer))
@@ -359,6 +373,9 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// * Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret. When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.
     ///
     /// * Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name. Also, permission to call the redshift:GetClusterCredentials operation is required. When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
+    ///
+    ///
+    /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -374,6 +391,14 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
                       .withSigningName(value: "redshift-data")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<ExecuteStatementInput, ExecuteStatementOutputResponse, ExecuteStatementOutputError>(id: "executeStatement")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExecuteStatementOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteStatementInput, ExecuteStatementOutputResponse, ExecuteStatementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteStatementInput, ExecuteStatementOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -381,7 +406,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ExecuteStatementInput, ExecuteStatementOutputResponse>(xAmzTarget: "RedshiftData.ExecuteStatement"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteStatementInput, ExecuteStatementOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ExecuteStatementInput, ExecuteStatementOutputResponse>(xmlName: "ExecuteStatementInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ExecuteStatementInput, ExecuteStatementOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<ExecuteStatementOutputResponse, ExecuteStatementOutputError>(retryer: config.retryer))
@@ -393,7 +418,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         return result
     }
 
-    /// Fetches the temporarily cached result of an SQL statement. A token is returned to page through the statement results.
+    /// Fetches the temporarily cached result of an SQL statement. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func getStatementResult(input: GetStatementResultInput) async throws -> GetStatementResultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -416,7 +441,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetStatementResultInput, GetStatementResultOutputResponse>(xAmzTarget: "RedshiftData.GetStatementResult"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetStatementResultInput, GetStatementResultOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetStatementResultInput, GetStatementResultOutputResponse>(xmlName: "GetStatementResultRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetStatementResultInput, GetStatementResultOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetStatementResultOutputResponse, GetStatementResultOutputError>(retryer: config.retryer))
@@ -433,6 +458,9 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// * Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret. When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.
     ///
     /// * Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name. Also, permission to call the redshift:GetClusterCredentials operation is required. When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
+    ///
+    ///
+    /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -455,7 +483,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDatabasesInput, ListDatabasesOutputResponse>(xAmzTarget: "RedshiftData.ListDatabases"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDatabasesInput, ListDatabasesOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDatabasesInput, ListDatabasesOutputResponse>(xmlName: "ListDatabasesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDatabasesInput, ListDatabasesOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<ListDatabasesOutputResponse, ListDatabasesOutputError>(retryer: config.retryer))
@@ -472,6 +500,9 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// * Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret. When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.
     ///
     /// * Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name. Also, permission to call the redshift:GetClusterCredentials operation is required. When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
+    ///
+    ///
+    /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -494,7 +525,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListSchemasInput, ListSchemasOutputResponse>(xAmzTarget: "RedshiftData.ListSchemas"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSchemasInput, ListSchemasOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSchemasInput, ListSchemasOutputResponse>(xmlName: "ListSchemasRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSchemasInput, ListSchemasOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<ListSchemasOutputResponse, ListSchemasOutputError>(retryer: config.retryer))
@@ -506,7 +537,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         return result
     }
 
-    /// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list.
+    /// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -529,7 +560,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStatementsInput, ListStatementsOutputResponse>(xAmzTarget: "RedshiftData.ListStatements"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStatementsInput, ListStatementsOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStatementsInput, ListStatementsOutputResponse>(xmlName: "ListStatementsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStatementsInput, ListStatementsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<ListStatementsOutputResponse, ListStatementsOutputError>(retryer: config.retryer))
@@ -546,6 +577,9 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     /// * Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret. When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.
     ///
     /// * Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name. Also, permission to call the redshift:GetClusterCredentials operation is required. When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
+    ///
+    ///
+    /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
     public func listTables(input: ListTablesInput) async throws -> ListTablesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -568,7 +602,7 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTablesInput, ListTablesOutputResponse>(xAmzTarget: "RedshiftData.ListTables"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTablesInput, ListTablesOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTablesInput, ListTablesOutputResponse>(xmlName: "ListTablesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTablesInput, ListTablesOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<ListTablesOutputResponse, ListTablesOutputError>(retryer: config.retryer))

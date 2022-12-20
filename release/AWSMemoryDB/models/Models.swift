@@ -719,7 +719,7 @@ extension BatchUpdateClusterOutputError {
         switch errorType {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUpdateNotFoundFault" : self = .serviceUpdateNotFoundFault(try ServiceUpdateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1636,7 +1636,7 @@ extension CopySnapshotOutputError {
         case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotQuotaExceededFault" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1808,7 +1808,7 @@ extension CreateACLOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2247,7 +2247,7 @@ extension CreateClusterOutputError {
         case "ShardsPerClusterQuotaExceeded" : self = .shardsPerClusterQuotaExceededFault(try ShardsPerClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetGroupNotFoundFault" : self = .subnetGroupNotFoundFault(try SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2428,7 +2428,7 @@ extension CreateParameterGroupOutputError {
         case "ParameterGroupQuotaExceeded" : self = .parameterGroupQuotaExceededFault(try ParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2601,7 +2601,7 @@ extension CreateSnapshotOutputError {
         case "SnapshotAlreadyExistsFault" : self = .snapshotAlreadyExistsFault(try SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotQuotaExceededFault" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2786,7 +2786,7 @@ extension CreateSubnetGroupOutputError {
         case "SubnetNotAllowedFault" : self = .subnetNotAllowedFault(try SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetQuotaExceededFault" : self = .subnetQuotaExceededFault(try SubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2958,7 +2958,7 @@ extension CreateUserOutputError {
         case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserAlreadyExists" : self = .userAlreadyExistsFault(try UserAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserQuotaExceeded" : self = .userQuotaExceededFault(try UserQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3160,7 +3160,7 @@ extension DeleteACLOutputError {
         case "ACLNotFound" : self = .aCLNotFoundFault(try ACLNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidACLState" : self = .invalidACLStateFault(try InvalidACLStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3290,7 +3290,7 @@ extension DeleteClusterOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotAlreadyExistsFault" : self = .snapshotAlreadyExistsFault(try SnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3410,7 +3410,7 @@ extension DeleteParameterGroupOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterGroupNotFound" : self = .parameterGroupNotFoundFault(try ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3529,7 +3529,7 @@ extension DeleteSnapshotOutputError {
         case "InvalidSnapshotState" : self = .invalidSnapshotStateFault(try InvalidSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3646,7 +3646,7 @@ extension DeleteSubnetGroupOutputError {
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetGroupInUse" : self = .subnetGroupInUseFault(try SubnetGroupInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetGroupNotFoundFault" : self = .subnetGroupNotFoundFault(try SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3761,7 +3761,7 @@ extension DeleteUserOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidUserState" : self = .invalidUserStateFault(try InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3898,7 +3898,7 @@ extension DescribeACLsOutputError {
         switch errorType {
         case "ACLNotFound" : self = .aCLNotFoundFault(try ACLNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4067,7 +4067,7 @@ extension DescribeClustersOutputError {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4249,7 +4249,7 @@ extension DescribeEngineVersionsOutputError {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4454,7 +4454,7 @@ extension DescribeEventsOutputError {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4612,7 +4612,7 @@ extension DescribeParameterGroupsOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterGroupNotFound" : self = .parameterGroupNotFoundFault(try ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4772,7 +4772,7 @@ extension DescribeParametersOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterGroupNotFound" : self = .parameterGroupNotFoundFault(try ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4977,7 +4977,7 @@ extension DescribeServiceUpdatesOutputError {
         switch errorType {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5170,7 +5170,7 @@ extension DescribeSnapshotsOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5327,7 +5327,7 @@ extension DescribeSubnetGroupsOutputError {
         switch errorType {
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetGroupNotFoundFault" : self = .subnetGroupNotFoundFault(try SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5506,7 +5506,7 @@ extension DescribeUsersOutputError {
         switch errorType {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5874,7 +5874,7 @@ extension FailoverShardOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ShardNotFoundFault" : self = .shardNotFoundFault(try ShardNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TestFailoverNotAvailableFault" : self = .testFailoverNotAvailableFault(try TestFailoverNotAvailableFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6811,7 +6811,7 @@ extension ListAllowedNodeTypeUpdatesOutputError {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6961,7 +6961,7 @@ extension ListTagsOutputError {
         case "SnapshotNotFoundFault" : self = .snapshotNotFoundFault(try SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetGroupNotFoundFault" : self = .subnetGroupNotFoundFault(try SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7791,7 +7791,7 @@ extension ResetParameterGroupOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterGroupNotFound" : self = .parameterGroupNotFoundFault(try ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9649,7 +9649,7 @@ extension TagResourceOutputError {
         case "SubnetGroupNotFoundFault" : self = .subnetGroupNotFoundFault(try SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9919,7 +9919,7 @@ extension UntagResourceOutputError {
         case "SubnetGroupNotFoundFault" : self = .subnetGroupNotFoundFault(try SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagNotFound" : self = .tagNotFoundFault(try TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10102,7 +10102,7 @@ extension UpdateACLOutputError {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10419,7 +10419,7 @@ extension UpdateClusterOutputError {
         case "ParameterGroupNotFound" : self = .parameterGroupNotFoundFault(try ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ShardsPerClusterQuotaExceeded" : self = .shardsPerClusterQuotaExceededFault(try ShardsPerClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10574,7 +10574,7 @@ extension UpdateParameterGroupOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterGroupNotFound" : self = .parameterGroupNotFoundFault(try ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10730,7 +10730,7 @@ extension UpdateSubnetGroupOutputError {
         case "SubnetInUse" : self = .subnetInUse(try SubnetInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetNotAllowedFault" : self = .subnetNotAllowedFault(try SubnetNotAllowedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetQuotaExceededFault" : self = .subnetQuotaExceededFault(try SubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10873,7 +10873,7 @@ extension UpdateUserOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidUserState" : self = .invalidUserStateFault(try InvalidUserStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UserNotFound" : self = .userNotFoundFault(try UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

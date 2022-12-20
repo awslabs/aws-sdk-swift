@@ -106,7 +106,7 @@ extension AddTagsToOnPremisesInstancesOutputError {
         case "InvalidTagException" : self = .invalidTagException(try InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededException" : self = .tagLimitExceededException(try TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagRequiredException" : self = .tagRequiredException(try TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -949,7 +949,7 @@ extension BatchGetApplicationRevisionsOutputError {
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRevisionException" : self = .invalidRevisionException(try InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionRequiredException" : self = .revisionRequiredException(try RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1111,7 +1111,7 @@ extension BatchGetApplicationsOutputError {
         case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "BatchLimitExceededException" : self = .batchLimitExceededException(try BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1267,7 +1267,7 @@ extension BatchGetDeploymentGroupsOutputError {
         case "DeploymentGroupNameRequiredException" : self = .deploymentGroupNameRequiredException(try DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1436,7 +1436,7 @@ extension BatchGetDeploymentInstancesOutputError {
         case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1612,7 +1612,7 @@ extension BatchGetDeploymentTargetsOutputError {
         case "InstanceDoesNotExistException" : self = .instanceDoesNotExistException(try InstanceDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentTargetIdException" : self = .invalidDeploymentTargetIdException(try InvalidDeploymentTargetIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1763,7 +1763,7 @@ extension BatchGetDeploymentsOutputError {
         case "BatchLimitExceededException" : self = .batchLimitExceededException(try BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1901,7 +1901,7 @@ extension BatchGetOnPremisesInstancesOutputError {
         case "BatchLimitExceededException" : self = .batchLimitExceededException(try BatchLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InstanceNameRequiredException" : self = .instanceNameRequiredException(try InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2435,7 +2435,7 @@ extension ContinueDeploymentOutputError {
         case "InvalidDeploymentStatusException" : self = .invalidDeploymentStatusException(try InvalidDeploymentStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentWaitTypeException" : self = .invalidDeploymentWaitTypeException(try InvalidDeploymentWaitTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedActionForDeploymentTypeException" : self = .unsupportedActionForDeploymentTypeException(try UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2564,7 +2564,7 @@ extension CreateApplicationOutputError {
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagsToAddException" : self = .invalidTagsToAddException(try InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2731,7 +2731,7 @@ extension CreateDeploymentConfigOutputError {
         case "InvalidDeploymentConfigNameException" : self = .invalidDeploymentConfigNameException(try InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidMinimumHealthyHostValueException" : self = .invalidMinimumHealthyHostValueException(try InvalidMinimumHealthyHostValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrafficRoutingConfigurationException" : self = .invalidTrafficRoutingConfigurationException(try InvalidTrafficRoutingConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3160,7 +3160,7 @@ extension CreateDeploymentGroupOutputError {
         case "TagSetListLimitExceededException" : self = .tagSetListLimitExceededException(try TagSetListLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TriggerTargetsLimitExceededException" : self = .triggerTargetsLimitExceededException(try TriggerTargetsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3456,7 +3456,7 @@ extension CreateDeploymentOutputError {
         case "RevisionDoesNotExistException" : self = .revisionDoesNotExistException(try RevisionDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionRequiredException" : self = .revisionRequiredException(try RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3596,7 +3596,7 @@ extension DeleteApplicationOutputError {
         case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRoleException" : self = .invalidRoleException(try InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3682,7 +3682,7 @@ extension DeleteDeploymentConfigOutputError {
         case "DeploymentConfigNameRequiredException" : self = .deploymentConfigNameRequiredException(try DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentConfigNameException" : self = .invalidDeploymentConfigNameException(try InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3783,7 +3783,7 @@ extension DeleteDeploymentGroupOutputError {
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRoleException" : self = .invalidRoleException(try InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3912,7 +3912,7 @@ extension DeleteGitHubAccountTokenOutputError {
         case "InvalidGitHubAccountTokenNameException" : self = .invalidGitHubAccountTokenNameException(try InvalidGitHubAccountTokenNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceValidationException" : self = .resourceValidationException(try ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4026,7 +4026,7 @@ extension DeleteResourcesByExternalIdOutputError: ClientRuntime.HttpResponseBind
 extension DeleteResourcesByExternalIdOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6320,7 +6320,7 @@ extension DeregisterOnPremisesInstanceOutputError {
         switch errorType {
         case "InstanceNameRequiredException" : self = .instanceNameRequiredException(try InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7373,7 +7373,7 @@ extension GetApplicationOutputError {
         case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7506,7 +7506,7 @@ extension GetApplicationRevisionOutputError {
         case "InvalidRevisionException" : self = .invalidRevisionException(try InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionDoesNotExistException" : self = .revisionDoesNotExistException(try RevisionDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionRequiredException" : self = .revisionRequiredException(try RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7647,7 +7647,7 @@ extension GetDeploymentConfigOutputError {
         case "DeploymentConfigNameRequiredException" : self = .deploymentConfigNameRequiredException(try DeploymentConfigNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentConfigNameException" : self = .invalidDeploymentConfigNameException(try InvalidDeploymentConfigNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7782,7 +7782,7 @@ extension GetDeploymentGroupOutputError {
         case "DeploymentGroupNameRequiredException" : self = .deploymentGroupNameRequiredException(try DeploymentGroupNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentGroupNameException" : self = .invalidDeploymentGroupNameException(try InvalidDeploymentGroupNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7969,7 +7969,7 @@ extension GetDeploymentInstanceOutputError {
         case "InvalidComputePlatformException" : self = .invalidComputePlatformException(try InvalidComputePlatformException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8042,7 +8042,7 @@ extension GetDeploymentOutputError {
         case "DeploymentDoesNotExistException" : self = .deploymentDoesNotExistException(try DeploymentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8174,7 +8174,7 @@ extension GetDeploymentTargetOutputError {
         case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentTargetIdException" : self = .invalidDeploymentTargetIdException(try InvalidDeploymentTargetIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8295,7 +8295,7 @@ extension GetOnPremisesInstanceOutputError {
         case "InstanceNameRequiredException" : self = .instanceNameRequiredException(try InstanceNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InstanceNotRegisteredException" : self = .instanceNotRegisteredException(try InstanceNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13116,7 +13116,7 @@ extension ListApplicationRevisionsOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSortByException" : self = .invalidSortByException(try InvalidSortByException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSortOrderException" : self = .invalidSortOrderException(try InvalidSortOrderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13256,7 +13256,7 @@ extension ListApplicationsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13387,7 +13387,7 @@ extension ListDeploymentConfigsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13534,7 +13534,7 @@ extension ListDeploymentGroupsOutputError {
         case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13760,7 +13760,7 @@ extension ListDeploymentInstancesOutputError {
         case "InvalidInstanceTypeException" : self = .invalidInstanceTypeException(try InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTargetFilterNameException" : self = .invalidTargetFilterNameException(try InvalidTargetFilterNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13953,7 +13953,7 @@ extension ListDeploymentTargetsOutputError {
         case "InvalidInstanceStatusException" : self = .invalidInstanceStatusException(try InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceTypeException" : self = .invalidInstanceTypeException(try InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14184,7 +14184,7 @@ extension ListDeploymentsOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTimeRangeException" : self = .invalidTimeRangeException(try InvalidTimeRangeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14327,7 +14327,7 @@ extension ListGitHubAccountTokenNamesOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotSupportedException" : self = .operationNotSupportedException(try OperationNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceValidationException" : self = .resourceValidationException(try ResourceValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14502,7 +14502,7 @@ extension ListOnPremisesInstancesOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRegistrationStatusException" : self = .invalidRegistrationStatusException(try InvalidRegistrationStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagFilterException" : self = .invalidTagFilterException(try InvalidTagFilterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14684,7 +14684,7 @@ extension ListTagsForResourceOutputError {
         case "ArnNotSupportedException" : self = .arnNotSupportedException(try ArnNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArnException" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceArnRequiredException" : self = .resourceArnRequiredException(try ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15217,7 +15217,7 @@ extension PutLifecycleEventHookExecutionStatusOutputError {
         case "InvalidLifecycleEventHookExecutionStatusException" : self = .invalidLifecycleEventHookExecutionStatusException(try InvalidLifecycleEventHookExecutionStatusException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LifecycleEventAlreadyCompletedException" : self = .lifecycleEventAlreadyCompletedException(try LifecycleEventAlreadyCompletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedActionForDeploymentTypeException" : self = .unsupportedActionForDeploymentTypeException(try UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15411,7 +15411,7 @@ extension RegisterApplicationRevisionOutputError {
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRevisionException" : self = .invalidRevisionException(try InvalidRevisionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionRequiredException" : self = .revisionRequiredException(try RevisionRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15530,7 +15530,7 @@ extension RegisterOnPremisesInstanceOutputError {
         case "InvalidIamUserArnException" : self = .invalidIamUserArnException(try InvalidIamUserArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceNameException" : self = .invalidInstanceNameException(try InvalidInstanceNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MultipleIamArnsProvidedException" : self = .multipleIamArnsProvidedException(try MultipleIamArnsProvidedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15752,7 +15752,7 @@ extension RemoveTagsFromOnPremisesInstancesOutputError {
         case "InvalidTagException" : self = .invalidTagException(try InvalidTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagLimitExceededException" : self = .tagLimitExceededException(try TagLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagRequiredException" : self = .tagRequiredException(try TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16410,7 +16410,7 @@ extension SkipWaitTimeForInstanceTerminationOutputError {
         case "DeploymentNotStartedException" : self = .deploymentNotStartedException(try DeploymentNotStartedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedActionForDeploymentTypeException" : self = .unsupportedActionForDeploymentTypeException(try UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16545,7 +16545,7 @@ extension StopDeploymentOutputError {
         case "DeploymentIdRequiredException" : self = .deploymentIdRequiredException(try DeploymentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeploymentIdException" : self = .invalidDeploymentIdException(try InvalidDeploymentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedActionForDeploymentTypeException" : self = .unsupportedActionForDeploymentTypeException(try UnsupportedActionForDeploymentTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16987,7 +16987,7 @@ extension TagResourceOutputError {
         case "InvalidTagsToAddException" : self = .invalidTagsToAddException(try InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceArnRequiredException" : self = .resourceArnRequiredException(try ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagRequiredException" : self = .tagRequiredException(try TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18005,7 +18005,7 @@ extension UntagResourceOutputError {
         case "InvalidTagsToAddException" : self = .invalidTagsToAddException(try InvalidTagsToAddException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceArnRequiredException" : self = .resourceArnRequiredException(try ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagRequiredException" : self = .tagRequiredException(try TagRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18107,7 +18107,7 @@ extension UpdateApplicationOutputError {
         case "ApplicationDoesNotExistException" : self = .applicationDoesNotExistException(try ApplicationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ApplicationNameRequiredException" : self = .applicationNameRequiredException(try ApplicationNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApplicationNameException" : self = .invalidApplicationNameException(try InvalidApplicationNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18490,7 +18490,7 @@ extension UpdateDeploymentGroupOutputError {
         case "TagSetListLimitExceededException" : self = .tagSetListLimitExceededException(try TagSetListLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TriggerTargetsLimitExceededException" : self = .triggerTargetsLimitExceededException(try TriggerTargetsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

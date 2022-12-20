@@ -114,7 +114,7 @@ extension CreateHttpNamespaceOutputError {
         case "NamespaceAlreadyExists" : self = .namespaceAlreadyExists(try NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -306,7 +306,7 @@ extension CreatePrivateDnsNamespaceOutputError {
         case "NamespaceAlreadyExists" : self = .namespaceAlreadyExists(try NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -485,7 +485,7 @@ extension CreatePublicDnsNamespaceOutputError {
         case "NamespaceAlreadyExists" : self = .namespaceAlreadyExists(try NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -719,7 +719,7 @@ extension CreateServiceOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceAlreadyExists" : self = .serviceAlreadyExists(try ServiceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -921,7 +921,7 @@ extension DeleteNamespaceOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1037,7 +1037,7 @@ extension DeleteServiceOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1136,7 +1136,7 @@ extension DeregisterInstanceOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1339,7 +1339,7 @@ extension DiscoverInstancesOutputError {
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1830,7 +1830,7 @@ extension GetInstanceOutputError {
         case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1993,7 +1993,7 @@ extension GetInstancesHealthStatusOutputError {
         case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2126,7 +2126,7 @@ extension GetNamespaceOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2239,7 +2239,7 @@ extension GetOperationOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotFound" : self = .operationNotFound(try OperationNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2352,7 +2352,7 @@ extension GetServiceOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3148,7 +3148,7 @@ extension ListInstancesOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3314,7 +3314,7 @@ extension ListNamespacesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3479,7 +3479,7 @@ extension ListOperationsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3644,7 +3644,7 @@ extension ListServicesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3775,7 +3775,7 @@ extension ListTagsForResourceOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5430,7 +5430,7 @@ extension RegisterInstanceOutputError {
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6551,7 +6551,7 @@ extension TagResourceOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6721,7 +6721,7 @@ extension UntagResourceOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6830,7 +6830,7 @@ extension UpdateHttpNamespaceOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6973,7 +6973,7 @@ extension UpdateInstanceCustomHealthStatusOutputError {
         case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7084,7 +7084,7 @@ extension UpdatePrivateDnsNamespaceOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7226,7 +7226,7 @@ extension UpdatePublicDnsNamespaceOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7355,7 +7355,7 @@ extension UpdateServiceOutputError {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

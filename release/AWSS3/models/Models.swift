@@ -1982,7 +1982,8 @@ public struct CompleteMultipartUploadInputBodyMiddleware: ClientRuntime.Middlewa
         do {
             let encoder = context.getEncoder()
             if let multipartUpload = input.operationInput.multipartUpload {
-                let multipartUploaddata = try encoder.encode(multipartUpload)
+                let xmlEncoder = encoder as! XMLEncoder
+                let multipartUploaddata = try xmlEncoder.encode(multipartUpload, withRootKey: "CompleteMultipartUpload")
                 let multipartUploadbody = ClientRuntime.HttpBody.data(multipartUploaddata)
                 input.builder.withBody(multipartUploadbody)
             } else {
@@ -3470,7 +3471,8 @@ public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let createBucketConfiguration = input.operationInput.createBucketConfiguration {
-                let createBucketConfigurationdata = try encoder.encode(createBucketConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let createBucketConfigurationdata = try xmlEncoder.encode(createBucketConfiguration, withRootKey: "CreateBucketConfiguration")
                 let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
                 input.builder.withBody(createBucketConfigurationbody)
             } else {
@@ -6109,7 +6111,8 @@ public struct DeleteObjectsInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let delete = input.operationInput.delete {
-                let deletedata = try encoder.encode(delete)
+                let xmlEncoder = encoder as! XMLEncoder
+                let deletedata = try xmlEncoder.encode(delete, withRootKey: "Delete")
                 let deletebody = ClientRuntime.HttpBody.data(deletedata)
                 input.builder.withBody(deletebody)
             } else {
@@ -11990,8 +11993,10 @@ extension GetObjectInput {
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         let decoder = ClientRuntime.XMLDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         decoder.trimValueWhitespaces = false
         decoder.removeWhitespaceElements = true
         let context = ClientRuntime.HttpContextBuilder()
@@ -12031,8 +12036,10 @@ extension GetObjectInput {
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         let decoder = ClientRuntime.XMLDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         decoder.trimValueWhitespaces = false
         decoder.removeWhitespaceElements = true
         let context = ClientRuntime.HttpContextBuilder()
@@ -13967,6 +13974,18 @@ extension HeadBucketOutputError {
     }
 }
 
+extension HeadBucketOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .notFound: return "NotFound"
+        case .unknown(let error): return error.waiterErrorType
+        }
+    }
+}
+
 public enum HeadBucketOutputError: Swift.Error, Swift.Equatable {
     case notFound(NotFound)
     case unknown(UnknownAWSHttpServiceError)
@@ -14164,6 +14183,18 @@ extension HeadObjectOutputError {
     }
     static func getRequestId2(httpResponse: HttpResponse) -> String? {
         return httpResponse.headers.value(for: "x-amz-id-2")
+    }
+}
+
+extension HeadObjectOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .notFound: return "NotFound"
+        case .unknown(let error): return error.waiterErrorType
+        }
     }
 }
 
@@ -21959,7 +21990,8 @@ public struct PutBucketAccelerateConfigurationInputBodyMiddleware: ClientRuntime
         do {
             let encoder = context.getEncoder()
             if let accelerateConfiguration = input.operationInput.accelerateConfiguration {
-                let accelerateConfigurationdata = try encoder.encode(accelerateConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let accelerateConfigurationdata = try xmlEncoder.encode(accelerateConfiguration, withRootKey: "AccelerateConfiguration")
                 let accelerateConfigurationbody = ClientRuntime.HttpBody.data(accelerateConfigurationdata)
                 input.builder.withBody(accelerateConfigurationbody)
             } else {
@@ -22146,7 +22178,8 @@ public struct PutBucketAclInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let accessControlPolicy = input.operationInput.accessControlPolicy {
-                let accessControlPolicydata = try encoder.encode(accessControlPolicy)
+                let xmlEncoder = encoder as! XMLEncoder
+                let accessControlPolicydata = try xmlEncoder.encode(accessControlPolicy, withRootKey: "AccessControlPolicy")
                 let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
                 input.builder.withBody(accessControlPolicybody)
             } else {
@@ -22381,7 +22414,8 @@ public struct PutBucketAnalyticsConfigurationInputBodyMiddleware: ClientRuntime.
         do {
             let encoder = context.getEncoder()
             if let analyticsConfiguration = input.operationInput.analyticsConfiguration {
-                let analyticsConfigurationdata = try encoder.encode(analyticsConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let analyticsConfigurationdata = try xmlEncoder.encode(analyticsConfiguration, withRootKey: "AnalyticsConfiguration")
                 let analyticsConfigurationbody = ClientRuntime.HttpBody.data(analyticsConfigurationdata)
                 input.builder.withBody(analyticsConfigurationbody)
             } else {
@@ -22572,7 +22606,8 @@ public struct PutBucketCorsInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let corsConfiguration = input.operationInput.corsConfiguration {
-                let corsConfigurationdata = try encoder.encode(corsConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let corsConfigurationdata = try xmlEncoder.encode(corsConfiguration, withRootKey: "CORSConfiguration")
                 let corsConfigurationbody = ClientRuntime.HttpBody.data(corsConfigurationdata)
                 input.builder.withBody(corsConfigurationbody)
             } else {
@@ -22766,7 +22801,8 @@ public struct PutBucketEncryptionInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let serverSideEncryptionConfiguration = input.operationInput.serverSideEncryptionConfiguration {
-                let serverSideEncryptionConfigurationdata = try encoder.encode(serverSideEncryptionConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let serverSideEncryptionConfigurationdata = try xmlEncoder.encode(serverSideEncryptionConfiguration, withRootKey: "ServerSideEncryptionConfiguration")
                 let serverSideEncryptionConfigurationbody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationdata)
                 input.builder.withBody(serverSideEncryptionConfigurationbody)
             } else {
@@ -22960,7 +22996,8 @@ public struct PutBucketIntelligentTieringConfigurationInputBodyMiddleware: Clien
         do {
             let encoder = context.getEncoder()
             if let intelligentTieringConfiguration = input.operationInput.intelligentTieringConfiguration {
-                let intelligentTieringConfigurationdata = try encoder.encode(intelligentTieringConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let intelligentTieringConfigurationdata = try xmlEncoder.encode(intelligentTieringConfiguration, withRootKey: "IntelligentTieringConfiguration")
                 let intelligentTieringConfigurationbody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationdata)
                 input.builder.withBody(intelligentTieringConfigurationbody)
             } else {
@@ -23137,7 +23174,8 @@ public struct PutBucketInventoryConfigurationInputBodyMiddleware: ClientRuntime.
         do {
             let encoder = context.getEncoder()
             if let inventoryConfiguration = input.operationInput.inventoryConfiguration {
-                let inventoryConfigurationdata = try encoder.encode(inventoryConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let inventoryConfigurationdata = try xmlEncoder.encode(inventoryConfiguration, withRootKey: "InventoryConfiguration")
                 let inventoryConfigurationbody = ClientRuntime.HttpBody.data(inventoryConfigurationdata)
                 input.builder.withBody(inventoryConfigurationbody)
             } else {
@@ -23328,7 +23366,8 @@ public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.
         do {
             let encoder = context.getEncoder()
             if let lifecycleConfiguration = input.operationInput.lifecycleConfiguration {
-                let lifecycleConfigurationdata = try encoder.encode(lifecycleConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let lifecycleConfigurationdata = try xmlEncoder.encode(lifecycleConfiguration, withRootKey: "LifecycleConfiguration")
                 let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
                 input.builder.withBody(lifecycleConfigurationbody)
             } else {
@@ -23514,7 +23553,8 @@ public struct PutBucketLoggingInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let bucketLoggingStatus = input.operationInput.bucketLoggingStatus {
-                let bucketLoggingStatusdata = try encoder.encode(bucketLoggingStatus)
+                let xmlEncoder = encoder as! XMLEncoder
+                let bucketLoggingStatusdata = try xmlEncoder.encode(bucketLoggingStatus, withRootKey: "BucketLoggingStatus")
                 let bucketLoggingStatusbody = ClientRuntime.HttpBody.data(bucketLoggingStatusdata)
                 input.builder.withBody(bucketLoggingStatusbody)
             } else {
@@ -23708,7 +23748,8 @@ public struct PutBucketMetricsConfigurationInputBodyMiddleware: ClientRuntime.Mi
         do {
             let encoder = context.getEncoder()
             if let metricsConfiguration = input.operationInput.metricsConfiguration {
-                let metricsConfigurationdata = try encoder.encode(metricsConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let metricsConfigurationdata = try xmlEncoder.encode(metricsConfiguration, withRootKey: "MetricsConfiguration")
                 let metricsConfigurationbody = ClientRuntime.HttpBody.data(metricsConfigurationdata)
                 input.builder.withBody(metricsConfigurationbody)
             } else {
@@ -23899,7 +23940,8 @@ public struct PutBucketNotificationConfigurationInputBodyMiddleware: ClientRunti
         do {
             let encoder = context.getEncoder()
             if let notificationConfiguration = input.operationInput.notificationConfiguration {
-                let notificationConfigurationdata = try encoder.encode(notificationConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let notificationConfigurationdata = try xmlEncoder.encode(notificationConfiguration, withRootKey: "NotificationConfiguration")
                 let notificationConfigurationbody = ClientRuntime.HttpBody.data(notificationConfigurationdata)
                 input.builder.withBody(notificationConfigurationbody)
             } else {
@@ -24086,7 +24128,8 @@ public struct PutBucketOwnershipControlsInputBodyMiddleware: ClientRuntime.Middl
         do {
             let encoder = context.getEncoder()
             if let ownershipControls = input.operationInput.ownershipControls {
-                let ownershipControlsdata = try encoder.encode(ownershipControls)
+                let xmlEncoder = encoder as! XMLEncoder
+                let ownershipControlsdata = try xmlEncoder.encode(ownershipControls, withRootKey: "OwnershipControls")
                 let ownershipControlsbody = ClientRuntime.HttpBody.data(ownershipControlsdata)
                 input.builder.withBody(ownershipControlsbody)
             } else {
@@ -24462,7 +24505,8 @@ public struct PutBucketReplicationInputBodyMiddleware: ClientRuntime.Middleware 
         do {
             let encoder = context.getEncoder()
             if let replicationConfiguration = input.operationInput.replicationConfiguration {
-                let replicationConfigurationdata = try encoder.encode(replicationConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let replicationConfigurationdata = try xmlEncoder.encode(replicationConfiguration, withRootKey: "ReplicationConfiguration")
                 let replicationConfigurationbody = ClientRuntime.HttpBody.data(replicationConfigurationdata)
                 input.builder.withBody(replicationConfigurationbody)
             } else {
@@ -24663,7 +24707,8 @@ public struct PutBucketRequestPaymentInputBodyMiddleware: ClientRuntime.Middlewa
         do {
             let encoder = context.getEncoder()
             if let requestPaymentConfiguration = input.operationInput.requestPaymentConfiguration {
-                let requestPaymentConfigurationdata = try encoder.encode(requestPaymentConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let requestPaymentConfigurationdata = try xmlEncoder.encode(requestPaymentConfiguration, withRootKey: "RequestPaymentConfiguration")
                 let requestPaymentConfigurationbody = ClientRuntime.HttpBody.data(requestPaymentConfigurationdata)
                 input.builder.withBody(requestPaymentConfigurationbody)
             } else {
@@ -24857,7 +24902,8 @@ public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let tagging = input.operationInput.tagging {
-                let taggingdata = try encoder.encode(tagging)
+                let xmlEncoder = encoder as! XMLEncoder
+                let taggingdata = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
                 let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
                 input.builder.withBody(taggingbody)
             } else {
@@ -25051,7 +25097,8 @@ public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let versioningConfiguration = input.operationInput.versioningConfiguration {
-                let versioningConfigurationdata = try encoder.encode(versioningConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let versioningConfigurationdata = try xmlEncoder.encode(versioningConfiguration, withRootKey: "VersioningConfiguration")
                 let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
                 input.builder.withBody(versioningConfigurationbody)
             } else {
@@ -25252,7 +25299,8 @@ public struct PutBucketWebsiteInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let websiteConfiguration = input.operationInput.websiteConfiguration {
-                let websiteConfigurationdata = try encoder.encode(websiteConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let websiteConfigurationdata = try xmlEncoder.encode(websiteConfiguration, withRootKey: "WebsiteConfiguration")
                 let websiteConfigurationbody = ClientRuntime.HttpBody.data(websiteConfigurationdata)
                 input.builder.withBody(websiteConfigurationbody)
             } else {
@@ -25446,7 +25494,8 @@ public struct PutObjectAclInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let accessControlPolicy = input.operationInput.accessControlPolicy {
-                let accessControlPolicydata = try encoder.encode(accessControlPolicy)
+                let xmlEncoder = encoder as! XMLEncoder
+                let accessControlPolicydata = try xmlEncoder.encode(accessControlPolicy, withRootKey: "AccessControlPolicy")
                 let accessControlPolicybody = ClientRuntime.HttpBody.data(accessControlPolicydata)
                 input.builder.withBody(accessControlPolicybody)
             } else {
@@ -25880,8 +25929,10 @@ extension PutObjectInput {
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         let decoder = ClientRuntime.XMLDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         decoder.trimValueWhitespaces = false
         decoder.removeWhitespaceElements = true
         let context = ClientRuntime.HttpContextBuilder()
@@ -25921,8 +25972,10 @@ extension PutObjectInput {
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         let decoder = ClientRuntime.XMLDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         decoder.trimValueWhitespaces = false
         decoder.removeWhitespaceElements = true
         let context = ClientRuntime.HttpContextBuilder()
@@ -26179,7 +26232,8 @@ public struct PutObjectLegalHoldInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let legalHold = input.operationInput.legalHold {
-                let legalHolddata = try encoder.encode(legalHold)
+                let xmlEncoder = encoder as! XMLEncoder
+                let legalHolddata = try xmlEncoder.encode(legalHold, withRootKey: "LegalHold")
                 let legalHoldbody = ClientRuntime.HttpBody.data(legalHolddata)
                 input.builder.withBody(legalHoldbody)
             } else {
@@ -26407,7 +26461,8 @@ public struct PutObjectLockConfigurationInputBodyMiddleware: ClientRuntime.Middl
         do {
             let encoder = context.getEncoder()
             if let objectLockConfiguration = input.operationInput.objectLockConfiguration {
-                let objectLockConfigurationdata = try encoder.encode(objectLockConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let objectLockConfigurationdata = try xmlEncoder.encode(objectLockConfiguration, withRootKey: "ObjectLockConfiguration")
                 let objectLockConfigurationbody = ClientRuntime.HttpBody.data(objectLockConfigurationdata)
                 input.builder.withBody(objectLockConfigurationbody)
             } else {
@@ -26808,7 +26863,8 @@ public struct PutObjectRetentionInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let retention = input.operationInput.retention {
-                let retentiondata = try encoder.encode(retention)
+                let xmlEncoder = encoder as! XMLEncoder
+                let retentiondata = try xmlEncoder.encode(retention, withRootKey: "Retention")
                 let retentionbody = ClientRuntime.HttpBody.data(retentiondata)
                 input.builder.withBody(retentionbody)
             } else {
@@ -27043,7 +27099,8 @@ public struct PutObjectTaggingInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let tagging = input.operationInput.tagging {
-                let taggingdata = try encoder.encode(tagging)
+                let xmlEncoder = encoder as! XMLEncoder
+                let taggingdata = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
                 let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
                 input.builder.withBody(taggingbody)
             } else {
@@ -27272,7 +27329,8 @@ public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware 
         do {
             let encoder = context.getEncoder()
             if let publicAccessBlockConfiguration = input.operationInput.publicAccessBlockConfiguration {
-                let publicAccessBlockConfigurationdata = try encoder.encode(publicAccessBlockConfiguration)
+                let xmlEncoder = encoder as! XMLEncoder
+                let publicAccessBlockConfigurationdata = try xmlEncoder.encode(publicAccessBlockConfiguration, withRootKey: "PublicAccessBlockConfiguration")
                 let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
                 input.builder.withBody(publicAccessBlockConfigurationbody)
             } else {
@@ -28661,7 +28719,8 @@ public struct RestoreObjectInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let restoreRequest = input.operationInput.restoreRequest {
-                let restoreRequestdata = try encoder.encode(restoreRequest)
+                let xmlEncoder = encoder as! XMLEncoder
+                let restoreRequestdata = try xmlEncoder.encode(restoreRequest, withRootKey: "RestoreRequest")
                 let restoreRequestbody = ClientRuntime.HttpBody.data(restoreRequestdata)
                 input.builder.withBody(restoreRequestbody)
             } else {
@@ -31655,8 +31714,10 @@ extension UploadPartInput {
         let input = self
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         let decoder = ClientRuntime.XMLDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         decoder.trimValueWhitespaces = false
         decoder.removeWhitespaceElements = true
         let context = ClientRuntime.HttpContextBuilder()

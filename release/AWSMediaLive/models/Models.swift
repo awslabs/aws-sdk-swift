@@ -732,7 +732,7 @@ extension AcceptInputDeviceTransferOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1489,6 +1489,42 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes.AudioDolbyEDecode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case programSelection = "programSelection"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let programSelection = self.programSelection {
+            try encodeContainer.encode(programSelection.rawValue, forKey: .programSelection)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let programSelectionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.DolbyEProgramSelection.self, forKey: .programSelection)
+        programSelection = programSelectionDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Audio Dolby EDecode
+    public struct AudioDolbyEDecode: Swift.Equatable {
+        /// Applies only to Dolby E. Enter the program ID (according to the metadata in the audio) of the Dolby E program to extract from the specified track. One program extracted per audio selector. To select multiple programs, create multiple selectors with the same Track and different Program numbers. “All channels” means to ignore the program IDs and include all the channels in this selector; useful if metadata is known to be incorrect.
+        /// This member is required.
+        public var programSelection: MediaLiveClientTypes.DolbyEProgramSelection?
+
+        public init (
+            programSelection: MediaLiveClientTypes.DolbyEProgramSelection? = nil
+        )
+        {
+            self.programSelection = programSelection
+        }
+    }
+
+}
+
 extension MediaLiveClientTypes.AudioHlsRenditionSelection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groupId = "groupId"
@@ -2101,11 +2137,15 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes.AudioTrackSelection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dolbyEDecode = "dolbyEDecode"
         case tracks = "tracks"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dolbyEDecode = self.dolbyEDecode {
+            try encodeContainer.encode(dolbyEDecode, forKey: .dolbyEDecode)
+        }
         if let tracks = tracks {
             var tracksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tracks)
             for __listofaudiotrack0 in tracks {
@@ -2127,20 +2167,26 @@ extension MediaLiveClientTypes.AudioTrackSelection: Swift.Codable {
             }
         }
         tracks = tracksDecoded0
+        let dolbyEDecodeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.AudioDolbyEDecode.self, forKey: .dolbyEDecode)
+        dolbyEDecode = dolbyEDecodeDecoded
     }
 }
 
 extension MediaLiveClientTypes {
     /// Audio Track Selection
     public struct AudioTrackSelection: Swift.Equatable {
+        /// Configure decoding options for Dolby E streams - these should be Dolby E frames carried in PCM streams tagged with SMPTE-337
+        public var dolbyEDecode: MediaLiveClientTypes.AudioDolbyEDecode?
         /// Selects one or more unique audio tracks from within a source.
         /// This member is required.
         public var tracks: [MediaLiveClientTypes.AudioTrack]?
 
         public init (
+            dolbyEDecode: MediaLiveClientTypes.AudioDolbyEDecode? = nil,
             tracks: [MediaLiveClientTypes.AudioTrack]? = nil
         )
         {
+            self.dolbyEDecode = dolbyEDecode
             self.tracks = tracks
         }
     }
@@ -2479,7 +2525,7 @@ extension MediaLiveClientTypes.AvailSettings: Swift.Codable {
 extension MediaLiveClientTypes {
     /// Avail Settings
     public struct AvailSettings: Swift.Equatable {
-        /// Settings for the Esam
+        /// Esam
         public var esam: MediaLiveClientTypes.Esam?
         /// Scte35 Splice Insert
         public var scte35SpliceInsert: MediaLiveClientTypes.Scte35SpliceInsert?
@@ -2757,7 +2803,7 @@ extension BatchDeleteOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3204,7 +3250,7 @@ extension BatchStartOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3394,7 +3440,7 @@ extension BatchStopOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3623,7 +3669,7 @@ extension BatchUpdateScheduleOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4311,7 +4357,7 @@ extension CancelInputDeviceTransferOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5627,7 +5673,7 @@ extension ClaimDeviceOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6018,7 +6064,7 @@ extension CreateChannelOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6334,7 +6380,7 @@ extension CreateInputOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6492,7 +6538,7 @@ extension CreateInputSecurityGroupOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6692,7 +6738,7 @@ extension CreateMultiplexOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6853,7 +6899,7 @@ extension CreateMultiplexProgramOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7009,7 +7055,7 @@ extension CreatePartnerInputOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7149,7 +7195,7 @@ extension CreateTagsOutputError {
         case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7223,7 +7269,7 @@ extension DeleteChannelOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7548,7 +7594,7 @@ extension DeleteInputOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7626,7 +7672,7 @@ extension DeleteInputSecurityGroupOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7704,7 +7750,7 @@ extension DeleteMultiplexOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7939,7 +7985,7 @@ extension DeleteMultiplexProgramOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8098,7 +8144,7 @@ extension DeleteReservationOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8396,7 +8442,7 @@ extension DeleteScheduleOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8492,7 +8538,7 @@ extension DeleteTagsOutputError {
         case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8565,7 +8611,25 @@ extension DescribeChannelOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeChannelOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .badGatewayException: return "BadGatewayException"
+        case .badRequestException: return "BadRequestException"
+        case .forbiddenException: return "ForbiddenException"
+        case .gatewayTimeoutException: return "GatewayTimeoutException"
+        case .internalServerErrorException: return "InternalServerErrorException"
+        case .notFoundException: return "NotFoundException"
+        case .tooManyRequestsException: return "TooManyRequestsException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -8888,7 +8952,7 @@ extension DescribeInputDeviceOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9121,7 +9185,7 @@ extension DescribeInputDeviceThumbnailOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9263,7 +9327,25 @@ extension DescribeInputOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeInputOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .badGatewayException: return "BadGatewayException"
+        case .badRequestException: return "BadRequestException"
+        case .forbiddenException: return "ForbiddenException"
+        case .gatewayTimeoutException: return "GatewayTimeoutException"
+        case .internalServerErrorException: return "InternalServerErrorException"
+        case .notFoundException: return "NotFoundException"
+        case .tooManyRequestsException: return "TooManyRequestsException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -9593,7 +9675,7 @@ extension DescribeInputSecurityGroupOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9778,7 +9860,25 @@ extension DescribeMultiplexOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeMultiplexOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .badGatewayException: return "BadGatewayException"
+        case .badRequestException: return "BadRequestException"
+        case .forbiddenException: return "ForbiddenException"
+        case .gatewayTimeoutException: return "GatewayTimeoutException"
+        case .internalServerErrorException: return "InternalServerErrorException"
+        case .notFoundException: return "NotFoundException"
+        case .tooManyRequestsException: return "TooManyRequestsException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -10011,7 +10111,7 @@ extension DescribeMultiplexProgramOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10168,7 +10268,7 @@ extension DescribeOfferingOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10376,7 +10476,7 @@ extension DescribeReservationOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10698,7 +10798,7 @@ extension DescribeScheduleOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10844,6 +10944,60 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes {
+    /// Dolby EProgram Selection
+    public enum DolbyEProgramSelection: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allChannels
+        case program1
+        case program2
+        case program3
+        case program4
+        case program5
+        case program6
+        case program7
+        case program8
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DolbyEProgramSelection] {
+            return [
+                .allChannels,
+                .program1,
+                .program2,
+                .program3,
+                .program4,
+                .program5,
+                .program6,
+                .program7,
+                .program8,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allChannels: return "ALL_CHANNELS"
+            case .program1: return "PROGRAM_1"
+            case .program2: return "PROGRAM_2"
+            case .program3: return "PROGRAM_3"
+            case .program4: return "PROGRAM_4"
+            case .program5: return "PROGRAM_5"
+            case .program6: return "PROGRAM_6"
+            case .program7: return "PROGRAM_7"
+            case .program8: return "PROGRAM_8"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DolbyEProgramSelection(rawValue: rawValue) ?? DolbyEProgramSelection.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaLiveClientTypes.DolbyVision81Settings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10856,7 +11010,7 @@ extension MediaLiveClientTypes.DolbyVision81Settings: Swift.Codable {
 }
 
 extension MediaLiveClientTypes {
-    /// Dolby Vision Profile 8.1 Settings
+    /// Dolby Vision81 Settings
     public struct DolbyVision81Settings: Swift.Equatable {
 
         public init () { }
@@ -13093,19 +13247,19 @@ extension MediaLiveClientTypes.Esam: Swift.Codable {
 }
 
 extension MediaLiveClientTypes {
-    /// Settings for the Esam
+    /// Esam
     public struct Esam: Swift.Equatable {
         /// Sent as acquisitionPointIdentity to identify the MediaLive channel to the POIS.
         /// This member is required.
         public var acquisitionPointId: Swift.String?
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time. This only applies to embedded SCTE 104/35 messages and does not apply to OOB messages.
         public var adAvailOffset: Swift.Int?
-        /// Password if credentials are required to access the POIS endpoint. This is a reference to an AWS parameter store name from which the password can be retrieved. AWS Parameter store format: "ssm://"
+        /// Documentation update needed
         public var passwordParam: Swift.String?
         /// The URL of the signal conditioner endpoint on the Placement Opportunity Information System (POIS). MediaLive sends SignalProcessingEvents here when SCTE-35 messages are read.
         /// This member is required.
         public var poisEndpoint: Swift.String?
-        /// Username if credentials are required to access the POIS endpoint. This can be either a plaintext username, or a reference to an AWS parameter store name from which the username can be retrieved. AWS Parameter store format: "ssm://"
+        /// Documentation update needed
         public var username: Swift.String?
         /// Optional data sent as zoneIdentity to identify the MediaLive channel to the POIS.
         public var zoneIdentity: Swift.String?
@@ -13934,6 +14088,7 @@ extension MediaLiveClientTypes.FrameCaptureSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case captureInterval = "captureInterval"
         case captureIntervalUnits = "captureIntervalUnits"
+        case timecodeBurninSettings = "timecodeBurninSettings"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13944,6 +14099,9 @@ extension MediaLiveClientTypes.FrameCaptureSettings: Swift.Codable {
         if let captureIntervalUnits = self.captureIntervalUnits {
             try encodeContainer.encode(captureIntervalUnits.rawValue, forKey: .captureIntervalUnits)
         }
+        if let timecodeBurninSettings = self.timecodeBurninSettings {
+            try encodeContainer.encode(timecodeBurninSettings, forKey: .timecodeBurninSettings)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -13952,6 +14110,8 @@ extension MediaLiveClientTypes.FrameCaptureSettings: Swift.Codable {
         captureInterval = captureIntervalDecoded
         let captureIntervalUnitsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.FrameCaptureIntervalUnit.self, forKey: .captureIntervalUnits)
         captureIntervalUnits = captureIntervalUnitsDecoded
+        let timecodeBurninSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeBurninSettings.self, forKey: .timecodeBurninSettings)
+        timecodeBurninSettings = timecodeBurninSettingsDecoded
     }
 }
 
@@ -13962,14 +14122,18 @@ extension MediaLiveClientTypes {
         public var captureInterval: Swift.Int?
         /// Unit for the frame capture interval.
         public var captureIntervalUnits: MediaLiveClientTypes.FrameCaptureIntervalUnit?
+        /// Timecode burn-in settings
+        public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
 
         public init (
             captureInterval: Swift.Int? = nil,
-            captureIntervalUnits: MediaLiveClientTypes.FrameCaptureIntervalUnit? = nil
+            captureIntervalUnits: MediaLiveClientTypes.FrameCaptureIntervalUnit? = nil,
+            timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil
         )
         {
             self.captureInterval = captureInterval
             self.captureIntervalUnits = captureIntervalUnits
+            self.timecodeBurninSettings = timecodeBurninSettings
         }
     }
 
@@ -14986,6 +15150,7 @@ extension MediaLiveClientTypes.H264Settings: Swift.Codable {
         case subgopLength = "subgopLength"
         case syntax = "syntax"
         case temporalAq = "temporalAq"
+        case timecodeBurninSettings = "timecodeBurninSettings"
         case timecodeInsertion = "timecodeInsertion"
     }
 
@@ -15111,6 +15276,9 @@ extension MediaLiveClientTypes.H264Settings: Swift.Codable {
         if let temporalAq = self.temporalAq {
             try encodeContainer.encode(temporalAq.rawValue, forKey: .temporalAq)
         }
+        if let timecodeBurninSettings = self.timecodeBurninSettings {
+            try encodeContainer.encode(timecodeBurninSettings, forKey: .timecodeBurninSettings)
+        }
         if let timecodeInsertion = self.timecodeInsertion {
             try encodeContainer.encode(timecodeInsertion.rawValue, forKey: .timecodeInsertion)
         }
@@ -15200,6 +15368,8 @@ extension MediaLiveClientTypes.H264Settings: Swift.Codable {
         temporalAq = temporalAqDecoded
         let timecodeInsertionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H264TimecodeInsertionBehavior.self, forKey: .timecodeInsertion)
         timecodeInsertion = timecodeInsertionDecoded
+        let timecodeBurninSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeBurninSettings.self, forKey: .timecodeBurninSettings)
+        timecodeBurninSettings = timecodeBurninSettingsDecoded
     }
 }
 
@@ -15300,6 +15470,8 @@ extension MediaLiveClientTypes {
         public var syntax: MediaLiveClientTypes.H264Syntax?
         /// Temporal makes adjustments within each frame based on temporal variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if temporal AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply temporal AQ using the specified strength. Disabled: MediaLive won't apply temporal AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply temporal AQ.
         public var temporalAq: MediaLiveClientTypes.H264TemporalAq?
+        /// Timecode burn-in settings
+        public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
         /// Determines how timecodes should be inserted into the video elementary stream.
         ///
         /// * 'disabled': Do not include timecodes
@@ -15348,6 +15520,7 @@ extension MediaLiveClientTypes {
             subgopLength: MediaLiveClientTypes.H264SubGopLength? = nil,
             syntax: MediaLiveClientTypes.H264Syntax? = nil,
             temporalAq: MediaLiveClientTypes.H264TemporalAq? = nil,
+            timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil,
             timecodeInsertion: MediaLiveClientTypes.H264TimecodeInsertionBehavior? = nil
         )
         {
@@ -15391,6 +15564,7 @@ extension MediaLiveClientTypes {
             self.subgopLength = subgopLength
             self.syntax = syntax
             self.temporalAq = temporalAq
+            self.timecodeBurninSettings = timecodeBurninSettings
             self.timecodeInsertion = timecodeInsertion
         }
     }
@@ -15724,7 +15898,7 @@ extension MediaLiveClientTypes {
     public struct H265ColorSpaceSettings: Swift.Equatable {
         /// Passthrough applies no color space conversion to the output
         public var colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings?
-        /// Dolby Vision Profile 8.1 Settings
+        /// Dolby Vision81 Settings
         public var dolbyVision81Settings: MediaLiveClientTypes.DolbyVision81Settings?
         /// Hdr10 Settings
         public var hdr10Settings: MediaLiveClientTypes.Hdr10Settings?
@@ -16122,6 +16296,7 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         case sceneChangeDetect = "sceneChangeDetect"
         case slices = "slices"
         case tier = "tier"
+        case timecodeBurninSettings = "timecodeBurninSettings"
         case timecodeInsertion = "timecodeInsertion"
     }
 
@@ -16211,6 +16386,9 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         if let tier = self.tier {
             try encodeContainer.encode(tier.rawValue, forKey: .tier)
         }
+        if let timecodeBurninSettings = self.timecodeBurninSettings {
+            try encodeContainer.encode(timecodeBurninSettings, forKey: .timecodeBurninSettings)
+        }
         if let timecodeInsertion = self.timecodeInsertion {
             try encodeContainer.encode(timecodeInsertion.rawValue, forKey: .timecodeInsertion)
         }
@@ -16276,6 +16454,8 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         tier = tierDecoded
         let timecodeInsertionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265TimecodeInsertionBehavior.self, forKey: .timecodeInsertion)
         timecodeInsertion = timecodeInsertionDecoded
+        let timecodeBurninSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeBurninSettings.self, forKey: .timecodeBurninSettings)
+        timecodeBurninSettings = timecodeBurninSettingsDecoded
     }
 }
 
@@ -16346,6 +16526,8 @@ extension MediaLiveClientTypes {
         public var slices: Swift.Int?
         /// H.265 Tier.
         public var tier: MediaLiveClientTypes.H265Tier?
+        /// Timecode burn-in settings
+        public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
         /// Determines how timecodes should be inserted into the video elementary stream.
         ///
         /// * 'disabled': Do not include timecodes
@@ -16382,6 +16564,7 @@ extension MediaLiveClientTypes {
             sceneChangeDetect: MediaLiveClientTypes.H265SceneChangeDetect? = nil,
             slices: Swift.Int? = nil,
             tier: MediaLiveClientTypes.H265Tier? = nil,
+            timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil,
             timecodeInsertion: MediaLiveClientTypes.H265TimecodeInsertionBehavior? = nil
         )
         {
@@ -16413,6 +16596,7 @@ extension MediaLiveClientTypes {
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
             self.tier = tier
+            self.timecodeBurninSettings = timecodeBurninSettings
             self.timecodeInsertion = timecodeInsertion
         }
     }
@@ -17390,7 +17574,7 @@ extension MediaLiveClientTypes {
         public var manifestCompression: MediaLiveClientTypes.HlsManifestCompression?
         /// Indicates whether the output manifest should use floating point or integer values for segment duration.
         public var manifestDurationFormat: MediaLiveClientTypes.HlsManifestDurationFormat?
-        /// When set, minimumSegmentLength is enforced by looking ahead and back within the specified range for a nearby avail and extending the segment size if needed.
+        /// Minimum length of MPEG-2 Transport Stream segments in seconds. When set, minimum segment length is enforced by looking ahead and back within the specified range for a nearby avail and extending the segment size if needed.
         public var minSegmentLength: Swift.Int?
         /// If "vod", all segments are indexed and kept permanently in the destination and manifest. If "live", only the number segments specified in keepSegments and indexNSegments are kept; newer segments replace older segments, which may prevent players from rewinding all the way to the beginning of the event. VOD mode uses HLS EXT-X-PLAYLIST-TYPE of EVENT while the channel is running, converting it to a "VOD" type manifest on completion of the stream.
         public var mode: MediaLiveClientTypes.HlsMode?
@@ -17404,7 +17588,7 @@ extension MediaLiveClientTypes {
         public var programDateTimePeriod: Swift.Int?
         /// ENABLED: The master manifest (.m3u8 file) for each pipeline includes information about both pipelines: first its own media files, then the media files of the other pipeline. This feature allows playout device that support stale manifest detection to switch from one manifest to the other, when the current manifest seems to be stale. There are still two destinations and two master manifests, but both master manifests reference the media files from both pipelines. DISABLED: The master manifest (.m3u8 file) for each pipeline includes information about its own pipeline only. For an HLS output group with MediaPackage as the destination, the DISABLED behavior is always followed. MediaPackage regenerates the manifests it serves to players so a redundant manifest from MediaLive is irrelevant.
         public var redundantManifest: MediaLiveClientTypes.HlsRedundantManifest?
-        /// Length of MPEG-2 Transport Stream segments to create (in seconds). Note that segments will end on the next keyframe after this number of seconds, so actual segment length may be longer.
+        /// Length of MPEG-2 Transport Stream segments to create in seconds. Note that segments will end on the next keyframe after this duration, so actual segment length may be longer.
         public var segmentLength: Swift.Int?
         /// useInputSegmentation has been deprecated. The configured segment size is always used.
         public var segmentationMode: MediaLiveClientTypes.HlsSegmentationMode?
@@ -19446,6 +19630,7 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuredInput = "configuredInput"
+        case latencyMs = "latencyMs"
         case maxBitrate = "maxBitrate"
     }
 
@@ -19453,6 +19638,9 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configuredInput = self.configuredInput {
             try encodeContainer.encode(configuredInput.rawValue, forKey: .configuredInput)
+        }
+        if let latencyMs = self.latencyMs {
+            try encodeContainer.encode(latencyMs, forKey: .latencyMs)
         }
         if let maxBitrate = self.maxBitrate {
             try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
@@ -19465,6 +19653,8 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
         configuredInput = configuredInputDecoded
         let maxBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBitrate)
         maxBitrate = maxBitrateDecoded
+        let latencyMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latencyMs)
+        latencyMs = latencyMsDecoded
     }
 }
 
@@ -19473,15 +19663,19 @@ extension MediaLiveClientTypes {
     public struct InputDeviceConfigurableSettings: Swift.Equatable {
         /// The input source that you want to use. If the device has a source connected to only one of its input ports, or if you don't care which source the device sends, specify Auto. If the device has sources connected to both its input ports, and you want to use a specific source, specify the source.
         public var configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput?
+        /// The Link device's buffer size (latency) in milliseconds (ms).
+        public var latencyMs: Swift.Int?
         /// The maximum bitrate in bits per second. Set a value here to throttle the bitrate of the source video.
         public var maxBitrate: Swift.Int?
 
         public init (
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
+            latencyMs: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil
         )
         {
             self.configuredInput = configuredInput
+            self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
         }
     }
@@ -19564,6 +19758,7 @@ extension MediaLiveClientTypes.InputDeviceHdSettings: Swift.Codable {
         case deviceState = "deviceState"
         case framerate = "framerate"
         case height = "height"
+        case latencyMs = "latencyMs"
         case maxBitrate = "maxBitrate"
         case scanType = "scanType"
         case width = "width"
@@ -19585,6 +19780,9 @@ extension MediaLiveClientTypes.InputDeviceHdSettings: Swift.Codable {
         }
         if let height = self.height {
             try encodeContainer.encode(height, forKey: .height)
+        }
+        if let latencyMs = self.latencyMs {
+            try encodeContainer.encode(latencyMs, forKey: .latencyMs)
         }
         if let maxBitrate = self.maxBitrate {
             try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
@@ -19615,6 +19813,8 @@ extension MediaLiveClientTypes.InputDeviceHdSettings: Swift.Codable {
         scanType = scanTypeDecoded
         let widthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .width)
         width = widthDecoded
+        let latencyMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latencyMs)
+        latencyMs = latencyMsDecoded
     }
 }
 
@@ -19631,6 +19831,8 @@ extension MediaLiveClientTypes {
         public var framerate: Swift.Double?
         /// The height of the video source, in pixels.
         public var height: Swift.Int?
+        /// The Link device's buffer size (latency) in milliseconds (ms). You can specify this value.
+        public var latencyMs: Swift.Int?
         /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
         public var maxBitrate: Swift.Int?
         /// The scan type of the video source.
@@ -19644,6 +19846,7 @@ extension MediaLiveClientTypes {
             deviceState: MediaLiveClientTypes.InputDeviceState? = nil,
             framerate: Swift.Double? = nil,
             height: Swift.Int? = nil,
+            latencyMs: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil,
             scanType: MediaLiveClientTypes.InputDeviceScanType? = nil,
             width: Swift.Int? = nil
@@ -19654,6 +19857,7 @@ extension MediaLiveClientTypes {
             self.deviceState = deviceState
             self.framerate = framerate
             self.height = height
+            self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.scanType = scanType
             self.width = width
@@ -20100,11 +20304,13 @@ extension MediaLiveClientTypes {
     /// The type of the input device. For an AWS Elemental Link device that outputs resolutions up to 1080, choose "HD".
     public enum InputDeviceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case hd
+        case uhd
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InputDeviceType] {
             return [
                 .hd,
+                .uhd,
                 .sdkUnknown("")
             ]
         }
@@ -20115,6 +20321,7 @@ extension MediaLiveClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .hd: return "HD"
+            case .uhd: return "UHD"
             case let .sdkUnknown(s): return s
             }
         }
@@ -20133,6 +20340,7 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
         case deviceState = "deviceState"
         case framerate = "framerate"
         case height = "height"
+        case latencyMs = "latencyMs"
         case maxBitrate = "maxBitrate"
         case scanType = "scanType"
         case width = "width"
@@ -20154,6 +20362,9 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
         }
         if let height = self.height {
             try encodeContainer.encode(height, forKey: .height)
+        }
+        if let latencyMs = self.latencyMs {
+            try encodeContainer.encode(latencyMs, forKey: .latencyMs)
         }
         if let maxBitrate = self.maxBitrate {
             try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
@@ -20184,6 +20395,8 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
         scanType = scanTypeDecoded
         let widthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .width)
         width = widthDecoded
+        let latencyMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latencyMs)
+        latencyMs = latencyMsDecoded
     }
 }
 
@@ -20200,6 +20413,8 @@ extension MediaLiveClientTypes {
         public var framerate: Swift.Double?
         /// The height of the video source, in pixels.
         public var height: Swift.Int?
+        /// The Link device's buffer size (latency) in milliseconds (ms). You can specify this value.
+        public var latencyMs: Swift.Int?
         /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
         public var maxBitrate: Swift.Int?
         /// The scan type of the video source.
@@ -20213,6 +20428,7 @@ extension MediaLiveClientTypes {
             deviceState: MediaLiveClientTypes.InputDeviceState? = nil,
             framerate: Swift.Double? = nil,
             height: Swift.Int? = nil,
+            latencyMs: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil,
             scanType: MediaLiveClientTypes.InputDeviceScanType? = nil,
             width: Swift.Int? = nil
@@ -20223,6 +20439,7 @@ extension MediaLiveClientTypes {
             self.deviceState = deviceState
             self.framerate = framerate
             self.height = height
+            self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.scanType = scanType
             self.width = width
@@ -21860,7 +22077,7 @@ extension ListChannelsOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22014,7 +22231,7 @@ extension ListInputDeviceTransfersOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22157,7 +22374,7 @@ extension ListInputDevicesOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22299,7 +22516,7 @@ extension ListInputSecurityGroupsOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22441,7 +22658,7 @@ extension ListInputsOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22592,7 +22809,7 @@ extension ListMultiplexProgramsOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22735,7 +22952,7 @@ extension ListMultiplexesOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22957,7 +23174,7 @@ extension ListOfferingsOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23163,7 +23380,7 @@ extension ListReservationsOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23286,7 +23503,7 @@ extension ListTagsForResourceOutputError {
         case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25773,6 +25990,7 @@ extension MediaLiveClientTypes.Mpeg2Settings: Swift.Codable {
         case gopSizeUnits = "gopSizeUnits"
         case scanType = "scanType"
         case subgopLength = "subgopLength"
+        case timecodeBurninSettings = "timecodeBurninSettings"
         case timecodeInsertion = "timecodeInsertion"
     }
 
@@ -25823,6 +26041,9 @@ extension MediaLiveClientTypes.Mpeg2Settings: Swift.Codable {
         if let subgopLength = self.subgopLength {
             try encodeContainer.encode(subgopLength.rawValue, forKey: .subgopLength)
         }
+        if let timecodeBurninSettings = self.timecodeBurninSettings {
+            try encodeContainer.encode(timecodeBurninSettings, forKey: .timecodeBurninSettings)
+        }
         if let timecodeInsertion = self.timecodeInsertion {
             try encodeContainer.encode(timecodeInsertion.rawValue, forKey: .timecodeInsertion)
         }
@@ -25862,6 +26083,8 @@ extension MediaLiveClientTypes.Mpeg2Settings: Swift.Codable {
         subgopLength = subgopLengthDecoded
         let timecodeInsertionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Mpeg2TimecodeInsertionBehavior.self, forKey: .timecodeInsertion)
         timecodeInsertion = timecodeInsertionDecoded
+        let timecodeBurninSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeBurninSettings.self, forKey: .timecodeBurninSettings)
+        timecodeBurninSettings = timecodeBurninSettingsDecoded
     }
 }
 
@@ -25900,6 +26123,8 @@ extension MediaLiveClientTypes {
         public var scanType: MediaLiveClientTypes.Mpeg2ScanType?
         /// Relates to the GOP structure. If you do not know what GOP is, use the default. FIXED: Set the number of B-frames in each sub-GOP to the value in gopNumBFrames. DYNAMIC: Let MediaLive optimize the number of B-frames in each sub-GOP, to improve visual quality.
         public var subgopLength: MediaLiveClientTypes.Mpeg2SubGopLength?
+        /// Timecode burn-in settings
+        public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
         /// Determines how MediaLive inserts timecodes in the output video. For detailed information about setting up the input and the output for a timecode, see the section on "MediaLive Features - Timecode configuration" in the MediaLive User Guide. DISABLED: do not include timecodes. GOP_TIMECODE: Include timecode metadata in the GOP header.
         public var timecodeInsertion: MediaLiveClientTypes.Mpeg2TimecodeInsertionBehavior?
 
@@ -25919,6 +26144,7 @@ extension MediaLiveClientTypes {
             gopSizeUnits: MediaLiveClientTypes.Mpeg2GopSizeUnits? = nil,
             scanType: MediaLiveClientTypes.Mpeg2ScanType? = nil,
             subgopLength: MediaLiveClientTypes.Mpeg2SubGopLength? = nil,
+            timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil,
             timecodeInsertion: MediaLiveClientTypes.Mpeg2TimecodeInsertionBehavior? = nil
         )
         {
@@ -25937,6 +26163,7 @@ extension MediaLiveClientTypes {
             self.gopSizeUnits = gopSizeUnits
             self.scanType = scanType
             self.subgopLength = subgopLength
+            self.timecodeBurninSettings = timecodeBurninSettings
             self.timecodeInsertion = timecodeInsertion
         }
     }
@@ -29136,7 +29363,7 @@ extension PurchaseOfferingOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29323,7 +29550,7 @@ extension RebootInputDeviceOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29443,7 +29670,7 @@ extension RejectInputDeviceTransferOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31388,7 +31615,7 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
-    /// Settings to let you create a clip of the file input, in order to set up the input to ingest only a portion of the file.
+    /// Whether the SCTE-35 input should be the active input or a fixed input.
     public enum Scte35InputMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case fixed
         case followActive
@@ -31446,7 +31673,7 @@ extension MediaLiveClientTypes.Scte35InputScheduleActionSettings: Swift.Codable 
 }
 
 extension MediaLiveClientTypes {
-    /// Settings for the "scte35 input" action
+    /// Scte35Input Schedule Action Settings
     public struct Scte35InputScheduleActionSettings: Swift.Equatable {
         /// In fixed mode, enter the name of the input attachment that you want to use as a SCTE-35 input. (Don't enter the ID of the input.)"
         public var inputAttachmentNameReference: Swift.String?
@@ -32428,7 +32655,7 @@ extension StartChannelOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32753,7 +32980,7 @@ extension StartInputDeviceMaintenanceWindowOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32832,7 +33059,7 @@ extension StartMultiplexOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -33311,7 +33538,7 @@ extension StopChannelOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -33636,7 +33863,7 @@ extension StopMultiplexOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34085,6 +34312,156 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes {
+    /// Timecode Burnin Font Size
+    public enum TimecodeBurninFontSize: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case extraSmall10
+        case large48
+        case medium32
+        case small16
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimecodeBurninFontSize] {
+            return [
+                .extraSmall10,
+                .large48,
+                .medium32,
+                .small16,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .extraSmall10: return "EXTRA_SMALL_10"
+            case .large48: return "LARGE_48"
+            case .medium32: return "MEDIUM_32"
+            case .small16: return "SMALL_16"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TimecodeBurninFontSize(rawValue: rawValue) ?? TimecodeBurninFontSize.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Timecode Burnin Position
+    public enum TimecodeBurninPosition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bottomCenter
+        case bottomLeft
+        case bottomRight
+        case middleCenter
+        case middleLeft
+        case middleRight
+        case topCenter
+        case topLeft
+        case topRight
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimecodeBurninPosition] {
+            return [
+                .bottomCenter,
+                .bottomLeft,
+                .bottomRight,
+                .middleCenter,
+                .middleLeft,
+                .middleRight,
+                .topCenter,
+                .topLeft,
+                .topRight,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bottomCenter: return "BOTTOM_CENTER"
+            case .bottomLeft: return "BOTTOM_LEFT"
+            case .bottomRight: return "BOTTOM_RIGHT"
+            case .middleCenter: return "MIDDLE_CENTER"
+            case .middleLeft: return "MIDDLE_LEFT"
+            case .middleRight: return "MIDDLE_RIGHT"
+            case .topCenter: return "TOP_CENTER"
+            case .topLeft: return "TOP_LEFT"
+            case .topRight: return "TOP_RIGHT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TimecodeBurninPosition(rawValue: rawValue) ?? TimecodeBurninPosition.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes.TimecodeBurninSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fontSize = "fontSize"
+        case position = "position"
+        case `prefix` = "prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fontSize = self.fontSize {
+            try encodeContainer.encode(fontSize.rawValue, forKey: .fontSize)
+        }
+        if let position = self.position {
+            try encodeContainer.encode(position.rawValue, forKey: .position)
+        }
+        if let `prefix` = self.`prefix` {
+            try encodeContainer.encode(`prefix`, forKey: .`prefix`)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fontSizeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeBurninFontSize.self, forKey: .fontSize)
+        fontSize = fontSizeDecoded
+        let positionDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeBurninPosition.self, forKey: .position)
+        position = positionDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Timecode Burnin Settings
+    public struct TimecodeBurninSettings: Swift.Equatable {
+        /// Choose a timecode burn-in font size
+        /// This member is required.
+        public var fontSize: MediaLiveClientTypes.TimecodeBurninFontSize?
+        /// Choose a timecode burn-in output position
+        /// This member is required.
+        public var position: MediaLiveClientTypes.TimecodeBurninPosition?
+        /// Create a timecode burn-in prefix (optional)
+        public var `prefix`: Swift.String?
+
+        public init (
+            fontSize: MediaLiveClientTypes.TimecodeBurninFontSize? = nil,
+            position: MediaLiveClientTypes.TimecodeBurninPosition? = nil,
+            `prefix`: Swift.String? = nil
+        )
+        {
+            self.fontSize = fontSize
+            self.position = position
+            self.`prefix` = `prefix`
+        }
+    }
+
+}
+
 extension MediaLiveClientTypes.TimecodeConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case source = "source"
@@ -34320,7 +34697,7 @@ extension TransferInputDeviceOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34848,7 +35225,7 @@ extension UpdateChannelClassOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35102,7 +35479,7 @@ extension UpdateChannelOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35259,7 +35636,7 @@ extension UpdateInputDeviceOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35634,7 +36011,7 @@ extension UpdateInputOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35802,7 +36179,7 @@ extension UpdateInputSecurityGroupOutputError {
         case "GatewayTimeoutException" : self = .gatewayTimeoutException(try GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35947,7 +36324,7 @@ extension UpdateMultiplexOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36089,7 +36466,7 @@ extension UpdateMultiplexProgramOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36235,7 +36612,7 @@ extension UpdateReservationOutputError {
         case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

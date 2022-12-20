@@ -1044,7 +1044,7 @@ extension AllocateStaticIpOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1188,7 +1188,7 @@ extension AttachCertificateToDistributionOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1336,7 +1336,7 @@ extension AttachDiskOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1493,7 +1493,7 @@ extension AttachInstancesToLoadBalancerOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1638,7 +1638,7 @@ extension AttachLoadBalancerTlsCertificateOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1783,7 +1783,7 @@ extension AttachStaticIpOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3689,7 +3689,7 @@ extension CloseInstancePublicPortsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5705,7 +5705,7 @@ extension CopySnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5835,7 +5835,7 @@ extension CreateBucketAccessKeyOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6021,7 +6021,7 @@ extension CreateBucketOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6219,7 +6219,7 @@ extension CreateCertificateOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6371,7 +6371,7 @@ extension CreateCloudFormationStackOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6530,7 +6530,7 @@ extension CreateContactMethodOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6687,7 +6687,7 @@ extension CreateContainerServiceDeploymentOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6919,7 +6919,7 @@ extension CreateContainerServiceOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7018,7 +7018,7 @@ extension CreateContainerServiceRegistryLoginOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7277,7 +7277,7 @@ extension CreateDiskFromSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7483,7 +7483,7 @@ extension CreateDiskOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7663,7 +7663,7 @@ extension CreateDiskSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7905,7 +7905,7 @@ extension CreateDistributionOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8050,7 +8050,7 @@ extension CreateDomainEntryOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8197,7 +8197,7 @@ extension CreateDomainOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8357,7 +8357,7 @@ extension CreateInstanceSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8706,7 +8706,7 @@ extension CreateInstancesFromSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8986,7 +8986,7 @@ extension CreateInstancesOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9142,7 +9142,7 @@ extension CreateKeyPairOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9416,7 +9416,7 @@ extension CreateLoadBalancerOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9622,7 +9622,7 @@ extension CreateLoadBalancerTlsCertificateOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9874,7 +9874,7 @@ extension CreateRelationalDatabaseFromSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10203,7 +10203,7 @@ extension CreateRelationalDatabaseOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10376,7 +10376,7 @@ extension CreateRelationalDatabaseSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10507,7 +10507,7 @@ extension DeleteAlarmOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10650,7 +10650,7 @@ extension DeleteAutoSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10792,7 +10792,7 @@ extension DeleteBucketAccessKeyOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10943,7 +10943,7 @@ extension DeleteBucketOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11071,7 +11071,7 @@ extension DeleteCertificateOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11200,7 +11200,7 @@ extension DeleteContactMethodOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11322,7 +11322,7 @@ extension DeleteContainerImageOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11398,7 +11398,7 @@ extension DeleteContainerServiceOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11500,7 +11500,7 @@ extension DeleteDiskOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11632,7 +11632,7 @@ extension DeleteDiskSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11762,7 +11762,7 @@ extension DeleteDistributionOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11897,7 +11897,7 @@ extension DeleteDomainEntryOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12020,7 +12020,7 @@ extension DeleteDomainOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12155,7 +12155,7 @@ extension DeleteInstanceOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12287,7 +12287,7 @@ extension DeleteInstanceSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12431,7 +12431,7 @@ extension DeleteKeyPairOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12554,7 +12554,7 @@ extension DeleteKnownHostKeysOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12686,7 +12686,7 @@ extension DeleteLoadBalancerOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12843,7 +12843,7 @@ extension DeleteLoadBalancerTlsCertificateOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13003,7 +13003,7 @@ extension DeleteRelationalDatabaseOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13135,7 +13135,7 @@ extension DeleteRelationalDatabaseSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13311,7 +13311,7 @@ extension DetachCertificateFromDistributionOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13433,7 +13433,7 @@ extension DetachDiskOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13590,7 +13590,7 @@ extension DetachInstancesFromLoadBalancerOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13722,7 +13722,7 @@ extension DetachStaticIpOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13866,7 +13866,7 @@ extension DisableAddOnOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15132,7 +15132,7 @@ extension DownloadDefaultKeyPairOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15287,7 +15287,7 @@ extension EnableAddOnOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15475,7 +15475,7 @@ extension ExportSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15883,7 +15883,7 @@ extension GetActiveNamesOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16047,7 +16047,7 @@ extension GetAlarmsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16187,7 +16187,7 @@ extension GetAutoSnapshotsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16349,7 +16349,7 @@ extension GetBlueprintsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16489,7 +16489,7 @@ extension GetBucketAccessKeysOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16615,7 +16615,7 @@ extension GetBucketBundlesOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16846,7 +16846,7 @@ extension GetBucketMetricDataOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17007,7 +17007,7 @@ extension GetBucketsOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17168,7 +17168,7 @@ extension GetBundlesOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17343,7 +17343,7 @@ extension GetCertificatesOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17472,7 +17472,7 @@ extension GetCloudFormationStackRecordsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17624,7 +17624,7 @@ extension GetContactMethodsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17731,7 +17731,7 @@ extension GetContainerAPIMetadataOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17854,7 +17854,7 @@ extension GetContainerImagesOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18024,7 +18024,7 @@ extension GetContainerLogOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18150,7 +18150,7 @@ extension GetContainerServiceDeploymentsOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18314,7 +18314,7 @@ extension GetContainerServiceMetricDataOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18432,7 +18432,7 @@ extension GetContainerServicePowersOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18556,7 +18556,7 @@ extension GetContainerServicesOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18686,7 +18686,7 @@ extension GetDiskOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18809,7 +18809,7 @@ extension GetDiskSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18931,7 +18931,7 @@ extension GetDiskSnapshotsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19072,7 +19072,7 @@ extension GetDisksOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19193,7 +19193,7 @@ extension GetDistributionBundlesOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19322,7 +19322,7 @@ extension GetDistributionLatestCacheResetOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19579,7 +19579,7 @@ extension GetDistributionMetricDataOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19730,7 +19730,7 @@ extension GetDistributionsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19871,7 +19871,7 @@ extension GetDomainOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19993,7 +19993,7 @@ extension GetDomainsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20134,7 +20134,7 @@ extension GetExportSnapshotRecordsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20288,7 +20288,7 @@ extension GetInstanceAccessDetailsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20577,7 +20577,7 @@ extension GetInstanceMetricDataOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20671,7 +20671,7 @@ extension GetInstanceOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20794,7 +20794,7 @@ extension GetInstancePortStatesOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20926,7 +20926,7 @@ extension GetInstanceSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21048,7 +21048,7 @@ extension GetInstanceSnapshotsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21190,7 +21190,7 @@ extension GetInstanceStateOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21312,7 +21312,7 @@ extension GetInstancesOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21454,7 +21454,7 @@ extension GetKeyPairOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21588,7 +21588,7 @@ extension GetKeyPairsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21902,7 +21902,7 @@ extension GetLoadBalancerMetricDataOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21996,7 +21996,7 @@ extension GetLoadBalancerOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22119,7 +22119,7 @@ extension GetLoadBalancerTlsCertificatesOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22248,7 +22248,7 @@ extension GetLoadBalancerTlsPoliciesOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22387,7 +22387,7 @@ extension GetLoadBalancersOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22529,7 +22529,7 @@ extension GetOperationOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22664,7 +22664,7 @@ extension GetOperationsForResourceOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22816,7 +22816,7 @@ extension GetOperationsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22969,7 +22969,7 @@ extension GetRegionsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23100,7 +23100,7 @@ extension GetRelationalDatabaseBlueprintsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23253,7 +23253,7 @@ extension GetRelationalDatabaseBundlesOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23419,7 +23419,7 @@ extension GetRelationalDatabaseEventsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23678,7 +23678,7 @@ extension GetRelationalDatabaseLogEventsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23830,7 +23830,7 @@ extension GetRelationalDatabaseLogStreamsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23974,7 +23974,7 @@ extension GetRelationalDatabaseMasterUserPasswordOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24232,7 +24232,7 @@ extension GetRelationalDatabaseMetricDataOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24326,7 +24326,7 @@ extension GetRelationalDatabaseOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24461,7 +24461,7 @@ extension GetRelationalDatabaseParametersOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24603,7 +24603,7 @@ extension GetRelationalDatabaseSnapshotOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24725,7 +24725,7 @@ extension GetRelationalDatabaseSnapshotsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24866,7 +24866,7 @@ extension GetRelationalDatabasesOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25008,7 +25008,7 @@ extension GetStaticIpOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25130,7 +25130,7 @@ extension GetStaticIpsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25618,7 +25618,7 @@ extension ImportKeyPairOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27624,7 +27624,7 @@ extension IsVpcPeeredOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -30270,7 +30270,7 @@ extension OpenInstancePublicPortsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31046,7 +31046,7 @@ extension PeerVpcOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31783,7 +31783,7 @@ extension PutAlarmOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31939,7 +31939,7 @@ extension PutInstancePublicPortsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32210,7 +32210,7 @@ extension RebootInstanceOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32342,7 +32342,7 @@ extension RebootRelationalDatabaseOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32710,7 +32710,7 @@ extension RegisterContainerImageOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -33971,7 +33971,7 @@ extension ReleaseStaticIpOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34224,7 +34224,7 @@ extension ResetDistributionCacheOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34628,7 +34628,7 @@ extension SendContactMethodVerificationOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34864,7 +34864,7 @@ extension SetIpAddressTypeOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35024,7 +35024,7 @@ extension SetResourceAccessForBucketOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35154,7 +35154,7 @@ extension StartInstanceOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35286,7 +35286,7 @@ extension StartRelationalDatabaseOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35577,7 +35577,7 @@ extension StopInstanceOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35721,7 +35721,7 @@ extension StopRelationalDatabaseOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35935,7 +35935,7 @@ extension TagResourceOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36085,7 +36085,7 @@ extension TestAlarmOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36313,7 +36313,7 @@ extension UnpeerVpcOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36473,7 +36473,7 @@ extension UntagResourceOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36616,7 +36616,7 @@ extension UpdateBucketBundleOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36808,7 +36808,7 @@ extension UpdateBucketOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37017,7 +37017,7 @@ extension UpdateContainerServiceOutputError {
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37148,7 +37148,7 @@ extension UpdateDistributionBundleOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37341,7 +37341,7 @@ extension UpdateDistributionOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37476,7 +37476,7 @@ extension UpdateDomainEntryOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37656,7 +37656,7 @@ extension UpdateInstanceMetadataOptionsOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37815,7 +37815,7 @@ extension UpdateLoadBalancerAttributeOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38078,7 +38078,7 @@ extension UpdateRelationalDatabaseOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38235,7 +38235,7 @@ extension UpdateRelationalDatabaseParametersOutputError {
         case "OperationFailureException" : self = .operationFailureException(try OperationFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthenticatedException" : self = .unauthenticatedException(try UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

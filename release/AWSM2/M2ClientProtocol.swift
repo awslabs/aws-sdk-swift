@@ -7,19 +7,19 @@ import ClientRuntime
 public protocol M2ClientProtocol {
     /// Cancels the running of a specific batch job execution.
     func cancelBatchJobExecution(input: CancelBatchJobExecutionInput) async throws -> CancelBatchJobExecutionOutputResponse
-    /// Creates a new application with given parameters. Requires an existing environment and application definition file.
+    /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     /// Starts a data set import task for a specific application.
     func createDataSetImportTask(input: CreateDataSetImportTaskInput) async throws -> CreateDataSetImportTaskOutputResponse
-    /// Creates and starts a deployment to deploy an application into an environment.
+    /// Creates and starts a deployment to deploy an application into a runtime environment.
     func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
     /// Creates a runtime environment for a given runtime engine.
     func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
     /// Deletes a specific application. You cannot delete a running application.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
-    /// Deletes a specific application from a specified environment where it has been previously deployed. You cannot delete an environment using DeleteEnvironment, if any application has ever been deployed to it. This API removes the association of the application with the environment so you can delete the environment smoothly.
+    /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly.
     func deleteApplicationFromEnvironment(input: DeleteApplicationFromEnvironmentInput) async throws -> DeleteApplicationFromEnvironmentOutputResponse
-    /// Deletes a specific environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
+    /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
     func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
     /// Describes the details of a specific application.
     func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
@@ -35,17 +35,17 @@ public protocol M2ClientProtocol {
     func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
     /// Describes a specific runtime environment.
     func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
-    /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific environment in a query parameter to see all applications associated with that environment.
+    /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     /// Returns a list of the application versions for a specific application.
     func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutputResponse
-    /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. The listed batch job definitions can then be used to start a batch job.
+    /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
     func listBatchJobDefinitions(input: ListBatchJobDefinitionsInput) async throws -> ListBatchJobDefinitionsOutputResponse
     /// Lists historical, current, and scheduled batch job executions for a specific application.
     func listBatchJobExecutions(input: ListBatchJobExecutionsInput) async throws -> ListBatchJobExecutionsOutputResponse
     /// Lists the data set imports for the specified application.
     func listDataSetImportHistory(input: ListDataSetImportHistoryInput) async throws -> ListDataSetImportHistoryOutputResponse
-    /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
+    /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
     func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutputResponse
     /// Returns a list of all deployments of a specific application. A deployment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular application version.
     func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
@@ -67,7 +67,7 @@ public protocol M2ClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates an application and creates a new version.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
-    /// Updates the configuration details for a specific environment.
+    /// Updates the configuration details for a specific runtime environment.
     func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
 }
 

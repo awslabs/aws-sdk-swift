@@ -956,7 +956,7 @@ extension CreateAppOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1237,7 +1237,7 @@ extension CreateReplicationJobOutputError {
         case "ServerCannotBeReplicated" : self = .serverCannotBeReplicatedException(try ServerCannotBeReplicatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemporarilyUnavailable" : self = .temporarilyUnavailableException(try TemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1430,7 +1430,7 @@ extension DeleteAppLaunchConfigurationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1470,7 +1470,7 @@ extension DeleteAppOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1557,7 +1557,7 @@ extension DeleteAppReplicationConfigurationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1645,7 +1645,7 @@ extension DeleteAppValidationConfigurationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1733,7 +1733,7 @@ extension DeleteReplicationJobOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReplicationJobNotFound" : self = .replicationJobNotFoundException(try ReplicationJobNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1800,7 +1800,7 @@ extension DeleteServerCatalogOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1886,7 +1886,7 @@ extension DisassociateConnectorOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2036,7 +2036,7 @@ extension GenerateChangeSetOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2166,7 +2166,7 @@ extension GenerateTemplateOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2331,7 +2331,7 @@ extension GetAppLaunchConfigurationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2441,7 +2441,7 @@ extension GetAppOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2597,7 +2597,7 @@ extension GetAppReplicationConfigurationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2725,7 +2725,7 @@ extension GetAppValidationConfigurationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2872,7 +2872,7 @@ extension GetAppValidationOutputOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3007,7 +3007,7 @@ extension GetConnectorsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3162,7 +3162,7 @@ extension GetReplicationJobsOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3320,7 +3320,7 @@ extension GetReplicationRunsOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3500,7 +3500,7 @@ extension GetServersOutputError {
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3656,7 +3656,7 @@ extension ImportAppCatalogOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3724,7 +3724,7 @@ extension ImportServerCatalogOutputError {
         case "NoConnectorsAvailable" : self = .noConnectorsAvailableException(try NoConnectorsAvailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3915,7 +3915,7 @@ extension LaunchAppOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4125,7 +4125,7 @@ extension ListAppsOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4434,7 +4434,7 @@ extension NotifyAppValidationOutputOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4653,7 +4653,7 @@ extension PutAppLaunchConfigurationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4764,7 +4764,7 @@ extension PutAppReplicationConfigurationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4900,7 +4900,7 @@ extension PutAppValidationConfigurationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6803,7 +6803,7 @@ extension StartAppReplicationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6903,7 +6903,7 @@ extension StartOnDemandAppReplicationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7004,7 +7004,7 @@ extension StartOnDemandReplicationRunOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReplicationRunLimitExceeded" : self = .replicationRunLimitExceededException(try ReplicationRunLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7123,7 +7123,7 @@ extension StopAppReplicationOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7277,7 +7277,7 @@ extension TerminateAppOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7500,7 +7500,7 @@ extension UpdateAppOutputError {
         case "MissingRequiredParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7767,7 +7767,7 @@ extension UpdateReplicationJobOutputError {
         case "ServerCannotBeReplicated" : self = .serverCannotBeReplicatedException(try ServerCannotBeReplicatedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemporarilyUnavailable" : self = .temporarilyUnavailableException(try TemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnauthorizedOperation" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

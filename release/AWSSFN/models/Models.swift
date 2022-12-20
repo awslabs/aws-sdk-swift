@@ -759,7 +759,7 @@ extension CreateActivityOutputError {
         case "ActivityLimitExceeded" : self = .activityLimitExceeded(try ActivityLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidName" : self = .invalidName(try InvalidName(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTags" : self = .tooManyTags(try TooManyTags(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -997,7 +997,7 @@ extension CreateStateMachineOutputError {
         case "StateMachineLimitExceeded" : self = .stateMachineLimitExceeded(try StateMachineLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineTypeNotSupported" : self = .stateMachineTypeNotSupported(try StateMachineTypeNotSupported(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTags" : self = .tooManyTags(try TooManyTags(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1129,7 +1129,7 @@ extension DeleteActivityOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1210,7 +1210,7 @@ extension DeleteStateMachineOutputError {
         switch errorType {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1292,7 +1292,7 @@ extension DescribeActivityOutputError {
         switch errorType {
         case "ActivityDoesNotExist" : self = .activityDoesNotExist(try ActivityDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1441,7 +1441,7 @@ extension DescribeExecutionOutputError {
         switch errorType {
         case "ExecutionDoesNotExist" : self = .executionDoesNotExist(try ExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1706,7 +1706,7 @@ extension DescribeMapRunOutputError {
         switch errorType {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1918,7 +1918,7 @@ extension DescribeStateMachineForExecutionOutputError {
         switch errorType {
         case "ExecutionDoesNotExist" : self = .executionDoesNotExist(try ExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2121,7 +2121,7 @@ extension DescribeStateMachineOutputError {
         switch errorType {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineDoesNotExist" : self = .stateMachineDoesNotExist(try StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2941,7 +2941,7 @@ extension GetActivityTaskOutputError {
         case "ActivityDoesNotExist" : self = .activityDoesNotExist(try ActivityDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ActivityWorkerLimitExceeded" : self = .activityWorkerLimitExceeded(try ActivityWorkerLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3119,7 +3119,7 @@ extension GetExecutionHistoryOutputError {
         case "ExecutionDoesNotExist" : self = .executionDoesNotExist(try ExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidToken" : self = .invalidToken(try InvalidToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4656,7 +4656,7 @@ extension ListActivitiesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidToken" : self = .invalidToken(try InvalidToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4839,7 +4839,7 @@ extension ListExecutionsOutputError {
         case "StateMachineDoesNotExist" : self = .stateMachineDoesNotExist(try StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineTypeNotSupported" : self = .stateMachineTypeNotSupported(try StateMachineTypeNotSupported(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5001,7 +5001,7 @@ extension ListMapRunsOutputError {
         case "ExecutionDoesNotExist" : self = .executionDoesNotExist(try ExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidToken" : self = .invalidToken(try InvalidToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5145,7 +5145,7 @@ extension ListStateMachinesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidToken" : self = .invalidToken(try InvalidToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5276,7 +5276,7 @@ extension ListTagsForResourceOutputError {
         switch errorType {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6189,7 +6189,7 @@ extension SendTaskFailureOutputError {
         case "InvalidToken" : self = .invalidToken(try InvalidToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskDoesNotExist" : self = .taskDoesNotExist(try TaskDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskTimedOut" : self = .taskTimedOut(try TaskTimedOut(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6273,7 +6273,7 @@ extension SendTaskHeartbeatOutputError {
         case "InvalidToken" : self = .invalidToken(try InvalidToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskDoesNotExist" : self = .taskDoesNotExist(try TaskDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskTimedOut" : self = .taskTimedOut(try TaskTimedOut(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6376,7 +6376,7 @@ extension SendTaskSuccessOutputError {
         case "InvalidToken" : self = .invalidToken(try InvalidToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskDoesNotExist" : self = .taskDoesNotExist(try TaskDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskTimedOut" : self = .taskTimedOut(try TaskTimedOut(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6520,7 +6520,7 @@ extension StartExecutionOutputError {
         case "StateMachineDeleting" : self = .stateMachineDeleting(try StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineDoesNotExist" : self = .stateMachineDoesNotExist(try StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6696,7 +6696,7 @@ extension StartSyncExecutionOutputError {
         case "StateMachineDeleting" : self = .stateMachineDeleting(try StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineDoesNotExist" : self = .stateMachineDoesNotExist(try StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineTypeNotSupported" : self = .stateMachineTypeNotSupported(try StateMachineTypeNotSupported(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7523,7 +7523,7 @@ extension StopExecutionOutputError {
         case "ExecutionDoesNotExist" : self = .executionDoesNotExist(try ExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7744,7 +7744,7 @@ extension TagResourceOutputError {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTags" : self = .tooManyTags(try TooManyTags(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8668,7 +8668,7 @@ extension UntagResourceOutputError {
         switch errorType {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8787,7 +8787,7 @@ extension UpdateMapRunOutputError {
         case "InvalidArn" : self = .invalidArn(try InvalidArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8929,7 +8929,7 @@ extension UpdateStateMachineOutputError {
         case "StateMachineDeleting" : self = .stateMachineDeleting(try StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StateMachineDoesNotExist" : self = .stateMachineDoesNotExist(try StateMachineDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

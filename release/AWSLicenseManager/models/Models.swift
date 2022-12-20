@@ -68,7 +68,7 @@ extension AcceptGrantOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -457,7 +457,7 @@ extension CheckInLicenseOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -641,7 +641,7 @@ extension CheckoutBorrowLicenseOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedDigitalSignatureMethodException" : self = .unsupportedDigitalSignatureMethodException(try UnsupportedDigitalSignatureMethodException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -947,7 +947,7 @@ extension CheckoutLicenseOutputError {
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedDigitalSignatureMethodException" : self = .unsupportedDigitalSignatureMethodException(try UnsupportedDigitalSignatureMethodException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1425,7 +1425,7 @@ extension CreateGrantOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1653,7 +1653,7 @@ extension CreateGrantVersionOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1939,7 +1939,7 @@ extension CreateLicenseConfigurationOutputError {
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2086,7 +2086,7 @@ extension CreateLicenseConversionTaskForResourceOutputError {
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2514,7 +2514,7 @@ extension CreateLicenseManagerReportGeneratorOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2590,7 +2590,7 @@ extension CreateLicenseOutputError {
         case "RedirectException" : self = .redirectException(try RedirectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2899,7 +2899,7 @@ extension CreateLicenseVersionOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3117,7 +3117,7 @@ extension CreateTokenOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3332,7 +3332,7 @@ extension DeleteGrantOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3473,7 +3473,7 @@ extension DeleteLicenseConfigurationOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3625,7 +3625,7 @@ extension DeleteLicenseManagerReportGeneratorOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3671,7 +3671,7 @@ extension DeleteLicenseOutputError {
         case "RedirectException" : self = .redirectException(try RedirectException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3805,7 +3805,7 @@ extension DeleteTokenOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4416,7 +4416,7 @@ extension ExtendLicenseConsumptionOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4741,7 +4741,7 @@ extension GetAccessTokenOutputError {
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4874,7 +4874,7 @@ extension GetGrantOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4995,7 +4995,7 @@ extension GetLicenseConfigurationOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5319,7 +5319,7 @@ extension GetLicenseConversionTaskOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5581,7 +5581,7 @@ extension GetLicenseManagerReportGeneratorOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5656,7 +5656,7 @@ extension GetLicenseOutputError {
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5777,7 +5777,7 @@ extension GetLicenseUsageOutputError {
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5876,7 +5876,7 @@ extension GetServiceSettingsOutputError {
         case "AuthorizationFailure" : self = .authorizationException(try AuthorizationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7935,7 +7935,7 @@ extension ListAssociationsForLicenseConfigurationOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8145,7 +8145,7 @@ extension ListDistributedGrantsOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8309,7 +8309,7 @@ extension ListFailuresForLicenseConfigurationOperationsOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8513,7 +8513,7 @@ extension ListLicenseConfigurationsOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8687,7 +8687,7 @@ extension ListLicenseConversionTasksOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8865,7 +8865,7 @@ extension ListLicenseManagerReportGeneratorsOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9030,7 +9030,7 @@ extension ListLicenseSpecificationsForResourceOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9192,7 +9192,7 @@ extension ListLicenseVersionsOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9398,7 +9398,7 @@ extension ListLicensesOutputError {
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9591,7 +9591,7 @@ extension ListReceivedGrantsForOrganizationOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9802,7 +9802,7 @@ extension ListReceivedGrantsOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9983,7 +9983,7 @@ extension ListReceivedLicensesForOrganizationOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10194,7 +10194,7 @@ extension ListReceivedLicensesOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10383,7 +10383,7 @@ extension ListResourceInventoryOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10523,7 +10523,7 @@ extension ListTagsForResourceOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10712,7 +10712,7 @@ extension ListTokensOutputError {
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10905,7 +10905,7 @@ extension ListUsageForLicenseConfigurationOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11640,7 +11640,7 @@ extension RejectGrantOutputError {
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12552,7 +12552,7 @@ extension TagResourceOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12865,7 +12865,7 @@ extension UntagResourceOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13074,7 +13074,7 @@ extension UpdateLicenseConfigurationOutputError {
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13259,7 +13259,7 @@ extension UpdateLicenseManagerReportGeneratorOutputError {
         case "InvalidResource.NotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13400,7 +13400,7 @@ extension UpdateLicenseSpecificationsForResourceOutputError {
         case "LicenseUsageFailure" : self = .licenseUsageException(try LicenseUsageException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13525,7 +13525,7 @@ extension UpdateServiceSettingsOutputError {
         case "InvalidParameterValueProvided" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RateLimitExceeded" : self = .rateLimitExceededException(try RateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalError" : self = .serverInternalException(try ServerInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

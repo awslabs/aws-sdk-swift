@@ -11,11 +11,11 @@ public protocol NimbleClientProtocol {
     func createLaunchProfile(input: CreateLaunchProfileInput) async throws -> CreateLaunchProfileOutputResponse
     /// Creates a streaming image resource in a studio.
     func createStreamingImage(input: CreateStreamingImageInput) async throws -> CreateStreamingImageOutputResponse
-    /// Creates a streaming session in a studio. After invoking this operation, you must poll GetStreamingSession until the streaming session is in state READY.
+    /// Creates a streaming session in a studio. After invoking this operation, you must poll GetStreamingSession until the streaming session is in the READY state.
     func createStreamingSession(input: CreateStreamingSessionInput) async throws -> CreateStreamingSessionOutputResponse
-    /// Creates a streaming session stream for a streaming session. After invoking this API, invoke GetStreamingSessionStream with the returned streamId to poll the resource until it is in state READY.
+    /// Creates a streaming session stream for a streaming session. After invoking this API, invoke GetStreamingSessionStream with the returned streamId to poll the resource until it is in the READY state.
     func createStreamingSessionStream(input: CreateStreamingSessionStreamInput) async throws -> CreateStreamingSessionStreamOutputResponse
-    /// Create a new Studio. When creating a Studio, two IAM roles must be provided: the admin role and the user Role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The Admin Role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
+    /// Create a new studio. When creating a studio, two IAM roles must be provided: the admin role and the user role. These roles are assumed by your users when they log in to the Nimble Studio portal. The user role must have the AmazonNimbleStudio-StudioUser managed policy attached for the portal to function properly. The admin role must have the AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly. You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble Studio, resource names, descriptions, initialization scripts, and other data you provide are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web Services and managed on your behalf. You may provide your own KMS key when calling CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key during studio creation, Nimble Studio creates KMS grants in your account to provide your studio user and admin roles access to these KMS keys. If you delete this grant, the studio will no longer be accessible to your portal users. If you delete the studio KMS key, your studio will no longer be accessible.
     func createStudio(input: CreateStudioInput) async throws -> CreateStudioOutputResponse
     /// Creates a studio component resource.
     func createStudioComponent(input: CreateStudioComponentInput) async throws -> CreateStudioComponentOutputResponse
@@ -33,7 +33,7 @@ public protocol NimbleClientProtocol {
     func deleteStudioComponent(input: DeleteStudioComponentInput) async throws -> DeleteStudioComponentOutputResponse
     /// Delete a user from studio membership.
     func deleteStudioMember(input: DeleteStudioMemberInput) async throws -> DeleteStudioMemberOutputResponse
-    /// Get Eula.
+    /// Get EULA.
     func getEula(input: GetEulaInput) async throws -> GetEulaOutputResponse
     /// Get a launch profile.
     func getLaunchProfile(input: GetLaunchProfileInput) async throws -> GetLaunchProfileOutputResponse
@@ -47,17 +47,19 @@ public protocol NimbleClientProtocol {
     func getStreamingImage(input: GetStreamingImageInput) async throws -> GetStreamingImageOutputResponse
     /// Gets StreamingSession resource. Invoke this operation to poll for a streaming session state while creating or deleting a session.
     func getStreamingSession(input: GetStreamingSessionInput) async throws -> GetStreamingSessionOutputResponse
-    /// Gets a StreamingSessionStream for a streaming session. Invoke this operation to poll the resource after invoking CreateStreamingSessionStream. After the StreamingSessionStream changes to the state READY, the url property will contain a stream to be used with the DCV streaming client.
+    /// Gets StreamingSessionBackup resource. Invoke this operation to poll for a streaming session backup while stopping a streaming session.
+    func getStreamingSessionBackup(input: GetStreamingSessionBackupInput) async throws -> GetStreamingSessionBackupOutputResponse
+    /// Gets a StreamingSessionStream for a streaming session. Invoke this operation to poll the resource after invoking CreateStreamingSessionStream. After the StreamingSessionStream changes to the READY state, the url property will contain a stream to be used with the DCV streaming client.
     func getStreamingSessionStream(input: GetStreamingSessionStreamInput) async throws -> GetStreamingSessionStreamOutputResponse
-    /// Get a Studio resource.
+    /// Get a studio resource.
     func getStudio(input: GetStudioInput) async throws -> GetStudioOutputResponse
     /// Gets a studio component resource.
     func getStudioComponent(input: GetStudioComponentInput) async throws -> GetStudioComponentOutputResponse
     /// Get a user's membership in a studio.
     func getStudioMember(input: GetStudioMemberInput) async throws -> GetStudioMemberOutputResponse
-    /// List Eula Acceptances.
+    /// List EULA acceptances.
     func listEulaAcceptances(input: ListEulaAcceptancesInput) async throws -> ListEulaAcceptancesOutputResponse
-    /// List Eulas.
+    /// List EULAs.
     func listEulas(input: ListEulasInput) async throws -> ListEulasOutputResponse
     /// Get all users in a given launch profile membership.
     func listLaunchProfileMembers(input: ListLaunchProfileMembersInput) async throws -> ListLaunchProfileMembersOutputResponse
@@ -65,13 +67,15 @@ public protocol NimbleClientProtocol {
     func listLaunchProfiles(input: ListLaunchProfilesInput) async throws -> ListLaunchProfilesOutputResponse
     /// List the streaming image resources available to this studio. This list will contain both images provided by Amazon Web Services, as well as streaming images that you have created in your studio.
     func listStreamingImages(input: ListStreamingImagesInput) async throws -> ListStreamingImagesOutputResponse
+    /// Lists the backups of a streaming session in a studio.
+    func listStreamingSessionBackups(input: ListStreamingSessionBackupsInput) async throws -> ListStreamingSessionBackupsOutputResponse
     /// Lists the streaming sessions in a studio.
     func listStreamingSessions(input: ListStreamingSessionsInput) async throws -> ListStreamingSessionsOutputResponse
     /// Lists the StudioComponents in a studio.
     func listStudioComponents(input: ListStudioComponentsInput) async throws -> ListStudioComponentsOutputResponse
     /// Get all users in a given studio membership. ListStudioMembers only returns admin members.
     func listStudioMembers(input: ListStudioMembersInput) async throws -> ListStudioMembersOutputResponse
-    /// List studios in your Amazon Web Services account in the requested Amazon Web Services Region.
+    /// List studios in your Amazon Web Services accounts in the requested Amazon Web Services Region.
     func listStudios(input: ListStudiosInput) async throws -> ListStudiosOutputResponse
     /// Gets the tags for a resource, given its Amazon Resource Names (ARN). This operation supports ARNs for all resource types in Nimble Studio that support tags, including studio, studio component, launch profile, streaming image, and streaming session. All resources that can be tagged will contain an ARN property, so you do not have to create this ARN yourself.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse

@@ -94,7 +94,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError: Swift.Cod
 extension SageMakerFeatureStoreRuntimeClientTypes {
     /// The error that has occurred when attempting to retrieve a batch of Records.
     public struct BatchGetRecordError: Swift.Equatable {
-        /// The error code of an error that has occured when attempting to retrieve a batch of Records. For more information on errors, see [ Errors](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_GetRecord.html#API_feature_store_GetRecord_Errors).
+        /// The error code of an error that has occured when attempting to retrieve a batch of Records. For more information on errors, see [Errors](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_GetRecord.html#API_feature_store_GetRecord_Errors).
         /// This member is required.
         public var errorCode: Swift.String?
         /// The error message of an error that has occured when attempting to retrieve a record in the batch.
@@ -279,7 +279,7 @@ extension BatchGetRecordOutputError {
         case "InternalFailure" : self = .internalFailure(try InternalFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -310,7 +310,7 @@ extension BatchGetRecordOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct BatchGetRecordOutputResponse: Swift.Equatable {
-    /// A list of errors that have occured when retrieving a batch of Records.
+    /// A list of errors that have occurred when retrieving a batch of Records.
     /// This member is required.
     public var errors: [SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError]?
     /// A list of Records you requested to be retrieved in batch.
@@ -463,6 +463,12 @@ extension DeleteRecordInput: ClientRuntime.QueryItemProvider {
             }
             let recordIdentifierValueAsStringQueryItem = ClientRuntime.URLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
             items.append(recordIdentifierValueAsStringQueryItem)
+            if let targetStores = targetStores {
+                targetStores.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "TargetStores".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
             guard let eventTime = eventTime else {
                 let message = "Creating a URL Query Item failed. eventTime is required and must not be nil."
                 throw ClientRuntime.ClientError.queryItemCreationFailed(message)
@@ -493,16 +499,20 @@ public struct DeleteRecordInput: Swift.Equatable {
     /// The value for the RecordIdentifier that uniquely identifies the record, in string format.
     /// This member is required.
     public var recordIdentifierValueAsString: Swift.String?
+    /// A list of stores from which you're deleting the record. By default, Feature Store deletes the record from all of the stores that you're using for the FeatureGroup.
+    public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
 
     public init (
         eventTime: Swift.String? = nil,
         featureGroupName: Swift.String? = nil,
-        recordIdentifierValueAsString: Swift.String? = nil
+        recordIdentifierValueAsString: Swift.String? = nil,
+        targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil
     )
     {
         self.eventTime = eventTime
         self.featureGroupName = featureGroupName
         self.recordIdentifierValueAsString = recordIdentifierValueAsString
+        self.targetStores = targetStores
     }
 }
 
@@ -530,7 +540,7 @@ extension DeleteRecordOutputError {
         case "InternalFailure" : self = .internalFailure(try InternalFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -631,7 +641,7 @@ extension GetRecordInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRecordInput: Swift.Equatable {
-    /// The name of the feature group in which you want to put the records.
+    /// The name of the feature group from which you want to retrieve a record.
     /// This member is required.
     public var featureGroupName: Swift.String?
     /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
@@ -677,7 +687,7 @@ extension GetRecordOutputError {
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -758,7 +768,7 @@ extension InternalFailure {
     }
 }
 
-/// An internal failure occurred. Try your request again. If the problem persists, contact AWS customer support.
+/// An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
 public struct InternalFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -796,6 +806,7 @@ extension InternalFailureBody: Swift.Decodable {
 extension PutRecordInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case record = "Record"
+        case targetStores = "TargetStores"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -804,6 +815,12 @@ extension PutRecordInput: Swift.Encodable {
             var recordContainer = encodeContainer.nestedUnkeyedContainer(forKey: .record)
             for record0 in record {
                 try recordContainer.encode(record0)
+            }
+        }
+        if let targetStores = targetStores {
+            var targetStoresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetStores)
+            for targetstores0 in targetStores {
+                try targetStoresContainer.encode(targetstores0.rawValue)
             }
         }
     }
@@ -831,24 +848,30 @@ public struct PutRecordInput: Swift.Equatable {
     /// * Use PutRecord to update feature values.
     /// This member is required.
     public var record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
+    /// A list of stores to which you're adding the record. By default, Feature Store adds the record to all of the stores that you're using for the FeatureGroup.
+    public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
 
     public init (
         featureGroupName: Swift.String? = nil,
-        record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil
+        record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]? = nil,
+        targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil
     )
     {
         self.featureGroupName = featureGroupName
         self.record = record
+        self.targetStores = targetStores
     }
 }
 
 struct PutRecordInputBody: Swift.Equatable {
     let record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
+    let targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
 }
 
 extension PutRecordInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case record = "Record"
+        case targetStores = "TargetStores"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -864,6 +887,17 @@ extension PutRecordInputBody: Swift.Decodable {
             }
         }
         record = recordDecoded0
+        let targetStoresContainer = try containerValues.decodeIfPresent([SageMakerFeatureStoreRuntimeClientTypes.TargetStore?].self, forKey: .targetStores)
+        var targetStoresDecoded0:[SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil
+        if let targetStoresContainer = targetStoresContainer {
+            targetStoresDecoded0 = [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]()
+            for enum0 in targetStoresContainer {
+                if let enum0 = enum0 {
+                    targetStoresDecoded0?.append(enum0)
+                }
+            }
+        }
+        targetStores = targetStoresDecoded0
     }
 }
 
@@ -882,7 +916,7 @@ extension PutRecordOutputError {
         case "InternalFailure" : self = .internalFailure(try InternalFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1006,6 +1040,38 @@ extension ServiceUnavailableBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes {
+    public enum TargetStore: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case offlineStore
+        case onlineStore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetStore] {
+            return [
+                .offlineStore,
+                .onlineStore,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .offlineStore: return "OfflineStore"
+            case .onlineStore: return "OnlineStore"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TargetStore(rawValue: rawValue) ?? TargetStore.sdkUnknown(rawValue)
+        }
     }
 }
 
