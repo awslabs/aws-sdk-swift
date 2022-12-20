@@ -3,7 +3,7 @@
 import AWSClientRuntime
 import ClientRuntime
 
-/// Provides language translation for input text in the source language to the specified target language.
+/// Provides translation of the input content from the source language to the target language.
 public protocol TranslateClientProtocol {
     /// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your translation output.
     func createParallelData(input: CreateParallelDataInput) async throws -> CreateParallelDataOutputResponse
@@ -29,7 +29,7 @@ public protocol TranslateClientProtocol {
     func listTerminologies(input: ListTerminologiesInput) async throws -> ListTerminologiesOutputResponse
     /// Gets a list of the batch translation jobs that you have submitted.
     func listTextTranslationJobs(input: ListTextTranslationJobsInput) async throws -> ListTextTranslationJobsOutputResponse
-    /// Starts an asynchronous batch translation job. Use batch translation jobs to translate large volumes of text across multiple documents at once. For batch translation, the input documents must share the same source language. You can specify one or more target languages. Batch translation translates each input document into each of the target languages. For more information, see [Asynchronous batch processing](https://docs.aws.amazon.com/translate/latest/dg/async.html) Batch translation jobs can be described with the [DescribeTextTranslationJob] operation, listed with the [ListTextTranslationJobs] operation, and stopped with the [StopTextTranslationJob] operation. Amazon Translate does not support batch translation of multiple source languages at once.
+    /// Starts an asynchronous batch translation job. Use batch translation jobs to translate large volumes of text across multiple documents at once. For batch translation, you can input documents with different source languages (specify auto as the source language). You can specify one or more target languages. Batch translation translates each input document into each of the target languages. For more information, see [Asynchronous batch processing](https://docs.aws.amazon.com/translate/latest/dg/async.html). Batch translation jobs can be described with the [DescribeTextTranslationJob] operation, listed with the [ListTextTranslationJobs] operation, and stopped with the [StopTextTranslationJob] operation.
     func startTextTranslationJob(input: StartTextTranslationJobInput) async throws -> StartTextTranslationJobOutputResponse
     /// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS, the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the [StartTextTranslationJob] operation. You can use the [DescribeTextTranslationJob] or [ListTextTranslationJobs] operations to get a batch translation job's JobId.
     func stopTextTranslationJob(input: StopTextTranslationJobInput) async throws -> StopTextTranslationJobOutputResponse

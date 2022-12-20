@@ -2078,7 +2078,7 @@ extension CountClosedWorkflowExecutionsOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2252,7 +2252,7 @@ extension CountOpenWorkflowExecutionsOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2390,7 +2390,7 @@ extension CountPendingActivityTasksOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2528,7 +2528,7 @@ extension CountPendingDecisionTasksOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3281,7 +3281,7 @@ extension DeprecateActivityTypeOutputError {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TypeDeprecatedFault" : self = .typeDeprecatedFault(try TypeDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3365,7 +3365,7 @@ extension DeprecateDomainOutputError {
         case "DomainDeprecatedFault" : self = .domainDeprecatedFault(try DomainDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3462,7 +3462,7 @@ extension DeprecateWorkflowTypeOutputError {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TypeDeprecatedFault" : self = .typeDeprecatedFault(try TypeDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3558,7 +3558,7 @@ extension DescribeActivityTypeOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3688,7 +3688,7 @@ extension DescribeDomainOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3827,7 +3827,7 @@ extension DescribeWorkflowExecutionOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3997,7 +3997,7 @@ extension DescribeWorkflowTypeOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4882,7 +4882,7 @@ extension GetWorkflowExecutionHistoryOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6158,7 +6158,7 @@ extension ListActivityTypesOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6400,7 +6400,7 @@ extension ListClosedWorkflowExecutionsOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6569,7 +6569,7 @@ extension ListDomainsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6787,7 +6787,7 @@ extension ListOpenWorkflowExecutionsOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6922,7 +6922,7 @@ extension ListTagsForResourceOutputError {
         case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7106,7 +7106,7 @@ extension ListWorkflowTypesOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7376,7 +7376,7 @@ extension PollForActivityTaskOutputError {
         case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7608,7 +7608,7 @@ extension PollForDecisionTaskOutputError {
         case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7809,7 +7809,7 @@ extension RecordActivityTaskHeartbeatOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8178,7 +8178,7 @@ extension RegisterActivityTypeOutputError {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TypeAlreadyExistsFault" : self = .typeAlreadyExistsFault(try TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8313,7 +8313,7 @@ extension RegisterDomainOutputError {
         case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsFault" : self = .tooManyTagsFault(try TooManyTagsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8515,7 +8515,7 @@ extension RegisterWorkflowTypeOutputError {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TypeAlreadyExistsFault" : self = .typeAlreadyExistsFault(try TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9047,7 +9047,7 @@ extension RequestCancelWorkflowExecutionOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9187,7 +9187,7 @@ extension RespondActivityTaskCanceledOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9281,7 +9281,7 @@ extension RespondActivityTaskCompletedOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9387,7 +9387,7 @@ extension RespondActivityTaskFailedOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9506,7 +9506,7 @@ extension RespondDecisionTaskCompletedOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10393,7 +10393,7 @@ extension SignalWorkflowExecutionOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11363,7 +11363,7 @@ extension StartWorkflowExecutionOutputError {
         case "TypeDeprecatedFault" : self = .typeDeprecatedFault(try TypeDeprecatedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WorkflowExecutionAlreadyStartedFault" : self = .workflowExecutionAlreadyStartedFault(try WorkflowExecutionAlreadyStartedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11544,7 +11544,7 @@ extension TagResourceOutputError {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsFault" : self = .tooManyTagsFault(try TooManyTagsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11734,7 +11734,7 @@ extension TerminateWorkflowExecutionOutputError {
         switch errorType {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12161,7 +12161,7 @@ extension UndeprecateActivityTypeOutputError {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TypeAlreadyExistsFault" : self = .typeAlreadyExistsFault(try TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12245,7 +12245,7 @@ extension UndeprecateDomainOutputError {
         case "DomainAlreadyExistsFault" : self = .domainAlreadyExistsFault(try DomainAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12342,7 +12342,7 @@ extension UndeprecateWorkflowTypeOutputError {
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TypeAlreadyExistsFault" : self = .typeAlreadyExistsFault(try TypeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12504,7 +12504,7 @@ extension UntagResourceOutputError {
         case "LimitExceededFault" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermittedFault" : self = .operationNotPermittedFault(try OperationNotPermittedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownResourceFault" : self = .unknownResourceFault(try UnknownResourceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

@@ -244,7 +244,7 @@ extension AddTagsOutputError {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeys" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTags" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -457,7 +457,7 @@ extension ApplySecurityGroupsToLoadBalancerOutputError {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSecurityGroup" : self = .invalidSecurityGroupException(try InvalidSecurityGroupException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -628,7 +628,7 @@ extension AttachLoadBalancerToSubnetsOutputError {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSubnet" : self = .invalidSubnetException(try InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetNotFound" : self = .subnetNotFoundException(try SubnetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -894,7 +894,7 @@ extension ConfigureHealthCheckOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1114,7 +1114,7 @@ extension CreateAppCookieStickinessPolicyOutputError {
         case "DuplicatePolicyName" : self = .duplicatePolicyNameException(try DuplicatePolicyNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyPolicies" : self = .tooManyPoliciesException(try TooManyPoliciesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1222,7 +1222,7 @@ extension CreateLBCookieStickinessPolicyOutputError {
         case "DuplicatePolicyName" : self = .duplicatePolicyNameException(try DuplicatePolicyNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyPolicies" : self = .tooManyPoliciesException(try TooManyPoliciesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1590,7 +1590,7 @@ extension CreateLoadBalancerListenersOutputError {
         case "DuplicateListener" : self = .duplicateListenerException(try DuplicateListenerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedProtocol" : self = .unsupportedProtocolException(try UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1637,7 +1637,7 @@ extension CreateLoadBalancerOutputError {
         case "TooManyLoadBalancers" : self = .tooManyAccessPointsException(try TooManyAccessPointsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTags" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedProtocol" : self = .unsupportedProtocolException(try UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1824,7 +1824,7 @@ extension CreateLoadBalancerPolicyOutputError {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyTypeNotFound" : self = .policyTypeNotFoundException(try PolicyTypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyPolicies" : self = .tooManyPoliciesException(try TooManyPoliciesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2028,7 +2028,7 @@ extension DeleteLoadBalancerListenersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2059,7 +2059,7 @@ extension DeleteLoadBalancerOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteLoadBalancerOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2150,7 +2150,7 @@ extension DeleteLoadBalancerPolicyOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2321,7 +2321,7 @@ extension DeregisterInstancesFromLoadBalancerOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstance" : self = .invalidEndPointException(try InvalidEndPointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2458,7 +2458,7 @@ extension DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeAccountLimitsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2632,7 +2632,7 @@ extension DescribeInstanceHealthOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstance" : self = .invalidEndPointException(try InvalidEndPointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2762,7 +2762,7 @@ extension DescribeLoadBalancerAttributesOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LoadBalancerAttributeNotFound" : self = .loadBalancerAttributeNotFoundException(try LoadBalancerAttributeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2911,7 +2911,7 @@ extension DescribeLoadBalancerPoliciesOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotFound" : self = .policyNotFoundException(try PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3065,7 +3065,7 @@ extension DescribeLoadBalancerPolicyTypesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "PolicyTypeNotFound" : self = .policyTypeNotFoundException(try PolicyTypeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3241,7 +3241,7 @@ extension DescribeLoadBalancersOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DependencyThrottle" : self = .dependencyThrottleException(try DependencyThrottleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3406,7 +3406,7 @@ extension DescribeTagsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3573,7 +3573,7 @@ extension DetachLoadBalancerFromSubnetsOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3741,7 +3741,7 @@ extension DisableAvailabilityZonesForLoadBalancerOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4116,7 +4116,7 @@ extension EnableAvailabilityZonesForLoadBalancerOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5513,7 +5513,7 @@ extension ModifyLoadBalancerAttributesOutputError {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LoadBalancerAttributeNotFound" : self = .loadBalancerAttributeNotFoundException(try LoadBalancerAttributeNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6299,7 +6299,7 @@ extension RegisterInstancesWithLoadBalancerOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstance" : self = .invalidEndPointException(try InvalidEndPointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6492,7 +6492,7 @@ extension RemoveTagsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6599,7 +6599,7 @@ extension SetLoadBalancerListenerSSLCertificateOutputError {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ListenerNotFound" : self = .listenerNotFoundException(try ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedProtocol" : self = .unsupportedProtocolException(try UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6734,7 +6734,7 @@ extension SetLoadBalancerPoliciesForBackendServerOutputError {
         case "LoadBalancerNotFound" : self = .accessPointNotFoundException(try AccessPointNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotFound" : self = .policyNotFoundException(try PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6868,7 +6868,7 @@ extension SetLoadBalancerPoliciesOfListenerOutputError {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ListenerNotFound" : self = .listenerNotFoundException(try ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotFound" : self = .policyNotFoundException(try PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

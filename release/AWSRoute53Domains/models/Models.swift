@@ -79,7 +79,7 @@ extension AcceptDomainTransferFromAnotherAwsAccountOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -123,6 +123,140 @@ struct AcceptDomainTransferFromAnotherAwsAccountOutputResponseBody: Swift.Equata
 }
 
 extension AcceptDomainTransferFromAnotherAwsAccountOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationId = "OperationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
+        operationId = operationIdDecoded
+    }
+}
+
+extension AssociateDelegationSignerToDomainInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainName = "DomainName"
+        case signingAttributes = "SigningAttributes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainName = self.domainName {
+            try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let signingAttributes = self.signingAttributes {
+            try encodeContainer.encode(signingAttributes, forKey: .signingAttributes)
+        }
+    }
+}
+
+extension AssociateDelegationSignerToDomainInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct AssociateDelegationSignerToDomainInput: Swift.Equatable {
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The information about a key, including the algorithm, public key-value, and flags.
+    /// This member is required.
+    public var signingAttributes: Route53DomainsClientTypes.DnssecSigningAttributes?
+
+    public init (
+        domainName: Swift.String? = nil,
+        signingAttributes: Route53DomainsClientTypes.DnssecSigningAttributes? = nil
+    )
+    {
+        self.domainName = domainName
+        self.signingAttributes = signingAttributes
+    }
+}
+
+struct AssociateDelegationSignerToDomainInputBody: Swift.Equatable {
+    let domainName: Swift.String?
+    let signingAttributes: Route53DomainsClientTypes.DnssecSigningAttributes?
+}
+
+extension AssociateDelegationSignerToDomainInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainName = "DomainName"
+        case signingAttributes = "SigningAttributes"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let signingAttributesDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.DnssecSigningAttributes.self, forKey: .signingAttributes)
+        signingAttributes = signingAttributesDecoded
+    }
+}
+
+extension AssociateDelegationSignerToDomainOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension AssociateDelegationSignerToDomainOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DnssecLimitExceeded" : self = .dnssecLimitExceeded(try DnssecLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum AssociateDelegationSignerToDomainOutputError: Swift.Error, Swift.Equatable {
+    case dnssecLimitExceeded(DnssecLimitExceeded)
+    case duplicateRequest(DuplicateRequest)
+    case invalidInput(InvalidInput)
+    case operationLimitExceeded(OperationLimitExceeded)
+    case tLDRulesViolation(TLDRulesViolation)
+    case unsupportedTLD(UnsupportedTLD)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssociateDelegationSignerToDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AssociateDelegationSignerToDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.operationId = output.operationId
+        } else {
+            self.operationId = nil
+        }
+    }
+}
+
+public struct AssociateDelegationSignerToDomainOutputResponse: Swift.Equatable {
+    /// The identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
+    public var operationId: Swift.String?
+
+    public init (
+        operationId: Swift.String? = nil
+    )
+    {
+        self.operationId = operationId
+    }
+}
+
+struct AssociateDelegationSignerToDomainOutputResponseBody: Swift.Equatable {
+    let operationId: Swift.String?
+}
+
+extension AssociateDelegationSignerToDomainOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case operationId = "OperationId"
     }
@@ -272,7 +406,7 @@ extension CancelDomainTransferToAnotherAwsAccountOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -411,7 +545,7 @@ extension CheckDomainAvailabilityOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -438,7 +572,6 @@ extension CheckDomainAvailabilityOutputResponse: ClientRuntime.HttpResponseBindi
 /// The CheckDomainAvailability response includes the following elements.
 public struct CheckDomainAvailabilityOutputResponse: Swift.Equatable {
     /// Whether the domain name is available for registering. You can register only domains designated as AVAILABLE. Valid values: AVAILABLE The domain name is available. AVAILABLE_RESERVED The domain name is reserved under specific conditions. AVAILABLE_PREORDER The domain name is available and can be preordered. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. RESERVED The domain name has been reserved for another person or organization. UNAVAILABLE The domain name is not available. UNAVAILABLE_PREMIUM The domain name is not available. UNAVAILABLE_RESTRICTED The domain name is forbidden.
-    /// This member is required.
     public var availability: Route53DomainsClientTypes.DomainAvailability?
 
     public init (
@@ -552,7 +685,7 @@ extension CheckDomainTransferabilityOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -579,7 +712,6 @@ extension CheckDomainTransferabilityOutputResponse: ClientRuntime.HttpResponseBi
 /// The CheckDomainTransferability response includes the following elements.
 public struct CheckDomainTransferabilityOutputResponse: Swift.Equatable {
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
-    /// This member is required.
     public var transferability: Route53DomainsClientTypes.DomainTransferability?
 
     public init (
@@ -604,6 +736,53 @@ extension CheckDomainTransferabilityOutputResponseBody: Swift.Decodable {
         let transferabilityDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.DomainTransferability.self, forKey: .transferability)
         transferability = transferabilityDecoded
     }
+}
+
+extension Route53DomainsClientTypes.Consent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currency = "Currency"
+        case maxPrice = "MaxPrice"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currency = self.currency {
+            try encodeContainer.encode(currency, forKey: .currency)
+        }
+        if maxPrice != 0.0 {
+            try encodeContainer.encode(maxPrice, forKey: .maxPrice)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maxPrice) ?? 0.0
+        maxPrice = maxPriceDecoded
+        let currencyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .currency)
+        currency = currencyDecoded
+    }
+}
+
+extension Route53DomainsClientTypes {
+    /// Customer's consent for the owner change request.
+    public struct Consent: Swift.Equatable {
+        /// Currency for the MaxPrice.
+        /// This member is required.
+        public var currency: Swift.String?
+        /// Maximum amount the customer agreed to accept.
+        /// This member is required.
+        public var maxPrice: Swift.Double
+
+        public init (
+            currency: Swift.String? = nil,
+            maxPrice: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.maxPrice = maxPrice
+        }
+    }
+
 }
 
 extension Route53DomainsClientTypes.ContactDetail: Swift.Codable {
@@ -1678,7 +1857,7 @@ extension DeleteDomainOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1820,7 +1999,7 @@ extension DeleteTagsForDomainOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1903,7 +2082,7 @@ extension DisableDomainAutoRenewOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1989,7 +2168,7 @@ extension DisableDomainTransferLockOutputError {
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2019,7 +2198,6 @@ extension DisableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBin
 /// The DisableDomainTransferLock response includes the following element.
 public struct DisableDomainTransferLockOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
-    /// This member is required.
     public var operationId: Swift.String?
 
     public init (
@@ -2044,6 +2222,340 @@ extension DisableDomainTransferLockOutputResponseBody: Swift.Decodable {
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
     }
+}
+
+extension DisassociateDelegationSignerFromDomainInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainName = "DomainName"
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainName = self.domainName {
+            try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+}
+
+extension DisassociateDelegationSignerFromDomainInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DisassociateDelegationSignerFromDomainInput: Swift.Equatable {
+    /// Name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// An internal identification number assigned to each DS record after it’s created. You can retrieve it as part of DNSSEC information returned by [GetDomainDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetDomainDetail.html).
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init (
+        domainName: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.id = id
+    }
+}
+
+struct DisassociateDelegationSignerFromDomainInputBody: Swift.Equatable {
+    let domainName: Swift.String?
+    let id: Swift.String?
+}
+
+extension DisassociateDelegationSignerFromDomainInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainName = "DomainName"
+        case id = "Id"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension DisassociateDelegationSignerFromDomainOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DisassociateDelegationSignerFromDomainOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DisassociateDelegationSignerFromDomainOutputError: Swift.Error, Swift.Equatable {
+    case duplicateRequest(DuplicateRequest)
+    case invalidInput(InvalidInput)
+    case operationLimitExceeded(OperationLimitExceeded)
+    case tLDRulesViolation(TLDRulesViolation)
+    case unsupportedTLD(UnsupportedTLD)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateDelegationSignerFromDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DisassociateDelegationSignerFromDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.operationId = output.operationId
+        } else {
+            self.operationId = nil
+        }
+    }
+}
+
+public struct DisassociateDelegationSignerFromDomainOutputResponse: Swift.Equatable {
+    /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
+    public var operationId: Swift.String?
+
+    public init (
+        operationId: Swift.String? = nil
+    )
+    {
+        self.operationId = operationId
+    }
+}
+
+struct DisassociateDelegationSignerFromDomainOutputResponseBody: Swift.Equatable {
+    let operationId: Swift.String?
+}
+
+extension DisassociateDelegationSignerFromDomainOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationId = "OperationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
+        operationId = operationIdDecoded
+    }
+}
+
+extension Route53DomainsClientTypes.DnssecKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case algorithm = "Algorithm"
+        case digest = "Digest"
+        case digestType = "DigestType"
+        case flags = "Flags"
+        case id = "Id"
+        case keyTag = "KeyTag"
+        case publicKey = "PublicKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let algorithm = self.algorithm {
+            try encodeContainer.encode(algorithm, forKey: .algorithm)
+        }
+        if let digest = self.digest {
+            try encodeContainer.encode(digest, forKey: .digest)
+        }
+        if let digestType = self.digestType {
+            try encodeContainer.encode(digestType, forKey: .digestType)
+        }
+        if let flags = self.flags {
+            try encodeContainer.encode(flags, forKey: .flags)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let keyTag = self.keyTag {
+            try encodeContainer.encode(keyTag, forKey: .keyTag)
+        }
+        if let publicKey = self.publicKey {
+            try encodeContainer.encode(publicKey, forKey: .publicKey)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let algorithmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .algorithm)
+        algorithm = algorithmDecoded
+        let flagsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .flags)
+        flags = flagsDecoded
+        let publicKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publicKey)
+        publicKey = publicKeyDecoded
+        let digestTypeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .digestType)
+        digestType = digestTypeDecoded
+        let digestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .digest)
+        digest = digestDecoded
+        let keyTagDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .keyTag)
+        keyTag = keyTagDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension Route53DomainsClientTypes {
+    /// Information about the DNSSEC key. You get this from your DNS provider and then give it to Route 53 (by using [AssociateDelegationSignerToDomain](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html)) to pass it to the registry to establish the chain of trust.
+    public struct DnssecKey: Swift.Equatable {
+        /// The number of the public key’s cryptographic algorithm according to an [IANA](https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xml) assignment. If Route 53 is your DNS service, set this to 13. For more information about enabling DNSSEC signing, see [Enabling DNSSEC signing and establishing a chain of trust](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec-enable-signing.html).
+        public var algorithm: Swift.Int?
+        /// The delegation signer digest. Digest is calculated from the public key provided using specified digest algorithm and this digest is the actual value returned from the registry nameservers as the value of DS records.
+        public var digest: Swift.String?
+        /// The number of the DS digest algorithm according to an IANA assignment. For more information, see [IANA](https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml) for DNSSEC Delegation Signer (DS) Resource Record (RR) Type Digest Algorithms.
+        public var digestType: Swift.Int?
+        /// Defines the type of key. It can be either a KSK (key-signing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you don’t have KSK available. If you have KSK and ZSK keys, always use KSK to create a delegations signer (DS) record. If you have ZSK keys only – use ZSK to create a DS record.
+        public var flags: Swift.Int?
+        /// An ID assigned to each DS record created by [AssociateDelegationSignerToDomain](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html).
+        public var id: Swift.String?
+        /// A numeric identification of the DNSKEY record referred to by this DS record.
+        public var keyTag: Swift.Int?
+        /// The base64-encoded public key part of the key pair that is passed to the registry .
+        public var publicKey: Swift.String?
+
+        public init (
+            algorithm: Swift.Int? = nil,
+            digest: Swift.String? = nil,
+            digestType: Swift.Int? = nil,
+            flags: Swift.Int? = nil,
+            id: Swift.String? = nil,
+            keyTag: Swift.Int? = nil,
+            publicKey: Swift.String? = nil
+        )
+        {
+            self.algorithm = algorithm
+            self.digest = digest
+            self.digestType = digestType
+            self.flags = flags
+            self.id = id
+            self.keyTag = keyTag
+            self.publicKey = publicKey
+        }
+    }
+
+}
+
+extension DnssecLimitExceeded {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DnssecLimitExceededBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// This error is returned if you call AssociateDelegationSignerToDomain when the specified domain has reached the maximum number of DS records. You can't add any additional DS records unless you delete an existing one first.
+public struct DnssecLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct DnssecLimitExceededBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension DnssecLimitExceededBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension Route53DomainsClientTypes.DnssecSigningAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case algorithm = "Algorithm"
+        case flags = "Flags"
+        case publicKey = "PublicKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let algorithm = self.algorithm {
+            try encodeContainer.encode(algorithm, forKey: .algorithm)
+        }
+        if let flags = self.flags {
+            try encodeContainer.encode(flags, forKey: .flags)
+        }
+        if let publicKey = self.publicKey {
+            try encodeContainer.encode(publicKey, forKey: .publicKey)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let algorithmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .algorithm)
+        algorithm = algorithmDecoded
+        let flagsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .flags)
+        flags = flagsDecoded
+        let publicKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publicKey)
+        publicKey = publicKeyDecoded
+    }
+}
+
+extension Route53DomainsClientTypes {
+    /// Information about a delegation signer (DS) record that was created in the registry by [AssociateDelegationSignerToDomain](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html).
+    public struct DnssecSigningAttributes: Swift.Equatable {
+        /// Algorithm which was used to generate the digest from the public key.
+        public var algorithm: Swift.Int?
+        /// Defines the type of key. It can be either a KSK (key-signing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you don’t have KSK available. If you have KSK and ZSK keys, always use KSK to create a delegations signer (DS) record. If you have ZSK keys only – use ZSK to create a DS record.
+        public var flags: Swift.Int?
+        /// The base64-encoded public key part of the key pair that is passed to the registry.
+        public var publicKey: Swift.String?
+
+        public init (
+            algorithm: Swift.Int? = nil,
+            flags: Swift.Int? = nil,
+            publicKey: Swift.String? = nil
+        )
+        {
+            self.algorithm = algorithm
+            self.flags = flags
+            self.publicKey = publicKey
+        }
+    }
+
 }
 
 extension Route53DomainsClientTypes {
@@ -2322,7 +2834,6 @@ extension Route53DomainsClientTypes {
         /// Indicates whether the domain is automatically renewed upon expiration.
         public var autoRenew: Swift.Bool?
         /// The name of the domain that the summary information applies to.
-        /// This member is required.
         public var domainName: Swift.String?
         /// Expiration date of the domain in Unix time format and Coordinated Universal Time (UTC).
         public var expiry: ClientRuntime.Date?
@@ -2367,7 +2878,7 @@ extension Route53DomainsClientTypes.DomainTransferability: Swift.Codable {
 extension Route53DomainsClientTypes {
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
     public struct DomainTransferability: Swift.Equatable {
-        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE for Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use.
+        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT the domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
         public var transferable: Route53DomainsClientTypes.Transferable?
 
         public init (
@@ -2495,7 +3006,7 @@ extension EnableDomainAutoRenewOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2582,7 +3093,7 @@ extension EnableDomainTransferLockOutputError {
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2612,7 +3123,6 @@ extension EnableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBind
 /// The EnableDomainTransferLock response includes the following elements.
 public struct EnableDomainTransferLockOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
-    /// This member is required.
     public var operationId: Swift.String?
 
     public init (
@@ -3027,7 +3537,7 @@ extension Route53DomainsClientTypes {
         /// * SG_ID_NUMBER
         ///
         ///
-        /// .co.uk, .me.uk, and .org.uk
+        /// .uk, .co.uk, .me.uk, and .org.uk
         ///
         /// * UK_CONTACT_TYPE Valid values include the following:
         ///
@@ -3092,6 +3602,7 @@ extension Route53DomainsClientTypes {
     public enum ExtraParamName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case auIdNumber
         case auIdType
+        case auPriorityToken
         case birthCity
         case birthCountry
         case birthDateInYyyyMmDd
@@ -3126,6 +3637,7 @@ extension Route53DomainsClientTypes {
             return [
                 .auIdNumber,
                 .auIdType,
+                .auPriorityToken,
                 .birthCity,
                 .birthCountry,
                 .birthDateInYyyyMmDd,
@@ -3165,6 +3677,7 @@ extension Route53DomainsClientTypes {
             switch self {
             case .auIdNumber: return "AU_ID_NUMBER"
             case .auIdType: return "AU_ID_TYPE"
+            case .auPriorityToken: return "AU_PRIORITY_TOKEN"
             case .birthCity: return "BIRTH_CITY"
             case .birthCountry: return "BIRTH_COUNTRY"
             case .birthDateInYyyyMmDd: return "BIRTH_DATE_IN_YYYY_MM_DD"
@@ -3341,7 +3854,7 @@ extension GetContactReachabilityStatusOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3466,7 +3979,7 @@ extension GetDomainDetailOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3479,7 +3992,7 @@ public enum GetDomainDetailOutputError: Swift.Error, Swift.Equatable {
 
 extension GetDomainDetailOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDomainDetailOutputResponse(abuseContactEmail: \(Swift.String(describing: abuseContactEmail)), abuseContactPhone: \(Swift.String(describing: abuseContactPhone)), adminPrivacy: \(Swift.String(describing: adminPrivacy)), autoRenew: \(Swift.String(describing: autoRenew)), creationDate: \(Swift.String(describing: creationDate)), dnsSec: \(Swift.String(describing: dnsSec)), domainName: \(Swift.String(describing: domainName)), expirationDate: \(Swift.String(describing: expirationDate)), nameservers: \(Swift.String(describing: nameservers)), registrantPrivacy: \(Swift.String(describing: registrantPrivacy)), registrarName: \(Swift.String(describing: registrarName)), registrarUrl: \(Swift.String(describing: registrarUrl)), registryDomainId: \(Swift.String(describing: registryDomainId)), reseller: \(Swift.String(describing: reseller)), statusList: \(Swift.String(describing: statusList)), techPrivacy: \(Swift.String(describing: techPrivacy)), updatedDate: \(Swift.String(describing: updatedDate)), whoIsServer: \(Swift.String(describing: whoIsServer)), adminContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
+        "GetDomainDetailOutputResponse(abuseContactEmail: \(Swift.String(describing: abuseContactEmail)), abuseContactPhone: \(Swift.String(describing: abuseContactPhone)), adminPrivacy: \(Swift.String(describing: adminPrivacy)), autoRenew: \(Swift.String(describing: autoRenew)), creationDate: \(Swift.String(describing: creationDate)), dnsSec: \(Swift.String(describing: dnsSec)), dnssecKeys: \(Swift.String(describing: dnssecKeys)), domainName: \(Swift.String(describing: domainName)), expirationDate: \(Swift.String(describing: expirationDate)), nameservers: \(Swift.String(describing: nameservers)), registrantPrivacy: \(Swift.String(describing: registrantPrivacy)), registrarName: \(Swift.String(describing: registrarName)), registrarUrl: \(Swift.String(describing: registrarUrl)), registryDomainId: \(Swift.String(describing: registryDomainId)), reseller: \(Swift.String(describing: reseller)), statusList: \(Swift.String(describing: statusList)), techPrivacy: \(Swift.String(describing: techPrivacy)), updatedDate: \(Swift.String(describing: updatedDate)), whoIsServer: \(Swift.String(describing: whoIsServer)), adminContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
 }
 
 extension GetDomainDetailOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3495,6 +4008,7 @@ extension GetDomainDetailOutputResponse: ClientRuntime.HttpResponseBinding {
             self.autoRenew = output.autoRenew
             self.creationDate = output.creationDate
             self.dnsSec = output.dnsSec
+            self.dnssecKeys = output.dnssecKeys
             self.domainName = output.domainName
             self.expirationDate = output.expirationDate
             self.nameservers = output.nameservers
@@ -3517,6 +4031,7 @@ extension GetDomainDetailOutputResponse: ClientRuntime.HttpResponseBinding {
             self.autoRenew = nil
             self.creationDate = nil
             self.dnsSec = nil
+            self.dnssecKeys = nil
             self.domainName = nil
             self.expirationDate = nil
             self.nameservers = nil
@@ -3542,7 +4057,6 @@ public struct GetDomainDetailOutputResponse: Swift.Equatable {
     /// Phone number for reporting abuse.
     public var abuseContactPhone: Swift.String?
     /// Provides details about the domain administrative contact.
-    /// This member is required.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
     /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the admin contact.
     public var adminPrivacy: Swift.Bool?
@@ -3552,16 +4066,15 @@ public struct GetDomainDetailOutputResponse: Swift.Equatable {
     public var creationDate: ClientRuntime.Date?
     /// Deprecated.
     public var dnsSec: Swift.String?
+    /// A complex type that contains information about the DNSSEC configuration.
+    public var dnssecKeys: [Route53DomainsClientTypes.DnssecKey]?
     /// The name of a domain.
-    /// This member is required.
     public var domainName: Swift.String?
     /// The date when the registration for the domain is set to expire. The date and time is in Unix time format and Coordinated Universal time (UTC).
     public var expirationDate: ClientRuntime.Date?
-    /// The name of the domain.
-    /// This member is required.
+    /// The name servers of the domain.
     public var nameservers: [Route53DomainsClientTypes.Nameserver]?
     /// Provides details about the domain registrant.
-    /// This member is required.
     public var registrantContact: Route53DomainsClientTypes.ContactDetail?
     /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
     public var registrantPrivacy: Swift.Bool?
@@ -3576,7 +4089,6 @@ public struct GetDomainDetailOutputResponse: Swift.Equatable {
     /// An array of domain name status codes, also known as Extensible Provisioning Protocol (EPP) status codes. ICANN, the organization that maintains a central database of domain names, has developed a set of domain name status codes that tell you the status of a variety of operations on a domain name, for example, registering a domain name, transferring a domain name to another registrar, renewing the registration for a domain name, and so on. All registrars use this same set of status codes. For a current list of domain name status codes and an explanation of what each code means, go to the [ICANN website](https://www.icann.org/) and search for epp status codes. (Search on the ICANN website; web searches sometimes return an old version of the document.)
     public var statusList: [Swift.String]?
     /// Provides details about the domain technical contact.
-    /// This member is required.
     public var techContact: Route53DomainsClientTypes.ContactDetail?
     /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the technical contact.
     public var techPrivacy: Swift.Bool?
@@ -3593,6 +4105,7 @@ public struct GetDomainDetailOutputResponse: Swift.Equatable {
         autoRenew: Swift.Bool? = nil,
         creationDate: ClientRuntime.Date? = nil,
         dnsSec: Swift.String? = nil,
+        dnssecKeys: [Route53DomainsClientTypes.DnssecKey]? = nil,
         domainName: Swift.String? = nil,
         expirationDate: ClientRuntime.Date? = nil,
         nameservers: [Route53DomainsClientTypes.Nameserver]? = nil,
@@ -3616,6 +4129,7 @@ public struct GetDomainDetailOutputResponse: Swift.Equatable {
         self.autoRenew = autoRenew
         self.creationDate = creationDate
         self.dnsSec = dnsSec
+        self.dnssecKeys = dnssecKeys
         self.domainName = domainName
         self.expirationDate = expirationDate
         self.nameservers = nameservers
@@ -3655,6 +4169,7 @@ struct GetDomainDetailOutputResponseBody: Swift.Equatable {
     let reseller: Swift.String?
     let dnsSec: Swift.String?
     let statusList: [Swift.String]?
+    let dnssecKeys: [Route53DomainsClientTypes.DnssecKey]?
 }
 
 extension GetDomainDetailOutputResponseBody: Swift.Decodable {
@@ -3666,6 +4181,7 @@ extension GetDomainDetailOutputResponseBody: Swift.Decodable {
         case autoRenew = "AutoRenew"
         case creationDate = "CreationDate"
         case dnsSec = "DnsSec"
+        case dnssecKeys = "DnssecKeys"
         case domainName = "DomainName"
         case expirationDate = "ExpirationDate"
         case nameservers = "Nameservers"
@@ -3744,6 +4260,17 @@ extension GetDomainDetailOutputResponseBody: Swift.Decodable {
             }
         }
         statusList = statusListDecoded0
+        let dnssecKeysContainer = try containerValues.decodeIfPresent([Route53DomainsClientTypes.DnssecKey?].self, forKey: .dnssecKeys)
+        var dnssecKeysDecoded0:[Route53DomainsClientTypes.DnssecKey]? = nil
+        if let dnssecKeysContainer = dnssecKeysContainer {
+            dnssecKeysDecoded0 = [Route53DomainsClientTypes.DnssecKey]()
+            for structure0 in dnssecKeysContainer {
+                if let structure0 = structure0 {
+                    dnssecKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        dnssecKeys = dnssecKeysDecoded0
     }
 }
 
@@ -3845,7 +4372,7 @@ extension GetDomainSuggestionsOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3967,7 +4494,7 @@ extension GetOperationDetailOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3984,16 +4511,20 @@ extension GetOperationDetailOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().toData()
             let output: GetOperationDetailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
+            self.lastUpdatedDate = output.lastUpdatedDate
             self.message = output.message
             self.operationId = output.operationId
             self.status = output.status
+            self.statusFlag = output.statusFlag
             self.submittedDate = output.submittedDate
             self.type = output.type
         } else {
             self.domainName = nil
+            self.lastUpdatedDate = nil
             self.message = nil
             self.operationId = nil
             self.status = nil
+            self.statusFlag = nil
             self.submittedDate = nil
             self.type = nil
         }
@@ -4004,12 +4535,26 @@ extension GetOperationDetailOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetOperationDetailOutputResponse: Swift.Equatable {
     /// The name of a domain.
     public var domainName: Swift.String?
+    /// The date when the operation was last updated.
+    public var lastUpdatedDate: ClientRuntime.Date?
     /// Detailed information on the status including possible errors.
     public var message: Swift.String?
     /// The identifier for the operation.
     public var operationId: Swift.String?
     /// The current status of the requested operation in the system.
     public var status: Route53DomainsClientTypes.OperationStatus?
+    /// Lists any outstanding operations that require customer action. Valid values are:
+    ///
+    /// * PENDING_ACCEPTANCE: The operation is waiting for acceptance from the account that is receiving the domain.
+    ///
+    /// * PENDING_CUSTOMER_ACTION: The operation is waiting for customer action, for example, returning an email.
+    ///
+    /// * PENDING_AUTHORIZATION: The operation is waiting for the form of authorization. For more information, see [ResendOperationAuthorization](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ResendOperationAuthorization.html).
+    ///
+    /// * PENDING_PAYMENT_VERIFICATION: The operation is waiting for the payment method to validate.
+    ///
+    /// * PENDING_SUPPORT_CASE: The operation includes a support case and is waiting for its resolution.
+    public var statusFlag: Route53DomainsClientTypes.StatusFlag?
     /// The date when the request was submitted.
     public var submittedDate: ClientRuntime.Date?
     /// The type of operation that was requested.
@@ -4017,17 +4562,21 @@ public struct GetOperationDetailOutputResponse: Swift.Equatable {
 
     public init (
         domainName: Swift.String? = nil,
+        lastUpdatedDate: ClientRuntime.Date? = nil,
         message: Swift.String? = nil,
         operationId: Swift.String? = nil,
         status: Route53DomainsClientTypes.OperationStatus? = nil,
+        statusFlag: Route53DomainsClientTypes.StatusFlag? = nil,
         submittedDate: ClientRuntime.Date? = nil,
         type: Route53DomainsClientTypes.OperationType? = nil
     )
     {
         self.domainName = domainName
+        self.lastUpdatedDate = lastUpdatedDate
         self.message = message
         self.operationId = operationId
         self.status = status
+        self.statusFlag = statusFlag
         self.submittedDate = submittedDate
         self.type = type
     }
@@ -4040,14 +4589,18 @@ struct GetOperationDetailOutputResponseBody: Swift.Equatable {
     let domainName: Swift.String?
     let type: Route53DomainsClientTypes.OperationType?
     let submittedDate: ClientRuntime.Date?
+    let lastUpdatedDate: ClientRuntime.Date?
+    let statusFlag: Route53DomainsClientTypes.StatusFlag?
 }
 
 extension GetOperationDetailOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainName = "DomainName"
+        case lastUpdatedDate = "LastUpdatedDate"
         case message = "Message"
         case operationId = "OperationId"
         case status = "Status"
+        case statusFlag = "StatusFlag"
         case submittedDate = "SubmittedDate"
         case type = "Type"
     }
@@ -4066,6 +4619,10 @@ extension GetOperationDetailOutputResponseBody: Swift.Decodable {
         type = typeDecoded
         let submittedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .submittedDate)
         submittedDate = submittedDateDecoded
+        let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDate)
+        lastUpdatedDate = lastUpdatedDateDecoded
+        let statusFlagDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.StatusFlag.self, forKey: .statusFlag)
+        statusFlag = statusFlagDecoded
     }
 }
 
@@ -4262,7 +4819,7 @@ extension ListDomainsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4290,7 +4847,6 @@ extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
 /// The ListDomains response includes the following elements.
 public struct ListDomainsOutputResponse: Swift.Equatable {
     /// A list of domains.
-    /// This member is required.
     public var domains: [Route53DomainsClientTypes.DomainSummary]?
     /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
     public var nextPageMarker: Swift.String?
@@ -4338,7 +4894,11 @@ extension ListOperationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case maxItems = "MaxItems"
+        case sortBy = "SortBy"
+        case sortOrder = "SortOrder"
+        case status = "Status"
         case submittedSince = "SubmittedSince"
+        case type = "Type"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4349,8 +4909,26 @@ extension ListOperationsInput: Swift.Encodable {
         if let maxItems = self.maxItems {
             try encodeContainer.encode(maxItems, forKey: .maxItems)
         }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+        if let status = status {
+            var statusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .status)
+            for operationstatuslist0 in status {
+                try statusContainer.encode(operationstatuslist0.rawValue)
+            }
+        }
         if let submittedSince = self.submittedSince {
             try encodeContainer.encodeTimestamp(submittedSince, format: .epochSeconds, forKey: .submittedSince)
+        }
+        if let type = type {
+            var typeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .type)
+            for operationtypelist0 in type {
+                try typeContainer.encode(operationtypelist0.rawValue)
+            }
         }
     }
 }
@@ -4367,18 +4945,34 @@ public struct ListOperationsInput: Swift.Equatable {
     public var marker: Swift.String?
     /// Number of domains to be returned. Default: 20
     public var maxItems: Swift.Int?
+    /// The sort type for returned values.
+    public var sortBy: Route53DomainsClientTypes.ListOperationsSortAttributeName?
+    /// The sort order ofr returned values, either ascending or descending.
+    public var sortOrder: Route53DomainsClientTypes.SortOrder?
+    /// The status of the operations.
+    public var status: [Route53DomainsClientTypes.OperationStatus]?
     /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
     public var submittedSince: ClientRuntime.Date?
+    /// An arrays of the domains operation types.
+    public var type: [Route53DomainsClientTypes.OperationType]?
 
     public init (
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
-        submittedSince: ClientRuntime.Date? = nil
+        sortBy: Route53DomainsClientTypes.ListOperationsSortAttributeName? = nil,
+        sortOrder: Route53DomainsClientTypes.SortOrder? = nil,
+        status: [Route53DomainsClientTypes.OperationStatus]? = nil,
+        submittedSince: ClientRuntime.Date? = nil,
+        type: [Route53DomainsClientTypes.OperationType]? = nil
     )
     {
         self.marker = marker
         self.maxItems = maxItems
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.status = status
         self.submittedSince = submittedSince
+        self.type = type
     }
 }
 
@@ -4386,13 +4980,21 @@ struct ListOperationsInputBody: Swift.Equatable {
     let submittedSince: ClientRuntime.Date?
     let marker: Swift.String?
     let maxItems: Swift.Int?
+    let status: [Route53DomainsClientTypes.OperationStatus]?
+    let type: [Route53DomainsClientTypes.OperationType]?
+    let sortBy: Route53DomainsClientTypes.ListOperationsSortAttributeName?
+    let sortOrder: Route53DomainsClientTypes.SortOrder?
 }
 
 extension ListOperationsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case marker = "Marker"
         case maxItems = "MaxItems"
+        case sortBy = "SortBy"
+        case sortOrder = "SortOrder"
+        case status = "Status"
         case submittedSince = "SubmittedSince"
+        case type = "Type"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -4403,6 +5005,32 @@ extension ListOperationsInputBody: Swift.Decodable {
         marker = markerDecoded
         let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
         maxItems = maxItemsDecoded
+        let statusContainer = try containerValues.decodeIfPresent([Route53DomainsClientTypes.OperationStatus?].self, forKey: .status)
+        var statusDecoded0:[Route53DomainsClientTypes.OperationStatus]? = nil
+        if let statusContainer = statusContainer {
+            statusDecoded0 = [Route53DomainsClientTypes.OperationStatus]()
+            for enum0 in statusContainer {
+                if let enum0 = enum0 {
+                    statusDecoded0?.append(enum0)
+                }
+            }
+        }
+        status = statusDecoded0
+        let typeContainer = try containerValues.decodeIfPresent([Route53DomainsClientTypes.OperationType?].self, forKey: .type)
+        var typeDecoded0:[Route53DomainsClientTypes.OperationType]? = nil
+        if let typeContainer = typeContainer {
+            typeDecoded0 = [Route53DomainsClientTypes.OperationType]()
+            for enum0 in typeContainer {
+                if let enum0 = enum0 {
+                    typeDecoded0?.append(enum0)
+                }
+            }
+        }
+        type = typeDecoded0
+        let sortByDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.ListOperationsSortAttributeName.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.SortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
     }
 }
 
@@ -4418,7 +5046,7 @@ extension ListOperationsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4448,7 +5076,6 @@ public struct ListOperationsOutputResponse: Swift.Equatable {
     /// If there are more operations than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
     public var nextPageMarker: Swift.String?
     /// Lists summaries of the operations.
-    /// This member is required.
     public var operations: [Route53DomainsClientTypes.OperationSummary]?
 
     public init (
@@ -4487,6 +5114,35 @@ extension ListOperationsOutputResponseBody: Swift.Decodable {
         operations = operationsDecoded0
         let nextPageMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageMarker)
         nextPageMarker = nextPageMarkerDecoded
+    }
+}
+
+extension Route53DomainsClientTypes {
+    public enum ListOperationsSortAttributeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case submitteddate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListOperationsSortAttributeName] {
+            return [
+                .submitteddate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .submitteddate: return "SubmittedDate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ListOperationsSortAttributeName(rawValue: rawValue) ?? ListOperationsSortAttributeName.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -4574,7 +5230,7 @@ extension ListPricesOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4604,7 +5260,6 @@ public struct ListPricesOutputResponse: Swift.Equatable {
     /// If there are more prices than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker. Used only for all TLDs. If you specify a TLD, don't specify a NextPageMarker.
     public var nextPageMarker: Swift.String?
     /// A complex type that includes all the pricing information. If you specify a TLD, this array contains only the pricing for that TLD.
-    /// This member is required.
     public var prices: [Route53DomainsClientTypes.DomainPrice]?
 
     public init (
@@ -4709,7 +5364,7 @@ extension ListTagsForDomainOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4737,7 +5392,6 @@ extension ListTagsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
 /// The ListTagsForDomain response includes the following elements.
 public struct ListTagsForDomainOutputResponse: Swift.Equatable {
     /// A list of the tags that are associated with the specified domain.
-    /// This member is required.
     public var tagList: [Route53DomainsClientTypes.Tag]?
 
     public init (
@@ -4811,7 +5465,7 @@ extension Route53DomainsClientTypes.Nameserver: Swift.Codable {
 }
 
 extension Route53DomainsClientTypes {
-    /// Nameserver includes the following elements.
+    /// Name server includes the following elements.
     public struct Nameserver: Swift.Equatable {
         /// Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address.
         public var glueIps: [Swift.String]?
@@ -4927,19 +5581,35 @@ extension Route53DomainsClientTypes {
 
 extension Route53DomainsClientTypes.OperationSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainName = "DomainName"
+        case lastUpdatedDate = "LastUpdatedDate"
+        case message = "Message"
         case operationId = "OperationId"
         case status = "Status"
+        case statusFlag = "StatusFlag"
         case submittedDate = "SubmittedDate"
         case type = "Type"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainName = self.domainName {
+            try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let lastUpdatedDate = self.lastUpdatedDate {
+            try encodeContainer.encodeTimestamp(lastUpdatedDate, format: .epochSeconds, forKey: .lastUpdatedDate)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
         if let operationId = self.operationId {
             try encodeContainer.encode(operationId, forKey: .operationId)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusFlag = self.statusFlag {
+            try encodeContainer.encode(statusFlag.rawValue, forKey: .statusFlag)
         }
         if let submittedDate = self.submittedDate {
             try encodeContainer.encodeTimestamp(submittedDate, format: .epochSeconds, forKey: .submittedDate)
@@ -4959,34 +5629,64 @@ extension Route53DomainsClientTypes.OperationSummary: Swift.Codable {
         type = typeDecoded
         let submittedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .submittedDate)
         submittedDate = submittedDateDecoded
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let statusFlagDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.StatusFlag.self, forKey: .statusFlag)
+        statusFlag = statusFlagDecoded
+        let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDate)
+        lastUpdatedDate = lastUpdatedDateDecoded
     }
 }
 
 extension Route53DomainsClientTypes {
     /// OperationSummary includes the following elements.
     public struct OperationSummary: Swift.Equatable {
+        /// Name of the domain.
+        public var domainName: Swift.String?
+        /// The date when the last change was made in Unix time format and Coordinated Universal Time (UTC).
+        public var lastUpdatedDate: ClientRuntime.Date?
+        /// Message about the operation.
+        public var message: Swift.String?
         /// Identifier returned to track the requested action.
-        /// This member is required.
         public var operationId: Swift.String?
         /// The current status of the requested operation in the system.
-        /// This member is required.
         public var status: Route53DomainsClientTypes.OperationStatus?
+        /// Automatically checks whether there are no outstanding operations on domains that need customer attention. Valid values are:
+        ///
+        /// * PENDING_ACCEPTANCE: The operation is waiting for acceptance from the account that is receiving the domain.
+        ///
+        /// * PENDING_CUSTOMER_ACTION: The operation is waiting for customer action, for example, returning an email.
+        ///
+        /// * PENDING_AUTHORIZATION: The operation is waiting for the form of authorization. For more information, see [ResendOperationAuthorization](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ResendOperationAuthorization.html).
+        ///
+        /// * PENDING_PAYMENT_VERIFICATION: The operation is waiting for the payment method to validate.
+        ///
+        /// * PENDING_SUPPORT_CASE: The operation includes a support case and is waiting for its resolution.
+        public var statusFlag: Route53DomainsClientTypes.StatusFlag?
         /// The date when the request was submitted.
-        /// This member is required.
         public var submittedDate: ClientRuntime.Date?
         /// Type of the action requested.
-        /// This member is required.
         public var type: Route53DomainsClientTypes.OperationType?
 
         public init (
+            domainName: Swift.String? = nil,
+            lastUpdatedDate: ClientRuntime.Date? = nil,
+            message: Swift.String? = nil,
             operationId: Swift.String? = nil,
             status: Route53DomainsClientTypes.OperationStatus? = nil,
+            statusFlag: Route53DomainsClientTypes.StatusFlag? = nil,
             submittedDate: ClientRuntime.Date? = nil,
             type: Route53DomainsClientTypes.OperationType? = nil
         )
         {
+            self.domainName = domainName
+            self.lastUpdatedDate = lastUpdatedDate
+            self.message = message
             self.operationId = operationId
             self.status = status
+            self.statusFlag = statusFlag
             self.submittedDate = submittedDate
             self.type = type
         }
@@ -5156,6 +5856,103 @@ extension Route53DomainsClientTypes {
 
 }
 
+extension PushDomainInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainName = "DomainName"
+        case target = "Target"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainName = self.domainName {
+            try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+    }
+}
+
+extension PushDomainInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PushDomainInput: Swift.Equatable {
+    /// Name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// New IPS tag for the domain.
+    /// This member is required.
+    public var target: Swift.String?
+
+    public init (
+        domainName: Swift.String? = nil,
+        target: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.target = target
+    }
+}
+
+struct PushDomainInputBody: Swift.Equatable {
+    let domainName: Swift.String?
+    let target: Swift.String?
+}
+
+extension PushDomainInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainName = "DomainName"
+        case target = "Target"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
+        target = targetDecoded
+    }
+}
+
+extension PushDomainOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PushDomainOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PushDomainOutputError: Swift.Error, Swift.Equatable {
+    case invalidInput(InvalidInput)
+    case operationLimitExceeded(OperationLimitExceeded)
+    case unsupportedTLD(UnsupportedTLD)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PushDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct PushDomainOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension Route53DomainsClientTypes {
     public enum ReachabilityStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case done
@@ -5256,7 +6053,7 @@ public struct RegisterDomainInput: Swift.Equatable {
     /// Provides detailed contact information. For information about the values that you specify for each element, see [ContactDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html).
     /// This member is required.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
-    /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true
+    /// Indicates whether the domain will be automatically renewed (true) or not (false). Auto renewal only takes effect after the account is charged. Default: true
     public var autoRenew: Swift.Bool?
     /// The domain name that you want to register. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
     ///
@@ -5385,7 +6182,7 @@ extension RegisterDomainOutputError {
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5416,7 +6213,6 @@ extension RegisterDomainOutputResponse: ClientRuntime.HttpResponseBinding {
 /// The RegisterDomain response includes the following element.
 public struct RegisterDomainOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
-    /// This member is required.
     public var operationId: Swift.String?
 
     public init (
@@ -5506,7 +6302,7 @@ extension RejectDomainTransferFromAnotherAwsAccountOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5650,7 +6446,7 @@ extension RenewDomainOutputError {
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5679,7 +6475,6 @@ extension RenewDomainOutputResponse: ClientRuntime.HttpResponseBinding {
 
 public struct RenewDomainOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
-    /// This member is required.
     public var operationId: Swift.String?
 
     public init (
@@ -5767,7 +6562,7 @@ extension ResendContactReachabilityEmailOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5840,6 +6635,86 @@ extension ResendContactReachabilityEmailOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ResendOperationAuthorizationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationId = "OperationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let operationId = self.operationId {
+            try encodeContainer.encode(operationId, forKey: .operationId)
+        }
+    }
+}
+
+extension ResendOperationAuthorizationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ResendOperationAuthorizationInput: Swift.Equatable {
+    /// Operation ID.
+    /// This member is required.
+    public var operationId: Swift.String?
+
+    public init (
+        operationId: Swift.String? = nil
+    )
+    {
+        self.operationId = operationId
+    }
+}
+
+struct ResendOperationAuthorizationInputBody: Swift.Equatable {
+    let operationId: Swift.String?
+}
+
+extension ResendOperationAuthorizationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationId = "OperationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
+        operationId = operationIdDecoded
+    }
+}
+
+extension ResendOperationAuthorizationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ResendOperationAuthorizationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ResendOperationAuthorizationOutputError: Swift.Error, Swift.Equatable {
+    case invalidInput(InvalidInput)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResendOperationAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct ResendOperationAuthorizationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension RetrieveDomainAuthCodeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainName = "DomainName"
@@ -5902,7 +6777,7 @@ extension RetrieveDomainAuthCodeOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5934,7 +6809,6 @@ extension RetrieveDomainAuthCodeOutputResponse: ClientRuntime.HttpResponseBindin
 /// The RetrieveDomainAuthCode response includes the following element.
 public struct RetrieveDomainAuthCodeOutputResponse: Swift.Equatable {
     /// The authorization code for the domain.
-    /// This member is required.
     public var authCode: Swift.String?
 
     public init (
@@ -6036,6 +6910,47 @@ extension Route53DomainsClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension Route53DomainsClientTypes {
+    public enum StatusFlag: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case pendingAcceptance
+        case pendingAuthorization
+        case pendingCustomerAction
+        case pendingPaymentVerification
+        case pendingSupportCase
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StatusFlag] {
+            return [
+                .pendingAcceptance,
+                .pendingAuthorization,
+                .pendingCustomerAction,
+                .pendingPaymentVerification,
+                .pendingSupportCase,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .pendingAcceptance: return "PENDING_ACCEPTANCE"
+            case .pendingAuthorization: return "PENDING_AUTHORIZATION"
+            case .pendingCustomerAction: return "PENDING_CUSTOMER_ACTION"
+            case .pendingPaymentVerification: return "PENDING_PAYMENT_VERIFICATION"
+            case .pendingSupportCase: return "PENDING_SUPPORT_CASE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StatusFlag(rawValue: rawValue) ?? StatusFlag.sdkUnknown(rawValue)
         }
     }
 }
@@ -6216,7 +7131,7 @@ public struct TransferDomainInput: Swift.Equatable {
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
     /// The authorization code for the domain. You get this value from the current registrar.
     public var authCode: Swift.String?
-    /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true
+    /// Indicates whether the domain will be automatically renewed (true) or not (false). Auto renewal only takes effect after the account is charged. Default: true
     public var autoRenew: Swift.Bool?
     /// The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
     ///
@@ -6365,7 +7280,7 @@ extension TransferDomainOutputError {
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6396,7 +7311,6 @@ extension TransferDomainOutputResponse: ClientRuntime.HttpResponseBinding {
 /// The TransferDomain response includes the following element.
 public struct TransferDomainOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
-    /// This member is required.
     public var operationId: Swift.String?
 
     public init (
@@ -6500,7 +7414,7 @@ extension TransferDomainToAnotherAwsAccountOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6566,16 +7480,22 @@ extension TransferDomainToAnotherAwsAccountOutputResponseBody: Swift.Decodable {
 }
 
 extension Route53DomainsClientTypes {
-    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE for Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use.
+    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT the domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
     public enum Transferable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case domainInAnotherAccount
+        case domainInOwnAccount
         case dontKnow
+        case premiumDomain
         case transferable
         case untransferable
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Transferable] {
             return [
+                .domainInAnotherAccount,
+                .domainInOwnAccount,
                 .dontKnow,
+                .premiumDomain,
                 .transferable,
                 .untransferable,
                 .sdkUnknown("")
@@ -6587,7 +7507,10 @@ extension Route53DomainsClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .domainInAnotherAccount: return "DOMAIN_IN_ANOTHER_ACCOUNT"
+            case .domainInOwnAccount: return "DOMAIN_IN_OWN_ACCOUNT"
             case .dontKnow: return "DONT_KNOW"
+            case .premiumDomain: return "PREMIUM_DOMAIN"
             case .transferable: return "TRANSFERABLE"
             case .untransferable: return "UNTRANSFERABLE"
             case let .sdkUnknown(s): return s
@@ -6656,12 +7579,13 @@ extension UnsupportedTLDBody: Swift.Decodable {
 
 extension UpdateDomainContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateDomainContactInput(domainName: \(Swift.String(describing: domainName)), adminContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
+        "UpdateDomainContactInput(consent: \(Swift.String(describing: consent)), domainName: \(Swift.String(describing: domainName)), adminContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateDomainContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminContact = "AdminContact"
+        case consent = "Consent"
         case domainName = "DomainName"
         case registrantContact = "RegistrantContact"
         case techContact = "TechContact"
@@ -6671,6 +7595,9 @@ extension UpdateDomainContactInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adminContact = self.adminContact {
             try encodeContainer.encode(adminContact, forKey: .adminContact)
+        }
+        if let consent = self.consent {
+            try encodeContainer.encode(consent, forKey: .consent)
         }
         if let domainName = self.domainName {
             try encodeContainer.encode(domainName, forKey: .domainName)
@@ -6694,6 +7621,8 @@ extension UpdateDomainContactInput: ClientRuntime.URLPathProvider {
 public struct UpdateDomainContactInput: Swift.Equatable {
     /// Provides detailed contact information.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
+    /// Customer's consent for the owner change request.
+    public var consent: Route53DomainsClientTypes.Consent?
     /// The name of the domain that you want to update contact information for.
     /// This member is required.
     public var domainName: Swift.String?
@@ -6704,12 +7633,14 @@ public struct UpdateDomainContactInput: Swift.Equatable {
 
     public init (
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
+        consent: Route53DomainsClientTypes.Consent? = nil,
         domainName: Swift.String? = nil,
         registrantContact: Route53DomainsClientTypes.ContactDetail? = nil,
         techContact: Route53DomainsClientTypes.ContactDetail? = nil
     )
     {
         self.adminContact = adminContact
+        self.consent = consent
         self.domainName = domainName
         self.registrantContact = registrantContact
         self.techContact = techContact
@@ -6721,11 +7652,13 @@ struct UpdateDomainContactInputBody: Swift.Equatable {
     let adminContact: Route53DomainsClientTypes.ContactDetail?
     let registrantContact: Route53DomainsClientTypes.ContactDetail?
     let techContact: Route53DomainsClientTypes.ContactDetail?
+    let consent: Route53DomainsClientTypes.Consent?
 }
 
 extension UpdateDomainContactInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminContact = "AdminContact"
+        case consent = "Consent"
         case domainName = "DomainName"
         case registrantContact = "RegistrantContact"
         case techContact = "TechContact"
@@ -6741,6 +7674,8 @@ extension UpdateDomainContactInputBody: Swift.Decodable {
         registrantContact = registrantContactDecoded
         let techContactDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.ContactDetail.self, forKey: .techContact)
         techContact = techContactDecoded
+        let consentDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.Consent.self, forKey: .consent)
+        consent = consentDecoded
     }
 }
 
@@ -6760,7 +7695,7 @@ extension UpdateDomainContactOutputError {
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6790,7 +7725,6 @@ extension UpdateDomainContactOutputResponse: ClientRuntime.HttpResponseBinding {
 /// The UpdateDomainContact response includes the following element.
 public struct UpdateDomainContactOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
-    /// This member is required.
     public var operationId: Swift.String?
 
     public init (
@@ -6918,7 +7852,7 @@ extension UpdateDomainContactPrivacyOutputError {
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6948,7 +7882,6 @@ extension UpdateDomainContactPrivacyOutputResponse: ClientRuntime.HttpResponseBi
 /// The UpdateDomainContactPrivacy response includes the following element.
 public struct UpdateDomainContactPrivacyOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
-    /// This member is required.
     public var operationId: Swift.String?
 
     public init (
@@ -7083,7 +8016,7 @@ extension UpdateDomainNameserversOutputError {
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TLDRulesViolation" : self = .tLDRulesViolation(try TLDRulesViolation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7113,7 +8046,6 @@ extension UpdateDomainNameserversOutputResponse: ClientRuntime.HttpResponseBindi
 /// The UpdateDomainNameservers response includes the following element.
 public struct UpdateDomainNameserversOutputResponse: Swift.Equatable {
     /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
-    /// This member is required.
     public var operationId: Swift.String?
 
     public init (
@@ -7227,7 +8159,7 @@ extension UpdateTagsForDomainOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationLimitExceeded" : self = .operationLimitExceeded(try OperationLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedTLD" : self = .unsupportedTLD(try UnsupportedTLD(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7345,7 +8277,7 @@ extension ViewBillingOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

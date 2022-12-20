@@ -52,7 +52,7 @@ public protocol ECSClientProtocol {
     func describeTaskSets(input: DescribeTaskSetsInput) async throws -> DescribeTaskSetsOutputResponse
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Returns an endpoint for the Amazon ECS agent to poll for updates.
     func discoverPollEndpoint(input: DiscoverPollEndpointInput) async throws -> DiscoverPollEndpointOutputResponse
-    /// Runs a command remotely on a container within a task. If you use a condition key in your IAM policy to refine the conditions for the policy statement, for example limit the actions to a specific cluster, you receive an AccessDeniedException when there is a mismatch between the condition key value and the corresponding parameter value.
+    /// Runs a command remotely on a container within a task. If you use a condition key in your IAM policy to refine the conditions for the policy statement, for example limit the actions to a specific cluster, you receive an AccessDeniedException when there is a mismatch between the condition key value and the corresponding parameter value. For information about required permissions and considerations, see [Using Amazon ECS Exec for debugging](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.htm) in the Amazon ECS Developer Guide.
     func executeCommand(input: ExecuteCommandInput) async throws -> ExecuteCommandOutputResponse
     /// Retrieves the protection status of tasks in an Amazon ECS service.
     func getTaskProtection(input: GetTaskProtectionInput) async throws -> GetTaskProtectionOutputResponse

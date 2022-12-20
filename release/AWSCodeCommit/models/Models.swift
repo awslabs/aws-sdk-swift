@@ -1101,7 +1101,7 @@ extension AssociateApprovalRuleTemplateWithRepositoryOutputError {
         case "MaximumRuleTemplatesAssociatedWithRepositoryException" : self = .maximumRuleTemplatesAssociatedWithRepositoryException(try MaximumRuleTemplatesAssociatedWithRepositoryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1334,7 +1334,7 @@ extension BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError {
         case "InvalidApprovalRuleTemplateNameException" : self = .invalidApprovalRuleTemplateNameException(try InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MaximumRepositoryNamesExceededException" : self = .maximumRepositoryNamesExceededException(try MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNamesRequiredException" : self = .repositoryNamesRequiredException(try RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1685,7 +1685,7 @@ extension BatchDescribeMergeConflictsOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1976,7 +1976,7 @@ extension BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError {
         case "InvalidApprovalRuleTemplateNameException" : self = .invalidApprovalRuleTemplateNameException(try InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MaximumRepositoryNamesExceededException" : self = .maximumRepositoryNamesExceededException(try MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNamesRequiredException" : self = .repositoryNamesRequiredException(try RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2215,7 +2215,7 @@ extension BatchGetCommitsOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2383,7 +2383,7 @@ extension BatchGetRepositoriesOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MaximumRepositoryNamesExceededException" : self = .maximumRepositoryNamesExceededException(try MaximumRepositoryNamesExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNamesRequiredException" : self = .repositoryNamesRequiredException(try RepositoryNamesRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4813,7 +4813,7 @@ extension CreateApprovalRuleTemplateOutputError {
         case "InvalidApprovalRuleTemplateDescriptionException" : self = .invalidApprovalRuleTemplateDescriptionException(try InvalidApprovalRuleTemplateDescriptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApprovalRuleTemplateNameException" : self = .invalidApprovalRuleTemplateNameException(try InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NumberOfRuleTemplatesExceededException" : self = .numberOfRuleTemplatesExceededException(try NumberOfRuleTemplatesExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4971,7 +4971,7 @@ extension CreateBranchOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5246,7 +5246,7 @@ extension CreateCommitOutputError {
         case "RestrictedSourceFileException" : self = .restrictedSourceFileException(try RestrictedSourceFileException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SamePathRequestException" : self = .samePathRequestException(try SamePathRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SourceFileOrContentRequiredException" : self = .sourceFileOrContentRequiredException(try SourceFileOrContentRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5515,7 +5515,7 @@ extension CreatePullRequestApprovalRuleOutputError {
         case "PullRequestAlreadyClosedException" : self = .pullRequestAlreadyClosedException(try PullRequestAlreadyClosedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5714,7 +5714,7 @@ extension CreatePullRequestOutputError {
         case "TargetRequiredException" : self = .targetRequiredException(try TargetRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetsRequiredException" : self = .targetsRequiredException(try TargetsRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TitleRequiredException" : self = .titleRequiredException(try TitleRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5900,7 +5900,7 @@ extension CreateRepositoryOutputError {
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagPolicyException" : self = .tagPolicyException(try TagPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6183,7 +6183,7 @@ extension CreateUnreferencedMergeCommitOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6394,7 +6394,7 @@ extension DeleteApprovalRuleTemplateOutputError {
         case "ApprovalRuleTemplateInUseException" : self = .approvalRuleTemplateInUseException(try ApprovalRuleTemplateInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ApprovalRuleTemplateNameRequiredException" : self = .approvalRuleTemplateNameRequiredException(try ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApprovalRuleTemplateNameException" : self = .invalidApprovalRuleTemplateNameException(try InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6532,7 +6532,7 @@ extension DeleteBranchOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6657,7 +6657,7 @@ extension DeleteCommentContentOutputError {
         case "CommentDoesNotExistException" : self = .commentDoesNotExistException(try CommentDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CommentIdRequiredException" : self = .commentIdRequiredException(try CommentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidCommentIdException" : self = .invalidCommentIdException(try InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6915,7 +6915,7 @@ extension DeleteFileOutputError {
         case "PathRequiredException" : self = .pathRequiredException(try PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7105,7 +7105,7 @@ extension DeletePullRequestApprovalRuleOutputError {
         case "PullRequestAlreadyClosedException" : self = .pullRequestAlreadyClosedException(try PullRequestAlreadyClosedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7235,7 +7235,7 @@ extension DeleteRepositoryOutputError {
         case "EncryptionKeyUnavailableException" : self = .encryptionKeyUnavailableException(try EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7475,7 +7475,7 @@ extension DescribeMergeConflictsOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7731,7 +7731,7 @@ extension DescribePullRequestEventsOutputError {
         case "InvalidPullRequestIdException" : self = .invalidPullRequestIdException(try InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8005,7 +8005,7 @@ extension DisassociateApprovalRuleTemplateFromRepositoryOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8383,7 +8383,7 @@ extension EvaluatePullRequestApprovalRulesOutputError {
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionIdRequiredException" : self = .revisionIdRequiredException(try RevisionIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionNotCurrentException" : self = .revisionNotCurrentException(try RevisionNotCurrentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9499,7 +9499,7 @@ extension GetApprovalRuleTemplateOutputError {
         case "ApprovalRuleTemplateDoesNotExistException" : self = .approvalRuleTemplateDoesNotExistException(try ApprovalRuleTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ApprovalRuleTemplateNameRequiredException" : self = .approvalRuleTemplateNameRequiredException(try ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApprovalRuleTemplateNameException" : self = .invalidApprovalRuleTemplateNameException(try InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9638,7 +9638,7 @@ extension GetBlobOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9784,7 +9784,7 @@ extension GetBranchOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9914,7 +9914,7 @@ extension GetCommentOutputError {
         case "EncryptionKeyNotFoundException" : self = .encryptionKeyNotFoundException(try EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EncryptionKeyUnavailableException" : self = .encryptionKeyUnavailableException(try EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidCommentIdException" : self = .invalidCommentIdException(try InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10075,7 +10075,7 @@ extension GetCommentReactionsOutputError {
         case "InvalidContinuationTokenException" : self = .invalidContinuationTokenException(try InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidMaxResultsException" : self = .invalidMaxResultsException(try InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidReactionUserArnException" : self = .invalidReactionUserArnException(try InvalidReactionUserArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10273,7 +10273,7 @@ extension GetCommentsForComparedCommitOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10491,7 +10491,7 @@ extension GetCommentsForPullRequestOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotAssociatedWithPullRequestException" : self = .repositoryNotAssociatedWithPullRequestException(try RepositoryNotAssociatedWithPullRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10661,7 +10661,7 @@ extension GetCommitOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10872,7 +10872,7 @@ extension GetDifferencesOutputError {
         case "PathDoesNotExistException" : self = .pathDoesNotExistException(try PathDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11055,7 +11055,7 @@ extension GetFileOutputError {
         case "PathRequiredException" : self = .pathRequiredException(try PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11272,7 +11272,7 @@ extension GetFolderOutputError {
         case "PathRequiredException" : self = .pathRequiredException(try PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11555,7 +11555,7 @@ extension GetMergeCommitOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11816,7 +11816,7 @@ extension GetMergeConflictsOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12076,7 +12076,7 @@ extension GetMergeOptionsOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12267,7 +12267,7 @@ extension GetPullRequestApprovalStatesOutputError {
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionIdRequiredException" : self = .revisionIdRequiredException(try RevisionIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12403,7 +12403,7 @@ extension GetPullRequestOutputError {
         case "InvalidPullRequestIdException" : self = .invalidPullRequestIdException(try InvalidPullRequestIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12544,7 +12544,7 @@ extension GetPullRequestOverrideStateOutputError {
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionIdRequiredException" : self = .revisionIdRequiredException(try RevisionIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12682,7 +12682,7 @@ extension GetRepositoryOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12809,7 +12809,7 @@ extension GetRepositoryTriggersOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16406,7 +16406,7 @@ extension ListApprovalRuleTemplatesOutputError {
         switch errorType {
         case "InvalidContinuationTokenException" : self = .invalidContinuationTokenException(try InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidMaxResultsException" : self = .invalidMaxResultsException(try InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16570,7 +16570,7 @@ extension ListAssociatedApprovalRuleTemplatesForRepositoryOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16730,7 +16730,7 @@ extension ListBranchesOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16929,7 +16929,7 @@ extension ListPullRequestsOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17105,7 +17105,7 @@ extension ListRepositoriesForApprovalRuleTemplateOutputError {
         case "InvalidApprovalRuleTemplateNameException" : self = .invalidApprovalRuleTemplateNameException(try InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidContinuationTokenException" : self = .invalidContinuationTokenException(try InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidMaxResultsException" : self = .invalidMaxResultsException(try InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17270,7 +17270,7 @@ extension ListRepositoriesOutputError {
         case "InvalidContinuationTokenException" : self = .invalidContinuationTokenException(try InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidOrderException" : self = .invalidOrderException(try InvalidOrderException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSortByException" : self = .invalidSortByException(try InvalidSortByException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17418,7 +17418,7 @@ extension ListTagsForResourceOutputError {
         case "InvalidResourceArnException" : self = .invalidResourceArnException(try InvalidResourceArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceArnRequiredException" : self = .resourceArnRequiredException(try ResourceArnRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18245,7 +18245,7 @@ extension MergeBranchesByFastForwardOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18544,7 +18544,7 @@ extension MergeBranchesBySquashOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18863,7 +18863,7 @@ extension MergeBranchesByThreeWayOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19383,7 +19383,7 @@ extension MergePullRequestByFastForwardOutputError {
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotAssociatedWithPullRequestException" : self = .repositoryNotAssociatedWithPullRequestException(try RepositoryNotAssociatedWithPullRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipOfSourceReferenceIsDifferentException" : self = .tipOfSourceReferenceIsDifferentException(try TipOfSourceReferenceIsDifferentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19658,7 +19658,7 @@ extension MergePullRequestBySquashOutputError {
         case "RepositoryNotAssociatedWithPullRequestException" : self = .repositoryNotAssociatedWithPullRequestException(try RepositoryNotAssociatedWithPullRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipOfSourceReferenceIsDifferentException" : self = .tipOfSourceReferenceIsDifferentException(try TipOfSourceReferenceIsDifferentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19952,7 +19952,7 @@ extension MergePullRequestByThreeWayOutputError {
         case "RepositoryNotAssociatedWithPullRequestException" : self = .repositoryNotAssociatedWithPullRequestException(try RepositoryNotAssociatedWithPullRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipOfSourceReferenceIsDifferentException" : self = .tipOfSourceReferenceIsDifferentException(try TipOfSourceReferenceIsDifferentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TipsDivergenceExceededException" : self = .tipsDivergenceExceededException(try TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20681,7 +20681,7 @@ extension OverridePullRequestApprovalRulesOutputError {
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionIdRequiredException" : self = .revisionIdRequiredException(try RevisionIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionNotCurrentException" : self = .revisionNotCurrentException(try RevisionNotCurrentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21209,7 +21209,7 @@ extension PostCommentForComparedCommitOutputError {
         case "PathRequiredException" : self = .pathRequiredException(try PathRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21504,7 +21504,7 @@ extension PostCommentForPullRequestOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotAssociatedWithPullRequestException" : self = .repositoryNotAssociatedWithPullRequestException(try RepositoryNotAssociatedWithPullRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21743,7 +21743,7 @@ extension PostCommentReplyOutputError {
         case "IdempotencyParameterMismatchException" : self = .idempotencyParameterMismatchException(try IdempotencyParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidClientRequestTokenException" : self = .invalidClientRequestTokenException(try InvalidClientRequestTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidCommentIdException" : self = .invalidCommentIdException(try InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22892,7 +22892,7 @@ extension PutCommentReactionOutputError {
         case "InvalidReactionValueException" : self = .invalidReactionValueException(try InvalidReactionValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReactionLimitExceededException" : self = .reactionLimitExceededException(try ReactionLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReactionValueRequiredException" : self = .reactionValueRequiredException(try ReactionValueRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23225,7 +23225,7 @@ extension PutFileOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SameFileContentException" : self = .sameFileContentException(try SameFileContentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23434,7 +23434,7 @@ extension PutRepositoryTriggersOutputError {
         case "RepositoryTriggerEventsListRequiredException" : self = .repositoryTriggerEventsListRequiredException(try RepositoryTriggerEventsListRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryTriggerNameRequiredException" : self = .repositoryTriggerNameRequiredException(try RepositoryTriggerNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryTriggersListRequiredException" : self = .repositoryTriggersListRequiredException(try RepositoryTriggersListRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25942,7 +25942,7 @@ extension TagResourceOutputError {
         case "TagPolicyException" : self = .tagPolicyException(try TagPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagsMapRequiredException" : self = .tagsMapRequiredException(try TagsMapRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26292,7 +26292,7 @@ extension TestRepositoryTriggersOutputError {
         case "RepositoryTriggerEventsListRequiredException" : self = .repositoryTriggerEventsListRequiredException(try RepositoryTriggerEventsListRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryTriggerNameRequiredException" : self = .repositoryTriggerNameRequiredException(try RepositoryTriggerNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryTriggersListRequiredException" : self = .repositoryTriggersListRequiredException(try RepositoryTriggersListRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26697,7 +26697,7 @@ extension UntagResourceOutputError {
         case "TagKeysListRequiredException" : self = .tagKeysListRequiredException(try TagKeysListRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagPolicyException" : self = .tagPolicyException(try TagPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26815,7 +26815,7 @@ extension UpdateApprovalRuleTemplateContentOutputError {
         case "InvalidApprovalRuleTemplateContentException" : self = .invalidApprovalRuleTemplateContentException(try InvalidApprovalRuleTemplateContentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApprovalRuleTemplateNameException" : self = .invalidApprovalRuleTemplateNameException(try InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRuleContentSha256Exception" : self = .invalidRuleContentSha256Exception(try InvalidRuleContentSha256Exception(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26948,7 +26948,7 @@ extension UpdateApprovalRuleTemplateDescriptionOutputError {
         case "ApprovalRuleTemplateNameRequiredException" : self = .approvalRuleTemplateNameRequiredException(try ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApprovalRuleTemplateDescriptionException" : self = .invalidApprovalRuleTemplateDescriptionException(try InvalidApprovalRuleTemplateDescriptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApprovalRuleTemplateNameException" : self = .invalidApprovalRuleTemplateNameException(try InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27079,7 +27079,7 @@ extension UpdateApprovalRuleTemplateNameOutputError {
         case "ApprovalRuleTemplateNameAlreadyExistsException" : self = .approvalRuleTemplateNameAlreadyExistsException(try ApprovalRuleTemplateNameAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ApprovalRuleTemplateNameRequiredException" : self = .approvalRuleTemplateNameRequiredException(try ApprovalRuleTemplateNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidApprovalRuleTemplateNameException" : self = .invalidApprovalRuleTemplateNameException(try InvalidApprovalRuleTemplateNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27213,7 +27213,7 @@ extension UpdateCommentOutputError {
         case "CommentIdRequiredException" : self = .commentIdRequiredException(try CommentIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CommentNotCreatedByCallerException" : self = .commentNotCreatedByCallerException(try CommentNotCreatedByCallerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidCommentIdException" : self = .invalidCommentIdException(try InvalidCommentIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27354,7 +27354,7 @@ extension UpdateDefaultBranchOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27511,7 +27511,7 @@ extension UpdatePullRequestApprovalRuleContentOutputError {
         case "PullRequestAlreadyClosedException" : self = .pullRequestAlreadyClosedException(try PullRequestAlreadyClosedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27679,7 +27679,7 @@ extension UpdatePullRequestApprovalStateOutputError {
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionIdRequiredException" : self = .revisionIdRequiredException(try RevisionIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RevisionNotCurrentException" : self = .revisionNotCurrentException(try RevisionNotCurrentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27791,7 +27791,7 @@ extension UpdatePullRequestDescriptionOutputError {
         case "PullRequestAlreadyClosedException" : self = .pullRequestAlreadyClosedException(try PullRequestAlreadyClosedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27930,7 +27930,7 @@ extension UpdatePullRequestStatusOutputError {
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestStatusRequiredException" : self = .pullRequestStatusRequiredException(try PullRequestStatusRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28070,7 +28070,7 @@ extension UpdatePullRequestTitleOutputError {
         case "PullRequestDoesNotExistException" : self = .pullRequestDoesNotExistException(try PullRequestDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PullRequestIdRequiredException" : self = .pullRequestIdRequiredException(try PullRequestIdRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TitleRequiredException" : self = .titleRequiredException(try TitleRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28208,7 +28208,7 @@ extension UpdateRepositoryDescriptionOutputError {
         case "InvalidRepositoryNameException" : self = .invalidRepositoryNameException(try InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28313,7 +28313,7 @@ extension UpdateRepositoryNameOutputError {
         case "RepositoryDoesNotExistException" : self = .repositoryDoesNotExistException(try RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameExistsException" : self = .repositoryNameExistsException(try RepositoryNameExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNameRequiredException" : self = .repositoryNameRequiredException(try RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

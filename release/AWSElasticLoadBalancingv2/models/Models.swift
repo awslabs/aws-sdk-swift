@@ -298,7 +298,7 @@ extension AddListenerCertificatesOutputError {
         case "CertificateNotFound" : self = .certificateNotFoundException(try CertificateNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ListenerNotFound" : self = .listenerNotFoundException(try ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyCertificates" : self = .tooManyCertificatesException(try TooManyCertificatesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -495,7 +495,7 @@ extension AddTagsOutputError {
         case "RuleNotFound" : self = .ruleNotFoundException(try RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTags" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1518,7 +1518,7 @@ extension CreateListenerOutputError {
         case "TooManyTargets" : self = .tooManyTargetsException(try TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUniqueTargetGroupsPerLoadBalancer" : self = .tooManyUniqueTargetGroupsPerLoadBalancerException(try TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedProtocol" : self = .unsupportedProtocolException(try UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1865,7 +1865,7 @@ extension CreateLoadBalancerOutputError {
         case "SubnetNotFound" : self = .subnetNotFoundException(try SubnetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyLoadBalancers" : self = .tooManyLoadBalancersException(try TooManyLoadBalancersException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTags" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2142,7 +2142,7 @@ extension CreateRuleOutputError {
         case "TooManyTargets" : self = .tooManyTargetsException(try TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUniqueTargetGroupsPerLoadBalancer" : self = .tooManyUniqueTargetGroupsPerLoadBalancerException(try TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedProtocol" : self = .unsupportedProtocolException(try UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2495,7 +2495,7 @@ extension CreateTargetGroupOutputError {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTags" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTargetGroups" : self = .tooManyTargetGroupsException(try TooManyTargetGroupsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2625,7 +2625,7 @@ extension DeleteListenerOutputError {
         switch errorType {
         case "ListenerNotFound" : self = .listenerNotFoundException(try ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2705,7 +2705,7 @@ extension DeleteLoadBalancerOutputError {
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2785,7 +2785,7 @@ extension DeleteRuleOutputError {
         switch errorType {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleNotFound" : self = .ruleNotFoundException(try RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2863,7 +2863,7 @@ extension DeleteTargetGroupOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceInUse" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2979,7 +2979,7 @@ extension DeregisterTargetsOutputError {
         switch errorType {
         case "InvalidTarget" : self = .invalidTargetException(try InvalidTargetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3066,7 +3066,7 @@ extension DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeAccountLimitsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3223,7 +3223,7 @@ extension DescribeListenerCertificatesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ListenerNotFound" : self = .listenerNotFoundException(try ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3419,7 +3419,7 @@ extension DescribeListenersOutputError {
         case "ListenerNotFound" : self = .listenerNotFoundException(try ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedProtocol" : self = .unsupportedProtocolException(try UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3557,7 +3557,7 @@ extension DescribeLoadBalancerAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3767,7 +3767,19 @@ extension DescribeLoadBalancersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeLoadBalancersOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .loadBalancerNotFoundException: return "LoadBalancerNotFound"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -3963,7 +3975,7 @@ extension DescribeRulesOutputError {
         case "ListenerNotFound" : self = .listenerNotFoundException(try ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleNotFound" : self = .ruleNotFoundException(try RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedProtocol" : self = .unsupportedProtocolException(try UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4159,7 +4171,7 @@ extension DescribeSSLPoliciesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "SSLPolicyNotFound" : self = .sSLPolicyNotFoundException(try SSLPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4324,7 +4336,7 @@ extension DescribeTagsOutputError {
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleNotFound" : self = .ruleNotFoundException(try RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4453,7 +4465,7 @@ extension DescribeTargetGroupAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4675,7 +4687,7 @@ extension DescribeTargetGroupsOutputError {
         switch errorType {
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4851,7 +4863,21 @@ extension DescribeTargetHealthOutputError {
         case "HealthUnavailable" : self = .healthUnavailableException(try HealthUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTarget" : self = .invalidTargetException(try InvalidTargetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeTargetHealthOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .healthUnavailableException: return "HealthUnavailable"
+        case .invalidTargetException: return "InvalidTarget"
+        case .targetGroupNotFoundException: return "TargetGroupNotFound"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -7053,7 +7079,7 @@ extension ModifyListenerOutputError {
         case "TooManyTargets" : self = .tooManyTargetsException(try TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUniqueTargetGroupsPerLoadBalancer" : self = .tooManyUniqueTargetGroupsPerLoadBalancerException(try TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedProtocol" : self = .unsupportedProtocolException(try UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7234,7 +7260,7 @@ extension ModifyLoadBalancerAttributesOutputError {
         switch errorType {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7445,7 +7471,7 @@ extension ModifyRuleOutputError {
         case "TooManyTargets" : self = .tooManyTargetsException(try TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUniqueTargetGroupsPerLoadBalancer" : self = .tooManyUniqueTargetGroupsPerLoadBalancerException(try TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedProtocol" : self = .unsupportedProtocolException(try UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7620,7 +7646,7 @@ extension ModifyTargetGroupAttributesOutputError {
         switch errorType {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7847,7 +7873,7 @@ extension ModifyTargetGroupOutputError {
         switch errorType {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8464,7 +8490,7 @@ extension RegisterTargetsOutputError {
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRegistrationsForTargetId" : self = .tooManyRegistrationsForTargetIdException(try TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTargets" : self = .tooManyTargetsException(try TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8583,7 +8609,7 @@ extension RemoveListenerCertificatesOutputError {
         switch errorType {
         case "ListenerNotFound" : self = .listenerNotFoundException(try ListenerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8729,7 +8755,7 @@ extension RemoveTagsOutputError {
         case "RuleNotFound" : self = .ruleNotFoundException(try RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetGroupNotFound" : self = .targetGroupNotFoundException(try TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTags" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9316,7 +9342,7 @@ extension SetIpAddressTypeOutputError {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSubnet" : self = .invalidSubnetException(try InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9455,7 +9481,7 @@ extension SetRulePrioritiesOutputError {
         case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorityInUse" : self = .priorityInUseException(try PriorityInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleNotFound" : self = .ruleNotFoundException(try RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9623,7 +9649,7 @@ extension SetSecurityGroupsOutputError {
         case "InvalidConfigurationRequest" : self = .invalidConfigurationRequestException(try InvalidConfigurationRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSecurityGroup" : self = .invalidSecurityGroupException(try InvalidSecurityGroupException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9841,7 +9867,7 @@ extension SetSubnetsOutputError {
         case "InvalidSubnet" : self = .invalidSubnetException(try InvalidSubnetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LoadBalancerNotFound" : self = .loadBalancerNotFoundException(try LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetNotFound" : self = .subnetNotFoundException(try SubnetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

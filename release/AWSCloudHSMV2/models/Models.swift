@@ -1044,7 +1044,7 @@ extension CopyBackupToRegionOutputError {
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmTagException" : self = .cloudHsmTagException(try CloudHsmTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1242,7 +1242,7 @@ extension CreateClusterOutputError {
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmTagException" : self = .cloudHsmTagException(try CloudHsmTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1387,7 +1387,7 @@ extension CreateHsmOutputError {
         case "CloudHsmInvalidRequestException" : self = .cloudHsmInvalidRequestException(try CloudHsmInvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1506,7 +1506,7 @@ extension DeleteBackupOutputError {
         case "CloudHsmInvalidRequestException" : self = .cloudHsmInvalidRequestException(try CloudHsmInvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1626,7 +1626,7 @@ extension DeleteClusterOutputError {
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmTagException" : self = .cloudHsmTagException(try CloudHsmTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1782,7 +1782,7 @@ extension DeleteHsmOutputError {
         case "CloudHsmInvalidRequestException" : self = .cloudHsmInvalidRequestException(try CloudHsmInvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1956,7 +1956,7 @@ extension DescribeBackupsOutputError {
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmTagException" : self = .cloudHsmTagException(try CloudHsmTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2137,7 +2137,7 @@ extension DescribeClustersOutputError {
         case "CloudHsmInvalidRequestException" : self = .cloudHsmInvalidRequestException(try CloudHsmInvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmTagException" : self = .cloudHsmTagException(try CloudHsmTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2513,7 +2513,7 @@ extension InitializeClusterOutputError {
         case "CloudHsmInvalidRequestException" : self = .cloudHsmInvalidRequestException(try CloudHsmInvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2667,7 +2667,7 @@ extension ListTagsOutputError {
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmTagException" : self = .cloudHsmTagException(try CloudHsmTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2820,7 +2820,7 @@ extension ModifyBackupAttributesOutputError {
         case "CloudHsmInvalidRequestException" : self = .cloudHsmInvalidRequestException(try CloudHsmInvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2952,7 +2952,7 @@ extension ModifyClusterOutputError {
         case "CloudHsmInvalidRequestException" : self = .cloudHsmInvalidRequestException(try CloudHsmInvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3071,7 +3071,7 @@ extension RestoreBackupOutputError {
         case "CloudHsmInvalidRequestException" : self = .cloudHsmInvalidRequestException(try CloudHsmInvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3263,7 +3263,7 @@ extension TagResourceOutputError {
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmTagException" : self = .cloudHsmTagException(try CloudHsmTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3378,7 +3378,7 @@ extension UntagResourceOutputError {
         case "CloudHsmResourceNotFoundException" : self = .cloudHsmResourceNotFoundException(try CloudHsmResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmTagException" : self = .cloudHsmTagException(try CloudHsmTagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

@@ -206,7 +206,7 @@ extension InvokeEndpointAsyncOutputError {
         case "InternalFailure" : self = .internalFailure(try InternalFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -435,7 +435,7 @@ extension InvokeEndpointOutputError {
         case "ModelNotReadyException" : self = .modelNotReadyException(try ModelNotReadyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailable" : self = .serviceUnavailable(try ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationError" : self = .validationError(try ValidationError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

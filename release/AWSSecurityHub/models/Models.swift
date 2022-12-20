@@ -79,7 +79,7 @@ extension AcceptAdministratorInvitationOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -180,7 +180,7 @@ extension AcceptInvitationOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8874,6 +8874,2589 @@ extension SecurityHubClientTypes {
         )
         {
             self.networkInterfaceId = networkInterfaceId
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deviceName = "DeviceName"
+        case ebs = "Ebs"
+        case noDevice = "NoDevice"
+        case virtualName = "VirtualName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deviceName = self.deviceName {
+            try encodeContainer.encode(deviceName, forKey: .deviceName)
+        }
+        if let ebs = self.ebs {
+            try encodeContainer.encode(ebs, forKey: .ebs)
+        }
+        if let noDevice = self.noDevice {
+            try encodeContainer.encode(noDevice, forKey: .noDevice)
+        }
+        if let virtualName = self.virtualName {
+            try encodeContainer.encode(virtualName, forKey: .virtualName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceName)
+        deviceName = deviceNameDecoded
+        let ebsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails.self, forKey: .ebs)
+        ebs = ebsDecoded
+        let noDeviceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .noDevice)
+        noDevice = noDeviceDecoded
+        let virtualNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .virtualName)
+        virtualName = virtualNameDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Information about a block device mapping for an Amazon Elastic Compute Cloud (Amazon EC2) launch template.
+    public struct AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails: Swift.Equatable {
+        /// The device name.
+        public var deviceName: Swift.String?
+        /// Parameters used to automatically set up Amazon EBS volumes when the instance is launched.
+        public var ebs: SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails?
+        /// Omits the device from the block device mapping when an empty string is specified.
+        public var noDevice: Swift.String?
+        /// The virtual device name (ephemeralN). Instance store volumes are numbered starting from 0. An instance type with 2 available instance store volumes can specify mappings for ephemeral0 and ephemeral1. The number of available instance store volumes depends on the instance type.
+        public var virtualName: Swift.String?
+
+        public init (
+            deviceName: Swift.String? = nil,
+            ebs: SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails? = nil,
+            noDevice: Swift.String? = nil,
+            virtualName: Swift.String? = nil
+        )
+        {
+            self.deviceName = deviceName
+            self.ebs = ebs
+            self.noDevice = noDevice
+            self.virtualName = virtualName
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteOnTermination = "DeleteOnTermination"
+        case encrypted = "Encrypted"
+        case iops = "Iops"
+        case kmsKeyId = "KmsKeyId"
+        case snapshotId = "SnapshotId"
+        case throughput = "Throughput"
+        case volumeSize = "VolumeSize"
+        case volumeType = "VolumeType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if deleteOnTermination != false {
+            try encodeContainer.encode(deleteOnTermination, forKey: .deleteOnTermination)
+        }
+        if encrypted != false {
+            try encodeContainer.encode(encrypted, forKey: .encrypted)
+        }
+        if iops != 0 {
+            try encodeContainer.encode(iops, forKey: .iops)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let snapshotId = self.snapshotId {
+            try encodeContainer.encode(snapshotId, forKey: .snapshotId)
+        }
+        if throughput != 0 {
+            try encodeContainer.encode(throughput, forKey: .throughput)
+        }
+        if volumeSize != 0 {
+            try encodeContainer.encode(volumeSize, forKey: .volumeSize)
+        }
+        if let volumeType = self.volumeType {
+            try encodeContainer.encode(volumeType, forKey: .volumeType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination) ?? false
+        deleteOnTermination = deleteOnTerminationDecoded
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted) ?? false
+        encrypted = encryptedDecoded
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops) ?? 0
+        iops = iopsDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
+        snapshotId = snapshotIdDecoded
+        let throughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughput) ?? 0
+        throughput = throughputDecoded
+        let volumeSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSize) ?? 0
+        volumeSize = volumeSizeDecoded
+        let volumeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeType)
+        volumeType = volumeTypeDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Parameters for a block device for an Amazon Elastic Block Store (Amazon EBS) volume in an Amazon EC2 launch template.
+    public struct AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails: Swift.Equatable {
+        /// Indicates whether the EBS volume is deleted on instance termination.
+        public var deleteOnTermination: Swift.Bool
+        /// Indicates whether the EBS volume is encrypted. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. If you're creating a volume from a snapshot, you can't specify an encryption value.
+        public var encrypted: Swift.Bool
+        /// The number of I/O operations per second (IOPS).
+        public var iops: Swift.Int
+        /// The Amazon Resource Name (ARN) of the symmetric Key Management Service (KMS) customer managed key used for encryption.
+        public var kmsKeyId: Swift.String?
+        /// The ID of the EBS snapshot.
+        public var snapshotId: Swift.String?
+        /// The throughput to provision for a gp3 volume, with a maximum of 1,000 MiB/s.
+        public var throughput: Swift.Int
+        /// The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size.
+        public var volumeSize: Swift.Int
+        /// The volume type.
+        public var volumeType: Swift.String?
+
+        public init (
+            deleteOnTermination: Swift.Bool = false,
+            encrypted: Swift.Bool = false,
+            iops: Swift.Int = 0,
+            kmsKeyId: Swift.String? = nil,
+            snapshotId: Swift.String? = nil,
+            throughput: Swift.Int = 0,
+            volumeSize: Swift.Int = 0,
+            volumeType: Swift.String? = nil
+        )
+        {
+            self.deleteOnTermination = deleteOnTermination
+            self.encrypted = encrypted
+            self.iops = iops
+            self.kmsKeyId = kmsKeyId
+            self.snapshotId = snapshotId
+            self.throughput = throughput
+            self.volumeSize = volumeSize
+            self.volumeType = volumeType
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityReservationId = "CapacityReservationId"
+        case capacityReservationResourceGroupArn = "CapacityReservationResourceGroupArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacityReservationId = self.capacityReservationId {
+            try encodeContainer.encode(capacityReservationId, forKey: .capacityReservationId)
+        }
+        if let capacityReservationResourceGroupArn = self.capacityReservationResourceGroupArn {
+            try encodeContainer.encode(capacityReservationResourceGroupArn, forKey: .capacityReservationResourceGroupArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityReservationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityReservationId)
+        capacityReservationId = capacityReservationIdDecoded
+        let capacityReservationResourceGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityReservationResourceGroupArn)
+        capacityReservationResourceGroupArn = capacityReservationResourceGroupArnDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Information about the target Capacity Reservation or Capacity Reservation group in which to run an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails: Swift.Equatable {
+        /// The ID of the Capacity Reservation in which to run the instance.
+        public var capacityReservationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Capacity Reservation resource group in which to run the instance.
+        public var capacityReservationResourceGroupArn: Swift.String?
+
+        public init (
+            capacityReservationId: Swift.String? = nil,
+            capacityReservationResourceGroupArn: Swift.String? = nil
+        )
+        {
+            self.capacityReservationId = capacityReservationId
+            self.capacityReservationResourceGroupArn = capacityReservationResourceGroupArn
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityReservationPreference = "CapacityReservationPreference"
+        case capacityReservationTarget = "CapacityReservationTarget"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacityReservationPreference = self.capacityReservationPreference {
+            try encodeContainer.encode(capacityReservationPreference, forKey: .capacityReservationPreference)
+        }
+        if let capacityReservationTarget = self.capacityReservationTarget {
+            try encodeContainer.encode(capacityReservationTarget, forKey: .capacityReservationTarget)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityReservationPreferenceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityReservationPreference)
+        capacityReservationPreference = capacityReservationPreferenceDecoded
+        let capacityReservationTargetDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails.self, forKey: .capacityReservationTarget)
+        capacityReservationTarget = capacityReservationTargetDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the Capacity Reservation targeting option of an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails: Swift.Equatable {
+        /// Indicates the instance's Capacity Reservation preferences. If equal to open, the instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone). If equal to none, the instance avoids running in a Capacity Reservation even if one is available. The instance runs in On-Demand capacity.
+        public var capacityReservationPreference: Swift.String?
+        /// Specifies a target Capacity Reservation.
+        public var capacityReservationTarget: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails?
+
+        public init (
+            capacityReservationPreference: Swift.String? = nil,
+            capacityReservationTarget: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails? = nil
+        )
+        {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.capacityReservationTarget = capacityReservationTarget
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataCpuOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case coreCount = "CoreCount"
+        case threadsPerCore = "ThreadsPerCore"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if coreCount != 0 {
+            try encodeContainer.encode(coreCount, forKey: .coreCount)
+        }
+        if threadsPerCore != 0 {
+            try encodeContainer.encode(threadsPerCore, forKey: .threadsPerCore)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let coreCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coreCount) ?? 0
+        coreCount = coreCountDecoded
+        let threadsPerCoreDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .threadsPerCore) ?? 0
+        threadsPerCore = threadsPerCoreDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the CPU options for an Amazon EC2 instance. For more information, see [Optimize CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) in the Amazon Elastic Compute Cloud User Guide.
+    public struct AwsEc2LaunchTemplateDataCpuOptionsDetails: Swift.Equatable {
+        /// The number of CPU cores for the instance.
+        public var coreCount: Swift.Int
+        /// The number of threads per CPU core. A value of 1 disables multithreading for the instance, The default value is 2.
+        public var threadsPerCore: Swift.Int
+
+        public init (
+            coreCount: Swift.Int = 0,
+            threadsPerCore: Swift.Int = 0
+        )
+        {
+            self.coreCount = coreCount
+            self.threadsPerCore = threadsPerCore
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataCreditSpecificationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cpuCredits = "CpuCredits"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cpuCredits = self.cpuCredits {
+            try encodeContainer.encode(cpuCredits, forKey: .cpuCredits)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cpuCreditsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cpuCredits)
+        cpuCredits = cpuCreditsDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the credit option for CPU usage of a T2, T3, or T3a Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataCreditSpecificationDetails: Swift.Equatable {
+        /// The credit option for CPU usage of a T instance.
+        public var cpuCredits: Swift.String?
+
+        public init (
+            cpuCredits: Swift.String? = nil
+        )
+        {
+            self.cpuCredits = cpuCredits
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blockDeviceMappingSet = "BlockDeviceMappingSet"
+        case capacityReservationSpecification = "CapacityReservationSpecification"
+        case cpuOptions = "CpuOptions"
+        case creditSpecification = "CreditSpecification"
+        case disableApiStop = "DisableApiStop"
+        case disableApiTermination = "DisableApiTermination"
+        case ebsOptimized = "EbsOptimized"
+        case elasticGpuSpecificationSet = "ElasticGpuSpecificationSet"
+        case elasticInferenceAcceleratorSet = "ElasticInferenceAcceleratorSet"
+        case enclaveOptions = "EnclaveOptions"
+        case hibernationOptions = "HibernationOptions"
+        case iamInstanceProfile = "IamInstanceProfile"
+        case imageId = "ImageId"
+        case instanceInitiatedShutdownBehavior = "InstanceInitiatedShutdownBehavior"
+        case instanceMarketOptions = "InstanceMarketOptions"
+        case instanceRequirements = "InstanceRequirements"
+        case instanceType = "InstanceType"
+        case kernelId = "KernelId"
+        case keyName = "KeyName"
+        case licenseSet = "LicenseSet"
+        case maintenanceOptions = "MaintenanceOptions"
+        case metadataOptions = "MetadataOptions"
+        case monitoring = "Monitoring"
+        case networkInterfaceSet = "NetworkInterfaceSet"
+        case placement = "Placement"
+        case privateDnsNameOptions = "PrivateDnsNameOptions"
+        case ramDiskId = "RamDiskId"
+        case securityGroupIdSet = "SecurityGroupIdSet"
+        case securityGroupSet = "SecurityGroupSet"
+        case userData = "UserData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let blockDeviceMappingSet = blockDeviceMappingSet {
+            var blockDeviceMappingSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockDeviceMappingSet)
+            for awsec2launchtemplatedatablockdevicemappingsetlist0 in blockDeviceMappingSet {
+                try blockDeviceMappingSetContainer.encode(awsec2launchtemplatedatablockdevicemappingsetlist0)
+            }
+        }
+        if let capacityReservationSpecification = self.capacityReservationSpecification {
+            try encodeContainer.encode(capacityReservationSpecification, forKey: .capacityReservationSpecification)
+        }
+        if let cpuOptions = self.cpuOptions {
+            try encodeContainer.encode(cpuOptions, forKey: .cpuOptions)
+        }
+        if let creditSpecification = self.creditSpecification {
+            try encodeContainer.encode(creditSpecification, forKey: .creditSpecification)
+        }
+        if disableApiStop != false {
+            try encodeContainer.encode(disableApiStop, forKey: .disableApiStop)
+        }
+        if disableApiTermination != false {
+            try encodeContainer.encode(disableApiTermination, forKey: .disableApiTermination)
+        }
+        if ebsOptimized != false {
+            try encodeContainer.encode(ebsOptimized, forKey: .ebsOptimized)
+        }
+        if let elasticGpuSpecificationSet = elasticGpuSpecificationSet {
+            var elasticGpuSpecificationSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .elasticGpuSpecificationSet)
+            for awsec2launchtemplatedataelasticgpuspecificationsetlist0 in elasticGpuSpecificationSet {
+                try elasticGpuSpecificationSetContainer.encode(awsec2launchtemplatedataelasticgpuspecificationsetlist0)
+            }
+        }
+        if let elasticInferenceAcceleratorSet = elasticInferenceAcceleratorSet {
+            var elasticInferenceAcceleratorSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .elasticInferenceAcceleratorSet)
+            for awsec2launchtemplatedataelasticinferenceacceleratorsetlist0 in elasticInferenceAcceleratorSet {
+                try elasticInferenceAcceleratorSetContainer.encode(awsec2launchtemplatedataelasticinferenceacceleratorsetlist0)
+            }
+        }
+        if let enclaveOptions = self.enclaveOptions {
+            try encodeContainer.encode(enclaveOptions, forKey: .enclaveOptions)
+        }
+        if let hibernationOptions = self.hibernationOptions {
+            try encodeContainer.encode(hibernationOptions, forKey: .hibernationOptions)
+        }
+        if let iamInstanceProfile = self.iamInstanceProfile {
+            try encodeContainer.encode(iamInstanceProfile, forKey: .iamInstanceProfile)
+        }
+        if let imageId = self.imageId {
+            try encodeContainer.encode(imageId, forKey: .imageId)
+        }
+        if let instanceInitiatedShutdownBehavior = self.instanceInitiatedShutdownBehavior {
+            try encodeContainer.encode(instanceInitiatedShutdownBehavior, forKey: .instanceInitiatedShutdownBehavior)
+        }
+        if let instanceMarketOptions = self.instanceMarketOptions {
+            try encodeContainer.encode(instanceMarketOptions, forKey: .instanceMarketOptions)
+        }
+        if let instanceRequirements = self.instanceRequirements {
+            try encodeContainer.encode(instanceRequirements, forKey: .instanceRequirements)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let kernelId = self.kernelId {
+            try encodeContainer.encode(kernelId, forKey: .kernelId)
+        }
+        if let keyName = self.keyName {
+            try encodeContainer.encode(keyName, forKey: .keyName)
+        }
+        if let licenseSet = licenseSet {
+            var licenseSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseSet)
+            for awsec2launchtemplatedatalicensesetlist0 in licenseSet {
+                try licenseSetContainer.encode(awsec2launchtemplatedatalicensesetlist0)
+            }
+        }
+        if let maintenanceOptions = self.maintenanceOptions {
+            try encodeContainer.encode(maintenanceOptions, forKey: .maintenanceOptions)
+        }
+        if let metadataOptions = self.metadataOptions {
+            try encodeContainer.encode(metadataOptions, forKey: .metadataOptions)
+        }
+        if let monitoring = self.monitoring {
+            try encodeContainer.encode(monitoring, forKey: .monitoring)
+        }
+        if let networkInterfaceSet = networkInterfaceSet {
+            var networkInterfaceSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaceSet)
+            for awsec2launchtemplatedatanetworkinterfacesetlist0 in networkInterfaceSet {
+                try networkInterfaceSetContainer.encode(awsec2launchtemplatedatanetworkinterfacesetlist0)
+            }
+        }
+        if let placement = self.placement {
+            try encodeContainer.encode(placement, forKey: .placement)
+        }
+        if let privateDnsNameOptions = self.privateDnsNameOptions {
+            try encodeContainer.encode(privateDnsNameOptions, forKey: .privateDnsNameOptions)
+        }
+        if let ramDiskId = self.ramDiskId {
+            try encodeContainer.encode(ramDiskId, forKey: .ramDiskId)
+        }
+        if let securityGroupIdSet = securityGroupIdSet {
+            var securityGroupIdSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIdSet)
+            for nonemptystringlist0 in securityGroupIdSet {
+                try securityGroupIdSetContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let securityGroupSet = securityGroupSet {
+            var securityGroupSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupSet)
+            for nonemptystringlist0 in securityGroupSet {
+                try securityGroupSetContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let userData = self.userData {
+            try encodeContainer.encode(userData, forKey: .userData)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blockDeviceMappingSetContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails?].self, forKey: .blockDeviceMappingSet)
+        var blockDeviceMappingSetDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails]? = nil
+        if let blockDeviceMappingSetContainer = blockDeviceMappingSetContainer {
+            blockDeviceMappingSetDecoded0 = [SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails]()
+            for structure0 in blockDeviceMappingSetContainer {
+                if let structure0 = structure0 {
+                    blockDeviceMappingSetDecoded0?.append(structure0)
+                }
+            }
+        }
+        blockDeviceMappingSet = blockDeviceMappingSetDecoded0
+        let capacityReservationSpecificationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails.self, forKey: .capacityReservationSpecification)
+        capacityReservationSpecification = capacityReservationSpecificationDecoded
+        let cpuOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataCpuOptionsDetails.self, forKey: .cpuOptions)
+        cpuOptions = cpuOptionsDecoded
+        let creditSpecificationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataCreditSpecificationDetails.self, forKey: .creditSpecification)
+        creditSpecification = creditSpecificationDecoded
+        let disableApiStopDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableApiStop) ?? false
+        disableApiStop = disableApiStopDecoded
+        let disableApiTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableApiTermination) ?? false
+        disableApiTermination = disableApiTerminationDecoded
+        let ebsOptimizedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ebsOptimized) ?? false
+        ebsOptimized = ebsOptimizedDecoded
+        let elasticGpuSpecificationSetContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails?].self, forKey: .elasticGpuSpecificationSet)
+        var elasticGpuSpecificationSetDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]? = nil
+        if let elasticGpuSpecificationSetContainer = elasticGpuSpecificationSetContainer {
+            elasticGpuSpecificationSetDecoded0 = [SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]()
+            for structure0 in elasticGpuSpecificationSetContainer {
+                if let structure0 = structure0 {
+                    elasticGpuSpecificationSetDecoded0?.append(structure0)
+                }
+            }
+        }
+        elasticGpuSpecificationSet = elasticGpuSpecificationSetDecoded0
+        let elasticInferenceAcceleratorSetContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails?].self, forKey: .elasticInferenceAcceleratorSet)
+        var elasticInferenceAcceleratorSetDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails]? = nil
+        if let elasticInferenceAcceleratorSetContainer = elasticInferenceAcceleratorSetContainer {
+            elasticInferenceAcceleratorSetDecoded0 = [SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails]()
+            for structure0 in elasticInferenceAcceleratorSetContainer {
+                if let structure0 = structure0 {
+                    elasticInferenceAcceleratorSetDecoded0?.append(structure0)
+                }
+            }
+        }
+        elasticInferenceAcceleratorSet = elasticInferenceAcceleratorSetDecoded0
+        let enclaveOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataEnclaveOptionsDetails.self, forKey: .enclaveOptions)
+        enclaveOptions = enclaveOptionsDecoded
+        let hibernationOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataHibernationOptionsDetails.self, forKey: .hibernationOptions)
+        hibernationOptions = hibernationOptionsDecoded
+        let iamInstanceProfileDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataIamInstanceProfileDetails.self, forKey: .iamInstanceProfile)
+        iamInstanceProfile = iamInstanceProfileDecoded
+        let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
+        imageId = imageIdDecoded
+        let instanceInitiatedShutdownBehaviorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceInitiatedShutdownBehavior)
+        instanceInitiatedShutdownBehavior = instanceInitiatedShutdownBehaviorDecoded
+        let instanceMarketOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails.self, forKey: .instanceMarketOptions)
+        instanceMarketOptions = instanceMarketOptionsDecoded
+        let instanceRequirementsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsDetails.self, forKey: .instanceRequirements)
+        instanceRequirements = instanceRequirementsDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let kernelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kernelId)
+        kernelId = kernelIdDecoded
+        let keyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyName)
+        keyName = keyNameDecoded
+        let licenseSetContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataLicenseSetDetails?].self, forKey: .licenseSet)
+        var licenseSetDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataLicenseSetDetails]? = nil
+        if let licenseSetContainer = licenseSetContainer {
+            licenseSetDecoded0 = [SecurityHubClientTypes.AwsEc2LaunchTemplateDataLicenseSetDetails]()
+            for structure0 in licenseSetContainer {
+                if let structure0 = structure0 {
+                    licenseSetDecoded0?.append(structure0)
+                }
+            }
+        }
+        licenseSet = licenseSetDecoded0
+        let maintenanceOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataMaintenanceOptionsDetails.self, forKey: .maintenanceOptions)
+        maintenanceOptions = maintenanceOptionsDecoded
+        let metadataOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataMetadataOptionsDetails.self, forKey: .metadataOptions)
+        metadataOptions = metadataOptionsDecoded
+        let monitoringDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataMonitoringDetails.self, forKey: .monitoring)
+        monitoring = monitoringDecoded
+        let networkInterfaceSetContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails?].self, forKey: .networkInterfaceSet)
+        var networkInterfaceSetDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails]? = nil
+        if let networkInterfaceSetContainer = networkInterfaceSetContainer {
+            networkInterfaceSetDecoded0 = [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails]()
+            for structure0 in networkInterfaceSetContainer {
+                if let structure0 = structure0 {
+                    networkInterfaceSetDecoded0?.append(structure0)
+                }
+            }
+        }
+        networkInterfaceSet = networkInterfaceSetDecoded0
+        let placementDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataPlacementDetails.self, forKey: .placement)
+        placement = placementDecoded
+        let privateDnsNameOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails.self, forKey: .privateDnsNameOptions)
+        privateDnsNameOptions = privateDnsNameOptionsDecoded
+        let ramDiskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ramDiskId)
+        ramDiskId = ramDiskIdDecoded
+        let securityGroupIdSetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupIdSet)
+        var securityGroupIdSetDecoded0:[Swift.String]? = nil
+        if let securityGroupIdSetContainer = securityGroupIdSetContainer {
+            securityGroupIdSetDecoded0 = [Swift.String]()
+            for string0 in securityGroupIdSetContainer {
+                if let string0 = string0 {
+                    securityGroupIdSetDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupIdSet = securityGroupIdSetDecoded0
+        let securityGroupSetContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroupSet)
+        var securityGroupSetDecoded0:[Swift.String]? = nil
+        if let securityGroupSetContainer = securityGroupSetContainer {
+            securityGroupSetDecoded0 = [Swift.String]()
+            for string0 in securityGroupSetContainer {
+                if let string0 = string0 {
+                    securityGroupSetDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroupSet = securityGroupSetDecoded0
+        let userDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userData)
+        userData = userDataDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The information to include in an Amazon Elastic Compute Cloud (Amazon EC2) launch template.
+    public struct AwsEc2LaunchTemplateDataDetails: Swift.Equatable {
+        /// Information about a block device mapping for an Amazon EC2 launch template.
+        public var blockDeviceMappingSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails]?
+        /// Specifies an instance's Capacity Reservation targeting option. You can specify only one option at a time.
+        public var capacityReservationSpecification: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails?
+        /// Specifies the CPU options for an instance. For more information, see [Optimize CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html) in the Amazon Elastic Compute Cloud User Guide.
+        public var cpuOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCpuOptionsDetails?
+        /// Specifies the credit option for CPU usage of a T2, T3, or T3a instance.
+        public var creditSpecification: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCreditSpecificationDetails?
+        /// Indicates whether to enable the instance for stop protection. For more information, see [Enable stop protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html#Using_StopProtection) in the Amazon EC2 User Guide.
+        public var disableApiStop: Swift.Bool
+        /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API. If set to true, you can.
+        public var disableApiTermination: Swift.Bool
+        /// Indicates whether the instance is optimized for Amazon EBS I/O.
+        public var ebsOptimized: Swift.Bool
+        /// Provides details about Elastic Graphics accelerators to associate with the instance.
+        public var elasticGpuSpecificationSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]?
+        /// The Amazon Elastic Inference accelerator for the instance.
+        public var elasticInferenceAcceleratorSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails]?
+        /// Indicates whether the Amazon EC2 instance is enabled for Amazon Web Services Nitro Enclaves.
+        public var enclaveOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataEnclaveOptionsDetails?
+        /// Specifies whether your Amazon EC2 instance is configured for hibernation.
+        public var hibernationOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataHibernationOptionsDetails?
+        /// The name or Amazon Resource Name (ARN) of an IAM instance profile.
+        public var iamInstanceProfile: SecurityHubClientTypes.AwsEc2LaunchTemplateDataIamInstanceProfileDetails?
+        /// The ID of the Amazon Machine Image (AMI).
+        public var imageId: Swift.String?
+        /// Provides the options for specifying the instance initiated shutdown behavior.
+        public var instanceInitiatedShutdownBehavior: Swift.String?
+        /// Specifies the market (purchasing) option for an instance.
+        public var instanceMarketOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails?
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. If you specify InstanceRequirements, you can't specify InstanceType.
+        public var instanceRequirements: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsDetails?
+        /// The instance type. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. If you specify InstanceType, you can't specify InstanceRequirements.
+        public var instanceType: Swift.String?
+        /// The ID of the kernel.
+        public var kernelId: Swift.String?
+        /// The name of the key pair that allows users to connect to the instance.
+        public var keyName: Swift.String?
+        /// Specifies a license configuration for an instance.
+        public var licenseSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataLicenseSetDetails]?
+        /// The maintenance options of your instance.
+        public var maintenanceOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataMaintenanceOptionsDetails?
+        /// The metadata options for the instance. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the Amazon EC2 User Guide.
+        public var metadataOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataMetadataOptionsDetails?
+        /// The monitoring for the instance.
+        public var monitoring: SecurityHubClientTypes.AwsEc2LaunchTemplateDataMonitoringDetails?
+        /// Specifies the parameters for a network interface that is attached to the instance.
+        public var networkInterfaceSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails]?
+        /// Specifies the placement of an instance.
+        public var placement: SecurityHubClientTypes.AwsEc2LaunchTemplateDataPlacementDetails?
+        /// The options for the instance hostname.
+        public var privateDnsNameOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails?
+        /// The ID of the RAM disk.
+        public var ramDiskId: Swift.String?
+        /// One or more security group IDs.
+        public var securityGroupIdSet: [Swift.String]?
+        /// One or more security group names. For a nondefault VPC, you must use security group IDs instead. You cannot specify both a security group ID and security name in the same request.
+        public var securityGroupSet: [Swift.String]?
+        /// The user data to make available to the instance.
+        public var userData: Swift.String?
+
+        public init (
+            blockDeviceMappingSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails]? = nil,
+            capacityReservationSpecification: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails? = nil,
+            cpuOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCpuOptionsDetails? = nil,
+            creditSpecification: SecurityHubClientTypes.AwsEc2LaunchTemplateDataCreditSpecificationDetails? = nil,
+            disableApiStop: Swift.Bool = false,
+            disableApiTermination: Swift.Bool = false,
+            ebsOptimized: Swift.Bool = false,
+            elasticGpuSpecificationSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]? = nil,
+            elasticInferenceAcceleratorSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails]? = nil,
+            enclaveOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataEnclaveOptionsDetails? = nil,
+            hibernationOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataHibernationOptionsDetails? = nil,
+            iamInstanceProfile: SecurityHubClientTypes.AwsEc2LaunchTemplateDataIamInstanceProfileDetails? = nil,
+            imageId: Swift.String? = nil,
+            instanceInitiatedShutdownBehavior: Swift.String? = nil,
+            instanceMarketOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails? = nil,
+            instanceRequirements: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsDetails? = nil,
+            instanceType: Swift.String? = nil,
+            kernelId: Swift.String? = nil,
+            keyName: Swift.String? = nil,
+            licenseSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataLicenseSetDetails]? = nil,
+            maintenanceOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataMaintenanceOptionsDetails? = nil,
+            metadataOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataMetadataOptionsDetails? = nil,
+            monitoring: SecurityHubClientTypes.AwsEc2LaunchTemplateDataMonitoringDetails? = nil,
+            networkInterfaceSet: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails]? = nil,
+            placement: SecurityHubClientTypes.AwsEc2LaunchTemplateDataPlacementDetails? = nil,
+            privateDnsNameOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails? = nil,
+            ramDiskId: Swift.String? = nil,
+            securityGroupIdSet: [Swift.String]? = nil,
+            securityGroupSet: [Swift.String]? = nil,
+            userData: Swift.String? = nil
+        )
+        {
+            self.blockDeviceMappingSet = blockDeviceMappingSet
+            self.capacityReservationSpecification = capacityReservationSpecification
+            self.cpuOptions = cpuOptions
+            self.creditSpecification = creditSpecification
+            self.disableApiStop = disableApiStop
+            self.disableApiTermination = disableApiTermination
+            self.ebsOptimized = ebsOptimized
+            self.elasticGpuSpecificationSet = elasticGpuSpecificationSet
+            self.elasticInferenceAcceleratorSet = elasticInferenceAcceleratorSet
+            self.enclaveOptions = enclaveOptions
+            self.hibernationOptions = hibernationOptions
+            self.iamInstanceProfile = iamInstanceProfile
+            self.imageId = imageId
+            self.instanceInitiatedShutdownBehavior = instanceInitiatedShutdownBehavior
+            self.instanceMarketOptions = instanceMarketOptions
+            self.instanceRequirements = instanceRequirements
+            self.instanceType = instanceType
+            self.kernelId = kernelId
+            self.keyName = keyName
+            self.licenseSet = licenseSet
+            self.maintenanceOptions = maintenanceOptions
+            self.metadataOptions = metadataOptions
+            self.monitoring = monitoring
+            self.networkInterfaceSet = networkInterfaceSet
+            self.placement = placement
+            self.privateDnsNameOptions = privateDnsNameOptions
+            self.ramDiskId = ramDiskId
+            self.securityGroupIdSet = securityGroupIdSet
+            self.securityGroupSet = securityGroupSet
+            self.userData = userData
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about an Elastic Graphics specification for an Amazon EC2 launch template.
+    public struct AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails: Swift.Equatable {
+        /// The type of Elastic Graphics accelerator.
+        public var type: Swift.String?
+
+        public init (
+            type: Swift.String? = nil
+        )
+        {
+            self.type = type
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case count = "Count"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details for an Amazon Elastic Inference accelerator.
+    public struct AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails: Swift.Equatable {
+        /// The number of Elastic Inference accelerators to attach to the instance.
+        public var count: Swift.Int
+        /// The type of Elastic Inference accelerator.
+        public var type: Swift.String?
+
+        public init (
+            count: Swift.Int = 0,
+            type: Swift.String? = nil
+        )
+        {
+            self.count = count
+            self.type = type
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataEnclaveOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.
+    public struct AwsEc2LaunchTemplateDataEnclaveOptionsDetails: Swift.Equatable {
+        /// If this parameter is set to true, the instance is enabled for Amazon Web Services Nitro Enclaves.
+        public var enabled: Swift.Bool
+
+        public init (
+            enabled: Swift.Bool = false
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataHibernationOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configured = "Configured"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if configured != false {
+            try encodeContainer.encode(configured, forKey: .configured)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let configuredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .configured) ?? false
+        configured = configuredDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies whether your Amazon EC2 instance is configured for hibernation.
+    public struct AwsEc2LaunchTemplateDataHibernationOptionsDetails: Swift.Equatable {
+        /// If you set this parameter to true, the instance is enabled for hibernation.
+        public var configured: Swift.Bool
+
+        public init (
+            configured: Swift.Bool = false
+        )
+        {
+            self.configured = configured
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataIamInstanceProfileDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details for an Identity and Access Management (IAM) instance profile, which is a container for an IAM role for your instance.
+    public struct AwsEc2LaunchTemplateDataIamInstanceProfileDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the instance profile.
+        public var arn: Swift.String?
+        /// The name of the instance profile.
+        public var name: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marketType = "MarketType"
+        case spotOptions = "SpotOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let marketType = self.marketType {
+            try encodeContainer.encode(marketType, forKey: .marketType)
+        }
+        if let spotOptions = self.spotOptions {
+            try encodeContainer.encode(spotOptions, forKey: .spotOptions)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let marketTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marketType)
+        marketType = marketTypeDecoded
+        let spotOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails.self, forKey: .spotOptions)
+        spotOptions = spotOptionsDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about the market (purchasing) option for an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails: Swift.Equatable {
+        /// The market type.
+        public var marketType: Swift.String?
+        /// The options for Spot Instances.
+        public var spotOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails?
+
+        public init (
+            marketType: Swift.String? = nil,
+            spotOptions: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails? = nil
+        )
+        {
+            self.marketType = marketType
+            self.spotOptions = spotOptions
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blockDurationMinutes = "BlockDurationMinutes"
+        case instanceInterruptionBehavior = "InstanceInterruptionBehavior"
+        case maxPrice = "MaxPrice"
+        case spotInstanceType = "SpotInstanceType"
+        case validUntil = "ValidUntil"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if blockDurationMinutes != 0 {
+            try encodeContainer.encode(blockDurationMinutes, forKey: .blockDurationMinutes)
+        }
+        if let instanceInterruptionBehavior = self.instanceInterruptionBehavior {
+            try encodeContainer.encode(instanceInterruptionBehavior, forKey: .instanceInterruptionBehavior)
+        }
+        if let maxPrice = self.maxPrice {
+            try encodeContainer.encode(maxPrice, forKey: .maxPrice)
+        }
+        if let spotInstanceType = self.spotInstanceType {
+            try encodeContainer.encode(spotInstanceType, forKey: .spotInstanceType)
+        }
+        if let validUntil = self.validUntil {
+            try encodeContainer.encode(validUntil, forKey: .validUntil)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let blockDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .blockDurationMinutes) ?? 0
+        blockDurationMinutes = blockDurationMinutesDecoded
+        let instanceInterruptionBehaviorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceInterruptionBehavior)
+        instanceInterruptionBehavior = instanceInterruptionBehaviorDecoded
+        let maxPriceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maxPrice)
+        maxPrice = maxPriceDecoded
+        let spotInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spotInstanceType)
+        spotInstanceType = spotInstanceTypeDecoded
+        let validUntilDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validUntil)
+        validUntil = validUntilDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about the market (purchasing) options for Spot Instances.
+    public struct AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails: Swift.Equatable {
+        /// Deprecated.
+        public var blockDurationMinutes: Swift.Int
+        /// The behavior when a Spot Instance is interrupted.
+        public var instanceInterruptionBehavior: Swift.String?
+        /// The maximum hourly price you're willing to pay for the Spot Instances.
+        public var maxPrice: Swift.String?
+        /// The Spot Instance request type.
+        public var spotInstanceType: Swift.String?
+        /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ), for persistent requests.
+        public var validUntil: Swift.String?
+
+        public init (
+            blockDurationMinutes: Swift.Int = 0,
+            instanceInterruptionBehavior: Swift.String? = nil,
+            maxPrice: Swift.String? = nil,
+            spotInstanceType: Swift.String? = nil,
+            validUntil: Swift.String? = nil
+        )
+        {
+            self.blockDurationMinutes = blockDurationMinutes
+            self.instanceInterruptionBehavior = instanceInterruptionBehavior
+            self.maxPrice = maxPrice
+            self.spotInstanceType = spotInstanceType
+            self.validUntil = validUntil
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if max != 0 {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if min != 0 {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        max = maxDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        min = minDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails: Swift.Equatable {
+        /// The maximum number of accelerators. If this parameter isn't specified, there's no maximum limit. To exclude accelerator-enabled instance types, set Max to 0.
+        public var max: Swift.Int
+        /// The minimum number of accelerators. If this parameter isn't specified, there's no minimum limit.
+        public var min: Swift.Int
+
+        public init (
+            max: Swift.Int = 0,
+            min: Swift.Int = 0
+        )
+        {
+            self.max = max
+            self.min = min
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if max != 0 {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if min != 0 {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        max = maxDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        min = minDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The minimum and maximum amount of memory, in MiB, for the accelerators on an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails: Swift.Equatable {
+        /// The maximum amount of memory, in MiB. If this parameter isn't specified, there's no maximum limit.
+        public var max: Swift.Int
+        /// The minimum amount of memory, in MiB. If 0 is specified, there's no maximum limit.
+        public var min: Swift.Int
+
+        public init (
+            max: Swift.Int = 0,
+            min: Swift.Int = 0
+        )
+        {
+            self.max = max
+            self.min = min
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if max != 0 {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if min != 0 {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        max = maxDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        min = minDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The minimum and maximum baseline bandwidth to Amazon Elastic Block Store (Amazon EBS), in Mbps. For more information, see [Amazon EBS–optimized instances ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide.
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails: Swift.Equatable {
+        /// The maximum baseline bandwidth, in Mbps. If this parameter is omitted, there's no maximum limit.
+        public var max: Swift.Int
+        /// The minimum baseline bandwidth, in Mbps. If this parameter is omitted, there's no minimum limit.
+        public var min: Swift.Int
+
+        public init (
+            max: Swift.Int = 0,
+            min: Swift.Int = 0
+        )
+        {
+            self.max = max
+            self.min = min
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceleratorCount = "AcceleratorCount"
+        case acceleratorManufacturers = "AcceleratorManufacturers"
+        case acceleratorNames = "AcceleratorNames"
+        case acceleratorTotalMemoryMiB = "AcceleratorTotalMemoryMiB"
+        case acceleratorTypes = "AcceleratorTypes"
+        case bareMetal = "BareMetal"
+        case baselineEbsBandwidthMbps = "BaselineEbsBandwidthMbps"
+        case burstablePerformance = "BurstablePerformance"
+        case cpuManufacturers = "CpuManufacturers"
+        case excludedInstanceTypes = "ExcludedInstanceTypes"
+        case instanceGenerations = "InstanceGenerations"
+        case localStorage = "LocalStorage"
+        case localStorageTypes = "LocalStorageTypes"
+        case memoryGiBPerVCpu = "MemoryGiBPerVCpu"
+        case memoryMiB = "MemoryMiB"
+        case networkInterfaceCount = "NetworkInterfaceCount"
+        case onDemandMaxPricePercentageOverLowestPrice = "OnDemandMaxPricePercentageOverLowestPrice"
+        case requireHibernateSupport = "RequireHibernateSupport"
+        case spotMaxPricePercentageOverLowestPrice = "SpotMaxPricePercentageOverLowestPrice"
+        case totalLocalStorageGB = "TotalLocalStorageGB"
+        case vCpuCount = "VCpuCount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let acceleratorCount = self.acceleratorCount {
+            try encodeContainer.encode(acceleratorCount, forKey: .acceleratorCount)
+        }
+        if let acceleratorManufacturers = acceleratorManufacturers {
+            var acceleratorManufacturersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acceleratorManufacturers)
+            for nonemptystringlist0 in acceleratorManufacturers {
+                try acceleratorManufacturersContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let acceleratorNames = acceleratorNames {
+            var acceleratorNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acceleratorNames)
+            for nonemptystringlist0 in acceleratorNames {
+                try acceleratorNamesContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let acceleratorTotalMemoryMiB = self.acceleratorTotalMemoryMiB {
+            try encodeContainer.encode(acceleratorTotalMemoryMiB, forKey: .acceleratorTotalMemoryMiB)
+        }
+        if let acceleratorTypes = acceleratorTypes {
+            var acceleratorTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acceleratorTypes)
+            for nonemptystringlist0 in acceleratorTypes {
+                try acceleratorTypesContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let bareMetal = self.bareMetal {
+            try encodeContainer.encode(bareMetal, forKey: .bareMetal)
+        }
+        if let baselineEbsBandwidthMbps = self.baselineEbsBandwidthMbps {
+            try encodeContainer.encode(baselineEbsBandwidthMbps, forKey: .baselineEbsBandwidthMbps)
+        }
+        if let burstablePerformance = self.burstablePerformance {
+            try encodeContainer.encode(burstablePerformance, forKey: .burstablePerformance)
+        }
+        if let cpuManufacturers = cpuManufacturers {
+            var cpuManufacturersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cpuManufacturers)
+            for nonemptystringlist0 in cpuManufacturers {
+                try cpuManufacturersContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let excludedInstanceTypes = excludedInstanceTypes {
+            var excludedInstanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedInstanceTypes)
+            for nonemptystringlist0 in excludedInstanceTypes {
+                try excludedInstanceTypesContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let instanceGenerations = instanceGenerations {
+            var instanceGenerationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceGenerations)
+            for nonemptystringlist0 in instanceGenerations {
+                try instanceGenerationsContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let localStorage = self.localStorage {
+            try encodeContainer.encode(localStorage, forKey: .localStorage)
+        }
+        if let localStorageTypes = localStorageTypes {
+            var localStorageTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localStorageTypes)
+            for nonemptystringlist0 in localStorageTypes {
+                try localStorageTypesContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let memoryGiBPerVCpu = self.memoryGiBPerVCpu {
+            try encodeContainer.encode(memoryGiBPerVCpu, forKey: .memoryGiBPerVCpu)
+        }
+        if let memoryMiB = self.memoryMiB {
+            try encodeContainer.encode(memoryMiB, forKey: .memoryMiB)
+        }
+        if let networkInterfaceCount = self.networkInterfaceCount {
+            try encodeContainer.encode(networkInterfaceCount, forKey: .networkInterfaceCount)
+        }
+        if onDemandMaxPricePercentageOverLowestPrice != 0 {
+            try encodeContainer.encode(onDemandMaxPricePercentageOverLowestPrice, forKey: .onDemandMaxPricePercentageOverLowestPrice)
+        }
+        if requireHibernateSupport != false {
+            try encodeContainer.encode(requireHibernateSupport, forKey: .requireHibernateSupport)
+        }
+        if spotMaxPricePercentageOverLowestPrice != 0 {
+            try encodeContainer.encode(spotMaxPricePercentageOverLowestPrice, forKey: .spotMaxPricePercentageOverLowestPrice)
+        }
+        if let totalLocalStorageGB = self.totalLocalStorageGB {
+            try encodeContainer.encode(totalLocalStorageGB, forKey: .totalLocalStorageGB)
+        }
+        if let vCpuCount = self.vCpuCount {
+            try encodeContainer.encode(vCpuCount, forKey: .vCpuCount)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let acceleratorCountDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails.self, forKey: .acceleratorCount)
+        acceleratorCount = acceleratorCountDecoded
+        let acceleratorManufacturersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .acceleratorManufacturers)
+        var acceleratorManufacturersDecoded0:[Swift.String]? = nil
+        if let acceleratorManufacturersContainer = acceleratorManufacturersContainer {
+            acceleratorManufacturersDecoded0 = [Swift.String]()
+            for string0 in acceleratorManufacturersContainer {
+                if let string0 = string0 {
+                    acceleratorManufacturersDecoded0?.append(string0)
+                }
+            }
+        }
+        acceleratorManufacturers = acceleratorManufacturersDecoded0
+        let acceleratorNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .acceleratorNames)
+        var acceleratorNamesDecoded0:[Swift.String]? = nil
+        if let acceleratorNamesContainer = acceleratorNamesContainer {
+            acceleratorNamesDecoded0 = [Swift.String]()
+            for string0 in acceleratorNamesContainer {
+                if let string0 = string0 {
+                    acceleratorNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        acceleratorNames = acceleratorNamesDecoded0
+        let acceleratorTotalMemoryMiBDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails.self, forKey: .acceleratorTotalMemoryMiB)
+        acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiBDecoded
+        let acceleratorTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .acceleratorTypes)
+        var acceleratorTypesDecoded0:[Swift.String]? = nil
+        if let acceleratorTypesContainer = acceleratorTypesContainer {
+            acceleratorTypesDecoded0 = [Swift.String]()
+            for string0 in acceleratorTypesContainer {
+                if let string0 = string0 {
+                    acceleratorTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        acceleratorTypes = acceleratorTypesDecoded0
+        let bareMetalDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bareMetal)
+        bareMetal = bareMetalDecoded
+        let baselineEbsBandwidthMbpsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails.self, forKey: .baselineEbsBandwidthMbps)
+        baselineEbsBandwidthMbps = baselineEbsBandwidthMbpsDecoded
+        let burstablePerformanceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .burstablePerformance)
+        burstablePerformance = burstablePerformanceDecoded
+        let cpuManufacturersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cpuManufacturers)
+        var cpuManufacturersDecoded0:[Swift.String]? = nil
+        if let cpuManufacturersContainer = cpuManufacturersContainer {
+            cpuManufacturersDecoded0 = [Swift.String]()
+            for string0 in cpuManufacturersContainer {
+                if let string0 = string0 {
+                    cpuManufacturersDecoded0?.append(string0)
+                }
+            }
+        }
+        cpuManufacturers = cpuManufacturersDecoded0
+        let excludedInstanceTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludedInstanceTypes)
+        var excludedInstanceTypesDecoded0:[Swift.String]? = nil
+        if let excludedInstanceTypesContainer = excludedInstanceTypesContainer {
+            excludedInstanceTypesDecoded0 = [Swift.String]()
+            for string0 in excludedInstanceTypesContainer {
+                if let string0 = string0 {
+                    excludedInstanceTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        excludedInstanceTypes = excludedInstanceTypesDecoded0
+        let instanceGenerationsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .instanceGenerations)
+        var instanceGenerationsDecoded0:[Swift.String]? = nil
+        if let instanceGenerationsContainer = instanceGenerationsContainer {
+            instanceGenerationsDecoded0 = [Swift.String]()
+            for string0 in instanceGenerationsContainer {
+                if let string0 = string0 {
+                    instanceGenerationsDecoded0?.append(string0)
+                }
+            }
+        }
+        instanceGenerations = instanceGenerationsDecoded0
+        let localStorageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localStorage)
+        localStorage = localStorageDecoded
+        let localStorageTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .localStorageTypes)
+        var localStorageTypesDecoded0:[Swift.String]? = nil
+        if let localStorageTypesContainer = localStorageTypesContainer {
+            localStorageTypesDecoded0 = [Swift.String]()
+            for string0 in localStorageTypesContainer {
+                if let string0 = string0 {
+                    localStorageTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        localStorageTypes = localStorageTypesDecoded0
+        let memoryGiBPerVCpuDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails.self, forKey: .memoryGiBPerVCpu)
+        memoryGiBPerVCpu = memoryGiBPerVCpuDecoded
+        let memoryMiBDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails.self, forKey: .memoryMiB)
+        memoryMiB = memoryMiBDecoded
+        let networkInterfaceCountDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails.self, forKey: .networkInterfaceCount)
+        networkInterfaceCount = networkInterfaceCountDecoded
+        let onDemandMaxPricePercentageOverLowestPriceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .onDemandMaxPricePercentageOverLowestPrice) ?? 0
+        onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPriceDecoded
+        let requireHibernateSupportDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireHibernateSupport) ?? false
+        requireHibernateSupport = requireHibernateSupportDecoded
+        let spotMaxPricePercentageOverLowestPriceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .spotMaxPricePercentageOverLowestPrice) ?? 0
+        spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPriceDecoded
+        let totalLocalStorageGBDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails.self, forKey: .totalLocalStorageGB)
+        totalLocalStorageGB = totalLocalStorageGBDecoded
+        let vCpuCountDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails.self, forKey: .vCpuCount)
+        vCpuCount = vCpuCountDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The attributes for the Amazon EC2 instance types.
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsDetails: Swift.Equatable {
+        /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an instance.
+        public var acceleratorCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails?
+        /// Indicates whether instance types must have accelerators by specific manufacturers.
+        public var acceleratorManufacturers: [Swift.String]?
+        /// The accelerators that must be on the instance type.
+        public var acceleratorNames: [Swift.String]?
+        /// The minimum and maximum amount of total accelerator memory, in MiB.
+        public var acceleratorTotalMemoryMiB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails?
+        /// The accelerator types that must be on the instance type.
+        public var acceleratorTypes: [Swift.String]?
+        /// Indicates whether bare metal instance types must be included, excluded, or required.
+        public var bareMetal: Swift.String?
+        /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see [Amazon EBS optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide.
+        public var baselineEbsBandwidthMbps: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails?
+        /// Indicates whether burstable performance T instance types are included, excluded, or required. For more information, [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide.
+        public var burstablePerformance: Swift.String?
+        /// The CPU manufacturers to include.
+        public var cpuManufacturers: [Swift.String]?
+        /// The instance types to exclude.
+        public var excludedInstanceTypes: [Swift.String]?
+        /// Indicates whether current or previous generation instance types are included.
+        public var instanceGenerations: [Swift.String]?
+        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, see [Amazon EC2 instance store](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html) in the Amazon EC2 User Guide.
+        public var localStorage: Swift.String?
+        /// The type of local storage that is required.
+        public var localStorageTypes: [Swift.String]?
+        /// The minimum and maximum amount of memory per vCPU, in GiB.
+        public var memoryGiBPerVCpu: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails?
+        /// The minimum and maximum amount of memory, in MiB.
+        public var memoryMiB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails?
+        /// The minimum and maximum number of network interfaces.
+        public var networkInterfaceCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails?
+        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
+        public var onDemandMaxPricePercentageOverLowestPrice: Swift.Int
+        /// Indicates whether instance types must support hibernation for On-Demand Instances.
+        public var requireHibernateSupport: Swift.Bool
+        /// The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
+        public var spotMaxPricePercentageOverLowestPrice: Swift.Int
+        /// The minimum and maximum amount of total local storage, in GB.
+        public var totalLocalStorageGB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails?
+        /// The minimum and maximum number of vCPUs.
+        public var vCpuCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails?
+
+        public init (
+            acceleratorCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails? = nil,
+            acceleratorManufacturers: [Swift.String]? = nil,
+            acceleratorNames: [Swift.String]? = nil,
+            acceleratorTotalMemoryMiB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails? = nil,
+            acceleratorTypes: [Swift.String]? = nil,
+            bareMetal: Swift.String? = nil,
+            baselineEbsBandwidthMbps: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails? = nil,
+            burstablePerformance: Swift.String? = nil,
+            cpuManufacturers: [Swift.String]? = nil,
+            excludedInstanceTypes: [Swift.String]? = nil,
+            instanceGenerations: [Swift.String]? = nil,
+            localStorage: Swift.String? = nil,
+            localStorageTypes: [Swift.String]? = nil,
+            memoryGiBPerVCpu: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails? = nil,
+            memoryMiB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails? = nil,
+            networkInterfaceCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails? = nil,
+            onDemandMaxPricePercentageOverLowestPrice: Swift.Int = 0,
+            requireHibernateSupport: Swift.Bool = false,
+            spotMaxPricePercentageOverLowestPrice: Swift.Int = 0,
+            totalLocalStorageGB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails? = nil,
+            vCpuCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails? = nil
+        )
+        {
+            self.acceleratorCount = acceleratorCount
+            self.acceleratorManufacturers = acceleratorManufacturers
+            self.acceleratorNames = acceleratorNames
+            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
+            self.acceleratorTypes = acceleratorTypes
+            self.bareMetal = bareMetal
+            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.burstablePerformance = burstablePerformance
+            self.cpuManufacturers = cpuManufacturers
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.instanceGenerations = instanceGenerations
+            self.localStorage = localStorage
+            self.localStorageTypes = localStorageTypes
+            self.memoryGiBPerVCpu = memoryGiBPerVCpu
+            self.memoryMiB = memoryMiB
+            self.networkInterfaceCount = networkInterfaceCount
+            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireHibernateSupport = requireHibernateSupport
+            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
+            self.totalLocalStorageGB = totalLocalStorageGB
+            self.vCpuCount = vCpuCount
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if max != 0.0 {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if min != 0.0 {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max) ?? 0.0
+        max = maxDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min) ?? 0.0
+        min = minDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The minimum and maximum amount of memory per vCPU, in GiB.
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails: Swift.Equatable {
+        /// The maximum amount of memory per vCPU, in GiB. If this parameter is omitted, there's no maximum limit.
+        public var max: Swift.Double
+        /// The minimum amount of memory per vCPU, in GiB. If this parameter is omitted, there's no maximum limit.
+        public var min: Swift.Double
+
+        public init (
+            max: Swift.Double = 0.0,
+            min: Swift.Double = 0.0
+        )
+        {
+            self.max = max
+            self.min = min
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if max != 0 {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if min != 0 {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        max = maxDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        min = minDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The minimum and maximum amount of memory, in MiB, for an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails: Swift.Equatable {
+        /// The maximum amount of memory, in MiB.
+        public var max: Swift.Int
+        /// The minimum amount of memory, in MiB.
+        public var min: Swift.Int
+
+        public init (
+            max: Swift.Int = 0,
+            min: Swift.Int = 0
+        )
+        {
+            self.max = max
+            self.min = min
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if max != 0 {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if min != 0 {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        max = maxDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        min = minDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The minimum and maximum number of network interfaces to be attached to an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails: Swift.Equatable {
+        /// The maximum number of network interfaces.
+        public var max: Swift.Int
+        /// The minimum number of network interfaces.
+        public var min: Swift.Int
+
+        public init (
+            max: Swift.Int = 0,
+            min: Swift.Int = 0
+        )
+        {
+            self.max = max
+            self.min = min
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if max != 0.0 {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if min != 0.0 {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max) ?? 0.0
+        max = maxDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min) ?? 0.0
+        min = minDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The minimum and maximum amount of total local storage, in GB, that an Amazon EC2 instance uses.
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails: Swift.Equatable {
+        /// The maximum amount of total local storage, in GB.
+        public var max: Swift.Double
+        /// The minimum amount of total local storage, in GB.
+        public var min: Swift.Double
+
+        public init (
+            max: Swift.Double = 0.0,
+            min: Swift.Double = 0.0
+        )
+        {
+            self.max = max
+            self.min = min
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case max = "Max"
+        case min = "Min"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if max != 0 {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if min != 0 {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .max) ?? 0
+        max = maxDecoded
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .min) ?? 0
+        min = minDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The minimum and maximum number of vCPUs for an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails: Swift.Equatable {
+        /// The maximum number of vCPUs.
+        public var max: Swift.Int
+        /// The minimum number of vCPUs.
+        public var min: Swift.Int
+
+        public init (
+            max: Swift.Int = 0,
+            min: Swift.Int = 0
+        )
+        {
+            self.max = max
+            self.min = min
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataLicenseSetDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case licenseConfigurationArn = "LicenseConfigurationArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let licenseConfigurationArn = self.licenseConfigurationArn {
+            try encodeContainer.encode(licenseConfigurationArn, forKey: .licenseConfigurationArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let licenseConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConfigurationArn)
+        licenseConfigurationArn = licenseConfigurationArnDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about the license configuration for an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataLicenseSetDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the license configuration.
+        public var licenseConfigurationArn: Swift.String?
+
+        public init (
+            licenseConfigurationArn: Swift.String? = nil
+        )
+        {
+            self.licenseConfigurationArn = licenseConfigurationArn
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMaintenanceOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoRecovery = "AutoRecovery"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoRecovery = self.autoRecovery {
+            try encodeContainer.encode(autoRecovery, forKey: .autoRecovery)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoRecoveryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoRecovery)
+        autoRecovery = autoRecoveryDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The maintenance options of an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataMaintenanceOptionsDetails: Swift.Equatable {
+        /// Disables the automatic recovery behavior of your instance or sets it to default.
+        public var autoRecovery: Swift.String?
+
+        public init (
+            autoRecovery: Swift.String? = nil
+        )
+        {
+            self.autoRecovery = autoRecovery
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMetadataOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case httpEndpoint = "HttpEndpoint"
+        case httpProtocolIpv6 = "HttpProtocolIpv6"
+        case httpPutResponseHopLimit = "HttpPutResponseHopLimit"
+        case httpTokens = "HttpTokens"
+        case instanceMetadataTags = "InstanceMetadataTags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let httpEndpoint = self.httpEndpoint {
+            try encodeContainer.encode(httpEndpoint, forKey: .httpEndpoint)
+        }
+        if let httpProtocolIpv6 = self.httpProtocolIpv6 {
+            try encodeContainer.encode(httpProtocolIpv6, forKey: .httpProtocolIpv6)
+        }
+        if httpPutResponseHopLimit != 0 {
+            try encodeContainer.encode(httpPutResponseHopLimit, forKey: .httpPutResponseHopLimit)
+        }
+        if let httpTokens = self.httpTokens {
+            try encodeContainer.encode(httpTokens, forKey: .httpTokens)
+        }
+        if let instanceMetadataTags = self.instanceMetadataTags {
+            try encodeContainer.encode(instanceMetadataTags, forKey: .instanceMetadataTags)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let httpEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpEndpoint)
+        httpEndpoint = httpEndpointDecoded
+        let httpProtocolIpv6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpProtocolIpv6)
+        httpProtocolIpv6 = httpProtocolIpv6Decoded
+        let httpTokensDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpTokens)
+        httpTokens = httpTokensDecoded
+        let httpPutResponseHopLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpPutResponseHopLimit) ?? 0
+        httpPutResponseHopLimit = httpPutResponseHopLimitDecoded
+        let instanceMetadataTagsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceMetadataTags)
+        instanceMetadataTags = instanceMetadataTagsDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the metadata options for an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataMetadataOptionsDetails: Swift.Equatable {
+        /// Enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled, and you won’t be able to access your instance metadata.
+        public var httpEndpoint: Swift.String?
+        /// Enables or disables the IPv6 endpoint for the instance metadata service.
+        public var httpProtocolIpv6: Swift.String?
+        /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel.
+        public var httpPutResponseHopLimit: Swift.Int
+        /// The state of token usage for your instance metadata requests.
+        public var httpTokens: Swift.String?
+        /// When set to enabled, this parameter allows access to instance tags from the instance metadata. When set to disabled, it turns off access to instance tags from the instance metadata. For more information, see [Work with instance tags in instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#work-with-tags-in-IMDS) in the Amazon EC2 User Guide.
+        public var instanceMetadataTags: Swift.String?
+
+        public init (
+            httpEndpoint: Swift.String? = nil,
+            httpProtocolIpv6: Swift.String? = nil,
+            httpPutResponseHopLimit: Swift.Int = 0,
+            httpTokens: Swift.String? = nil,
+            instanceMetadataTags: Swift.String? = nil
+        )
+        {
+            self.httpEndpoint = httpEndpoint
+            self.httpProtocolIpv6 = httpProtocolIpv6
+            self.httpPutResponseHopLimit = httpPutResponseHopLimit
+            self.httpTokens = httpTokens
+            self.instanceMetadataTags = instanceMetadataTags
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMonitoringDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The monitoring for an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataMonitoringDetails: Swift.Equatable {
+        /// Enables detailed monitoring when true is specified. Otherwise, basic monitoring is enabled. For more information about detailed monitoring, see [Enable or turn off detailed monitoring for your instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch-new.html) in the Amazon EC2 User Guide.
+        public var enabled: Swift.Bool
+
+        public init (
+            enabled: Swift.Bool = false
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associateCarrierIpAddress = "AssociateCarrierIpAddress"
+        case associatePublicIpAddress = "AssociatePublicIpAddress"
+        case deleteOnTermination = "DeleteOnTermination"
+        case description = "Description"
+        case deviceIndex = "DeviceIndex"
+        case groups = "Groups"
+        case interfaceType = "InterfaceType"
+        case ipv4PrefixCount = "Ipv4PrefixCount"
+        case ipv4Prefixes = "Ipv4Prefixes"
+        case ipv6AddressCount = "Ipv6AddressCount"
+        case ipv6Addresses = "Ipv6Addresses"
+        case ipv6PrefixCount = "Ipv6PrefixCount"
+        case ipv6Prefixes = "Ipv6Prefixes"
+        case networkCardIndex = "NetworkCardIndex"
+        case networkInterfaceId = "NetworkInterfaceId"
+        case privateIpAddress = "PrivateIpAddress"
+        case privateIpAddresses = "PrivateIpAddresses"
+        case secondaryPrivateIpAddressCount = "SecondaryPrivateIpAddressCount"
+        case subnetId = "SubnetId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if associateCarrierIpAddress != false {
+            try encodeContainer.encode(associateCarrierIpAddress, forKey: .associateCarrierIpAddress)
+        }
+        if associatePublicIpAddress != false {
+            try encodeContainer.encode(associatePublicIpAddress, forKey: .associatePublicIpAddress)
+        }
+        if deleteOnTermination != false {
+            try encodeContainer.encode(deleteOnTermination, forKey: .deleteOnTermination)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if deviceIndex != 0 {
+            try encodeContainer.encode(deviceIndex, forKey: .deviceIndex)
+        }
+        if let groups = groups {
+            var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
+            for nonemptystringlist0 in groups {
+                try groupsContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let interfaceType = self.interfaceType {
+            try encodeContainer.encode(interfaceType, forKey: .interfaceType)
+        }
+        if ipv4PrefixCount != 0 {
+            try encodeContainer.encode(ipv4PrefixCount, forKey: .ipv4PrefixCount)
+        }
+        if let ipv4Prefixes = ipv4Prefixes {
+            var ipv4PrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv4Prefixes)
+            for awsec2launchtemplatedatanetworkinterfacesetipv4prefixeslist0 in ipv4Prefixes {
+                try ipv4PrefixesContainer.encode(awsec2launchtemplatedatanetworkinterfacesetipv4prefixeslist0)
+            }
+        }
+        if ipv6AddressCount != 0 {
+            try encodeContainer.encode(ipv6AddressCount, forKey: .ipv6AddressCount)
+        }
+        if let ipv6Addresses = ipv6Addresses {
+            var ipv6AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv6Addresses)
+            for awsec2launchtemplatedatanetworkinterfacesetipv6addresseslist0 in ipv6Addresses {
+                try ipv6AddressesContainer.encode(awsec2launchtemplatedatanetworkinterfacesetipv6addresseslist0)
+            }
+        }
+        if ipv6PrefixCount != 0 {
+            try encodeContainer.encode(ipv6PrefixCount, forKey: .ipv6PrefixCount)
+        }
+        if let ipv6Prefixes = ipv6Prefixes {
+            var ipv6PrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv6Prefixes)
+            for awsec2launchtemplatedatanetworkinterfacesetipv6prefixeslist0 in ipv6Prefixes {
+                try ipv6PrefixesContainer.encode(awsec2launchtemplatedatanetworkinterfacesetipv6prefixeslist0)
+            }
+        }
+        if networkCardIndex != 0 {
+            try encodeContainer.encode(networkCardIndex, forKey: .networkCardIndex)
+        }
+        if let networkInterfaceId = self.networkInterfaceId {
+            try encodeContainer.encode(networkInterfaceId, forKey: .networkInterfaceId)
+        }
+        if let privateIpAddress = self.privateIpAddress {
+            try encodeContainer.encode(privateIpAddress, forKey: .privateIpAddress)
+        }
+        if let privateIpAddresses = privateIpAddresses {
+            var privateIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .privateIpAddresses)
+            for awsec2launchtemplatedatanetworkinterfacesetprivateipaddresseslist0 in privateIpAddresses {
+                try privateIpAddressesContainer.encode(awsec2launchtemplatedatanetworkinterfacesetprivateipaddresseslist0)
+            }
+        }
+        if secondaryPrivateIpAddressCount != 0 {
+            try encodeContainer.encode(secondaryPrivateIpAddressCount, forKey: .secondaryPrivateIpAddressCount)
+        }
+        if let subnetId = self.subnetId {
+            try encodeContainer.encode(subnetId, forKey: .subnetId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associateCarrierIpAddressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .associateCarrierIpAddress) ?? false
+        associateCarrierIpAddress = associateCarrierIpAddressDecoded
+        let associatePublicIpAddressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .associatePublicIpAddress) ?? false
+        associatePublicIpAddress = associatePublicIpAddressDecoded
+        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination) ?? false
+        deleteOnTermination = deleteOnTerminationDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let deviceIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deviceIndex) ?? 0
+        deviceIndex = deviceIndexDecoded
+        let groupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .groups)
+        var groupsDecoded0:[Swift.String]? = nil
+        if let groupsContainer = groupsContainer {
+            groupsDecoded0 = [Swift.String]()
+            for string0 in groupsContainer {
+                if let string0 = string0 {
+                    groupsDecoded0?.append(string0)
+                }
+            }
+        }
+        groups = groupsDecoded0
+        let interfaceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .interfaceType)
+        interfaceType = interfaceTypeDecoded
+        let ipv4PrefixCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ipv4PrefixCount) ?? 0
+        ipv4PrefixCount = ipv4PrefixCountDecoded
+        let ipv4PrefixesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails?].self, forKey: .ipv4Prefixes)
+        var ipv4PrefixesDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]? = nil
+        if let ipv4PrefixesContainer = ipv4PrefixesContainer {
+            ipv4PrefixesDecoded0 = [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]()
+            for structure0 in ipv4PrefixesContainer {
+                if let structure0 = structure0 {
+                    ipv4PrefixesDecoded0?.append(structure0)
+                }
+            }
+        }
+        ipv4Prefixes = ipv4PrefixesDecoded0
+        let ipv6AddressCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ipv6AddressCount) ?? 0
+        ipv6AddressCount = ipv6AddressCountDecoded
+        let ipv6AddressesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails?].self, forKey: .ipv6Addresses)
+        var ipv6AddressesDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]? = nil
+        if let ipv6AddressesContainer = ipv6AddressesContainer {
+            ipv6AddressesDecoded0 = [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]()
+            for structure0 in ipv6AddressesContainer {
+                if let structure0 = structure0 {
+                    ipv6AddressesDecoded0?.append(structure0)
+                }
+            }
+        }
+        ipv6Addresses = ipv6AddressesDecoded0
+        let ipv6PrefixCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ipv6PrefixCount) ?? 0
+        ipv6PrefixCount = ipv6PrefixCountDecoded
+        let ipv6PrefixesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails?].self, forKey: .ipv6Prefixes)
+        var ipv6PrefixesDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]? = nil
+        if let ipv6PrefixesContainer = ipv6PrefixesContainer {
+            ipv6PrefixesDecoded0 = [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]()
+            for structure0 in ipv6PrefixesContainer {
+                if let structure0 = structure0 {
+                    ipv6PrefixesDecoded0?.append(structure0)
+                }
+            }
+        }
+        ipv6Prefixes = ipv6PrefixesDecoded0
+        let networkCardIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .networkCardIndex) ?? 0
+        networkCardIndex = networkCardIndexDecoded
+        let networkInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkInterfaceId)
+        networkInterfaceId = networkInterfaceIdDecoded
+        let privateIpAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privateIpAddress)
+        privateIpAddress = privateIpAddressDecoded
+        let privateIpAddressesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails?].self, forKey: .privateIpAddresses)
+        var privateIpAddressesDecoded0:[SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]? = nil
+        if let privateIpAddressesContainer = privateIpAddressesContainer {
+            privateIpAddressesDecoded0 = [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]()
+            for structure0 in privateIpAddressesContainer {
+                if let structure0 = structure0 {
+                    privateIpAddressesDecoded0?.append(structure0)
+                }
+            }
+        }
+        privateIpAddresses = privateIpAddressesDecoded0
+        let secondaryPrivateIpAddressCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .secondaryPrivateIpAddressCount) ?? 0
+        secondaryPrivateIpAddressCount = secondaryPrivateIpAddressCountDecoded
+        let subnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetId)
+        subnetId = subnetIdDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// One or more network interfaces to attach to an Amazon EC2 instance. If you specify a network interface, you must specify security groups and subnets as part of the network interface.
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails: Swift.Equatable {
+        /// Indicates whether to associate a Carrier IP address with eth0 for a new network interface. You use this option when you launch an instance in a Wavelength Zone and want to associate a Carrier IP address with the network interface. For more information, see [Carrier IP address](https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#provider-owned-ip) in the Wavelength Developer Guide.
+        public var associateCarrierIpAddress: Swift.Bool
+        /// Associates a public IPv4 address with eth0 for a new network interface.
+        public var associatePublicIpAddress: Swift.Bool
+        /// Indicates whether the network interface is deleted when the instance is terminated.
+        public var deleteOnTermination: Swift.Bool
+        /// A description for the network interface.
+        public var description: Swift.String?
+        /// The device index for the network interface attachment.
+        public var deviceIndex: Swift.Int
+        /// The IDs of one or more security groups.
+        public var groups: [Swift.String]?
+        /// The type of network interface.
+        public var interfaceType: Swift.String?
+        /// The number of IPv4 prefixes to be automatically assigned to the network interface. You cannot use this option if you use the Ipv4Prefixes option.
+        public var ipv4PrefixCount: Swift.Int
+        /// One or more IPv4 prefixes to be assigned to the network interface. You cannot use this option if you use the Ipv4PrefixCount option.
+        public var ipv4Prefixes: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]?
+        /// The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if you use Ipv6Addresses.
+        public var ipv6AddressCount: Swift.Int
+        /// One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet. You can't use this option if you use Ipv6AddressCount.
+        public var ipv6Addresses: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]?
+        /// The number of IPv6 prefixes to be automatically assigned to the network interface. You cannot use this option if you use the Ipv6Prefix option.
+        public var ipv6PrefixCount: Swift.Int
+        /// One or more IPv6 prefixes to be assigned to the network interface. You cannot use this option if you use the Ipv6PrefixCount option.
+        public var ipv6Prefixes: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]?
+        /// The index of the network card. Some instance types support multiple network cards. The primary network interface must be assigned to network card index 0. The default is network card index 0.
+        public var networkCardIndex: Swift.Int
+        /// The ID of the network interface.
+        public var networkInterfaceId: Swift.String?
+        /// The primary private IPv4 address of the network interface.
+        public var privateIpAddress: Swift.String?
+        /// One or more private IPv4 addresses.
+        public var privateIpAddresses: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]?
+        /// The number of secondary private IPv4 addresses to assign to a network interface.
+        public var secondaryPrivateIpAddressCount: Swift.Int
+        /// The ID of the subnet for the network interface.
+        public var subnetId: Swift.String?
+
+        public init (
+            associateCarrierIpAddress: Swift.Bool = false,
+            associatePublicIpAddress: Swift.Bool = false,
+            deleteOnTermination: Swift.Bool = false,
+            description: Swift.String? = nil,
+            deviceIndex: Swift.Int = 0,
+            groups: [Swift.String]? = nil,
+            interfaceType: Swift.String? = nil,
+            ipv4PrefixCount: Swift.Int = 0,
+            ipv4Prefixes: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]? = nil,
+            ipv6AddressCount: Swift.Int = 0,
+            ipv6Addresses: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]? = nil,
+            ipv6PrefixCount: Swift.Int = 0,
+            ipv6Prefixes: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]? = nil,
+            networkCardIndex: Swift.Int = 0,
+            networkInterfaceId: Swift.String? = nil,
+            privateIpAddress: Swift.String? = nil,
+            privateIpAddresses: [SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]? = nil,
+            secondaryPrivateIpAddressCount: Swift.Int = 0,
+            subnetId: Swift.String? = nil
+        )
+        {
+            self.associateCarrierIpAddress = associateCarrierIpAddress
+            self.associatePublicIpAddress = associatePublicIpAddress
+            self.deleteOnTermination = deleteOnTermination
+            self.description = description
+            self.deviceIndex = deviceIndex
+            self.groups = groups
+            self.interfaceType = interfaceType
+            self.ipv4PrefixCount = ipv4PrefixCount
+            self.ipv4Prefixes = ipv4Prefixes
+            self.ipv6AddressCount = ipv6AddressCount
+            self.ipv6Addresses = ipv6Addresses
+            self.ipv6PrefixCount = ipv6PrefixCount
+            self.ipv6Prefixes = ipv6Prefixes
+            self.networkCardIndex = networkCardIndex
+            self.networkInterfaceId = networkInterfaceId
+            self.privateIpAddress = privateIpAddress
+            self.privateIpAddresses = privateIpAddresses
+            self.secondaryPrivateIpAddressCount = secondaryPrivateIpAddressCount
+            self.subnetId = subnetId
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipv4Prefix = "Ipv4Prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipv4Prefix = self.ipv4Prefix {
+            try encodeContainer.encode(ipv4Prefix, forKey: .ipv4Prefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipv4PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv4Prefix)
+        ipv4Prefix = ipv4PrefixDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details on one or more IPv4 prefixes for a network interface.
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails: Swift.Equatable {
+        /// The IPv4 prefix. For more information, see [Assigning prefixes to Amazon EC2 network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html) in the Amazon Elastic Compute Cloud User Guide.
+        public var ipv4Prefix: Swift.String?
+
+        public init (
+            ipv4Prefix: Swift.String? = nil
+        )
+        {
+            self.ipv4Prefix = ipv4Prefix
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipv6Address = "Ipv6Address"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipv6Address = self.ipv6Address {
+            try encodeContainer.encode(ipv6Address, forKey: .ipv6Address)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipv6AddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6Address)
+        ipv6Address = ipv6AddressDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies an IPv6 address in an Amazon EC2 launch template.
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails: Swift.Equatable {
+        /// One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet.
+        public var ipv6Address: Swift.String?
+
+        public init (
+            ipv6Address: Swift.String? = nil
+        )
+        {
+            self.ipv6Address = ipv6Address
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipv6Prefix = "Ipv6Prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipv6Prefix = self.ipv6Prefix {
+            try encodeContainer.encode(ipv6Prefix, forKey: .ipv6Prefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipv6PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6Prefix)
+        ipv6Prefix = ipv6PrefixDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details on one or more IPv6 prefixes to be assigned to the network interface.
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails: Swift.Equatable {
+        /// The IPv6 prefix.
+        public var ipv6Prefix: Swift.String?
+
+        public init (
+            ipv6Prefix: Swift.String? = nil
+        )
+        {
+            self.ipv6Prefix = ipv6Prefix
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case primary = "Primary"
+        case privateIpAddress = "PrivateIpAddress"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if primary != false {
+            try encodeContainer.encode(primary, forKey: .primary)
+        }
+        if let privateIpAddress = self.privateIpAddress {
+            try encodeContainer.encode(privateIpAddress, forKey: .privateIpAddress)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let primaryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .primary) ?? false
+        primary = primaryDecoded
+        let privateIpAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privateIpAddress)
+        privateIpAddress = privateIpAddressDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// One or more private IPv4 addresses.
+    public struct AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails: Swift.Equatable {
+        /// Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
+        public var primary: Swift.Bool
+        /// The private IPv4 address.
+        public var privateIpAddress: Swift.String?
+
+        public init (
+            primary: Swift.Bool = false,
+            privateIpAddress: Swift.String? = nil
+        )
+        {
+            self.primary = primary
+            self.privateIpAddress = privateIpAddress
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataPlacementDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case affinity = "Affinity"
+        case availabilityZone = "AvailabilityZone"
+        case groupName = "GroupName"
+        case hostId = "HostId"
+        case hostResourceGroupArn = "HostResourceGroupArn"
+        case partitionNumber = "PartitionNumber"
+        case spreadDomain = "SpreadDomain"
+        case tenancy = "Tenancy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let affinity = self.affinity {
+            try encodeContainer.encode(affinity, forKey: .affinity)
+        }
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
+        }
+        if let groupName = self.groupName {
+            try encodeContainer.encode(groupName, forKey: .groupName)
+        }
+        if let hostId = self.hostId {
+            try encodeContainer.encode(hostId, forKey: .hostId)
+        }
+        if let hostResourceGroupArn = self.hostResourceGroupArn {
+            try encodeContainer.encode(hostResourceGroupArn, forKey: .hostResourceGroupArn)
+        }
+        if partitionNumber != 0 {
+            try encodeContainer.encode(partitionNumber, forKey: .partitionNumber)
+        }
+        if let spreadDomain = self.spreadDomain {
+            try encodeContainer.encode(spreadDomain, forKey: .spreadDomain)
+        }
+        if let tenancy = self.tenancy {
+            try encodeContainer.encode(tenancy, forKey: .tenancy)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let affinityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .affinity)
+        affinity = affinityDecoded
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
+        let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
+        groupName = groupNameDecoded
+        let hostIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostId)
+        hostId = hostIdDecoded
+        let hostResourceGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostResourceGroupArn)
+        hostResourceGroupArn = hostResourceGroupArnDecoded
+        let partitionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partitionNumber) ?? 0
+        partitionNumber = partitionNumberDecoded
+        let spreadDomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spreadDomain)
+        spreadDomain = spreadDomainDecoded
+        let tenancyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenancy)
+        tenancy = tenancyDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about the placement of an Amazon EC2 instance.
+    public struct AwsEc2LaunchTemplateDataPlacementDetails: Swift.Equatable {
+        /// The affinity setting for an instance on an EC2 Dedicated Host.
+        public var affinity: Swift.String?
+        /// The Availability Zone for the instance.
+        public var availabilityZone: Swift.String?
+        /// The name of the placement group for the instance.
+        public var groupName: Swift.String?
+        /// The ID of the Dedicated Host for the instance.
+        public var hostId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the host resource group in which to launch the instances.
+        public var hostResourceGroupArn: Swift.String?
+        /// The number of the partition the instance should launch in.
+        public var partitionNumber: Swift.Int
+        /// Reserved for future use.
+        public var spreadDomain: Swift.String?
+        /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware.
+        public var tenancy: Swift.String?
+
+        public init (
+            affinity: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            groupName: Swift.String? = nil,
+            hostId: Swift.String? = nil,
+            hostResourceGroupArn: Swift.String? = nil,
+            partitionNumber: Swift.Int = 0,
+            spreadDomain: Swift.String? = nil,
+            tenancy: Swift.String? = nil
+        )
+        {
+            self.affinity = affinity
+            self.availabilityZone = availabilityZone
+            self.groupName = groupName
+            self.hostId = hostId
+            self.hostResourceGroupArn = hostResourceGroupArn
+            self.partitionNumber = partitionNumber
+            self.spreadDomain = spreadDomain
+            self.tenancy = tenancy
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableResourceNameDnsAAAARecord = "EnableResourceNameDnsAAAARecord"
+        case enableResourceNameDnsARecord = "EnableResourceNameDnsARecord"
+        case hostnameType = "HostnameType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enableResourceNameDnsAAAARecord != false {
+            try encodeContainer.encode(enableResourceNameDnsAAAARecord, forKey: .enableResourceNameDnsAAAARecord)
+        }
+        if enableResourceNameDnsARecord != false {
+            try encodeContainer.encode(enableResourceNameDnsARecord, forKey: .enableResourceNameDnsARecord)
+        }
+        if let hostnameType = self.hostnameType {
+            try encodeContainer.encode(hostnameType, forKey: .hostnameType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableResourceNameDnsAAAARecordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableResourceNameDnsAAAARecord) ?? false
+        enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecordDecoded
+        let enableResourceNameDnsARecordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableResourceNameDnsARecord) ?? false
+        enableResourceNameDnsARecord = enableResourceNameDnsARecordDecoded
+        let hostnameTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostnameType)
+        hostnameType = hostnameTypeDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes the options for Amazon EC2 instance hostnames.
+    public struct AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails: Swift.Equatable {
+        /// Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
+        public var enableResourceNameDnsAAAARecord: Swift.Bool
+        /// Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
+        public var enableResourceNameDnsARecord: Swift.Bool
+        /// The type of hostname for EC2 instances.
+        public var hostnameType: Swift.String?
+
+        public init (
+            enableResourceNameDnsAAAARecord: Swift.Bool = false,
+            enableResourceNameDnsARecord: Swift.Bool = false,
+            hostnameType: Swift.String? = nil
+        )
+        {
+            self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
+            self.enableResourceNameDnsARecord = enableResourceNameDnsARecord
+            self.hostnameType = hostnameType
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2LaunchTemplateDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultVersionNumber = "DefaultVersionNumber"
+        case id = "Id"
+        case latestVersionNumber = "LatestVersionNumber"
+        case launchTemplateData = "LaunchTemplateData"
+        case launchTemplateName = "LaunchTemplateName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if defaultVersionNumber != 0 {
+            try encodeContainer.encode(defaultVersionNumber, forKey: .defaultVersionNumber)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if latestVersionNumber != 0 {
+            try encodeContainer.encode(latestVersionNumber, forKey: .latestVersionNumber)
+        }
+        if let launchTemplateData = self.launchTemplateData {
+            try encodeContainer.encode(launchTemplateData, forKey: .launchTemplateData)
+        }
+        if let launchTemplateName = self.launchTemplateName {
+            try encodeContainer.encode(launchTemplateName, forKey: .launchTemplateName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchTemplateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchTemplateName)
+        launchTemplateName = launchTemplateNameDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let launchTemplateDataDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails.self, forKey: .launchTemplateData)
+        launchTemplateData = launchTemplateDataDecoded
+        let defaultVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultVersionNumber) ?? 0
+        defaultVersionNumber = defaultVersionNumberDecoded
+        let latestVersionNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestVersionNumber) ?? 0
+        latestVersionNumber = latestVersionNumberDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the properties for creating an Amazon Elastic Compute Cloud (Amazon EC2) launch template.
+    public struct AwsEc2LaunchTemplateDetails: Swift.Equatable {
+        /// The default version of the launch template.
+        public var defaultVersionNumber: Swift.Int
+        /// An ID for the launch template.
+        public var id: Swift.String?
+        /// The latest version of the launch template.
+        public var latestVersionNumber: Swift.Int
+        /// The information to include in the launch template.
+        public var launchTemplateData: SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails?
+        /// A name for the launch template.
+        public var launchTemplateName: Swift.String?
+
+        public init (
+            defaultVersionNumber: Swift.Int = 0,
+            id: Swift.String? = nil,
+            latestVersionNumber: Swift.Int = 0,
+            launchTemplateData: SecurityHubClientTypes.AwsEc2LaunchTemplateDataDetails? = nil,
+            launchTemplateName: Swift.String? = nil
+        )
+        {
+            self.defaultVersionNumber = defaultVersionNumber
+            self.id = id
+            self.latestVersionNumber = latestVersionNumber
+            self.launchTemplateData = launchTemplateData
+            self.launchTemplateName = launchTemplateName
         }
     }
 
@@ -29063,6 +31646,302 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.AwsSageMakerNotebookInstanceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceleratorTypes = "AcceleratorTypes"
+        case additionalCodeRepositories = "AdditionalCodeRepositories"
+        case defaultCodeRepository = "DefaultCodeRepository"
+        case directInternetAccess = "DirectInternetAccess"
+        case failureReason = "FailureReason"
+        case instanceMetadataServiceConfiguration = "InstanceMetadataServiceConfiguration"
+        case instanceType = "InstanceType"
+        case kmsKeyId = "KmsKeyId"
+        case networkInterfaceId = "NetworkInterfaceId"
+        case notebookInstanceArn = "NotebookInstanceArn"
+        case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
+        case notebookInstanceName = "NotebookInstanceName"
+        case notebookInstanceStatus = "NotebookInstanceStatus"
+        case platformIdentifier = "PlatformIdentifier"
+        case roleArn = "RoleArn"
+        case rootAccess = "RootAccess"
+        case securityGroups = "SecurityGroups"
+        case subnetId = "SubnetId"
+        case url = "Url"
+        case volumeSizeInGB = "VolumeSizeInGB"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let acceleratorTypes = acceleratorTypes {
+            var acceleratorTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acceleratorTypes)
+            for nonemptystringlist0 in acceleratorTypes {
+                try acceleratorTypesContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let additionalCodeRepositories = additionalCodeRepositories {
+            var additionalCodeRepositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalCodeRepositories)
+            for nonemptystringlist0 in additionalCodeRepositories {
+                try additionalCodeRepositoriesContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let defaultCodeRepository = self.defaultCodeRepository {
+            try encodeContainer.encode(defaultCodeRepository, forKey: .defaultCodeRepository)
+        }
+        if let directInternetAccess = self.directInternetAccess {
+            try encodeContainer.encode(directInternetAccess, forKey: .directInternetAccess)
+        }
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let instanceMetadataServiceConfiguration = self.instanceMetadataServiceConfiguration {
+            try encodeContainer.encode(instanceMetadataServiceConfiguration, forKey: .instanceMetadataServiceConfiguration)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let networkInterfaceId = self.networkInterfaceId {
+            try encodeContainer.encode(networkInterfaceId, forKey: .networkInterfaceId)
+        }
+        if let notebookInstanceArn = self.notebookInstanceArn {
+            try encodeContainer.encode(notebookInstanceArn, forKey: .notebookInstanceArn)
+        }
+        if let notebookInstanceLifecycleConfigName = self.notebookInstanceLifecycleConfigName {
+            try encodeContainer.encode(notebookInstanceLifecycleConfigName, forKey: .notebookInstanceLifecycleConfigName)
+        }
+        if let notebookInstanceName = self.notebookInstanceName {
+            try encodeContainer.encode(notebookInstanceName, forKey: .notebookInstanceName)
+        }
+        if let notebookInstanceStatus = self.notebookInstanceStatus {
+            try encodeContainer.encode(notebookInstanceStatus, forKey: .notebookInstanceStatus)
+        }
+        if let platformIdentifier = self.platformIdentifier {
+            try encodeContainer.encode(platformIdentifier, forKey: .platformIdentifier)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let rootAccess = self.rootAccess {
+            try encodeContainer.encode(rootAccess, forKey: .rootAccess)
+        }
+        if let securityGroups = securityGroups {
+            var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
+            for nonemptystringlist0 in securityGroups {
+                try securityGroupsContainer.encode(nonemptystringlist0)
+            }
+        }
+        if let subnetId = self.subnetId {
+            try encodeContainer.encode(subnetId, forKey: .subnetId)
+        }
+        if let url = self.url {
+            try encodeContainer.encode(url, forKey: .url)
+        }
+        if volumeSizeInGB != 0 {
+            try encodeContainer.encode(volumeSizeInGB, forKey: .volumeSizeInGB)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let acceleratorTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .acceleratorTypes)
+        var acceleratorTypesDecoded0:[Swift.String]? = nil
+        if let acceleratorTypesContainer = acceleratorTypesContainer {
+            acceleratorTypesDecoded0 = [Swift.String]()
+            for string0 in acceleratorTypesContainer {
+                if let string0 = string0 {
+                    acceleratorTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        acceleratorTypes = acceleratorTypesDecoded0
+        let additionalCodeRepositoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .additionalCodeRepositories)
+        var additionalCodeRepositoriesDecoded0:[Swift.String]? = nil
+        if let additionalCodeRepositoriesContainer = additionalCodeRepositoriesContainer {
+            additionalCodeRepositoriesDecoded0 = [Swift.String]()
+            for string0 in additionalCodeRepositoriesContainer {
+                if let string0 = string0 {
+                    additionalCodeRepositoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        additionalCodeRepositories = additionalCodeRepositoriesDecoded0
+        let defaultCodeRepositoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultCodeRepository)
+        defaultCodeRepository = defaultCodeRepositoryDecoded
+        let directInternetAccessDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directInternetAccess)
+        directInternetAccess = directInternetAccessDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+        let instanceMetadataServiceConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails.self, forKey: .instanceMetadataServiceConfiguration)
+        instanceMetadataServiceConfiguration = instanceMetadataServiceConfigurationDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let networkInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkInterfaceId)
+        networkInterfaceId = networkInterfaceIdDecoded
+        let notebookInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookInstanceArn)
+        notebookInstanceArn = notebookInstanceArnDecoded
+        let notebookInstanceLifecycleConfigNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookInstanceLifecycleConfigName)
+        notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigNameDecoded
+        let notebookInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookInstanceName)
+        notebookInstanceName = notebookInstanceNameDecoded
+        let notebookInstanceStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notebookInstanceStatus)
+        notebookInstanceStatus = notebookInstanceStatusDecoded
+        let platformIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformIdentifier)
+        platformIdentifier = platformIdentifierDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let rootAccessDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rootAccess)
+        rootAccess = rootAccessDecoded
+        let securityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityGroups)
+        var securityGroupsDecoded0:[Swift.String]? = nil
+        if let securityGroupsContainer = securityGroupsContainer {
+            securityGroupsDecoded0 = [Swift.String]()
+            for string0 in securityGroupsContainer {
+                if let string0 = string0 {
+                    securityGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityGroups = securityGroupsDecoded0
+        let subnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetId)
+        subnetId = subnetIdDecoded
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+        let volumeSizeInGBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInGB) ?? 0
+        volumeSizeInGB = volumeSizeInGBDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about an Amazon SageMaker notebook instance.
+    public struct AwsSageMakerNotebookInstanceDetails: Swift.Equatable {
+        /// A list of Amazon Elastic Inference instance types to associate with the notebook instance. Currently, only one instance type can be associated with a notebook instance.
+        public var acceleratorTypes: [Swift.String]?
+        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [AWS CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git repositories with SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker Developer Guide.
+        public var additionalCodeRepositories: [Swift.String]?
+        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [AWS CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git repositories with SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker Developer Guide.
+        public var defaultCodeRepository: Swift.String?
+        /// Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled, this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a Network Address Translation (NAT) Gateway in your VPC.
+        public var directInternetAccess: Swift.String?
+        /// If status of the instance is Failed, the reason it failed.
+        public var failureReason: Swift.String?
+        /// Information on the IMDS configuration of the notebook instance.
+        public var instanceMetadataServiceConfiguration: SecurityHubClientTypes.AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails?
+        /// The type of machine learning (ML) compute instance to launch for the notebook instance.
+        public var instanceType: Swift.String?
+        /// The Amazon Resource Name (ARN) of an Key Management Service (KMS) key that SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and disabling keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) in the Key Management Service Developer Guide.
+        public var kmsKeyId: Swift.String?
+        /// The network interface ID that SageMaker created when the instance was created.
+        public var networkInterfaceId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the notebook instance.
+        public var notebookInstanceArn: Swift.String?
+        /// The name of a notebook instance lifecycle configuration.
+        public var notebookInstanceLifecycleConfigName: Swift.String?
+        /// The name of the new notebook instance.
+        public var notebookInstanceName: Swift.String?
+        /// The status of the notebook instance.
+        public var notebookInstanceStatus: Swift.String?
+        /// The platform identifier of the notebook instance runtime environment.
+        public var platformIdentifier: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the instance.
+        public var roleArn: Swift.String?
+        /// Whether root access is enabled or disabled for users of the notebook instance.
+        public var rootAccess: Swift.String?
+        /// The VPC security group IDs.
+        public var securityGroups: [Swift.String]?
+        /// The ID of the VPC subnet to which you have a connectivity from your ML compute instance.
+        public var subnetId: Swift.String?
+        /// The URL that you use to connect to the Jupyter notebook that is running in your notebook instance.
+        public var url: Swift.String?
+        /// The size, in GB, of the ML storage volume to attach to the notebook instance.
+        public var volumeSizeInGB: Swift.Int
+
+        public init (
+            acceleratorTypes: [Swift.String]? = nil,
+            additionalCodeRepositories: [Swift.String]? = nil,
+            defaultCodeRepository: Swift.String? = nil,
+            directInternetAccess: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            instanceMetadataServiceConfiguration: SecurityHubClientTypes.AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails? = nil,
+            instanceType: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            networkInterfaceId: Swift.String? = nil,
+            notebookInstanceArn: Swift.String? = nil,
+            notebookInstanceLifecycleConfigName: Swift.String? = nil,
+            notebookInstanceName: Swift.String? = nil,
+            notebookInstanceStatus: Swift.String? = nil,
+            platformIdentifier: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            rootAccess: Swift.String? = nil,
+            securityGroups: [Swift.String]? = nil,
+            subnetId: Swift.String? = nil,
+            url: Swift.String? = nil,
+            volumeSizeInGB: Swift.Int = 0
+        )
+        {
+            self.acceleratorTypes = acceleratorTypes
+            self.additionalCodeRepositories = additionalCodeRepositories
+            self.defaultCodeRepository = defaultCodeRepository
+            self.directInternetAccess = directInternetAccess
+            self.failureReason = failureReason
+            self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
+            self.instanceType = instanceType
+            self.kmsKeyId = kmsKeyId
+            self.networkInterfaceId = networkInterfaceId
+            self.notebookInstanceArn = notebookInstanceArn
+            self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+            self.notebookInstanceName = notebookInstanceName
+            self.notebookInstanceStatus = notebookInstanceStatus
+            self.platformIdentifier = platformIdentifier
+            self.roleArn = roleArn
+            self.rootAccess = rootAccess
+            self.securityGroups = securityGroups
+            self.subnetId = subnetId
+            self.url = url
+            self.volumeSizeInGB = volumeSizeInGB
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case minimumInstanceMetadataServiceVersion = "MinimumInstanceMetadataServiceVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let minimumInstanceMetadataServiceVersion = self.minimumInstanceMetadataServiceVersion {
+            try encodeContainer.encode(minimumInstanceMetadataServiceVersion, forKey: .minimumInstanceMetadataServiceVersion)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minimumInstanceMetadataServiceVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumInstanceMetadataServiceVersion)
+        minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersionDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Information on the instance metadata service (IMDS) configuration of the notebook instance.
+    public struct AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails: Swift.Equatable {
+        /// Indicates the minimum IMDS version that the notebook instance supports.
+        public var minimumInstanceMetadataServiceVersion: Swift.String?
+
+        public init (
+            minimumInstanceMetadataServiceVersion: Swift.String? = nil
+        )
+        {
+            self.minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersion
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.AwsSecretsManagerSecretDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deleted = "Deleted"
@@ -33870,6 +36749,869 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.AwsWafv2ActionAllowDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customRequestHandling = "CustomRequestHandling"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customRequestHandling = self.customRequestHandling {
+            try encodeContainer.encode(customRequestHandling, forKey: .customRequestHandling)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customRequestHandlingDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails.self, forKey: .customRequestHandling)
+        customRequestHandling = customRequestHandlingDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies that WAF should allow the request and optionally defines additional custom handling for the request.
+    public struct AwsWafv2ActionAllowDetails: Swift.Equatable {
+        /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide..
+        public var customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails?
+
+        public init (
+            customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails? = nil
+        )
+        {
+            self.customRequestHandling = customRequestHandling
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2ActionBlockDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customResponse = "CustomResponse"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customResponse = self.customResponse {
+            try encodeContainer.encode(customResponse, forKey: .customResponse)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customResponseDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2CustomResponseDetails.self, forKey: .customResponse)
+        customResponse = customResponseDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies that WAF should block the request and optionally defines additional custom handling for the response to the web request.
+    public struct AwsWafv2ActionBlockDetails: Swift.Equatable {
+        /// Defines a custom response for the web request. For information, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide..
+        public var customResponse: SecurityHubClientTypes.AwsWafv2CustomResponseDetails?
+
+        public init (
+            customResponse: SecurityHubClientTypes.AwsWafv2CustomResponseDetails? = nil
+        )
+        {
+            self.customResponse = customResponse
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2CustomHttpHeader: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// A custom header for custom request and response handling.
+    public struct AwsWafv2CustomHttpHeader: Swift.Equatable {
+        /// The name of the custom header.
+        public var name: Swift.String?
+        /// The value of the custom header.
+        public var value: Swift.String?
+
+        public init (
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case insertHeaders = "InsertHeaders"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let insertHeaders = insertHeaders {
+            var insertHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insertHeaders)
+            for awswafv2insertheaderslist0 in insertHeaders {
+                try insertHeadersContainer.encode(awswafv2insertheaderslist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let insertHeadersContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsWafv2CustomHttpHeader?].self, forKey: .insertHeaders)
+        var insertHeadersDecoded0:[SecurityHubClientTypes.AwsWafv2CustomHttpHeader]? = nil
+        if let insertHeadersContainer = insertHeadersContainer {
+            insertHeadersDecoded0 = [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]()
+            for structure0 in insertHeadersContainer {
+                if let structure0 = structure0 {
+                    insertHeadersDecoded0?.append(structure0)
+                }
+            }
+        }
+        insertHeaders = insertHeadersDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Custom request handling behavior that inserts custom headers into a web request. WAF uses custom request handling when the rule action doesn't block the request.
+    public struct AwsWafv2CustomRequestHandlingDetails: Swift.Equatable {
+        /// The HTTP headers to insert into the request.
+        public var insertHeaders: [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]?
+
+        public init (
+            insertHeaders: [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]? = nil
+        )
+        {
+            self.insertHeaders = insertHeaders
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2CustomResponseDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customResponseBodyKey = "CustomResponseBodyKey"
+        case responseCode = "ResponseCode"
+        case responseHeaders = "ResponseHeaders"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customResponseBodyKey = self.customResponseBodyKey {
+            try encodeContainer.encode(customResponseBodyKey, forKey: .customResponseBodyKey)
+        }
+        if responseCode != 0 {
+            try encodeContainer.encode(responseCode, forKey: .responseCode)
+        }
+        if let responseHeaders = responseHeaders {
+            var responseHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .responseHeaders)
+            for awswafv2insertheaderslist0 in responseHeaders {
+                try responseHeadersContainer.encode(awswafv2insertheaderslist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customResponseBodyKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customResponseBodyKey)
+        customResponseBodyKey = customResponseBodyKeyDecoded
+        let responseCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .responseCode) ?? 0
+        responseCode = responseCodeDecoded
+        let responseHeadersContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsWafv2CustomHttpHeader?].self, forKey: .responseHeaders)
+        var responseHeadersDecoded0:[SecurityHubClientTypes.AwsWafv2CustomHttpHeader]? = nil
+        if let responseHeadersContainer = responseHeadersContainer {
+            responseHeadersDecoded0 = [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]()
+            for structure0 in responseHeadersContainer {
+                if let structure0 = structure0 {
+                    responseHeadersDecoded0?.append(structure0)
+                }
+            }
+        }
+        responseHeaders = responseHeadersDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// A custom response to send to the client. You can define a custom response for rule actions and default web ACL actions that are set to block.
+    public struct AwsWafv2CustomResponseDetails: Swift.Equatable {
+        /// References the response body that you want WAF to return to the web request client. You can define a custom response for a rule action or a default web ACL action that is set to block.
+        public var customResponseBodyKey: Swift.String?
+        /// The HTTP status code to return to the client. For a list of status codes that you can use in your custom responses, see [Supported status codes for custom response](https://docs.aws.amazon.com/waf/latest/developerguide/customizing-the-response-status-codes.html) in the WAF Developer Guide.
+        public var responseCode: Swift.Int
+        /// The HTTP headers to use in the response.
+        public var responseHeaders: [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]?
+
+        public init (
+            customResponseBodyKey: Swift.String? = nil,
+            responseCode: Swift.Int = 0,
+            responseHeaders: [SecurityHubClientTypes.AwsWafv2CustomHttpHeader]? = nil
+        )
+        {
+            self.customResponseBodyKey = customResponseBodyKey
+            self.responseCode = responseCode
+            self.responseHeaders = responseHeaders
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2RuleGroupDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case capacity = "Capacity"
+        case description = "Description"
+        case id = "Id"
+        case name = "Name"
+        case rules = "Rules"
+        case scope = "Scope"
+        case visibilityConfig = "VisibilityConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if capacity != 0 {
+            try encodeContainer.encode(capacity, forKey: .capacity)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let rules = rules {
+            var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
+            for awswafv2ruleslist0 in rules {
+                try rulesContainer.encode(awswafv2ruleslist0)
+            }
+        }
+        if let scope = self.scope {
+            try encodeContainer.encode(scope, forKey: .scope)
+        }
+        if let visibilityConfig = self.visibilityConfig {
+            try encodeContainer.encode(visibilityConfig, forKey: .visibilityConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
+        capacity = capacityDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let rulesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsWafv2RulesDetails?].self, forKey: .rules)
+        var rulesDecoded0:[SecurityHubClientTypes.AwsWafv2RulesDetails]? = nil
+        if let rulesContainer = rulesContainer {
+            rulesDecoded0 = [SecurityHubClientTypes.AwsWafv2RulesDetails]()
+            for structure0 in rulesContainer {
+                if let structure0 = structure0 {
+                    rulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        rules = rulesDecoded0
+        let scopeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scope)
+        scope = scopeDecoded
+        let visibilityConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails.self, forKey: .visibilityConfig)
+        visibilityConfig = visibilityConfigDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Details about an WAFv2 rule group.
+    public struct AwsWafv2RuleGroupDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the entity.
+        public var arn: Swift.String?
+        /// The web ACL capacity units (WCUs) required for this rule group.
+        public var capacity: Swift.Int
+        /// A description of the rule group that helps with identification.
+        public var description: Swift.String?
+        /// A unique identifier for the rule group.
+        public var id: Swift.String?
+        /// The name of the rule group. You cannot change the name of a rule group after you create it.
+        public var name: Swift.String?
+        /// The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
+        public var rules: [SecurityHubClientTypes.AwsWafv2RulesDetails]?
+        /// Specifies whether the rule group is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, or an Amazon Cognito user pool.
+        public var scope: Swift.String?
+        /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
+        public var visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails?
+
+        public init (
+            arn: Swift.String? = nil,
+            capacity: Swift.Int = 0,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            rules: [SecurityHubClientTypes.AwsWafv2RulesDetails]? = nil,
+            scope: Swift.String? = nil,
+            visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails? = nil
+        )
+        {
+            self.arn = arn
+            self.capacity = capacity
+            self.description = description
+            self.id = id
+            self.name = name
+            self.rules = rules
+            self.scope = scope
+            self.visibilityConfig = visibilityConfig
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2RulesActionCaptchaDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customRequestHandling = "CustomRequestHandling"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customRequestHandling = self.customRequestHandling {
+            try encodeContainer.encode(customRequestHandling, forKey: .customRequestHandling)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customRequestHandlingDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails.self, forKey: .customRequestHandling)
+        customRequestHandling = customRequestHandlingDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies that WAF should run a CAPTCHA check against the request.
+    public struct AwsWafv2RulesActionCaptchaDetails: Swift.Equatable {
+        /// Defines custom handling for the web request, used when the CAPTCHA inspection determines that the request's token is valid and unexpired. For more information, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide..
+        public var customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails?
+
+        public init (
+            customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails? = nil
+        )
+        {
+            self.customRequestHandling = customRequestHandling
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2RulesActionCountDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customRequestHandling = "CustomRequestHandling"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customRequestHandling = self.customRequestHandling {
+            try encodeContainer.encode(customRequestHandling, forKey: .customRequestHandling)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customRequestHandlingDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails.self, forKey: .customRequestHandling)
+        customRequestHandling = customRequestHandlingDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies that WAF should count the request.
+    public struct AwsWafv2RulesActionCountDetails: Swift.Equatable {
+        /// Defines custom handling for the web request. For more information, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide..
+        public var customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails?
+
+        public init (
+            customRequestHandling: SecurityHubClientTypes.AwsWafv2CustomRequestHandlingDetails? = nil
+        )
+        {
+            self.customRequestHandling = customRequestHandling
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2RulesActionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allow = "Allow"
+        case block = "Block"
+        case captcha = "Captcha"
+        case count = "Count"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allow = self.allow {
+            try encodeContainer.encode(allow, forKey: .allow)
+        }
+        if let block = self.block {
+            try encodeContainer.encode(block, forKey: .block)
+        }
+        if let captcha = self.captcha {
+            try encodeContainer.encode(captcha, forKey: .captcha)
+        }
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let allowDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2ActionAllowDetails.self, forKey: .allow)
+        allow = allowDecoded
+        let blockDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2ActionBlockDetails.self, forKey: .block)
+        block = blockDecoded
+        let captchaDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2RulesActionCaptchaDetails.self, forKey: .captcha)
+        captcha = captchaDecoded
+        let countDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2RulesActionCountDetails.self, forKey: .count)
+        count = countDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The action that WAF should take on a web request when it matches a rule's statement. Settings at the web ACL level can override the rule action setting.
+    public struct AwsWafv2RulesActionDetails: Swift.Equatable {
+        /// Instructs WAF to allow the web request.
+        public var allow: SecurityHubClientTypes.AwsWafv2ActionAllowDetails?
+        /// Instructs WAF to block the web request.
+        public var block: SecurityHubClientTypes.AwsWafv2ActionBlockDetails?
+        /// Instructs WAF to run a CAPTCHA check against the web request.
+        public var captcha: SecurityHubClientTypes.AwsWafv2RulesActionCaptchaDetails?
+        /// Instructs WAF to count the web request and then continue evaluating the request using the remaining rules in the web ACL.
+        public var count: SecurityHubClientTypes.AwsWafv2RulesActionCountDetails?
+
+        public init (
+            allow: SecurityHubClientTypes.AwsWafv2ActionAllowDetails? = nil,
+            block: SecurityHubClientTypes.AwsWafv2ActionBlockDetails? = nil,
+            captcha: SecurityHubClientTypes.AwsWafv2RulesActionCaptchaDetails? = nil,
+            count: SecurityHubClientTypes.AwsWafv2RulesActionCountDetails? = nil
+        )
+        {
+            self.allow = allow
+            self.block = block
+            self.captcha = captcha
+            self.count = count
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2RulesDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action = "Action"
+        case name = "Name"
+        case overrideAction = "OverrideAction"
+        case priority = "Priority"
+        case visibilityConfig = "VisibilityConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let overrideAction = self.overrideAction {
+            try encodeContainer.encode(overrideAction, forKey: .overrideAction)
+        }
+        if priority != 0 {
+            try encodeContainer.encode(priority, forKey: .priority)
+        }
+        if let visibilityConfig = self.visibilityConfig {
+            try encodeContainer.encode(visibilityConfig, forKey: .visibilityConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2RulesActionDetails.self, forKey: .action)
+        action = actionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let overrideActionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .overrideAction)
+        overrideAction = overrideActionDecoded
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
+        priority = priorityDecoded
+        let visibilityConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails.self, forKey: .visibilityConfig)
+        visibilityConfig = visibilityConfigDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about rules in a rule group. A rule identifies web requests that you want to allow, block, or count. Each rule includes one top-level Statement that AWS WAF uses to identify matching web requests, and parameters that govern how AWS WAF handles them.
+    public struct AwsWafv2RulesDetails: Swift.Equatable {
+        /// The action that WAF should take on a web request when it matches the rule statement. Settings at the web ACL level can override the rule action setting.
+        public var action: SecurityHubClientTypes.AwsWafv2RulesActionDetails?
+        /// The name of the rule.
+        public var name: Swift.String?
+        /// The action to use in the place of the action that results from the rule group evaluation.
+        public var overrideAction: Swift.String?
+        /// If you define more than one Rule in a WebACL, WAF evaluates each request against the Rules in order based on the value of Priority. WAF processes rules with lower priority first. The priorities don't need to be consecutive, but they must all be different.
+        public var priority: Swift.Int
+        /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
+        public var visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails?
+
+        public init (
+            action: SecurityHubClientTypes.AwsWafv2RulesActionDetails? = nil,
+            name: Swift.String? = nil,
+            overrideAction: Swift.String? = nil,
+            priority: Swift.Int = 0,
+            visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails? = nil
+        )
+        {
+            self.action = action
+            self.name = name
+            self.overrideAction = overrideAction
+            self.priority = priority
+            self.visibilityConfig = visibilityConfig
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchMetricsEnabled = "CloudWatchMetricsEnabled"
+        case metricName = "MetricName"
+        case sampledRequestsEnabled = "SampledRequestsEnabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if cloudWatchMetricsEnabled != false {
+            try encodeContainer.encode(cloudWatchMetricsEnabled, forKey: .cloudWatchMetricsEnabled)
+        }
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName, forKey: .metricName)
+        }
+        if sampledRequestsEnabled != false {
+            try encodeContainer.encode(sampledRequestsEnabled, forKey: .sampledRequestsEnabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudWatchMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cloudWatchMetricsEnabled) ?? false
+        cloudWatchMetricsEnabled = cloudWatchMetricsEnabledDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let sampledRequestsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sampledRequestsEnabled) ?? false
+        sampledRequestsEnabled = sampledRequestsEnabledDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
+    public struct AwsWafv2VisibilityConfigDetails: Swift.Equatable {
+        /// A boolean indicating whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF metrics and dimensions](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics) in the WAF Developer Guide.
+        public var cloudWatchMetricsEnabled: Swift.Bool
+        /// A name of the Amazon CloudWatch metric.
+        public var metricName: Swift.String?
+        /// A boolean indicating whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console.
+        public var sampledRequestsEnabled: Swift.Bool
+
+        public init (
+            cloudWatchMetricsEnabled: Swift.Bool = false,
+            metricName: Swift.String? = nil,
+            sampledRequestsEnabled: Swift.Bool = false
+        )
+        {
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.metricName = metricName
+            self.sampledRequestsEnabled = sampledRequestsEnabled
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2WebAclActionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allow = "Allow"
+        case block = "Block"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allow = self.allow {
+            try encodeContainer.encode(allow, forKey: .allow)
+        }
+        if let block = self.block {
+            try encodeContainer.encode(block, forKey: .block)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let allowDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2ActionAllowDetails.self, forKey: .allow)
+        allow = allowDecoded
+        let blockDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2ActionBlockDetails.self, forKey: .block)
+        block = blockDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the action that Amazon CloudFront or WAF takes when a web request matches the conditions in the rule.
+    public struct AwsWafv2WebAclActionDetails: Swift.Equatable {
+        /// Specifies that WAF should allow requests by default.
+        public var allow: SecurityHubClientTypes.AwsWafv2ActionAllowDetails?
+        /// Specifies that WAF should block requests by default.
+        public var block: SecurityHubClientTypes.AwsWafv2ActionBlockDetails?
+
+        public init (
+            allow: SecurityHubClientTypes.AwsWafv2ActionAllowDetails? = nil,
+            block: SecurityHubClientTypes.AwsWafv2ActionBlockDetails? = nil
+        )
+        {
+            self.allow = allow
+            self.block = block
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case immunityTimeProperty = "ImmunityTimeProperty"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let immunityTimeProperty = self.immunityTimeProperty {
+            try encodeContainer.encode(immunityTimeProperty, forKey: .immunityTimeProperty)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let immunityTimePropertyDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails.self, forKey: .immunityTimeProperty)
+        immunityTimeProperty = immunityTimePropertyDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings.
+    public struct AwsWafv2WebAclCaptchaConfigDetails: Swift.Equatable {
+        /// Determines how long a CAPTCHA timestamp in the token remains valid after the client successfully solves a CAPTCHA puzzle.
+        public var immunityTimeProperty: SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails?
+
+        public init (
+            immunityTimeProperty: SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails? = nil
+        )
+        {
+            self.immunityTimeProperty = immunityTimeProperty
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case immunityTime = "ImmunityTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if immunityTime != 0 {
+            try encodeContainer.encode(immunityTime, forKey: .immunityTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let immunityTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .immunityTime) ?? 0
+        immunityTime = immunityTimeDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Used for CAPTCHA and challenge token settings. Determines how long a CAPTCHA or challenge timestamp remains valid after WAF updates it for a successful CAPTCHA or challenge response.
+    public struct AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails: Swift.Equatable {
+        /// The amount of time, in seconds, that a CAPTCHA or challenge timestamp is considered valid by WAF.
+        public var immunityTime: Swift.Int
+
+        public init (
+            immunityTime: Swift.Int = 0
+        )
+        {
+            self.immunityTime = immunityTime
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsWafv2WebAclDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case capacity = "Capacity"
+        case captchaConfig = "CaptchaConfig"
+        case defaultAction = "DefaultAction"
+        case description = "Description"
+        case id = "Id"
+        case managedbyFirewallManager = "ManagedbyFirewallManager"
+        case name = "Name"
+        case rules = "Rules"
+        case visibilityConfig = "VisibilityConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if capacity != 0 {
+            try encodeContainer.encode(capacity, forKey: .capacity)
+        }
+        if let captchaConfig = self.captchaConfig {
+            try encodeContainer.encode(captchaConfig, forKey: .captchaConfig)
+        }
+        if let defaultAction = self.defaultAction {
+            try encodeContainer.encode(defaultAction, forKey: .defaultAction)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if managedbyFirewallManager != false {
+            try encodeContainer.encode(managedbyFirewallManager, forKey: .managedbyFirewallManager)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let rules = rules {
+            var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
+            for awswafv2ruleslist0 in rules {
+                try rulesContainer.encode(awswafv2ruleslist0)
+            }
+        }
+        if let visibilityConfig = self.visibilityConfig {
+            try encodeContainer.encode(visibilityConfig, forKey: .visibilityConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let managedbyFirewallManagerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .managedbyFirewallManager) ?? false
+        managedbyFirewallManager = managedbyFirewallManagerDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
+        capacity = capacityDecoded
+        let captchaConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigDetails.self, forKey: .captchaConfig)
+        captchaConfig = captchaConfigDecoded
+        let defaultActionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2WebAclActionDetails.self, forKey: .defaultAction)
+        defaultAction = defaultActionDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let rulesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AwsWafv2RulesDetails?].self, forKey: .rules)
+        var rulesDecoded0:[SecurityHubClientTypes.AwsWafv2RulesDetails]? = nil
+        if let rulesContainer = rulesContainer {
+            rulesDecoded0 = [SecurityHubClientTypes.AwsWafv2RulesDetails]()
+            for structure0 in rulesContainer {
+                if let structure0 = structure0 {
+                    rulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        rules = rulesDecoded0
+        let visibilityConfigDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails.self, forKey: .visibilityConfig)
+        visibilityConfig = visibilityConfigDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Details about an WAFv2 web Access Control List (ACL).
+    public struct AwsWafv2WebAclDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
+        public var arn: Swift.String?
+        /// The web ACL capacity units (WCUs) currently being used by this web ACL.
+        public var capacity: Swift.Int
+        /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings.
+        public var captchaConfig: SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigDetails?
+        /// The action to perform if none of the Rules contained in the web ACL match.
+        public var defaultAction: SecurityHubClientTypes.AwsWafv2WebAclActionDetails?
+        /// A description of the web ACL that helps with identification.
+        public var description: Swift.String?
+        /// A unique identifier for the web ACL.
+        public var id: Swift.String?
+        /// Indicates whether this web ACL is managed by Firewall Manager.
+        public var managedbyFirewallManager: Swift.Bool
+        /// The name of the web ACL.
+        public var name: Swift.String?
+        /// The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
+        public var rules: [SecurityHubClientTypes.AwsWafv2RulesDetails]?
+        /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
+        public var visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails?
+
+        public init (
+            arn: Swift.String? = nil,
+            capacity: Swift.Int = 0,
+            captchaConfig: SecurityHubClientTypes.AwsWafv2WebAclCaptchaConfigDetails? = nil,
+            defaultAction: SecurityHubClientTypes.AwsWafv2WebAclActionDetails? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            managedbyFirewallManager: Swift.Bool = false,
+            name: Swift.String? = nil,
+            rules: [SecurityHubClientTypes.AwsWafv2RulesDetails]? = nil,
+            visibilityConfig: SecurityHubClientTypes.AwsWafv2VisibilityConfigDetails? = nil
+        )
+        {
+            self.arn = arn
+            self.capacity = capacity
+            self.captchaConfig = captchaConfig
+            self.defaultAction = defaultAction
+            self.description = description
+            self.id = id
+            self.managedbyFirewallManager = managedbyFirewallManager
+            self.name = name
+            self.rules = rules
+            self.visibilityConfig = visibilityConfig
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.AwsXrayEncryptionConfigDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
@@ -34000,7 +37742,7 @@ extension BatchDisableStandardsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34138,7 +37880,7 @@ extension BatchEnableStandardsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34276,7 +38018,7 @@ extension BatchImportFindingsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34598,7 +38340,7 @@ extension BatchUpdateFindingsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35496,7 +39238,7 @@ extension CreateActionTargetOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35646,7 +39388,7 @@ extension CreateFindingAggregatorOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35830,7 +39572,7 @@ extension CreateInsightOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35962,7 +39704,7 @@ extension CreateMembersOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36484,7 +40226,7 @@ extension DeclineInvitationsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36593,7 +40335,7 @@ extension DeleteActionTargetOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36696,7 +40438,7 @@ extension DeleteFindingAggregatorOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36768,7 +40510,7 @@ extension DeleteInsightOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36900,7 +40642,7 @@ extension DeleteInvitationsOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37040,7 +40782,7 @@ extension DeleteMembersOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37202,7 +40944,7 @@ extension DescribeActionTargetsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37332,7 +41074,7 @@ extension DescribeHubOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37442,7 +41184,7 @@ extension DescribeOrganizationConfigurationOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37587,7 +41329,7 @@ extension DescribeProductsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37732,7 +41474,7 @@ extension DescribeStandardsControlsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37867,7 +41609,7 @@ extension DescribeStandardsOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37986,7 +41728,7 @@ extension DisableImportFindingsForProductOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38073,7 +41815,7 @@ extension DisableOrganizationAdminAccountOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38131,7 +41873,7 @@ extension DisableSecurityHubOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38190,7 +41932,7 @@ extension DisassociateFromAdministratorAccountOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38250,7 +41992,7 @@ extension DisassociateFromMasterAccountOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38350,7 +42092,7 @@ extension DisassociateMembersOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38493,7 +42235,7 @@ extension EnableImportFindingsForProductOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38611,7 +42353,7 @@ extension EnableOrganizationAdminAccountOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38721,7 +42463,7 @@ extension EnableSecurityHubOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -39330,7 +43072,7 @@ extension GetAdministratorAccountOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -39483,7 +43225,7 @@ extension GetEnabledStandardsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -39604,7 +43346,7 @@ extension GetFindingAggregatorOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -39809,7 +43551,7 @@ extension GetFindingsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -39930,7 +43672,7 @@ extension GetInsightResultsOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40085,7 +43827,7 @@ extension GetInsightsOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40195,7 +43937,7 @@ extension GetInvitationsCountOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40285,7 +44027,7 @@ extension GetMasterAccountOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40416,7 +44158,7 @@ extension GetMembersOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40903,7 +44645,7 @@ extension InvalidAccessException {
     }
 }
 
-/// There is an issue with the account used to make the request. Either Security Hub is not enabled for the account, or the account does not have permission to perform this action.
+/// The account doesn't have permission to perform this action.
 public struct InvalidAccessException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -41147,7 +44889,7 @@ extension InviteMembersOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41536,7 +45278,7 @@ extension ListEnabledProductsForImportOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41672,7 +45414,7 @@ extension ListFindingAggregatorsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41809,7 +45551,7 @@ extension ListInvitationsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41953,7 +45695,7 @@ extension ListMembersOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -42089,7 +45831,7 @@ extension ListOrganizationAdminAccountsOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -42207,7 +45949,7 @@ extension ListTagsForResourceOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -44547,6 +48289,7 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsDynamoDbTable = "AwsDynamoDbTable"
         case awsEc2Eip = "AwsEc2Eip"
         case awsEc2Instance = "AwsEc2Instance"
+        case awsEc2LaunchTemplate = "AwsEc2LaunchTemplate"
         case awsEc2NetworkAcl = "AwsEc2NetworkAcl"
         case awsEc2NetworkInterface = "AwsEc2NetworkInterface"
         case awsEc2SecurityGroup = "AwsEc2SecurityGroup"
@@ -44593,6 +48336,7 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsS3AccountPublicAccessBlock = "AwsS3AccountPublicAccessBlock"
         case awsS3Bucket = "AwsS3Bucket"
         case awsS3Object = "AwsS3Object"
+        case awsSageMakerNotebookInstance = "AwsSageMakerNotebookInstance"
         case awsSecretsManagerSecret = "AwsSecretsManagerSecret"
         case awsSnsTopic = "AwsSnsTopic"
         case awsSqsQueue = "AwsSqsQueue"
@@ -44605,6 +48349,8 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsWafRule = "AwsWafRule"
         case awsWafRuleGroup = "AwsWafRuleGroup"
         case awsWafWebAcl = "AwsWafWebAcl"
+        case awsWafv2RuleGroup = "AwsWafv2RuleGroup"
+        case awsWafv2WebAcl = "AwsWafv2WebAcl"
         case awsXrayEncryptionConfig = "AwsXrayEncryptionConfig"
         case container = "Container"
         case other = "Other"
@@ -44665,6 +48411,9 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         }
         if let awsEc2Instance = self.awsEc2Instance {
             try encodeContainer.encode(awsEc2Instance, forKey: .awsEc2Instance)
+        }
+        if let awsEc2LaunchTemplate = self.awsEc2LaunchTemplate {
+            try encodeContainer.encode(awsEc2LaunchTemplate, forKey: .awsEc2LaunchTemplate)
         }
         if let awsEc2NetworkAcl = self.awsEc2NetworkAcl {
             try encodeContainer.encode(awsEc2NetworkAcl, forKey: .awsEc2NetworkAcl)
@@ -44804,6 +48553,9 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         if let awsS3Object = self.awsS3Object {
             try encodeContainer.encode(awsS3Object, forKey: .awsS3Object)
         }
+        if let awsSageMakerNotebookInstance = self.awsSageMakerNotebookInstance {
+            try encodeContainer.encode(awsSageMakerNotebookInstance, forKey: .awsSageMakerNotebookInstance)
+        }
         if let awsSecretsManagerSecret = self.awsSecretsManagerSecret {
             try encodeContainer.encode(awsSecretsManagerSecret, forKey: .awsSecretsManagerSecret)
         }
@@ -44839,6 +48591,12 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         }
         if let awsWafWebAcl = self.awsWafWebAcl {
             try encodeContainer.encode(awsWafWebAcl, forKey: .awsWafWebAcl)
+        }
+        if let awsWafv2RuleGroup = self.awsWafv2RuleGroup {
+            try encodeContainer.encode(awsWafv2RuleGroup, forKey: .awsWafv2RuleGroup)
+        }
+        if let awsWafv2WebAcl = self.awsWafv2WebAcl {
+            try encodeContainer.encode(awsWafv2WebAcl, forKey: .awsWafv2WebAcl)
         }
         if let awsXrayEncryptionConfig = self.awsXrayEncryptionConfig {
             try encodeContainer.encode(awsXrayEncryptionConfig, forKey: .awsXrayEncryptionConfig)
@@ -45023,6 +48781,14 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         awsBackupBackupPlan = awsBackupBackupPlanDecoded
         let awsBackupRecoveryPointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsBackupRecoveryPointDetails.self, forKey: .awsBackupRecoveryPoint)
         awsBackupRecoveryPoint = awsBackupRecoveryPointDecoded
+        let awsEc2LaunchTemplateDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2LaunchTemplateDetails.self, forKey: .awsEc2LaunchTemplate)
+        awsEc2LaunchTemplate = awsEc2LaunchTemplateDecoded
+        let awsSageMakerNotebookInstanceDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsSageMakerNotebookInstanceDetails.self, forKey: .awsSageMakerNotebookInstance)
+        awsSageMakerNotebookInstance = awsSageMakerNotebookInstanceDecoded
+        let awsWafv2WebAclDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2WebAclDetails.self, forKey: .awsWafv2WebAcl)
+        awsWafv2WebAcl = awsWafv2WebAclDecoded
+        let awsWafv2RuleGroupDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2RuleGroupDetails.self, forKey: .awsWafv2RuleGroup)
+        awsWafv2RuleGroup = awsWafv2RuleGroupDecoded
     }
 }
 
@@ -45065,6 +48831,8 @@ extension SecurityHubClientTypes {
         public var awsEc2Eip: SecurityHubClientTypes.AwsEc2EipDetails?
         /// Details about an EC2 instance related to a finding.
         public var awsEc2Instance: SecurityHubClientTypes.AwsEc2InstanceDetails?
+        /// Specifies the properties for creating an Amazon Elastic Compute Cloud (Amazon EC2) launch template.
+        public var awsEc2LaunchTemplate: SecurityHubClientTypes.AwsEc2LaunchTemplateDetails?
         /// Details about an EC2 network access control list (ACL).
         public var awsEc2NetworkAcl: SecurityHubClientTypes.AwsEc2NetworkAclDetails?
         /// Details for an EC2 network interface.
@@ -45157,6 +48925,8 @@ extension SecurityHubClientTypes {
         public var awsS3Bucket: SecurityHubClientTypes.AwsS3BucketDetails?
         /// Details about an S3 object related to a finding.
         public var awsS3Object: SecurityHubClientTypes.AwsS3ObjectDetails?
+        /// Provides details about an Amazon SageMaker notebook instance.
+        public var awsSageMakerNotebookInstance: SecurityHubClientTypes.AwsSageMakerNotebookInstanceDetails?
         /// Details about a Secrets Manager secret.
         public var awsSecretsManagerSecret: SecurityHubClientTypes.AwsSecretsManagerSecretDetails?
         /// Details about an SNS topic.
@@ -45181,6 +48951,10 @@ extension SecurityHubClientTypes {
         public var awsWafRuleGroup: SecurityHubClientTypes.AwsWafRuleGroupDetails?
         /// Details for an WAF web ACL.
         public var awsWafWebAcl: SecurityHubClientTypes.AwsWafWebAclDetails?
+        /// Details about an WAFv2 rule group.
+        public var awsWafv2RuleGroup: SecurityHubClientTypes.AwsWafv2RuleGroupDetails?
+        /// Details about an WAFv2 web Access Control List (ACL).
+        public var awsWafv2WebAcl: SecurityHubClientTypes.AwsWafv2WebAclDetails?
         /// Information about the encryption configuration for X-Ray.
         public var awsXrayEncryptionConfig: SecurityHubClientTypes.AwsXrayEncryptionConfigDetails?
         /// Details about a container resource related to a finding.
@@ -45211,6 +48985,7 @@ extension SecurityHubClientTypes {
             awsDynamoDbTable: SecurityHubClientTypes.AwsDynamoDbTableDetails? = nil,
             awsEc2Eip: SecurityHubClientTypes.AwsEc2EipDetails? = nil,
             awsEc2Instance: SecurityHubClientTypes.AwsEc2InstanceDetails? = nil,
+            awsEc2LaunchTemplate: SecurityHubClientTypes.AwsEc2LaunchTemplateDetails? = nil,
             awsEc2NetworkAcl: SecurityHubClientTypes.AwsEc2NetworkAclDetails? = nil,
             awsEc2NetworkInterface: SecurityHubClientTypes.AwsEc2NetworkInterfaceDetails? = nil,
             awsEc2SecurityGroup: SecurityHubClientTypes.AwsEc2SecurityGroupDetails? = nil,
@@ -45257,6 +49032,7 @@ extension SecurityHubClientTypes {
             awsS3AccountPublicAccessBlock: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails? = nil,
             awsS3Bucket: SecurityHubClientTypes.AwsS3BucketDetails? = nil,
             awsS3Object: SecurityHubClientTypes.AwsS3ObjectDetails? = nil,
+            awsSageMakerNotebookInstance: SecurityHubClientTypes.AwsSageMakerNotebookInstanceDetails? = nil,
             awsSecretsManagerSecret: SecurityHubClientTypes.AwsSecretsManagerSecretDetails? = nil,
             awsSnsTopic: SecurityHubClientTypes.AwsSnsTopicDetails? = nil,
             awsSqsQueue: SecurityHubClientTypes.AwsSqsQueueDetails? = nil,
@@ -45269,6 +49045,8 @@ extension SecurityHubClientTypes {
             awsWafRule: SecurityHubClientTypes.AwsWafRuleDetails? = nil,
             awsWafRuleGroup: SecurityHubClientTypes.AwsWafRuleGroupDetails? = nil,
             awsWafWebAcl: SecurityHubClientTypes.AwsWafWebAclDetails? = nil,
+            awsWafv2RuleGroup: SecurityHubClientTypes.AwsWafv2RuleGroupDetails? = nil,
+            awsWafv2WebAcl: SecurityHubClientTypes.AwsWafv2WebAclDetails? = nil,
             awsXrayEncryptionConfig: SecurityHubClientTypes.AwsXrayEncryptionConfigDetails? = nil,
             container: SecurityHubClientTypes.ContainerDetails? = nil,
             other: [Swift.String:Swift.String]? = nil
@@ -45292,6 +49070,7 @@ extension SecurityHubClientTypes {
             self.awsDynamoDbTable = awsDynamoDbTable
             self.awsEc2Eip = awsEc2Eip
             self.awsEc2Instance = awsEc2Instance
+            self.awsEc2LaunchTemplate = awsEc2LaunchTemplate
             self.awsEc2NetworkAcl = awsEc2NetworkAcl
             self.awsEc2NetworkInterface = awsEc2NetworkInterface
             self.awsEc2SecurityGroup = awsEc2SecurityGroup
@@ -45338,6 +49117,7 @@ extension SecurityHubClientTypes {
             self.awsS3AccountPublicAccessBlock = awsS3AccountPublicAccessBlock
             self.awsS3Bucket = awsS3Bucket
             self.awsS3Object = awsS3Object
+            self.awsSageMakerNotebookInstance = awsSageMakerNotebookInstance
             self.awsSecretsManagerSecret = awsSecretsManagerSecret
             self.awsSnsTopic = awsSnsTopic
             self.awsSqsQueue = awsSqsQueue
@@ -45350,6 +49130,8 @@ extension SecurityHubClientTypes {
             self.awsWafRule = awsWafRule
             self.awsWafRuleGroup = awsWafRuleGroup
             self.awsWafWebAcl = awsWafWebAcl
+            self.awsWafv2RuleGroup = awsWafv2RuleGroup
+            self.awsWafv2WebAcl = awsWafv2WebAcl
             self.awsXrayEncryptionConfig = awsXrayEncryptionConfig
             self.container = container
             self.other = other
@@ -48076,7 +51858,7 @@ extension TagResourceOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48430,7 +52212,7 @@ extension UntagResourceOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48534,7 +52316,7 @@ extension UpdateActionTargetOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48665,7 +52447,7 @@ extension UpdateFindingAggregatorOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48848,7 +52630,7 @@ extension UpdateFindingsOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48967,7 +52749,7 @@ extension UpdateInsightOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49066,7 +52848,7 @@ extension UpdateOrganizationConfigurationOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49152,7 +52934,7 @@ extension UpdateSecurityHubConfigurationOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49258,7 +53040,7 @@ extension UpdateStandardsControlOutputError {
         case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

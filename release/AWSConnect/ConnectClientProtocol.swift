@@ -3,7 +3,7 @@
 import AWSClientRuntime
 import ClientRuntime
 
-/// Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing. You can also resolve customer issues more efficiently by getting customers in touch with the appropriate agents. There are limits to the number of Amazon Connect resources that you can create. There are also limits to the number of requests that you can make per second. For more information, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide. You can connect programmatically to an Amazon Web Services service by using an endpoint. For a list of Amazon Connect endpoints, see [Amazon Connect Endpoints](https://docs.aws.amazon.com/general/latest/gr/connect_region.html). Working with flows? Check out the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html).
+/// Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing. You can also resolve customer issues more efficiently by getting customers in touch with the appropriate agents. There are limits to the number of Amazon Connect resources that you can create. There are also limits to the number of requests that you can make per second. For more information, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide. You can connect programmatically to an Amazon Web Services service by using an endpoint. For a list of Amazon Connect endpoints, see [Amazon Connect Endpoints](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
 public protocol ConnectClientProtocol {
     /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
     func associateApprovedOrigin(input: AssociateApprovedOriginInput) async throws -> AssociateApprovedOriginOutputResponse
@@ -25,11 +25,11 @@ public protocol ConnectClientProtocol {
     func associateRoutingProfileQueues(input: AssociateRoutingProfileQueuesInput) async throws -> AssociateRoutingProfileQueuesOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a security key to the instance.
     func associateSecurityKey(input: AssociateSecurityKeyInput) async throws -> AssociateSecurityKeyOutputResponse
-    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. You can call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) operation.
+    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see [Claim a phone number in your country](https://docs.aws.amazon.com/connect/latest/adminguide/claim-phone-number.html) and [Claim phone numbers to traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/claim-phone-numbers-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide. You can call the [SearchAvailablePhoneNumbers](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchAvailablePhoneNumbers.html) API for available phone numbers that you can claim. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) operation.
     func claimPhoneNumber(input: ClaimPhoneNumberInput) async throws -> ClaimPhoneNumberOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Creates an agent status for the specified Amazon Connect instance.
     func createAgentStatus(input: CreateAgentStatusInput) async throws -> CreateAgentStatusOutputResponse
-    /// Creates a flow for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html).
+    /// Creates a flow for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     func createContactFlow(input: CreateContactFlowInput) async throws -> CreateContactFlowOutputResponse
     /// Creates a flow module for the specified Amazon Connect instance.
     func createContactFlowModule(input: CreateContactFlowModuleInput) async throws -> CreateContactFlowModuleOutputResponse
@@ -45,6 +45,8 @@ public protocol ConnectClientProtocol {
     func createQuickConnect(input: CreateQuickConnectInput) async throws -> CreateQuickConnectOutputResponse
     /// Creates a new routing profile.
     func createRoutingProfile(input: CreateRoutingProfileInput) async throws -> CreateRoutingProfileOutputResponse
+    /// Creates a rule for the specified Amazon Connect instance. Use the [Rules Function language](https://docs.aws.amazon.com/connect/latest/APIReference/connect-rules-language.html) to code conditions for the rule.
+    func createRule(input: CreateRuleInput) async throws -> CreateRuleOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Creates a security profile.
     func createSecurityProfile(input: CreateSecurityProfileInput) async throws -> CreateSecurityProfileOutputResponse
     /// Creates a new task template in the specified Amazon Connect instance.
@@ -71,6 +73,8 @@ public protocol ConnectClientProtocol {
     func deleteIntegrationAssociation(input: DeleteIntegrationAssociationInput) async throws -> DeleteIntegrationAssociationOutputResponse
     /// Deletes a quick connect.
     func deleteQuickConnect(input: DeleteQuickConnectInput) async throws -> DeleteQuickConnectOutputResponse
+    /// Deletes a rule for the specified Amazon Connect instance.
+    func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes a security profile.
     func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutputResponse
     /// Deletes the task template.
@@ -89,7 +93,7 @@ public protocol ConnectClientProtocol {
     func describeAgentStatus(input: DescribeAgentStatusInput) async throws -> DescribeAgentStatusOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact. Contact information remains available in Amazon Connect for 24 months, and then it is deleted. Only data from November 12, 2021, and later is returned by this API.
     func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutputResponse
-    /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html).
+    /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     func describeContactFlow(input: DescribeContactFlowInput) async throws -> DescribeContactFlowOutputResponse
     /// Describes the specified flow module.
     func describeContactFlowModule(input: DescribeContactFlowModuleInput) async throws -> DescribeContactFlowModuleOutputResponse
@@ -109,6 +113,8 @@ public protocol ConnectClientProtocol {
     func describeQuickConnect(input: DescribeQuickConnectInput) async throws -> DescribeQuickConnectOutputResponse
     /// Describes the specified routing profile.
     func describeRoutingProfile(input: DescribeRoutingProfileInput) async throws -> DescribeRoutingProfileOutputResponse
+    /// Describes a rule for the specified Amazon Connect instance.
+    func describeRule(input: DescribeRuleInput) async throws -> DescribeRuleOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Gets basic information about the security profle.
     func describeSecurityProfile(input: DescribeSecurityProfileInput) async throws -> DescribeSecurityProfileOutputResponse
     /// Gets details and status of a traffic distribution group.
@@ -163,7 +169,7 @@ public protocol ConnectClientProtocol {
     func listBots(input: ListBotsInput) async throws -> ListBotsOutputResponse
     /// Provides information about the flow modules for the specified Amazon Connect instance.
     func listContactFlowModules(input: ListContactFlowModulesInput) async throws -> ListContactFlowModulesOutputResponse
-    /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html). For more information about flows, see [Flows](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-contact-flows.html) in the Amazon Connect Administrator Guide.
+    /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). For more information about flows, see [Flows](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-contact-flows.html) in the Amazon Connect Administrator Guide.
     func listContactFlows(input: ListContactFlowsInput) async throws -> ListContactFlowsOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
     func listContactReferences(input: ListContactReferencesInput) async throws -> ListContactReferencesOutputResponse
@@ -199,6 +205,8 @@ public protocol ConnectClientProtocol {
     func listRoutingProfileQueues(input: ListRoutingProfileQueuesInput) async throws -> ListRoutingProfileQueuesOutputResponse
     /// Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see [Routing Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing.html) and [Create a Routing Profile](https://docs.aws.amazon.com/connect/latest/adminguide/routing-profiles.html) in the Amazon Connect Administrator Guide.
     func listRoutingProfiles(input: ListRoutingProfilesInput) async throws -> ListRoutingProfilesOutputResponse
+    /// List all rules for the specified Amazon Connect instance.
+    func listRules(input: ListRulesInput) async throws -> ListRulesOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
     func listSecurityKeys(input: ListSecurityKeysInput) async throws -> ListSecurityKeysOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
@@ -299,7 +307,7 @@ public protocol ConnectClientProtocol {
     func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutputResponse
     /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits) in the Amazon Connect Administrator Guide.
     func updateContactAttributes(input: UpdateContactAttributesInput) async throws -> UpdateContactAttributesOutputResponse
-    /// Updates the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html).
+    /// Updates the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     func updateContactFlowContent(input: UpdateContactFlowContentInput) async throws -> UpdateContactFlowContentOutputResponse
     /// Updates metadata about specified flow.
     func updateContactFlowMetadata(input: UpdateContactFlowMetadataInput) async throws -> UpdateContactFlowMetadataOutputResponse
@@ -307,7 +315,7 @@ public protocol ConnectClientProtocol {
     func updateContactFlowModuleContent(input: UpdateContactFlowModuleContentInput) async throws -> UpdateContactFlowModuleContentOutputResponse
     /// Updates metadata about specified flow module.
     func updateContactFlowModuleMetadata(input: UpdateContactFlowModuleMetadataInput) async throws -> UpdateContactFlowModuleMetadataOutputResponse
-    /// The name of the flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html).
+    /// The name of the flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     func updateContactFlowName(input: UpdateContactFlowNameInput) async throws -> UpdateContactFlowNameOutputResponse
     /// Updates the scheduled time of a task contact that is already scheduled.
     func updateContactSchedule(input: UpdateContactScheduleInput) async throws -> UpdateContactScheduleOutputResponse
@@ -341,6 +349,8 @@ public protocol ConnectClientProtocol {
     func updateRoutingProfileName(input: UpdateRoutingProfileNameInput) async throws -> UpdateRoutingProfileNameOutputResponse
     /// Updates the properties associated with a set of queues for a routing profile.
     func updateRoutingProfileQueues(input: UpdateRoutingProfileQueuesInput) async throws -> UpdateRoutingProfileQueuesOutputResponse
+    /// Updates a rule for the specified Amazon Connect instance. Use the [Rules Function language](https://docs.aws.amazon.com/connect/latest/APIReference/connect-rules-language.html) to code conditions for the rule.
+    func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Updates a security profile.
     func updateSecurityProfile(input: UpdateSecurityProfileInput) async throws -> UpdateSecurityProfileOutputResponse
     /// Updates details about a specific task template in the specified Amazon Connect instance. This operation does not support partial updates. Instead it does a full update of template content.

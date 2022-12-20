@@ -138,21 +138,53 @@ extension MigrationHubStrategyClientTypes {
 extension MigrationHubStrategyClientTypes {
     public enum AppType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case iis
+        case cassandra
+        case db2
         case dotnetframework
+        case dotnet
+        case dotnetcore
         case java
+        case jboss
+        case mariadb
+        case mongodb
+        case mysql
         case oracle
         case other
+        case postgresqlserver
+        case spring
         case sqlserver
+        case sybase
+        case tomcat
+        case unknown
+        case visualbasic
+        case weblogic
+        case websphere
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AppType] {
             return [
                 .iis,
+                .cassandra,
+                .db2,
                 .dotnetframework,
+                .dotnet,
+                .dotnetcore,
                 .java,
+                .jboss,
+                .mariadb,
+                .mongodb,
+                .mysql,
                 .oracle,
                 .other,
+                .postgresqlserver,
+                .spring,
                 .sqlserver,
+                .sybase,
+                .tomcat,
+                .unknown,
+                .visualbasic,
+                .weblogic,
+                .websphere,
                 .sdkUnknown("")
             ]
         }
@@ -163,11 +195,27 @@ extension MigrationHubStrategyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .iis: return "IIS"
+            case .cassandra: return "Cassandra"
+            case .db2: return "DB2"
             case .dotnetframework: return "DotNetFramework"
+            case .dotnet: return "Dotnet"
+            case .dotnetcore: return "DotnetCore"
             case .java: return "Java"
+            case .jboss: return "JBoss"
+            case .mariadb: return "Maria DB"
+            case .mongodb: return "Mongo DB"
+            case .mysql: return "MySQL"
             case .oracle: return "Oracle"
             case .other: return "Other"
+            case .postgresqlserver: return "PostgreSQLServer"
+            case .spring: return "Spring"
             case .sqlserver: return "SQLServer"
+            case .sybase: return "Sybase"
+            case .tomcat: return "Tomcat"
+            case .unknown: return "Unknown"
+            case .visualbasic: return "Visual Basic"
+            case .weblogic: return "Oracle WebLogic"
+            case .websphere: return "IBM WebSphere"
             case let .sdkUnknown(s): return s
             }
         }
@@ -179,11 +227,89 @@ extension MigrationHubStrategyClientTypes {
     }
 }
 
+extension MigrationHubStrategyClientTypes.AppUnitError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appUnitErrorCategory
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appUnitErrorCategory = self.appUnitErrorCategory {
+            try encodeContainer.encode(appUnitErrorCategory.rawValue, forKey: .appUnitErrorCategory)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appUnitErrorCategoryDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AppUnitErrorCategory.self, forKey: .appUnitErrorCategory)
+        appUnitErrorCategory = appUnitErrorCategoryDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// Error in the analysis of the application unit.
+    public struct AppUnitError: Swift.Equatable {
+        /// The category of the error.
+        public var appUnitErrorCategory: MigrationHubStrategyClientTypes.AppUnitErrorCategory?
+
+        public init (
+            appUnitErrorCategory: MigrationHubStrategyClientTypes.AppUnitErrorCategory? = nil
+        )
+        {
+            self.appUnitErrorCategory = appUnitErrorCategory
+        }
+    }
+
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum AppUnitErrorCategory: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case connectivityError
+        case credentialError
+        case otherError
+        case permissionError
+        case unsupportedError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppUnitErrorCategory] {
+            return [
+                .connectivityError,
+                .credentialError,
+                .otherError,
+                .permissionError,
+                .unsupportedError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .connectivityError: return "CONNECTIVITY_ERROR"
+            case .credentialError: return "CREDENTIAL_ERROR"
+            case .otherError: return "OTHER_ERROR"
+            case .permissionError: return "PERMISSION_ERROR"
+            case .unsupportedError: return "UNSUPPORTED_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AppUnitErrorCategory(rawValue: rawValue) ?? AppUnitErrorCategory.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MigrationHubStrategyClientTypes {
     public enum ApplicationComponentCriteria: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case analysisStatus
         case appName
         case appType
         case destination
+        case errorCategory
         case notDefined
         case serverId
         case strategy
@@ -191,9 +317,11 @@ extension MigrationHubStrategyClientTypes {
 
         public static var allCases: [ApplicationComponentCriteria] {
             return [
+                .analysisStatus,
                 .appName,
                 .appType,
                 .destination,
+                .errorCategory,
                 .notDefined,
                 .serverId,
                 .strategy,
@@ -206,9 +334,11 @@ extension MigrationHubStrategyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .analysisStatus: return "ANALYSIS_STATUS"
             case .appName: return "APP_NAME"
             case .appType: return "APP_TYPE"
             case .destination: return "DESTINATION"
+            case .errorCategory: return "ERROR_CATEGORY"
             case .notDefined: return "NOT_DEFINED"
             case .serverId: return "SERVER_ID"
             case .strategy: return "STRATEGY"
@@ -230,6 +360,7 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         case antipatternReportStatus
         case antipatternReportStatusMessage
         case appType
+        case appUnitError
         case associatedServerId
         case databaseConfigDetail
         case id
@@ -242,6 +373,8 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         case osVersion
         case recommendationSet
         case resourceSubType
+        case runtimeStatus
+        case runtimeStatusMessage
         case sourceCodeRepositories
         case statusMessage
     }
@@ -262,6 +395,9 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         }
         if let appType = self.appType {
             try encodeContainer.encode(appType.rawValue, forKey: .appType)
+        }
+        if let appUnitError = self.appUnitError {
+            try encodeContainer.encode(appUnitError, forKey: .appUnitError)
         }
         if let associatedServerId = self.associatedServerId {
             try encodeContainer.encode(associatedServerId, forKey: .associatedServerId)
@@ -301,6 +437,12 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         }
         if let resourceSubType = self.resourceSubType {
             try encodeContainer.encode(resourceSubType.rawValue, forKey: .resourceSubType)
+        }
+        if let runtimeStatus = self.runtimeStatus {
+            try encodeContainer.encode(runtimeStatus.rawValue, forKey: .runtimeStatus)
+        }
+        if let runtimeStatusMessage = self.runtimeStatusMessage {
+            try encodeContainer.encode(runtimeStatusMessage, forKey: .runtimeStatusMessage)
         }
         if let sourceCodeRepositories = sourceCodeRepositories {
             var sourceCodeRepositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceCodeRepositories)
@@ -371,6 +513,12 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         associatedServerId = associatedServerIdDecoded
         let moreServerAssociationExistsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .moreServerAssociationExists)
         moreServerAssociationExists = moreServerAssociationExistsDecoded
+        let runtimeStatusDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.RuntimeAnalysisStatus.self, forKey: .runtimeStatus)
+        runtimeStatus = runtimeStatusDecoded
+        let runtimeStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtimeStatusMessage)
+        runtimeStatusMessage = runtimeStatusMessageDecoded
+        let appUnitErrorDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AppUnitError.self, forKey: .appUnitError)
+        appUnitError = appUnitErrorDecoded
     }
 }
 
@@ -387,6 +535,8 @@ extension MigrationHubStrategyClientTypes {
         public var antipatternReportStatusMessage: Swift.String?
         /// The type of application component.
         public var appType: MigrationHubStrategyClientTypes.AppType?
+        /// The error in the analysis of the source code or database.
+        public var appUnitError: MigrationHubStrategyClientTypes.AppUnitError?
         /// The ID of the server that the application component is running on.
         public var associatedServerId: Swift.String?
         /// Configuration details for the database associated with the application component.
@@ -411,6 +561,10 @@ extension MigrationHubStrategyClientTypes {
         public var recommendationSet: MigrationHubStrategyClientTypes.RecommendationSet?
         /// The application component subtype.
         public var resourceSubType: MigrationHubStrategyClientTypes.ResourceSubType?
+        /// The status of the application unit.
+        public var runtimeStatus: MigrationHubStrategyClientTypes.RuntimeAnalysisStatus?
+        /// The status message for the application unit.
+        public var runtimeStatusMessage: Swift.String?
         /// Details about the source code repository associated with the application component.
         public var sourceCodeRepositories: [MigrationHubStrategyClientTypes.SourceCodeRepository]?
         /// A detailed description of the analysis status and any failure message.
@@ -422,6 +576,7 @@ extension MigrationHubStrategyClientTypes {
             antipatternReportStatus: MigrationHubStrategyClientTypes.AntipatternReportStatus? = nil,
             antipatternReportStatusMessage: Swift.String? = nil,
             appType: MigrationHubStrategyClientTypes.AppType? = nil,
+            appUnitError: MigrationHubStrategyClientTypes.AppUnitError? = nil,
             associatedServerId: Swift.String? = nil,
             databaseConfigDetail: MigrationHubStrategyClientTypes.DatabaseConfigDetail? = nil,
             id: Swift.String? = nil,
@@ -434,6 +589,8 @@ extension MigrationHubStrategyClientTypes {
             osVersion: Swift.String? = nil,
             recommendationSet: MigrationHubStrategyClientTypes.RecommendationSet? = nil,
             resourceSubType: MigrationHubStrategyClientTypes.ResourceSubType? = nil,
+            runtimeStatus: MigrationHubStrategyClientTypes.RuntimeAnalysisStatus? = nil,
+            runtimeStatusMessage: Swift.String? = nil,
             sourceCodeRepositories: [MigrationHubStrategyClientTypes.SourceCodeRepository]? = nil,
             statusMessage: Swift.String? = nil
         )
@@ -443,6 +600,7 @@ extension MigrationHubStrategyClientTypes {
             self.antipatternReportStatus = antipatternReportStatus
             self.antipatternReportStatusMessage = antipatternReportStatusMessage
             self.appType = appType
+            self.appUnitError = appUnitError
             self.associatedServerId = associatedServerId
             self.databaseConfigDetail = databaseConfigDetail
             self.id = id
@@ -455,8 +613,55 @@ extension MigrationHubStrategyClientTypes {
             self.osVersion = osVersion
             self.recommendationSet = recommendationSet
             self.resourceSubType = resourceSubType
+            self.runtimeStatus = runtimeStatus
+            self.runtimeStatusMessage = runtimeStatusMessage
             self.sourceCodeRepositories = sourceCodeRepositories
             self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case count
+        case srcCodeOrDbAnalysisStatus
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let srcCodeOrDbAnalysisStatus = self.srcCodeOrDbAnalysisStatus {
+            try encodeContainer.encode(srcCodeOrDbAnalysisStatus.rawValue, forKey: .srcCodeOrDbAnalysisStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let srcCodeOrDbAnalysisStatusDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.SrcCodeOrDbAnalysisStatus.self, forKey: .srcCodeOrDbAnalysisStatus)
+        srcCodeOrDbAnalysisStatus = srcCodeOrDbAnalysisStatusDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
+        count = countDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// Summary of the analysis status of the application component.
+    public struct ApplicationComponentStatusSummary: Swift.Equatable {
+        /// The number of application components successfully analyzed, partially successful or failed analysis.
+        public var count: Swift.Int?
+        /// The status of database analysis.
+        public var srcCodeOrDbAnalysisStatus: MigrationHubStrategyClientTypes.SrcCodeOrDbAnalysisStatus?
+
+        public init (
+            count: Swift.Int? = nil,
+            srcCodeOrDbAnalysisStatus: MigrationHubStrategyClientTypes.SrcCodeOrDbAnalysisStatus? = nil
+        )
+        {
+            self.count = count
+            self.srcCodeOrDbAnalysisStatus = srcCodeOrDbAnalysisStatus
         }
     }
 
@@ -562,6 +767,41 @@ extension MigrationHubStrategyClientTypes {
 
 }
 
+extension MigrationHubStrategyClientTypes {
+    public enum ApplicationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case known
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationMode] {
+            return [
+                .all,
+                .known,
+                .unknown,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .known: return "KNOWN"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApplicationMode(rawValue: rawValue) ?? ApplicationMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MigrationHubStrategyClientTypes.ApplicationPreferences: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case managementPreference
@@ -642,8 +882,10 @@ extension MigrationHubStrategyClientTypes.AssessmentSummary: Swift.Codable {
         case antipatternReportStatusMessage
         case lastAnalyzedTimestamp
         case listAntipatternSeveritySummary
+        case listApplicationComponentStatusSummary
         case listApplicationComponentStrategySummary
         case listApplicationComponentSummary
+        case listServerStatusSummary
         case listServerStrategySummary
         case listServerSummary
     }
@@ -668,6 +910,12 @@ extension MigrationHubStrategyClientTypes.AssessmentSummary: Swift.Codable {
                 try listAntipatternSeveritySummaryContainer.encode(listantipatternseveritysummary0)
             }
         }
+        if let listApplicationComponentStatusSummary = listApplicationComponentStatusSummary {
+            var listApplicationComponentStatusSummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listApplicationComponentStatusSummary)
+            for listapplicationcomponentstatussummary0 in listApplicationComponentStatusSummary {
+                try listApplicationComponentStatusSummaryContainer.encode(listapplicationcomponentstatussummary0)
+            }
+        }
         if let listApplicationComponentStrategySummary = listApplicationComponentStrategySummary {
             var listApplicationComponentStrategySummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listApplicationComponentStrategySummary)
             for liststrategysummary0 in listApplicationComponentStrategySummary {
@@ -678,6 +926,12 @@ extension MigrationHubStrategyClientTypes.AssessmentSummary: Swift.Codable {
             var listApplicationComponentSummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listApplicationComponentSummary)
             for listapplicationcomponentsummary0 in listApplicationComponentSummary {
                 try listApplicationComponentSummaryContainer.encode(listapplicationcomponentsummary0)
+            }
+        }
+        if let listServerStatusSummary = listServerStatusSummary {
+            var listServerStatusSummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listServerStatusSummary)
+            for listserverstatussummary0 in listServerStatusSummary {
+                try listServerStatusSummaryContainer.encode(listserverstatussummary0)
             }
         }
         if let listServerStrategySummary = listServerStrategySummary {
@@ -759,6 +1013,28 @@ extension MigrationHubStrategyClientTypes.AssessmentSummary: Swift.Codable {
         antipatternReportStatusMessage = antipatternReportStatusMessageDecoded
         let lastAnalyzedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastAnalyzedTimestamp)
         lastAnalyzedTimestamp = lastAnalyzedTimestampDecoded
+        let listApplicationComponentStatusSummaryContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary?].self, forKey: .listApplicationComponentStatusSummary)
+        var listApplicationComponentStatusSummaryDecoded0:[MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary]? = nil
+        if let listApplicationComponentStatusSummaryContainer = listApplicationComponentStatusSummaryContainer {
+            listApplicationComponentStatusSummaryDecoded0 = [MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary]()
+            for structure0 in listApplicationComponentStatusSummaryContainer {
+                if let structure0 = structure0 {
+                    listApplicationComponentStatusSummaryDecoded0?.append(structure0)
+                }
+            }
+        }
+        listApplicationComponentStatusSummary = listApplicationComponentStatusSummaryDecoded0
+        let listServerStatusSummaryContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.ServerStatusSummary?].self, forKey: .listServerStatusSummary)
+        var listServerStatusSummaryDecoded0:[MigrationHubStrategyClientTypes.ServerStatusSummary]? = nil
+        if let listServerStatusSummaryContainer = listServerStatusSummaryContainer {
+            listServerStatusSummaryDecoded0 = [MigrationHubStrategyClientTypes.ServerStatusSummary]()
+            for structure0 in listServerStatusSummaryContainer {
+                if let structure0 = structure0 {
+                    listServerStatusSummaryDecoded0?.append(structure0)
+                }
+            }
+        }
+        listServerStatusSummary = listServerStatusSummaryDecoded0
     }
 }
 
@@ -775,10 +1051,14 @@ extension MigrationHubStrategyClientTypes {
         public var lastAnalyzedTimestamp: ClientRuntime.Date?
         /// List of AntipatternSeveritySummary.
         public var listAntipatternSeveritySummary: [MigrationHubStrategyClientTypes.AntipatternSeveritySummary]?
+        /// List of status summaries of the analyzed application components.
+        public var listApplicationComponentStatusSummary: [MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary]?
         /// List of ApplicationComponentStrategySummary.
         public var listApplicationComponentStrategySummary: [MigrationHubStrategyClientTypes.StrategySummary]?
         /// List of ApplicationComponentSummary.
         public var listApplicationComponentSummary: [MigrationHubStrategyClientTypes.ApplicationComponentSummary]?
+        /// List of status summaries of the analyzed servers.
+        public var listServerStatusSummary: [MigrationHubStrategyClientTypes.ServerStatusSummary]?
         /// List of ServerStrategySummary.
         public var listServerStrategySummary: [MigrationHubStrategyClientTypes.StrategySummary]?
         /// List of ServerSummary.
@@ -790,8 +1070,10 @@ extension MigrationHubStrategyClientTypes {
             antipatternReportStatusMessage: Swift.String? = nil,
             lastAnalyzedTimestamp: ClientRuntime.Date? = nil,
             listAntipatternSeveritySummary: [MigrationHubStrategyClientTypes.AntipatternSeveritySummary]? = nil,
+            listApplicationComponentStatusSummary: [MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary]? = nil,
             listApplicationComponentStrategySummary: [MigrationHubStrategyClientTypes.StrategySummary]? = nil,
             listApplicationComponentSummary: [MigrationHubStrategyClientTypes.ApplicationComponentSummary]? = nil,
+            listServerStatusSummary: [MigrationHubStrategyClientTypes.ServerStatusSummary]? = nil,
             listServerStrategySummary: [MigrationHubStrategyClientTypes.StrategySummary]? = nil,
             listServerSummary: [MigrationHubStrategyClientTypes.ServerSummary]? = nil
         )
@@ -801,10 +1083,82 @@ extension MigrationHubStrategyClientTypes {
             self.antipatternReportStatusMessage = antipatternReportStatusMessage
             self.lastAnalyzedTimestamp = lastAnalyzedTimestamp
             self.listAntipatternSeveritySummary = listAntipatternSeveritySummary
+            self.listApplicationComponentStatusSummary = listApplicationComponentStatusSummary
             self.listApplicationComponentStrategySummary = listApplicationComponentStrategySummary
             self.listApplicationComponentSummary = listApplicationComponentSummary
+            self.listServerStatusSummary = listServerStatusSummary
             self.listServerStrategySummary = listServerStrategySummary
             self.listServerSummary = listServerSummary
+        }
+    }
+
+}
+
+extension MigrationHubStrategyClientTypes.AssessmentTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case condition
+        case name
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let condition = self.condition {
+            try encodeContainer.encode(condition.rawValue, forKey: .condition)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for assessmenttargetvalues0 in values {
+                try valuesContainer.encode(assessmenttargetvalues0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let conditionDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.Condition.self, forKey: .condition)
+        condition = conditionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// Defines the criteria of assessment.
+    public struct AssessmentTarget: Swift.Equatable {
+        /// Condition of an assessment.
+        /// This member is required.
+        public var condition: MigrationHubStrategyClientTypes.Condition?
+        /// Name of an assessment.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Values of an assessment.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init (
+            condition: MigrationHubStrategyClientTypes.Condition? = nil,
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.condition = condition
+            self.name = name
+            self.values = values
         }
     }
 
@@ -853,6 +1207,41 @@ extension MigrationHubStrategyClientTypes {
         }
     }
 
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum AuthType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cert
+        case ntlm
+        case ssh
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthType] {
+            return [
+                .cert,
+                .ntlm,
+                .ssh,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cert: return "CERT"
+            case .ntlm: return "NTLM"
+            case .ssh: return "SSH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuthType(rawValue: rawValue) ?? AuthType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MigrationHubStrategyClientTypes.AwsManagedResources: Swift.Codable {
@@ -1008,6 +1397,7 @@ extension MigrationHubStrategyClientTypes.Collector: Swift.Codable {
         case collectorHealth
         case collectorId
         case collectorVersion
+        case configurationSummary
         case hostName
         case ipAddress
         case lastActivityTimeStamp
@@ -1024,6 +1414,9 @@ extension MigrationHubStrategyClientTypes.Collector: Swift.Codable {
         }
         if let collectorVersion = self.collectorVersion {
             try encodeContainer.encode(collectorVersion, forKey: .collectorVersion)
+        }
+        if let configurationSummary = self.configurationSummary {
+            try encodeContainer.encode(configurationSummary, forKey: .configurationSummary)
         }
         if let hostName = self.hostName {
             try encodeContainer.encode(hostName, forKey: .hostName)
@@ -1055,6 +1448,8 @@ extension MigrationHubStrategyClientTypes.Collector: Swift.Codable {
         registeredTimeStamp = registeredTimeStampDecoded
         let lastActivityTimeStampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastActivityTimeStamp)
         lastActivityTimeStamp = lastActivityTimeStampDecoded
+        let configurationSummaryDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.ConfigurationSummary.self, forKey: .configurationSummary)
+        configurationSummary = configurationSummaryDecoded
     }
 }
 
@@ -1067,6 +1462,8 @@ extension MigrationHubStrategyClientTypes {
         public var collectorId: Swift.String?
         /// Current version of the collector that is running in the environment that you specify.
         public var collectorVersion: Swift.String?
+        /// Summary of the collector configuration.
+        public var configurationSummary: MigrationHubStrategyClientTypes.ConfigurationSummary?
         /// Hostname of the server that is hosting the collector.
         public var hostName: Swift.String?
         /// IP address of the server that is hosting the collector.
@@ -1080,6 +1477,7 @@ extension MigrationHubStrategyClientTypes {
             collectorHealth: MigrationHubStrategyClientTypes.CollectorHealth? = nil,
             collectorId: Swift.String? = nil,
             collectorVersion: Swift.String? = nil,
+            configurationSummary: MigrationHubStrategyClientTypes.ConfigurationSummary? = nil,
             hostName: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             lastActivityTimeStamp: Swift.String? = nil,
@@ -1089,6 +1487,7 @@ extension MigrationHubStrategyClientTypes {
             self.collectorHealth = collectorHealth
             self.collectorId = collectorId
             self.collectorVersion = collectorVersion
+            self.configurationSummary = configurationSummary
             self.hostName = hostName
             self.ipAddress = ipAddress
             self.lastActivityTimeStamp = lastActivityTimeStamp
@@ -1128,6 +1527,167 @@ extension MigrationHubStrategyClientTypes {
             self = CollectorHealth(rawValue: rawValue) ?? CollectorHealth.sdkUnknown(rawValue)
         }
     }
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum Condition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case contains
+        case equals
+        case notContains
+        case notEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Condition] {
+            return [
+                .contains,
+                .equals,
+                .notContains,
+                .notEquals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .equals: return "EQUALS"
+            case .notContains: return "NOT_CONTAINS"
+            case .notEquals: return "NOT_EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Condition(rawValue: rawValue) ?? Condition.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MigrationHubStrategyClientTypes.ConfigurationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAddressBasedRemoteInfoList
+        case pipelineInfoList
+        case remoteSourceCodeAnalysisServerInfo
+        case vcenterBasedRemoteInfoList
+        case versionControlInfoList
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipAddressBasedRemoteInfoList = ipAddressBasedRemoteInfoList {
+            var ipAddressBasedRemoteInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddressBasedRemoteInfoList)
+            for ipaddressbasedremoteinfolist0 in ipAddressBasedRemoteInfoList {
+                try ipAddressBasedRemoteInfoListContainer.encode(ipaddressbasedremoteinfolist0)
+            }
+        }
+        if let pipelineInfoList = pipelineInfoList {
+            var pipelineInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineInfoList)
+            for pipelineinfolist0 in pipelineInfoList {
+                try pipelineInfoListContainer.encode(pipelineinfolist0)
+            }
+        }
+        if let remoteSourceCodeAnalysisServerInfo = self.remoteSourceCodeAnalysisServerInfo {
+            try encodeContainer.encode(remoteSourceCodeAnalysisServerInfo, forKey: .remoteSourceCodeAnalysisServerInfo)
+        }
+        if let vcenterBasedRemoteInfoList = vcenterBasedRemoteInfoList {
+            var vcenterBasedRemoteInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vcenterBasedRemoteInfoList)
+            for vcenterbasedremoteinfolist0 in vcenterBasedRemoteInfoList {
+                try vcenterBasedRemoteInfoListContainer.encode(vcenterbasedremoteinfolist0)
+            }
+        }
+        if let versionControlInfoList = versionControlInfoList {
+            var versionControlInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versionControlInfoList)
+            for versioncontrolinfolist0 in versionControlInfoList {
+                try versionControlInfoListContainer.encode(versioncontrolinfolist0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vcenterBasedRemoteInfoListContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo?].self, forKey: .vcenterBasedRemoteInfoList)
+        var vcenterBasedRemoteInfoListDecoded0:[MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo]? = nil
+        if let vcenterBasedRemoteInfoListContainer = vcenterBasedRemoteInfoListContainer {
+            vcenterBasedRemoteInfoListDecoded0 = [MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo]()
+            for structure0 in vcenterBasedRemoteInfoListContainer {
+                if let structure0 = structure0 {
+                    vcenterBasedRemoteInfoListDecoded0?.append(structure0)
+                }
+            }
+        }
+        vcenterBasedRemoteInfoList = vcenterBasedRemoteInfoListDecoded0
+        let ipAddressBasedRemoteInfoListContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo?].self, forKey: .ipAddressBasedRemoteInfoList)
+        var ipAddressBasedRemoteInfoListDecoded0:[MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo]? = nil
+        if let ipAddressBasedRemoteInfoListContainer = ipAddressBasedRemoteInfoListContainer {
+            ipAddressBasedRemoteInfoListDecoded0 = [MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo]()
+            for structure0 in ipAddressBasedRemoteInfoListContainer {
+                if let structure0 = structure0 {
+                    ipAddressBasedRemoteInfoListDecoded0?.append(structure0)
+                }
+            }
+        }
+        ipAddressBasedRemoteInfoList = ipAddressBasedRemoteInfoListDecoded0
+        let versionControlInfoListContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.VersionControlInfo?].self, forKey: .versionControlInfoList)
+        var versionControlInfoListDecoded0:[MigrationHubStrategyClientTypes.VersionControlInfo]? = nil
+        if let versionControlInfoListContainer = versionControlInfoListContainer {
+            versionControlInfoListDecoded0 = [MigrationHubStrategyClientTypes.VersionControlInfo]()
+            for structure0 in versionControlInfoListContainer {
+                if let structure0 = structure0 {
+                    versionControlInfoListDecoded0?.append(structure0)
+                }
+            }
+        }
+        versionControlInfoList = versionControlInfoListDecoded0
+        let pipelineInfoListContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.PipelineInfo?].self, forKey: .pipelineInfoList)
+        var pipelineInfoListDecoded0:[MigrationHubStrategyClientTypes.PipelineInfo]? = nil
+        if let pipelineInfoListContainer = pipelineInfoListContainer {
+            pipelineInfoListDecoded0 = [MigrationHubStrategyClientTypes.PipelineInfo]()
+            for structure0 in pipelineInfoListContainer {
+                if let structure0 = structure0 {
+                    pipelineInfoListDecoded0?.append(structure0)
+                }
+            }
+        }
+        pipelineInfoList = pipelineInfoListDecoded0
+        let remoteSourceCodeAnalysisServerInfoDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo.self, forKey: .remoteSourceCodeAnalysisServerInfo)
+        remoteSourceCodeAnalysisServerInfo = remoteSourceCodeAnalysisServerInfoDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// Summary of the collector configuration.
+    public struct ConfigurationSummary: Swift.Equatable {
+        /// IP address based configurations.
+        public var ipAddressBasedRemoteInfoList: [MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo]?
+        /// The list of pipeline info configurations.
+        public var pipelineInfoList: [MigrationHubStrategyClientTypes.PipelineInfo]?
+        /// Info about the remote server source code configuration.
+        public var remoteSourceCodeAnalysisServerInfo: MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo?
+        /// The list of vCenter configurations.
+        public var vcenterBasedRemoteInfoList: [MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo]?
+        /// The list of the version control configurations.
+        public var versionControlInfoList: [MigrationHubStrategyClientTypes.VersionControlInfo]?
+
+        public init (
+            ipAddressBasedRemoteInfoList: [MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo]? = nil,
+            pipelineInfoList: [MigrationHubStrategyClientTypes.PipelineInfo]? = nil,
+            remoteSourceCodeAnalysisServerInfo: MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo? = nil,
+            vcenterBasedRemoteInfoList: [MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo]? = nil,
+            versionControlInfoList: [MigrationHubStrategyClientTypes.VersionControlInfo]? = nil
+        )
+        {
+            self.ipAddressBasedRemoteInfoList = ipAddressBasedRemoteInfoList
+            self.pipelineInfoList = pipelineInfoList
+            self.remoteSourceCodeAnalysisServerInfo = remoteSourceCodeAnalysisServerInfo
+            self.vcenterBasedRemoteInfoList = vcenterBasedRemoteInfoList
+            self.versionControlInfoList = versionControlInfoList
+        }
+    }
+
 }
 
 extension ConflictException {
@@ -1191,6 +1751,7 @@ extension MigrationHubStrategyClientTypes.DataCollectionDetails: Swift.Codable {
         case servers
         case startTime
         case status
+        case statusMessage
         case success
     }
 
@@ -1214,6 +1775,9 @@ extension MigrationHubStrategyClientTypes.DataCollectionDetails: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
         if let success = self.success {
             try encodeContainer.encode(success, forKey: .success)
         }
@@ -1235,6 +1799,8 @@ extension MigrationHubStrategyClientTypes.DataCollectionDetails: Swift.Codable {
         startTime = startTimeDecoded
         let completionTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completionTime)
         completionTime = completionTimeDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
     }
 }
 
@@ -1253,6 +1819,8 @@ extension MigrationHubStrategyClientTypes {
         public var startTime: ClientRuntime.Date?
         /// The status of the assessment.
         public var status: MigrationHubStrategyClientTypes.AssessmentStatus?
+        /// The status message of the assessment.
+        public var statusMessage: Swift.String?
         /// The number of successful servers in the assessment.
         public var success: Swift.Int?
 
@@ -1263,6 +1831,7 @@ extension MigrationHubStrategyClientTypes {
             servers: Swift.Int? = nil,
             startTime: ClientRuntime.Date? = nil,
             status: MigrationHubStrategyClientTypes.AssessmentStatus? = nil,
+            statusMessage: Swift.String? = nil,
             success: Swift.Int? = nil
         )
         {
@@ -1272,6 +1841,7 @@ extension MigrationHubStrategyClientTypes {
             self.servers = servers
             self.startTime = startTime
             self.status = status
+            self.statusMessage = statusMessage
             self.success = success
         }
     }
@@ -1482,6 +2052,58 @@ extension MigrationHubStrategyClientTypes {
 
 }
 
+extension DependencyException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DependencyExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Dependency encountered an error.
+public struct DependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .server
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct DependencyExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension DependencyExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension GetApplicationComponentDetailsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let applicationComponentId = applicationComponentId else {
@@ -1527,7 +2149,7 @@ extension GetApplicationComponentDetailsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1673,7 +2295,7 @@ extension GetApplicationComponentStrategiesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1781,7 +2403,7 @@ extension GetAssessmentOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1800,9 +2422,11 @@ extension GetAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: GetAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.assessmentTargets = output.assessmentTargets
             self.dataCollectionDetails = output.dataCollectionDetails
             self.id = output.id
         } else {
+            self.assessmentTargets = nil
             self.dataCollectionDetails = nil
             self.id = nil
         }
@@ -1810,16 +2434,20 @@ extension GetAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetAssessmentOutputResponse: Swift.Equatable {
+    /// List of criteria for assessment.
+    public var assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]?
     /// Detailed information about the assessment.
     public var dataCollectionDetails: MigrationHubStrategyClientTypes.DataCollectionDetails?
     /// The ID for the specific assessment task.
     public var id: Swift.String?
 
     public init (
+        assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]? = nil,
         dataCollectionDetails: MigrationHubStrategyClientTypes.DataCollectionDetails? = nil,
         id: Swift.String? = nil
     )
     {
+        self.assessmentTargets = assessmentTargets
         self.dataCollectionDetails = dataCollectionDetails
         self.id = id
     }
@@ -1828,10 +2456,12 @@ public struct GetAssessmentOutputResponse: Swift.Equatable {
 struct GetAssessmentOutputResponseBody: Swift.Equatable {
     let id: Swift.String?
     let dataCollectionDetails: MigrationHubStrategyClientTypes.DataCollectionDetails?
+    let assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]?
 }
 
 extension GetAssessmentOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assessmentTargets
         case dataCollectionDetails
         case id
     }
@@ -1842,6 +2472,17 @@ extension GetAssessmentOutputResponseBody: Swift.Decodable {
         id = idDecoded
         let dataCollectionDetailsDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.DataCollectionDetails.self, forKey: .dataCollectionDetails)
         dataCollectionDetails = dataCollectionDetailsDecoded
+        let assessmentTargetsContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.AssessmentTarget?].self, forKey: .assessmentTargets)
+        var assessmentTargetsDecoded0:[MigrationHubStrategyClientTypes.AssessmentTarget]? = nil
+        if let assessmentTargetsContainer = assessmentTargetsContainer {
+            assessmentTargetsDecoded0 = [MigrationHubStrategyClientTypes.AssessmentTarget]()
+            for structure0 in assessmentTargetsContainer {
+                if let structure0 = structure0 {
+                    assessmentTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        assessmentTargets = assessmentTargetsDecoded0
     }
 }
 
@@ -1892,7 +2533,7 @@ extension GetImportFileTaskOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2047,6 +2688,95 @@ extension GetImportFileTaskOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetLatestAssessmentIdInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/get-latest-assessment-id"
+    }
+}
+
+public struct GetLatestAssessmentIdInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct GetLatestAssessmentIdInputBody: Swift.Equatable {
+}
+
+extension GetLatestAssessmentIdInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetLatestAssessmentIdOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetLatestAssessmentIdOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DependencyException" : self = .dependencyException(try DependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetLatestAssessmentIdOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case dependencyException(DependencyException)
+    case internalServerException(InternalServerException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetLatestAssessmentIdOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetLatestAssessmentIdOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.id = output.id
+        } else {
+            self.id = nil
+        }
+    }
+}
+
+public struct GetLatestAssessmentIdOutputResponse: Swift.Equatable {
+    /// The latest ID for the specific assessment task.
+    public var id: Swift.String?
+
+    public init (
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct GetLatestAssessmentIdOutputResponseBody: Swift.Equatable {
+    let id: Swift.String?
+}
+
+extension GetLatestAssessmentIdOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
 extension GetPortfolioPreferencesInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/get-portfolio-preferences"
@@ -2082,7 +2812,7 @@ extension GetPortfolioPreferencesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2101,10 +2831,12 @@ extension GetPortfolioPreferencesOutputResponse: ClientRuntime.HttpResponseBindi
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: GetPortfolioPreferencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.applicationMode = output.applicationMode
             self.applicationPreferences = output.applicationPreferences
             self.databasePreferences = output.databasePreferences
             self.prioritizeBusinessGoals = output.prioritizeBusinessGoals
         } else {
+            self.applicationMode = nil
             self.applicationPreferences = nil
             self.databasePreferences = nil
             self.prioritizeBusinessGoals = nil
@@ -2113,6 +2845,8 @@ extension GetPortfolioPreferencesOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct GetPortfolioPreferencesOutputResponse: Swift.Equatable {
+    /// The classification for application component types.
+    public var applicationMode: MigrationHubStrategyClientTypes.ApplicationMode?
     /// The transformation preferences for non-database applications.
     public var applicationPreferences: MigrationHubStrategyClientTypes.ApplicationPreferences?
     /// The transformation preferences for database applications.
@@ -2121,11 +2855,13 @@ public struct GetPortfolioPreferencesOutputResponse: Swift.Equatable {
     public var prioritizeBusinessGoals: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals?
 
     public init (
+        applicationMode: MigrationHubStrategyClientTypes.ApplicationMode? = nil,
         applicationPreferences: MigrationHubStrategyClientTypes.ApplicationPreferences? = nil,
         databasePreferences: MigrationHubStrategyClientTypes.DatabasePreferences? = nil,
         prioritizeBusinessGoals: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals? = nil
     )
     {
+        self.applicationMode = applicationMode
         self.applicationPreferences = applicationPreferences
         self.databasePreferences = databasePreferences
         self.prioritizeBusinessGoals = prioritizeBusinessGoals
@@ -2136,10 +2872,12 @@ struct GetPortfolioPreferencesOutputResponseBody: Swift.Equatable {
     let prioritizeBusinessGoals: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals?
     let applicationPreferences: MigrationHubStrategyClientTypes.ApplicationPreferences?
     let databasePreferences: MigrationHubStrategyClientTypes.DatabasePreferences?
+    let applicationMode: MigrationHubStrategyClientTypes.ApplicationMode?
 }
 
 extension GetPortfolioPreferencesOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationMode
         case applicationPreferences
         case databasePreferences
         case prioritizeBusinessGoals
@@ -2153,6 +2891,8 @@ extension GetPortfolioPreferencesOutputResponseBody: Swift.Decodable {
         applicationPreferences = applicationPreferencesDecoded
         let databasePreferencesDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.DatabasePreferences.self, forKey: .databasePreferences)
         databasePreferences = databasePreferencesDecoded
+        let applicationModeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.ApplicationMode.self, forKey: .applicationMode)
+        applicationMode = applicationModeDecoded
     }
 }
 
@@ -2190,7 +2930,7 @@ extension GetPortfolioSummaryOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2290,7 +3030,7 @@ extension GetRecommendationReportDetailsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2427,7 +3167,7 @@ extension GetServerDetailsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2558,7 +3298,7 @@ extension GetServerStrategiesOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2874,6 +3614,61 @@ extension MigrationHubStrategyClientTypes {
             self = HomogeneousTargetDatabaseEngine(rawValue: rawValue) ?? HomogeneousTargetDatabaseEngine.sdkUnknown(rawValue)
         }
     }
+}
+
+extension MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authType
+        case ipAddressConfigurationTimeStamp
+        case osType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authType = self.authType {
+            try encodeContainer.encode(authType.rawValue, forKey: .authType)
+        }
+        if let ipAddressConfigurationTimeStamp = self.ipAddressConfigurationTimeStamp {
+            try encodeContainer.encode(ipAddressConfigurationTimeStamp, forKey: .ipAddressConfigurationTimeStamp)
+        }
+        if let osType = self.osType {
+            try encodeContainer.encode(osType.rawValue, forKey: .osType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAddressConfigurationTimeStampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddressConfigurationTimeStamp)
+        ipAddressConfigurationTimeStamp = ipAddressConfigurationTimeStampDecoded
+        let authTypeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AuthType.self, forKey: .authType)
+        authType = authTypeDecoded
+        let osTypeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.OSType.self, forKey: .osType)
+        osType = osTypeDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// IP address based configurations.
+    public struct IPAddressBasedRemoteInfo: Swift.Equatable {
+        /// The type of authorization.
+        public var authType: MigrationHubStrategyClientTypes.AuthType?
+        /// The time stamp of the configuration.
+        public var ipAddressConfigurationTimeStamp: Swift.String?
+        /// The type of the operating system.
+        public var osType: MigrationHubStrategyClientTypes.OSType?
+
+        public init (
+            authType: MigrationHubStrategyClientTypes.AuthType? = nil,
+            ipAddressConfigurationTimeStamp: Swift.String? = nil,
+            osType: MigrationHubStrategyClientTypes.OSType? = nil
+        )
+        {
+            self.authType = authType
+            self.ipAddressConfigurationTimeStamp = ipAddressConfigurationTimeStamp
+            self.osType = osType
+        }
+    }
+
 }
 
 extension MigrationHubStrategyClientTypes.ImportFileTaskInformation: Swift.Codable {
@@ -3279,7 +4074,7 @@ extension ListApplicationComponentsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleLockClientException" : self = .serviceLinkedRoleLockClientException(try ServiceLinkedRoleLockClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3415,7 +4210,7 @@ extension ListCollectorsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3551,7 +4346,7 @@ extension ListImportFileTaskOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3758,7 +4553,7 @@ extension ListServersOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4206,6 +5001,80 @@ extension MigrationHubStrategyClientTypes {
     }
 }
 
+extension MigrationHubStrategyClientTypes.PipelineInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipelineConfigurationTimeStamp
+        case pipelineType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pipelineConfigurationTimeStamp = self.pipelineConfigurationTimeStamp {
+            try encodeContainer.encode(pipelineConfigurationTimeStamp, forKey: .pipelineConfigurationTimeStamp)
+        }
+        if let pipelineType = self.pipelineType {
+            try encodeContainer.encode(pipelineType.rawValue, forKey: .pipelineType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pipelineTypeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.PipelineType.self, forKey: .pipelineType)
+        pipelineType = pipelineTypeDecoded
+        let pipelineConfigurationTimeStampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineConfigurationTimeStamp)
+        pipelineConfigurationTimeStamp = pipelineConfigurationTimeStampDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// Detailed information of the pipeline.
+    public struct PipelineInfo: Swift.Equatable {
+        /// The time when the pipeline info was configured.
+        public var pipelineConfigurationTimeStamp: Swift.String?
+        /// The type of pipeline.
+        public var pipelineType: MigrationHubStrategyClientTypes.PipelineType?
+
+        public init (
+            pipelineConfigurationTimeStamp: Swift.String? = nil,
+            pipelineType: MigrationHubStrategyClientTypes.PipelineType? = nil
+        )
+        {
+            self.pipelineConfigurationTimeStamp = pipelineConfigurationTimeStamp
+            self.pipelineType = pipelineType
+        }
+    }
+
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum PipelineType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case azureDevops
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipelineType] {
+            return [
+                .azureDevops,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .azureDevops: return "AZURE_DEVOPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PipelineType(rawValue: rawValue) ?? PipelineType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MigrationHubStrategyClientTypes.PrioritizeBusinessGoals: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case businessGoals
@@ -4243,6 +5112,7 @@ extension MigrationHubStrategyClientTypes {
 
 extension PutPortfolioPreferencesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationMode
         case applicationPreferences
         case databasePreferences
         case prioritizeBusinessGoals
@@ -4250,6 +5120,9 @@ extension PutPortfolioPreferencesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationMode = self.applicationMode {
+            try encodeContainer.encode(applicationMode.rawValue, forKey: .applicationMode)
+        }
         if let applicationPreferences = self.applicationPreferences {
             try encodeContainer.encode(applicationPreferences, forKey: .applicationPreferences)
         }
@@ -4269,6 +5142,8 @@ extension PutPortfolioPreferencesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutPortfolioPreferencesInput: Swift.Equatable {
+    /// The classification for application component types.
+    public var applicationMode: MigrationHubStrategyClientTypes.ApplicationMode?
     /// The transformation preferences for non-database applications.
     public var applicationPreferences: MigrationHubStrategyClientTypes.ApplicationPreferences?
     /// The transformation preferences for database applications.
@@ -4277,11 +5152,13 @@ public struct PutPortfolioPreferencesInput: Swift.Equatable {
     public var prioritizeBusinessGoals: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals?
 
     public init (
+        applicationMode: MigrationHubStrategyClientTypes.ApplicationMode? = nil,
         applicationPreferences: MigrationHubStrategyClientTypes.ApplicationPreferences? = nil,
         databasePreferences: MigrationHubStrategyClientTypes.DatabasePreferences? = nil,
         prioritizeBusinessGoals: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals? = nil
     )
     {
+        self.applicationMode = applicationMode
         self.applicationPreferences = applicationPreferences
         self.databasePreferences = databasePreferences
         self.prioritizeBusinessGoals = prioritizeBusinessGoals
@@ -4292,10 +5169,12 @@ struct PutPortfolioPreferencesInputBody: Swift.Equatable {
     let prioritizeBusinessGoals: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals?
     let applicationPreferences: MigrationHubStrategyClientTypes.ApplicationPreferences?
     let databasePreferences: MigrationHubStrategyClientTypes.DatabasePreferences?
+    let applicationMode: MigrationHubStrategyClientTypes.ApplicationMode?
 }
 
 extension PutPortfolioPreferencesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationMode
         case applicationPreferences
         case databasePreferences
         case prioritizeBusinessGoals
@@ -4309,6 +5188,8 @@ extension PutPortfolioPreferencesInputBody: Swift.Decodable {
         applicationPreferences = applicationPreferencesDecoded
         let databasePreferencesDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.DatabasePreferences.self, forKey: .databasePreferences)
         databasePreferences = databasePreferencesDecoded
+        let applicationModeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.ApplicationMode.self, forKey: .applicationMode)
+        applicationMode = applicationModeDecoded
     }
 }
 
@@ -4328,7 +5209,7 @@ extension PutPortfolioPreferencesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4539,6 +5420,41 @@ extension MigrationHubStrategyClientTypes {
 
 }
 
+extension MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case remoteSourceCodeAnalysisServerConfigurationTimestamp
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let remoteSourceCodeAnalysisServerConfigurationTimestamp = self.remoteSourceCodeAnalysisServerConfigurationTimestamp {
+            try encodeContainer.encode(remoteSourceCodeAnalysisServerConfigurationTimestamp, forKey: .remoteSourceCodeAnalysisServerConfigurationTimestamp)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let remoteSourceCodeAnalysisServerConfigurationTimestampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remoteSourceCodeAnalysisServerConfigurationTimestamp)
+        remoteSourceCodeAnalysisServerConfigurationTimestamp = remoteSourceCodeAnalysisServerConfigurationTimestampDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// Information about the server configured for source code analysis.
+    public struct RemoteSourceCodeAnalysisServerInfo: Swift.Equatable {
+        /// The time when the remote source code server was configured.
+        public var remoteSourceCodeAnalysisServerConfigurationTimestamp: Swift.String?
+
+        public init (
+            remoteSourceCodeAnalysisServerConfigurationTimestamp: Swift.String? = nil
+        )
+        {
+            self.remoteSourceCodeAnalysisServerConfigurationTimestamp = remoteSourceCodeAnalysisServerConfigurationTimestamp
+        }
+    }
+
+}
+
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4669,6 +5585,44 @@ extension MigrationHubStrategyClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = RunTimeAssessmentStatus(rawValue: rawValue) ?? RunTimeAssessmentStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum RuntimeAnalysisStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case analysisFailed
+        case analysisStarted
+        case analysisSuccess
+        case analysisToBeScheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeAnalysisStatus] {
+            return [
+                .analysisFailed,
+                .analysisStarted,
+                .analysisSuccess,
+                .analysisToBeScheduled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .analysisFailed: return "ANALYSIS_FAILED"
+            case .analysisStarted: return "ANALYSIS_STARTED"
+            case .analysisSuccess: return "ANALYSIS_SUCCESS"
+            case .analysisToBeScheduled: return "ANALYSIS_TO_BE_SCHEDULED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RuntimeAnalysisStatus(rawValue: rawValue) ?? RuntimeAnalysisStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -4806,7 +5760,9 @@ extension MigrationHubStrategyClientTypes {
 
 extension MigrationHubStrategyClientTypes {
     public enum ServerCriteria: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case analysisStatus
         case destination
+        case errorCategory
         case notDefined
         case osName
         case serverId
@@ -4815,7 +5771,9 @@ extension MigrationHubStrategyClientTypes {
 
         public static var allCases: [ServerCriteria] {
             return [
+                .analysisStatus,
                 .destination,
+                .errorCategory,
                 .notDefined,
                 .osName,
                 .serverId,
@@ -4829,7 +5787,9 @@ extension MigrationHubStrategyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .analysisStatus: return "ANALYSIS_STATUS"
             case .destination: return "DESTINATION"
+            case .errorCategory: return "ERROR_CATEGORY"
             case .notDefined: return "NOT_DEFINED"
             case .osName: return "OS_NAME"
             case .serverId: return "SERVER_ID"
@@ -4857,6 +5817,7 @@ extension MigrationHubStrategyClientTypes.ServerDetail: Swift.Codable {
         case listAntipatternSeveritySummary
         case name
         case recommendationSet
+        case serverError
         case serverType
         case statusMessage
         case systemInfo
@@ -4899,6 +5860,9 @@ extension MigrationHubStrategyClientTypes.ServerDetail: Swift.Codable {
         }
         if let recommendationSet = self.recommendationSet {
             try encodeContainer.encode(recommendationSet, forKey: .recommendationSet)
+        }
+        if let serverError = self.serverError {
+            try encodeContainer.encode(serverError, forKey: .serverError)
         }
         if let serverType = self.serverType {
             try encodeContainer.encode(serverType, forKey: .serverType)
@@ -4957,6 +5921,8 @@ extension MigrationHubStrategyClientTypes.ServerDetail: Swift.Codable {
         serverType = serverTypeDecoded
         let lastAnalyzedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastAnalyzedTimestamp)
         lastAnalyzedTimestamp = lastAnalyzedTimestampDecoded
+        let serverErrorDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.ServerError.self, forKey: .serverError)
+        serverError = serverErrorDecoded
     }
 }
 
@@ -4983,6 +5949,8 @@ extension MigrationHubStrategyClientTypes {
         public var name: Swift.String?
         /// A set of recommendations.
         public var recommendationSet: MigrationHubStrategyClientTypes.RecommendationSet?
+        /// The error in server analysis.
+        public var serverError: MigrationHubStrategyClientTypes.ServerError?
         /// The type of server.
         public var serverType: Swift.String?
         /// A message about the status of data collection, which contains detailed descriptions of any error messages.
@@ -5001,6 +5969,7 @@ extension MigrationHubStrategyClientTypes {
             listAntipatternSeveritySummary: [MigrationHubStrategyClientTypes.AntipatternSeveritySummary]? = nil,
             name: Swift.String? = nil,
             recommendationSet: MigrationHubStrategyClientTypes.RecommendationSet? = nil,
+            serverError: MigrationHubStrategyClientTypes.ServerError? = nil,
             serverType: Swift.String? = nil,
             statusMessage: Swift.String? = nil,
             systemInfo: MigrationHubStrategyClientTypes.SystemInfo? = nil
@@ -5016,12 +5985,89 @@ extension MigrationHubStrategyClientTypes {
             self.listAntipatternSeveritySummary = listAntipatternSeveritySummary
             self.name = name
             self.recommendationSet = recommendationSet
+            self.serverError = serverError
             self.serverType = serverType
             self.statusMessage = statusMessage
             self.systemInfo = systemInfo
         }
     }
 
+}
+
+extension MigrationHubStrategyClientTypes.ServerError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverErrorCategory
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serverErrorCategory = self.serverErrorCategory {
+            try encodeContainer.encode(serverErrorCategory.rawValue, forKey: .serverErrorCategory)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverErrorCategoryDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.ServerErrorCategory.self, forKey: .serverErrorCategory)
+        serverErrorCategory = serverErrorCategoryDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// The error in server analysis.
+    public struct ServerError: Swift.Equatable {
+        /// The error category of server analysis.
+        public var serverErrorCategory: MigrationHubStrategyClientTypes.ServerErrorCategory?
+
+        public init (
+            serverErrorCategory: MigrationHubStrategyClientTypes.ServerErrorCategory? = nil
+        )
+        {
+            self.serverErrorCategory = serverErrorCategory
+        }
+    }
+
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum ServerErrorCategory: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case architectureError
+        case connectivityError
+        case credentialError
+        case otherError
+        case permissionError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServerErrorCategory] {
+            return [
+                .architectureError,
+                .connectivityError,
+                .credentialError,
+                .otherError,
+                .permissionError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .architectureError: return "ARCHITECTURE_ERROR"
+            case .connectivityError: return "CONNECTIVITY_ERROR"
+            case .credentialError: return "CREDENTIAL_ERROR"
+            case .otherError: return "OTHER_ERROR"
+            case .permissionError: return "PERMISSION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ServerErrorCategory(rawValue: rawValue) ?? ServerErrorCategory.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MigrationHubStrategyClientTypes {
@@ -5063,6 +6109,51 @@ extension MigrationHubStrategyClientTypes {
             self = ServerOsType(rawValue: rawValue) ?? ServerOsType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension MigrationHubStrategyClientTypes.ServerStatusSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case count
+        case runTimeAssessmentStatus
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let runTimeAssessmentStatus = self.runTimeAssessmentStatus {
+            try encodeContainer.encode(runTimeAssessmentStatus.rawValue, forKey: .runTimeAssessmentStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runTimeAssessmentStatusDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.RunTimeAssessmentStatus.self, forKey: .runTimeAssessmentStatus)
+        runTimeAssessmentStatus = runTimeAssessmentStatusDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
+        count = countDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// The status summary of the server analysis.
+    public struct ServerStatusSummary: Swift.Equatable {
+        /// The number of servers successfully analyzed, partially successful or failed analysis.
+        public var count: Swift.Int?
+        /// The status of the run time.
+        public var runTimeAssessmentStatus: MigrationHubStrategyClientTypes.RunTimeAssessmentStatus?
+
+        public init (
+            count: Swift.Int? = nil,
+            runTimeAssessmentStatus: MigrationHubStrategyClientTypes.RunTimeAssessmentStatus? = nil
+        )
+        {
+            self.count = count
+            self.runTimeAssessmentStatus = runTimeAssessmentStatus
+        }
+    }
+
 }
 
 extension MigrationHubStrategyClientTypes.ServerStrategy: Swift.Codable {
@@ -5350,6 +6441,7 @@ extension MigrationHubStrategyClientTypes {
 extension MigrationHubStrategyClientTypes.SourceCode: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case location
+        case projectName
         case sourceVersion
         case versionControl
     }
@@ -5358,6 +6450,9 @@ extension MigrationHubStrategyClientTypes.SourceCode: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let location = self.location {
             try encodeContainer.encode(location, forKey: .location)
+        }
+        if let projectName = self.projectName {
+            try encodeContainer.encode(projectName, forKey: .projectName)
         }
         if let sourceVersion = self.sourceVersion {
             try encodeContainer.encode(sourceVersion, forKey: .sourceVersion)
@@ -5375,6 +6470,8 @@ extension MigrationHubStrategyClientTypes.SourceCode: Swift.Codable {
         sourceVersion = sourceVersionDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
+        let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
+        projectName = projectNameDecoded
     }
 }
 
@@ -5383,6 +6480,8 @@ extension MigrationHubStrategyClientTypes {
     public struct SourceCode: Swift.Equatable {
         /// The repository name for the source code.
         public var location: Swift.String?
+        /// The name of the project.
+        public var projectName: Swift.String?
         /// The branch of the source code.
         public var sourceVersion: Swift.String?
         /// The type of repository to use for the source code.
@@ -5390,11 +6489,13 @@ extension MigrationHubStrategyClientTypes {
 
         public init (
             location: Swift.String? = nil,
+            projectName: Swift.String? = nil,
             sourceVersion: Swift.String? = nil,
             versionControl: MigrationHubStrategyClientTypes.VersionControl? = nil
         )
         {
             self.location = location
+            self.projectName = projectName
             self.sourceVersion = sourceVersion
             self.versionControl = versionControl
         }
@@ -5405,6 +6506,7 @@ extension MigrationHubStrategyClientTypes {
 extension MigrationHubStrategyClientTypes.SourceCodeRepository: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branch
+        case projectName
         case repository
         case versionControlType
     }
@@ -5413,6 +6515,9 @@ extension MigrationHubStrategyClientTypes.SourceCodeRepository: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let branch = self.branch {
             try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let projectName = self.projectName {
+            try encodeContainer.encode(projectName, forKey: .projectName)
         }
         if let repository = self.repository {
             try encodeContainer.encode(repository, forKey: .repository)
@@ -5430,6 +6535,8 @@ extension MigrationHubStrategyClientTypes.SourceCodeRepository: Swift.Codable {
         branch = branchDecoded
         let versionControlTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionControlType)
         versionControlType = versionControlTypeDecoded
+        let projectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectName)
+        projectName = projectNameDecoded
     }
 }
 
@@ -5438,6 +6545,8 @@ extension MigrationHubStrategyClientTypes {
     public struct SourceCodeRepository: Swift.Equatable {
         /// The branch of the source code.
         public var branch: Swift.String?
+        /// The name of the project.
+        public var projectName: Swift.String?
         /// The repository name for the source code.
         public var repository: Swift.String?
         /// The type of repository to use for the source code.
@@ -5445,11 +6554,13 @@ extension MigrationHubStrategyClientTypes {
 
         public init (
             branch: Swift.String? = nil,
+            projectName: Swift.String? = nil,
             repository: Swift.String? = nil,
             versionControlType: Swift.String? = nil
         )
         {
             self.branch = branch
+            self.projectName = projectName
             self.repository = repository
             self.versionControlType = versionControlType
         }
@@ -5460,17 +6571,23 @@ extension MigrationHubStrategyClientTypes {
 extension MigrationHubStrategyClientTypes {
     public enum SrcCodeOrDbAnalysisStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case analysisFailed
+        case analysisPartialSuccess
         case analysisStarted
         case analysisSuccess
         case analysisToBeScheduled
+        case configured
+        case unconfigured
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SrcCodeOrDbAnalysisStatus] {
             return [
                 .analysisFailed,
+                .analysisPartialSuccess,
                 .analysisStarted,
                 .analysisSuccess,
                 .analysisToBeScheduled,
+                .configured,
+                .unconfigured,
                 .sdkUnknown("")
             ]
         }
@@ -5481,9 +6598,12 @@ extension MigrationHubStrategyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .analysisFailed: return "ANALYSIS_FAILED"
+            case .analysisPartialSuccess: return "ANALYSIS_PARTIAL_SUCCESS"
             case .analysisStarted: return "ANALYSIS_STARTED"
             case .analysisSuccess: return "ANALYSIS_SUCCESS"
             case .analysisToBeScheduled: return "ANALYSIS_TO_BE_SCHEDULED"
+            case .configured: return "CONFIGURED"
+            case .unconfigured: return "UNCONFIGURED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5497,12 +6617,19 @@ extension MigrationHubStrategyClientTypes {
 
 extension StartAssessmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assessmentTargets
         case s3bucketForAnalysisData
         case s3bucketForReportData
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assessmentTargets = assessmentTargets {
+            var assessmentTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentTargets)
+            for assessmenttargets0 in assessmentTargets {
+                try assessmentTargetsContainer.encode(assessmenttargets0)
+            }
+        }
         if let s3bucketForAnalysisData = self.s3bucketForAnalysisData {
             try encodeContainer.encode(s3bucketForAnalysisData, forKey: .s3bucketForAnalysisData)
         }
@@ -5519,16 +6646,20 @@ extension StartAssessmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartAssessmentInput: Swift.Equatable {
+    /// List of criteria for assessment.
+    public var assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]?
     /// The S3 bucket used by the collectors to send analysis data to the service. The bucket name must begin with migrationhub-strategy-.
     public var s3bucketForAnalysisData: Swift.String?
     /// The S3 bucket where all the reports generated by the service are stored. The bucket name must begin with migrationhub-strategy-.
     public var s3bucketForReportData: Swift.String?
 
     public init (
+        assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]? = nil,
         s3bucketForAnalysisData: Swift.String? = nil,
         s3bucketForReportData: Swift.String? = nil
     )
     {
+        self.assessmentTargets = assessmentTargets
         self.s3bucketForAnalysisData = s3bucketForAnalysisData
         self.s3bucketForReportData = s3bucketForReportData
     }
@@ -5537,10 +6668,12 @@ public struct StartAssessmentInput: Swift.Equatable {
 struct StartAssessmentInputBody: Swift.Equatable {
     let s3bucketForAnalysisData: Swift.String?
     let s3bucketForReportData: Swift.String?
+    let assessmentTargets: [MigrationHubStrategyClientTypes.AssessmentTarget]?
 }
 
 extension StartAssessmentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assessmentTargets
         case s3bucketForAnalysisData
         case s3bucketForReportData
     }
@@ -5551,6 +6684,17 @@ extension StartAssessmentInputBody: Swift.Decodable {
         s3bucketForAnalysisData = s3bucketForAnalysisDataDecoded
         let s3bucketForReportDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3bucketForReportData)
         s3bucketForReportData = s3bucketForReportDataDecoded
+        let assessmentTargetsContainer = try containerValues.decodeIfPresent([MigrationHubStrategyClientTypes.AssessmentTarget?].self, forKey: .assessmentTargets)
+        var assessmentTargetsDecoded0:[MigrationHubStrategyClientTypes.AssessmentTarget]? = nil
+        if let assessmentTargetsContainer = assessmentTargetsContainer {
+            assessmentTargetsDecoded0 = [MigrationHubStrategyClientTypes.AssessmentTarget]()
+            for structure0 in assessmentTargetsContainer {
+                if let structure0 = structure0 {
+                    assessmentTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        assessmentTargets = assessmentTargetsDecoded0
     }
 }
 
@@ -5569,7 +6713,7 @@ extension StartAssessmentOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5761,7 +6905,7 @@ extension StartImportFileTaskOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5903,7 +7047,7 @@ extension StartRecommendationReportGenerationOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6021,7 +7165,7 @@ extension StopAssessmentOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6159,6 +7303,7 @@ extension MigrationHubStrategyClientTypes {
 extension MigrationHubStrategyClientTypes {
     public enum StrategyRecommendation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case notRecommended
+        case potential
         case recommended
         case viableOption
         case sdkUnknown(Swift.String)
@@ -6166,6 +7311,7 @@ extension MigrationHubStrategyClientTypes {
         public static var allCases: [StrategyRecommendation] {
             return [
                 .notRecommended,
+                .potential,
                 .recommended,
                 .viableOption,
                 .sdkUnknown("")
@@ -6178,6 +7324,7 @@ extension MigrationHubStrategyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .notRecommended: return "notRecommended"
+            case .potential: return "potential"
             case .recommended: return "recommended"
             case .viableOption: return "viableOption"
             case let .sdkUnknown(s): return s
@@ -6383,6 +7530,7 @@ extension MigrationHubStrategyClientTypes {
         case auroraPostgresql
         case awsElasticBeanstalk
         case awsFargate
+        case babelfishAuroraPostgresql
         case noneSpecified
         case sdkUnknown(Swift.String)
 
@@ -6400,6 +7548,7 @@ extension MigrationHubStrategyClientTypes {
                 .auroraPostgresql,
                 .awsElasticBeanstalk,
                 .awsFargate,
+                .babelfishAuroraPostgresql,
                 .noneSpecified,
                 .sdkUnknown("")
             ]
@@ -6422,6 +7571,7 @@ extension MigrationHubStrategyClientTypes {
             case .auroraPostgresql: return "Aurora PostgreSQL"
             case .awsElasticBeanstalk: return "AWS Elastic BeanStalk"
             case .awsFargate: return "AWS Fargate"
+            case .babelfishAuroraPostgresql: return "Babelfish for Aurora PostgreSQL"
             case .noneSpecified: return "None specified"
             case let .sdkUnknown(s): return s
             }
@@ -6599,12 +7749,14 @@ extension MigrationHubStrategyClientTypes {
 
 extension UpdateApplicationComponentConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateApplicationComponentConfigInput(applicationComponentId: \(Swift.String(describing: applicationComponentId)), inclusionStatus: \(Swift.String(describing: inclusionStatus)), sourceCodeList: \(Swift.String(describing: sourceCodeList)), strategyOption: \(Swift.String(describing: strategyOption)), secretsManagerKey: \"CONTENT_REDACTED\")"}
+        "UpdateApplicationComponentConfigInput(appType: \(Swift.String(describing: appType)), applicationComponentId: \(Swift.String(describing: applicationComponentId)), configureOnly: \(Swift.String(describing: configureOnly)), inclusionStatus: \(Swift.String(describing: inclusionStatus)), sourceCodeList: \(Swift.String(describing: sourceCodeList)), strategyOption: \(Swift.String(describing: strategyOption)), secretsManagerKey: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateApplicationComponentConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appType
         case applicationComponentId
+        case configureOnly
         case inclusionStatus
         case secretsManagerKey
         case sourceCodeList
@@ -6613,8 +7765,14 @@ extension UpdateApplicationComponentConfigInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appType = self.appType {
+            try encodeContainer.encode(appType.rawValue, forKey: .appType)
+        }
         if let applicationComponentId = self.applicationComponentId {
             try encodeContainer.encode(applicationComponentId, forKey: .applicationComponentId)
+        }
+        if let configureOnly = self.configureOnly {
+            try encodeContainer.encode(configureOnly, forKey: .configureOnly)
         }
         if let inclusionStatus = self.inclusionStatus {
             try encodeContainer.encode(inclusionStatus.rawValue, forKey: .inclusionStatus)
@@ -6641,9 +7799,13 @@ extension UpdateApplicationComponentConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateApplicationComponentConfigInput: Swift.Equatable {
+    /// The type of known component.
+    public var appType: MigrationHubStrategyClientTypes.AppType?
     /// The ID of the application component. The ID is unique within an AWS account.
     /// This member is required.
     public var applicationComponentId: Swift.String?
+    /// Update the configuration request of an application component. If it is set to true, the source code and/or database credentials are updated. If it is set to false, the source code and/or database credentials are updated and an analysis is initiated.
+    public var configureOnly: Swift.Bool?
     /// Indicates whether the application component has been included for server recommendation or not.
     public var inclusionStatus: MigrationHubStrategyClientTypes.InclusionStatus?
     /// Database credentials.
@@ -6654,14 +7816,18 @@ public struct UpdateApplicationComponentConfigInput: Swift.Equatable {
     public var strategyOption: MigrationHubStrategyClientTypes.StrategyOption?
 
     public init (
+        appType: MigrationHubStrategyClientTypes.AppType? = nil,
         applicationComponentId: Swift.String? = nil,
+        configureOnly: Swift.Bool? = nil,
         inclusionStatus: MigrationHubStrategyClientTypes.InclusionStatus? = nil,
         secretsManagerKey: Swift.String? = nil,
         sourceCodeList: [MigrationHubStrategyClientTypes.SourceCode]? = nil,
         strategyOption: MigrationHubStrategyClientTypes.StrategyOption? = nil
     )
     {
+        self.appType = appType
         self.applicationComponentId = applicationComponentId
+        self.configureOnly = configureOnly
         self.inclusionStatus = inclusionStatus
         self.secretsManagerKey = secretsManagerKey
         self.sourceCodeList = sourceCodeList
@@ -6675,11 +7841,15 @@ struct UpdateApplicationComponentConfigInputBody: Swift.Equatable {
     let strategyOption: MigrationHubStrategyClientTypes.StrategyOption?
     let sourceCodeList: [MigrationHubStrategyClientTypes.SourceCode]?
     let secretsManagerKey: Swift.String?
+    let configureOnly: Swift.Bool?
+    let appType: MigrationHubStrategyClientTypes.AppType?
 }
 
 extension UpdateApplicationComponentConfigInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appType
         case applicationComponentId
+        case configureOnly
         case inclusionStatus
         case secretsManagerKey
         case sourceCodeList
@@ -6707,6 +7877,10 @@ extension UpdateApplicationComponentConfigInputBody: Swift.Decodable {
         sourceCodeList = sourceCodeListDecoded0
         let secretsManagerKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerKey)
         secretsManagerKey = secretsManagerKeyDecoded
+        let configureOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .configureOnly)
+        configureOnly = configureOnlyDecoded
+        let appTypeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.AppType.self, forKey: .appType)
+        appType = appTypeDecoded
     }
 }
 
@@ -6725,7 +7899,7 @@ extension UpdateApplicationComponentConfigOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6823,7 +7997,7 @@ extension UpdateServerConfigOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6898,14 +8072,61 @@ extension ValidationExceptionBody: Swift.Decodable {
     }
 }
 
+extension MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case osType
+        case vcenterConfigurationTimeStamp
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let osType = self.osType {
+            try encodeContainer.encode(osType.rawValue, forKey: .osType)
+        }
+        if let vcenterConfigurationTimeStamp = self.vcenterConfigurationTimeStamp {
+            try encodeContainer.encode(vcenterConfigurationTimeStamp, forKey: .vcenterConfigurationTimeStamp)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vcenterConfigurationTimeStampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vcenterConfigurationTimeStamp)
+        vcenterConfigurationTimeStamp = vcenterConfigurationTimeStampDecoded
+        let osTypeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.OSType.self, forKey: .osType)
+        osType = osTypeDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// Details about the server in vCenter.
+    public struct VcenterBasedRemoteInfo: Swift.Equatable {
+        /// The type of the operating system.
+        public var osType: MigrationHubStrategyClientTypes.OSType?
+        /// The time when the remote server based on vCenter was last configured.
+        public var vcenterConfigurationTimeStamp: Swift.String?
+
+        public init (
+            osType: MigrationHubStrategyClientTypes.OSType? = nil,
+            vcenterConfigurationTimeStamp: Swift.String? = nil
+        )
+        {
+            self.osType = osType
+            self.vcenterConfigurationTimeStamp = vcenterConfigurationTimeStamp
+        }
+    }
+
+}
+
 extension MigrationHubStrategyClientTypes {
     public enum VersionControl: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case azureDevopsGit
         case github
         case githubEnterprise
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VersionControl] {
             return [
+                .azureDevopsGit,
                 .github,
                 .githubEnterprise,
                 .sdkUnknown("")
@@ -6917,6 +8138,7 @@ extension MigrationHubStrategyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .azureDevopsGit: return "AZURE_DEVOPS_GIT"
             case .github: return "GITHUB"
             case .githubEnterprise: return "GITHUB_ENTERPRISE"
             case let .sdkUnknown(s): return s
@@ -6926,6 +8148,86 @@ extension MigrationHubStrategyClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = VersionControl(rawValue: rawValue) ?? VersionControl.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MigrationHubStrategyClientTypes.VersionControlInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case versionControlConfigurationTimeStamp
+        case versionControlType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let versionControlConfigurationTimeStamp = self.versionControlConfigurationTimeStamp {
+            try encodeContainer.encode(versionControlConfigurationTimeStamp, forKey: .versionControlConfigurationTimeStamp)
+        }
+        if let versionControlType = self.versionControlType {
+            try encodeContainer.encode(versionControlType.rawValue, forKey: .versionControlType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionControlTypeDecoded = try containerValues.decodeIfPresent(MigrationHubStrategyClientTypes.VersionControlType.self, forKey: .versionControlType)
+        versionControlType = versionControlTypeDecoded
+        let versionControlConfigurationTimeStampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionControlConfigurationTimeStamp)
+        versionControlConfigurationTimeStamp = versionControlConfigurationTimeStampDecoded
+    }
+}
+
+extension MigrationHubStrategyClientTypes {
+    /// Details about the version control configuration.
+    public struct VersionControlInfo: Swift.Equatable {
+        /// The time when the version control system was last configured.
+        public var versionControlConfigurationTimeStamp: Swift.String?
+        /// The type of version control.
+        public var versionControlType: MigrationHubStrategyClientTypes.VersionControlType?
+
+        public init (
+            versionControlConfigurationTimeStamp: Swift.String? = nil,
+            versionControlType: MigrationHubStrategyClientTypes.VersionControlType? = nil
+        )
+        {
+            self.versionControlConfigurationTimeStamp = versionControlConfigurationTimeStamp
+            self.versionControlType = versionControlType
+        }
+    }
+
+}
+
+extension MigrationHubStrategyClientTypes {
+    public enum VersionControlType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case azureDevopsGit
+        case github
+        case githubEnterprise
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VersionControlType] {
+            return [
+                .azureDevopsGit,
+                .github,
+                .githubEnterprise,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .azureDevopsGit: return "AZURE_DEVOPS_GIT"
+            case .github: return "GITHUB"
+            case .githubEnterprise: return "GITHUB_ENTERPRISE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VersionControlType(rawValue: rawValue) ?? VersionControlType.sdkUnknown(rawValue)
         }
     }
 }
