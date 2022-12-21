@@ -13,6 +13,8 @@ public protocol MigrationHubStrategyClientProtocol {
     func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutputResponse
     /// Retrieves the details about a specific import task.
     func getImportFileTask(input: GetImportFileTaskInput) async throws -> GetImportFileTaskOutputResponse
+    /// Retrieve the latest ID of a specific assessment task.
+    func getLatestAssessmentId(input: GetLatestAssessmentIdInput) async throws -> GetLatestAssessmentIdOutputResponse
     /// Retrieves your migration and modernization preferences.
     func getPortfolioPreferences(input: GetPortfolioPreferencesInput) async throws -> GetPortfolioPreferencesOutputResponse
     /// Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.

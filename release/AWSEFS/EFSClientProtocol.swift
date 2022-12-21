@@ -164,22 +164,22 @@ public protocol EFSClientProtocol {
     func putBackupPolicy(input: PutBackupPolicyInput) async throws -> PutBackupPolicyOutputResponse
     /// Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file system policy is an IAM resource-based policy and can contain multiple policy statements. A file system always has exactly one file system policy, which can be the default policy or an explicit policy set or updated using this API operation. EFS file system policies have a 20,000 character limit. When an explicit policy is set, it overrides the default policy. For more information about the default file system policy, see [Default EFS File System Policy](https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy). EFS file system policies have a 20,000 character limit. This operation requires permissions for the elasticfilesystem:PutFileSystemPolicy action.
     func putFileSystemPolicy(input: PutFileSystemPolicyInput) async throws -> PutFileSystemPolicyOutputResponse
-    /// Use this action to manage EFS lifecycle management and intelligent tiering. A LifecycleConfiguration consists of one or more LifecyclePolicy objects that define the following:
+    /// Use this action to manage EFS lifecycle management and EFS Intelligent-Tiering. A LifecycleConfiguration consists of one or more LifecyclePolicy objects that define the following:
     ///
-    /// * EFS Lifecycle management - When Amazon EFS automatically transitions files in a file system into the lower-cost Infrequent Access (IA) storage class. To enable EFS Lifecycle management, set the value of TransitionToIA to one of the available options.
+    /// * EFS Lifecycle management - When Amazon EFS automatically transitions files in a file system into the lower-cost EFS Infrequent Access (IA) storage class. To enable EFS Lifecycle management, set the value of TransitionToIA to one of the available options.
     ///
-    /// * EFS Intelligent tiering - When Amazon EFS automatically transitions files from IA back into the file system's primary storage class (Standard or One Zone Standard. To enable EFS Intelligent Tiering, set the value of TransitionToPrimaryStorageClass to AFTER_1_ACCESS.
+    /// * EFS Intelligent-Tiering - When Amazon EFS automatically transitions files from IA back into the file system's primary storage class (EFS Standard or EFS One Zone Standard). To enable EFS Intelligent-Tiering, set the value of TransitionToPrimaryStorageClass to AFTER_1_ACCESS.
     ///
     ///
     /// For more information, see [EFS Lifecycle Management](https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html).
     ///
     ///
-    /// Each Amazon EFS file system supports one lifecycle configuration, which applies to all files in the file system. If a LifecycleConfiguration object already exists for the specified file system, a PutLifecycleConfiguration call modifies the existing configuration. A PutLifecycleConfiguration call with an empty LifecyclePolicies array in the request body deletes any existing LifecycleConfiguration and turns off lifecycle management and intelligent tiering for the file system.
+    /// Each Amazon EFS file system supports one lifecycle configuration, which applies to all files in the file system. If a LifecycleConfiguration object already exists for the specified file system, a PutLifecycleConfiguration call modifies the existing configuration. A PutLifecycleConfiguration call with an empty LifecyclePolicies array in the request body deletes any existing LifecycleConfiguration and turns off lifecycle management and EFS Intelligent-Tiering for the file system.
     ///
     ///
     /// In the request, specify the following:
     ///
-    /// * The ID for the file system for which you are enabling, disabling, or modifying lifecycle management and intelligent tiering.
+    /// * The ID for the file system for which you are enabling, disabling, or modifying lifecycle management and EFS Intelligent-Tiering.
     ///
     /// * A LifecyclePolicies array of LifecyclePolicy objects that define when files are moved into IA storage, and when they are moved back to Standard storage. Amazon EFS requires that each LifecyclePolicy object have only have a single transition, so the LifecyclePolicies array needs to be structured with separate LifecyclePolicy objects. See the example requests in the following section for more information.
     ///

@@ -120,6 +120,7 @@ extension BatchExecuteStatementExceptionBody: Swift.Decodable {
 
 extension BatchExecuteStatementInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
         case clusterIdentifier = "ClusterIdentifier"
         case database = "Database"
         case dbUser = "DbUser"
@@ -132,6 +133,9 @@ extension BatchExecuteStatementInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let clusterIdentifier = self.clusterIdentifier {
             try encodeContainer.encode(clusterIdentifier, forKey: .clusterIdentifier)
         }
@@ -169,6 +173,8 @@ extension BatchExecuteStatementInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchExecuteStatementInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
     /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
     public var clusterIdentifier: Swift.String?
     /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
@@ -178,7 +184,7 @@ public struct BatchExecuteStatementInput: Swift.Equatable {
     public var dbUser: Swift.String?
     /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     public var secretArn: Swift.String?
-    /// One or more SQL statements to run.
+    /// One or more SQL statements to run. The SQL statements are run as a single transaction. They run serially in the order of the array. Subsequent SQL statements don't start until the previous statement in the array completes. If any SQL statement fails, then because they are run as one transaction, all work is rolled back.
     /// This member is required.
     public var sqls: [Swift.String]?
     /// The name of the SQL statements. You can name the SQL statements when you create them to identify the query.
@@ -189,6 +195,7 @@ public struct BatchExecuteStatementInput: Swift.Equatable {
     public var workgroupName: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
@@ -199,6 +206,7 @@ public struct BatchExecuteStatementInput: Swift.Equatable {
         workgroupName: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.database = database
         self.dbUser = dbUser
@@ -219,10 +227,12 @@ struct BatchExecuteStatementInputBody: Swift.Equatable {
     let withEvent: Swift.Bool?
     let statementName: Swift.String?
     let workgroupName: Swift.String?
+    let clientToken: Swift.String?
 }
 
 extension BatchExecuteStatementInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
         case clusterIdentifier = "ClusterIdentifier"
         case database = "Database"
         case dbUser = "DbUser"
@@ -260,6 +270,8 @@ extension BatchExecuteStatementInputBody: Swift.Decodable {
         statementName = statementNameDecoded
         let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
         workgroupName = workgroupNameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -277,7 +289,7 @@ extension BatchExecuteStatementOutputError {
         case "ActiveStatementsExceededException" : self = .activeStatementsExceededException(try ActiveStatementsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "BatchExecuteStatementException" : self = .batchExecuteStatementException(try BatchExecuteStatementException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -453,7 +465,7 @@ extension CancelStatementOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -777,7 +789,7 @@ extension DescribeStatementOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1213,7 +1225,7 @@ extension DescribeTableOutputError {
         case "DatabaseConnectionException" : self = .databaseConnectionException(try DatabaseConnectionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1362,6 +1374,7 @@ extension ExecuteStatementExceptionBody: Swift.Decodable {
 
 extension ExecuteStatementInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
         case clusterIdentifier = "ClusterIdentifier"
         case database = "Database"
         case dbUser = "DbUser"
@@ -1375,6 +1388,9 @@ extension ExecuteStatementInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let clusterIdentifier = self.clusterIdentifier {
             try encodeContainer.encode(clusterIdentifier, forKey: .clusterIdentifier)
         }
@@ -1415,6 +1431,8 @@ extension ExecuteStatementInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ExecuteStatementInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
     /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
     public var clusterIdentifier: Swift.String?
     /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
@@ -1437,6 +1455,7 @@ public struct ExecuteStatementInput: Swift.Equatable {
     public var workgroupName: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
@@ -1448,6 +1467,7 @@ public struct ExecuteStatementInput: Swift.Equatable {
         workgroupName: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.database = database
         self.dbUser = dbUser
@@ -1470,10 +1490,12 @@ struct ExecuteStatementInputBody: Swift.Equatable {
     let statementName: Swift.String?
     let parameters: [RedshiftDataClientTypes.SqlParameter]?
     let workgroupName: Swift.String?
+    let clientToken: Swift.String?
 }
 
 extension ExecuteStatementInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
         case clusterIdentifier = "ClusterIdentifier"
         case database = "Database"
         case dbUser = "DbUser"
@@ -1514,6 +1536,8 @@ extension ExecuteStatementInputBody: Swift.Decodable {
         parameters = parametersDecoded0
         let workgroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workgroupName)
         workgroupName = workgroupNameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -1531,7 +1555,7 @@ extension ExecuteStatementOutputError {
         case "ActiveStatementsExceededException" : self = .activeStatementsExceededException(try ActiveStatementsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ExecuteStatementException" : self = .executeStatementException(try ExecuteStatementException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1805,7 +1829,7 @@ extension GetStatementResultOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2104,7 +2128,7 @@ extension ListDatabasesOutputError {
         case "DatabaseConnectionException" : self = .databaseConnectionException(try DatabaseConnectionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2334,7 +2358,7 @@ extension ListSchemasOutputError {
         case "DatabaseConnectionException" : self = .databaseConnectionException(try DatabaseConnectionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2528,7 +2552,7 @@ extension ListStatementsOutputError {
         switch errorType {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2770,7 +2794,7 @@ extension ListTablesOutputError {
         case "DatabaseConnectionException" : self = .databaseConnectionException(try DatabaseConnectionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2938,7 +2962,7 @@ extension RedshiftDataClientTypes {
         /// The name of the parameter.
         /// This member is required.
         public var name: Swift.String?
-        /// The value of the parameter. Amazon Redshift implicitly converts to the proper data type. For more inforation, see [Data types](https://docs.aws.amazon.com/redshift/latest/dg/c_Supported_data_types.html) in the Amazon Redshift Database Developer Guide.
+        /// The value of the parameter. Amazon Redshift implicitly converts to the proper data type. For more information, see [Data types](https://docs.aws.amazon.com/redshift/latest/dg/c_Supported_data_types.html) in the Amazon Redshift Database Developer Guide.
         /// This member is required.
         public var value: Swift.String?
 

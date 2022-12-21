@@ -161,6 +161,54 @@ extension ListScenesInput: ClientRuntime.PaginateToken {
         )}
 }
 
+/// Paginate over `[ListSyncJobsOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListSyncJobsInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListSyncJobsOutputResponse`
+extension IoTTwinMakerClient {
+    public func listSyncJobsPaginated(input: ListSyncJobsInput) -> ClientRuntime.PaginatorSequence<ListSyncJobsInput, ListSyncJobsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListSyncJobsInput, ListSyncJobsOutputResponse>(input: input, inputKey: \ListSyncJobsInput.nextToken, outputKey: \ListSyncJobsOutputResponse.nextToken, paginationFunction: self.listSyncJobs(input:))
+    }
+}
+
+extension ListSyncJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSyncJobsInput {
+        return ListSyncJobsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceId: self.workspaceId
+        )}
+}
+
+/// Paginate over `[ListSyncResourcesOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListSyncResourcesInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListSyncResourcesOutputResponse`
+extension IoTTwinMakerClient {
+    public func listSyncResourcesPaginated(input: ListSyncResourcesInput) -> ClientRuntime.PaginatorSequence<ListSyncResourcesInput, ListSyncResourcesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListSyncResourcesInput, ListSyncResourcesOutputResponse>(input: input, inputKey: \ListSyncResourcesInput.nextToken, outputKey: \ListSyncResourcesOutputResponse.nextToken, paginationFunction: self.listSyncResources(input:))
+    }
+}
+
+extension ListSyncResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSyncResourcesInput {
+        return ListSyncResourcesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            syncSource: self.syncSource,
+            workspaceId: self.workspaceId
+        )}
+}
+
 /// Paginate over `[ListWorkspacesOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

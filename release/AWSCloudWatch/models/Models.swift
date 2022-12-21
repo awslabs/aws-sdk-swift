@@ -1273,7 +1273,7 @@ extension DeleteAlarmsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1464,7 +1464,7 @@ extension DeleteAnomalyDetectorOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1573,7 +1573,7 @@ extension DeleteDashboardsOutputError {
         case "ResourceNotFound" : self = .dashboardNotFoundError(try DashboardNotFoundError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1679,7 +1679,7 @@ extension DeleteInsightRulesOutputError {
         switch errorType {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1808,7 +1808,7 @@ extension DeleteMetricStreamOutputError {
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1989,7 +1989,7 @@ extension DescribeAlarmHistoryOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2217,7 +2217,7 @@ extension DescribeAlarmsForMetricOutputError: ClientRuntime.HttpResponseBinding 
 extension DescribeAlarmsForMetricOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2481,7 +2481,7 @@ extension DescribeAlarmsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2753,7 +2753,7 @@ extension DescribeAnomalyDetectorsOutputError {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2902,7 +2902,7 @@ extension DescribeInsightRulesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3156,7 +3156,7 @@ extension DisableAlarmActionsOutputError: ClientRuntime.HttpResponseBinding {
 extension DisableAlarmActionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3259,7 +3259,7 @@ extension DisableInsightRulesOutputError {
         switch errorType {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3411,7 +3411,7 @@ extension EnableAlarmActionsOutputError: ClientRuntime.HttpResponseBinding {
 extension EnableAlarmActionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3515,7 +3515,7 @@ extension EnableInsightRulesOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3586,6 +3586,35 @@ extension EnableInsightRulesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CloudWatchClientTypes {
+    public enum EvaluationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case partialData
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationState] {
+            return [
+                .partialData,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .partialData: return "PARTIAL_DATA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationState(rawValue: rawValue) ?? EvaluationState.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GetDashboardInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -3645,7 +3674,7 @@ extension GetDashboardOutputError {
         case "ResourceNotFound" : self = .dashboardNotFoundError(try DashboardNotFoundError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3887,7 +3916,7 @@ extension GetInsightRuleReportOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4202,7 +4231,7 @@ extension GetMetricDataOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4553,7 +4582,7 @@ extension GetMetricStatisticsOutputError {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4696,7 +4725,7 @@ extension GetMetricStreamOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4927,7 +4956,7 @@ public struct GetMetricWidgetImageInput: Swift.Equatable {
     /// A JSON string that defines the bitmap graph to be retrieved. The string includes the metrics to include in the graph, statistics, annotations, title, axis limits, and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage call. For more information about the syntax of MetricWidget see [GetMetricWidgetImage: Metric Widget Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Metric-Widget-Structure.html). If any metric on the graph could not load all the requested data points, an orange triangle with an exclamation point appears next to the graph legend.
     /// This member is required.
     public var metricWidget: Swift.String?
-    /// The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:  <GetMetricWidgetImageResponse xmlns=>
+    /// The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:  >
     ///
     ///
     ///
@@ -4994,7 +5023,7 @@ extension GetMetricWidgetImageOutputError: ClientRuntime.HttpResponseBinding {
 extension GetMetricWidgetImageOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5903,7 +5932,7 @@ extension ListDashboardsOutputError {
         switch errorType {
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6064,7 +6093,7 @@ extension ListManagedInsightRulesOutputError {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6215,7 +6244,7 @@ extension ListMetricStreamsOutputError {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6446,7 +6475,7 @@ extension ListMetricsOutputError {
         switch errorType {
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6612,7 +6641,7 @@ extension ListTagsForResourceOutputError {
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7007,6 +7036,7 @@ extension CloudWatchClientTypes.MetricAlarm: Swift.Codable {
         case dimensions = "Dimensions"
         case evaluateLowSampleCountPercentile = "EvaluateLowSampleCountPercentile"
         case evaluationPeriods = "EvaluationPeriods"
+        case evaluationState = "EvaluationState"
         case extendedStatistic = "ExtendedStatistic"
         case insufficientDataActions = "InsufficientDataActions"
         case metricName = "MetricName"
@@ -7016,6 +7046,7 @@ extension CloudWatchClientTypes.MetricAlarm: Swift.Codable {
         case period = "Period"
         case stateReason = "StateReason"
         case stateReasonData = "StateReasonData"
+        case stateTransitionedTimestamp = "StateTransitionedTimestamp"
         case stateUpdatedTimestamp = "StateUpdatedTimestamp"
         case stateValue = "StateValue"
         case statistic = "Statistic"
@@ -7078,6 +7109,9 @@ extension CloudWatchClientTypes.MetricAlarm: Swift.Codable {
         if let evaluationPeriods = evaluationPeriods {
             try container.encode(evaluationPeriods, forKey: ClientRuntime.Key("EvaluationPeriods"))
         }
+        if let evaluationState = evaluationState {
+            try container.encode(evaluationState, forKey: ClientRuntime.Key("EvaluationState"))
+        }
         if let extendedStatistic = extendedStatistic {
             try container.encode(extendedStatistic, forKey: ClientRuntime.Key("ExtendedStatistic"))
         }
@@ -7131,6 +7165,9 @@ extension CloudWatchClientTypes.MetricAlarm: Swift.Codable {
         }
         if let stateReasonData = stateReasonData {
             try container.encode(stateReasonData, forKey: ClientRuntime.Key("StateReasonData"))
+        }
+        if let stateTransitionedTimestamp = stateTransitionedTimestamp {
+            try container.encodeTimestamp(stateTransitionedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateTransitionedTimestamp"))
         }
         if let stateUpdatedTimestamp = stateUpdatedTimestamp {
             try container.encodeTimestamp(stateUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateUpdatedTimestamp"))
@@ -7296,6 +7333,10 @@ extension CloudWatchClientTypes.MetricAlarm: Swift.Codable {
         }
         let thresholdMetricIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .thresholdMetricId)
         thresholdMetricId = thresholdMetricIdDecoded
+        let evaluationStateDecoded = try containerValues.decodeIfPresent(CloudWatchClientTypes.EvaluationState.self, forKey: .evaluationState)
+        evaluationState = evaluationStateDecoded
+        let stateTransitionedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .stateTransitionedTimestamp)
+        stateTransitionedTimestamp = stateTransitionedTimestampDecoded
     }
 }
 
@@ -7324,6 +7365,8 @@ extension CloudWatchClientTypes {
         public var evaluateLowSampleCountPercentile: Swift.String?
         /// The number of periods over which data is compared to the specified threshold.
         public var evaluationPeriods: Swift.Int?
+        /// If the value of this field is PARTIAL_DATA, the alarm is being evaluated based on only partial data. This happens if the query used for the alarm returns more than 10,000 metrics. For more information, see [Create alarms on Metrics Insights queries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html).
+        public var evaluationState: CloudWatchClientTypes.EvaluationState?
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
         public var extendedStatistic: Swift.String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
@@ -7342,7 +7385,9 @@ extension CloudWatchClientTypes {
         public var stateReason: Swift.String?
         /// An explanation for the alarm state, in JSON format.
         public var stateReasonData: Swift.String?
-        /// The time stamp of the last update to the alarm state.
+        /// The date and time that the alarm's StateValue most recently changed.
+        public var stateTransitionedTimestamp: ClientRuntime.Date?
+        /// The time stamp of the last update to the value of either the StateValue or EvaluationState parameters.
         public var stateUpdatedTimestamp: ClientRuntime.Date?
         /// The state value for the alarm.
         public var stateValue: CloudWatchClientTypes.StateValue?
@@ -7369,6 +7414,7 @@ extension CloudWatchClientTypes {
             dimensions: [CloudWatchClientTypes.Dimension]? = nil,
             evaluateLowSampleCountPercentile: Swift.String? = nil,
             evaluationPeriods: Swift.Int? = nil,
+            evaluationState: CloudWatchClientTypes.EvaluationState? = nil,
             extendedStatistic: Swift.String? = nil,
             insufficientDataActions: [Swift.String]? = nil,
             metricName: Swift.String? = nil,
@@ -7378,6 +7424,7 @@ extension CloudWatchClientTypes {
             period: Swift.Int? = nil,
             stateReason: Swift.String? = nil,
             stateReasonData: Swift.String? = nil,
+            stateTransitionedTimestamp: ClientRuntime.Date? = nil,
             stateUpdatedTimestamp: ClientRuntime.Date? = nil,
             stateValue: CloudWatchClientTypes.StateValue? = nil,
             statistic: CloudWatchClientTypes.Statistic? = nil,
@@ -7398,6 +7445,7 @@ extension CloudWatchClientTypes {
             self.dimensions = dimensions
             self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
             self.evaluationPeriods = evaluationPeriods
+            self.evaluationState = evaluationState
             self.extendedStatistic = extendedStatistic
             self.insufficientDataActions = insufficientDataActions
             self.metricName = metricName
@@ -7407,6 +7455,7 @@ extension CloudWatchClientTypes {
             self.period = period
             self.stateReason = stateReason
             self.stateReasonData = stateReasonData
+            self.stateTransitionedTimestamp = stateTransitionedTimestamp
             self.stateUpdatedTimestamp = stateUpdatedTimestamp
             self.stateValue = stateValue
             self.statistic = statistic
@@ -8615,7 +8664,7 @@ extension PutAnomalyDetectorOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8933,7 +8982,7 @@ extension PutCompositeAlarmOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9023,7 +9072,7 @@ extension PutDashboardOutputError {
         switch errorType {
         case "InvalidParameterInput" : self = .dashboardInvalidInputError(try DashboardInvalidInputError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9212,7 +9261,7 @@ extension PutInsightRuleOutputError {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9318,7 +9367,7 @@ extension PutManagedInsightRulesOutputError {
         switch errorType {
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9834,7 +9883,7 @@ extension PutMetricAlarmOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9952,7 +10001,7 @@ extension PutMetricDataOutputError {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10224,7 +10273,7 @@ extension PutMetricStreamOutputError {
         case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10604,7 +10653,7 @@ extension SetAlarmStateOutputError {
         switch errorType {
         case "InvalidFormat" : self = .invalidFormatFault(try InvalidFormatFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10908,7 +10957,7 @@ extension StartMetricStreamsOutputError {
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11198,7 +11247,7 @@ extension StopMetricStreamsOutputError {
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingParameter" : self = .missingRequiredParameterException(try MissingRequiredParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11365,7 +11414,7 @@ extension TagResourceOutputError {
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11486,7 +11535,7 @@ extension UntagResourceOutputError {
         case "InternalServiceError" : self = .internalServiceFault(try InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

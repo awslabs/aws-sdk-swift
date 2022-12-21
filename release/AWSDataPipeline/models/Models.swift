@@ -102,7 +102,7 @@ extension ActivatePipelineOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -215,7 +215,7 @@ extension AddTagsOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -350,7 +350,7 @@ extension CreatePipelineOutputError {
         switch errorType {
         case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -480,7 +480,7 @@ extension DeactivatePipelineOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -567,7 +567,7 @@ extension DeletePipelineOutputError {
         case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -702,7 +702,7 @@ extension DescribeObjectsOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -863,7 +863,7 @@ extension DescribePipelinesOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1019,7 +1019,7 @@ extension EvaluateExpressionOutputError {
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskNotFoundException" : self = .taskNotFoundException(try TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1208,7 +1208,7 @@ extension GetPipelineDefinitionOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1522,7 +1522,7 @@ extension ListPipelinesOutputError {
         switch errorType {
         case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2300,7 +2300,7 @@ extension PollForTaskOutputError {
         case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskNotFoundException" : self = .taskNotFoundException(try TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2491,7 +2491,7 @@ extension PutPipelineDefinitionOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2745,7 +2745,7 @@ extension QueryObjectsOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2918,7 +2918,7 @@ extension RemoveTagsOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3031,7 +3031,7 @@ extension ReportTaskProgressOutputError {
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskNotFoundException" : self = .taskNotFoundException(try TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3174,7 +3174,7 @@ extension ReportTaskRunnerHeartbeatOutputError {
         switch errorType {
         case "InternalServiceError" : self = .internalServiceError(try InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3375,7 +3375,7 @@ extension SetStatusOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3512,7 +3512,7 @@ extension SetTaskStatusOutputError {
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskNotFoundException" : self = .taskNotFoundException(try TaskNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3886,7 +3886,7 @@ extension ValidatePipelineDefinitionOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineDeletedException" : self = .pipelineDeletedException(try PipelineDeletedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PipelineNotFoundException" : self = .pipelineNotFoundException(try PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

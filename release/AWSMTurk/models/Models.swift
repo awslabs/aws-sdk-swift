@@ -75,7 +75,7 @@ extension AcceptQualificationRequestOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -181,7 +181,7 @@ extension ApproveAssignmentOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -480,7 +480,7 @@ extension AssociateQualificationWithWorkerOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -718,7 +718,7 @@ extension CreateAdditionalAssignmentsForHITOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1008,7 +1008,7 @@ extension CreateHITOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1208,7 +1208,7 @@ extension CreateHITTypeOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1442,7 +1442,7 @@ extension CreateHITWithHITTypeOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1665,7 +1665,7 @@ extension CreateQualificationTypeOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1791,7 +1791,7 @@ extension CreateWorkerBlockOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1873,7 +1873,7 @@ extension DeleteHITOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1955,7 +1955,7 @@ extension DeleteQualificationTypeOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2049,7 +2049,7 @@ extension DeleteWorkerBlockOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2156,7 +2156,7 @@ extension DisassociateQualificationFromWorkerOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2280,7 +2280,7 @@ extension GetAccountBalanceOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2403,7 +2403,7 @@ extension GetAssignmentOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2539,7 +2539,7 @@ extension GetFileUploadURLOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2652,7 +2652,7 @@ extension GetHITOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2778,7 +2778,7 @@ extension GetQualificationScoreOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2891,7 +2891,7 @@ extension GetQualificationTypeOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3459,7 +3459,7 @@ extension ListAssignmentsForHITOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3635,7 +3635,7 @@ extension ListBonusPaymentsOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3801,7 +3801,7 @@ extension ListHITsForQualificationTypeOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3953,7 +3953,7 @@ extension ListHITsOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4118,7 +4118,7 @@ extension ListQualificationRequestsOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4308,7 +4308,7 @@ extension ListQualificationTypesOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4522,7 +4522,7 @@ extension ListReviewPolicyResultsForHITOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4720,7 +4720,7 @@ extension ListReviewableHITsOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4872,7 +4872,7 @@ extension ListWorkerBlocksOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5050,7 +5050,7 @@ extension ListWorkersWithQualificationTypeOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5485,7 +5485,7 @@ extension NotifyWorkersOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6257,7 +6257,7 @@ extension RejectAssignmentOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6351,7 +6351,7 @@ extension RejectQualificationRequestOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6964,7 +6964,7 @@ extension SendBonusOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7059,7 +7059,7 @@ extension SendTestEventNotificationOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7215,7 +7215,7 @@ extension UpdateExpirationForHITOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7313,7 +7313,7 @@ extension UpdateHITReviewStatusOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7408,7 +7408,7 @@ extension UpdateHITTypeOfHITOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7514,7 +7514,7 @@ extension UpdateNotificationSettingsOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7692,7 +7692,7 @@ extension UpdateQualificationTypeOutputError {
         switch errorType {
         case "RequestError" : self = .requestError(try RequestError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceFault" : self = .serviceFault(try ServiceFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

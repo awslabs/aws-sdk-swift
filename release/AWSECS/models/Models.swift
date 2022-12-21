@@ -3594,7 +3594,7 @@ extension CreateCapacityProviderOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UpdateInProgressException" : self = .updateInProgressException(try UpdateInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3844,7 +3844,7 @@ extension CreateClusterOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4319,7 +4319,7 @@ extension CreateServiceOutputError {
         case "PlatformUnknownException" : self = .platformUnknownException(try PlatformUnknownException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4656,7 +4656,7 @@ extension CreateTaskSetOutputError {
         case "ServiceNotActiveException" : self = .serviceNotActiveException(try ServiceNotActiveException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFoundException" : self = .serviceNotFoundException(try ServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4791,7 +4791,7 @@ extension DeleteAccountSettingOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4930,7 +4930,7 @@ extension DeleteAttributesOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetNotFoundException" : self = .targetNotFoundException(try TargetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5054,7 +5054,7 @@ extension DeleteCapacityProviderOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5174,7 +5174,7 @@ extension DeleteClusterOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UpdateInProgressException" : self = .updateInProgressException(try UpdateInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5320,7 +5320,7 @@ extension DeleteServiceOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFoundException" : self = .serviceNotFoundException(try ServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5481,7 +5481,7 @@ extension DeleteTaskSetOutputError {
         case "ServiceNotFoundException" : self = .serviceNotFoundException(try ServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskSetNotFoundException" : self = .taskSetNotFoundException(try TaskSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5769,6 +5769,76 @@ extension ECSClientTypes {
 
 }
 
+extension ECSClientTypes.DeploymentAlarms: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alarmNames
+        case enable
+        case rollback
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let alarmNames = alarmNames {
+            var alarmNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alarmNames)
+            for stringlist0 in alarmNames {
+                try alarmNamesContainer.encode(stringlist0)
+            }
+        }
+        if enable != false {
+            try encodeContainer.encode(enable, forKey: .enable)
+        }
+        if rollback != false {
+            try encodeContainer.encode(rollback, forKey: .rollback)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let alarmNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .alarmNames)
+        var alarmNamesDecoded0:[Swift.String]? = nil
+        if let alarmNamesContainer = alarmNamesContainer {
+            alarmNamesDecoded0 = [Swift.String]()
+            for string0 in alarmNamesContainer {
+                if let string0 = string0 {
+                    alarmNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        alarmNames = alarmNamesDecoded0
+        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable) ?? false
+        enable = enableDecoded
+        let rollbackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rollback) ?? false
+        rollback = rollbackDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// One of the methods which provide a way for you to quickly identify when a deployment has failed, and then to optionally roll back the failure to the last working deployment. When the alarms are generated, Amazon ECS sets the service deployment to failed. Set the rollback parameter to have Amazon ECS to roll back your service to the last completed deployment after a failure. You can only use the DeploymentAlarms method to detect failures when the DeploymentController is set to ECS (rolling update). For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide .
+    public struct DeploymentAlarms: Swift.Equatable {
+        /// One or more CloudWatch alarm names. Use a "," to separate the alarms.
+        /// This member is required.
+        public var alarmNames: [Swift.String]?
+        /// Determines whether to use the CloudWatch alarm option in the service deployment process.
+        /// This member is required.
+        public var enable: Swift.Bool
+        /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is used, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
+        /// This member is required.
+        public var rollback: Swift.Bool
+
+        public init (
+            alarmNames: [Swift.String]? = nil,
+            enable: Swift.Bool = false,
+            rollback: Swift.Bool = false
+        )
+        {
+            self.alarmNames = alarmNames
+            self.enable = enable
+            self.rollback = rollback
+        }
+    }
+
+}
+
 extension ECSClientTypes.DeploymentCircuitBreaker: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enable
@@ -5800,7 +5870,7 @@ extension ECSClientTypes {
         /// Determines whether to use the deployment circuit breaker logic for the service.
         /// This member is required.
         public var enable: Swift.Bool
-        /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is enabled, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
+        /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is on, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
         /// This member is required.
         public var rollback: Swift.Bool
 
@@ -5818,6 +5888,7 @@ extension ECSClientTypes {
 
 extension ECSClientTypes.DeploymentConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alarms
         case deploymentCircuitBreaker
         case maximumPercent
         case minimumHealthyPercent
@@ -5825,6 +5896,9 @@ extension ECSClientTypes.DeploymentConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let alarms = self.alarms {
+            try encodeContainer.encode(alarms, forKey: .alarms)
+        }
         if let deploymentCircuitBreaker = self.deploymentCircuitBreaker {
             try encodeContainer.encode(deploymentCircuitBreaker, forKey: .deploymentCircuitBreaker)
         }
@@ -5844,12 +5918,16 @@ extension ECSClientTypes.DeploymentConfiguration: Swift.Codable {
         maximumPercent = maximumPercentDecoded
         let minimumHealthyPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumHealthyPercent)
         minimumHealthyPercent = minimumHealthyPercentDecoded
+        let alarmsDecoded = try containerValues.decodeIfPresent(ECSClientTypes.DeploymentAlarms.self, forKey: .alarms)
+        alarms = alarmsDecoded
     }
 }
 
 extension ECSClientTypes {
     /// Optional deployment parameters that control how many tasks run during a deployment and the ordering of stopping and starting tasks.
     public struct DeploymentConfiguration: Swift.Equatable {
+        /// Information about the CloudWatch alarms.
+        public var alarms: ECSClientTypes.DeploymentAlarms?
         /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If deployment circuit breaker is enabled, a service deployment will transition to a failed state and stop launching new tasks. If rollback is enabled, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
         public var deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker?
         /// If a service is using the rolling update (ECS) deployment type, the maximumPercent parameter represents an upper limit on the number of your service's tasks that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desiredCount (rounded down to the nearest integer). This parameter enables you to define the deployment batch size. For example, if your service is using the REPLICA service scheduler and has a desiredCount of four tasks and a maximumPercent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default maximumPercent value for a service using the REPLICA service scheduler is 200%. If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the maximum percent value is set to the default value and is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the maximum percent value is not used, although it is returned when describing your service.
@@ -5874,11 +5952,13 @@ extension ECSClientTypes {
         public var minimumHealthyPercent: Swift.Int?
 
         public init (
+            alarms: ECSClientTypes.DeploymentAlarms? = nil,
             deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker? = nil,
             maximumPercent: Swift.Int? = nil,
             minimumHealthyPercent: Swift.Int? = nil
         )
         {
+            self.alarms = alarms
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
@@ -6080,7 +6160,7 @@ extension DeregisterContainerInstanceOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6196,7 +6276,7 @@ extension DeregisterTaskDefinitionOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6370,7 +6450,7 @@ extension DescribeCapacityProvidersOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6558,7 +6638,7 @@ extension DescribeClustersOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6750,7 +6830,7 @@ extension DescribeContainerInstancesOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6943,7 +7023,7 @@ extension DescribeServicesOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7111,7 +7191,7 @@ extension DescribeTaskDefinitionOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7325,7 +7405,7 @@ extension DescribeTaskSetsOutputError {
         case "ServiceNotActiveException" : self = .serviceNotActiveException(try ServiceNotActiveException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFoundException" : self = .serviceNotFoundException(try ServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7522,7 +7602,7 @@ extension DescribeTasksOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7814,7 +7894,7 @@ extension DiscoverPollEndpointOutputError {
         switch errorType {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8572,7 +8652,7 @@ extension ExecuteCommandOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetNotConnectedException" : self = .targetNotConnectedException(try TargetNotConnectedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9018,7 +9098,7 @@ extension GetTaskProtectionOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10090,7 +10170,7 @@ extension ListAccountSettingsOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10283,7 +10363,7 @@ extension ListAttributesOutputError {
         switch errorType {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10427,7 +10507,7 @@ extension ListClustersOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10609,7 +10689,7 @@ extension ListContainerInstancesOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10769,7 +10849,7 @@ extension ListServicesByNamespaceOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFoundException" : self = .namespaceNotFoundException(try NamespaceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10952,7 +11032,7 @@ extension ListServicesOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11088,7 +11168,7 @@ extension ListTagsForResourceOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11248,7 +11328,7 @@ extension ListTaskDefinitionFamiliesOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11429,7 +11509,7 @@ extension ListTaskDefinitionsOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11660,7 +11740,7 @@ extension ListTasksOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFoundException" : self = .serviceNotFoundException(try ServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12401,7 +12481,9 @@ extension ECSClientTypes.NetworkBinding: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bindIP
         case containerPort
+        case containerPortRange
         case hostPort
+        case hostPortRange
         case `protocol` = "protocol"
     }
 
@@ -12413,8 +12495,14 @@ extension ECSClientTypes.NetworkBinding: Swift.Codable {
         if let containerPort = self.containerPort {
             try encodeContainer.encode(containerPort, forKey: .containerPort)
         }
+        if let containerPortRange = self.containerPortRange {
+            try encodeContainer.encode(containerPortRange, forKey: .containerPortRange)
+        }
         if let hostPort = self.hostPort {
             try encodeContainer.encode(hostPort, forKey: .hostPort)
+        }
+        if let hostPortRange = self.hostPortRange {
+            try encodeContainer.encode(hostPortRange, forKey: .hostPortRange)
         }
         if let `protocol` = self.`protocol` {
             try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
@@ -12431,6 +12519,10 @@ extension ECSClientTypes.NetworkBinding: Swift.Codable {
         hostPort = hostPortDecoded
         let protocolDecoded = try containerValues.decodeIfPresent(ECSClientTypes.TransportProtocol.self, forKey: .protocol)
         `protocol` = protocolDecoded
+        let containerPortRangeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerPortRange)
+        containerPortRange = containerPortRangeDecoded
+        let hostPortRangeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostPortRange)
+        hostPortRange = hostPortRangeDecoded
     }
 }
 
@@ -12441,21 +12533,61 @@ extension ECSClientTypes {
         public var bindIP: Swift.String?
         /// The port number on the container that's used with the network binding.
         public var containerPort: Swift.Int?
+        /// The port number range on the container that's bound to the dynamically mapped host port range. The following rules apply when you specify a containerPortRange:
+        ///
+        /// * You must use either the bridge network mode or the awsvpc network mode.
+        ///
+        /// * This parameter is available for both the EC2 and Fargate launch types.
+        ///
+        /// * This parameter is available for both the Linux and Windows operating systems.
+        ///
+        /// * The container instance must have at least version 1.67.0 of the container agent and at least version 1.67.0-1 of the ecs-init package
+        ///
+        /// * You can specify a maximum of 100 port ranges per container.
+        ///
+        /// * You do not specify a hostPortRange. The value of the hostPortRange is set as follows:
+        ///
+        /// * For containers in a task with the awsvpc network mode, the hostPort is set to the same value as the containerPort. This is a static mapping strategy.
+        ///
+        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open host ports from the default ephemeral range and passes it to docker to bind them to the container ports.
+        ///
+        ///
+        ///
+        ///
+        /// * The containerPortRange valid values are between 1 and 65535.
+        ///
+        /// * A port can only be included in one port mapping per container.
+        ///
+        /// * You cannot specify overlapping port ranges.
+        ///
+        /// * The first port in the range must be less than last port in the range.
+        ///
+        /// * Docker recommends that you turn off the docker-proxy in the Docker daemon config file when you have a large number of ports. For more information, see [ Issue #11185](https://github.com/moby/moby/issues/11185) on the Github website. For information about how to turn off the docker-proxy in the Docker daemon config file, see [Docker daemon](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/bootstrap_container_instance.html#bootstrap_docker_daemon) in the Amazon ECS Developer Guide.
+        ///
+        ///
+        /// You can call [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) to view the hostPortRange which are the host ports that are bound to the container ports.
+        public var containerPortRange: Swift.String?
         /// The port number on the host that's used with the network binding.
         public var hostPort: Swift.Int?
+        /// The port number range on the host that's used with the network binding. This is assigned is assigned by Docker and delivered by the Amazon ECS agent.
+        public var hostPortRange: Swift.String?
         /// The protocol used for the network binding.
         public var `protocol`: ECSClientTypes.TransportProtocol?
 
         public init (
             bindIP: Swift.String? = nil,
             containerPort: Swift.Int? = nil,
+            containerPortRange: Swift.String? = nil,
             hostPort: Swift.Int? = nil,
+            hostPortRange: Swift.String? = nil,
             `protocol`: ECSClientTypes.TransportProtocol? = nil
         )
         {
             self.bindIP = bindIP
             self.containerPort = containerPort
+            self.containerPortRange = containerPortRange
             self.hostPort = hostPort
+            self.hostPortRange = hostPortRange
             self.`protocol` = `protocol`
         }
     }
@@ -13065,6 +13197,7 @@ extension ECSClientTypes.PortMapping: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appProtocol
         case containerPort
+        case containerPortRange
         case hostPort
         case name
         case `protocol` = "protocol"
@@ -13077,6 +13210,9 @@ extension ECSClientTypes.PortMapping: Swift.Codable {
         }
         if let containerPort = self.containerPort {
             try encodeContainer.encode(containerPort, forKey: .containerPort)
+        }
+        if let containerPortRange = self.containerPortRange {
+            try encodeContainer.encode(containerPortRange, forKey: .containerPortRange)
         }
         if let hostPort = self.hostPort {
             try encodeContainer.encode(hostPort, forKey: .hostPort)
@@ -13101,6 +13237,8 @@ extension ECSClientTypes.PortMapping: Swift.Codable {
         name = nameDecoded
         let appProtocolDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ApplicationProtocol.self, forKey: .appProtocol)
         appProtocol = appProtocolDecoded
+        let containerPortRangeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerPortRange)
+        containerPortRange = containerPortRangeDecoded
     }
 }
 
@@ -13111,7 +13249,48 @@ extension ECSClientTypes {
         public var appProtocol: ECSClientTypes.ApplicationProtocol?
         /// The port number on the container that's bound to the user-specified or automatically assigned host port. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. If you use containers in a task with the bridge network mode and you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
         public var containerPort: Swift.Int?
-        /// The port number on the container instance to reserve for your container. If you use containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you use containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running. That is, after a task stops, the host port is released. The current reserved ports are displayed in the remainingResources of [DescribeContainerInstances] output. A container instance can have up to 100 reserved ports at a time. This number includes the default reserved ports. Automatically assigned ports aren't included in the 100 reserved ports quota.
+        /// The port number range on the container that's bound to the dynamically mapped host port range. The following rules apply when you specify a containerPortRange:
+        ///
+        /// * You must use either the bridge network mode or the awsvpc network mode.
+        ///
+        /// * This parameter is available for both the EC2 and Fargate launch types.
+        ///
+        /// * This parameter is available for both the Linux and Windows operating systems.
+        ///
+        /// * The container instance must have at least version 1.67.0 of the container agent and at least version 1.67.0-1 of the ecs-init package
+        ///
+        /// * You can specify a maximum of 100 port ranges per container.
+        ///
+        /// * You do not specify a hostPortRange. The value of the hostPortRange is set as follows:
+        ///
+        /// * For containers in a task with the awsvpc network mode, the hostPort is set to the same value as the containerPort. This is a static mapping strategy.
+        ///
+        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open host ports from the default ephemeral range and passes it to docker to bind them to the container ports.
+        ///
+        ///
+        ///
+        ///
+        /// * The containerPortRange valid values are between 1 and 65535.
+        ///
+        /// * A port can only be included in one port mapping per container.
+        ///
+        /// * You cannot specify overlapping port ranges.
+        ///
+        /// * The first port in the range must be less than last port in the range.
+        ///
+        /// * Docker recommends that you turn off the docker-proxy in the Docker daemon config file when you have a large number of ports. For more information, see [ Issue #11185](https://github.com/moby/moby/issues/11185) on the Github website. For information about how to turn off the docker-proxy in the Docker daemon config file, see [Docker daemon](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/bootstrap_container_instance.html#bootstrap_docker_daemon) in the Amazon ECS Developer Guide.
+        ///
+        ///
+        /// You can call [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) to view the hostPortRange which are the host ports that are bound to the container ports.
+        public var containerPortRange: Swift.String?
+        /// The port number on the container instance to reserve for your container. If you specify a containerPortRange, leave this field empty and the value of the hostPort is set as follows:
+        ///
+        /// * For containers in a task with the awsvpc network mode, the hostPort is set to the same value as the containerPort. This is a static mapping strategy.
+        ///
+        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open ports on the host and automaticaly binds them to the container ports. This is a dynamic mapping strategy.
+        ///
+        ///
+        /// If you use containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you use containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running. That is, after a task stops, the host port is released. The current reserved ports are displayed in the remainingResources of [DescribeContainerInstances] output. A container instance can have up to 100 reserved ports at a time. This number includes the default reserved ports. Automatically assigned ports aren't included in the 100 reserved ports quota.
         public var hostPort: Swift.Int?
         /// The name that's used for the port mapping. This parameter only applies to Service Connect. This parameter is the name that you use in the serviceConnectConfiguration of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
         public var name: Swift.String?
@@ -13121,6 +13300,7 @@ extension ECSClientTypes {
         public init (
             appProtocol: ECSClientTypes.ApplicationProtocol? = nil,
             containerPort: Swift.Int? = nil,
+            containerPortRange: Swift.String? = nil,
             hostPort: Swift.Int? = nil,
             name: Swift.String? = nil,
             `protocol`: ECSClientTypes.TransportProtocol? = nil
@@ -13128,6 +13308,7 @@ extension ECSClientTypes {
         {
             self.appProtocol = appProtocol
             self.containerPort = containerPort
+            self.containerPortRange = containerPortRange
             self.hostPort = hostPort
             self.name = name
             self.`protocol` = `protocol`
@@ -13412,7 +13593,7 @@ extension PutAccountSettingDefaultOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13552,7 +13733,7 @@ extension PutAccountSettingOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13692,7 +13873,7 @@ extension PutAttributesOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetNotFoundException" : self = .targetNotFoundException(try TargetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13870,7 +14051,7 @@ extension PutClusterCapacityProvidersOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UpdateInProgressException" : self = .updateInProgressException(try UpdateInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14145,7 +14326,7 @@ extension RegisterContainerInstanceOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14576,7 +14757,7 @@ extension RegisterTaskDefinitionOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15286,7 +15467,7 @@ extension RunTaskOutputError {
         case "PlatformUnknownException" : self = .platformUnknownException(try PlatformUnknownException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17085,7 +17266,7 @@ extension StartTaskOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17254,7 +17435,7 @@ extension StopTaskOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17395,7 +17576,7 @@ extension SubmitAttachmentStateChangesOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17606,7 +17787,7 @@ extension SubmitContainerStateChangeOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17865,7 +18046,7 @@ extension SubmitTaskStateChangeOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18130,7 +18311,7 @@ extension TagResourceOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20335,7 +20516,7 @@ extension UntagResourceOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20434,7 +20615,7 @@ extension UpdateCapacityProviderOutputError {
         case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20598,7 +20779,7 @@ extension UpdateClusterOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20740,7 +20921,7 @@ extension UpdateClusterSettingsOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20872,7 +21053,7 @@ extension UpdateContainerAgentOutputError {
         case "NoUpdateAvailableException" : self = .noUpdateAvailableException(try NoUpdateAvailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UpdateInProgressException" : self = .updateInProgressException(try UpdateInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21029,7 +21210,7 @@ extension UpdateContainerInstancesStateOutputError {
         case "ClusterNotFoundException" : self = .clusterNotFoundException(try ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21496,7 +21677,7 @@ extension UpdateServiceOutputError {
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotActiveException" : self = .serviceNotActiveException(try ServiceNotActiveException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFoundException" : self = .serviceNotFoundException(try ServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21650,7 +21831,7 @@ extension UpdateServicePrimaryTaskSetOutputError {
         case "ServiceNotFoundException" : self = .serviceNotFoundException(try ServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskSetNotFoundException" : self = .taskSetNotFoundException(try TaskSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21825,7 +22006,7 @@ extension UpdateTaskProtectionOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22023,7 +22204,7 @@ extension UpdateTaskSetOutputError {
         case "ServiceNotFoundException" : self = .serviceNotFoundException(try ServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TaskSetNotFoundException" : self = .taskSetNotFoundException(try TaskSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

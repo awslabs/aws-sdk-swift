@@ -326,7 +326,7 @@ extension AssociateWebACLOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -938,7 +938,7 @@ extension CheckCapacityOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFSubscriptionNotFoundException" : self = .wAFSubscriptionNotFoundException(try WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2217,7 +2217,7 @@ extension CreateIPSetOutputError {
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2420,7 +2420,7 @@ extension CreateRegexPatternSetOutputError {
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2675,7 +2675,7 @@ extension CreateRuleGroupOutputError {
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2833,7 +2833,7 @@ public struct CreateWebACLInput: Swift.Equatable {
     public var scope: WAFV2ClientTypes.Scope?
     /// An array of key:value pairs to associate with the resource.
     public var tags: [WAFV2ClientTypes.Tag]?
-    /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains. Example JSON: "TokenDomains": { "mywebsite.com", "myotherwebsite.com" }
+    /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains. Example JSON: "TokenDomains": { "mywebsite.com", "myotherwebsite.com" } Public suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
     public var tokenDomains: [Swift.String]?
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
     /// This member is required.
@@ -2984,7 +2984,7 @@ extension CreateWebACLOutputError {
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3380,7 +3380,7 @@ extension DeleteFirewallManagerRuleGroupsOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3545,7 +3545,7 @@ extension DeleteIPSetOutputError {
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3636,7 +3636,7 @@ extension DeleteLoggingConfigurationOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3722,7 +3722,7 @@ extension DeletePermissionPolicyOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3854,7 +3854,7 @@ extension DeleteRegexPatternSetOutputError {
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3991,7 +3991,7 @@ extension DeleteRuleGroupOutputError {
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4128,7 +4128,7 @@ extension DeleteWebACLOutputError {
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4262,7 +4262,7 @@ extension DescribeManagedRuleGroupOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidResourceException" : self = .wAFInvalidResourceException(try WAFInvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4480,7 +4480,7 @@ extension DisassociateWebACLOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5155,7 +5155,7 @@ extension GenerateMobileSdkReleaseUrlOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5366,7 +5366,7 @@ extension GetIPSetOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5493,7 +5493,7 @@ extension GetLoggingConfigurationOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5640,7 +5640,7 @@ extension GetManagedRuleSetOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5780,7 +5780,7 @@ extension GetMobileSdkReleaseOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5896,7 +5896,7 @@ extension GetPermissionPolicyOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6067,7 +6067,7 @@ extension GetRateBasedStatementManagedKeysOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6224,7 +6224,7 @@ extension GetRegexPatternSetOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6390,7 +6390,7 @@ extension GetRuleGroupOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6572,7 +6572,7 @@ extension GetSampledRequestsOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6726,7 +6726,7 @@ extension GetWebACLForResourceOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6874,7 +6874,7 @@ extension GetWebACLOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8144,7 +8144,7 @@ extension ListAvailableManagedRuleGroupVersionsOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8317,7 +8317,7 @@ extension ListAvailableManagedRuleGroupsOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8479,7 +8479,7 @@ extension ListIPSetsOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8641,7 +8641,7 @@ extension ListLoggingConfigurationsOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8803,7 +8803,7 @@ extension ListManagedRuleSetsOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8961,7 +8961,7 @@ extension ListMobileSdkReleasesOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9123,7 +9123,7 @@ extension ListRegexPatternSetsOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9270,7 +9270,7 @@ extension ListResourcesForWebACLOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9423,7 +9423,7 @@ extension ListRuleGroupsOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9584,7 +9584,7 @@ extension ListTagsForResourceOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9740,7 +9740,7 @@ extension ListWebACLsOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9882,7 +9882,7 @@ extension WAFV2ClientTypes.LoggingConfiguration: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Defines an association between logging destinations and a web ACL resource, for logging from WAF. As part of the association, you can specify parts of the standard logging fields to keep out of the logs and you can specify filters so that you log only a subset of the logging records. You can define one logging destination per web ACL. You can access information about the traffic that WAF inspects using the following steps:
     ///
-    /// * Create your logging destination. You can use an Amazon CloudWatch Logs log group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon Kinesis Data Firehose. For information about configuring logging destinations and the permissions that are required for each, see [Logging web ACL traffic information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the WAF Developer Guide.
+    /// * Create your logging destination. You can use an Amazon CloudWatch Logs log group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon Kinesis Data Firehose. The name that you give the destination must start with aws-waf-logs-. Depending on the type of destination, you might need to configure additional settings or permissions. For configuration requirements and pricing information for each destination type, see [Logging web ACL traffic](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the WAF Developer Guide.
     ///
     /// * Associate your logging destination to your web ACL using a PutLoggingConfiguration request.
     ///
@@ -11330,7 +11330,7 @@ extension PutLoggingConfigurationOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFServiceLinkedRoleErrorException" : self = .wAFServiceLinkedRoleErrorException(try WAFServiceLinkedRoleErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11531,7 +11531,7 @@ extension PutManagedRuleSetVersionsOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11623,9 +11623,6 @@ public struct PutPermissionPolicyInput: Swift.Equatable {
     /// * The policy must not include a Resource parameter.
     ///
     ///
-    ///
-    ///
-    ///
     /// For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
     /// This member is required.
     public var policy: Swift.String?
@@ -11678,7 +11675,7 @@ extension PutPermissionPolicyOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidPermissionPolicyException" : self = .wAFInvalidPermissionPolicyException(try WAFInvalidPermissionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13834,7 +13831,7 @@ extension TagResourceOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14179,7 +14176,7 @@ extension UntagResourceOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14369,7 +14366,7 @@ extension UpdateIPSetOutputError {
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14559,7 +14556,7 @@ extension UpdateManagedRuleSetVersionExpiryDateOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14780,7 +14777,7 @@ extension UpdateRegexPatternSetOutputError {
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15022,7 +15019,7 @@ extension UpdateRuleGroupOutputError {
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFSubscriptionNotFoundException" : self = .wAFSubscriptionNotFoundException(try WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15184,7 +15181,7 @@ public struct UpdateWebACLInput: Swift.Equatable {
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
     /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
-    /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains. Example JSON: "TokenDomains": { "mywebsite.com", "myotherwebsite.com" }
+    /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains. Example JSON: "TokenDomains": { "mywebsite.com", "myotherwebsite.com" } Public suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
     public var tokenDomains: [Swift.String]?
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
     /// This member is required.
@@ -15330,7 +15327,7 @@ extension UpdateWebACLOutputError {
         case "WAFOptimisticLockException" : self = .wAFOptimisticLockException(try WAFOptimisticLockException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFSubscriptionNotFoundException" : self = .wAFSubscriptionNotFoundException(try WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15981,9 +15978,6 @@ extension WAFInvalidPermissionPolicyException {
 /// * Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and wafv2:PutFirewallManagerRuleGroups and may optionally specify wafv2:GetRuleGroup. WAF rejects any extra actions or wildcard actions in the policy.
 ///
 /// * The policy must not include a Resource parameter.
-///
-///
-///
 ///
 ///
 /// For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).

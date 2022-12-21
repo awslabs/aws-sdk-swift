@@ -197,6 +197,7 @@ let package = Package(
         .library(name: "AWSKinesisVideoArchivedMedia", targets: ["AWSKinesisVideoArchivedMedia"]),
         .library(name: "AWSKinesisVideoMedia", targets: ["AWSKinesisVideoMedia"]),
         .library(name: "AWSKinesisVideoSignaling", targets: ["AWSKinesisVideoSignaling"]),
+        .library(name: "AWSKinesisVideoWebRTCStorage", targets: ["AWSKinesisVideoWebRTCStorage"]),
         .library(name: "AWSLakeFormation", targets: ["AWSLakeFormation"]),
         .library(name: "AWSLambda", targets: ["AWSLambda"]),
         .library(name: "AWSLexModelBuildingService", targets: ["AWSLexModelBuildingService"]),
@@ -309,6 +310,7 @@ let package = Package(
         .library(name: "AWSSageMakerA2IRuntime", targets: ["AWSSageMakerA2IRuntime"]),
         .library(name: "AWSSageMakerFeatureStoreRuntime", targets: ["AWSSageMakerFeatureStoreRuntime"]),
         .library(name: "AWSSageMakerGeospatial", targets: ["AWSSageMakerGeospatial"]),
+        .library(name: "AWSSageMakerMetrics", targets: ["AWSSageMakerMetrics"]),
         .library(name: "AWSSageMakerRuntime", targets: ["AWSSageMakerRuntime"]),
         .library(name: "AWSSagemakerEdge", targets: ["AWSSagemakerEdge"]),
         .library(name: "AWSSavingsplans", targets: ["AWSSavingsplans"]),
@@ -353,7 +355,7 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.6.0")),
+        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.7.0")),
         .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.4.0"))
     ],
     targets: [
@@ -551,6 +553,7 @@ let package = Package(
         .target(name: "AWSKinesisVideoArchivedMedia", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSKinesisVideoArchivedMedia"),
         .target(name: "AWSKinesisVideoMedia", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSKinesisVideoMedia"),
         .target(name: "AWSKinesisVideoSignaling", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSKinesisVideoSignaling"),
+        .target(name: "AWSKinesisVideoWebRTCStorage", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSKinesisVideoWebRTCStorage"),
         .target(name: "AWSLakeFormation", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLakeFormation"),
         .target(name: "AWSLambda", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLambda"),
         .target(name: "AWSLexModelBuildingService", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLexModelBuildingService"),
@@ -663,6 +666,7 @@ let package = Package(
         .target(name: "AWSSageMakerA2IRuntime", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSageMakerA2IRuntime"),
         .target(name: "AWSSageMakerFeatureStoreRuntime", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSageMakerFeatureStoreRuntime"),
         .target(name: "AWSSageMakerGeospatial", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSageMakerGeospatial"),
+        .target(name: "AWSSageMakerMetrics", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSageMakerMetrics"),
         .target(name: "AWSSageMakerRuntime", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSageMakerRuntime"),
         .target(name: "AWSSagemakerEdge", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSagemakerEdge"),
         .target(name: "AWSSavingsplans", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSavingsplans"),

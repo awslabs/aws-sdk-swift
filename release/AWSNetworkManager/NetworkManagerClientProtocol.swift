@@ -151,7 +151,7 @@ public protocol NetworkManagerClientProtocol {
     func rejectAttachment(input: RejectAttachmentInput) async throws -> RejectAttachmentOutputResponse
     /// Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
     func restoreCoreNetworkPolicyVersion(input: RestoreCoreNetworkPolicyVersionInput) async throws -> RestoreCoreNetworkPolicyVersionOutputResponse
-    /// Enables for the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
+    /// Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
     func startOrganizationServiceAccessUpdate(input: StartOrganizationServiceAccessUpdateInput) async throws -> StartOrganizationServiceAccessUpdateOutputResponse
     /// Starts analyzing the routing path between the specified source and destination. For more information, see [Route Analyzer](https://docs.aws.amazon.com/vpc/latest/tgw/route-analyzer.html).
     func startRouteAnalysis(input: StartRouteAnalysisInput) async throws -> StartRouteAnalysisOutputResponse

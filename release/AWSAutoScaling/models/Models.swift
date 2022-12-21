@@ -642,7 +642,7 @@ extension AttachInstancesOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -696,7 +696,7 @@ public struct AttachLoadBalancerTargetGroupsInput: Swift.Equatable {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
-    /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups. To get the ARN of a target group, use the Elastic Load Balancing [DescribeTargetGroups](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html) API operation.
+    /// The Amazon Resource Names (ARNs) of the target groups. You can specify up to 10 target groups. To get the ARN of a target group, use the Elastic Load Balancing [DescribeTargetGroups](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html) API operation.
     /// This member is required.
     public var targetGroupARNs: [Swift.String]?
 
@@ -759,7 +759,7 @@ extension AttachLoadBalancerTargetGroupsOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -876,7 +876,7 @@ extension AttachLoadBalancersOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -893,6 +893,123 @@ extension AttachLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct AttachLoadBalancersOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension AttachTrafficSourcesInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let autoScalingGroupName = autoScalingGroupName {
+            try container.encode(autoScalingGroupName, forKey: ClientRuntime.Key("AutoScalingGroupName"))
+        }
+        if let trafficSources = trafficSources {
+            if !trafficSources.isEmpty {
+                var trafficSourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrafficSources"))
+                for (index0, trafficsourceidentifier0) in trafficSources.enumerated() {
+                    try trafficSourcesContainer.encode(trafficsourceidentifier0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var trafficSourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrafficSources"))
+                try trafficSourcesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("AttachTrafficSources", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-01-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension AttachTrafficSourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct AttachTrafficSourcesInput: Swift.Equatable {
+    /// The name of the Auto Scaling group.
+    /// This member is required.
+    public var autoScalingGroupName: Swift.String?
+    /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. Amazon EC2 Auto Scaling registers the running instances with the attached target groups. The target groups receive incoming traffic and route requests to one or more registered targets.
+    /// This member is required.
+    public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
+
+    public init (
+        autoScalingGroupName: Swift.String? = nil,
+        trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
+    )
+    {
+        self.autoScalingGroupName = autoScalingGroupName
+        self.trafficSources = trafficSources
+    }
+}
+
+struct AttachTrafficSourcesInputBody: Swift.Equatable {
+    let autoScalingGroupName: Swift.String?
+    let trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
+}
+
+extension AttachTrafficSourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingGroupName = "AutoScalingGroupName"
+        case trafficSources = "TrafficSources"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
+        autoScalingGroupName = autoScalingGroupNameDecoded
+        if containerValues.contains(.trafficSources) {
+            struct KeyVal0{struct member{}}
+            let trafficSourcesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trafficSources)
+            if let trafficSourcesWrappedContainer = trafficSourcesWrappedContainer {
+                let trafficSourcesContainer = try trafficSourcesWrappedContainer.decodeIfPresent([AutoScalingClientTypes.TrafficSourceIdentifier].self, forKey: .member)
+                var trafficSourcesBuffer:[AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
+                if let trafficSourcesContainer = trafficSourcesContainer {
+                    trafficSourcesBuffer = [AutoScalingClientTypes.TrafficSourceIdentifier]()
+                    for structureContainer0 in trafficSourcesContainer {
+                        trafficSourcesBuffer?.append(structureContainer0)
+                    }
+                }
+                trafficSources = trafficSourcesBuffer
+            } else {
+                trafficSources = []
+            }
+        } else {
+            trafficSources = nil
+        }
+    }
+}
+
+extension AttachTrafficSourcesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension AttachTrafficSourcesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum AttachTrafficSourcesOutputError: Swift.Error, Swift.Equatable {
+    case resourceContentionFault(ResourceContentionFault)
+    case serviceLinkedRoleFailure(ServiceLinkedRoleFailure)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AttachTrafficSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct AttachTrafficSourcesOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -929,6 +1046,7 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
         case tags = "Tags"
         case targetGroupARNs = "TargetGroupARNs"
         case terminationPolicies = "TerminationPolicies"
+        case trafficSources = "TrafficSources"
         case vpcZoneIdentifier = "VPCZoneIdentifier"
         case warmPoolConfiguration = "WarmPoolConfiguration"
         case warmPoolSize = "WarmPoolSize"
@@ -1096,6 +1214,18 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
             else {
                 var terminationPoliciesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TerminationPolicies"))
                 try terminationPoliciesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let trafficSources = trafficSources {
+            if !trafficSources.isEmpty {
+                var trafficSourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrafficSources"))
+                for (index0, trafficsourceidentifier0) in trafficSources.enumerated() {
+                    try trafficSourcesContainer.encode(trafficsourceidentifier0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var trafficSourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrafficSources"))
+                try trafficSourcesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
         if let vpcZoneIdentifier = vpcZoneIdentifier {
@@ -1313,6 +1443,25 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
         desiredCapacityType = desiredCapacityTypeDecoded
         let defaultInstanceWarmupDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultInstanceWarmup)
         defaultInstanceWarmup = defaultInstanceWarmupDecoded
+        if containerValues.contains(.trafficSources) {
+            struct KeyVal0{struct member{}}
+            let trafficSourcesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trafficSources)
+            if let trafficSourcesWrappedContainer = trafficSourcesWrappedContainer {
+                let trafficSourcesContainer = try trafficSourcesWrappedContainer.decodeIfPresent([AutoScalingClientTypes.TrafficSourceIdentifier].self, forKey: .member)
+                var trafficSourcesBuffer:[AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
+                if let trafficSourcesContainer = trafficSourcesContainer {
+                    trafficSourcesBuffer = [AutoScalingClientTypes.TrafficSourceIdentifier]()
+                    for structureContainer0 in trafficSourcesContainer {
+                        trafficSourcesBuffer?.append(structureContainer0)
+                    }
+                }
+                trafficSources = trafficSourcesBuffer
+            } else {
+                trafficSources = []
+            }
+        } else {
+            trafficSources = nil
+        }
     }
 }
 
@@ -1348,7 +1497,7 @@ extension AutoScalingClientTypes {
         public var enabledMetrics: [AutoScalingClientTypes.EnabledMetric]?
         /// The duration of the health check grace period, in seconds.
         public var healthCheckGracePeriod: Swift.Int?
-        /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
+        /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
         /// This member is required.
         public var healthCheckType: Swift.String?
         /// The EC2 instances associated with the group.
@@ -1387,6 +1536,8 @@ extension AutoScalingClientTypes {
         public var targetGroupARNs: [Swift.String]?
         /// The termination policies for the group.
         public var terminationPolicies: [Swift.String]?
+        /// The unique identifiers of the traffic sources.
+        public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
         /// One or more subnet IDs, if applicable, separated by commas.
         public var vpcZoneIdentifier: Swift.String?
         /// The warm pool for the group.
@@ -1425,6 +1576,7 @@ extension AutoScalingClientTypes {
             tags: [AutoScalingClientTypes.TagDescription]? = nil,
             targetGroupARNs: [Swift.String]? = nil,
             terminationPolicies: [Swift.String]? = nil,
+            trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil,
             vpcZoneIdentifier: Swift.String? = nil,
             warmPoolConfiguration: AutoScalingClientTypes.WarmPoolConfiguration? = nil,
             warmPoolSize: Swift.Int? = nil
@@ -1460,6 +1612,7 @@ extension AutoScalingClientTypes {
             self.tags = tags
             self.targetGroupARNs = targetGroupARNs
             self.terminationPolicies = terminationPolicies
+            self.trafficSources = trafficSources
             self.vpcZoneIdentifier = vpcZoneIdentifier
             self.warmPoolConfiguration = warmPoolConfiguration
             self.warmPoolSize = warmPoolSize
@@ -1774,7 +1927,7 @@ extension BatchDeleteScheduledActionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1940,7 +2093,7 @@ extension BatchPutScheduledUpdateGroupActionOutputError {
         case "AlreadyExists" : self = .alreadyExistsFault(try AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2171,7 +2324,7 @@ extension CancelInstanceRefreshOutputError {
         case "ActiveInstanceRefreshNotFound" : self = .activeInstanceRefreshNotFoundFault(try ActiveInstanceRefreshNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2427,7 +2580,7 @@ extension CompleteLifecycleActionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2614,6 +2767,18 @@ extension CreateAutoScalingGroupInput: Swift.Encodable {
                 try terminationPoliciesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let trafficSources = trafficSources {
+            if !trafficSources.isEmpty {
+                var trafficSourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrafficSources"))
+                for (index0, trafficsourceidentifier0) in trafficSources.enumerated() {
+                    try trafficSourcesContainer.encode(trafficsourceidentifier0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var trafficSourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrafficSources"))
+                try trafficSourcesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
         if let vpcZoneIdentifier = vpcZoneIdentifier {
             try container.encode(vpcZoneIdentifier, forKey: ClientRuntime.Key("VPCZoneIdentifier"))
         }
@@ -2646,9 +2811,9 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
     public var desiredCapacity: Swift.Int?
     /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see [Creating an Auto Scaling group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
     public var desiredCapacityType: Swift.String?
-    /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is useful if your instances do not immediately pass these health checks after they enter the InService state. For more information, see [Set the health check grace period for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/health-check-grace-period.html) in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
+    /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see [Set the health check grace period for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/health-check-grace-period.html) in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
     public var healthCheckGracePeriod: Swift.Int?
-    /// The service to use for the health checks. The valid values are EC2 (default) and ELB. If you configure an Auto Scaling group to use load balancer (ELB) health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks. For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html) in the Amazon EC2 Auto Scaling User Guide. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
     public var healthCheckType: Swift.String?
     /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html) API operation. For more information, see [Creating an Auto Scaling group using an EC2 instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceId: Swift.String?
@@ -2678,10 +2843,12 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
     public var serviceLinkedRoleARN: Swift.String?
     /// One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see [Tag Auto Scaling groups and instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html) in the Amazon EC2 Auto Scaling User Guide.
     public var tags: [AutoScalingClientTypes.Tag]?
-    /// The Amazon Resource Names (ARN) of the target groups to associate with the Auto Scaling group. Instances are registered as targets with the target groups. The target groups receive incoming traffic and route requests to one or more registered targets. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// The Amazon Resource Names (ARN) of the Elastic Load Balancing target groups to associate with the Auto Scaling group. Instances are registered as targets with the target groups. The target groups receive incoming traffic and route requests to one or more registered targets. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide.
     public var targetGroupARNs: [Swift.String]?
     /// A policy or a list of policies that are used to select the instance to terminate. These policies are executed in the order that you list them. For more information, see [Work with Amazon EC2 Auto Scaling termination policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
     public var terminationPolicies: [Swift.String]?
+    /// Reserved for use with Amazon VPC Lattice, which is in preview release and is subject to change. Do not use this parameter for production workloads. It is also subject to change. The unique identifiers of one or more traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. Amazon EC2 Auto Scaling registers the running instances with the attached target groups. The target groups receive incoming traffic and route requests to one or more registered targets.
+    public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
     /// A comma-separated list of subnet IDs for a virtual private cloud (VPC) where instances in the Auto Scaling group can be created. If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
     public var vpcZoneIdentifier: Swift.String?
 
@@ -2711,6 +2878,7 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
         tags: [AutoScalingClientTypes.Tag]? = nil,
         targetGroupARNs: [Swift.String]? = nil,
         terminationPolicies: [Swift.String]? = nil,
+        trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil,
         vpcZoneIdentifier: Swift.String? = nil
     )
     {
@@ -2739,6 +2907,7 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
         self.tags = tags
         self.targetGroupARNs = targetGroupARNs
         self.terminationPolicies = terminationPolicies
+        self.trafficSources = trafficSources
         self.vpcZoneIdentifier = vpcZoneIdentifier
     }
 }
@@ -2770,6 +2939,7 @@ struct CreateAutoScalingGroupInputBody: Swift.Equatable {
     let context: Swift.String?
     let desiredCapacityType: Swift.String?
     let defaultInstanceWarmup: Swift.Int?
+    let trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
 }
 
 extension CreateAutoScalingGroupInputBody: Swift.Decodable {
@@ -2799,6 +2969,7 @@ extension CreateAutoScalingGroupInputBody: Swift.Decodable {
         case tags = "Tags"
         case targetGroupARNs = "TargetGroupARNs"
         case terminationPolicies = "TerminationPolicies"
+        case trafficSources = "TrafficSources"
         case vpcZoneIdentifier = "VPCZoneIdentifier"
     }
 
@@ -2958,6 +3129,25 @@ extension CreateAutoScalingGroupInputBody: Swift.Decodable {
         desiredCapacityType = desiredCapacityTypeDecoded
         let defaultInstanceWarmupDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultInstanceWarmup)
         defaultInstanceWarmup = defaultInstanceWarmupDecoded
+        if containerValues.contains(.trafficSources) {
+            struct KeyVal0{struct member{}}
+            let trafficSourcesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trafficSources)
+            if let trafficSourcesWrappedContainer = trafficSourcesWrappedContainer {
+                let trafficSourcesContainer = try trafficSourcesWrappedContainer.decodeIfPresent([AutoScalingClientTypes.TrafficSourceIdentifier].self, forKey: .member)
+                var trafficSourcesBuffer:[AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
+                if let trafficSourcesContainer = trafficSourcesContainer {
+                    trafficSourcesBuffer = [AutoScalingClientTypes.TrafficSourceIdentifier]()
+                    for structureContainer0 in trafficSourcesContainer {
+                        trafficSourcesBuffer?.append(structureContainer0)
+                    }
+                }
+                trafficSources = trafficSourcesBuffer
+            } else {
+                trafficSources = []
+            }
+        } else {
+            trafficSources = nil
+        }
     }
 }
 
@@ -2975,7 +3165,7 @@ extension CreateAutoScalingGroupOutputError {
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3333,7 +3523,7 @@ extension CreateLaunchConfigurationOutputError {
         case "AlreadyExists" : self = .alreadyExistsFault(try AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3441,7 +3631,7 @@ extension CreateOrUpdateTagsOutputError {
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3468,6 +3658,7 @@ extension AutoScalingClientTypes.CustomizedMetricSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dimensions = "Dimensions"
         case metricName = "MetricName"
+        case metrics = "Metrics"
         case namespace = "Namespace"
         case statistic = "Statistic"
         case unit = "Unit"
@@ -3489,6 +3680,18 @@ extension AutoScalingClientTypes.CustomizedMetricSpecification: Swift.Codable {
         }
         if let metricName = metricName {
             try container.encode(metricName, forKey: ClientRuntime.Key("MetricName"))
+        }
+        if let metrics = metrics {
+            if !metrics.isEmpty {
+                var metricsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Metrics"))
+                for (index0, targettrackingmetricdataquery0) in metrics.enumerated() {
+                    try metricsContainer.encode(targettrackingmetricdataquery0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var metricsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Metrics"))
+                try metricsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
         }
         if let namespace = namespace {
             try container.encode(namespace, forKey: ClientRuntime.Key("Namespace"))
@@ -3530,6 +3733,25 @@ extension AutoScalingClientTypes.CustomizedMetricSpecification: Swift.Codable {
         statistic = statisticDecoded
         let unitDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unit)
         unit = unitDecoded
+        if containerValues.contains(.metrics) {
+            struct KeyVal0{struct member{}}
+            let metricsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .metrics)
+            if let metricsWrappedContainer = metricsWrappedContainer {
+                let metricsContainer = try metricsWrappedContainer.decodeIfPresent([AutoScalingClientTypes.TargetTrackingMetricDataQuery].self, forKey: .member)
+                var metricsBuffer:[AutoScalingClientTypes.TargetTrackingMetricDataQuery]? = nil
+                if let metricsContainer = metricsContainer {
+                    metricsBuffer = [AutoScalingClientTypes.TargetTrackingMetricDataQuery]()
+                    for structureContainer0 in metricsContainer {
+                        metricsBuffer?.append(structureContainer0)
+                    }
+                }
+                metrics = metricsBuffer
+            } else {
+                metrics = []
+            }
+        } else {
+            metrics = nil
+        }
     }
 }
 
@@ -3546,13 +3768,12 @@ extension AutoScalingClientTypes {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public var dimensions: [AutoScalingClientTypes.MetricDimension]?
         /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
-        /// This member is required.
         public var metricName: Swift.String?
+        /// The metrics to include in the target tracking scaling policy, as a metric data query. This can include both raw metric and metric math expressions.
+        public var metrics: [AutoScalingClientTypes.TargetTrackingMetricDataQuery]?
         /// The namespace of the metric.
-        /// This member is required.
         public var namespace: Swift.String?
         /// The statistic of the metric.
-        /// This member is required.
         public var statistic: AutoScalingClientTypes.MetricStatistic?
         /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
         public var unit: Swift.String?
@@ -3560,6 +3781,7 @@ extension AutoScalingClientTypes {
         public init (
             dimensions: [AutoScalingClientTypes.MetricDimension]? = nil,
             metricName: Swift.String? = nil,
+            metrics: [AutoScalingClientTypes.TargetTrackingMetricDataQuery]? = nil,
             namespace: Swift.String? = nil,
             statistic: AutoScalingClientTypes.MetricStatistic? = nil,
             unit: Swift.String? = nil
@@ -3567,6 +3789,7 @@ extension AutoScalingClientTypes {
         {
             self.dimensions = dimensions
             self.metricName = metricName
+            self.metrics = metrics
             self.namespace = namespace
             self.statistic = statistic
             self.unit = unit
@@ -3645,7 +3868,7 @@ extension DeleteAutoScalingGroupOutputError {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3725,7 +3948,7 @@ extension DeleteLaunchConfigurationOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3815,7 +4038,7 @@ extension DeleteLifecycleHookOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3904,7 +4127,7 @@ extension DeleteNotificationConfigurationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3993,7 +4216,7 @@ extension DeletePolicyOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4083,7 +4306,7 @@ extension DeleteScheduledActionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4187,7 +4410,7 @@ extension DeleteTagsOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4279,7 +4502,7 @@ extension DeleteWarmPoolOutputError {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4332,7 +4555,7 @@ extension DescribeAccountLimitsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4444,7 +4667,7 @@ extension DescribeAdjustmentTypesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4655,7 +4878,7 @@ extension DescribeAutoScalingGroupsOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4841,7 +5064,7 @@ extension DescribeAutoScalingInstancesOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4951,7 +5174,7 @@ extension DescribeAutoScalingNotificationTypesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5137,7 +5360,7 @@ extension DescribeInstanceRefreshesOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5322,7 +5545,7 @@ extension DescribeLaunchConfigurationsOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5433,7 +5656,7 @@ extension DescribeLifecycleHookTypesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5596,7 +5819,7 @@ extension DescribeLifecycleHooksOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5745,7 +5968,7 @@ extension DescribeLoadBalancerTargetGroupsOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5905,7 +6128,7 @@ extension DescribeLoadBalancersOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6015,7 +6238,7 @@ extension DescribeMetricCollectionTypesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6216,7 +6439,7 @@ extension DescribeNotificationConfigurationsOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6451,7 +6674,7 @@ extension DescribePoliciesOutputError {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6659,7 +6882,7 @@ extension DescribeScalingActivitiesOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6770,7 +6993,7 @@ extension DescribeScalingProcessTypesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6977,7 +7200,7 @@ extension DescribeScheduledActionsOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7162,7 +7385,7 @@ extension DescribeTagsOutputError {
         switch errorType {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7272,7 +7495,7 @@ extension DescribeTerminationPolicyTypesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7338,6 +7561,178 @@ extension DescribeTerminationPolicyTypesOutputResponseBody: Swift.Decodable {
         } else {
             terminationPolicyTypes = nil
         }
+    }
+}
+
+extension DescribeTrafficSourcesInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let autoScalingGroupName = autoScalingGroupName {
+            try container.encode(autoScalingGroupName, forKey: ClientRuntime.Key("AutoScalingGroupName"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        if let nextToken = nextToken {
+            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        }
+        if let trafficSourceType = trafficSourceType {
+            try container.encode(trafficSourceType, forKey: ClientRuntime.Key("TrafficSourceType"))
+        }
+        try container.encode("DescribeTrafficSources", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-01-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeTrafficSourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeTrafficSourcesInput: Swift.Equatable {
+    /// The name of the Auto Scaling group.
+    /// This member is required.
+    public var autoScalingGroupName: Swift.String?
+    /// The maximum number of items to return with this call. The maximum value is 50.
+    public var maxRecords: Swift.Int?
+    /// The token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+    /// The type of traffic source you are describing. Currently, the only valid value is vpc-lattice.
+    /// This member is required.
+    public var trafficSourceType: Swift.String?
+
+    public init (
+        autoScalingGroupName: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        trafficSourceType: Swift.String? = nil
+    )
+    {
+        self.autoScalingGroupName = autoScalingGroupName
+        self.maxRecords = maxRecords
+        self.nextToken = nextToken
+        self.trafficSourceType = trafficSourceType
+    }
+}
+
+struct DescribeTrafficSourcesInputBody: Swift.Equatable {
+    let autoScalingGroupName: Swift.String?
+    let trafficSourceType: Swift.String?
+    let nextToken: Swift.String?
+    let maxRecords: Swift.Int?
+}
+
+extension DescribeTrafficSourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingGroupName = "AutoScalingGroupName"
+        case maxRecords = "MaxRecords"
+        case nextToken = "NextToken"
+        case trafficSourceType = "TrafficSourceType"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
+        autoScalingGroupName = autoScalingGroupNameDecoded
+        let trafficSourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trafficSourceType)
+        trafficSourceType = trafficSourceTypeDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+    }
+}
+
+extension DescribeTrafficSourcesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension DescribeTrafficSourcesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeTrafficSourcesOutputError: Swift.Error, Swift.Equatable {
+    case invalidNextToken(InvalidNextToken)
+    case resourceContentionFault(ResourceContentionFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTrafficSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeTrafficSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.trafficSources = output.trafficSources
+        } else {
+            self.nextToken = nil
+            self.trafficSources = nil
+        }
+    }
+}
+
+public struct DescribeTrafficSourcesOutputResponse: Swift.Equatable {
+    /// This string indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+    /// Information about the traffic sources.
+    public var trafficSources: [AutoScalingClientTypes.TrafficSourceState]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        trafficSources: [AutoScalingClientTypes.TrafficSourceState]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.trafficSources = trafficSources
+    }
+}
+
+struct DescribeTrafficSourcesOutputResponseBody: Swift.Equatable {
+    let trafficSources: [AutoScalingClientTypes.TrafficSourceState]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeTrafficSourcesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case trafficSources = "TrafficSources"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTrafficSourcesResult"))
+        if containerValues.contains(.trafficSources) {
+            struct KeyVal0{struct member{}}
+            let trafficSourcesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trafficSources)
+            if let trafficSourcesWrappedContainer = trafficSourcesWrappedContainer {
+                let trafficSourcesContainer = try trafficSourcesWrappedContainer.decodeIfPresent([AutoScalingClientTypes.TrafficSourceState].self, forKey: .member)
+                var trafficSourcesBuffer:[AutoScalingClientTypes.TrafficSourceState]? = nil
+                if let trafficSourcesContainer = trafficSourcesContainer {
+                    trafficSourcesBuffer = [AutoScalingClientTypes.TrafficSourceState]()
+                    for structureContainer0 in trafficSourcesContainer {
+                        trafficSourcesBuffer?.append(structureContainer0)
+                    }
+                }
+                trafficSources = trafficSourcesBuffer
+            } else {
+                trafficSources = []
+            }
+        } else {
+            trafficSources = nil
+        }
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -7422,7 +7817,7 @@ extension DescribeWarmPoolOutputError {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7454,7 +7849,7 @@ extension DescribeWarmPoolOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeWarmPoolOutputResponse: Swift.Equatable {
     /// The instances that are currently in the warm pool.
     public var instances: [AutoScalingClientTypes.Instance]?
-    /// The token for the next set of items to return. (You received this token from a previous call.)
+    /// This string indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
     public var nextToken: Swift.String?
     /// The warm pool configuration details.
     public var warmPoolConfiguration: AutoScalingClientTypes.WarmPoolConfiguration?
@@ -7664,7 +8059,7 @@ extension DetachInstancesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7828,7 +8223,7 @@ extension DetachLoadBalancerTargetGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7943,7 +8338,7 @@ extension DetachLoadBalancersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7959,6 +8354,121 @@ extension DetachLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DetachLoadBalancersOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DetachTrafficSourcesInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let autoScalingGroupName = autoScalingGroupName {
+            try container.encode(autoScalingGroupName, forKey: ClientRuntime.Key("AutoScalingGroupName"))
+        }
+        if let trafficSources = trafficSources {
+            if !trafficSources.isEmpty {
+                var trafficSourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrafficSources"))
+                for (index0, trafficsourceidentifier0) in trafficSources.enumerated() {
+                    try trafficSourcesContainer.encode(trafficsourceidentifier0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var trafficSourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TrafficSources"))
+                try trafficSourcesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("DetachTrafficSources", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-01-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DetachTrafficSourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DetachTrafficSourcesInput: Swift.Equatable {
+    /// The name of the Auto Scaling group.
+    /// This member is required.
+    public var autoScalingGroupName: Swift.String?
+    /// The unique identifiers of one or more traffic sources you are detaching. You can specify up to 10 traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. When you detach a target group, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the target group using the [DescribeTrafficSources] API call. The instances continue to run.
+    /// This member is required.
+    public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
+
+    public init (
+        autoScalingGroupName: Swift.String? = nil,
+        trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
+    )
+    {
+        self.autoScalingGroupName = autoScalingGroupName
+        self.trafficSources = trafficSources
+    }
+}
+
+struct DetachTrafficSourcesInputBody: Swift.Equatable {
+    let autoScalingGroupName: Swift.String?
+    let trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
+}
+
+extension DetachTrafficSourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingGroupName = "AutoScalingGroupName"
+        case trafficSources = "TrafficSources"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
+        autoScalingGroupName = autoScalingGroupNameDecoded
+        if containerValues.contains(.trafficSources) {
+            struct KeyVal0{struct member{}}
+            let trafficSourcesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .trafficSources)
+            if let trafficSourcesWrappedContainer = trafficSourcesWrappedContainer {
+                let trafficSourcesContainer = try trafficSourcesWrappedContainer.decodeIfPresent([AutoScalingClientTypes.TrafficSourceIdentifier].self, forKey: .member)
+                var trafficSourcesBuffer:[AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
+                if let trafficSourcesContainer = trafficSourcesContainer {
+                    trafficSourcesBuffer = [AutoScalingClientTypes.TrafficSourceIdentifier]()
+                    for structureContainer0 in trafficSourcesContainer {
+                        trafficSourcesBuffer?.append(structureContainer0)
+                    }
+                }
+                trafficSources = trafficSourcesBuffer
+            } else {
+                trafficSources = []
+            }
+        } else {
+            trafficSources = nil
+        }
+    }
+}
+
+extension DetachTrafficSourcesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension DetachTrafficSourcesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DetachTrafficSourcesOutputError: Swift.Error, Swift.Equatable {
+    case resourceContentionFault(ResourceContentionFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DetachTrafficSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DetachTrafficSourcesOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -8100,7 +8610,7 @@ extension DisableMetricsCollectionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8382,7 +8892,7 @@ extension EnableMetricsCollectionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8596,7 +9106,7 @@ extension EnterStandbyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8767,7 +9277,7 @@ extension ExecutePolicyOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8882,7 +9392,7 @@ extension ExitStandbyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9188,7 +9698,7 @@ extension GetPredictiveScalingForecastOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10589,7 +11099,7 @@ extension AutoScalingClientTypes {
         public var onDemandBaseCapacity: Swift.Int?
         /// Controls the percentages of On-Demand Instances and Spot Instances for your additional capacity beyond OnDemandBaseCapacity. Expressed as a number (for example, 20 specifies 20% On-Demand Instances, 80% Spot Instances). If set to 100, only On-Demand Instances are used. Default: 100
         public var onDemandPercentageAboveBaseCapacity: Swift.Int?
-        /// The allocation strategy to apply to your Spot Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values: capacity-optimized Requests Spot Instances using pools that are optimally chosen based on the available Spot capacity. This strategy has the lowest risk of interruption. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized. capacity-optimized-prioritized You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling honors the instance type priorities on a best effort basis but optimizes for capacity first. Note that if the On-Demand allocation strategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. This is not a valid value for Auto Scaling groups that specify [InstanceRequirements]. lowest-price Requests Spot Instances using the lowest priced pools within an Availability Zone, across the number of Spot pools that you specify for the SpotInstancePools property. To ensure that your desired capacity is met, you might receive Spot Instances from several pools. This is the default value, but it might lead to high interruption rates because this strategy only considers instance price and not available capacity. price-capacity-optimized (recommended) Amazon EC2 Auto Scaling identifies the pools with the highest capacity availability for the number of instances that are launching. This means that we will request Spot Instances from the pools that we believe have the lowest chance of interruption in the near term. Amazon EC2 Auto Scaling then requests Spot Instances from the lowest priced of these pools.
+        /// The allocation strategy to apply to your Spot Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values: capacity-optimized Requests Spot Instances using pools that are optimally chosen based on the available Spot capacity. This strategy has the lowest risk of interruption. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized. capacity-optimized-prioritized You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling honors the instance type priorities on a best effort basis but optimizes for capacity first. Note that if the On-Demand allocation strategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. This is not a valid value for Auto Scaling groups that specify [InstanceRequirements]. lowest-price Requests Spot Instances using the lowest priced pools within an Availability Zone, across the number of Spot pools that you specify for the SpotInstancePools property. To ensure that your desired capacity is met, you might receive Spot Instances from several pools. This is the default value, but it might lead to high interruption rates because this strategy only considers instance price and not available capacity. price-capacity-optimized (recommended) The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price.
         public var spotAllocationStrategy: Swift.String?
         /// The number of Spot Instance pools across which to allocate your Spot Instances. The Spot pools are determined from the different instance types in the overrides. Valid only when the SpotAllocationStrategy is lowest-price. Value must be in the range of 1–20. Default: 2
         public var spotInstancePools: Swift.Int?
@@ -13564,7 +14074,7 @@ extension PutLifecycleHookOutputError {
         switch errorType {
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13694,7 +14204,7 @@ extension PutNotificationConfigurationOutputError {
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13965,7 +14475,7 @@ extension PutScalingPolicyOutputError {
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14206,7 +14716,7 @@ extension PutScheduledUpdateGroupActionOutputError {
         case "AlreadyExists" : self = .alreadyExistsFault(try AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14330,7 +14840,7 @@ extension PutWarmPoolOutputError {
         switch errorType {
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14442,7 +14952,7 @@ extension RecordLifecycleActionHeartbeatOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14814,7 +15324,7 @@ extension ResumeProcessesOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15573,7 +16083,7 @@ extension SetDesiredCapacityOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15674,7 +16184,7 @@ extension SetInstanceHealthOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15802,7 +16312,7 @@ extension SetInstanceProtectionOutputError {
         switch errorType {
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15915,7 +16425,7 @@ extension StartInstanceRefreshOutputError {
         case "InstanceRefreshInProgress" : self = .instanceRefreshInProgressFault(try InstanceRefreshInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16159,7 +16669,7 @@ extension SuspendProcessesOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUseFault(try ResourceInUseFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16442,6 +16952,139 @@ extension AutoScalingClientTypes {
 
 }
 
+extension AutoScalingClientTypes.TargetTrackingMetricDataQuery: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expression = "Expression"
+        case id = "Id"
+        case label = "Label"
+        case metricStat = "MetricStat"
+        case returnData = "ReturnData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let expression = expression {
+            try container.encode(expression, forKey: ClientRuntime.Key("Expression"))
+        }
+        if let id = id {
+            try container.encode(id, forKey: ClientRuntime.Key("Id"))
+        }
+        if let label = label {
+            try container.encode(label, forKey: ClientRuntime.Key("Label"))
+        }
+        if let metricStat = metricStat {
+            try container.encode(metricStat, forKey: ClientRuntime.Key("MetricStat"))
+        }
+        if let returnData = returnData {
+            try container.encode(returnData, forKey: ClientRuntime.Key("ReturnData"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
+        expression = expressionDecoded
+        let metricStatDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.TargetTrackingMetricStat.self, forKey: .metricStat)
+        metricStat = metricStatDecoded
+        let labelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .label)
+        label = labelDecoded
+        let returnDataDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .returnData)
+        returnData = returnDataDecoded
+    }
+}
+
+extension AutoScalingClientTypes {
+    /// The metric data to return. Also defines whether this call is returning data for one metric only, or whether it is performing a math expression on the values of returned metric statistics to create a new time series. A time series is a series of data points, each of which is associated with a timestamp.
+    public struct TargetTrackingMetricDataQuery: Swift.Equatable {
+        /// The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public var expression: Swift.String?
+        /// A short name that identifies the object's results in the response. This name must be unique among all TargetTrackingMetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
+        /// This member is required.
+        public var id: Swift.String?
+        /// A human-readable label for this metric or expression. This is especially useful if this is a math expression, so that you know what the value represents.
+        public var label: Swift.String?
+        /// Information about the metric data to return. Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public var metricStat: AutoScalingClientTypes.TargetTrackingMetricStat?
+        /// Indicates whether to return the timestamps and raw data values of this metric. If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
+        public var returnData: Swift.Bool?
+
+        public init (
+            expression: Swift.String? = nil,
+            id: Swift.String? = nil,
+            label: Swift.String? = nil,
+            metricStat: AutoScalingClientTypes.TargetTrackingMetricStat? = nil,
+            returnData: Swift.Bool? = nil
+        )
+        {
+            self.expression = expression
+            self.id = id
+            self.label = label
+            self.metricStat = metricStat
+            self.returnData = returnData
+        }
+    }
+
+}
+
+extension AutoScalingClientTypes.TargetTrackingMetricStat: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metric = "Metric"
+        case stat = "Stat"
+        case unit = "Unit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let metric = metric {
+            try container.encode(metric, forKey: ClientRuntime.Key("Metric"))
+        }
+        if let stat = stat {
+            try container.encode(stat, forKey: ClientRuntime.Key("Stat"))
+        }
+        if let unit = unit {
+            try container.encode(unit, forKey: ClientRuntime.Key("Unit"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.Metric.self, forKey: .metric)
+        metric = metricDecoded
+        let statDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stat)
+        stat = statDecoded
+        let unitDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unit)
+        unit = unitDecoded
+    }
+}
+
+extension AutoScalingClientTypes {
+    /// This structure defines the CloudWatch metric to return, along with the statistic, period, and unit. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
+    public struct TargetTrackingMetricStat: Swift.Equatable {
+        /// Represents a specific metric.
+        /// This member is required.
+        public var metric: AutoScalingClientTypes.Metric?
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in [Statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic) in the Amazon CloudWatch User Guide. The most commonly used metrics for scaling is Average
+        /// This member is required.
+        public var stat: Swift.String?
+        /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
+        public var unit: Swift.String?
+
+        public init (
+            metric: AutoScalingClientTypes.Metric? = nil,
+            stat: Swift.String? = nil,
+            unit: Swift.String? = nil
+        )
+        {
+            self.metric = metric
+            self.stat = stat
+            self.unit = unit
+        }
+    }
+
+}
+
 extension TerminateInstanceInAutoScalingGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -16512,7 +17155,7 @@ extension TerminateInstanceInAutoScalingGroupOutputError {
         switch errorType {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16605,6 +17248,96 @@ extension AutoScalingClientTypes {
         {
             self.max = max
             self.min = min
+        }
+    }
+
+}
+
+extension AutoScalingClientTypes.TrafficSourceIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier = "Identifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let identifier = identifier {
+            try container.encode(identifier, forKey: ClientRuntime.Key("Identifier"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+    }
+}
+
+extension AutoScalingClientTypes {
+    /// Describes the identifier of a traffic source. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group.
+    public struct TrafficSourceIdentifier: Swift.Equatable {
+        /// The unique identifier of the traffic source.
+        public var identifier: Swift.String?
+
+        public init (
+            identifier: Swift.String? = nil
+        )
+        {
+            self.identifier = identifier
+        }
+    }
+
+}
+
+extension AutoScalingClientTypes.TrafficSourceState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case state = "State"
+        case trafficSource = "TrafficSource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let state = state {
+            try container.encode(state, forKey: ClientRuntime.Key("State"))
+        }
+        if let trafficSource = trafficSource {
+            try container.encode(trafficSource, forKey: ClientRuntime.Key("TrafficSource"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let trafficSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trafficSource)
+        trafficSource = trafficSourceDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension AutoScalingClientTypes {
+    /// Describes the state of a traffic source.
+    public struct TrafficSourceState: Swift.Equatable {
+        /// The following are the possible states for a VPC Lattice target group:
+        ///
+        /// * Adding - The Auto Scaling instances are being registered with the target group.
+        ///
+        /// * Added - All Auto Scaling instances are registered with the target group.
+        ///
+        /// * InService - At least one Auto Scaling instance passed the VPC_LATTICE health check.
+        ///
+        /// * Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, VPC Lattice waits for in-flight requests to complete before deregistering the instances.
+        ///
+        /// * Removed - All Auto Scaling instances are deregistered from the target group.
+        public var state: Swift.String?
+        /// The unique identifier of the traffic source. Currently, this is the Amazon Resource Name (ARN) for a VPC Lattice target group.
+        public var trafficSource: Swift.String?
+
+        public init (
+            state: Swift.String? = nil,
+            trafficSource: Swift.String? = nil
+        )
+        {
+            self.state = state
+            self.trafficSource = trafficSource
         }
     }
 
@@ -16723,9 +17456,9 @@ public struct UpdateAutoScalingGroupInput: Swift.Equatable {
     public var desiredCapacity: Swift.Int?
     /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see [Creating an Auto Scaling group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
     public var desiredCapacityType: Swift.String?
-    /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed Elastic Load Balancing or custom health check. This is useful if your instances do not immediately pass these health checks after they enter the InService state. For more information, see [Set the health check grace period for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/health-check-grace-period.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see [Set the health check grace period for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/health-check-grace-period.html) in the Amazon EC2 Auto Scaling User Guide.
     public var healthCheckGracePeriod: Swift.Int?
-    /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
+    /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
     public var healthCheckType: Swift.String?
     /// The name of the launch configuration. If you specify LaunchConfigurationName in your update request, you can't specify LaunchTemplate or MixedInstancesPolicy.
     public var launchConfigurationName: Swift.String?
@@ -16941,7 +17674,7 @@ extension UpdateAutoScalingGroupOutputError {
         case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ScalingActivityInProgress" : self = .scalingActivityInProgressFault(try ScalingActivityInProgressFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLinkedRoleFailure" : self = .serviceLinkedRoleFailure(try ServiceLinkedRoleFailure(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

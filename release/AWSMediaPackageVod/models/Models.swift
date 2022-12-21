@@ -398,7 +398,7 @@ extension ConfigureLogsOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -654,7 +654,7 @@ extension CreateAssetOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -959,7 +959,7 @@ extension CreatePackagingConfigurationOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1208,7 +1208,7 @@ extension CreatePackagingGroupOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1419,7 +1419,7 @@ extension MediaPackageVodClientTypes {
         public var minBufferTimeSeconds: Swift.Int?
         /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type. When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
         public var profile: MediaPackageVodClientTypes.Profile?
-        /// The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content.
+        /// The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content. The MANIFEST value is compatible with source HLS playlists using the SCTE-35 Enhanced syntax (#EXT-OATCLS-SCTE35 tags). SCTE-35 Elemental and SCTE-35 Daterange syntaxes are not supported with this option.
         public var scteMarkersSource: MediaPackageVodClientTypes.ScteMarkersSource?
         /// A StreamSelection configuration.
         public var streamSelection: MediaPackageVodClientTypes.StreamSelection?
@@ -1612,7 +1612,7 @@ extension DeleteAssetOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1685,7 +1685,7 @@ extension DeletePackagingConfigurationOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1758,7 +1758,7 @@ extension DeletePackagingGroupOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1831,7 +1831,7 @@ extension DescribeAssetOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2033,7 +2033,7 @@ extension DescribePackagingConfigurationOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2216,7 +2216,7 @@ extension DescribePackagingGroupOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2237,6 +2237,7 @@ extension DescribePackagingGroupOutputResponse: ClientRuntime.HttpResponseBindin
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: DescribePackagingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.approximateAssetCount = output.approximateAssetCount
             self.arn = output.arn
             self.authorization = output.authorization
             self.domainName = output.domainName
@@ -2244,6 +2245,7 @@ extension DescribePackagingGroupOutputResponse: ClientRuntime.HttpResponseBindin
             self.id = output.id
             self.tags = output.tags
         } else {
+            self.approximateAssetCount = nil
             self.arn = nil
             self.authorization = nil
             self.domainName = nil
@@ -2255,6 +2257,8 @@ extension DescribePackagingGroupOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
+    /// The approximate asset count of the PackagingGroup.
+    public var approximateAssetCount: Swift.Int?
     /// The ARN of the PackagingGroup.
     public var arn: Swift.String?
     /// CDN Authorization credentials
@@ -2269,6 +2273,7 @@ public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init (
+        approximateAssetCount: Swift.Int? = nil,
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
         domainName: Swift.String? = nil,
@@ -2277,6 +2282,7 @@ public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.approximateAssetCount = approximateAssetCount
         self.arn = arn
         self.authorization = authorization
         self.domainName = domainName
@@ -2287,6 +2293,7 @@ public struct DescribePackagingGroupOutputResponse: Swift.Equatable {
 }
 
 struct DescribePackagingGroupOutputResponseBody: Swift.Equatable {
+    let approximateAssetCount: Swift.Int?
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
     let domainName: Swift.String?
@@ -2297,6 +2304,7 @@ struct DescribePackagingGroupOutputResponseBody: Swift.Equatable {
 
 extension DescribePackagingGroupOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateAssetCount = "approximateAssetCount"
         case arn = "arn"
         case authorization = "authorization"
         case domainName = "domainName"
@@ -2307,6 +2315,8 @@ extension DescribePackagingGroupOutputResponseBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approximateAssetCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateAssetCount)
+        approximateAssetCount = approximateAssetCountDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
@@ -2906,7 +2916,7 @@ extension ListAssetsOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3054,7 +3064,7 @@ extension ListPackagingConfigurationsOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3194,7 +3204,7 @@ extension ListPackagingGroupsOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3311,7 +3321,7 @@ extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension ListTagsForResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3722,6 +3732,7 @@ extension MediaPackageVodClientTypes {
 
 extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateAssetCount = "approximateAssetCount"
         case arn = "arn"
         case authorization = "authorization"
         case domainName = "domainName"
@@ -3732,6 +3743,9 @@ extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let approximateAssetCount = self.approximateAssetCount {
+            try encodeContainer.encode(approximateAssetCount, forKey: .approximateAssetCount)
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -3757,6 +3771,8 @@ extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approximateAssetCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateAssetCount)
+        approximateAssetCount = approximateAssetCountDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)
@@ -3784,6 +3800,8 @@ extension MediaPackageVodClientTypes.PackagingGroup: Swift.Codable {
 extension MediaPackageVodClientTypes {
     /// A MediaPackage VOD PackagingGroup resource.
     public struct PackagingGroup: Swift.Equatable {
+        /// The approximate asset count of the PackagingGroup.
+        public var approximateAssetCount: Swift.Int?
         /// The ARN of the PackagingGroup.
         public var arn: Swift.String?
         /// CDN Authorization credentials
@@ -3798,6 +3816,7 @@ extension MediaPackageVodClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init (
+            approximateAssetCount: Swift.Int? = nil,
             arn: Swift.String? = nil,
             authorization: MediaPackageVodClientTypes.Authorization? = nil,
             domainName: Swift.String? = nil,
@@ -3806,6 +3825,7 @@ extension MediaPackageVodClientTypes {
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.approximateAssetCount = approximateAssetCount
             self.arn = arn
             self.authorization = authorization
             self.domainName = domainName
@@ -4314,7 +4334,7 @@ extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension TagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4501,7 +4521,7 @@ extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension UntagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4593,7 +4613,7 @@ extension UpdatePackagingGroupOutputError {
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4614,6 +4634,7 @@ extension UpdatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: UpdatePackagingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.approximateAssetCount = output.approximateAssetCount
             self.arn = output.arn
             self.authorization = output.authorization
             self.domainName = output.domainName
@@ -4621,6 +4642,7 @@ extension UpdatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
             self.id = output.id
             self.tags = output.tags
         } else {
+            self.approximateAssetCount = nil
             self.arn = nil
             self.authorization = nil
             self.domainName = nil
@@ -4632,6 +4654,8 @@ extension UpdatePackagingGroupOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
+    /// The approximate asset count of the PackagingGroup.
+    public var approximateAssetCount: Swift.Int?
     /// The ARN of the PackagingGroup.
     public var arn: Swift.String?
     /// CDN Authorization credentials
@@ -4646,6 +4670,7 @@ public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init (
+        approximateAssetCount: Swift.Int? = nil,
         arn: Swift.String? = nil,
         authorization: MediaPackageVodClientTypes.Authorization? = nil,
         domainName: Swift.String? = nil,
@@ -4654,6 +4679,7 @@ public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.approximateAssetCount = approximateAssetCount
         self.arn = arn
         self.authorization = authorization
         self.domainName = domainName
@@ -4664,6 +4690,7 @@ public struct UpdatePackagingGroupOutputResponse: Swift.Equatable {
 }
 
 struct UpdatePackagingGroupOutputResponseBody: Swift.Equatable {
+    let approximateAssetCount: Swift.Int?
     let arn: Swift.String?
     let authorization: MediaPackageVodClientTypes.Authorization?
     let domainName: Swift.String?
@@ -4674,6 +4701,7 @@ struct UpdatePackagingGroupOutputResponseBody: Swift.Equatable {
 
 extension UpdatePackagingGroupOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateAssetCount = "approximateAssetCount"
         case arn = "arn"
         case authorization = "authorization"
         case domainName = "domainName"
@@ -4684,6 +4712,8 @@ extension UpdatePackagingGroupOutputResponseBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approximateAssetCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateAssetCount)
+        approximateAssetCount = approximateAssetCountDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
         let authorizationDecoded = try containerValues.decodeIfPresent(MediaPackageVodClientTypes.Authorization.self, forKey: .authorization)

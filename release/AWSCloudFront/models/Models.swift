@@ -531,7 +531,7 @@ public struct AssociateAliasInput: Swift.Equatable {
     /// The alias (also known as a CNAME) to add to the target distribution.
     /// This member is required.
     public var alias: Swift.String?
-    /// The ID of the distribution that you’re associating the alias with.
+    /// The ID of the distribution that you're associating the alias with.
     /// This member is required.
     public var targetDistributionId: Swift.String?
 
@@ -569,7 +569,7 @@ extension AssociateAliasOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyDistributionCNAMEs" : self = .tooManyDistributionCNAMEs(try TooManyDistributionCNAMEs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -842,7 +842,7 @@ extension CloudFrontClientTypes.CacheBehavior: ClientRuntime.DynamicNodeEncoding
 }
 
 extension CloudFrontClientTypes {
-    /// A complex type that describes how CloudFront processes requests. You must create at least as many cache behaviors (including the default cache behavior) as you have origins if you want CloudFront to serve objects from all of the origins. Each cache behavior specifies the one origin from which you want CloudFront to get objects. If you have two origins and only the default cache behavior, the default cache behavior will cause CloudFront to get objects from one of the origins, but the other origin is never used. For the current quota (formerly known as limit) on the number of cache behaviors that you can add to a distribution, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) in the Amazon CloudFront Developer Guide. If you don’t want to specify any cache behaviors, include only an empty CacheBehaviors element. Don’t include an empty CacheBehavior element because this is invalid. To delete all cache behaviors in an existing distribution, update the distribution configuration and include only an empty CacheBehaviors element. To add, change, or remove one or more cache behaviors, update the distribution configuration and specify all of the cache behaviors that you want to include in the updated distribution. For more information about cache behaviors, see [Cache Behavior Settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior) in the Amazon CloudFront Developer Guide.
+    /// A complex type that describes how CloudFront processes requests. You must create at least as many cache behaviors (including the default cache behavior) as you have origins if you want CloudFront to serve objects from all of the origins. Each cache behavior specifies the one origin from which you want CloudFront to get objects. If you have two origins and only the default cache behavior, the default cache behavior will cause CloudFront to get objects from one of the origins, but the other origin is never used. For the current quota (formerly known as limit) on the number of cache behaviors that you can add to a distribution, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) in the Amazon CloudFront Developer Guide. If you don't want to specify any cache behaviors, include only an empty CacheBehaviors element. Don't include an empty CacheBehavior element because this is invalid. To delete all cache behaviors in an existing distribution, update the distribution configuration and include only an empty CacheBehaviors element. To add, change, or remove one or more cache behaviors, update the distribution configuration and specify all of the cache behaviors that you want to include in the updated distribution. For more information about cache behaviors, see [Cache Behavior Settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior) in the Amazon CloudFront Developer Guide.
     public struct CacheBehavior: Swift.Equatable {
         /// A complex type that controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. There are three choices:
         ///
@@ -893,7 +893,7 @@ extension CloudFrontClientTypes {
         public var targetOriginId: Swift.String?
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         public var trustedKeyGroups: CloudFrontClientTypes.TrustedKeyGroups?
-        /// We recommend using TrustedKeyGroups instead of TrustedSigners. A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer’s Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
+        /// We recommend using TrustedKeyGroups instead of TrustedSigners. A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         public var trustedSigners: CloudFrontClientTypes.TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:
         ///
@@ -904,7 +904,7 @@ extension CloudFrontClientTypes {
         /// * https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).
         ///
         ///
-        /// For more information about requiring the HTTPS protocol, see [Requiring HTTPS Between Viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-viewers-to-cloudfront.html) in the Amazon CloudFront Developer Guide. The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see [Managing Cache Expiration](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
+        /// For more information about requiring the HTTPS protocol, see [Requiring HTTPS Between Viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-viewers-to-cloudfront.html) in the Amazon CloudFront Developer Guide. The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see [Managing Cache Expiration](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
         /// This member is required.
         public var viewerProtocolPolicy: CloudFrontClientTypes.ViewerProtocolPolicy?
 
@@ -1086,14 +1086,14 @@ extension CloudFrontClientTypes.CachePolicy: ClientRuntime.DynamicNodeEncoding {
 }
 
 extension CloudFrontClientTypes {
-    /// A cache policy. When it’s attached to a cache behavior, the cache policy determines the following:
+    /// A cache policy. When it's attached to a cache behavior, the cache policy determines the following:
     ///
     /// * The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.
     ///
     /// * The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.
     ///
     ///
-    /// The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can’t find a valid object in its cache that matches the request’s cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
+    /// The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find a valid object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
     public struct CachePolicy: Swift.Equatable {
         /// The cache policy configuration.
         /// This member is required.
@@ -1245,11 +1245,11 @@ extension CloudFrontClientTypes {
     /// * The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.
     ///
     ///
-    /// The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can’t find a valid object in its cache that matches the request’s cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
+    /// The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find a valid object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
     public struct CachePolicyConfig: Swift.Equatable {
         /// A comment to describe the cache policy. The comment cannot be longer than 128 characters.
         public var comment: Swift.String?
-        /// The default amount of time, in seconds, that you want objects to stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. CloudFront uses this value as the object’s time to live (TTL) only when the origin does not send Cache-Control or Expires headers with the object. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide. The default value for this field is 86400 seconds (one day). If the value of MinTTL is more than 86400 seconds, then the default value for this field is the same as the value of MinTTL.
+        /// The default amount of time, in seconds, that you want objects to stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. CloudFront uses this value as the object's time to live (TTL) only when the origin does not send Cache-Control or Expires headers with the object. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide. The default value for this field is 86400 seconds (one day). If the value of MinTTL is more than 86400 seconds, then the default value for this field is the same as the value of MinTTL.
         public var defaultTTL: Swift.Int?
         /// The maximum amount of time, in seconds, that objects stay in the CloudFront cache before CloudFront sends another request to the origin to see if the object has been updated. CloudFront uses this value only when the origin sends Cache-Control or Expires headers with the object. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide. The default value for this field is 31536000 seconds (one year). If the value of MinTTL or DefaultTTL is more than 31536000 seconds, then the default value for this field is the same as the value of DefaultTTL.
         public var maxTTL: Swift.Int?
@@ -2521,9 +2521,9 @@ extension CloudFrontClientTypes.ConflictingAlias: ClientRuntime.DynamicNodeEncod
 }
 
 extension CloudFrontClientTypes {
-    /// An alias (also called a CNAME) and the CloudFront distribution and Amazon Web Services account ID that it’s associated with. The distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don’t own.
+    /// An alias (also called a CNAME) and the CloudFront distribution and Amazon Web Services account ID that it's associated with. The distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don't own.
     public struct ConflictingAlias: Swift.Equatable {
-        /// The (partially hidden) ID of the Amazon Web Services account that owns the distribution that’s associated with the alias.
+        /// The (partially hidden) ID of the Amazon Web Services account that owns the distribution that's associated with the alias.
         public var accountId: Swift.String?
         /// An alias (also called a CNAME).
         public var alias: Swift.String?
@@ -2619,7 +2619,7 @@ extension CloudFrontClientTypes.ConflictingAliasesList: ClientRuntime.DynamicNod
 }
 
 extension CloudFrontClientTypes {
-    /// A list of aliases (also called CNAMEs) and the CloudFront distributions and Amazon Web Services accounts that they are associated with. In the list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don’t own.
+    /// A list of aliases (also called CNAMEs) and the CloudFront distributions and Amazon Web Services accounts that they are associated with. In the list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don't own.
     public struct ConflictingAliasesList: Swift.Equatable {
         /// Contains the conflicting aliases in the list.
         public var items: [CloudFrontClientTypes.ConflictingAlias]?
@@ -2941,6 +2941,58 @@ extension CloudFrontClientTypes {
 
 }
 
+extension ContinuousDeploymentPolicyAlreadyExists {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<ContinuousDeploymentPolicyAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// A continuous deployment policy with this configuration already exists.
+public struct ContinuousDeploymentPolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ContinuousDeploymentPolicyAlreadyExistsBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ContinuousDeploymentPolicyAlreadyExistsBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension CloudFrontClientTypes.ContinuousDeploymentPolicyConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled = "Enabled"
@@ -3013,6 +3065,58 @@ extension CloudFrontClientTypes {
         }
     }
 
+}
+
+extension ContinuousDeploymentPolicyInUse {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<ContinuousDeploymentPolicyInUseBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// You cannot delete a continuous deployment policy that is associated with a primary distribution.
+public struct ContinuousDeploymentPolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ContinuousDeploymentPolicyInUseBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ContinuousDeploymentPolicyInUseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension CloudFrontClientTypes.ContinuousDeploymentPolicyList: Swift.Codable {
@@ -3249,7 +3353,7 @@ extension CloudFrontClientTypes.ContinuousDeploymentSingleHeaderConfig: ClientRu
 extension CloudFrontClientTypes {
     /// This configuration determines which HTTP requests are sent to the staging distribution. If the HTTP request contains a header and value that matches what you specify here, the request is sent to the staging distribution. Otherwise the request is sent to the primary distribution.
     public struct ContinuousDeploymentSingleHeaderConfig: Swift.Equatable {
-        /// The request header name that you want CloudFront to send to your staging distribution.
+        /// The request header name that you want CloudFront to send to your staging distribution. The header must contain the prefix aws-cf-cd-.
         /// This member is required.
         public var header: Swift.String?
         /// The request header value.
@@ -3283,7 +3387,7 @@ extension CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig: Swift.Co
             try container.encode(sessionStickinessConfig, forKey: ClientRuntime.Key("SessionStickinessConfig"))
         }
         if let weight = weight {
-            try container.encode(Swift.String(weight), forKey: ClientRuntime.Key("Weight"))
+            try container.encode(weight, forKey: ClientRuntime.Key("Weight"))
         }
     }
 
@@ -3311,11 +3415,11 @@ extension CloudFrontClientTypes.ContinuousDeploymentSingleWeightConfig: ClientRu
 }
 
 extension CloudFrontClientTypes {
-    /// Contains the percentage of traffic to send to a staging distribution, expressed as a decimal number between 0 and 1.
+    /// Contains the percentage of traffic to send to a staging distribution.
     public struct ContinuousDeploymentSingleWeightConfig: Swift.Equatable {
         /// Session stickiness provides the ability to define multiple requests from a single viewer as a single session. This prevents the potentially inconsistent experience of sending some of a given user's requests to your staging distribution, while others are sent to your primary distribution. Define the session duration using TTL values.
         public var sessionStickinessConfig: CloudFrontClientTypes.SessionStickinessConfig?
-        /// The percentage of traffic to send to the staging distribution, expressed as a decimal number between 0 and 1.
+        /// The percentage of traffic to send to a staging distribution, expressed as a decimal number between 0 and .15.
         /// This member is required.
         public var weight: Swift.Float?
 
@@ -3644,7 +3748,7 @@ extension CopyDistributionOutputError {
         case "TooManyTrustedSigners" : self = .tooManyTrustedSigners(try TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedKeyGroupDoesNotExist" : self = .trustedKeyGroupDoesNotExist(try TrustedKeyGroupDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedSignerDoesNotExist" : self = .trustedSignerDoesNotExist(try TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3794,7 +3898,8 @@ public struct CreateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let cachePolicyConfig = input.operationInput.cachePolicyConfig {
-                let cachePolicyConfigdata = try encoder.encode(cachePolicyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let cachePolicyConfigdata = try xmlEncoder.encode(cachePolicyConfig, withRootKey: "CachePolicyConfig")
                 let cachePolicyConfigbody = ClientRuntime.HttpBody.data(cachePolicyConfigdata)
                 input.builder.withBody(cachePolicyConfigbody)
             } else {
@@ -3899,7 +4004,7 @@ extension CreateCachePolicyOutputError {
         case "TooManyCookiesInCachePolicy" : self = .tooManyCookiesInCachePolicy(try TooManyCookiesInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyHeadersInCachePolicy" : self = .tooManyHeadersInCachePolicy(try TooManyHeadersInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyQueryStringsInCachePolicy" : self = .tooManyQueryStringsInCachePolicy(try TooManyQueryStringsInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3994,7 +4099,8 @@ public struct CreateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRun
         do {
             let encoder = context.getEncoder()
             if let cloudFrontOriginAccessIdentityConfig = input.operationInput.cloudFrontOriginAccessIdentityConfig {
-                let cloudFrontOriginAccessIdentityConfigdata = try encoder.encode(cloudFrontOriginAccessIdentityConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let cloudFrontOriginAccessIdentityConfigdata = try xmlEncoder.encode(cloudFrontOriginAccessIdentityConfig, withRootKey: "CloudFrontOriginAccessIdentityConfig")
                 let cloudFrontOriginAccessIdentityConfigbody = ClientRuntime.HttpBody.data(cloudFrontOriginAccessIdentityConfigdata)
                 input.builder.withBody(cloudFrontOriginAccessIdentityConfigbody)
             } else {
@@ -4097,7 +4203,7 @@ extension CreateCloudFrontOriginAccessIdentityOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingBody" : self = .missingBody(try MissingBody(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyCloudFrontOriginAccessIdentities" : self = .tooManyCloudFrontOriginAccessIdentities(try TooManyCloudFrontOriginAccessIdentities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4190,7 +4296,8 @@ public struct CreateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime
         do {
             let encoder = context.getEncoder()
             if let continuousDeploymentPolicyConfig = input.operationInput.continuousDeploymentPolicyConfig {
-                let continuousDeploymentPolicyConfigdata = try encoder.encode(continuousDeploymentPolicyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let continuousDeploymentPolicyConfigdata = try xmlEncoder.encode(continuousDeploymentPolicyConfig, withRootKey: "ContinuousDeploymentPolicyConfig")
                 let continuousDeploymentPolicyConfigbody = ClientRuntime.HttpBody.data(continuousDeploymentPolicyConfigdata)
                 input.builder.withBody(continuousDeploymentPolicyConfigbody)
             } else {
@@ -4288,19 +4395,23 @@ extension CreateContinuousDeploymentPolicyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ContinuousDeploymentPolicyAlreadyExists" : self = .continuousDeploymentPolicyAlreadyExists(try ContinuousDeploymentPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InconsistentQuantities" : self = .inconsistentQuantities(try InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StagingDistributionInUse" : self = .stagingDistributionInUse(try StagingDistributionInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        case "TooManyContinuousDeploymentPolicies" : self = .tooManyContinuousDeploymentPolicies(try TooManyContinuousDeploymentPolicies(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum CreateContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
+    case continuousDeploymentPolicyAlreadyExists(ContinuousDeploymentPolicyAlreadyExists)
     case inconsistentQuantities(InconsistentQuantities)
     case invalidArgument(InvalidArgument)
     case stagingDistributionInUse(StagingDistributionInUse)
+    case tooManyContinuousDeploymentPolicies(TooManyContinuousDeploymentPolicies)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -4382,7 +4493,8 @@ public struct CreateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let distributionConfig = input.operationInput.distributionConfig {
-                let distributionConfigdata = try encoder.encode(distributionConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let distributionConfigdata = try xmlEncoder.encode(distributionConfig, withRootKey: "DistributionConfig")
                 let distributionConfigbody = ClientRuntime.HttpBody.data(distributionConfigdata)
                 input.builder.withBody(distributionConfigbody)
             } else {
@@ -4482,6 +4594,7 @@ extension CreateDistributionOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CNAMEAlreadyExists" : self = .cNAMEAlreadyExists(try CNAMEAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ContinuousDeploymentPolicyInUse" : self = .continuousDeploymentPolicyInUse(try ContinuousDeploymentPolicyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DistributionAlreadyExists" : self = .distributionAlreadyExists(try DistributionAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior" : self = .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "IllegalOriginAccessConfiguration" : self = .illegalOriginAccessConfiguration(try IllegalOriginAccessConfiguration(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4512,6 +4625,7 @@ extension CreateDistributionOutputError {
         case "InvalidWebACLId" : self = .invalidWebACLId(try InvalidWebACLId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingBody" : self = .missingBody(try MissingBody(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchContinuousDeploymentPolicy" : self = .noSuchContinuousDeploymentPolicy(try NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchFieldLevelEncryptionConfig" : self = .noSuchFieldLevelEncryptionConfig(try NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOrigin" : self = .noSuchOrigin(try NoSuchOrigin(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOriginRequestPolicy" : self = .noSuchOriginRequestPolicy(try NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4543,7 +4657,7 @@ extension CreateDistributionOutputError {
         case "TooManyTrustedSigners" : self = .tooManyTrustedSigners(try TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedKeyGroupDoesNotExist" : self = .trustedKeyGroupDoesNotExist(try TrustedKeyGroupDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedSignerDoesNotExist" : self = .trustedSignerDoesNotExist(try TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4551,6 +4665,7 @@ extension CreateDistributionOutputError {
 public enum CreateDistributionOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
     case cNAMEAlreadyExists(CNAMEAlreadyExists)
+    case continuousDeploymentPolicyInUse(ContinuousDeploymentPolicyInUse)
     case distributionAlreadyExists(DistributionAlreadyExists)
     case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior)
     case illegalOriginAccessConfiguration(IllegalOriginAccessConfiguration)
@@ -4581,6 +4696,7 @@ public enum CreateDistributionOutputError: Swift.Error, Swift.Equatable {
     case invalidWebACLId(InvalidWebACLId)
     case missingBody(MissingBody)
     case noSuchCachePolicy(NoSuchCachePolicy)
+    case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case noSuchFieldLevelEncryptionConfig(NoSuchFieldLevelEncryptionConfig)
     case noSuchOrigin(NoSuchOrigin)
     case noSuchOriginRequestPolicy(NoSuchOriginRequestPolicy)
@@ -4694,7 +4810,8 @@ public struct CreateDistributionWithTagsInputBodyMiddleware: ClientRuntime.Middl
         do {
             let encoder = context.getEncoder()
             if let distributionConfigWithTags = input.operationInput.distributionConfigWithTags {
-                let distributionConfigWithTagsdata = try encoder.encode(distributionConfigWithTags)
+                let xmlEncoder = encoder as! XMLEncoder
+                let distributionConfigWithTagsdata = try xmlEncoder.encode(distributionConfigWithTags, withRootKey: "DistributionConfigWithTags")
                 let distributionConfigWithTagsbody = ClientRuntime.HttpBody.data(distributionConfigWithTagsdata)
                 input.builder.withBody(distributionConfigWithTagsbody)
             } else {
@@ -4804,6 +4921,7 @@ extension CreateDistributionWithTagsOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CNAMEAlreadyExists" : self = .cNAMEAlreadyExists(try CNAMEAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ContinuousDeploymentPolicyInUse" : self = .continuousDeploymentPolicyInUse(try ContinuousDeploymentPolicyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DistributionAlreadyExists" : self = .distributionAlreadyExists(try DistributionAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior" : self = .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InconsistentQuantities" : self = .inconsistentQuantities(try InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4834,6 +4952,7 @@ extension CreateDistributionWithTagsOutputError {
         case "InvalidWebACLId" : self = .invalidWebACLId(try InvalidWebACLId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingBody" : self = .missingBody(try MissingBody(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchContinuousDeploymentPolicy" : self = .noSuchContinuousDeploymentPolicy(try NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchFieldLevelEncryptionConfig" : self = .noSuchFieldLevelEncryptionConfig(try NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOrigin" : self = .noSuchOrigin(try NoSuchOrigin(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOriginRequestPolicy" : self = .noSuchOriginRequestPolicy(try NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4864,7 +4983,7 @@ extension CreateDistributionWithTagsOutputError {
         case "TooManyTrustedSigners" : self = .tooManyTrustedSigners(try TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedKeyGroupDoesNotExist" : self = .trustedKeyGroupDoesNotExist(try TrustedKeyGroupDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedSignerDoesNotExist" : self = .trustedSignerDoesNotExist(try TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4872,6 +4991,7 @@ extension CreateDistributionWithTagsOutputError {
 public enum CreateDistributionWithTagsOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
     case cNAMEAlreadyExists(CNAMEAlreadyExists)
+    case continuousDeploymentPolicyInUse(ContinuousDeploymentPolicyInUse)
     case distributionAlreadyExists(DistributionAlreadyExists)
     case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior)
     case inconsistentQuantities(InconsistentQuantities)
@@ -4902,6 +5022,7 @@ public enum CreateDistributionWithTagsOutputError: Swift.Error, Swift.Equatable 
     case invalidWebACLId(InvalidWebACLId)
     case missingBody(MissingBody)
     case noSuchCachePolicy(NoSuchCachePolicy)
+    case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case noSuchFieldLevelEncryptionConfig(NoSuchFieldLevelEncryptionConfig)
     case noSuchOrigin(NoSuchOrigin)
     case noSuchOriginRequestPolicy(NoSuchOriginRequestPolicy)
@@ -5014,7 +5135,8 @@ public struct CreateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime
         do {
             let encoder = context.getEncoder()
             if let fieldLevelEncryptionConfig = input.operationInput.fieldLevelEncryptionConfig {
-                let fieldLevelEncryptionConfigdata = try encoder.encode(fieldLevelEncryptionConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let fieldLevelEncryptionConfigdata = try xmlEncoder.encode(fieldLevelEncryptionConfig, withRootKey: "FieldLevelEncryptionConfig")
                 let fieldLevelEncryptionConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionConfigdata)
                 input.builder.withBody(fieldLevelEncryptionConfigbody)
             } else {
@@ -5119,7 +5241,7 @@ extension CreateFieldLevelEncryptionConfigOutputError {
         case "TooManyFieldLevelEncryptionConfigs" : self = .tooManyFieldLevelEncryptionConfigs(try TooManyFieldLevelEncryptionConfigs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyFieldLevelEncryptionContentTypeProfiles" : self = .tooManyFieldLevelEncryptionContentTypeProfiles(try TooManyFieldLevelEncryptionContentTypeProfiles(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyFieldLevelEncryptionQueryArgProfiles" : self = .tooManyFieldLevelEncryptionQueryArgProfiles(try TooManyFieldLevelEncryptionQueryArgProfiles(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5214,7 +5336,8 @@ public struct CreateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntim
         do {
             let encoder = context.getEncoder()
             if let fieldLevelEncryptionProfileConfig = input.operationInput.fieldLevelEncryptionProfileConfig {
-                let fieldLevelEncryptionProfileConfigdata = try encoder.encode(fieldLevelEncryptionProfileConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let fieldLevelEncryptionProfileConfigdata = try xmlEncoder.encode(fieldLevelEncryptionProfileConfig, withRootKey: "FieldLevelEncryptionProfileConfig")
                 let fieldLevelEncryptionProfileConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionProfileConfigdata)
                 input.builder.withBody(fieldLevelEncryptionProfileConfigbody)
             } else {
@@ -5319,7 +5442,7 @@ extension CreateFieldLevelEncryptionProfileOutputError {
         case "TooManyFieldLevelEncryptionEncryptionEntities" : self = .tooManyFieldLevelEncryptionEncryptionEntities(try TooManyFieldLevelEncryptionEncryptionEntities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyFieldLevelEncryptionFieldPatterns" : self = .tooManyFieldLevelEncryptionFieldPatterns(try TooManyFieldLevelEncryptionFieldPatterns(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyFieldLevelEncryptionProfiles" : self = .tooManyFieldLevelEncryptionProfiles(try TooManyFieldLevelEncryptionProfiles(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5451,7 +5574,7 @@ public struct CreateFunctionInput: Swift.Equatable {
     /// The function code. For more information about writing a CloudFront function, see [Writing function code for CloudFront Functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html) in the Amazon CloudFront Developer Guide.
     /// This member is required.
     public var functionCode: ClientRuntime.Data?
-    /// Configuration information about the function, including an optional comment and the function’s runtime.
+    /// Configuration information about the function, including an optional comment and the function's runtime.
     /// This member is required.
     public var functionConfig: CloudFrontClientTypes.FunctionConfig?
     /// A name to identify the function.
@@ -5517,7 +5640,7 @@ extension CreateFunctionOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyFunctions" : self = .tooManyFunctions(try TooManyFunctions(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5609,7 +5732,8 @@ public struct CreateInvalidationInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let invalidationBatch = input.operationInput.invalidationBatch {
-                let invalidationBatchdata = try encoder.encode(invalidationBatch)
+                let xmlEncoder = encoder as! XMLEncoder
+                let invalidationBatchdata = try xmlEncoder.encode(invalidationBatch, withRootKey: "InvalidationBatch")
                 let invalidationBatchbody = ClientRuntime.HttpBody.data(invalidationBatchdata)
                 input.builder.withBody(invalidationBatchbody)
             } else {
@@ -5722,7 +5846,7 @@ extension CreateInvalidationOutputError {
         case "MissingBody" : self = .missingBody(try MissingBody(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyInvalidationsInProgress" : self = .tooManyInvalidationsInProgress(try TooManyInvalidationsInProgress(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5808,7 +5932,8 @@ public struct CreateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let keyGroupConfig = input.operationInput.keyGroupConfig {
-                let keyGroupConfigdata = try encoder.encode(keyGroupConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let keyGroupConfigdata = try xmlEncoder.encode(keyGroupConfig, withRootKey: "KeyGroupConfig")
                 let keyGroupConfigbody = ClientRuntime.HttpBody.data(keyGroupConfigdata)
                 input.builder.withBody(keyGroupConfigbody)
             } else {
@@ -5909,7 +6034,7 @@ extension CreateKeyGroupOutputError {
         case "KeyGroupAlreadyExists" : self = .keyGroupAlreadyExists(try KeyGroupAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyKeyGroups" : self = .tooManyKeyGroups(try TooManyKeyGroups(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyPublicKeysInKeyGroup" : self = .tooManyPublicKeysInKeyGroup(try TooManyPublicKeysInKeyGroup(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6000,7 +6125,8 @@ public struct CreateMonitoringSubscriptionInputBodyMiddleware: ClientRuntime.Mid
         do {
             let encoder = context.getEncoder()
             if let monitoringSubscription = input.operationInput.monitoringSubscription {
-                let monitoringSubscriptiondata = try encoder.encode(monitoringSubscription)
+                let xmlEncoder = encoder as! XMLEncoder
+                let monitoringSubscriptiondata = try xmlEncoder.encode(monitoringSubscription, withRootKey: "MonitoringSubscription")
                 let monitoringSubscriptionbody = ClientRuntime.HttpBody.data(monitoringSubscriptiondata)
                 input.builder.withBody(monitoringSubscriptionbody)
             } else {
@@ -6109,7 +6235,7 @@ extension CreateMonitoringSubscriptionOutputError {
         case "MonitoringSubscriptionAlreadyExists" : self = .monitoringSubscriptionAlreadyExists(try MonitoringSubscriptionAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6182,7 +6308,8 @@ public struct CreateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middle
         do {
             let encoder = context.getEncoder()
             if let originAccessControlConfig = input.operationInput.originAccessControlConfig {
-                let originAccessControlConfigdata = try encoder.encode(originAccessControlConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let originAccessControlConfigdata = try xmlEncoder.encode(originAccessControlConfig, withRootKey: "OriginAccessControlConfig")
                 let originAccessControlConfigbody = ClientRuntime.HttpBody.data(originAccessControlConfigdata)
                 input.builder.withBody(originAccessControlConfigbody)
             } else {
@@ -6282,7 +6409,7 @@ extension CreateOriginAccessControlOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OriginAccessControlAlreadyExists" : self = .originAccessControlAlreadyExists(try OriginAccessControlAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyOriginAccessControls" : self = .tooManyOriginAccessControls(try TooManyOriginAccessControls(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6372,7 +6499,8 @@ public struct CreateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middle
         do {
             let encoder = context.getEncoder()
             if let originRequestPolicyConfig = input.operationInput.originRequestPolicyConfig {
-                let originRequestPolicyConfigdata = try encoder.encode(originRequestPolicyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let originRequestPolicyConfigdata = try xmlEncoder.encode(originRequestPolicyConfig, withRootKey: "OriginRequestPolicyConfig")
                 let originRequestPolicyConfigbody = ClientRuntime.HttpBody.data(originRequestPolicyConfigdata)
                 input.builder.withBody(originRequestPolicyConfigbody)
             } else {
@@ -6477,7 +6605,7 @@ extension CreateOriginRequestPolicyOutputError {
         case "TooManyHeadersInOriginRequestPolicy" : self = .tooManyHeadersInOriginRequestPolicy(try TooManyHeadersInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyOriginRequestPolicies" : self = .tooManyOriginRequestPolicies(try TooManyOriginRequestPolicies(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyQueryStringsInOriginRequestPolicy" : self = .tooManyQueryStringsInOriginRequestPolicy(try TooManyQueryStringsInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6572,7 +6700,8 @@ public struct CreatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let publicKeyConfig = input.operationInput.publicKeyConfig {
-                let publicKeyConfigdata = try encoder.encode(publicKeyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let publicKeyConfigdata = try xmlEncoder.encode(publicKeyConfig, withRootKey: "PublicKeyConfig")
                 let publicKeyConfigbody = ClientRuntime.HttpBody.data(publicKeyConfigdata)
                 input.builder.withBody(publicKeyConfigbody)
             } else {
@@ -6672,7 +6801,7 @@ extension CreatePublicKeyOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PublicKeyAlreadyExists" : self = .publicKeyAlreadyExists(try PublicKeyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyPublicKeys" : self = .tooManyPublicKeys(try TooManyPublicKeys(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6904,7 +7033,7 @@ extension CreateRealtimeLogConfigOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RealtimeLogConfigAlreadyExists" : self = .realtimeLogConfigAlreadyExists(try RealtimeLogConfigAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRealtimeLogConfigs" : self = .tooManyRealtimeLogConfigs(try TooManyRealtimeLogConfigs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6974,7 +7103,8 @@ public struct CreateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Midd
         do {
             let encoder = context.getEncoder()
             if let responseHeadersPolicyConfig = input.operationInput.responseHeadersPolicyConfig {
-                let responseHeadersPolicyConfigdata = try encoder.encode(responseHeadersPolicyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let responseHeadersPolicyConfigdata = try xmlEncoder.encode(responseHeadersPolicyConfig, withRootKey: "ResponseHeadersPolicyConfig")
                 let responseHeadersPolicyConfigbody = ClientRuntime.HttpBody.data(responseHeadersPolicyConfigdata)
                 input.builder.withBody(responseHeadersPolicyConfigbody)
             } else {
@@ -7078,7 +7208,7 @@ extension CreateResponseHeadersPolicyOutputError {
         case "TooLongCSPInResponseHeadersPolicy" : self = .tooLongCSPInResponseHeadersPolicy(try TooLongCSPInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyCustomHeadersInResponseHeadersPolicy" : self = .tooManyCustomHeadersInResponseHeadersPolicy(try TooManyCustomHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyResponseHeadersPolicies" : self = .tooManyResponseHeadersPolicies(try TooManyResponseHeadersPolicies(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7172,7 +7302,8 @@ public struct CreateStreamingDistributionInputBodyMiddleware: ClientRuntime.Midd
         do {
             let encoder = context.getEncoder()
             if let streamingDistributionConfig = input.operationInput.streamingDistributionConfig {
-                let streamingDistributionConfigdata = try encoder.encode(streamingDistributionConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let streamingDistributionConfigdata = try xmlEncoder.encode(streamingDistributionConfig, withRootKey: "StreamingDistributionConfig")
                 let streamingDistributionConfigbody = ClientRuntime.HttpBody.data(streamingDistributionConfigdata)
                 input.builder.withBody(streamingDistributionConfigbody)
             } else {
@@ -7283,7 +7414,7 @@ extension CreateStreamingDistributionOutputError {
         case "TooManyStreamingDistributions" : self = .tooManyStreamingDistributions(try TooManyStreamingDistributions(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTrustedSigners" : self = .tooManyTrustedSigners(try TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedSignerDoesNotExist" : self = .trustedSignerDoesNotExist(try TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7384,7 +7515,8 @@ public struct CreateStreamingDistributionWithTagsInputBodyMiddleware: ClientRunt
         do {
             let encoder = context.getEncoder()
             if let streamingDistributionConfigWithTags = input.operationInput.streamingDistributionConfigWithTags {
-                let streamingDistributionConfigWithTagsdata = try encoder.encode(streamingDistributionConfigWithTags)
+                let xmlEncoder = encoder as! XMLEncoder
+                let streamingDistributionConfigWithTagsdata = try xmlEncoder.encode(streamingDistributionConfigWithTags, withRootKey: "StreamingDistributionConfigWithTags")
                 let streamingDistributionConfigWithTagsbody = ClientRuntime.HttpBody.data(streamingDistributionConfigWithTagsdata)
                 input.builder.withBody(streamingDistributionConfigWithTagsbody)
             } else {
@@ -7506,7 +7638,7 @@ extension CreateStreamingDistributionWithTagsOutputError {
         case "TooManyStreamingDistributions" : self = .tooManyStreamingDistributions(try TooManyStreamingDistributions(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTrustedSigners" : self = .tooManyTrustedSigners(try TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedSignerDoesNotExist" : self = .trustedSignerDoesNotExist(try TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7946,7 +8078,7 @@ extension CloudFrontClientTypes {
         /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that the origin listens on.
         /// This member is required.
         public var httpsPort: Swift.Int?
-        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don’t specify otherwise) is 5 seconds. For more information, see [Origin Keep-alive Timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Origin Keep-alive Timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
         public var originKeepaliveTimeout: Swift.Int?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:
         ///
@@ -7957,7 +8089,7 @@ extension CloudFrontClientTypes {
         /// * https-only – CloudFront always uses HTTPS to connect to the origin.
         /// This member is required.
         public var originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy?
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don’t specify otherwise) is 30 seconds. For more information, see [Origin Response Timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Origin Response Timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
         public var originReadTimeout: Swift.Int?
         /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS. Valid values include SSLv3, TLSv1, TLSv1.1, and TLSv1.2. For more information, see [Minimum Origin SSL Protocol](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginSSLProtocols) in the Amazon CloudFront Developer Guide.
         public var originSslProtocols: CloudFrontClientTypes.OriginSslProtocols?
@@ -8121,7 +8253,7 @@ extension CloudFrontClientTypes.DefaultCacheBehavior: ClientRuntime.DynamicNodeE
 }
 
 extension CloudFrontClientTypes {
-    /// A complex type that describes the default cache behavior if you don’t specify a CacheBehavior element or if request URLs don’t match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+    /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if request URLs don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
     public struct DefaultCacheBehavior: Swift.Equatable {
         /// A complex type that controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. There are three choices:
         ///
@@ -8169,7 +8301,7 @@ extension CloudFrontClientTypes {
         public var targetOriginId: Swift.String?
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         public var trustedKeyGroups: CloudFrontClientTypes.TrustedKeyGroups?
-        /// We recommend using TrustedKeyGroups instead of TrustedSigners. A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer’s Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
+        /// We recommend using TrustedKeyGroups instead of TrustedSigners. A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         public var trustedSigners: CloudFrontClientTypes.TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:
         ///
@@ -8180,7 +8312,7 @@ extension CloudFrontClientTypes {
         /// * https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).
         ///
         ///
-        /// For more information about requiring the HTTPS protocol, see [Requiring HTTPS Between Viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-viewers-to-cloudfront.html) in the Amazon CloudFront Developer Guide. The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see [Managing Cache Expiration](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
+        /// For more information about requiring the HTTPS protocol, see [Requiring HTTPS Between Viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-viewers-to-cloudfront.html) in the Amazon CloudFront Developer Guide. The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see [Managing Cache Expiration](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
         /// This member is required.
         public var viewerProtocolPolicy: CloudFrontClientTypes.ViewerProtocolPolicy?
 
@@ -8251,7 +8383,7 @@ public struct DeleteCachePolicyInput: Swift.Equatable {
     /// The unique identifier for the cache policy that you are deleting. To get the identifier, you can use ListCachePolicies.
     /// This member is required.
     public var id: Swift.String?
-    /// The version of the cache policy that you are deleting. The version is the cache policy’s ETag value, which you can get using ListCachePolicies, GetCachePolicy, or GetCachePolicyConfig.
+    /// The version of the cache policy that you are deleting. The version is the cache policy's ETag value, which you can get using ListCachePolicies, GetCachePolicy, or GetCachePolicyConfig.
     public var ifMatch: Swift.String?
 
     public init (
@@ -8289,7 +8421,7 @@ extension DeleteCachePolicyOutputError {
         case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8375,7 +8507,7 @@ extension DeleteCloudFrontOriginAccessIdentityOutputError {
         case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCloudFrontOriginAccessIdentity" : self = .noSuchCloudFrontOriginAccessIdentity(try NoSuchCloudFrontOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8455,18 +8587,22 @@ extension DeleteContinuousDeploymentPolicyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ContinuousDeploymentPolicyInUse" : self = .continuousDeploymentPolicyInUse(try ContinuousDeploymentPolicyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchContinuousDeploymentPolicy" : self = .noSuchContinuousDeploymentPolicy(try NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum DeleteContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
+    case continuousDeploymentPolicyInUse(ContinuousDeploymentPolicyInUse)
     case invalidArgument(InvalidArgument)
     case invalidIfMatchVersion(InvalidIfMatchVersion)
+    case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case preconditionFailed(PreconditionFailed)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -8561,7 +8697,7 @@ extension DeleteDistributionOutputError {
         case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8645,7 +8781,7 @@ extension DeleteFieldLevelEncryptionConfigOutputError {
         case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchFieldLevelEncryptionConfig" : self = .noSuchFieldLevelEncryptionConfig(try NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8729,7 +8865,7 @@ extension DeleteFieldLevelEncryptionProfileOutputError {
         case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchFieldLevelEncryptionProfile" : self = .noSuchFieldLevelEncryptionProfile(try NoSuchFieldLevelEncryptionProfile(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8814,7 +8950,7 @@ extension DeleteFunctionOutputError {
         case "NoSuchFunctionExists" : self = .noSuchFunctionExists(try NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8861,7 +8997,7 @@ public struct DeleteKeyGroupInput: Swift.Equatable {
     /// The identifier of the key group that you are deleting. To get the identifier, use ListKeyGroups.
     /// This member is required.
     public var id: Swift.String?
-    /// The version of the key group that you are deleting. The version is the key group’s ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
+    /// The version of the key group that you are deleting. The version is the key group's ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
     public var ifMatch: Swift.String?
 
     public init (
@@ -8897,7 +9033,7 @@ extension DeleteKeyGroupOutputError {
         case "NoSuchResource" : self = .noSuchResource(try NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8965,7 +9101,7 @@ extension DeleteMonitoringSubscriptionOutputError {
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchMonitoringSubscription" : self = .noSuchMonitoringSubscription(try NoSuchMonitoringSubscription(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9048,7 +9184,7 @@ extension DeleteOriginAccessControlOutputError {
         case "NoSuchOriginAccessControl" : self = .noSuchOriginAccessControl(try NoSuchOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OriginAccessControlInUse" : self = .originAccessControlInUse(try OriginAccessControlInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9095,7 +9231,7 @@ public struct DeleteOriginRequestPolicyInput: Swift.Equatable {
     /// The unique identifier for the origin request policy that you are deleting. To get the identifier, you can use ListOriginRequestPolicies.
     /// This member is required.
     public var id: Swift.String?
-    /// The version of the origin request policy that you are deleting. The version is the origin request policy’s ETag value, which you can get using ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
+    /// The version of the origin request policy that you are deleting. The version is the origin request policy's ETag value, which you can get using ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
     public var ifMatch: Swift.String?
 
     public init (
@@ -9133,7 +9269,7 @@ extension DeleteOriginRequestPolicyOutputError {
         case "NoSuchOriginRequestPolicy" : self = .noSuchOriginRequestPolicy(try NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OriginRequestPolicyInUse" : self = .originRequestPolicyInUse(try OriginRequestPolicyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9218,7 +9354,7 @@ extension DeletePublicKeyOutputError {
         case "NoSuchPublicKey" : self = .noSuchPublicKey(try NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PublicKeyInUse" : self = .publicKeyInUse(try PublicKeyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9332,7 +9468,7 @@ extension DeleteRealtimeLogConfigOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchRealtimeLogConfig" : self = .noSuchRealtimeLogConfig(try NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RealtimeLogConfigInUse" : self = .realtimeLogConfigInUse(try RealtimeLogConfigInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9378,7 +9514,7 @@ public struct DeleteResponseHeadersPolicyInput: Swift.Equatable {
     /// The identifier for the response headers policy that you are deleting. To get the identifier, you can use ListResponseHeadersPolicies.
     /// This member is required.
     public var id: Swift.String?
-    /// The version of the response headers policy that you are deleting. The version is the response headers policy’s ETag value, which you can get using ListResponseHeadersPolicies, GetResponseHeadersPolicy, or GetResponseHeadersPolicyConfig.
+    /// The version of the response headers policy that you are deleting. The version is the response headers policy's ETag value, which you can get using ListResponseHeadersPolicies, GetResponseHeadersPolicy, or GetResponseHeadersPolicyConfig.
     public var ifMatch: Swift.String?
 
     public init (
@@ -9416,7 +9552,7 @@ extension DeleteResponseHeadersPolicyOutputError {
         case "NoSuchResponseHeadersPolicy" : self = .noSuchResponseHeadersPolicy(try NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResponseHeadersPolicyInUse" : self = .responseHeadersPolicyInUse(try ResponseHeadersPolicyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9502,7 +9638,7 @@ extension DeleteStreamingDistributionOutputError {
         case "NoSuchStreamingDistribution" : self = .noSuchStreamingDistribution(try NoSuchStreamingDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StreamingDistributionNotDisabled" : self = .streamingDistributionNotDisabled(try StreamingDistributionNotDisabled(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9552,7 +9688,7 @@ public struct DescribeFunctionInput: Swift.Equatable {
     /// The name of the function that you are getting information about.
     /// This member is required.
     public var name: Swift.String?
-    /// The function’s stage, either DEVELOPMENT or LIVE.
+    /// The function's stage, either DEVELOPMENT or LIVE.
     public var stage: CloudFrontClientTypes.FunctionStage?
 
     public init (
@@ -9586,7 +9722,7 @@ extension DescribeFunctionOutputError {
         switch errorType {
         case "NoSuchFunctionExists" : self = .noSuchFunctionExists(try NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9763,22 +9899,22 @@ extension CloudFrontClientTypes.Distribution: ClientRuntime.DynamicNodeEncoding 
 extension CloudFrontClientTypes {
     /// A distribution tells CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
     public struct Distribution: Swift.Equatable {
-        /// CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using key groups. This field contains a list of key groups and the public keys in each key group that CloudFront can use to verify the signatures of signed URLs or signed cookies.
+        /// This field contains a list of key groups and the public keys in each key group that CloudFront can use to verify the signatures of signed URLs or signed cookies.
         public var activeTrustedKeyGroups: CloudFrontClientTypes.ActiveTrustedKeyGroups?
-        /// We recommend using TrustedKeyGroups instead of TrustedSigners. CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using trusted signers. This field contains a list of Amazon Web Services account IDs and the active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs or signed cookies.
+        /// We recommend using TrustedKeyGroups instead of TrustedSigners. This field contains a list of Amazon Web Services account IDs and the active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs or signed cookies.
         public var activeTrustedSigners: CloudFrontClientTypes.ActiveTrustedSigners?
         /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see [ Signup, Accounts, and Credentials](https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html) in Getting Started with Amazon Web Services services in China.
         public var aliasICPRecordals: [CloudFrontClientTypes.AliasICPRecordal]?
-        /// The distribution’s Amazon Resource Name (ARN).
+        /// The distribution's Amazon Resource Name (ARN).
         /// This member is required.
         public var arn: Swift.String?
-        /// The distribution’s configuration.
+        /// The distribution's configuration.
         /// This member is required.
         public var distributionConfig: CloudFrontClientTypes.DistributionConfig?
-        /// The distribution’s CloudFront domain name. For example: d111111abcdef8.cloudfront.net.
+        /// The distribution's CloudFront domain name. For example: d111111abcdef8.cloudfront.net.
         /// This member is required.
         public var domainName: Swift.String?
-        /// The distribution’s identifier. For example: E1U5RQF7T870K0.
+        /// The distribution's identifier. For example: E1U5RQF7T870K0.
         /// This member is required.
         public var id: Swift.String?
         /// The number of invalidation batches currently in progress.
@@ -9787,7 +9923,7 @@ extension CloudFrontClientTypes {
         /// The date and time when the distribution was last modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
-        /// The distribution’s status. When the status is Deployed, the distribution’s information is fully propagated to all CloudFront edge locations.
+        /// The distribution's status. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations.
         /// This member is required.
         public var status: Swift.String?
 
@@ -9877,6 +10013,7 @@ extension CloudFrontClientTypes.DistributionConfig: Swift.Codable {
         case cacheBehaviors = "CacheBehaviors"
         case callerReference = "CallerReference"
         case comment = "Comment"
+        case continuousDeploymentPolicyId = "ContinuousDeploymentPolicyId"
         case customErrorResponses = "CustomErrorResponses"
         case defaultCacheBehavior = "DefaultCacheBehavior"
         case defaultRootObject = "DefaultRootObject"
@@ -9888,6 +10025,7 @@ extension CloudFrontClientTypes.DistributionConfig: Swift.Codable {
         case origins = "Origins"
         case priceClass = "PriceClass"
         case restrictions = "Restrictions"
+        case staging = "Staging"
         case viewerCertificate = "ViewerCertificate"
         case webACLId = "WebACLId"
     }
@@ -9908,6 +10046,9 @@ extension CloudFrontClientTypes.DistributionConfig: Swift.Codable {
         }
         if let comment = comment {
             try container.encode(comment, forKey: ClientRuntime.Key("Comment"))
+        }
+        if let continuousDeploymentPolicyId = continuousDeploymentPolicyId {
+            try container.encode(continuousDeploymentPolicyId, forKey: ClientRuntime.Key("ContinuousDeploymentPolicyId"))
         }
         if let customErrorResponses = customErrorResponses {
             try container.encode(customErrorResponses, forKey: ClientRuntime.Key("CustomErrorResponses"))
@@ -9941,6 +10082,9 @@ extension CloudFrontClientTypes.DistributionConfig: Swift.Codable {
         }
         if let restrictions = restrictions {
             try container.encode(restrictions, forKey: ClientRuntime.Key("Restrictions"))
+        }
+        if let staging = staging {
+            try container.encode(staging, forKey: ClientRuntime.Key("Staging"))
         }
         if let viewerCertificate = viewerCertificate {
             try container.encode(viewerCertificate, forKey: ClientRuntime.Key("ViewerCertificate"))
@@ -9986,12 +10130,16 @@ extension CloudFrontClientTypes.DistributionConfig: Swift.Codable {
         httpVersion = httpVersionDecoded
         let isIPV6EnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isIPV6Enabled)
         isIPV6Enabled = isIPV6EnabledDecoded
+        let continuousDeploymentPolicyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuousDeploymentPolicyId)
+        continuousDeploymentPolicyId = continuousDeploymentPolicyIdDecoded
+        let stagingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .staging)
+        staging = stagingDecoded
     }
 }
 
 extension CloudFrontClientTypes.DistributionConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), callerReference: \(Swift.String(describing: callerReference)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
+        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), callerReference: \(Swift.String(describing: callerReference)), continuousDeploymentPolicyId: \(Swift.String(describing: continuousDeploymentPolicyId)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudFrontClientTypes.DistributionConfig: ClientRuntime.DynamicNodeEncoding {
@@ -10018,9 +10166,11 @@ extension CloudFrontClientTypes {
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
         /// This member is required.
         public var callerReference: Swift.String?
-        /// An optional comment to describe the distribution. The comment cannot be longer than 128 characters.
+        /// A comment to describe the distribution. The comment cannot be longer than 128 characters.
         /// This member is required.
         public var comment: Swift.String?
+        /// The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
+        public var continuousDeploymentPolicyId: Swift.String?
         /// A complex type that controls the following:
         ///
         /// * Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.
@@ -10060,7 +10210,9 @@ extension CloudFrontClientTypes {
         public var priceClass: CloudFrontClientTypes.PriceClass?
         /// A complex type that identifies ways in which you want to restrict distribution of your content.
         public var restrictions: CloudFrontClientTypes.Restrictions?
-        /// A complex type that determines the distribution’s SSL/TLS configuration for communicating with viewers.
+        /// A Boolean that indicates whether this is a staging distribution. When this value is true, this is a staging distribution. When this value is false, this is not a staging distribution.
+        public var staging: Swift.Bool?
+        /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         public var viewerCertificate: CloudFrontClientTypes.ViewerCertificate?
         /// A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html).
         public var webACLId: Swift.String?
@@ -10070,6 +10222,7 @@ extension CloudFrontClientTypes {
             cacheBehaviors: CloudFrontClientTypes.CacheBehaviors? = nil,
             callerReference: Swift.String? = nil,
             comment: Swift.String? = nil,
+            continuousDeploymentPolicyId: Swift.String? = nil,
             customErrorResponses: CloudFrontClientTypes.CustomErrorResponses? = nil,
             defaultCacheBehavior: CloudFrontClientTypes.DefaultCacheBehavior? = nil,
             defaultRootObject: Swift.String? = nil,
@@ -10081,6 +10234,7 @@ extension CloudFrontClientTypes {
             origins: CloudFrontClientTypes.Origins? = nil,
             priceClass: CloudFrontClientTypes.PriceClass? = nil,
             restrictions: CloudFrontClientTypes.Restrictions? = nil,
+            staging: Swift.Bool? = nil,
             viewerCertificate: CloudFrontClientTypes.ViewerCertificate? = nil,
             webACLId: Swift.String? = nil
         )
@@ -10089,6 +10243,7 @@ extension CloudFrontClientTypes {
             self.cacheBehaviors = cacheBehaviors
             self.callerReference = callerReference
             self.comment = comment
+            self.continuousDeploymentPolicyId = continuousDeploymentPolicyId
             self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
             self.defaultRootObject = defaultRootObject
@@ -10100,6 +10255,7 @@ extension CloudFrontClientTypes {
             self.origins = origins
             self.priceClass = priceClass
             self.restrictions = restrictions
+            self.staging = staging
             self.viewerCertificate = viewerCertificate
             self.webACLId = webACLId
         }
@@ -10494,6 +10650,7 @@ extension CloudFrontClientTypes.DistributionSummary: Swift.Codable {
         case origins = "Origins"
         case priceClass = "PriceClass"
         case restrictions = "Restrictions"
+        case staging = "Staging"
         case status = "Status"
         case viewerCertificate = "ViewerCertificate"
         case webACLId = "WebACLId"
@@ -10557,6 +10714,9 @@ extension CloudFrontClientTypes.DistributionSummary: Swift.Codable {
         }
         if let restrictions = restrictions {
             try container.encode(restrictions, forKey: ClientRuntime.Key("Restrictions"))
+        }
+        if let staging = staging {
+            try container.encode(staging, forKey: ClientRuntime.Key("Staging"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -10628,6 +10788,8 @@ extension CloudFrontClientTypes.DistributionSummary: Swift.Codable {
         } else {
             aliasICPRecordals = nil
         }
+        let stagingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .staging)
+        staging = stagingDecoded
     }
 }
 
@@ -10697,10 +10859,13 @@ extension CloudFrontClientTypes {
         /// A complex type that identifies ways in which you want to restrict distribution of your content.
         /// This member is required.
         public var restrictions: CloudFrontClientTypes.Restrictions?
+        /// Whether the primary distribution has a staging distribution enabled.
+        /// This member is required.
+        public var staging: Swift.Bool?
         /// The current status of the distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
         /// This member is required.
         public var status: Swift.String?
-        /// A complex type that determines the distribution’s SSL/TLS configuration for communicating with viewers.
+        /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         /// This member is required.
         public var viewerCertificate: CloudFrontClientTypes.ViewerCertificate?
         /// The Web ACL Id (if any) associated with the distribution.
@@ -10725,6 +10890,7 @@ extension CloudFrontClientTypes {
             origins: CloudFrontClientTypes.Origins? = nil,
             priceClass: CloudFrontClientTypes.PriceClass? = nil,
             restrictions: CloudFrontClientTypes.Restrictions? = nil,
+            staging: Swift.Bool? = nil,
             status: Swift.String? = nil,
             viewerCertificate: CloudFrontClientTypes.ViewerCertificate? = nil,
             webACLId: Swift.String? = nil
@@ -10747,6 +10913,7 @@ extension CloudFrontClientTypes {
             self.origins = origins
             self.priceClass = priceClass
             self.restrictions = restrictions
+            self.staging = staging
             self.status = status
             self.viewerCertificate = viewerCertificate
             self.webACLId = webACLId
@@ -12465,7 +12632,7 @@ extension CloudFrontClientTypes {
         /// A comment to describe the function.
         /// This member is required.
         public var comment: Swift.String?
-        /// The function’s runtime environment. The only valid value is cloudfront-js-1.0.
+        /// The function's runtime environment. The only valid value is cloudfront-js-1.0.
         /// This member is required.
         public var runtime: CloudFrontClientTypes.FunctionRuntime?
 
@@ -12498,7 +12665,7 @@ extension FunctionInUse {
     }
 }
 
-/// Cannot delete the function because it’s attached to one or more cache behaviors.
+/// Cannot delete the function because it's attached to one or more cache behaviors.
 public struct FunctionInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -12702,7 +12869,7 @@ extension CloudFrontClientTypes {
         /// The date and time when the function was most recently updated.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
-        /// The stage that the function is in, either DEVELOPMENT or LIVE. When a function is in the DEVELOPMENT stage, you can test the function with TestFunction, and update it with UpdateFunction. When a function is in the LIVE stage, you can attach the function to a distribution’s cache behavior, using the function’s ARN.
+        /// The stage that the function is in, either DEVELOPMENT or LIVE. When a function is in the DEVELOPMENT stage, you can test the function with TestFunction, and update it with UpdateFunction. When a function is in the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's ARN.
         public var stage: CloudFrontClientTypes.FunctionStage?
 
         public init (
@@ -13064,7 +13231,7 @@ extension GetCachePolicyConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetCachePolicyConfigInput: Swift.Equatable {
-    /// The unique identifier for the cache policy. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
+    /// The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     /// This member is required.
     public var id: Swift.String?
 
@@ -13097,7 +13264,7 @@ extension GetCachePolicyConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13171,7 +13338,7 @@ extension GetCachePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetCachePolicyInput: Swift.Equatable {
-    /// The unique identifier for the cache policy. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
+    /// The unique identifier for the cache policy. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     /// This member is required.
     public var id: Swift.String?
 
@@ -13204,7 +13371,7 @@ extension GetCachePolicyOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13312,7 +13479,7 @@ extension GetCloudFrontOriginAccessIdentityConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCloudFrontOriginAccessIdentity" : self = .noSuchCloudFrontOriginAccessIdentity(try NoSuchCloudFrontOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13421,7 +13588,7 @@ extension GetCloudFrontOriginAccessIdentityOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCloudFrontOriginAccessIdentity" : self = .noSuchCloudFrontOriginAccessIdentity(try NoSuchCloudFrontOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13528,13 +13695,15 @@ extension GetContinuousDeploymentPolicyConfigOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        case "NoSuchContinuousDeploymentPolicy" : self = .noSuchContinuousDeploymentPolicy(try NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetContinuousDeploymentPolicyConfigOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
+    case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -13633,13 +13802,15 @@ extension GetContinuousDeploymentPolicyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        case "NoSuchContinuousDeploymentPolicy" : self = .noSuchContinuousDeploymentPolicy(try NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
+    case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -13740,7 +13911,7 @@ extension GetDistributionConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13849,7 +14020,7 @@ extension GetDistributionOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13957,7 +14128,7 @@ extension GetFieldLevelEncryptionConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchFieldLevelEncryptionConfig" : self = .noSuchFieldLevelEncryptionConfig(try NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14064,7 +14235,7 @@ extension GetFieldLevelEncryptionOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchFieldLevelEncryptionConfig" : self = .noSuchFieldLevelEncryptionConfig(try NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14171,7 +14342,7 @@ extension GetFieldLevelEncryptionProfileConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchFieldLevelEncryptionProfile" : self = .noSuchFieldLevelEncryptionProfile(try NoSuchFieldLevelEncryptionProfile(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14278,7 +14449,7 @@ extension GetFieldLevelEncryptionProfileOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchFieldLevelEncryptionProfile" : self = .noSuchFieldLevelEncryptionProfile(try NoSuchFieldLevelEncryptionProfile(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14368,7 +14539,7 @@ public struct GetFunctionInput: Swift.Equatable {
     /// The name of the function whose code you are getting.
     /// This member is required.
     public var name: Swift.String?
-    /// The function’s stage, either DEVELOPMENT or LIVE.
+    /// The function's stage, either DEVELOPMENT or LIVE.
     public var stage: CloudFrontClientTypes.FunctionStage?
 
     public init (
@@ -14402,7 +14573,7 @@ extension GetFunctionOutputError {
         switch errorType {
         case "NoSuchFunctionExists" : self = .noSuchFunctionExists(try NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14536,7 +14707,7 @@ extension GetInvalidationOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchInvalidation" : self = .noSuchInvalidation(try NoSuchInvalidation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14635,7 +14806,7 @@ extension GetKeyGroupConfigOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchResource" : self = .noSuchResource(try NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14740,7 +14911,7 @@ extension GetKeyGroupOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "NoSuchResource" : self = .noSuchResource(try NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14848,7 +15019,7 @@ extension GetMonitoringSubscriptionOutputError {
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchMonitoringSubscription" : self = .noSuchMonitoringSubscription(try NoSuchMonitoringSubscription(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14948,7 +15119,7 @@ extension GetOriginAccessControlConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOriginAccessControl" : self = .noSuchOriginAccessControl(try NoSuchOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15055,7 +15226,7 @@ extension GetOriginAccessControlOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOriginAccessControl" : self = .noSuchOriginAccessControl(try NoSuchOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15129,7 +15300,7 @@ extension GetOriginRequestPolicyConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetOriginRequestPolicyConfigInput: Swift.Equatable {
-    /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+    /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     /// This member is required.
     public var id: Swift.String?
 
@@ -15162,7 +15333,7 @@ extension GetOriginRequestPolicyConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOriginRequestPolicy" : self = .noSuchOriginRequestPolicy(try NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15236,7 +15407,7 @@ extension GetOriginRequestPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetOriginRequestPolicyInput: Swift.Equatable {
-    /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
+    /// The unique identifier for the origin request policy. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     /// This member is required.
     public var id: Swift.String?
 
@@ -15269,7 +15440,7 @@ extension GetOriginRequestPolicyOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOriginRequestPolicy" : self = .noSuchOriginRequestPolicy(try NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15376,7 +15547,7 @@ extension GetPublicKeyConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchPublicKey" : self = .noSuchPublicKey(try NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15483,7 +15654,7 @@ extension GetPublicKeyOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchPublicKey" : self = .noSuchPublicKey(try NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15636,7 +15807,7 @@ extension GetRealtimeLogConfigOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchRealtimeLogConfig" : self = .noSuchRealtimeLogConfig(try NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15699,7 +15870,7 @@ extension GetResponseHeadersPolicyConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetResponseHeadersPolicyConfigInput: Swift.Equatable {
-    /// The identifier for the response headers policy. If the response headers policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+    /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     /// This member is required.
     public var id: Swift.String?
 
@@ -15732,7 +15903,7 @@ extension GetResponseHeadersPolicyConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchResponseHeadersPolicy" : self = .noSuchResponseHeadersPolicy(try NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15806,7 +15977,7 @@ extension GetResponseHeadersPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetResponseHeadersPolicyInput: Swift.Equatable {
-    /// The identifier for the response headers policy. If the response headers policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
+    /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     /// This member is required.
     public var id: Swift.String?
 
@@ -15839,7 +16010,7 @@ extension GetResponseHeadersPolicyOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchResponseHeadersPolicy" : self = .noSuchResponseHeadersPolicy(try NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15947,7 +16118,7 @@ extension GetStreamingDistributionConfigOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchStreamingDistribution" : self = .noSuchStreamingDistribution(try NoSuchStreamingDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16056,7 +16227,7 @@ extension GetStreamingDistributionOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchStreamingDistribution" : self = .noSuchStreamingDistribution(try NoSuchStreamingDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19055,7 +19226,7 @@ extension ListCachePoliciesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListCachePoliciesInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of cache policies. The response includes cache policies in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of cache policies. The response includes cache policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of cache policies that you want in the response.
     public var maxItems: Swift.Int?
@@ -19100,7 +19271,7 @@ extension ListCachePoliciesOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19216,7 +19387,7 @@ extension ListCloudFrontOriginAccessIdentitiesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19313,7 +19484,7 @@ public struct ListConflictingAliasesInput: Swift.Equatable {
     /// The ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias.
     /// This member is required.
     public var distributionId: Swift.String?
-    /// Use this field when paginating results to indicate where to begin in the list of conflicting aliases. The response includes conflicting aliases in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in the list of conflicting aliases. The response includes conflicting aliases in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of conflicting aliases that you want in the response.
     public var maxItems: Swift.Int?
@@ -19353,7 +19524,7 @@ extension ListConflictingAliasesOutputError {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19432,7 +19603,7 @@ extension ListContinuousDeploymentPoliciesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListContinuousDeploymentPoliciesInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of continuous deployment policies. The response includes policies in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of continuous deployment policies. The response includes policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of continuous deployment policies that you want returned in the response.
     public var maxItems: Swift.Int?
@@ -19468,7 +19639,8 @@ extension ListContinuousDeploymentPoliciesOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        case "NoSuchContinuousDeploymentPolicy" : self = .noSuchContinuousDeploymentPolicy(try NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19476,6 +19648,7 @@ extension ListContinuousDeploymentPoliciesOutputError {
 public enum ListContinuousDeploymentPoliciesOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
     case invalidArgument(InvalidArgument)
+    case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -19553,7 +19726,7 @@ public struct ListDistributionsByCachePolicyIdInput: Swift.Equatable {
     /// The ID of the cache policy whose associated distribution IDs you want to list.
     /// This member is required.
     public var cachePolicyId: Swift.String?
-    /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of distribution IDs that you want in the response.
     public var maxItems: Swift.Int?
@@ -19592,7 +19765,7 @@ extension ListDistributionsByCachePolicyIdOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19678,7 +19851,7 @@ public struct ListDistributionsByKeyGroupInput: Swift.Equatable {
     /// The ID of the key group whose associated distribution IDs you are listing.
     /// This member is required.
     public var keyGroupId: Swift.String?
-    /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of distribution IDs that you want in the response.
     public var maxItems: Swift.Int?
@@ -19716,7 +19889,7 @@ extension ListDistributionsByKeyGroupOutputError {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchResource" : self = .noSuchResource(try NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19798,7 +19971,7 @@ extension ListDistributionsByOriginRequestPolicyIdInput: ClientRuntime.URLPathPr
 }
 
 public struct ListDistributionsByOriginRequestPolicyIdInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of distribution IDs that you want in the response.
     public var maxItems: Swift.Int?
@@ -19840,7 +20013,7 @@ extension ListDistributionsByOriginRequestPolicyIdOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOriginRequestPolicy" : self = .noSuchOriginRequestPolicy(try NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19945,7 +20118,7 @@ extension ListDistributionsByRealtimeLogConfigInput: ClientRuntime.URLPathProvid
 }
 
 public struct ListDistributionsByRealtimeLogConfigInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of distributions that you want in the response.
     public var maxItems: Swift.Int?
@@ -20007,7 +20180,7 @@ extension ListDistributionsByRealtimeLogConfigOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20088,7 +20261,7 @@ extension ListDistributionsByResponseHeadersPolicyIdInput: ClientRuntime.URLPath
 }
 
 public struct ListDistributionsByResponseHeadersPolicyIdInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of distribution IDs that you want to get in the response.
     public var maxItems: Swift.Int?
@@ -20130,7 +20303,7 @@ extension ListDistributionsByResponseHeadersPolicyIdOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchResponseHeadersPolicy" : self = .noSuchResponseHeadersPolicy(try NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20255,7 +20428,7 @@ extension ListDistributionsByWebACLIdOutputError {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidWebACLId" : self = .invalidWebACLId(try InvalidWebACLId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20371,7 +20544,7 @@ extension ListDistributionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20485,7 +20658,7 @@ extension ListFieldLevelEncryptionConfigsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20598,7 +20771,7 @@ extension ListFieldLevelEncryptionProfilesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20680,7 +20853,7 @@ extension ListFunctionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListFunctionsInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of functions. The response includes functions in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of functions. The response includes functions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of functions that you want in the response.
     public var maxItems: Swift.Int?
@@ -20720,7 +20893,7 @@ extension ListFunctionsOutputError {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20845,7 +21018,7 @@ extension ListInvalidationsOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20926,7 +21099,7 @@ extension ListKeyGroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListKeyGroupsInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of key groups. The response includes key groups in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of key groups. The response includes key groups in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of key groups that you want in the response.
     public var maxItems: Swift.Int?
@@ -20961,7 +21134,7 @@ extension ListKeyGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21074,7 +21247,7 @@ extension ListOriginAccessControlsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21156,7 +21329,7 @@ extension ListOriginRequestPoliciesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListOriginRequestPoliciesInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of origin request policies. The response includes origin request policies in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of origin request policies. The response includes origin request policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of origin request policies that you want in the response.
     public var maxItems: Swift.Int?
@@ -21201,7 +21374,7 @@ extension ListOriginRequestPoliciesOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOriginRequestPolicy" : self = .noSuchOriginRequestPolicy(try NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21316,7 +21489,7 @@ extension ListPublicKeysOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21394,7 +21567,7 @@ extension ListRealtimeLogConfigsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListRealtimeLogConfigsInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of real-time log configurations. The response includes real-time log configurations in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of real-time log configurations. The response includes real-time log configurations in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of real-time log configurations that you want in the response.
     public var maxItems: Swift.Int?
@@ -21431,7 +21604,7 @@ extension ListRealtimeLogConfigsOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchRealtimeLogConfig" : self = .noSuchRealtimeLogConfig(try NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21515,7 +21688,7 @@ extension ListResponseHeadersPoliciesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListResponseHeadersPoliciesInput: Swift.Equatable {
-    /// Use this field when paginating results to indicate where to begin in your list of response headers policies. The response includes response headers policies in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+    /// Use this field when paginating results to indicate where to begin in your list of response headers policies. The response includes response headers policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
     /// The maximum number of response headers policies that you want to get in the response.
     public var maxItems: Swift.Int?
@@ -21560,7 +21733,7 @@ extension ListResponseHeadersPoliciesOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchResponseHeadersPolicy" : self = .noSuchResponseHeadersPolicy(try NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21676,7 +21849,7 @@ extension ListStreamingDistributionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21789,7 +21962,7 @@ extension ListTagsForResourceOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagging" : self = .invalidTagging(try InvalidTagging(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchResource" : self = .noSuchResource(try NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22277,6 +22450,58 @@ struct NoSuchCloudFrontOriginAccessIdentityBody: Swift.Equatable {
 }
 
 extension NoSuchCloudFrontOriginAccessIdentityBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension NoSuchContinuousDeploymentPolicy {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<NoSuchContinuousDeploymentPolicyBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The continuous deployment policy doesn't exist.
+public struct NoSuchContinuousDeploymentPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct NoSuchContinuousDeploymentPolicyBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension NoSuchContinuousDeploymentPolicyBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -23129,9 +23354,9 @@ extension CloudFrontClientTypes {
     ///
     /// For the current maximum number of origins that you can specify per distribution, see [General Quotas on Web Distributions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html#limits-web-distributions) in the Amazon CloudFront Developer Guide (quotas were formerly referred to as limits).
     public struct Origin: Swift.Equatable {
-        /// The number of times that CloudFront attempts to connect to the origin. The minimum number is 1, the maximum is 3, and the default (if you don’t specify otherwise) is 3. For a custom origin (including an Amazon S3 bucket that’s configured with static website hosting), this value also specifies the number of times that CloudFront attempts to get a response from the origin, in the case of an [Origin Response Timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout). For more information, see [Origin Connection Attempts](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-attempts) in the Amazon CloudFront Developer Guide.
+        /// The number of times that CloudFront attempts to connect to the origin. The minimum number is 1, the maximum is 3, and the default (if you don't specify otherwise) is 3. For a custom origin (including an Amazon S3 bucket that's configured with static website hosting), this value also specifies the number of times that CloudFront attempts to get a response from the origin, in the case of an [Origin Response Timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout). For more information, see [Origin Connection Attempts](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-attempts) in the Amazon CloudFront Developer Guide.
         public var connectionAttempts: Swift.Int?
-        /// The number of seconds that CloudFront waits when trying to establish a connection to the origin. The minimum timeout is 1 second, the maximum is 10 seconds, and the default (if you don’t specify otherwise) is 10 seconds. For more information, see [Origin Connection Timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-timeout) in the Amazon CloudFront Developer Guide.
+        /// The number of seconds that CloudFront waits when trying to establish a connection to the origin. The minimum timeout is 1 second, the maximum is 10 seconds, and the default (if you don't specify otherwise) is 10 seconds. For more information, see [Origin Connection Timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-timeout) in the Amazon CloudFront Developer Guide.
         public var connectionTimeout: Swift.Int?
         /// A list of HTTP header names and values that CloudFront adds to the requests that it sends to the origin. For more information, see [Adding Custom Headers to Origin Requests](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/add-origin-custom-headers.html) in the Amazon CloudFront Developer Guide.
         public var customHeaders: CloudFrontClientTypes.CustomHeaders?
@@ -24283,7 +24508,7 @@ extension CloudFrontClientTypes.OriginRequestPolicy: ClientRuntime.DynamicNodeEn
 }
 
 extension CloudFrontClientTypes {
-    /// An origin request policy. When it’s attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:
+    /// An origin request policy. When it's attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:
     ///
     /// * The request body and the URL path (without the domain name) from the viewer request.
     ///
@@ -24292,7 +24517,7 @@ extension CloudFrontClientTypes {
     /// * All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.
     ///
     ///
-    /// CloudFront sends a request when it can’t find an object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy.
+    /// CloudFront sends a request when it can't find an object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy.
     public struct OriginRequestPolicy: Swift.Equatable {
         /// The unique identifier for the origin request policy.
         /// This member is required.
@@ -24440,7 +24665,7 @@ extension CloudFrontClientTypes {
     /// * All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.
     ///
     ///
-    /// CloudFront sends a request when it can’t find an object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy.
+    /// CloudFront sends a request when it can't find an object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy.
     public struct OriginRequestPolicyConfig: Swift.Equatable {
         /// A comment to describe the origin request policy. The comment cannot be longer than 128 characters.
         public var comment: Swift.String?
@@ -25089,7 +25314,7 @@ extension CloudFrontClientTypes.OriginShield: ClientRuntime.DynamicNodeEncoding 
 extension CloudFrontClientTypes {
     /// CloudFront Origin Shield. Using Origin Shield can help reduce the load on your origin. For more information, see [Using Origin Shield](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html) in the Amazon CloudFront Developer Guide.
     public struct OriginShield: Swift.Equatable {
-        /// A flag that specifies whether Origin Shield is enabled. When it’s enabled, CloudFront routes all requests through Origin Shield, which can help protect your origin. When it’s disabled, CloudFront might send requests directly to your origin from multiple edge locations or regional edge caches.
+        /// A flag that specifies whether Origin Shield is enabled. When it's enabled, CloudFront routes all requests through Origin Shield, which can help protect your origin. When it's disabled, CloudFront might send requests directly to your origin from multiple edge locations or regional edge caches.
         /// This member is required.
         public var enabled: Swift.Bool?
         /// The Amazon Web Services Region for Origin Shield. Specify the Amazon Web Services Region that has the lowest latency to your origin. To specify a region, use the region code, not the region name. For example, specify the US East (Ohio) region as us-east-2. When you enable CloudFront Origin Shield, you must specify the Amazon Web Services Region for Origin Shield. For the list of Amazon Web Services Regions that you can specify, and for help choosing the best Region for your origin, see [Choosing the Amazon Web Services Region for Origin Shield](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html#choose-origin-shield-region) in the Amazon CloudFront Developer Guide.
@@ -25336,32 +25561,32 @@ extension CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin: Client
 }
 
 extension CloudFrontClientTypes {
-    /// This object determines the values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer. The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can’t find an object in its cache that matches the request’s cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
+    /// This object determines the values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer. The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
     public struct ParametersInCacheKeyAndForwardedToOrigin: Swift.Equatable {
         /// An object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
         /// This member is required.
         public var cookiesConfig: CloudFrontClientTypes.CachePolicyCookiesConfig?
         /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingGzip field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:
         ///
-        /// * Normalizes the value of the viewer’s Accept-Encoding header
+        /// * Normalizes the value of the viewer's Accept-Encoding header
         ///
         /// * Includes the normalized header in the cache key
         ///
         /// * Includes the normalized header in the request to the origin, if a request is necessary
         ///
         ///
-        /// For more information, see [Compression support](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects) in the Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin request policy attached, do not include the Accept-Encoding header in the origin request policy. CloudFront always includes the Accept-Encoding header in origin requests when the value of this field is true, so including this header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
+        /// For more information, see [Compression support](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects) in the Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin request policy attached, do not include the Accept-Encoding header in the origin request policy. CloudFront always includes the Accept-Encoding header in origin requests when the value of this field is true, so including this header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it's not included in the cache key and it's not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
         public var enableAcceptEncodingBrotli: Swift.Bool?
         /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingBrotli field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:
         ///
-        /// * Normalizes the value of the viewer’s Accept-Encoding header
+        /// * Normalizes the value of the viewer's Accept-Encoding header
         ///
         /// * Includes the normalized header in the cache key
         ///
         /// * Includes the normalized header in the request to the origin, if a request is necessary
         ///
         ///
-        /// For more information, see [Compression support](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects) in the Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin request policy attached, do not include the Accept-Encoding header in the origin request policy. CloudFront always includes the Accept-Encoding header in origin requests when the value of this field is true, so including this header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
+        /// For more information, see [Compression support](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects) in the Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin request policy attached, do not include the Accept-Encoding header in the origin request policy. CloudFront always includes the Accept-Encoding header in origin requests when the value of this field is true, so including this header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it's not included in the cache key and it's not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
         /// This member is required.
         public var enableAcceptEncodingGzip: Swift.Bool?
         /// An object that determines whether any HTTP headers (and if so, which headers) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
@@ -25743,7 +25968,7 @@ extension CloudFrontClientTypes.PublicKeyConfig: ClientRuntime.DynamicNodeEncodi
 extension CloudFrontClientTypes {
     /// Configuration information about a public key that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html).
     public struct PublicKeyConfig: Swift.Equatable {
-        /// A string included in the request to help make sure that the request can’t be replayed.
+        /// A string included in the request to help make sure that the request can't be replayed.
         /// This member is required.
         public var callerReference: Swift.String?
         /// A comment to describe the public key. The comment cannot be longer than 128 characters.
@@ -26084,7 +26309,7 @@ extension PublishFunctionOutputError {
         case "NoSuchFunctionExists" : self = .noSuchFunctionExists(try NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27214,7 +27439,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicy: ClientRuntime.DynamicNode
 }
 
 extension CloudFrontClientTypes {
-    /// A response headers policy. A response headers policy contains information about a set of HTTP response headers and their values. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it’s attached to a cache behavior, CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match the cache behavior. For more information, see [Adding HTTP headers to CloudFront responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/adding-response-headers.html) in the Amazon CloudFront Developer Guide.
+    /// A response headers policy. A response headers policy contains information about a set of HTTP response headers and their values. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match the cache behavior. For more information, see [Adding HTTP headers to CloudFront responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/adding-response-headers.html) in the Amazon CloudFront Developer Guide.
     public struct ResponseHeadersPolicy: Swift.Equatable {
         /// The identifier for the response headers policy.
         /// This member is required.
@@ -27222,7 +27447,7 @@ extension CloudFrontClientTypes {
         /// The date and time when the response headers policy was last modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
-        /// A response headers policy configuration. A response headers policy contains information about a set of HTTP response headers and their values. CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match a cache behavior that’s associated with the policy.
+        /// A response headers policy configuration. A response headers policy contains information about a set of HTTP response headers and their values. CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match a cache behavior that's associated with the policy.
         /// This member is required.
         public var responseHeadersPolicyConfig: CloudFrontClientTypes.ResponseHeadersPolicyConfig?
 
@@ -28082,7 +28307,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader: ClientRuntime
 }
 
 extension CloudFrontClientTypes {
-    /// An HTTP response header name and its value. CloudFront includes this header in HTTP responses that it sends for requests that match a cache behavior that’s associated with this response headers policy.
+    /// An HTTP response header name and its value. CloudFront includes this header in HTTP responses that it sends for requests that match a cache behavior that's associated with this response headers policy.
     public struct ResponseHeadersPolicyCustomHeader: Swift.Equatable {
         /// The HTTP response header name.
         /// This member is required.
@@ -28171,7 +28396,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig: Client
 }
 
 extension CloudFrontClientTypes {
-    /// A list of HTTP response header names and their values. CloudFront includes these headers in HTTP responses that it sends for requests that match a cache behavior that’s associated with this response headers policy.
+    /// A list of HTTP response header names and their values. CloudFront includes these headers in HTTP responses that it sends for requests that match a cache behavior that's associated with this response headers policy.
     public struct ResponseHeadersPolicyCustomHeadersConfig: Swift.Equatable {
         /// The list of HTTP response headers and their values.
         public var items: [CloudFrontClientTypes.ResponseHeadersPolicyCustomHeader]?
@@ -28234,7 +28459,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions: ClientRuntime
 }
 
 extension CloudFrontClientTypes {
-    /// Determines whether CloudFront includes the X-Frame-Options HTTP response header and the header’s value. For more information about the X-Frame-Options HTTP response header, see [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) in the MDN Web Docs.
+    /// Determines whether CloudFront includes the X-Frame-Options HTTP response header and the header's value. For more information about the X-Frame-Options HTTP response header, see [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) in the MDN Web Docs.
     public struct ResponseHeadersPolicyFrameOptions: Swift.Equatable {
         /// The value of the X-Frame-Options HTTP response header. Valid values are DENY and SAMEORIGIN. For more information about these values, see [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) in the MDN Web Docs.
         /// This member is required.
@@ -28454,7 +28679,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy: ClientRunti
 }
 
 extension CloudFrontClientTypes {
-    /// Determines whether CloudFront includes the Referrer-Policy HTTP response header and the header’s value. For more information about the Referrer-Policy HTTP response header, see [Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy) in the MDN Web Docs.
+    /// Determines whether CloudFront includes the Referrer-Policy HTTP response header and the header's value. For more information about the Referrer-Policy HTTP response header, see [Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy) in the MDN Web Docs.
     public struct ResponseHeadersPolicyReferrerPolicy: Swift.Equatable {
         /// A Boolean that determines whether CloudFront overrides the Referrer-Policy HTTP response header received from the origin with the one specified in this response headers policy.
         /// This member is required.
@@ -28567,13 +28792,13 @@ extension CloudFrontClientTypes {
         public var contentSecurityPolicy: CloudFrontClientTypes.ResponseHeadersPolicyContentSecurityPolicy?
         /// Determines whether CloudFront includes the X-Content-Type-Options HTTP response header with its value set to nosniff. For more information about the X-Content-Type-Options HTTP response header, see [X-Content-Type-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options) in the MDN Web Docs.
         public var contentTypeOptions: CloudFrontClientTypes.ResponseHeadersPolicyContentTypeOptions?
-        /// Determines whether CloudFront includes the X-Frame-Options HTTP response header and the header’s value. For more information about the X-Frame-Options HTTP response header, see [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) in the MDN Web Docs.
+        /// Determines whether CloudFront includes the X-Frame-Options HTTP response header and the header's value. For more information about the X-Frame-Options HTTP response header, see [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) in the MDN Web Docs.
         public var frameOptions: CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions?
-        /// Determines whether CloudFront includes the Referrer-Policy HTTP response header and the header’s value. For more information about the Referrer-Policy HTTP response header, see [Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy) in the MDN Web Docs.
+        /// Determines whether CloudFront includes the Referrer-Policy HTTP response header and the header's value. For more information about the Referrer-Policy HTTP response header, see [Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy) in the MDN Web Docs.
         public var referrerPolicy: CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy?
-        /// Determines whether CloudFront includes the Strict-Transport-Security HTTP response header and the header’s value. For more information about the Strict-Transport-Security HTTP response header, see [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) in the MDN Web Docs.
+        /// Determines whether CloudFront includes the Strict-Transport-Security HTTP response header and the header's value. For more information about the Strict-Transport-Security HTTP response header, see [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) in the MDN Web Docs.
         public var strictTransportSecurity: CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity?
-        /// Determines whether CloudFront includes the X-XSS-Protection HTTP response header and the header’s value. For more information about the X-XSS-Protection HTTP response header, see [X-XSS-Protection](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection) in the MDN Web Docs.
+        /// Determines whether CloudFront includes the X-XSS-Protection HTTP response header and the header's value. For more information about the X-XSS-Protection HTTP response header, see [X-XSS-Protection](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection) in the MDN Web Docs.
         public var xssProtection: CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection?
 
         public init (
@@ -28611,7 +28836,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig: 
             try container.encode(enabled, forKey: ClientRuntime.Key("Enabled"))
         }
         if let samplingRate = samplingRate {
-            try container.encode(Swift.String(samplingRate), forKey: ClientRuntime.Key("SamplingRate"))
+            try container.encode(samplingRate, forKey: ClientRuntime.Key("SamplingRate"))
         }
     }
 
@@ -28714,7 +28939,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity: Cl
 }
 
 extension CloudFrontClientTypes {
-    /// Determines whether CloudFront includes the Strict-Transport-Security HTTP response header and the header’s value. For more information about the Strict-Transport-Security HTTP response header, see [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) in the MDN Web Docs.
+    /// Determines whether CloudFront includes the Strict-Transport-Security HTTP response header and the header's value. For more information about the Strict-Transport-Security HTTP response header, see [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) in the MDN Web Docs.
     public struct ResponseHeadersPolicyStrictTransportSecurity: Swift.Equatable {
         /// A number that CloudFront uses as the value for the max-age directive in the Strict-Transport-Security HTTP response header.
         /// This member is required.
@@ -28894,7 +29119,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection: ClientRuntim
 }
 
 extension CloudFrontClientTypes {
-    /// Determines whether CloudFront includes the X-XSS-Protection HTTP response header and the header’s value. For more information about the X-XSS-Protection HTTP response header, see [X-XSS-Protection](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection) in the MDN Web Docs.
+    /// Determines whether CloudFront includes the X-XSS-Protection HTTP response header and the header's value. For more information about the X-XSS-Protection HTTP response header, see [X-XSS-Protection](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection) in the MDN Web Docs.
     public struct ResponseHeadersPolicyXSSProtection: Swift.Equatable {
         /// A Boolean that determines whether CloudFront includes the mode=block directive in the X-XSS-Protection header. For more information about this directive, see [X-XSS-Protection](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection) in the MDN Web Docs.
         public var modeBlock: Swift.Bool?
@@ -29173,7 +29398,7 @@ extension CloudFrontClientTypes.SessionStickinessConfig: ClientRuntime.DynamicNo
 extension CloudFrontClientTypes {
     /// Session stickiness provides the ability to define multiple requests from a single viewer as a single session. This prevents the potentially inconsistent experience of sending some of a given user's requests to your staging distribution, while others are sent to your primary distribution. Define the session duration using TTL values.
     public struct SessionStickinessConfig: Swift.Equatable {
-        /// The amount of time after which you want sessions to cease if no requests are received. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to MaximumTTL.
+        /// The amount of time after which you want sessions to cease if no requests are received. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to MaximumTTL.
         /// This member is required.
         public var idleTTL: Swift.Int?
         /// The maximum amount of time to consider requests from the viewer as being part of the same session. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to IdleTTL.
@@ -30439,7 +30664,8 @@ public struct TagResourceInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let tags = input.operationInput.tags {
-                let tagsdata = try encoder.encode(tags)
+                let xmlEncoder = encoder as! XMLEncoder
+                let tagsdata = try xmlEncoder.encode(tags, withRootKey: "Tags")
                 let tagsbody = ClientRuntime.HttpBody.data(tagsdata)
                 input.builder.withBody(tagsbody)
             } else {
@@ -30562,7 +30788,7 @@ extension TagResourceOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagging" : self = .invalidTagging(try InvalidTagging(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchResource" : self = .noSuchResource(try NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -30837,7 +31063,7 @@ extension TestFunctionOutputError {
         case "NoSuchFunctionExists" : self = .noSuchFunctionExists(try NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TestFunctionFailed" : self = .testFunctionFailed(try TestFunctionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31261,6 +31487,58 @@ struct TooManyCloudFrontOriginAccessIdentitiesBody: Swift.Equatable {
 }
 
 extension TooManyCloudFrontOriginAccessIdentitiesBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension TooManyContinuousDeploymentPolicies {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<TooManyContinuousDeploymentPoliciesBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// You have reached the maximum number of continuous deployment policies for this Amazon Web Services account.
+public struct TooManyContinuousDeploymentPolicies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct TooManyContinuousDeploymentPoliciesBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TooManyContinuousDeploymentPoliciesBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -34045,7 +34323,8 @@ public struct UntagResourceInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let tagKeys = input.operationInput.tagKeys {
-                let tagKeysdata = try encoder.encode(tagKeys)
+                let xmlEncoder = encoder as! XMLEncoder
+                let tagKeysdata = try xmlEncoder.encode(tagKeys, withRootKey: "TagKeys")
                 let tagKeysbody = ClientRuntime.HttpBody.data(tagKeysdata)
                 input.builder.withBody(tagKeysbody)
             } else {
@@ -34168,7 +34447,7 @@ extension UntagResourceOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTagging" : self = .invalidTagging(try InvalidTagging(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchResource" : self = .noSuchResource(try NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34207,7 +34486,8 @@ public struct UpdateCachePolicyInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let cachePolicyConfig = input.operationInput.cachePolicyConfig {
-                let cachePolicyConfigdata = try encoder.encode(cachePolicyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let cachePolicyConfigdata = try xmlEncoder.encode(cachePolicyConfig, withRootKey: "CachePolicyConfig")
                 let cachePolicyConfigbody = ClientRuntime.HttpBody.data(cachePolicyConfigdata)
                 input.builder.withBody(cachePolicyConfigbody)
             } else {
@@ -34282,10 +34562,10 @@ public struct UpdateCachePolicyInput: Swift.Equatable {
     /// A cache policy configuration.
     /// This member is required.
     public var cachePolicyConfig: CloudFrontClientTypes.CachePolicyConfig?
-    /// The unique identifier for the cache policy that you are updating. The identifier is returned in a cache behavior’s CachePolicyId field in the response to GetDistributionConfig.
+    /// The unique identifier for the cache policy that you are updating. The identifier is returned in a cache behavior's CachePolicyId field in the response to GetDistributionConfig.
     /// This member is required.
     public var id: Swift.String?
-    /// The version of the cache policy that you are updating. The version is returned in the cache policy’s ETag field in the response to GetCachePolicyConfig.
+    /// The version of the cache policy that you are updating. The version is returned in the cache policy's ETag field in the response to GetCachePolicyConfig.
     public var ifMatch: Swift.String?
 
     public init (
@@ -34337,7 +34617,7 @@ extension UpdateCachePolicyOutputError {
         case "TooManyCookiesInCachePolicy" : self = .tooManyCookiesInCachePolicy(try TooManyCookiesInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyHeadersInCachePolicy" : self = .tooManyHeadersInCachePolicy(try TooManyHeadersInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyQueryStringsInCachePolicy" : self = .tooManyQueryStringsInCachePolicy(try TooManyQueryStringsInCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34426,7 +34706,8 @@ public struct UpdateCloudFrontOriginAccessIdentityInputBodyMiddleware: ClientRun
         do {
             let encoder = context.getEncoder()
             if let cloudFrontOriginAccessIdentityConfig = input.operationInput.cloudFrontOriginAccessIdentityConfig {
-                let cloudFrontOriginAccessIdentityConfigdata = try encoder.encode(cloudFrontOriginAccessIdentityConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let cloudFrontOriginAccessIdentityConfigdata = try xmlEncoder.encode(cloudFrontOriginAccessIdentityConfig, withRootKey: "CloudFrontOriginAccessIdentityConfig")
                 let cloudFrontOriginAccessIdentityConfigbody = ClientRuntime.HttpBody.data(cloudFrontOriginAccessIdentityConfigdata)
                 input.builder.withBody(cloudFrontOriginAccessIdentityConfigbody)
             } else {
@@ -34554,7 +34835,7 @@ extension UpdateCloudFrontOriginAccessIdentityOutputError {
         case "MissingBody" : self = .missingBody(try MissingBody(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCloudFrontOriginAccessIdentity" : self = .noSuchCloudFrontOriginAccessIdentity(try NoSuchCloudFrontOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34641,7 +34922,8 @@ public struct UpdateContinuousDeploymentPolicyInputBodyMiddleware: ClientRuntime
         do {
             let encoder = context.getEncoder()
             if let continuousDeploymentPolicyConfig = input.operationInput.continuousDeploymentPolicyConfig {
-                let continuousDeploymentPolicyConfigdata = try encoder.encode(continuousDeploymentPolicyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let continuousDeploymentPolicyConfigdata = try xmlEncoder.encode(continuousDeploymentPolicyConfig, withRootKey: "ContinuousDeploymentPolicyConfig")
                 let continuousDeploymentPolicyConfigbody = ClientRuntime.HttpBody.data(continuousDeploymentPolicyConfigdata)
                 input.builder.withBody(continuousDeploymentPolicyConfigbody)
             } else {
@@ -34764,9 +35046,10 @@ extension UpdateContinuousDeploymentPolicyOutputError {
         case "InconsistentQuantities" : self = .inconsistentQuantities(try InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchContinuousDeploymentPolicy" : self = .noSuchContinuousDeploymentPolicy(try NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StagingDistributionInUse" : self = .stagingDistributionInUse(try StagingDistributionInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34776,6 +35059,7 @@ public enum UpdateContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equa
     case inconsistentQuantities(InconsistentQuantities)
     case invalidArgument(InvalidArgument)
     case invalidIfMatchVersion(InvalidIfMatchVersion)
+    case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case preconditionFailed(PreconditionFailed)
     case stagingDistributionInUse(StagingDistributionInUse)
     case unknown(UnknownAWSHttpServiceError)
@@ -34850,7 +35134,8 @@ public struct UpdateDistributionInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let distributionConfig = input.operationInput.distributionConfig {
-                let distributionConfigdata = try encoder.encode(distributionConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let distributionConfigdata = try xmlEncoder.encode(distributionConfig, withRootKey: "DistributionConfig")
                 let distributionConfigbody = ClientRuntime.HttpBody.data(distributionConfigdata)
                 input.builder.withBody(distributionConfigbody)
             } else {
@@ -34972,6 +35257,7 @@ extension UpdateDistributionOutputError {
         switch errorType {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CNAMEAlreadyExists" : self = .cNAMEAlreadyExists(try CNAMEAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ContinuousDeploymentPolicyInUse" : self = .continuousDeploymentPolicyInUse(try ContinuousDeploymentPolicyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior" : self = .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "IllegalOriginAccessConfiguration" : self = .illegalOriginAccessConfiguration(try IllegalOriginAccessConfiguration(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "IllegalUpdate" : self = .illegalUpdate(try IllegalUpdate(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -35001,6 +35287,7 @@ extension UpdateDistributionOutputError {
         case "InvalidWebACLId" : self = .invalidWebACLId(try InvalidWebACLId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingBody" : self = .missingBody(try MissingBody(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchContinuousDeploymentPolicy" : self = .noSuchContinuousDeploymentPolicy(try NoSuchContinuousDeploymentPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchFieldLevelEncryptionConfig" : self = .noSuchFieldLevelEncryptionConfig(try NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchOrigin" : self = .noSuchOrigin(try NoSuchOrigin(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -35033,7 +35320,7 @@ extension UpdateDistributionOutputError {
         case "TooManyTrustedSigners" : self = .tooManyTrustedSigners(try TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedKeyGroupDoesNotExist" : self = .trustedKeyGroupDoesNotExist(try TrustedKeyGroupDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedSignerDoesNotExist" : self = .trustedSignerDoesNotExist(try TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35041,6 +35328,7 @@ extension UpdateDistributionOutputError {
 public enum UpdateDistributionOutputError: Swift.Error, Swift.Equatable {
     case accessDenied(AccessDenied)
     case cNAMEAlreadyExists(CNAMEAlreadyExists)
+    case continuousDeploymentPolicyInUse(ContinuousDeploymentPolicyInUse)
     case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior)
     case illegalOriginAccessConfiguration(IllegalOriginAccessConfiguration)
     case illegalUpdate(IllegalUpdate)
@@ -35070,6 +35358,7 @@ public enum UpdateDistributionOutputError: Swift.Error, Swift.Equatable {
     case invalidWebACLId(InvalidWebACLId)
     case missingBody(MissingBody)
     case noSuchCachePolicy(NoSuchCachePolicy)
+    case noSuchContinuousDeploymentPolicy(NoSuchContinuousDeploymentPolicy)
     case noSuchDistribution(NoSuchDistribution)
     case noSuchFieldLevelEncryptionConfig(NoSuchFieldLevelEncryptionConfig)
     case noSuchOrigin(NoSuchOrigin)
@@ -35159,6 +35448,260 @@ extension UpdateDistributionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateDistributionWithStagingConfigInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let ifMatch = ifMatch {
+            items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
+extension UpdateDistributionWithStagingConfigInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let stagingDistributionId = stagingDistributionId {
+                let stagingDistributionIdQueryItem = ClientRuntime.URLQueryItem(name: "StagingDistributionId".urlPercentEncoding(), value: Swift.String(stagingDistributionId).urlPercentEncoding())
+                items.append(stagingDistributionIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension UpdateDistributionWithStagingConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/2020-05-31/distribution/\(id.urlPercentEncoding())/promote-staging-config"
+    }
+}
+
+public struct UpdateDistributionWithStagingConfigInput: Swift.Equatable {
+    /// The identifier of the primary distribution to which you are copying a staging distribution's configuration.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current versions (ETag values) of both primary and staging distributions. Provide these in the following format: ,
+    public var ifMatch: Swift.String?
+    /// The identifier of the staging distribution whose configuration you are copying to the primary distribution.
+    public var stagingDistributionId: Swift.String?
+
+    public init (
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        stagingDistributionId: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.ifMatch = ifMatch
+        self.stagingDistributionId = stagingDistributionId
+    }
+}
+
+struct UpdateDistributionWithStagingConfigInputBody: Swift.Equatable {
+}
+
+extension UpdateDistributionWithStagingConfigInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension UpdateDistributionWithStagingConfigOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension UpdateDistributionWithStagingConfigOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "CNAMEAlreadyExists" : self = .cNAMEAlreadyExists(try CNAMEAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior" : self = .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "IllegalUpdate" : self = .illegalUpdate(try IllegalUpdate(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InconsistentQuantities" : self = .inconsistentQuantities(try InconsistentQuantities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidDefaultRootObject" : self = .invalidDefaultRootObject(try InvalidDefaultRootObject(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidErrorCode" : self = .invalidErrorCode(try InvalidErrorCode(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidForwardCookies" : self = .invalidForwardCookies(try InvalidForwardCookies(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidFunctionAssociation" : self = .invalidFunctionAssociation(try InvalidFunctionAssociation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidGeoRestrictionParameter" : self = .invalidGeoRestrictionParameter(try InvalidGeoRestrictionParameter(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidHeadersForS3Origin" : self = .invalidHeadersForS3Origin(try InvalidHeadersForS3Origin(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidLambdaFunctionAssociation" : self = .invalidLambdaFunctionAssociation(try InvalidLambdaFunctionAssociation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidLocationCode" : self = .invalidLocationCode(try InvalidLocationCode(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidMinimumProtocolVersion" : self = .invalidMinimumProtocolVersion(try InvalidMinimumProtocolVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOriginAccessControl" : self = .invalidOriginAccessControl(try InvalidOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOriginAccessIdentity" : self = .invalidOriginAccessIdentity(try InvalidOriginAccessIdentity(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOriginKeepaliveTimeout" : self = .invalidOriginKeepaliveTimeout(try InvalidOriginKeepaliveTimeout(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOriginReadTimeout" : self = .invalidOriginReadTimeout(try InvalidOriginReadTimeout(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidQueryStringParameters" : self = .invalidQueryStringParameters(try InvalidQueryStringParameters(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRelativePath" : self = .invalidRelativePath(try InvalidRelativePath(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequiredProtocol" : self = .invalidRequiredProtocol(try InvalidRequiredProtocol(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResponseCode" : self = .invalidResponseCode(try InvalidResponseCode(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidTTLOrder" : self = .invalidTTLOrder(try InvalidTTLOrder(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidViewerCertificate" : self = .invalidViewerCertificate(try InvalidViewerCertificate(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidWebACLId" : self = .invalidWebACLId(try InvalidWebACLId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingBody" : self = .missingBody(try MissingBody(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchCachePolicy" : self = .noSuchCachePolicy(try NoSuchCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchDistribution" : self = .noSuchDistribution(try NoSuchDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchFieldLevelEncryptionConfig" : self = .noSuchFieldLevelEncryptionConfig(try NoSuchFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchOrigin" : self = .noSuchOrigin(try NoSuchOrigin(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchOriginRequestPolicy" : self = .noSuchOriginRequestPolicy(try NoSuchOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchRealtimeLogConfig" : self = .noSuchRealtimeLogConfig(try NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoSuchResponseHeadersPolicy" : self = .noSuchResponseHeadersPolicy(try NoSuchResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RealtimeLogConfigOwnerMismatch" : self = .realtimeLogConfigOwnerMismatch(try RealtimeLogConfigOwnerMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyCacheBehaviors" : self = .tooManyCacheBehaviors(try TooManyCacheBehaviors(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyCertificates" : self = .tooManyCertificates(try TooManyCertificates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyCookieNamesInWhiteList" : self = .tooManyCookieNamesInWhiteList(try TooManyCookieNamesInWhiteList(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionCNAMEs" : self = .tooManyDistributionCNAMEs(try TooManyDistributionCNAMEs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToCachePolicy" : self = .tooManyDistributionsAssociatedToCachePolicy(try TooManyDistributionsAssociatedToCachePolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig" : self = .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(try TooManyDistributionsAssociatedToFieldLevelEncryptionConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToKeyGroup" : self = .tooManyDistributionsAssociatedToKeyGroup(try TooManyDistributionsAssociatedToKeyGroup(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToOriginRequestPolicy" : self = .tooManyDistributionsAssociatedToOriginRequestPolicy(try TooManyDistributionsAssociatedToOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsAssociatedToResponseHeadersPolicy" : self = .tooManyDistributionsAssociatedToResponseHeadersPolicy(try TooManyDistributionsAssociatedToResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsWithFunctionAssociations" : self = .tooManyDistributionsWithFunctionAssociations(try TooManyDistributionsWithFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsWithLambdaAssociations" : self = .tooManyDistributionsWithLambdaAssociations(try TooManyDistributionsWithLambdaAssociations(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyDistributionsWithSingleFunctionARN" : self = .tooManyDistributionsWithSingleFunctionARN(try TooManyDistributionsWithSingleFunctionARN(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyFunctionAssociations" : self = .tooManyFunctionAssociations(try TooManyFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyHeadersInForwardedValues" : self = .tooManyHeadersInForwardedValues(try TooManyHeadersInForwardedValues(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyKeyGroupsAssociatedToDistribution" : self = .tooManyKeyGroupsAssociatedToDistribution(try TooManyKeyGroupsAssociatedToDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyLambdaFunctionAssociations" : self = .tooManyLambdaFunctionAssociations(try TooManyLambdaFunctionAssociations(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyOriginCustomHeaders" : self = .tooManyOriginCustomHeaders(try TooManyOriginCustomHeaders(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyOriginGroupsPerDistribution" : self = .tooManyOriginGroupsPerDistribution(try TooManyOriginGroupsPerDistribution(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyOrigins" : self = .tooManyOrigins(try TooManyOrigins(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyQueryStringParameters" : self = .tooManyQueryStringParameters(try TooManyQueryStringParameters(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyTrustedSigners" : self = .tooManyTrustedSigners(try TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TrustedKeyGroupDoesNotExist" : self = .trustedKeyGroupDoesNotExist(try TrustedKeyGroupDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TrustedSignerDoesNotExist" : self = .trustedSignerDoesNotExist(try TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateDistributionWithStagingConfigOutputError: Swift.Error, Swift.Equatable {
+    case accessDenied(AccessDenied)
+    case cNAMEAlreadyExists(CNAMEAlreadyExists)
+    case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior)
+    case illegalUpdate(IllegalUpdate)
+    case inconsistentQuantities(InconsistentQuantities)
+    case invalidArgument(InvalidArgument)
+    case invalidDefaultRootObject(InvalidDefaultRootObject)
+    case invalidErrorCode(InvalidErrorCode)
+    case invalidForwardCookies(InvalidForwardCookies)
+    case invalidFunctionAssociation(InvalidFunctionAssociation)
+    case invalidGeoRestrictionParameter(InvalidGeoRestrictionParameter)
+    case invalidHeadersForS3Origin(InvalidHeadersForS3Origin)
+    case invalidIfMatchVersion(InvalidIfMatchVersion)
+    case invalidLambdaFunctionAssociation(InvalidLambdaFunctionAssociation)
+    case invalidLocationCode(InvalidLocationCode)
+    case invalidMinimumProtocolVersion(InvalidMinimumProtocolVersion)
+    case invalidOriginAccessControl(InvalidOriginAccessControl)
+    case invalidOriginAccessIdentity(InvalidOriginAccessIdentity)
+    case invalidOriginKeepaliveTimeout(InvalidOriginKeepaliveTimeout)
+    case invalidOriginReadTimeout(InvalidOriginReadTimeout)
+    case invalidQueryStringParameters(InvalidQueryStringParameters)
+    case invalidRelativePath(InvalidRelativePath)
+    case invalidRequiredProtocol(InvalidRequiredProtocol)
+    case invalidResponseCode(InvalidResponseCode)
+    case invalidTTLOrder(InvalidTTLOrder)
+    case invalidViewerCertificate(InvalidViewerCertificate)
+    case invalidWebACLId(InvalidWebACLId)
+    case missingBody(MissingBody)
+    case noSuchCachePolicy(NoSuchCachePolicy)
+    case noSuchDistribution(NoSuchDistribution)
+    case noSuchFieldLevelEncryptionConfig(NoSuchFieldLevelEncryptionConfig)
+    case noSuchOrigin(NoSuchOrigin)
+    case noSuchOriginRequestPolicy(NoSuchOriginRequestPolicy)
+    case noSuchRealtimeLogConfig(NoSuchRealtimeLogConfig)
+    case noSuchResponseHeadersPolicy(NoSuchResponseHeadersPolicy)
+    case preconditionFailed(PreconditionFailed)
+    case realtimeLogConfigOwnerMismatch(RealtimeLogConfigOwnerMismatch)
+    case tooManyCacheBehaviors(TooManyCacheBehaviors)
+    case tooManyCertificates(TooManyCertificates)
+    case tooManyCookieNamesInWhiteList(TooManyCookieNamesInWhiteList)
+    case tooManyDistributionCNAMEs(TooManyDistributionCNAMEs)
+    case tooManyDistributionsAssociatedToCachePolicy(TooManyDistributionsAssociatedToCachePolicy)
+    case tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(TooManyDistributionsAssociatedToFieldLevelEncryptionConfig)
+    case tooManyDistributionsAssociatedToKeyGroup(TooManyDistributionsAssociatedToKeyGroup)
+    case tooManyDistributionsAssociatedToOriginRequestPolicy(TooManyDistributionsAssociatedToOriginRequestPolicy)
+    case tooManyDistributionsAssociatedToResponseHeadersPolicy(TooManyDistributionsAssociatedToResponseHeadersPolicy)
+    case tooManyDistributionsWithFunctionAssociations(TooManyDistributionsWithFunctionAssociations)
+    case tooManyDistributionsWithLambdaAssociations(TooManyDistributionsWithLambdaAssociations)
+    case tooManyDistributionsWithSingleFunctionARN(TooManyDistributionsWithSingleFunctionARN)
+    case tooManyFunctionAssociations(TooManyFunctionAssociations)
+    case tooManyHeadersInForwardedValues(TooManyHeadersInForwardedValues)
+    case tooManyKeyGroupsAssociatedToDistribution(TooManyKeyGroupsAssociatedToDistribution)
+    case tooManyLambdaFunctionAssociations(TooManyLambdaFunctionAssociations)
+    case tooManyOriginCustomHeaders(TooManyOriginCustomHeaders)
+    case tooManyOriginGroupsPerDistribution(TooManyOriginGroupsPerDistribution)
+    case tooManyOrigins(TooManyOrigins)
+    case tooManyQueryStringParameters(TooManyQueryStringParameters)
+    case tooManyTrustedSigners(TooManyTrustedSigners)
+    case trustedKeyGroupDoesNotExist(TrustedKeyGroupDoesNotExist)
+    case trustedSignerDoesNotExist(TrustedSignerDoesNotExist)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateDistributionWithStagingConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            self.eTag = eTagHeaderValue
+        } else {
+            self.eTag = nil
+        }
+        if case .stream(let reader) = httpResponse.body {
+            let data = reader.toBytes().toData()
+            if let responseDecoder = decoder {
+                let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
+                self.distribution = output
+            } else {
+                self.distribution = nil
+            }
+        } else {
+            self.distribution = nil
+        }
+    }
+}
+
+public struct UpdateDistributionWithStagingConfigOutputResponse: Swift.Equatable {
+    /// A distribution tells CloudFront where you want content to be delivered from, and the details about how to track and manage content delivery.
+    public var distribution: CloudFrontClientTypes.Distribution?
+    /// The current version of the primary distribution (after it's updated).
+    public var eTag: Swift.String?
+
+    public init (
+        distribution: CloudFrontClientTypes.Distribution? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.distribution = distribution
+        self.eTag = eTag
+    }
+}
+
+struct UpdateDistributionWithStagingConfigOutputResponseBody: Swift.Equatable {
+    let distribution: CloudFrontClientTypes.Distribution?
+}
+
+extension UpdateDistributionWithStagingConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case distribution = "Distribution"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let distributionDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.Distribution.self, forKey: .distribution)
+        distribution = distributionDecoded
+    }
+}
+
 public struct UpdateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "UpdateFieldLevelEncryptionConfigInputBodyMiddleware"
 
@@ -35175,7 +35718,8 @@ public struct UpdateFieldLevelEncryptionConfigInputBodyMiddleware: ClientRuntime
         do {
             let encoder = context.getEncoder()
             if let fieldLevelEncryptionConfig = input.operationInput.fieldLevelEncryptionConfig {
-                let fieldLevelEncryptionConfigdata = try encoder.encode(fieldLevelEncryptionConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let fieldLevelEncryptionConfigdata = try xmlEncoder.encode(fieldLevelEncryptionConfig, withRootKey: "FieldLevelEncryptionConfig")
                 let fieldLevelEncryptionConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionConfigdata)
                 input.builder.withBody(fieldLevelEncryptionConfigbody)
             } else {
@@ -35305,7 +35849,7 @@ extension UpdateFieldLevelEncryptionConfigOutputError {
         case "QueryArgProfileEmpty" : self = .queryArgProfileEmpty(try QueryArgProfileEmpty(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyFieldLevelEncryptionContentTypeProfiles" : self = .tooManyFieldLevelEncryptionContentTypeProfiles(try TooManyFieldLevelEncryptionContentTypeProfiles(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyFieldLevelEncryptionQueryArgProfiles" : self = .tooManyFieldLevelEncryptionQueryArgProfiles(try TooManyFieldLevelEncryptionQueryArgProfiles(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35394,7 +35938,8 @@ public struct UpdateFieldLevelEncryptionProfileInputBodyMiddleware: ClientRuntim
         do {
             let encoder = context.getEncoder()
             if let fieldLevelEncryptionProfileConfig = input.operationInput.fieldLevelEncryptionProfileConfig {
-                let fieldLevelEncryptionProfileConfigdata = try encoder.encode(fieldLevelEncryptionProfileConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let fieldLevelEncryptionProfileConfigdata = try xmlEncoder.encode(fieldLevelEncryptionProfileConfig, withRootKey: "FieldLevelEncryptionProfileConfig")
                 let fieldLevelEncryptionProfileConfigbody = ClientRuntime.HttpBody.data(fieldLevelEncryptionProfileConfigdata)
                 input.builder.withBody(fieldLevelEncryptionProfileConfigbody)
             } else {
@@ -35525,7 +36070,7 @@ extension UpdateFieldLevelEncryptionProfileOutputError {
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyFieldLevelEncryptionEncryptionEntities" : self = .tooManyFieldLevelEncryptionEncryptionEntities(try TooManyFieldLevelEncryptionEncryptionEntities(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyFieldLevelEncryptionFieldPatterns" : self = .tooManyFieldLevelEncryptionFieldPatterns(try TooManyFieldLevelEncryptionFieldPatterns(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35729,7 +36274,7 @@ extension UpdateFunctionOutputError {
         case "NoSuchFunctionExists" : self = .noSuchFunctionExists(try NoSuchFunctionExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35813,7 +36358,8 @@ public struct UpdateKeyGroupInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let keyGroupConfig = input.operationInput.keyGroupConfig {
-                let keyGroupConfigdata = try encoder.encode(keyGroupConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let keyGroupConfigdata = try xmlEncoder.encode(keyGroupConfig, withRootKey: "KeyGroupConfig")
                 let keyGroupConfigbody = ClientRuntime.HttpBody.data(keyGroupConfigdata)
                 input.builder.withBody(keyGroupConfigbody)
             } else {
@@ -35888,7 +36434,7 @@ public struct UpdateKeyGroupInput: Swift.Equatable {
     /// The identifier of the key group that you are updating.
     /// This member is required.
     public var id: Swift.String?
-    /// The version of the key group that you are updating. The version is the key group’s ETag value.
+    /// The version of the key group that you are updating. The version is the key group's ETag value.
     public var ifMatch: Swift.String?
     /// The key group configuration.
     /// This member is required.
@@ -35938,7 +36484,7 @@ extension UpdateKeyGroupOutputError {
         case "NoSuchResource" : self = .noSuchResource(try NoSuchResource(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyPublicKeysInKeyGroup" : self = .tooManyPublicKeysInKeyGroup(try TooManyPublicKeysInKeyGroup(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36022,7 +36568,8 @@ public struct UpdateOriginAccessControlInputBodyMiddleware: ClientRuntime.Middle
         do {
             let encoder = context.getEncoder()
             if let originAccessControlConfig = input.operationInput.originAccessControlConfig {
-                let originAccessControlConfigdata = try encoder.encode(originAccessControlConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let originAccessControlConfigdata = try xmlEncoder.encode(originAccessControlConfig, withRootKey: "OriginAccessControlConfig")
                 let originAccessControlConfigbody = ClientRuntime.HttpBody.data(originAccessControlConfigdata)
                 input.builder.withBody(originAccessControlConfigbody)
             } else {
@@ -36148,7 +36695,7 @@ extension UpdateOriginAccessControlOutputError {
         case "NoSuchOriginAccessControl" : self = .noSuchOriginAccessControl(try NoSuchOriginAccessControl(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OriginAccessControlAlreadyExists" : self = .originAccessControlAlreadyExists(try OriginAccessControlAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36233,7 +36780,8 @@ public struct UpdateOriginRequestPolicyInputBodyMiddleware: ClientRuntime.Middle
         do {
             let encoder = context.getEncoder()
             if let originRequestPolicyConfig = input.operationInput.originRequestPolicyConfig {
-                let originRequestPolicyConfigdata = try encoder.encode(originRequestPolicyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let originRequestPolicyConfigdata = try xmlEncoder.encode(originRequestPolicyConfig, withRootKey: "OriginRequestPolicyConfig")
                 let originRequestPolicyConfigbody = ClientRuntime.HttpBody.data(originRequestPolicyConfigdata)
                 input.builder.withBody(originRequestPolicyConfigbody)
             } else {
@@ -36305,10 +36853,10 @@ extension UpdateOriginRequestPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateOriginRequestPolicyInput: Swift.Equatable {
-    /// The unique identifier for the origin request policy that you are updating. The identifier is returned in a cache behavior’s OriginRequestPolicyId field in the response to GetDistributionConfig.
+    /// The unique identifier for the origin request policy that you are updating. The identifier is returned in a cache behavior's OriginRequestPolicyId field in the response to GetDistributionConfig.
     /// This member is required.
     public var id: Swift.String?
-    /// The version of the origin request policy that you are updating. The version is returned in the origin request policy’s ETag field in the response to GetOriginRequestPolicyConfig.
+    /// The version of the origin request policy that you are updating. The version is returned in the origin request policy's ETag field in the response to GetOriginRequestPolicyConfig.
     public var ifMatch: Swift.String?
     /// An origin request policy configuration.
     /// This member is required.
@@ -36363,7 +36911,7 @@ extension UpdateOriginRequestPolicyOutputError {
         case "TooManyCookiesInOriginRequestPolicy" : self = .tooManyCookiesInOriginRequestPolicy(try TooManyCookiesInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyHeadersInOriginRequestPolicy" : self = .tooManyHeadersInOriginRequestPolicy(try TooManyHeadersInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyQueryStringsInOriginRequestPolicy" : self = .tooManyQueryStringsInOriginRequestPolicy(try TooManyQueryStringsInOriginRequestPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36452,7 +37000,8 @@ public struct UpdatePublicKeyInputBodyMiddleware: ClientRuntime.Middleware {
         do {
             let encoder = context.getEncoder()
             if let publicKeyConfig = input.operationInput.publicKeyConfig {
-                let publicKeyConfigdata = try encoder.encode(publicKeyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let publicKeyConfigdata = try xmlEncoder.encode(publicKeyConfig, withRootKey: "PublicKeyConfig")
                 let publicKeyConfigbody = ClientRuntime.HttpBody.data(publicKeyConfigdata)
                 input.builder.withBody(publicKeyConfigbody)
             } else {
@@ -36578,7 +37127,7 @@ extension UpdatePublicKeyOutputError {
         case "InvalidIfMatchVersion" : self = .invalidIfMatchVersion(try InvalidIfMatchVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchPublicKey" : self = .noSuchPublicKey(try NoSuchPublicKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreconditionFailed" : self = .preconditionFailed(try PreconditionFailed(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36812,7 +37361,7 @@ extension UpdateRealtimeLogConfigOutputError {
         case "AccessDenied" : self = .accessDenied(try AccessDenied(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchRealtimeLogConfig" : self = .noSuchRealtimeLogConfig(try NoSuchRealtimeLogConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36881,7 +37430,8 @@ public struct UpdateResponseHeadersPolicyInputBodyMiddleware: ClientRuntime.Midd
         do {
             let encoder = context.getEncoder()
             if let responseHeadersPolicyConfig = input.operationInput.responseHeadersPolicyConfig {
-                let responseHeadersPolicyConfigdata = try encoder.encode(responseHeadersPolicyConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let responseHeadersPolicyConfigdata = try xmlEncoder.encode(responseHeadersPolicyConfig, withRootKey: "ResponseHeadersPolicyConfig")
                 let responseHeadersPolicyConfigbody = ClientRuntime.HttpBody.data(responseHeadersPolicyConfigdata)
                 input.builder.withBody(responseHeadersPolicyConfigbody)
             } else {
@@ -36956,7 +37506,7 @@ public struct UpdateResponseHeadersPolicyInput: Swift.Equatable {
     /// The identifier for the response headers policy that you are updating.
     /// This member is required.
     public var id: Swift.String?
-    /// The version of the response headers policy that you are updating. The version is returned in the cache policy’s ETag field in the response to GetResponseHeadersPolicyConfig.
+    /// The version of the response headers policy that you are updating. The version is returned in the cache policy's ETag field in the response to GetResponseHeadersPolicyConfig.
     public var ifMatch: Swift.String?
     /// A response headers policy configuration.
     /// This member is required.
@@ -37010,7 +37560,7 @@ extension UpdateResponseHeadersPolicyOutputError {
         case "ResponseHeadersPolicyAlreadyExists" : self = .responseHeadersPolicyAlreadyExists(try ResponseHeadersPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooLongCSPInResponseHeadersPolicy" : self = .tooLongCSPInResponseHeadersPolicy(try TooLongCSPInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyCustomHeadersInResponseHeadersPolicy" : self = .tooManyCustomHeadersInResponseHeadersPolicy(try TooManyCustomHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37098,7 +37648,8 @@ public struct UpdateStreamingDistributionInputBodyMiddleware: ClientRuntime.Midd
         do {
             let encoder = context.getEncoder()
             if let streamingDistributionConfig = input.operationInput.streamingDistributionConfig {
-                let streamingDistributionConfigdata = try encoder.encode(streamingDistributionConfig)
+                let xmlEncoder = encoder as! XMLEncoder
+                let streamingDistributionConfigdata = try xmlEncoder.encode(streamingDistributionConfig, withRootKey: "StreamingDistributionConfig")
                 let streamingDistributionConfigbody = ClientRuntime.HttpBody.data(streamingDistributionConfigdata)
                 input.builder.withBody(streamingDistributionConfigbody)
             } else {
@@ -37232,7 +37783,7 @@ extension UpdateStreamingDistributionOutputError {
         case "TooManyStreamingDistributionCNAMEs" : self = .tooManyStreamingDistributionCNAMEs(try TooManyStreamingDistributionCNAMEs(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTrustedSigners" : self = .tooManyTrustedSigners(try TooManyTrustedSigners(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrustedSignerDoesNotExist" : self = .trustedSignerDoesNotExist(try TrustedSignerDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37382,13 +37933,13 @@ extension CloudFrontClientTypes.ViewerCertificate: ClientRuntime.DynamicNodeEnco
 }
 
 extension CloudFrontClientTypes {
-    /// A complex type that determines the distribution’s SSL/TLS configuration for communicating with viewers. If the distribution doesn’t use Aliases (also known as alternate domain names or CNAMEs)—that is, if the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net—set CloudFrontDefaultCertificate to true and leave all other fields empty. If the distribution uses Aliases (alternate domain names or CNAMEs), use the fields in this type to specify the following settings:
+    /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers. If the distribution doesn't use Aliases (also known as alternate domain names or CNAMEs)—that is, if the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net—set CloudFrontDefaultCertificate to true and leave all other fields empty. If the distribution uses Aliases (alternate domain names or CNAMEs), use the fields in this type to specify the following settings:
     ///
-    /// * Which viewers the distribution accepts HTTPS connections from: only viewers that support [server name indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) (recommended), or all viewers including those that don’t support SNI.
+    /// * Which viewers the distribution accepts HTTPS connections from: only viewers that support [server name indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication) (recommended), or all viewers including those that don't support SNI.
     ///
     /// * To accept HTTPS connections from only viewers that support SNI, set SSLSupportMethod to sni-only. This is recommended. Most browsers and clients support SNI.
     ///
-    /// * To accept HTTPS connections from all viewers, including those that don’t support SNI, set SSLSupportMethod to vip. This is not recommended, and results in additional monthly charges from CloudFront.
+    /// * To accept HTTPS connections from all viewers, including those that don't support SNI, set SSLSupportMethod to vip. This is not recommended, and results in additional monthly charges from CloudFront.
     ///
     ///
     ///
@@ -37444,18 +37995,18 @@ extension CloudFrontClientTypes {
         /// * The ciphers that CloudFront can use to encrypt the content that it returns to viewers.
         ///
         ///
-        /// For more information, see [Security Policy](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValues-security-policy) and [Supported Protocols and Ciphers Between Viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html#secure-connections-supported-ciphers) in the Amazon CloudFront Developer Guide. On the CloudFront console, this setting is called Security Policy. When you’re using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher. If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
+        /// For more information, see [Security Policy](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValues-security-policy) and [Supported Protocols and Ciphers Between Viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html#secure-connections-supported-ciphers) in the Amazon CloudFront Developer Guide. On the CloudFront console, this setting is called Security Policy. When you're using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher. If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
         public var minimumProtocolVersion: CloudFrontClientTypes.MinimumProtocolVersion?
         /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.
         ///
         /// * sni-only – The distribution accepts HTTPS connections from only viewers that support [server name indication (SNI)](https://en.wikipedia.org/wiki/Server_Name_Indication). This is recommended. Most browsers and clients support SNI.
         ///
-        /// * vip – The distribution accepts HTTPS connections from all viewers including those that don’t support SNI. This is not recommended, and results in additional monthly charges from CloudFront.
+        /// * vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.
         ///
         /// * static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home).
         ///
         ///
-        /// If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don’t set a value for this field.
+        /// If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
         public var sslSupportMethod: CloudFrontClientTypes.SSLSupportMethod?
 
         public init (

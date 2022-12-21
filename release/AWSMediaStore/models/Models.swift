@@ -521,7 +521,7 @@ extension CreateContainerOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -637,7 +637,7 @@ extension DeleteContainerOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -722,7 +722,7 @@ extension DeleteContainerPolicyOutputError {
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotFoundException" : self = .policyNotFoundException(try PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -808,7 +808,7 @@ extension DeleteCorsPolicyOutputError {
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CorsPolicyNotFoundException" : self = .corsPolicyNotFoundException(try CorsPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -894,7 +894,7 @@ extension DeleteLifecyclePolicyOutputError {
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotFoundException" : self = .policyNotFoundException(try PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -980,7 +980,7 @@ extension DeleteMetricPolicyOutputError {
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotFoundException" : self = .policyNotFoundException(try PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1063,7 +1063,7 @@ extension DescribeContainerOutputError {
         switch errorType {
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1178,7 +1178,7 @@ extension GetContainerPolicyOutputError {
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotFoundException" : self = .policyNotFoundException(try PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1296,7 +1296,7 @@ extension GetCorsPolicyOutputError {
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CorsPolicyNotFoundException" : self = .corsPolicyNotFoundException(try CorsPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1423,7 +1423,7 @@ extension GetLifecyclePolicyOutputError {
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotFoundException" : self = .policyNotFoundException(try PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1541,7 +1541,7 @@ extension GetMetricPolicyOutputError {
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PolicyNotFoundException" : self = .policyNotFoundException(try PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1771,7 +1771,7 @@ extension ListContainersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1904,7 +1904,7 @@ extension ListTagsForResourceOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2240,7 +2240,7 @@ extension PutContainerPolicyOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2349,7 +2349,7 @@ extension PutCorsPolicyOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2446,7 +2446,7 @@ extension PutLifecyclePolicyOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2547,7 +2547,7 @@ extension PutMetricPolicyOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2631,7 +2631,7 @@ extension StartAccessLoggingOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2715,7 +2715,7 @@ extension StopAccessLoggingOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2870,7 +2870,7 @@ extension TagResourceOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2979,7 +2979,7 @@ extension UntagResourceOutputError {
         case "ContainerInUseException" : self = .containerInUseException(try ContainerInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ContainerNotFoundException" : self = .containerNotFoundException(try ContainerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

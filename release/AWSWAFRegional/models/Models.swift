@@ -199,7 +199,7 @@ extension AssociateWebACLOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -715,7 +715,7 @@ extension CreateByteMatchSetOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -859,7 +859,7 @@ extension CreateGeoMatchSetOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1003,7 +1003,7 @@ extension CreateIPSetOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1212,7 +1212,7 @@ extension CreateRateBasedRuleOutputError {
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1356,7 +1356,7 @@ extension CreateRegexMatchSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1496,7 +1496,7 @@ extension CreateRegexPatternSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1676,7 +1676,7 @@ extension CreateRuleGroupOutputError {
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1860,7 +1860,7 @@ extension CreateRuleOutputError {
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2006,7 +2006,7 @@ extension CreateSizeConstraintSetOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2151,7 +2151,7 @@ extension CreateSqlInjectionMatchSetOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2425,7 +2425,7 @@ extension CreateWebACLMigrationStackOutputError {
         case "WAFInvalidOperationException" : self = .wAFInvalidOperationException(try WAFInvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2501,7 +2501,7 @@ extension CreateWebACLOutputError {
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2649,7 +2649,7 @@ extension CreateXssMatchSetOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFLimitsExceededException" : self = .wAFLimitsExceededException(try WAFLimitsExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2794,7 +2794,7 @@ extension DeleteByteMatchSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2928,7 +2928,7 @@ extension DeleteGeoMatchSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3062,7 +3062,7 @@ extension DeleteIPSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3180,7 +3180,7 @@ extension DeleteLoggingConfigurationOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3264,7 +3264,7 @@ extension DeletePermissionPolicyOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3366,7 +3366,7 @@ extension DeleteRateBasedRuleOutputError {
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3502,7 +3502,7 @@ extension DeleteRegexMatchSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3636,7 +3636,7 @@ extension DeleteRegexPatternSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3772,7 +3772,7 @@ extension DeleteRuleGroupOutputError {
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3910,7 +3910,7 @@ extension DeleteRuleOutputError {
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4046,7 +4046,7 @@ extension DeleteSizeConstraintSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4181,7 +4181,7 @@ extension DeleteSqlInjectionMatchSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4318,7 +4318,7 @@ extension DeleteWebACLOutputError {
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4455,7 +4455,7 @@ extension DeleteXssMatchSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4579,7 +4579,7 @@ extension DisassociateWebACLOutputError {
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5772,7 +5772,7 @@ extension GetByteMatchSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5871,7 +5871,7 @@ extension GetChangeTokenOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5983,7 +5983,7 @@ extension GetChangeTokenStatusOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6097,7 +6097,7 @@ extension GetGeoMatchSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6212,7 +6212,7 @@ extension GetIPSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6330,7 +6330,7 @@ extension GetLoggingConfigurationOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6443,7 +6443,7 @@ extension GetPermissionPolicyOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6618,7 +6618,7 @@ extension GetRateBasedRuleManagedKeysOutputError {
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6705,7 +6705,7 @@ extension GetRateBasedRuleOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6820,7 +6820,7 @@ extension GetRegexMatchSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6935,7 +6935,7 @@ extension GetRegexPatternSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7049,7 +7049,7 @@ extension GetRuleGroupOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7163,7 +7163,7 @@ extension GetRuleOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7324,7 +7324,7 @@ extension GetSampledRequestsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7467,7 +7467,7 @@ extension GetSizeConstraintSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7589,7 +7589,7 @@ extension GetSqlInjectionMatchSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7717,7 +7717,7 @@ extension GetWebACLForResourceOutputError {
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFUnavailableEntityException" : self = .wAFUnavailableEntityException(try WAFUnavailableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7834,7 +7834,7 @@ extension GetWebACLOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7958,7 +7958,7 @@ extension GetXssMatchSetOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8502,7 +8502,7 @@ extension ListActivatedRulesInRuleGroupOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8646,7 +8646,7 @@ extension ListByteMatchSetsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8789,7 +8789,7 @@ extension ListGeoMatchSetsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8932,7 +8932,7 @@ extension ListIPSetsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9076,7 +9076,7 @@ extension ListLoggingConfigurationsOutputError {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9220,7 +9220,7 @@ extension ListRateBasedRulesOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9363,7 +9363,7 @@ extension ListRegexMatchSetsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9506,7 +9506,7 @@ extension ListRegexPatternSetsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9652,7 +9652,7 @@ extension ListResourcesForWebACLOutputError {
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidParameterException" : self = .wAFInvalidParameterException(try WAFInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9786,7 +9786,7 @@ extension ListRuleGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9928,7 +9928,7 @@ extension ListRulesOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10071,7 +10071,7 @@ extension ListSizeConstraintSetsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10215,7 +10215,7 @@ extension ListSqlInjectionMatchSetsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10359,7 +10359,7 @@ extension ListSubscribedRuleGroupsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10519,7 +10519,7 @@ extension ListTagsForResourceOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10657,7 +10657,7 @@ extension ListWebACLsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10801,7 +10801,7 @@ extension ListXssMatchSetsOutputError {
         switch errorType {
         case "WAFInternalErrorException" : self = .wAFInternalErrorException(try WAFInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFInvalidAccountException" : self = .wAFInvalidAccountException(try WAFInvalidAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11375,7 +11375,7 @@ extension PutLoggingConfigurationOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFServiceLinkedRoleErrorException" : self = .wAFServiceLinkedRoleErrorException(try WAFServiceLinkedRoleErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11505,7 +11505,7 @@ extension PutPermissionPolicyOutputError {
         case "WAFInvalidPermissionPolicyException" : self = .wAFInvalidPermissionPolicyException(try WAFInvalidPermissionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13328,7 +13328,7 @@ extension TagResourceOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13535,7 +13535,7 @@ extension UntagResourceOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationException" : self = .wAFTagOperationException(try WAFTagOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFTagOperationInternalErrorException" : self = .wAFTagOperationInternalErrorException(try WAFTagOperationInternalErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13671,7 +13671,7 @@ extension UpdateByteMatchSetOutputError {
         case "WAFNonexistentContainerException" : self = .wAFNonexistentContainerException(try WAFNonexistentContainerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13839,7 +13839,7 @@ extension UpdateGeoMatchSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14011,7 +14011,7 @@ extension UpdateIPSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14189,7 +14189,7 @@ extension UpdateRateBasedRuleOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14353,7 +14353,7 @@ extension UpdateRegexMatchSetOutputError {
         case "WAFNonexistentContainerException" : self = .wAFNonexistentContainerException(try WAFNonexistentContainerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14516,7 +14516,7 @@ extension UpdateRegexPatternSetOutputError {
         case "WAFNonexistentContainerException" : self = .wAFNonexistentContainerException(try WAFNonexistentContainerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14678,7 +14678,7 @@ extension UpdateRuleGroupOutputError {
         case "WAFNonexistentContainerException" : self = .wAFNonexistentContainerException(try WAFNonexistentContainerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14847,7 +14847,7 @@ extension UpdateRuleOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15018,7 +15018,7 @@ extension UpdateSizeConstraintSetOutputError {
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15189,7 +15189,7 @@ extension UpdateSqlInjectionMatchSetOutputError {
         case "WAFNonexistentContainerException" : self = .wAFNonexistentContainerException(try WAFNonexistentContainerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15372,7 +15372,7 @@ extension UpdateWebACLOutputError {
         case "WAFReferencedItemException" : self = .wAFReferencedItemException(try WAFReferencedItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFSubscriptionNotFoundException" : self = .wAFSubscriptionNotFoundException(try WAFSubscriptionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15544,7 +15544,7 @@ extension UpdateXssMatchSetOutputError {
         case "WAFNonexistentContainerException" : self = .wAFNonexistentContainerException(try WAFNonexistentContainerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFNonexistentItemException" : self = .wAFNonexistentItemException(try WAFNonexistentItemException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "WAFStaleDataException" : self = .wAFStaleDataException(try WAFStaleDataException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

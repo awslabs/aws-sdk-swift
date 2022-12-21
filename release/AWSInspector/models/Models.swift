@@ -229,7 +229,7 @@ extension AddAttributesToFindingsOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2129,7 +2129,7 @@ extension CreateAssessmentTargetOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2327,7 +2327,7 @@ extension CreateAssessmentTemplateOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2449,7 +2449,7 @@ extension CreateExclusionsPreviewOutputError {
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PreviewGenerationInProgressException" : self = .previewGenerationInProgressException(try PreviewGenerationInProgressException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2582,7 +2582,7 @@ extension CreateResourceGroupOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2703,7 +2703,7 @@ extension DeleteAssessmentRunOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2793,7 +2793,7 @@ extension DeleteAssessmentTargetOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2883,7 +2883,7 @@ extension DeleteAssessmentTemplateOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2981,7 +2981,7 @@ extension DescribeAssessmentRunsOutputError {
         switch errorType {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3136,7 +3136,7 @@ extension DescribeAssessmentTargetsOutputError {
         switch errorType {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3290,7 +3290,7 @@ extension DescribeAssessmentTemplatesOutputError {
         switch errorType {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3412,7 +3412,7 @@ extension DescribeCrossAccountAccessRoleOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3571,7 +3571,7 @@ extension DescribeExclusionsOutputError {
         switch errorType {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3738,7 +3738,7 @@ extension DescribeFindingsOutputError {
         switch errorType {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3893,7 +3893,7 @@ extension DescribeResourceGroupsOutputError {
         switch errorType {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4060,7 +4060,7 @@ extension DescribeRulesPackagesOutputError {
         switch errorType {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5057,7 +5057,7 @@ extension GetAssessmentReportOutputError {
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureException" : self = .unsupportedFeatureException(try UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5237,7 +5237,7 @@ extension GetExclusionsPreviewOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5384,7 +5384,7 @@ extension GetTelemetryMetadataOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6198,7 +6198,7 @@ extension ListAssessmentRunAgentsOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6382,7 +6382,7 @@ extension ListAssessmentRunsOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6541,7 +6541,7 @@ extension ListAssessmentTargetsOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6724,7 +6724,7 @@ extension ListAssessmentTemplatesOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6884,7 +6884,7 @@ extension ListEventSubscriptionsOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7045,7 +7045,7 @@ extension ListExclusionsOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7229,7 +7229,7 @@ extension ListFindingsOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7376,7 +7376,7 @@ extension ListRulesPackagesOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7512,7 +7512,7 @@ extension ListTagsForResourceOutputError {
         case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7980,7 +7980,7 @@ extension PreviewAgentsOutputError {
         case "InvalidCrossAccountRoleException" : self = .invalidCrossAccountRoleException(try InvalidCrossAccountRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8249,7 +8249,7 @@ extension RegisterCrossAccountAccessRoleOutputError {
         case "InvalidCrossAccountRoleException" : self = .invalidCrossAccountRoleException(try InvalidCrossAccountRoleException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8374,7 +8374,7 @@ extension RemoveAttributesFromFindingsOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9008,7 +9008,7 @@ extension SetTagsForResourceOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9152,7 +9152,7 @@ extension StartAssessmentRunOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9319,7 +9319,7 @@ extension StopAssessmentRunOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9434,7 +9434,7 @@ extension SubscribeToEventOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9767,7 +9767,7 @@ extension UnsubscribeFromEventOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9943,7 +9943,7 @@ extension UpdateAssessmentTargetOutputError {
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchEntityException" : self = .noSuchEntityException(try NoSuchEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceTemporarilyUnavailableException" : self = .serviceTemporarilyUnavailableException(try ServiceTemporarilyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

@@ -243,7 +243,7 @@ extension BatchPutPropertyValuesOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -680,6 +680,7 @@ extension IoTTwinMakerClientTypes.ComponentResponse: Swift.Codable {
         case properties
         case propertyGroups
         case status
+        case syncSource
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -710,6 +711,9 @@ extension IoTTwinMakerClientTypes.ComponentResponse: Swift.Codable {
         }
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
+        }
+        if let syncSource = self.syncSource {
+            try encodeContainer.encode(syncSource, forKey: .syncSource)
         }
     }
 
@@ -747,6 +751,8 @@ extension IoTTwinMakerClientTypes.ComponentResponse: Swift.Codable {
             }
         }
         propertyGroups = propertyGroupsDecoded0
+        let syncSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .syncSource)
+        syncSource = syncSourceDecoded
     }
 }
 
@@ -767,6 +773,8 @@ extension IoTTwinMakerClientTypes {
         public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupResponse]?
         /// The status of the component type.
         public var status: IoTTwinMakerClientTypes.Status?
+        /// The syncSource of the sync job, if this entity was created by a sync job.
+        public var syncSource: Swift.String?
 
         public init (
             componentName: Swift.String? = nil,
@@ -775,7 +783,8 @@ extension IoTTwinMakerClientTypes {
             description: Swift.String? = nil,
             properties: [Swift.String:IoTTwinMakerClientTypes.PropertyResponse]? = nil,
             propertyGroups: [Swift.String:IoTTwinMakerClientTypes.ComponentPropertyGroupResponse]? = nil,
-            status: IoTTwinMakerClientTypes.Status? = nil
+            status: IoTTwinMakerClientTypes.Status? = nil,
+            syncSource: Swift.String? = nil
         )
         {
             self.componentName = componentName
@@ -785,6 +794,7 @@ extension IoTTwinMakerClientTypes {
             self.properties = properties
             self.propertyGroups = propertyGroups
             self.status = status
+            self.syncSource = syncSource
         }
     }
 
@@ -794,6 +804,7 @@ extension IoTTwinMakerClientTypes.ComponentTypeSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case componentTypeId
+        case componentTypeName
         case creationDateTime
         case description
         case status
@@ -807,6 +818,9 @@ extension IoTTwinMakerClientTypes.ComponentTypeSummary: Swift.Codable {
         }
         if let componentTypeId = self.componentTypeId {
             try encodeContainer.encode(componentTypeId, forKey: .componentTypeId)
+        }
+        if let componentTypeName = self.componentTypeName {
+            try encodeContainer.encode(componentTypeName, forKey: .componentTypeName)
         }
         if let creationDateTime = self.creationDateTime {
             try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
@@ -836,6 +850,8 @@ extension IoTTwinMakerClientTypes.ComponentTypeSummary: Swift.Codable {
         description = descriptionDecoded
         let statusDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.Status.self, forKey: .status)
         status = statusDecoded
+        let componentTypeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentTypeName)
+        componentTypeName = componentTypeNameDecoded
     }
 }
 
@@ -848,6 +864,8 @@ extension IoTTwinMakerClientTypes {
         /// The ID of the component type.
         /// This member is required.
         public var componentTypeId: Swift.String?
+        /// The component type name.
+        public var componentTypeName: Swift.String?
         /// The date and time when the component type was created.
         /// This member is required.
         public var creationDateTime: ClientRuntime.Date?
@@ -862,6 +880,7 @@ extension IoTTwinMakerClientTypes {
         public init (
             arn: Swift.String? = nil,
             componentTypeId: Swift.String? = nil,
+            componentTypeName: Swift.String? = nil,
             creationDateTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             status: IoTTwinMakerClientTypes.Status? = nil,
@@ -870,6 +889,7 @@ extension IoTTwinMakerClientTypes {
         {
             self.arn = arn
             self.componentTypeId = componentTypeId
+            self.componentTypeName = componentTypeName
             self.creationDateTime = creationDateTime
             self.description = description
             self.status = status
@@ -1171,6 +1191,7 @@ extension ConnectorTimeoutExceptionBody: Swift.Decodable {
 
 extension CreateComponentTypeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentTypeName
         case description
         case extendsFrom
         case functions
@@ -1182,6 +1203,9 @@ extension CreateComponentTypeInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentTypeName = self.componentTypeName {
+            try encodeContainer.encode(componentTypeName, forKey: .componentTypeName)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -1237,6 +1261,8 @@ public struct CreateComponentTypeInput: Swift.Equatable {
     /// The ID of the component type.
     /// This member is required.
     public var componentTypeId: Swift.String?
+    /// A friendly name for the component type.
+    public var componentTypeName: Swift.String?
     /// The description of the component type.
     public var description: Swift.String?
     /// Specifies the parent component type to extend.
@@ -1257,6 +1283,7 @@ public struct CreateComponentTypeInput: Swift.Equatable {
 
     public init (
         componentTypeId: Swift.String? = nil,
+        componentTypeName: Swift.String? = nil,
         description: Swift.String? = nil,
         extendsFrom: [Swift.String]? = nil,
         functions: [Swift.String:IoTTwinMakerClientTypes.FunctionRequest]? = nil,
@@ -1268,6 +1295,7 @@ public struct CreateComponentTypeInput: Swift.Equatable {
     )
     {
         self.componentTypeId = componentTypeId
+        self.componentTypeName = componentTypeName
         self.description = description
         self.extendsFrom = extendsFrom
         self.functions = functions
@@ -1287,10 +1315,12 @@ struct CreateComponentTypeInputBody: Swift.Equatable {
     let functions: [Swift.String:IoTTwinMakerClientTypes.FunctionRequest]?
     let tags: [Swift.String:Swift.String]?
     let propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]?
+    let componentTypeName: Swift.String?
 }
 
 extension CreateComponentTypeInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentTypeName
         case description
         case extendsFrom
         case functions
@@ -1361,6 +1391,8 @@ extension CreateComponentTypeInputBody: Swift.Decodable {
             }
         }
         propertyGroups = propertyGroupsDecoded0
+        let componentTypeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentTypeName)
+        componentTypeName = componentTypeNameDecoded
     }
 }
 
@@ -1381,7 +1413,7 @@ extension CreateComponentTypeOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1617,7 +1649,7 @@ extension CreateEntityOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1853,7 +1885,7 @@ extension CreateSceneOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1918,6 +1950,190 @@ extension CreateSceneOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
         creationDateTime = creationDateTimeDecoded
+    }
+}
+
+extension CreateSyncJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case syncRole
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let syncRole = self.syncRole {
+            try encodeContainer.encode(syncRole, forKey: .syncRole)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagmap0) in tags {
+                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateSyncJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workspaceId = workspaceId else {
+            return nil
+        }
+        guard let syncSource = syncSource else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/sync-jobs/\(syncSource.urlPercentEncoding())"
+    }
+}
+
+public struct CreateSyncJobInput: Swift.Equatable {
+    /// The SyncJob IAM role. This IAM role is used by the sync job to read from the syncSource, and create, update or delete the corresponding resources.
+    /// This member is required.
+    public var syncRole: Swift.String?
+    /// The sync source. Currently the only supported syncSoucre is SITEWISE .
+    /// This member is required.
+    public var syncSource: Swift.String?
+    /// The SyncJob tags.
+    public var tags: [Swift.String:Swift.String]?
+    /// The workspace Id.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init (
+        syncRole: Swift.String? = nil,
+        syncSource: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.syncRole = syncRole
+        self.syncSource = syncSource
+        self.tags = tags
+        self.workspaceId = workspaceId
+    }
+}
+
+struct CreateSyncJobInputBody: Swift.Equatable {
+    let syncRole: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateSyncJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case syncRole
+        case tags
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .syncRole)
+        syncRole = syncRoleDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateSyncJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateSyncJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateSyncJobOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateSyncJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: CreateSyncJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.creationDateTime = output.creationDateTime
+            self.state = output.state
+        } else {
+            self.arn = nil
+            self.creationDateTime = nil
+            self.state = nil
+        }
+    }
+}
+
+public struct CreateSyncJobOutputResponse: Swift.Equatable {
+    /// The SyncJob ARN.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time for the SyncJob creation.
+    /// This member is required.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The SyncJob response state.
+    /// This member is required.
+    public var state: IoTTwinMakerClientTypes.SyncJobState?
+
+    public init (
+        arn: Swift.String? = nil,
+        creationDateTime: ClientRuntime.Date? = nil,
+        state: IoTTwinMakerClientTypes.SyncJobState? = nil
+    )
+    {
+        self.arn = arn
+        self.creationDateTime = creationDateTime
+        self.state = state
+    }
+}
+
+struct CreateSyncJobOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let state: IoTTwinMakerClientTypes.SyncJobState?
+}
+
+extension CreateSyncJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case creationDateTime
+        case state
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SyncJobState.self, forKey: .state)
+        state = stateDecoded
     }
 }
 
@@ -2043,7 +2259,7 @@ extension CreateWorkspaceOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2438,7 +2654,7 @@ extension DeleteComponentTypeOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2566,7 +2782,7 @@ extension DeleteEntityOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2677,7 +2893,7 @@ extension DeleteSceneOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2699,6 +2915,119 @@ extension DeleteSceneOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteSceneOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension DeleteSyncJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workspaceId = workspaceId else {
+            return nil
+        }
+        guard let syncSource = syncSource else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/sync-jobs/\(syncSource.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteSyncJobInput: Swift.Equatable {
+    /// The sync source. Currently the only supported syncSoucre is SITEWISE .
+    /// This member is required.
+    public var syncSource: Swift.String?
+    /// The workspace Id.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init (
+        syncSource: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.syncSource = syncSource
+        self.workspaceId = workspaceId
+    }
+}
+
+struct DeleteSyncJobInputBody: Swift.Equatable {
+}
+
+extension DeleteSyncJobInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteSyncJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteSyncJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteSyncJobOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteSyncJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DeleteSyncJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.state = output.state
+        } else {
+            self.state = nil
+        }
+    }
+}
+
+public struct DeleteSyncJobOutputResponse: Swift.Equatable {
+    /// The SyncJob response state.
+    /// This member is required.
+    public var state: IoTTwinMakerClientTypes.SyncJobState?
+
+    public init (
+        state: IoTTwinMakerClientTypes.SyncJobState? = nil
+    )
+    {
+        self.state = state
+    }
+}
+
+struct DeleteSyncJobOutputResponseBody: Swift.Equatable {
+    let state: IoTTwinMakerClientTypes.SyncJobState?
+}
+
+extension DeleteSyncJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case state
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SyncJobState.self, forKey: .state)
+        state = stateDecoded
+    }
 }
 
 extension DeleteWorkspaceInput: ClientRuntime.URLPathProvider {
@@ -2748,7 +3077,7 @@ extension DeleteWorkspaceOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2974,12 +3303,18 @@ extension IoTTwinMakerClientTypes {
 extension IoTTwinMakerClientTypes {
     public enum ErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case internalFailure
+        case syncCreatingError
+        case syncInitializingError
+        case syncProcessingError
         case validationError
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ErrorCode] {
             return [
                 .internalFailure,
+                .syncCreatingError,
+                .syncInitializingError,
+                .syncProcessingError,
                 .validationError,
                 .sdkUnknown("")
             ]
@@ -2991,6 +3326,9 @@ extension IoTTwinMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .internalFailure: return "INTERNAL_FAILURE"
+            case .syncCreatingError: return "SYNC_CREATING_ERROR"
+            case .syncInitializingError: return "SYNC_INITIALIZING_ERROR"
+            case .syncProcessingError: return "SYNC_PROCESSING_ERROR"
             case .validationError: return "VALIDATION_ERROR"
             case let .sdkUnknown(s): return s
             }
@@ -3150,7 +3488,7 @@ extension ExecuteQueryOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3443,7 +3781,7 @@ extension GetComponentTypeOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3465,6 +3803,7 @@ extension GetComponentTypeOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: GetComponentTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.componentTypeId = output.componentTypeId
+            self.componentTypeName = output.componentTypeName
             self.creationDateTime = output.creationDateTime
             self.description = output.description
             self.extendsFrom = output.extendsFrom
@@ -3475,11 +3814,13 @@ extension GetComponentTypeOutputResponse: ClientRuntime.HttpResponseBinding {
             self.propertyDefinitions = output.propertyDefinitions
             self.propertyGroups = output.propertyGroups
             self.status = output.status
+            self.syncSource = output.syncSource
             self.updateDateTime = output.updateDateTime
             self.workspaceId = output.workspaceId
         } else {
             self.arn = nil
             self.componentTypeId = nil
+            self.componentTypeName = nil
             self.creationDateTime = nil
             self.description = nil
             self.extendsFrom = nil
@@ -3490,6 +3831,7 @@ extension GetComponentTypeOutputResponse: ClientRuntime.HttpResponseBinding {
             self.propertyDefinitions = nil
             self.propertyGroups = nil
             self.status = nil
+            self.syncSource = nil
             self.updateDateTime = nil
             self.workspaceId = nil
         }
@@ -3503,6 +3845,8 @@ public struct GetComponentTypeOutputResponse: Swift.Equatable {
     /// The ID of the component type.
     /// This member is required.
     public var componentTypeId: Swift.String?
+    /// The component type name.
+    public var componentTypeName: Swift.String?
     /// The date and time when the component type was created.
     /// This member is required.
     public var creationDateTime: ClientRuntime.Date?
@@ -3524,6 +3868,8 @@ public struct GetComponentTypeOutputResponse: Swift.Equatable {
     public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]?
     /// The current status of the component type.
     public var status: IoTTwinMakerClientTypes.Status?
+    /// The syncSource of the sync job, if this entity was created by a sync job.
+    public var syncSource: Swift.String?
     /// The date and time when the component was last updated.
     /// This member is required.
     public var updateDateTime: ClientRuntime.Date?
@@ -3534,6 +3880,7 @@ public struct GetComponentTypeOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         componentTypeId: Swift.String? = nil,
+        componentTypeName: Swift.String? = nil,
         creationDateTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         extendsFrom: [Swift.String]? = nil,
@@ -3544,12 +3891,14 @@ public struct GetComponentTypeOutputResponse: Swift.Equatable {
         propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionResponse]? = nil,
         propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]? = nil,
         status: IoTTwinMakerClientTypes.Status? = nil,
+        syncSource: Swift.String? = nil,
         updateDateTime: ClientRuntime.Date? = nil,
         workspaceId: Swift.String? = nil
     )
     {
         self.arn = arn
         self.componentTypeId = componentTypeId
+        self.componentTypeName = componentTypeName
         self.creationDateTime = creationDateTime
         self.description = description
         self.extendsFrom = extendsFrom
@@ -3560,6 +3909,7 @@ public struct GetComponentTypeOutputResponse: Swift.Equatable {
         self.propertyDefinitions = propertyDefinitions
         self.propertyGroups = propertyGroups
         self.status = status
+        self.syncSource = syncSource
         self.updateDateTime = updateDateTime
         self.workspaceId = workspaceId
     }
@@ -3580,12 +3930,15 @@ struct GetComponentTypeOutputResponseBody: Swift.Equatable {
     let isSchemaInitialized: Swift.Bool?
     let status: IoTTwinMakerClientTypes.Status?
     let propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]?
+    let syncSource: Swift.String?
+    let componentTypeName: Swift.String?
 }
 
 extension GetComponentTypeOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case componentTypeId
+        case componentTypeName
         case creationDateTime
         case description
         case extendsFrom
@@ -3596,6 +3949,7 @@ extension GetComponentTypeOutputResponseBody: Swift.Decodable {
         case propertyDefinitions
         case propertyGroups
         case status
+        case syncSource
         case updateDateTime
         case workspaceId
     }
@@ -3666,6 +4020,10 @@ extension GetComponentTypeOutputResponseBody: Swift.Decodable {
             }
         }
         propertyGroups = propertyGroupsDecoded0
+        let syncSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .syncSource)
+        syncSource = syncSourceDecoded
+        let componentTypeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentTypeName)
+        componentTypeName = componentTypeNameDecoded
     }
 }
 
@@ -3724,7 +4082,7 @@ extension GetEntityOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3753,6 +4111,7 @@ extension GetEntityOutputResponse: ClientRuntime.HttpResponseBinding {
             self.hasChildEntities = output.hasChildEntities
             self.parentEntityId = output.parentEntityId
             self.status = output.status
+            self.syncSource = output.syncSource
             self.updateDateTime = output.updateDateTime
             self.workspaceId = output.workspaceId
         } else {
@@ -3765,6 +4124,7 @@ extension GetEntityOutputResponse: ClientRuntime.HttpResponseBinding {
             self.hasChildEntities = nil
             self.parentEntityId = nil
             self.status = nil
+            self.syncSource = nil
             self.updateDateTime = nil
             self.workspaceId = nil
         }
@@ -3797,6 +4157,8 @@ public struct GetEntityOutputResponse: Swift.Equatable {
     /// The current status of the entity.
     /// This member is required.
     public var status: IoTTwinMakerClientTypes.Status?
+    /// The syncSource of the sync job, if this entity was created by a sync job.
+    public var syncSource: Swift.String?
     /// The date and time when the entity was last updated.
     /// This member is required.
     public var updateDateTime: ClientRuntime.Date?
@@ -3814,6 +4176,7 @@ public struct GetEntityOutputResponse: Swift.Equatable {
         hasChildEntities: Swift.Bool? = nil,
         parentEntityId: Swift.String? = nil,
         status: IoTTwinMakerClientTypes.Status? = nil,
+        syncSource: Swift.String? = nil,
         updateDateTime: ClientRuntime.Date? = nil,
         workspaceId: Swift.String? = nil
     )
@@ -3827,6 +4190,7 @@ public struct GetEntityOutputResponse: Swift.Equatable {
         self.hasChildEntities = hasChildEntities
         self.parentEntityId = parentEntityId
         self.status = status
+        self.syncSource = syncSource
         self.updateDateTime = updateDateTime
         self.workspaceId = workspaceId
     }
@@ -3844,6 +4208,7 @@ struct GetEntityOutputResponseBody: Swift.Equatable {
     let hasChildEntities: Swift.Bool?
     let creationDateTime: ClientRuntime.Date?
     let updateDateTime: ClientRuntime.Date?
+    let syncSource: Swift.String?
 }
 
 extension GetEntityOutputResponseBody: Swift.Decodable {
@@ -3857,6 +4222,7 @@ extension GetEntityOutputResponseBody: Swift.Decodable {
         case hasChildEntities
         case parentEntityId
         case status
+        case syncSource
         case updateDateTime
         case workspaceId
     }
@@ -3894,6 +4260,8 @@ extension GetEntityOutputResponseBody: Swift.Decodable {
         creationDateTime = creationDateTimeDecoded
         let updateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDateTime)
         updateDateTime = updateDateTimeDecoded
+        let syncSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .syncSource)
+        syncSource = syncSourceDecoded
     }
 }
 
@@ -3932,7 +4300,7 @@ extension GetPricingPlanOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4241,7 +4609,7 @@ extension GetPropertyValueHistoryOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4488,7 +4856,7 @@ extension GetPropertyValueOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4656,7 +5024,7 @@ extension GetSceneOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4796,6 +5164,194 @@ extension GetSceneOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetSyncJobInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let workspaceId = workspaceId {
+                let workspaceIdQueryItem = ClientRuntime.URLQueryItem(name: "workspace".urlPercentEncoding(), value: Swift.String(workspaceId).urlPercentEncoding())
+                items.append(workspaceIdQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetSyncJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let syncSource = syncSource else {
+            return nil
+        }
+        return "/sync-jobs/\(syncSource.urlPercentEncoding())"
+    }
+}
+
+public struct GetSyncJobInput: Swift.Equatable {
+    /// The sync soucre. Currently the only supported syncSoucre is SITEWISE .
+    /// This member is required.
+    public var syncSource: Swift.String?
+    /// The workspace Id.
+    public var workspaceId: Swift.String?
+
+    public init (
+        syncSource: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.syncSource = syncSource
+        self.workspaceId = workspaceId
+    }
+}
+
+struct GetSyncJobInputBody: Swift.Equatable {
+}
+
+extension GetSyncJobInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetSyncJobOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetSyncJobOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetSyncJobOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSyncJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetSyncJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.creationDateTime = output.creationDateTime
+            self.status = output.status
+            self.syncRole = output.syncRole
+            self.syncSource = output.syncSource
+            self.updateDateTime = output.updateDateTime
+            self.workspaceId = output.workspaceId
+        } else {
+            self.arn = nil
+            self.creationDateTime = nil
+            self.status = nil
+            self.syncRole = nil
+            self.syncSource = nil
+            self.updateDateTime = nil
+            self.workspaceId = nil
+        }
+    }
+}
+
+public struct GetSyncJobOutputResponse: Swift.Equatable {
+    /// The sync job ARN.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The creation date and time.
+    /// This member is required.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The SyncJob response status.
+    /// This member is required.
+    public var status: IoTTwinMakerClientTypes.SyncJobStatus?
+    /// The sync IAM role.
+    /// This member is required.
+    public var syncRole: Swift.String?
+    /// The sync soucre. Currently the only supported syncSoucre is SITEWISE .
+    /// This member is required.
+    public var syncSource: Swift.String?
+    /// The update date and time.
+    /// This member is required.
+    public var updateDateTime: ClientRuntime.Date?
+    /// The ID of the workspace that contains the sync job.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        creationDateTime: ClientRuntime.Date? = nil,
+        status: IoTTwinMakerClientTypes.SyncJobStatus? = nil,
+        syncRole: Swift.String? = nil,
+        syncSource: Swift.String? = nil,
+        updateDateTime: ClientRuntime.Date? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.creationDateTime = creationDateTime
+        self.status = status
+        self.syncRole = syncRole
+        self.syncSource = syncSource
+        self.updateDateTime = updateDateTime
+        self.workspaceId = workspaceId
+    }
+}
+
+struct GetSyncJobOutputResponseBody: Swift.Equatable {
+    let arn: Swift.String?
+    let workspaceId: Swift.String?
+    let syncSource: Swift.String?
+    let syncRole: Swift.String?
+    let status: IoTTwinMakerClientTypes.SyncJobStatus?
+    let creationDateTime: ClientRuntime.Date?
+    let updateDateTime: ClientRuntime.Date?
+}
+
+extension GetSyncJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case creationDateTime
+        case status
+        case syncRole
+        case syncSource
+        case updateDateTime
+        case workspaceId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
+        workspaceId = workspaceIdDecoded
+        let syncSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .syncSource)
+        syncSource = syncSourceDecoded
+        let syncRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .syncRole)
+        syncRole = syncRoleDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SyncJobStatus.self, forKey: .status)
+        status = statusDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let updateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDateTime)
+        updateDateTime = updateDateTimeDecoded
+    }
+}
+
 extension GetWorkspaceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let workspaceId = workspaceId else {
@@ -4843,7 +5399,7 @@ extension GetWorkspaceOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5318,7 +5874,7 @@ extension ListComponentTypesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5576,7 +6132,7 @@ extension ListEntitiesOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5731,7 +6287,7 @@ extension ListScenesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5799,6 +6355,352 @@ extension ListScenesOutputResponseBody: Swift.Decodable {
             }
         }
         sceneSummaries = sceneSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListSyncJobsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListSyncJobsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workspaceId = workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/sync-jobs-list"
+    }
+}
+
+public struct ListSyncJobsInput: Swift.Equatable {
+    /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200.
+    public var maxResults: Swift.Int?
+    /// The string that specifies the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the workspace that contains the sync job.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceId = workspaceId
+    }
+}
+
+struct ListSyncJobsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListSyncJobsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListSyncJobsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListSyncJobsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListSyncJobsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSyncJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListSyncJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.syncJobSummaries = output.syncJobSummaries
+        } else {
+            self.nextToken = nil
+            self.syncJobSummaries = nil
+        }
+    }
+}
+
+public struct ListSyncJobsOutputResponse: Swift.Equatable {
+    /// The string that specifies the next page of results.
+    public var nextToken: Swift.String?
+    /// The listed SyncJob summaries.
+    public var syncJobSummaries: [IoTTwinMakerClientTypes.SyncJobSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        syncJobSummaries: [IoTTwinMakerClientTypes.SyncJobSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.syncJobSummaries = syncJobSummaries
+    }
+}
+
+struct ListSyncJobsOutputResponseBody: Swift.Equatable {
+    let syncJobSummaries: [IoTTwinMakerClientTypes.SyncJobSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListSyncJobsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case syncJobSummaries
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncJobSummariesContainer = try containerValues.decodeIfPresent([IoTTwinMakerClientTypes.SyncJobSummary?].self, forKey: .syncJobSummaries)
+        var syncJobSummariesDecoded0:[IoTTwinMakerClientTypes.SyncJobSummary]? = nil
+        if let syncJobSummariesContainer = syncJobSummariesContainer {
+            syncJobSummariesDecoded0 = [IoTTwinMakerClientTypes.SyncJobSummary]()
+            for structure0 in syncJobSummariesContainer {
+                if let structure0 = structure0 {
+                    syncJobSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        syncJobSummaries = syncJobSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListSyncResourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for syncresourcefilters0 in filters {
+                try filtersContainer.encode(syncresourcefilters0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListSyncResourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let workspaceId = workspaceId else {
+            return nil
+        }
+        guard let syncSource = syncSource else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/sync-jobs/\(syncSource.urlPercentEncoding())/resources-list"
+    }
+}
+
+public struct ListSyncResourcesInput: Swift.Equatable {
+    /// A list of objects that filter the request.
+    public var filters: [IoTTwinMakerClientTypes.SyncResourceFilter]?
+    /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200.
+    public var maxResults: Swift.Int?
+    /// The string that specifies the next page of results.
+    public var nextToken: Swift.String?
+    /// The sync soucre. Currently the only supported syncSoucre is SITEWISE .
+    /// This member is required.
+    public var syncSource: Swift.String?
+    /// The ID of the workspace that contains the sync job.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init (
+        filters: [IoTTwinMakerClientTypes.SyncResourceFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        syncSource: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.syncSource = syncSource
+        self.workspaceId = workspaceId
+    }
+}
+
+struct ListSyncResourcesInputBody: Swift.Equatable {
+    let filters: [IoTTwinMakerClientTypes.SyncResourceFilter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListSyncResourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([IoTTwinMakerClientTypes.SyncResourceFilter?].self, forKey: .filters)
+        var filtersDecoded0:[IoTTwinMakerClientTypes.SyncResourceFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [IoTTwinMakerClientTypes.SyncResourceFilter]()
+            for union0 in filtersContainer {
+                if let union0 = union0 {
+                    filtersDecoded0?.append(union0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListSyncResourcesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListSyncResourcesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListSyncResourcesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSyncResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListSyncResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.syncResources = output.syncResources
+        } else {
+            self.nextToken = nil
+            self.syncResources = nil
+        }
+    }
+}
+
+public struct ListSyncResourcesOutputResponse: Swift.Equatable {
+    /// The string that specifies the next page of results.
+    public var nextToken: Swift.String?
+    /// The sync resources.
+    public var syncResources: [IoTTwinMakerClientTypes.SyncResourceSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        syncResources: [IoTTwinMakerClientTypes.SyncResourceSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.syncResources = syncResources
+    }
+}
+
+struct ListSyncResourcesOutputResponseBody: Swift.Equatable {
+    let syncResources: [IoTTwinMakerClientTypes.SyncResourceSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListSyncResourcesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case syncResources
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let syncResourcesContainer = try containerValues.decodeIfPresent([IoTTwinMakerClientTypes.SyncResourceSummary?].self, forKey: .syncResources)
+        var syncResourcesDecoded0:[IoTTwinMakerClientTypes.SyncResourceSummary]? = nil
+        if let syncResourcesContainer = syncResourcesContainer {
+            syncResourcesDecoded0 = [IoTTwinMakerClientTypes.SyncResourceSummary]()
+            for structure0 in syncResourcesContainer {
+                if let structure0 = structure0 {
+                    syncResourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        syncResources = syncResourcesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -5889,7 +6791,7 @@ extension ListTagsForResourceOutputError {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6034,7 +6936,7 @@ extension ListWorkspacesOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6462,6 +7364,7 @@ extension IoTTwinMakerClientTypes.PropertyDefinitionRequest: Swift.Codable {
         case configuration
         case dataType
         case defaultValue
+        case displayName
         case isExternalId
         case isRequiredInEntity
         case isStoredExternally
@@ -6481,6 +7384,9 @@ extension IoTTwinMakerClientTypes.PropertyDefinitionRequest: Swift.Codable {
         }
         if let defaultValue = self.defaultValue {
             try encodeContainer.encode(defaultValue, forKey: .defaultValue)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
         }
         if let isExternalId = self.isExternalId {
             try encodeContainer.encode(isExternalId, forKey: .isExternalId)
@@ -6521,6 +7427,8 @@ extension IoTTwinMakerClientTypes.PropertyDefinitionRequest: Swift.Codable {
             }
         }
         configuration = configurationDecoded0
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
     }
 }
 
@@ -6533,6 +7441,8 @@ extension IoTTwinMakerClientTypes {
         public var dataType: IoTTwinMakerClientTypes.DataType?
         /// An object that contains the default value.
         public var defaultValue: IoTTwinMakerClientTypes.DataValue?
+        /// A friendly name for the property.
+        public var displayName: Swift.String?
         /// A Boolean value that specifies whether the property ID comes from an external data store.
         public var isExternalId: Swift.Bool?
         /// A Boolean value that specifies whether the property is required.
@@ -6546,6 +7456,7 @@ extension IoTTwinMakerClientTypes {
             configuration: [Swift.String:Swift.String]? = nil,
             dataType: IoTTwinMakerClientTypes.DataType? = nil,
             defaultValue: IoTTwinMakerClientTypes.DataValue? = nil,
+            displayName: Swift.String? = nil,
             isExternalId: Swift.Bool? = nil,
             isRequiredInEntity: Swift.Bool? = nil,
             isStoredExternally: Swift.Bool? = nil,
@@ -6555,6 +7466,7 @@ extension IoTTwinMakerClientTypes {
             self.configuration = configuration
             self.dataType = dataType
             self.defaultValue = defaultValue
+            self.displayName = displayName
             self.isExternalId = isExternalId
             self.isRequiredInEntity = isRequiredInEntity
             self.isStoredExternally = isStoredExternally
@@ -6569,6 +7481,7 @@ extension IoTTwinMakerClientTypes.PropertyDefinitionResponse: Swift.Codable {
         case configuration
         case dataType
         case defaultValue
+        case displayName
         case isExternalId
         case isFinal
         case isImported
@@ -6591,6 +7504,9 @@ extension IoTTwinMakerClientTypes.PropertyDefinitionResponse: Swift.Codable {
         }
         if let defaultValue = self.defaultValue {
             try encodeContainer.encode(defaultValue, forKey: .defaultValue)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
         }
         if let isExternalId = self.isExternalId {
             try encodeContainer.encode(isExternalId, forKey: .isExternalId)
@@ -6646,6 +7562,8 @@ extension IoTTwinMakerClientTypes.PropertyDefinitionResponse: Swift.Codable {
             }
         }
         configuration = configurationDecoded0
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
     }
 }
 
@@ -6659,6 +7577,8 @@ extension IoTTwinMakerClientTypes {
         public var dataType: IoTTwinMakerClientTypes.DataType?
         /// An object that contains the default value.
         public var defaultValue: IoTTwinMakerClientTypes.DataValue?
+        /// A friendly name for the property.
+        public var displayName: Swift.String?
         /// A Boolean value that specifies whether the property ID comes from an external data store.
         /// This member is required.
         public var isExternalId: Swift.Bool?
@@ -6685,6 +7605,7 @@ extension IoTTwinMakerClientTypes {
             configuration: [Swift.String:Swift.String]? = nil,
             dataType: IoTTwinMakerClientTypes.DataType? = nil,
             defaultValue: IoTTwinMakerClientTypes.DataValue? = nil,
+            displayName: Swift.String? = nil,
             isExternalId: Swift.Bool? = nil,
             isFinal: Swift.Bool? = nil,
             isImported: Swift.Bool? = nil,
@@ -6697,6 +7618,7 @@ extension IoTTwinMakerClientTypes {
             self.configuration = configuration
             self.dataType = dataType
             self.defaultValue = defaultValue
+            self.displayName = displayName
             self.isExternalId = isExternalId
             self.isFinal = isFinal
             self.isImported = isImported
@@ -7802,6 +8724,437 @@ extension IoTTwinMakerClientTypes {
 
 }
 
+extension IoTTwinMakerClientTypes {
+    public enum SyncJobState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case error
+        case initializing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyncJobState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .error,
+                .initializing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .initializing: return "INITIALIZING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SyncJobState(rawValue: rawValue) ?? SyncJobState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTTwinMakerClientTypes.SyncJobStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case error
+        case state
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SyncJobState.self, forKey: .state)
+        state = stateDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.ErrorDetails.self, forKey: .error)
+        error = errorDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The SyncJob status.
+    public struct SyncJobStatus: Swift.Equatable {
+        /// The SyncJob error.
+        public var error: IoTTwinMakerClientTypes.ErrorDetails?
+        /// The SyncJob status state.
+        public var state: IoTTwinMakerClientTypes.SyncJobState?
+
+        public init (
+            error: IoTTwinMakerClientTypes.ErrorDetails? = nil,
+            state: IoTTwinMakerClientTypes.SyncJobState? = nil
+        )
+        {
+            self.error = error
+            self.state = state
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes.SyncJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case creationDateTime
+        case status
+        case syncSource
+        case updateDateTime
+        case workspaceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let syncSource = self.syncSource {
+            try encodeContainer.encode(syncSource, forKey: .syncSource)
+        }
+        if let updateDateTime = self.updateDateTime {
+            try encodeContainer.encodeTimestamp(updateDateTime, format: .epochSeconds, forKey: .updateDateTime)
+        }
+        if let workspaceId = self.workspaceId {
+            try encodeContainer.encode(workspaceId, forKey: .workspaceId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let workspaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceId)
+        workspaceId = workspaceIdDecoded
+        let syncSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .syncSource)
+        syncSource = syncSourceDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SyncJobStatus.self, forKey: .status)
+        status = statusDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let updateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDateTime)
+        updateDateTime = updateDateTimeDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The SyncJob summary.
+    public struct SyncJobSummary: Swift.Equatable {
+        /// The SyncJob summary ARN.
+        public var arn: Swift.String?
+        /// The creation date and time.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The SyncJob summaries status.
+        public var status: IoTTwinMakerClientTypes.SyncJobStatus?
+        /// The sync source.
+        public var syncSource: Swift.String?
+        /// The update date and time.
+        public var updateDateTime: ClientRuntime.Date?
+        /// The ID of the workspace that contains the sync job.
+        public var workspaceId: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            creationDateTime: ClientRuntime.Date? = nil,
+            status: IoTTwinMakerClientTypes.SyncJobStatus? = nil,
+            syncSource: Swift.String? = nil,
+            updateDateTime: ClientRuntime.Date? = nil,
+            workspaceId: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.creationDateTime = creationDateTime
+            self.status = status
+            self.syncSource = syncSource
+            self.updateDateTime = updateDateTime
+            self.workspaceId = workspaceId
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes.SyncResourceFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case externalid = "externalId"
+        case resourceid = "resourceId"
+        case resourcetype = "resourceType"
+        case sdkUnknown
+        case state
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .externalid(externalid):
+                try container.encode(externalid, forKey: .externalid)
+            case let .resourceid(resourceid):
+                try container.encode(resourceid, forKey: .resourceid)
+            case let .resourcetype(resourcetype):
+                try container.encode(resourcetype.rawValue, forKey: .resourcetype)
+            case let .state(state):
+                try container.encode(state.rawValue, forKey: .state)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let stateDecoded = try values.decodeIfPresent(IoTTwinMakerClientTypes.SyncResourceState.self, forKey: .state)
+        if let state = stateDecoded {
+            self = .state(state)
+            return
+        }
+        let resourcetypeDecoded = try values.decodeIfPresent(IoTTwinMakerClientTypes.SyncResourceType.self, forKey: .resourcetype)
+        if let resourcetype = resourcetypeDecoded {
+            self = .resourcetype(resourcetype)
+            return
+        }
+        let resourceidDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .resourceid)
+        if let resourceid = resourceidDecoded {
+            self = .resourceid(resourceid)
+            return
+        }
+        let externalidDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .externalid)
+        if let externalid = externalidDecoded {
+            self = .externalid(externalid)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The sync resource filter.
+    public enum SyncResourceFilter: Swift.Equatable {
+        /// The sync resource filter's state.
+        case state(IoTTwinMakerClientTypes.SyncResourceState)
+        /// The sync resource filter resoucre type
+        case resourcetype(IoTTwinMakerClientTypes.SyncResourceType)
+        /// The sync resource filter resource Id.
+        case resourceid(Swift.String)
+        /// The external Id.
+        case externalid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension IoTTwinMakerClientTypes {
+    public enum SyncResourceState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleted
+        case error
+        case initializing
+        case inSync
+        case processing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyncResourceState] {
+            return [
+                .deleted,
+                .error,
+                .initializing,
+                .inSync,
+                .processing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleted: return "DELETED"
+            case .error: return "ERROR"
+            case .initializing: return "INITIALIZING"
+            case .inSync: return "IN_SYNC"
+            case .processing: return "PROCESSING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SyncResourceState(rawValue: rawValue) ?? SyncResourceState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTTwinMakerClientTypes.SyncResourceStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case error
+        case state
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SyncResourceState.self, forKey: .state)
+        state = stateDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.ErrorDetails.self, forKey: .error)
+        error = errorDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The sync resource status.
+    public struct SyncResourceStatus: Swift.Equatable {
+        /// The status error.
+        public var error: IoTTwinMakerClientTypes.ErrorDetails?
+        /// The sync resource status state.
+        public var state: IoTTwinMakerClientTypes.SyncResourceState?
+
+        public init (
+            error: IoTTwinMakerClientTypes.ErrorDetails? = nil,
+            state: IoTTwinMakerClientTypes.SyncResourceState? = nil
+        )
+        {
+            self.error = error
+            self.state = state
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes.SyncResourceSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case externalId
+        case resourceId
+        case resourceType
+        case status
+        case updateDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let externalId = self.externalId {
+            try encodeContainer.encode(externalId, forKey: .externalId)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let updateDateTime = self.updateDateTime {
+            try encodeContainer.encodeTimestamp(updateDateTime, format: .epochSeconds, forKey: .updateDateTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SyncResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let externalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalId)
+        externalId = externalIdDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(IoTTwinMakerClientTypes.SyncResourceStatus.self, forKey: .status)
+        status = statusDecoded
+        let updateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDateTime)
+        updateDateTime = updateDateTimeDecoded
+    }
+}
+
+extension IoTTwinMakerClientTypes {
+    /// The sync resource summary.
+    public struct SyncResourceSummary: Swift.Equatable {
+        /// The external Id.
+        public var externalId: Swift.String?
+        /// The resource Id.
+        public var resourceId: Swift.String?
+        /// The resource type.
+        public var resourceType: IoTTwinMakerClientTypes.SyncResourceType?
+        /// The sync resource summary status.
+        public var status: IoTTwinMakerClientTypes.SyncResourceStatus?
+        /// The update date and time.
+        public var updateDateTime: ClientRuntime.Date?
+
+        public init (
+            externalId: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: IoTTwinMakerClientTypes.SyncResourceType? = nil,
+            status: IoTTwinMakerClientTypes.SyncResourceStatus? = nil,
+            updateDateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.externalId = externalId
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.status = status
+            self.updateDateTime = updateDateTime
+        }
+    }
+
+}
+
+extension IoTTwinMakerClientTypes {
+    public enum SyncResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case componentType
+        case entity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyncResourceType] {
+            return [
+                .componentType,
+                .entity,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .componentType: return "COMPONENT_TYPE"
+            case .entity: return "ENTITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SyncResourceType(rawValue: rawValue) ?? SyncResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension IoTTwinMakerClientTypes.TabularConditions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case orderBy
@@ -7958,7 +9311,7 @@ extension TagResourceOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8203,7 +9556,7 @@ extension UntagResourceOutputError {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8226,6 +9579,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension UpdateComponentTypeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentTypeName
         case description
         case extendsFrom
         case functions
@@ -8236,6 +9590,9 @@ extension UpdateComponentTypeInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentTypeName = self.componentTypeName {
+            try encodeContainer.encode(componentTypeName, forKey: .componentTypeName)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -8285,6 +9642,8 @@ public struct UpdateComponentTypeInput: Swift.Equatable {
     /// The ID of the component type.
     /// This member is required.
     public var componentTypeId: Swift.String?
+    /// The component type name.
+    public var componentTypeName: Swift.String?
     /// The description of the component type.
     public var description: Swift.String?
     /// Specifies the component type that this component type extends.
@@ -8297,12 +9656,13 @@ public struct UpdateComponentTypeInput: Swift.Equatable {
     public var propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionRequest]?
     /// The property groups
     public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]?
-    /// The ID of the workspace that contains the component type.
+    /// The ID of the workspace.
     /// This member is required.
     public var workspaceId: Swift.String?
 
     public init (
         componentTypeId: Swift.String? = nil,
+        componentTypeName: Swift.String? = nil,
         description: Swift.String? = nil,
         extendsFrom: [Swift.String]? = nil,
         functions: [Swift.String:IoTTwinMakerClientTypes.FunctionRequest]? = nil,
@@ -8313,6 +9673,7 @@ public struct UpdateComponentTypeInput: Swift.Equatable {
     )
     {
         self.componentTypeId = componentTypeId
+        self.componentTypeName = componentTypeName
         self.description = description
         self.extendsFrom = extendsFrom
         self.functions = functions
@@ -8330,10 +9691,12 @@ struct UpdateComponentTypeInputBody: Swift.Equatable {
     let extendsFrom: [Swift.String]?
     let functions: [Swift.String:IoTTwinMakerClientTypes.FunctionRequest]?
     let propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]?
+    let componentTypeName: Swift.String?
 }
 
 extension UpdateComponentTypeInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentTypeName
         case description
         case extendsFrom
         case functions
@@ -8392,6 +9755,8 @@ extension UpdateComponentTypeInputBody: Swift.Decodable {
             }
         }
         propertyGroups = propertyGroupsDecoded0
+        let componentTypeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentTypeName)
+        componentTypeName = componentTypeNameDecoded
     }
 }
 
@@ -8412,7 +9777,7 @@ extension UpdateComponentTypeOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8631,7 +9996,7 @@ extension UpdateEntityOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8787,7 +10152,7 @@ extension UpdatePricingPlanOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9008,7 +10373,7 @@ extension UpdateSceneOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9148,7 +10513,7 @@ extension UpdateWorkspaceOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

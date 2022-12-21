@@ -138,17 +138,13 @@ extension AssociateGatewayToServerOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum AssociateGatewayToServerOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -191,6 +187,108 @@ extension AssociateGatewayToServerOutputResponseBody: Swift.Decodable {
         let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
         gatewayArn = gatewayArnDecoded
     }
+}
+
+extension BackupGatewayClientTypes.BandwidthRateLimitInterval: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case averageUploadRateLimitInBitsPerSec = "AverageUploadRateLimitInBitsPerSec"
+        case daysOfWeek = "DaysOfWeek"
+        case endHourOfDay = "EndHourOfDay"
+        case endMinuteOfHour = "EndMinuteOfHour"
+        case startHourOfDay = "StartHourOfDay"
+        case startMinuteOfHour = "StartMinuteOfHour"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let averageUploadRateLimitInBitsPerSec = self.averageUploadRateLimitInBitsPerSec {
+            try encodeContainer.encode(averageUploadRateLimitInBitsPerSec, forKey: .averageUploadRateLimitInBitsPerSec)
+        }
+        if let daysOfWeek = daysOfWeek {
+            var daysOfWeekContainer = encodeContainer.nestedUnkeyedContainer(forKey: .daysOfWeek)
+            for daysofweek0 in daysOfWeek {
+                try daysOfWeekContainer.encode(daysofweek0)
+            }
+        }
+        if let endHourOfDay = self.endHourOfDay {
+            try encodeContainer.encode(endHourOfDay, forKey: .endHourOfDay)
+        }
+        if let endMinuteOfHour = self.endMinuteOfHour {
+            try encodeContainer.encode(endMinuteOfHour, forKey: .endMinuteOfHour)
+        }
+        if let startHourOfDay = self.startHourOfDay {
+            try encodeContainer.encode(startHourOfDay, forKey: .startHourOfDay)
+        }
+        if let startMinuteOfHour = self.startMinuteOfHour {
+            try encodeContainer.encode(startMinuteOfHour, forKey: .startMinuteOfHour)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let averageUploadRateLimitInBitsPerSecDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .averageUploadRateLimitInBitsPerSec)
+        averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSecDecoded
+        let startHourOfDayDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startHourOfDay)
+        startHourOfDay = startHourOfDayDecoded
+        let endHourOfDayDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endHourOfDay)
+        endHourOfDay = endHourOfDayDecoded
+        let startMinuteOfHourDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startMinuteOfHour)
+        startMinuteOfHour = startMinuteOfHourDecoded
+        let endMinuteOfHourDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endMinuteOfHour)
+        endMinuteOfHour = endMinuteOfHourDecoded
+        let daysOfWeekContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .daysOfWeek)
+        var daysOfWeekDecoded0:[Swift.Int]? = nil
+        if let daysOfWeekContainer = daysOfWeekContainer {
+            daysOfWeekDecoded0 = [Swift.Int]()
+            for integer0 in daysOfWeekContainer {
+                if let integer0 = integer0 {
+                    daysOfWeekDecoded0?.append(integer0)
+                }
+            }
+        }
+        daysOfWeek = daysOfWeekDecoded0
+    }
+}
+
+extension BackupGatewayClientTypes {
+    /// Describes a bandwidth rate limit interval for a gateway. A bandwidth rate limit schedule consists of one or more bandwidth rate limit intervals. A bandwidth rate limit interval defines a period of time on one or more days of the week, during which bandwidth rate limits are specified for uploading, downloading, or both.
+    public struct BandwidthRateLimitInterval: Swift.Equatable {
+        /// The average upload rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the upload rate limit is not set. For Backup Gateway, the minimum value is (Value).
+        public var averageUploadRateLimitInBitsPerSec: Swift.Int?
+        /// The days of the week component of the bandwidth rate limit interval, represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents Saturday.
+        /// This member is required.
+        public var daysOfWeek: [Swift.Int]?
+        /// The hour of the day to end the bandwidth rate limit interval.
+        /// This member is required.
+        public var endHourOfDay: Swift.Int?
+        /// The minute of the hour to end the bandwidth rate limit interval. The bandwidth rate limit interval ends at the end of the minute. To end an interval at the end of an hour, use the value 59.
+        /// This member is required.
+        public var endMinuteOfHour: Swift.Int?
+        /// The hour of the day to start the bandwidth rate limit interval.
+        /// This member is required.
+        public var startHourOfDay: Swift.Int?
+        /// The minute of the hour to start the bandwidth rate limit interval. The interval begins at the start of that minute. To begin an interval exactly at the start of the hour, use the value 0.
+        /// This member is required.
+        public var startMinuteOfHour: Swift.Int?
+
+        public init (
+            averageUploadRateLimitInBitsPerSec: Swift.Int? = nil,
+            daysOfWeek: [Swift.Int]? = nil,
+            endHourOfDay: Swift.Int? = nil,
+            endMinuteOfHour: Swift.Int? = nil,
+            startHourOfDay: Swift.Int? = nil,
+            startMinuteOfHour: Swift.Int? = nil
+        )
+        {
+            self.averageUploadRateLimitInBitsPerSec = averageUploadRateLimitInBitsPerSec
+            self.daysOfWeek = daysOfWeek
+            self.endHourOfDay = endHourOfDay
+            self.endMinuteOfHour = endMinuteOfHour
+            self.startHourOfDay = startHourOfDay
+            self.startMinuteOfHour = startMinuteOfHour
+        }
+    }
+
 }
 
 extension ConflictException {
@@ -365,16 +463,12 @@ extension CreateGatewayOutputError: ClientRuntime.HttpResponseBinding {
 extension CreateGatewayOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum CreateGatewayOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -478,18 +572,14 @@ extension DeleteGatewayOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteGatewayOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum DeleteGatewayOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -594,19 +684,17 @@ extension DeleteHypervisorOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum DeleteHypervisorOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
+    case conflictException(ConflictException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -711,19 +799,15 @@ extension DisassociateGatewayFromServerOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum DisassociateGatewayFromServerOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -977,6 +1061,136 @@ extension BackupGatewayClientTypes {
     }
 }
 
+extension GetBandwidthRateLimitScheduleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayArn = "GatewayArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let gatewayArn = self.gatewayArn {
+            try encodeContainer.encode(gatewayArn, forKey: .gatewayArn)
+        }
+    }
+}
+
+extension GetBandwidthRateLimitScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetBandwidthRateLimitScheduleInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html) operation to return a list of gateways for your account and Amazon Web Services Region.
+    /// This member is required.
+    public var gatewayArn: Swift.String?
+
+    public init (
+        gatewayArn: Swift.String? = nil
+    )
+    {
+        self.gatewayArn = gatewayArn
+    }
+}
+
+struct GetBandwidthRateLimitScheduleInputBody: Swift.Equatable {
+    let gatewayArn: Swift.String?
+}
+
+extension GetBandwidthRateLimitScheduleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayArn = "GatewayArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
+        gatewayArn = gatewayArnDecoded
+    }
+}
+
+extension GetBandwidthRateLimitScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetBandwidthRateLimitScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetBandwidthRateLimitScheduleOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bandwidthRateLimitIntervals = output.bandwidthRateLimitIntervals
+            self.gatewayArn = output.gatewayArn
+        } else {
+            self.bandwidthRateLimitIntervals = nil
+            self.gatewayArn = nil
+        }
+    }
+}
+
+public struct GetBandwidthRateLimitScheduleOutputResponse: Swift.Equatable {
+    /// An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty.
+    public var bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]?
+    /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html) operation to return a list of gateways for your account and Amazon Web Services Region.
+    public var gatewayArn: Swift.String?
+
+    public init (
+        bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]? = nil,
+        gatewayArn: Swift.String? = nil
+    )
+    {
+        self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
+        self.gatewayArn = gatewayArn
+    }
+}
+
+struct GetBandwidthRateLimitScheduleOutputResponseBody: Swift.Equatable {
+    let gatewayArn: Swift.String?
+    let bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]?
+}
+
+extension GetBandwidthRateLimitScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bandwidthRateLimitIntervals = "BandwidthRateLimitIntervals"
+        case gatewayArn = "GatewayArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
+        gatewayArn = gatewayArnDecoded
+        let bandwidthRateLimitIntervalsContainer = try containerValues.decodeIfPresent([BackupGatewayClientTypes.BandwidthRateLimitInterval?].self, forKey: .bandwidthRateLimitIntervals)
+        var bandwidthRateLimitIntervalsDecoded0:[BackupGatewayClientTypes.BandwidthRateLimitInterval]? = nil
+        if let bandwidthRateLimitIntervalsContainer = bandwidthRateLimitIntervalsContainer {
+            bandwidthRateLimitIntervalsDecoded0 = [BackupGatewayClientTypes.BandwidthRateLimitInterval]()
+            for structure0 in bandwidthRateLimitIntervalsContainer {
+                if let structure0 = structure0 {
+                    bandwidthRateLimitIntervalsDecoded0?.append(structure0)
+                }
+            }
+        }
+        bandwidthRateLimitIntervals = bandwidthRateLimitIntervalsDecoded0
+    }
+}
+
 extension GetGatewayInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case gatewayArn = "GatewayArn"
@@ -1036,18 +1250,14 @@ extension GetGatewayOutputError: ClientRuntime.HttpResponseBinding {
 extension GetGatewayOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetGatewayOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1089,6 +1299,257 @@ extension GetGatewayOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayDecoded = try containerValues.decodeIfPresent(BackupGatewayClientTypes.GatewayDetails.self, forKey: .gateway)
         gateway = gatewayDecoded
+    }
+}
+
+extension GetHypervisorInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hypervisorArn = self.hypervisorArn {
+            try encodeContainer.encode(hypervisorArn, forKey: .hypervisorArn)
+        }
+    }
+}
+
+extension GetHypervisorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetHypervisorInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the hypervisor.
+    /// This member is required.
+    public var hypervisorArn: Swift.String?
+
+    public init (
+        hypervisorArn: Swift.String? = nil
+    )
+    {
+        self.hypervisorArn = hypervisorArn
+    }
+}
+
+struct GetHypervisorInputBody: Swift.Equatable {
+    let hypervisorArn: Swift.String?
+}
+
+extension GetHypervisorInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hypervisorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hypervisorArn)
+        hypervisorArn = hypervisorArnDecoded
+    }
+}
+
+extension GetHypervisorOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetHypervisorOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetHypervisorOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetHypervisorOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetHypervisorOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.hypervisor = output.hypervisor
+        } else {
+            self.hypervisor = nil
+        }
+    }
+}
+
+public struct GetHypervisorOutputResponse: Swift.Equatable {
+    /// Details about the requested hypervisor.
+    public var hypervisor: BackupGatewayClientTypes.HypervisorDetails?
+
+    public init (
+        hypervisor: BackupGatewayClientTypes.HypervisorDetails? = nil
+    )
+    {
+        self.hypervisor = hypervisor
+    }
+}
+
+struct GetHypervisorOutputResponseBody: Swift.Equatable {
+    let hypervisor: BackupGatewayClientTypes.HypervisorDetails?
+}
+
+extension GetHypervisorOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisor = "Hypervisor"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hypervisorDecoded = try containerValues.decodeIfPresent(BackupGatewayClientTypes.HypervisorDetails.self, forKey: .hypervisor)
+        hypervisor = hypervisorDecoded
+    }
+}
+
+extension GetHypervisorPropertyMappingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hypervisorArn = self.hypervisorArn {
+            try encodeContainer.encode(hypervisorArn, forKey: .hypervisorArn)
+        }
+    }
+}
+
+extension GetHypervisorPropertyMappingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetHypervisorPropertyMappingsInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the hypervisor.
+    /// This member is required.
+    public var hypervisorArn: Swift.String?
+
+    public init (
+        hypervisorArn: Swift.String? = nil
+    )
+    {
+        self.hypervisorArn = hypervisorArn
+    }
+}
+
+struct GetHypervisorPropertyMappingsInputBody: Swift.Equatable {
+    let hypervisorArn: Swift.String?
+}
+
+extension GetHypervisorPropertyMappingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hypervisorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hypervisorArn)
+        hypervisorArn = hypervisorArnDecoded
+    }
+}
+
+extension GetHypervisorPropertyMappingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetHypervisorPropertyMappingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetHypervisorPropertyMappingsOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetHypervisorPropertyMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetHypervisorPropertyMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.hypervisorArn = output.hypervisorArn
+            self.iamRoleArn = output.iamRoleArn
+            self.vmwareToAwsTagMappings = output.vmwareToAwsTagMappings
+        } else {
+            self.hypervisorArn = nil
+            self.iamRoleArn = nil
+            self.vmwareToAwsTagMappings = nil
+        }
+    }
+}
+
+public struct GetHypervisorPropertyMappingsOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the hypervisor.
+    public var hypervisorArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role.
+    public var iamRoleArn: Swift.String?
+    /// This is a display of the mappings of on-premises VMware tags to the Amazon Web Services tags.
+    public var vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]?
+
+    public init (
+        hypervisorArn: Swift.String? = nil,
+        iamRoleArn: Swift.String? = nil,
+        vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]? = nil
+    )
+    {
+        self.hypervisorArn = hypervisorArn
+        self.iamRoleArn = iamRoleArn
+        self.vmwareToAwsTagMappings = vmwareToAwsTagMappings
+    }
+}
+
+struct GetHypervisorPropertyMappingsOutputResponseBody: Swift.Equatable {
+    let hypervisorArn: Swift.String?
+    let vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]?
+    let iamRoleArn: Swift.String?
+}
+
+extension GetHypervisorPropertyMappingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+        case iamRoleArn = "IamRoleArn"
+        case vmwareToAwsTagMappings = "VmwareToAwsTagMappings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hypervisorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hypervisorArn)
+        hypervisorArn = hypervisorArnDecoded
+        let vmwareToAwsTagMappingsContainer = try containerValues.decodeIfPresent([BackupGatewayClientTypes.VmwareToAwsTagMapping?].self, forKey: .vmwareToAwsTagMappings)
+        var vmwareToAwsTagMappingsDecoded0:[BackupGatewayClientTypes.VmwareToAwsTagMapping]? = nil
+        if let vmwareToAwsTagMappingsContainer = vmwareToAwsTagMappingsContainer {
+            vmwareToAwsTagMappingsDecoded0 = [BackupGatewayClientTypes.VmwareToAwsTagMapping]()
+            for structure0 in vmwareToAwsTagMappingsContainer {
+                if let structure0 = structure0 {
+                    vmwareToAwsTagMappingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        vmwareToAwsTagMappings = vmwareToAwsTagMappingsDecoded0
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
     }
 }
 
@@ -1151,18 +1612,14 @@ extension GetVirtualMachineOutputError: ClientRuntime.HttpResponseBinding {
 extension GetVirtualMachineOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetVirtualMachineOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1275,6 +1732,121 @@ extension BackupGatewayClientTypes {
             self.host = host
             self.hypervisorArn = hypervisorArn
             self.kmsKeyArn = kmsKeyArn
+            self.name = name
+            self.state = state
+        }
+    }
+
+}
+
+extension BackupGatewayClientTypes.HypervisorDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case host = "Host"
+        case hypervisorArn = "HypervisorArn"
+        case kmsKeyArn = "KmsKeyArn"
+        case lastSuccessfulMetadataSyncTime = "LastSuccessfulMetadataSyncTime"
+        case latestMetadataSyncStatus = "LatestMetadataSyncStatus"
+        case latestMetadataSyncStatusMessage = "LatestMetadataSyncStatusMessage"
+        case logGroupArn = "LogGroupArn"
+        case name = "Name"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let host = self.host {
+            try encodeContainer.encode(host, forKey: .host)
+        }
+        if let hypervisorArn = self.hypervisorArn {
+            try encodeContainer.encode(hypervisorArn, forKey: .hypervisorArn)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
+        }
+        if let lastSuccessfulMetadataSyncTime = self.lastSuccessfulMetadataSyncTime {
+            try encodeContainer.encodeTimestamp(lastSuccessfulMetadataSyncTime, format: .epochSeconds, forKey: .lastSuccessfulMetadataSyncTime)
+        }
+        if let latestMetadataSyncStatus = self.latestMetadataSyncStatus {
+            try encodeContainer.encode(latestMetadataSyncStatus.rawValue, forKey: .latestMetadataSyncStatus)
+        }
+        if let latestMetadataSyncStatusMessage = self.latestMetadataSyncStatusMessage {
+            try encodeContainer.encode(latestMetadataSyncStatusMessage, forKey: .latestMetadataSyncStatusMessage)
+        }
+        if let logGroupArn = self.logGroupArn {
+            try encodeContainer.encode(logGroupArn, forKey: .logGroupArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hostDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .host)
+        host = hostDecoded
+        let hypervisorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hypervisorArn)
+        hypervisorArn = hypervisorArnDecoded
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let logGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupArn)
+        logGroupArn = logGroupArnDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(BackupGatewayClientTypes.HypervisorState.self, forKey: .state)
+        state = stateDecoded
+        let lastSuccessfulMetadataSyncTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSuccessfulMetadataSyncTime)
+        lastSuccessfulMetadataSyncTime = lastSuccessfulMetadataSyncTimeDecoded
+        let latestMetadataSyncStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestMetadataSyncStatusMessage)
+        latestMetadataSyncStatusMessage = latestMetadataSyncStatusMessageDecoded
+        let latestMetadataSyncStatusDecoded = try containerValues.decodeIfPresent(BackupGatewayClientTypes.SyncMetadataStatus.self, forKey: .latestMetadataSyncStatus)
+        latestMetadataSyncStatus = latestMetadataSyncStatusDecoded
+    }
+}
+
+extension BackupGatewayClientTypes {
+    /// These are the details of the specified hypervisor. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
+    public struct HypervisorDetails: Swift.Equatable {
+        /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN).
+        public var host: Swift.String?
+        /// The Amazon Resource Name (ARN) of the hypervisor.
+        public var hypervisorArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the KMS used to encrypt the hypervisor.
+        public var kmsKeyArn: Swift.String?
+        /// This is the time when the most recent successful sync of metadata occurred.
+        public var lastSuccessfulMetadataSyncTime: ClientRuntime.Date?
+        /// This is the most recent status for the indicated metadata sync.
+        public var latestMetadataSyncStatus: BackupGatewayClientTypes.SyncMetadataStatus?
+        /// This is the most recent status for the indicated metadata sync.
+        public var latestMetadataSyncStatusMessage: Swift.String?
+        /// The Amazon Resource Name (ARN) of the group of gateways within the requested log.
+        public var logGroupArn: Swift.String?
+        /// This is the name of the specified hypervisor.
+        public var name: Swift.String?
+        /// This is the current state of the specified hypervisor. The possible states are PENDING, ONLINE, OFFLINE, or ERROR.
+        public var state: BackupGatewayClientTypes.HypervisorState?
+
+        public init (
+            host: Swift.String? = nil,
+            hypervisorArn: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            lastSuccessfulMetadataSyncTime: ClientRuntime.Date? = nil,
+            latestMetadataSyncStatus: BackupGatewayClientTypes.SyncMetadataStatus? = nil,
+            latestMetadataSyncStatusMessage: Swift.String? = nil,
+            logGroupArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            state: BackupGatewayClientTypes.HypervisorState? = nil
+        )
+        {
+            self.host = host
+            self.hypervisorArn = hypervisorArn
+            self.kmsKeyArn = kmsKeyArn
+            self.lastSuccessfulMetadataSyncTime = lastSuccessfulMetadataSyncTime
+            self.latestMetadataSyncStatus = latestMetadataSyncStatus
+            self.latestMetadataSyncStatusMessage = latestMetadataSyncStatusMessage
+            self.logGroupArn = logGroupArn
             self.name = name
             self.state = state
         }
@@ -1458,17 +2030,15 @@ extension ImportHypervisorConfigurationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum ImportHypervisorConfigurationOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
+    case conflictException(ConflictException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1513,25 +2083,6 @@ extension ImportHypervisorConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension InternalServerException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
-            let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
-            let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.errorCode = output.errorCode
-            self.message = output.message
-        } else {
-            self.errorCode = nil
-            self.message = nil
-        }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
-    }
-}
-
 /// The operation did not succeed because an internal error occurred. Try again later.
 public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
@@ -1552,26 +2103,6 @@ public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swi
     {
         self.errorCode = errorCode
         self.message = message
-    }
-}
-
-struct InternalServerExceptionBody: Swift.Equatable {
-    let errorCode: Swift.String?
-    let message: Swift.String?
-}
-
-extension InternalServerExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case errorCode = "ErrorCode"
-        case message = "Message"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
-        errorCode = errorCodeDecoded
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
     }
 }
 
@@ -1645,16 +2176,12 @@ extension ListGatewaysOutputError: ClientRuntime.HttpResponseBinding {
 extension ListGatewaysOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum ListGatewaysOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1788,16 +2315,12 @@ extension ListHypervisorsOutputError: ClientRuntime.HttpResponseBinding {
 extension ListHypervisorsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum ListHypervisorsOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1920,18 +2443,14 @@ extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension ListTagsForResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2077,16 +2596,12 @@ extension ListVirtualMachinesOutputError: ClientRuntime.HttpResponseBinding {
 extension ListVirtualMachinesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum ListVirtualMachinesOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2217,6 +2732,295 @@ extension BackupGatewayClientTypes {
 
 }
 
+extension PutBandwidthRateLimitScheduleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bandwidthRateLimitIntervals = "BandwidthRateLimitIntervals"
+        case gatewayArn = "GatewayArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bandwidthRateLimitIntervals = bandwidthRateLimitIntervals {
+            var bandwidthRateLimitIntervalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bandwidthRateLimitIntervals)
+            for bandwidthratelimitintervals0 in bandwidthRateLimitIntervals {
+                try bandwidthRateLimitIntervalsContainer.encode(bandwidthratelimitintervals0)
+            }
+        }
+        if let gatewayArn = self.gatewayArn {
+            try encodeContainer.encode(gatewayArn, forKey: .gatewayArn)
+        }
+    }
+}
+
+extension PutBandwidthRateLimitScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutBandwidthRateLimitScheduleInput: Swift.Equatable {
+    /// An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty.
+    /// This member is required.
+    public var bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]?
+    /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html) operation to return a list of gateways for your account and Amazon Web Services Region.
+    /// This member is required.
+    public var gatewayArn: Swift.String?
+
+    public init (
+        bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]? = nil,
+        gatewayArn: Swift.String? = nil
+    )
+    {
+        self.bandwidthRateLimitIntervals = bandwidthRateLimitIntervals
+        self.gatewayArn = gatewayArn
+    }
+}
+
+struct PutBandwidthRateLimitScheduleInputBody: Swift.Equatable {
+    let gatewayArn: Swift.String?
+    let bandwidthRateLimitIntervals: [BackupGatewayClientTypes.BandwidthRateLimitInterval]?
+}
+
+extension PutBandwidthRateLimitScheduleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bandwidthRateLimitIntervals = "BandwidthRateLimitIntervals"
+        case gatewayArn = "GatewayArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
+        gatewayArn = gatewayArnDecoded
+        let bandwidthRateLimitIntervalsContainer = try containerValues.decodeIfPresent([BackupGatewayClientTypes.BandwidthRateLimitInterval?].self, forKey: .bandwidthRateLimitIntervals)
+        var bandwidthRateLimitIntervalsDecoded0:[BackupGatewayClientTypes.BandwidthRateLimitInterval]? = nil
+        if let bandwidthRateLimitIntervalsContainer = bandwidthRateLimitIntervalsContainer {
+            bandwidthRateLimitIntervalsDecoded0 = [BackupGatewayClientTypes.BandwidthRateLimitInterval]()
+            for structure0 in bandwidthRateLimitIntervalsContainer {
+                if let structure0 = structure0 {
+                    bandwidthRateLimitIntervalsDecoded0?.append(structure0)
+                }
+            }
+        }
+        bandwidthRateLimitIntervals = bandwidthRateLimitIntervalsDecoded0
+    }
+}
+
+extension PutBandwidthRateLimitScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutBandwidthRateLimitScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutBandwidthRateLimitScheduleOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: PutBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.gatewayArn = output.gatewayArn
+        } else {
+            self.gatewayArn = nil
+        }
+    }
+}
+
+public struct PutBandwidthRateLimitScheduleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html) operation to return a list of gateways for your account and Amazon Web Services Region.
+    public var gatewayArn: Swift.String?
+
+    public init (
+        gatewayArn: Swift.String? = nil
+    )
+    {
+        self.gatewayArn = gatewayArn
+    }
+}
+
+struct PutBandwidthRateLimitScheduleOutputResponseBody: Swift.Equatable {
+    let gatewayArn: Swift.String?
+}
+
+extension PutBandwidthRateLimitScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayArn = "GatewayArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
+        gatewayArn = gatewayArnDecoded
+    }
+}
+
+extension PutHypervisorPropertyMappingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+        case iamRoleArn = "IamRoleArn"
+        case vmwareToAwsTagMappings = "VmwareToAwsTagMappings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hypervisorArn = self.hypervisorArn {
+            try encodeContainer.encode(hypervisorArn, forKey: .hypervisorArn)
+        }
+        if let iamRoleArn = self.iamRoleArn {
+            try encodeContainer.encode(iamRoleArn, forKey: .iamRoleArn)
+        }
+        if let vmwareToAwsTagMappings = vmwareToAwsTagMappings {
+            var vmwareToAwsTagMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vmwareToAwsTagMappings)
+            for vmwaretoawstagmappings0 in vmwareToAwsTagMappings {
+                try vmwareToAwsTagMappingsContainer.encode(vmwaretoawstagmappings0)
+            }
+        }
+    }
+}
+
+extension PutHypervisorPropertyMappingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutHypervisorPropertyMappingsInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the hypervisor.
+    /// This member is required.
+    public var hypervisorArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role.
+    /// This member is required.
+    public var iamRoleArn: Swift.String?
+    /// This action requests the mappings of on-premises VMware tags to the Amazon Web Services tags.
+    /// This member is required.
+    public var vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]?
+
+    public init (
+        hypervisorArn: Swift.String? = nil,
+        iamRoleArn: Swift.String? = nil,
+        vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]? = nil
+    )
+    {
+        self.hypervisorArn = hypervisorArn
+        self.iamRoleArn = iamRoleArn
+        self.vmwareToAwsTagMappings = vmwareToAwsTagMappings
+    }
+}
+
+struct PutHypervisorPropertyMappingsInputBody: Swift.Equatable {
+    let hypervisorArn: Swift.String?
+    let vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]?
+    let iamRoleArn: Swift.String?
+}
+
+extension PutHypervisorPropertyMappingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+        case iamRoleArn = "IamRoleArn"
+        case vmwareToAwsTagMappings = "VmwareToAwsTagMappings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hypervisorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hypervisorArn)
+        hypervisorArn = hypervisorArnDecoded
+        let vmwareToAwsTagMappingsContainer = try containerValues.decodeIfPresent([BackupGatewayClientTypes.VmwareToAwsTagMapping?].self, forKey: .vmwareToAwsTagMappings)
+        var vmwareToAwsTagMappingsDecoded0:[BackupGatewayClientTypes.VmwareToAwsTagMapping]? = nil
+        if let vmwareToAwsTagMappingsContainer = vmwareToAwsTagMappingsContainer {
+            vmwareToAwsTagMappingsDecoded0 = [BackupGatewayClientTypes.VmwareToAwsTagMapping]()
+            for structure0 in vmwareToAwsTagMappingsContainer {
+                if let structure0 = structure0 {
+                    vmwareToAwsTagMappingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        vmwareToAwsTagMappings = vmwareToAwsTagMappingsDecoded0
+        let iamRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamRoleArn)
+        iamRoleArn = iamRoleArnDecoded
+    }
+}
+
+extension PutHypervisorPropertyMappingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutHypervisorPropertyMappingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutHypervisorPropertyMappingsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutHypervisorPropertyMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: PutHypervisorPropertyMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.hypervisorArn = output.hypervisorArn
+        } else {
+            self.hypervisorArn = nil
+        }
+    }
+}
+
+public struct PutHypervisorPropertyMappingsOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the hypervisor.
+    public var hypervisorArn: Swift.String?
+
+    public init (
+        hypervisorArn: Swift.String? = nil
+    )
+    {
+        self.hypervisorArn = hypervisorArn
+    }
+}
+
+struct PutHypervisorPropertyMappingsOutputResponseBody: Swift.Equatable {
+    let hypervisorArn: Swift.String?
+}
+
+extension PutHypervisorPropertyMappingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hypervisorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hypervisorArn)
+        hypervisorArn = hypervisorArnDecoded
+    }
+}
+
 extension PutMaintenanceStartTimeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dayOfMonth = "DayOfMonth"
@@ -2327,19 +3131,15 @@ extension PutMaintenanceStartTimeOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum PutMaintenanceStartTimeOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2443,6 +3243,160 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         errorCode = errorCodeDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension StartVirtualMachinesMetadataSyncInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hypervisorArn = self.hypervisorArn {
+            try encodeContainer.encode(hypervisorArn, forKey: .hypervisorArn)
+        }
+    }
+}
+
+extension StartVirtualMachinesMetadataSyncInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartVirtualMachinesMetadataSyncInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the hypervisor.
+    /// This member is required.
+    public var hypervisorArn: Swift.String?
+
+    public init (
+        hypervisorArn: Swift.String? = nil
+    )
+    {
+        self.hypervisorArn = hypervisorArn
+    }
+}
+
+struct StartVirtualMachinesMetadataSyncInputBody: Swift.Equatable {
+    let hypervisorArn: Swift.String?
+}
+
+extension StartVirtualMachinesMetadataSyncInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hypervisorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hypervisorArn)
+        hypervisorArn = hypervisorArnDecoded
+    }
+}
+
+extension StartVirtualMachinesMetadataSyncOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartVirtualMachinesMetadataSyncOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartVirtualMachinesMetadataSyncOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartVirtualMachinesMetadataSyncOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartVirtualMachinesMetadataSyncOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.hypervisorArn = output.hypervisorArn
+        } else {
+            self.hypervisorArn = nil
+        }
+    }
+}
+
+public struct StartVirtualMachinesMetadataSyncOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the hypervisor.
+    public var hypervisorArn: Swift.String?
+
+    public init (
+        hypervisorArn: Swift.String? = nil
+    )
+    {
+        self.hypervisorArn = hypervisorArn
+    }
+}
+
+struct StartVirtualMachinesMetadataSyncOutputResponseBody: Swift.Equatable {
+    let hypervisorArn: Swift.String?
+}
+
+extension StartVirtualMachinesMetadataSyncOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hypervisorArn = "HypervisorArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hypervisorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hypervisorArn)
+        hypervisorArn = hypervisorArnDecoded
+    }
+}
+
+extension BackupGatewayClientTypes {
+    public enum SyncMetadataStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case created
+        case failed
+        case partiallyFailed
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyncMetadataStatus] {
+            return [
+                .created,
+                .failed,
+                .partiallyFailed,
+                .running,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .partiallyFailed: return "PARTIALLY_FAILED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SyncMetadataStatus(rawValue: rawValue) ?? SyncMetadataStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -2577,18 +3531,14 @@ extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension TagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2735,19 +3685,15 @@ extension TestHypervisorConfigurationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum TestHypervisorConfigurationOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2869,18 +3815,14 @@ extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension UntagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2997,19 +3939,15 @@ extension UpdateGatewayInformationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum UpdateGatewayInformationOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -3113,18 +4051,14 @@ extension UpdateGatewaySoftwareNowOutputError: ClientRuntime.HttpResponseBinding
 extension UpdateGatewaySoftwareNowOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum UpdateGatewaySoftwareNowOutputError: Swift.Error, Swift.Equatable {
-    case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -3171,13 +4105,14 @@ extension UpdateGatewaySoftwareNowOutputResponseBody: Swift.Decodable {
 
 extension UpdateHypervisorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateHypervisorInput(host: \(Swift.String(describing: host)), hypervisorArn: \(Swift.String(describing: hypervisorArn)), name: \(Swift.String(describing: name)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "UpdateHypervisorInput(host: \(Swift.String(describing: host)), hypervisorArn: \(Swift.String(describing: hypervisorArn)), logGroupArn: \(Swift.String(describing: logGroupArn)), name: \(Swift.String(describing: name)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateHypervisorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case host = "Host"
         case hypervisorArn = "HypervisorArn"
+        case logGroupArn = "LogGroupArn"
         case name = "Name"
         case password = "Password"
         case username = "Username"
@@ -3190,6 +4125,9 @@ extension UpdateHypervisorInput: Swift.Encodable {
         }
         if let hypervisorArn = self.hypervisorArn {
             try encodeContainer.encode(hypervisorArn, forKey: .hypervisorArn)
+        }
+        if let logGroupArn = self.logGroupArn {
+            try encodeContainer.encode(logGroupArn, forKey: .logGroupArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -3215,6 +4153,8 @@ public struct UpdateHypervisorInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the hypervisor to update.
     /// This member is required.
     public var hypervisorArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the group of gateways within the requested log.
+    public var logGroupArn: Swift.String?
     /// The updated name for the hypervisor
     public var name: Swift.String?
     /// The updated password for the hypervisor.
@@ -3225,6 +4165,7 @@ public struct UpdateHypervisorInput: Swift.Equatable {
     public init (
         host: Swift.String? = nil,
         hypervisorArn: Swift.String? = nil,
+        logGroupArn: Swift.String? = nil,
         name: Swift.String? = nil,
         password: Swift.String? = nil,
         username: Swift.String? = nil
@@ -3232,6 +4173,7 @@ public struct UpdateHypervisorInput: Swift.Equatable {
     {
         self.host = host
         self.hypervisorArn = hypervisorArn
+        self.logGroupArn = logGroupArn
         self.name = name
         self.password = password
         self.username = username
@@ -3244,12 +4186,14 @@ struct UpdateHypervisorInputBody: Swift.Equatable {
     let username: Swift.String?
     let password: Swift.String?
     let name: Swift.String?
+    let logGroupArn: Swift.String?
 }
 
 extension UpdateHypervisorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case host = "Host"
         case hypervisorArn = "HypervisorArn"
+        case logGroupArn = "LogGroupArn"
         case name = "Name"
         case password = "Password"
         case username = "Username"
@@ -3267,6 +4211,8 @@ extension UpdateHypervisorInputBody: Swift.Decodable {
         password = passwordDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let logGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupArn)
+        logGroupArn = logGroupArnDecoded
     }
 }
 
@@ -3282,19 +4228,17 @@ extension UpdateHypervisorOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum UpdateHypervisorOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
-    case internalServerException(InternalServerException)
+    case conflictException(ConflictException)
     case resourceNotFoundException(ResourceNotFoundException)
-    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -3339,25 +4283,6 @@ extension UpdateHypervisorOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension ValidationException {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
-            let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
-            let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.errorCode = output.errorCode
-            self.message = output.message
-        } else {
-            self.errorCode = nil
-            self.message = nil
-        }
-        self._headers = httpResponse.headers
-        self._statusCode = httpResponse.statusCode
-        self._requestID = requestID
-        self._message = message
-    }
-}
-
 /// The operation did not succeed because a validation error occurred.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
@@ -3378,26 +4303,6 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     {
         self.errorCode = errorCode
         self.message = message
-    }
-}
-
-struct ValidationExceptionBody: Swift.Equatable {
-    let errorCode: Swift.String?
-    let message: Swift.String?
-}
-
-extension ValidationExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case errorCode = "ErrorCode"
-        case message = "Message"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
-        errorCode = errorCodeDecoded
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
     }
 }
 
@@ -3494,6 +4399,7 @@ extension BackupGatewayClientTypes.VirtualMachineDetails: Swift.Codable {
         case name = "Name"
         case path = "Path"
         case resourceArn = "ResourceArn"
+        case vmwareTags = "VmwareTags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3516,6 +4422,12 @@ extension BackupGatewayClientTypes.VirtualMachineDetails: Swift.Codable {
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
         }
+        if let vmwareTags = vmwareTags {
+            var vmwareTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vmwareTags)
+            for vmwaretags0 in vmwareTags {
+                try vmwareTagsContainer.encode(vmwaretags0)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3532,6 +4444,17 @@ extension BackupGatewayClientTypes.VirtualMachineDetails: Swift.Codable {
         resourceArn = resourceArnDecoded
         let lastBackupDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastBackupDate)
         lastBackupDate = lastBackupDateDecoded
+        let vmwareTagsContainer = try containerValues.decodeIfPresent([BackupGatewayClientTypes.VmwareTag?].self, forKey: .vmwareTags)
+        var vmwareTagsDecoded0:[BackupGatewayClientTypes.VmwareTag]? = nil
+        if let vmwareTagsContainer = vmwareTagsContainer {
+            vmwareTagsDecoded0 = [BackupGatewayClientTypes.VmwareTag]()
+            for structure0 in vmwareTagsContainer {
+                if let structure0 = structure0 {
+                    vmwareTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        vmwareTags = vmwareTagsDecoded0
     }
 }
 
@@ -3550,6 +4473,8 @@ extension BackupGatewayClientTypes {
         public var path: Swift.String?
         /// The Amazon Resource Name (ARN) of the virtual machine. For example, arn:aws:backup-gateway:us-west-1:0000000000000:vm/vm-0000ABCDEFGIJKL.
         public var resourceArn: Swift.String?
+        /// These are the details of the VMware tags associated with the specified virtual machine.
+        public var vmwareTags: [BackupGatewayClientTypes.VmwareTag]?
 
         public init (
             hostName: Swift.String? = nil,
@@ -3557,7 +4482,8 @@ extension BackupGatewayClientTypes {
             lastBackupDate: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             path: Swift.String? = nil,
-            resourceArn: Swift.String? = nil
+            resourceArn: Swift.String? = nil,
+            vmwareTags: [BackupGatewayClientTypes.VmwareTag]? = nil
         )
         {
             self.hostName = hostName
@@ -3566,6 +4492,131 @@ extension BackupGatewayClientTypes {
             self.name = name
             self.path = path
             self.resourceArn = resourceArn
+            self.vmwareTags = vmwareTags
+        }
+    }
+
+}
+
+extension BackupGatewayClientTypes.VmwareTag: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case vmwareCategory = "VmwareCategory"
+        case vmwareTagDescription = "VmwareTagDescription"
+        case vmwareTagName = "VmwareTagName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let vmwareCategory = self.vmwareCategory {
+            try encodeContainer.encode(vmwareCategory, forKey: .vmwareCategory)
+        }
+        if let vmwareTagDescription = self.vmwareTagDescription {
+            try encodeContainer.encode(vmwareTagDescription, forKey: .vmwareTagDescription)
+        }
+        if let vmwareTagName = self.vmwareTagName {
+            try encodeContainer.encode(vmwareTagName, forKey: .vmwareTagName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vmwareCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vmwareCategory)
+        vmwareCategory = vmwareCategoryDecoded
+        let vmwareTagNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vmwareTagName)
+        vmwareTagName = vmwareTagNameDecoded
+        let vmwareTagDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vmwareTagDescription)
+        vmwareTagDescription = vmwareTagDescriptionDecoded
+    }
+}
+
+extension BackupGatewayClientTypes {
+    /// A VMware tag is a tag attached to a specific virtual machine. A [tag](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_Tag.html) is a key-value pair you can use to manage, filter, and search for your resources. The content of VMware tags can be matched to Amazon Web Services tags.
+    public struct VmwareTag: Swift.Equatable {
+        /// The is the category of VMware.
+        public var vmwareCategory: Swift.String?
+        /// This is a user-defined description of a VMware tag.
+        public var vmwareTagDescription: Swift.String?
+        /// This is the user-defined name of a VMware tag.
+        public var vmwareTagName: Swift.String?
+
+        public init (
+            vmwareCategory: Swift.String? = nil,
+            vmwareTagDescription: Swift.String? = nil,
+            vmwareTagName: Swift.String? = nil
+        )
+        {
+            self.vmwareCategory = vmwareCategory
+            self.vmwareTagDescription = vmwareTagDescription
+            self.vmwareTagName = vmwareTagName
+        }
+    }
+
+}
+
+extension BackupGatewayClientTypes.VmwareToAwsTagMapping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsTagKey = "AwsTagKey"
+        case awsTagValue = "AwsTagValue"
+        case vmwareCategory = "VmwareCategory"
+        case vmwareTagName = "VmwareTagName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsTagKey = self.awsTagKey {
+            try encodeContainer.encode(awsTagKey, forKey: .awsTagKey)
+        }
+        if let awsTagValue = self.awsTagValue {
+            try encodeContainer.encode(awsTagValue, forKey: .awsTagValue)
+        }
+        if let vmwareCategory = self.vmwareCategory {
+            try encodeContainer.encode(vmwareCategory, forKey: .vmwareCategory)
+        }
+        if let vmwareTagName = self.vmwareTagName {
+            try encodeContainer.encode(vmwareTagName, forKey: .vmwareTagName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vmwareCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vmwareCategory)
+        vmwareCategory = vmwareCategoryDecoded
+        let vmwareTagNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vmwareTagName)
+        vmwareTagName = vmwareTagNameDecoded
+        let awsTagKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsTagKey)
+        awsTagKey = awsTagKeyDecoded
+        let awsTagValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsTagValue)
+        awsTagValue = awsTagValueDecoded
+    }
+}
+
+extension BackupGatewayClientTypes {
+    /// This displays the mapping of on-premises VMware tags to the corresponding Amazon Web Services tags.
+    public struct VmwareToAwsTagMapping: Swift.Equatable {
+        /// The key part of the Amazon Web Services tag's key-value pair.
+        /// This member is required.
+        public var awsTagKey: Swift.String?
+        /// The value part of the Amazon Web Services tag's key-value pair.
+        /// This member is required.
+        public var awsTagValue: Swift.String?
+        /// The is the category of VMware.
+        /// This member is required.
+        public var vmwareCategory: Swift.String?
+        /// This is the user-defined name of a VMware tag.
+        /// This member is required.
+        public var vmwareTagName: Swift.String?
+
+        public init (
+            awsTagKey: Swift.String? = nil,
+            awsTagValue: Swift.String? = nil,
+            vmwareCategory: Swift.String? = nil,
+            vmwareTagName: Swift.String? = nil
+        )
+        {
+            self.awsTagKey = awsTagKey
+            self.awsTagValue = awsTagValue
+            self.vmwareCategory = vmwareCategory
+            self.vmwareTagName = vmwareTagName
         }
     }
 

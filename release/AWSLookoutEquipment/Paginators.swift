@@ -121,7 +121,8 @@ extension ListInferenceSchedulersInput: ClientRuntime.PaginateToken {
             inferenceSchedulerNameBeginsWith: self.inferenceSchedulerNameBeginsWith,
             maxResults: self.maxResults,
             modelName: self.modelName,
-            nextToken: token
+            nextToken: token,
+            status: self.status
         )}
 }
 

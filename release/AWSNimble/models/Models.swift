@@ -38,7 +38,7 @@ extension AcceptEulasInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AcceptEulasInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The EULA ID.
     public var eulaIds: [Swift.String]?
@@ -101,7 +101,7 @@ extension AcceptEulasOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -343,7 +343,7 @@ extension NimbleClientTypes.ActiveDirectoryConfiguration: Swift.CustomDebugStrin
 }
 
 extension NimbleClientTypes {
-    /// The configuration for a Microsoft Active Directory (Microsoft AD) studio resource.
+    /// The configuration for a Directory Service for Microsoft Active Directory studio resource.
     public struct ActiveDirectoryConfiguration: Swift.Equatable {
         /// A collection of custom attributes for an Active Directory computer.
         public var computerAttributes: [NimbleClientTypes.ActiveDirectoryComputerAttribute]?
@@ -364,6 +364,38 @@ extension NimbleClientTypes {
         }
     }
 
+}
+
+extension NimbleClientTypes {
+    public enum AutomaticTerminationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case activated
+        case deactivated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomaticTerminationMode] {
+            return [
+                .activated,
+                .deactivated,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .activated: return "ACTIVATED"
+            case .deactivated: return "DEACTIVATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AutomaticTerminationMode(rawValue: rawValue) ?? AutomaticTerminationMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension NimbleClientTypes.ComputeFarmConfiguration: Swift.Codable {
@@ -572,7 +604,7 @@ extension CreateLaunchProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLaunchProfileInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The description.
     public var description: Swift.String?
@@ -594,7 +626,7 @@ public struct CreateLaunchProfileInput: Swift.Equatable {
     /// The studio ID.
     /// This member is required.
     public var studioId: Swift.String?
-    /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+    /// A collection of labels, in the form of key-value pairs, that apply to this resource.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -715,7 +747,7 @@ extension CreateLaunchProfileOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -825,7 +857,7 @@ extension CreateStreamingImageInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateStreamingImageInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// A human-readable description of the streaming image.
     public var description: Swift.String?
@@ -838,7 +870,7 @@ public struct CreateStreamingImageInput: Swift.Equatable {
     /// The studio ID.
     /// This member is required.
     public var studioId: Swift.String?
-    /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+    /// A collection of labels, in the form of key-value pairs, that apply to this resource.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -914,7 +946,7 @@ extension CreateStreamingImageOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1023,11 +1055,12 @@ extension CreateStreamingSessionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateStreamingSessionInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The EC2 Instance type used for the streaming session.
     public var ec2InstanceType: NimbleClientTypes.StreamingInstanceType?
-    /// The launch profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
+    /// This member is required.
     public var launchProfileId: Swift.String?
     /// The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.
     public var ownedBy: Swift.String?
@@ -1036,7 +1069,7 @@ public struct CreateStreamingSessionInput: Swift.Equatable {
     /// The studio ID.
     /// This member is required.
     public var studioId: Swift.String?
-    /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+    /// A collection of labels, in the form of key-value pairs, that apply to this resource.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -1118,7 +1151,7 @@ extension CreateStreamingSessionOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1211,7 +1244,7 @@ extension CreateStreamingSessionStreamInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateStreamingSessionStreamInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The expiration time in seconds.
     public var expirationInSeconds: Swift.Int?
@@ -1270,7 +1303,7 @@ extension CreateStreamingSessionStreamOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1417,7 +1450,7 @@ extension CreateStudioComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateStudioComponentInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The configuration of the studio component, based on component type.
     public var configuration: NimbleClientTypes.StudioComponentConfiguration?
@@ -1430,18 +1463,18 @@ public struct CreateStudioComponentInput: Swift.Equatable {
     /// The name for the studio component.
     /// This member is required.
     public var name: Swift.String?
-    /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+    /// An IAM role attached to a Studio Component that gives the studio component access to Amazon Web Services resources at anytime while the instance is running.
     public var runtimeRoleArn: Swift.String?
     /// Parameters for the studio component scripts.
     public var scriptParameters: [NimbleClientTypes.ScriptParameterKeyValue]?
-    /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+    /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to Amazon Web Services resources when the system initialization script runs.
     public var secureInitializationRoleArn: Swift.String?
     /// The studio ID.
     /// This member is required.
     public var studioId: Swift.String?
     /// The specific subtype of a studio component.
     public var subtype: NimbleClientTypes.StudioComponentSubtype?
-    /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+    /// A collection of labels, in the form of key-value pairs, that apply to this resource.
     public var tags: [Swift.String:Swift.String]?
     /// The type of the studio component.
     /// This member is required.
@@ -1589,7 +1622,7 @@ extension CreateStudioComponentOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1704,10 +1737,10 @@ extension CreateStudioInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateStudioInput: Swift.Equatable {
-    /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
+    /// The IAM role that studio admins will assume when logging in to the Nimble Studio portal.
     /// This member is required.
     public var adminRoleArn: Swift.String?
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// A friendly name for the studio.
     /// This member is required.
@@ -1717,9 +1750,9 @@ public struct CreateStudioInput: Swift.Equatable {
     /// The studio name that is used in the URL of the Nimble Studio portal when accessed by Nimble Studio users.
     /// This member is required.
     public var studioName: Swift.String?
-    /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+    /// A collection of labels, in the form of key-value pairs, that apply to this resource.
     public var tags: [Swift.String:Swift.String]?
-    /// The IAM role that Studio Users will assume when logging in to the Nimble Studio portal.
+    /// The IAM role that studio users will assume when logging in to the Nimble Studio portal.
     /// This member is required.
     public var userRoleArn: Swift.String?
 
@@ -1806,7 +1839,7 @@ extension CreateStudioOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1886,9 +1919,9 @@ extension DeleteLaunchProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteLaunchProfileInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// The studio ID.
@@ -1942,9 +1975,9 @@ extension DeleteLaunchProfileMemberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteLaunchProfileMemberInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// The principal ID. This currently supports a IAM Identity Center UserId.
@@ -1995,7 +2028,7 @@ extension DeleteLaunchProfileMemberOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2039,7 +2072,7 @@ extension DeleteLaunchProfileOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2119,7 +2152,7 @@ extension DeleteStreamingImageInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteStreamingImageInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The streaming image ID.
     /// This member is required.
@@ -2167,7 +2200,7 @@ extension DeleteStreamingImageOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2247,7 +2280,7 @@ extension DeleteStreamingSessionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteStreamingSessionInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The streaming session ID.
     /// This member is required.
@@ -2295,7 +2328,7 @@ extension DeleteStreamingSessionOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2375,7 +2408,7 @@ extension DeleteStudioComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteStudioComponentInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The studio component ID.
     /// This member is required.
@@ -2423,7 +2456,7 @@ extension DeleteStudioComponentOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2500,7 +2533,7 @@ extension DeleteStudioInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteStudioInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The studio ID.
     /// This member is required.
@@ -2548,7 +2581,7 @@ extension DeleteStudioMemberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteStudioMemberInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The principal ID. This currently supports a IAM Identity Center UserId.
     /// This member is required.
@@ -2596,7 +2629,7 @@ extension DeleteStudioMemberOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2640,7 +2673,7 @@ extension DeleteStudioOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2746,13 +2779,13 @@ extension NimbleClientTypes {
     public struct Eula: Swift.Equatable {
         /// The EULA content.
         public var content: Swift.String?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// The EULA ID.
         public var eulaId: Swift.String?
         /// The name for the EULA.
         public var name: Swift.String?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         public var updatedAt: ClientRuntime.Date?
 
         public init (
@@ -2819,7 +2852,7 @@ extension NimbleClientTypes.EulaAcceptance: Swift.Codable {
 extension NimbleClientTypes {
     /// The acceptance of a EULA, required to use Amazon-provided streaming images.
     public struct EulaAcceptance: Swift.Equatable {
-        /// The Unix epoch timestamp in seconds for when the EULA was accepted.
+        /// The ISO timestamp in seconds for when the EULA was accepted.
         public var acceptedAt: ClientRuntime.Date?
         /// The ID of the person who accepted the EULA.
         public var acceptedBy: Swift.String?
@@ -2897,7 +2930,7 @@ extension GetEulaOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2967,7 +3000,7 @@ extension GetLaunchProfileDetailsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetLaunchProfileDetailsInput: Swift.Equatable {
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// The studio ID.
@@ -3011,7 +3044,7 @@ extension GetLaunchProfileDetailsOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3148,7 +3181,7 @@ extension GetLaunchProfileInitializationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetLaunchProfileInitializationInput: Swift.Equatable {
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// The launch profile protocol versions supported by the client.
@@ -3157,7 +3190,7 @@ public struct GetLaunchProfileInitializationInput: Swift.Equatable {
     /// The launch purpose.
     /// This member is required.
     public var launchPurpose: Swift.String?
-    /// The platform where this Launch Profile will be used, either WINDOWS or LINUX.
+    /// The platform where this Launch Profile will be used, either Windows or Linux.
     /// This member is required.
     public var platform: Swift.String?
     /// The studio ID.
@@ -3207,7 +3240,7 @@ extension GetLaunchProfileInitializationOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3277,7 +3310,7 @@ extension GetLaunchProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetLaunchProfileInput: Swift.Equatable {
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// The studio ID.
@@ -3319,7 +3352,7 @@ extension GetLaunchProfileMemberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetLaunchProfileMemberInput: Swift.Equatable {
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// The principal ID. This currently supports a IAM Identity Center UserId.
@@ -3368,7 +3401,7 @@ extension GetLaunchProfileMemberOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3443,7 +3476,7 @@ extension GetLaunchProfileOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3557,7 +3590,7 @@ extension GetStreamingImageOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3611,6 +3644,118 @@ extension GetStreamingImageOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamingImageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingImage.self, forKey: .streamingImage)
         streamingImage = streamingImageDecoded
+    }
+}
+
+extension GetStreamingSessionBackupInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let studioId = studioId else {
+            return nil
+        }
+        guard let backupId = backupId else {
+            return nil
+        }
+        return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-session-backups/\(backupId.urlPercentEncoding())"
+    }
+}
+
+public struct GetStreamingSessionBackupInput: Swift.Equatable {
+    /// The ID of the backup.
+    /// This member is required.
+    public var backupId: Swift.String?
+    /// The studio ID.
+    /// This member is required.
+    public var studioId: Swift.String?
+
+    public init (
+        backupId: Swift.String? = nil,
+        studioId: Swift.String? = nil
+    )
+    {
+        self.backupId = backupId
+        self.studioId = studioId
+    }
+}
+
+struct GetStreamingSessionBackupInputBody: Swift.Equatable {
+}
+
+extension GetStreamingSessionBackupInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetStreamingSessionBackupOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetStreamingSessionBackupOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetStreamingSessionBackupOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerErrorException(InternalServerErrorException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetStreamingSessionBackupOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetStreamingSessionBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.streamingSessionBackup = output.streamingSessionBackup
+        } else {
+            self.streamingSessionBackup = nil
+        }
+    }
+}
+
+public struct GetStreamingSessionBackupOutputResponse: Swift.Equatable {
+    /// Information about the streaming session backup.
+    public var streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup?
+
+    public init (
+        streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup? = nil
+    )
+    {
+        self.streamingSessionBackup = streamingSessionBackup
+    }
+}
+
+struct GetStreamingSessionBackupOutputResponseBody: Swift.Equatable {
+    let streamingSessionBackup: NimbleClientTypes.StreamingSessionBackup?
+}
+
+extension GetStreamingSessionBackupOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingSessionBackup
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingSessionBackupDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSessionBackup.self, forKey: .streamingSessionBackup)
+        streamingSessionBackup = streamingSessionBackupDecoded
     }
 }
 
@@ -3671,7 +3816,7 @@ extension GetStreamingSessionOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3793,7 +3938,7 @@ extension GetStreamingSessionStreamOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3907,7 +4052,7 @@ extension GetStudioComponentOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4052,7 +4197,7 @@ extension GetStudioMemberOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4127,7 +4272,7 @@ extension GetStudioOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4450,9 +4595,9 @@ extension NimbleClientTypes.LaunchProfile: Swift.CustomDebugStringConvertible {
 extension NimbleClientTypes {
     /// A launch profile controls your artist workforce’s access to studio components, like compute farms, shared file systems, managed file systems, and license server configurations, as well as instance types and Amazon Machine Images (AMIs). Studio administrators create launch profiles in the Nimble Studio console. Artists can use their launch profiles to launch an instance from the Nimble Studio portal. Each user’s launch profile defines how they can launch a streaming session. By default, studio admins can use all launch profiles.
     public struct LaunchProfile: Swift.Equatable {
-        /// The ARN of the resource.
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// The user ID of the user that created the launch profile.
         public var createdBy: Swift.String?
@@ -4460,7 +4605,7 @@ extension NimbleClientTypes {
         public var description: Swift.String?
         /// Unique identifiers for a collection of EC2 subnets.
         public var ec2SubnetIds: [Swift.String]?
-        /// The launch profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public var launchProfileId: Swift.String?
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public var launchProfileProtocolVersions: [Swift.String]?
@@ -4476,9 +4621,9 @@ extension NimbleClientTypes {
         public var streamConfiguration: NimbleClientTypes.StreamConfiguration?
         /// Unique identifiers for a collection of studio components that can be used with this launch profile.
         public var studioComponentIds: [Swift.String]?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public var tags: [Swift.String:Swift.String]?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         public var updatedAt: ClientRuntime.Date?
         /// The user ID of the user that most recently updated the resource.
         public var updatedBy: Swift.String?
@@ -4636,13 +4781,13 @@ extension NimbleClientTypes.LaunchProfileInitialization: Swift.CustomDebugString
 }
 
 extension NimbleClientTypes {
-    /// A Launch Profile Initialization contains information required for a workstation or server to connect to a launch profile. This includes scripts, endpoints, security groups, subnets, and other configuration.
+    /// A launch profile initialization contains information required for a workstation or server to connect to a launch profile. This includes scripts, endpoints, security groups, subnets, and other configuration.
     public struct LaunchProfileInitialization: Swift.Equatable {
         /// A LaunchProfileInitializationActiveDirectory resource.
         public var activeDirectory: NimbleClientTypes.LaunchProfileInitializationActiveDirectory?
         /// The EC2 security groups that control access to the studio component.
         public var ec2SecurityGroupIds: [Swift.String]?
-        /// The launch profile ID.
+        /// The ID of the launch profile used to control access from the streaming session.
         public var launchProfileId: Swift.String?
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public var launchProfileProtocolVersion: Swift.String?
@@ -4650,7 +4795,7 @@ extension NimbleClientTypes {
         public var launchPurpose: Swift.String?
         /// The name for the launch profile.
         public var name: Swift.String?
-        /// The platform of the launch platform, either WINDOWS or LINUX.
+        /// The platform of the launch platform, either Windows or Linux.
         public var platform: NimbleClientTypes.LaunchProfilePlatform?
         /// The system initializtion scripts.
         public var systemInitializationScripts: [NimbleClientTypes.LaunchProfileInitializationScript]?
@@ -4768,7 +4913,7 @@ extension NimbleClientTypes.LaunchProfileInitializationActiveDirectory: Swift.Cu
 }
 
 extension NimbleClientTypes {
-    /// The Launch Profile Initialization Active Directory contains information required for the launch profile to connect to the Active Directory.
+    /// The launch profile initialization Active Directory contains information required for the launch profile to connect to the Active Directory.
     public struct LaunchProfileInitializationActiveDirectory: Swift.Equatable {
         /// A collection of custom attributes for an Active Directory computer.
         public var computerAttributes: [NimbleClientTypes.ActiveDirectoryComputerAttribute]?
@@ -4856,13 +5001,13 @@ extension NimbleClientTypes.LaunchProfileInitializationScript: Swift.CustomDebug
 }
 
 extension NimbleClientTypes {
-    /// The Launch Profile Initialization Script is used when start streaming session runs.
+    /// The launch profile initialization script is used when start streaming session runs.
     public struct LaunchProfileInitializationScript: Swift.Equatable {
-        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        /// An IAM role attached to a Studio Component that gives the studio component access to Amazon Web Services resources at anytime while the instance is running.
         public var runtimeRoleArn: Swift.String?
         /// The initialization script.
         public var script: Swift.String?
-        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to Amazon Web Services resources when the system initialization script runs.
         public var secureInitializationRoleArn: Swift.String?
         /// The unique identifier for a studio component resource.
         public var studioComponentId: Swift.String?
@@ -4925,7 +5070,7 @@ extension NimbleClientTypes.LaunchProfileMembership: Swift.Codable {
 }
 
 extension NimbleClientTypes {
-    /// Launch profile membership enables your studio admins to delegate launch profile access to other studio users in the Nimble Studio portal without needing to write or maintain complex IAM policies. A launch profile member is a user association from your studio identity source who is granted permissions to a launch profile. A launch profile member (type USER) provides the following permissions to that launch profile:
+    /// Studio admins can use launch profile membership to delegate launch profile access to studio users in the Nimble Studio portal without writing or maintaining complex IAM policies. A launch profile member is a user association from your studio identity source who is granted permissions to a launch profile. A launch profile member (type USER) provides the following permissions to that launch profile:
     ///
     /// * GetLaunchProfile
     ///
@@ -5349,7 +5494,7 @@ extension ListEulaAcceptancesInput: ClientRuntime.URLPathProvider {
 public struct ListEulaAcceptancesInput: Swift.Equatable {
     /// The list of EULA IDs that have been previously accepted.
     public var eulaIds: [Swift.String]?
-    /// The token to request the next page of results.
+    /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The studio ID.
     /// This member is required.
@@ -5394,7 +5539,7 @@ extension ListEulaAcceptancesOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5498,7 +5643,7 @@ extension ListEulasInput: ClientRuntime.URLPathProvider {
 public struct ListEulasInput: Swift.Equatable {
     /// The list of EULA IDs that should be returned
     public var eulaIds: [Swift.String]?
-    /// The token to request the next page of results.
+    /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init (
@@ -5538,7 +5683,7 @@ extension ListEulasOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5644,12 +5789,12 @@ extension ListLaunchProfileMembersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListLaunchProfileMembersInput: Swift.Equatable {
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// The max number of results to return in the response.
     public var maxResults: Swift.Int?
-    /// The token to request the next page of results.
+    /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The studio ID.
     /// This member is required.
@@ -5696,7 +5841,7 @@ extension ListLaunchProfileMembersOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5811,7 +5956,7 @@ extension ListLaunchProfilesInput: ClientRuntime.URLPathProvider {
 public struct ListLaunchProfilesInput: Swift.Equatable {
     /// The max number of results to return in the response.
     public var maxResults: Swift.Int?
-    /// The token to request the next page of results.
+    /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The principal ID. This currently supports a IAM Identity Center UserId.
     public var principalId: Swift.String?
@@ -5864,7 +6009,7 @@ extension ListLaunchProfilesOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5967,7 +6112,7 @@ extension ListStreamingImagesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListStreamingImagesInput: Swift.Equatable {
-    /// The token to request the next page of results.
+    /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// Filter this request to streaming images with the given owner
     public var owner: Swift.String?
@@ -6014,7 +6159,7 @@ extension ListStreamingImagesOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6090,6 +6235,154 @@ extension ListStreamingImagesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListStreamingSessionBackupsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let ownedBy = ownedBy {
+                let ownedByQueryItem = ClientRuntime.URLQueryItem(name: "ownedBy".urlPercentEncoding(), value: Swift.String(ownedBy).urlPercentEncoding())
+                items.append(ownedByQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListStreamingSessionBackupsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let studioId = studioId else {
+            return nil
+        }
+        return "/2020-08-01/studios/\(studioId.urlPercentEncoding())/streaming-session-backups"
+    }
+}
+
+public struct ListStreamingSessionBackupsInput: Swift.Equatable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The user ID of the user that owns the streaming session.
+    public var ownedBy: Swift.String?
+    /// The studio ID.
+    /// This member is required.
+    public var studioId: Swift.String?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        ownedBy: Swift.String? = nil,
+        studioId: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.ownedBy = ownedBy
+        self.studioId = studioId
+    }
+}
+
+struct ListStreamingSessionBackupsInputBody: Swift.Equatable {
+}
+
+extension ListStreamingSessionBackupsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListStreamingSessionBackupsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListStreamingSessionBackupsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListStreamingSessionBackupsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerErrorException(InternalServerErrorException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListStreamingSessionBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ListStreamingSessionBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.streamingSessionBackups = output.streamingSessionBackups
+        } else {
+            self.nextToken = nil
+            self.streamingSessionBackups = nil
+        }
+    }
+}
+
+public struct ListStreamingSessionBackupsOutputResponse: Swift.Equatable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// Information about the streaming session backups.
+    public var streamingSessionBackups: [NimbleClientTypes.StreamingSessionBackup]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        streamingSessionBackups: [NimbleClientTypes.StreamingSessionBackup]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.streamingSessionBackups = streamingSessionBackups
+    }
+}
+
+struct ListStreamingSessionBackupsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let streamingSessionBackups: [NimbleClientTypes.StreamingSessionBackup]?
+}
+
+extension ListStreamingSessionBackupsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case streamingSessionBackups
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let streamingSessionBackupsContainer = try containerValues.decodeIfPresent([NimbleClientTypes.StreamingSessionBackup?].self, forKey: .streamingSessionBackups)
+        var streamingSessionBackupsDecoded0:[NimbleClientTypes.StreamingSessionBackup]? = nil
+        if let streamingSessionBackupsContainer = streamingSessionBackupsContainer {
+            streamingSessionBackupsDecoded0 = [NimbleClientTypes.StreamingSessionBackup]()
+            for structure0 in streamingSessionBackupsContainer {
+                if let structure0 = structure0 {
+                    streamingSessionBackupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        streamingSessionBackups = streamingSessionBackupsDecoded0
+    }
+}
+
 extension ListStreamingSessionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -6127,7 +6420,7 @@ extension ListStreamingSessionsInput: ClientRuntime.URLPathProvider {
 public struct ListStreamingSessionsInput: Swift.Equatable {
     /// Filters the request to streaming sessions created by the given user.
     public var createdBy: Swift.String?
-    /// The token to request the next page of results.
+    /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// Filters the request to streaming session owned by the given user
     public var ownedBy: Swift.String?
@@ -6180,7 +6473,7 @@ extension ListStreamingSessionsOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6297,7 +6590,7 @@ extension ListStudioComponentsInput: ClientRuntime.URLPathProvider {
 public struct ListStudioComponentsInput: Swift.Equatable {
     /// The max number of results to return in the response.
     public var maxResults: Swift.Int?
-    /// The token to request the next page of results.
+    /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// Filters the request to studio components that are in one of the given states.
     public var states: [NimbleClientTypes.StudioComponentState]?
@@ -6350,7 +6643,7 @@ extension ListStudioComponentsOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6455,7 +6748,7 @@ extension ListStudioMembersInput: ClientRuntime.URLPathProvider {
 public struct ListStudioMembersInput: Swift.Equatable {
     /// The max number of results to return in the response.
     public var maxResults: Swift.Int?
-    /// The token to request the next page of results.
+    /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
     /// The studio ID.
     /// This member is required.
@@ -6500,7 +6793,7 @@ extension ListStudioMembersOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6596,7 +6889,7 @@ extension ListStudiosInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListStudiosInput: Swift.Equatable {
-    /// The token to request the next page of results.
+    /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
 
     public init (
@@ -6634,7 +6927,7 @@ extension ListStudiosOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6760,7 +7053,7 @@ extension ListTagsForResourceOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6790,7 +7083,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsForResourceOutputResponse: Swift.Equatable {
-    /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+    /// A collection of labels, in the form of key-value pairs, that apply to this resource.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -6963,12 +7256,12 @@ extension PutLaunchProfileMembersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutLaunchProfileMembersInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The ID of the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// A list of members.
@@ -7041,7 +7334,7 @@ extension PutLaunchProfileMembersOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7107,7 +7400,7 @@ extension PutStudioMembersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutStudioMembersInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The ID of the identity store.
     /// This member is required.
@@ -7180,7 +7473,7 @@ extension PutStudioMembersOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7314,7 +7607,7 @@ extension NimbleClientTypes.ScriptParameterKeyValue: Swift.Codable {
 }
 
 extension NimbleClientTypes {
-    /// A parameter for a studio component script, in the form of a key:value pair.
+    /// A parameter for a studio component script, in the form of a key-value pair.
     public struct ScriptParameterKeyValue: Swift.Equatable {
         /// A script parameter key.
         public var key: Swift.String?
@@ -7354,7 +7647,7 @@ extension ServiceQuotaExceededException {
     }
 }
 
-/// Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use AWS Service Quotas to request an increase.
+/// Your current quota does not allow you to perform the request action. You can request increases for some quotas, and other quotas cannot be increased. Please use Amazon Web Services Service Quotas to request an increase.
 public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -7412,6 +7705,70 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         context = contextDecoded0
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension NimbleClientTypes {
+    public enum SessionBackupMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automatic
+        case deactivated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionBackupMode] {
+            return [
+                .automatic,
+                .deactivated,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .deactivated: return "DEACTIVATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SessionBackupMode(rawValue: rawValue) ?? SessionBackupMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension NimbleClientTypes {
+    public enum SessionPersistenceMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case activated
+        case deactivated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionPersistenceMode] {
+            return [
+                .activated,
+                .deactivated,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .activated: return "ACTIVATED"
+            case .deactivated: return "DEACTIVATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SessionPersistenceMode(rawValue: rawValue) ?? SessionPersistenceMode.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -7495,6 +7852,19 @@ extension NimbleClientTypes {
 
 }
 
+extension StartStreamingSessionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backupId = self.backupId {
+            try encodeContainer.encode(backupId, forKey: .backupId)
+        }
+    }
+}
+
 extension StartStreamingSessionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -7518,7 +7888,9 @@ extension StartStreamingSessionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartStreamingSessionInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// The ID of the backup.
+    public var backupId: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The streaming session ID for the StartStreamingSessionRequest.
     /// This member is required.
@@ -7528,11 +7900,13 @@ public struct StartStreamingSessionInput: Swift.Equatable {
     public var studioId: Swift.String?
 
     public init (
+        backupId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         studioId: Swift.String? = nil
     )
     {
+        self.backupId = backupId
         self.clientToken = clientToken
         self.sessionId = sessionId
         self.studioId = studioId
@@ -7540,11 +7914,18 @@ public struct StartStreamingSessionInput: Swift.Equatable {
 }
 
 struct StartStreamingSessionInputBody: Swift.Equatable {
+    let backupId: Swift.String?
 }
 
 extension StartStreamingSessionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backupId
+    }
 
     public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupId)
+        backupId = backupIdDecoded
     }
 }
 
@@ -7566,7 +7947,7 @@ extension StartStreamingSessionOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7643,7 +8024,7 @@ extension StartStudioSSOConfigurationRepairInput: ClientRuntime.URLPathProvider 
 }
 
 public struct StartStudioSSOConfigurationRepairInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The studio ID.
     /// This member is required.
@@ -7686,7 +8067,7 @@ extension StartStudioSSOConfigurationRepairOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7744,6 +8125,19 @@ extension StartStudioSSOConfigurationRepairOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension StopStreamingSessionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case volumeRetentionMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let volumeRetentionMode = self.volumeRetentionMode {
+            try encodeContainer.encode(volumeRetentionMode.rawValue, forKey: .volumeRetentionMode)
+        }
+    }
+}
+
 extension StopStreamingSessionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -7767,7 +8161,7 @@ extension StopStreamingSessionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StopStreamingSessionInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The streaming session ID for the StopStreamingSessionRequest.
     /// This member is required.
@@ -7775,25 +8169,36 @@ public struct StopStreamingSessionInput: Swift.Equatable {
     /// The studioId for the StopStreamingSessionRequest.
     /// This member is required.
     public var studioId: Swift.String?
+    /// Adds additional instructions to a streaming session stop action to either retain the EBS volumes or delete the EBS volumes.
+    public var volumeRetentionMode: NimbleClientTypes.VolumeRetentionMode?
 
     public init (
         clientToken: Swift.String? = nil,
         sessionId: Swift.String? = nil,
-        studioId: Swift.String? = nil
+        studioId: Swift.String? = nil,
+        volumeRetentionMode: NimbleClientTypes.VolumeRetentionMode? = nil
     )
     {
         self.clientToken = clientToken
         self.sessionId = sessionId
         self.studioId = studioId
+        self.volumeRetentionMode = volumeRetentionMode
     }
 }
 
 struct StopStreamingSessionInputBody: Swift.Equatable {
+    let volumeRetentionMode: NimbleClientTypes.VolumeRetentionMode?
 }
 
 extension StopStreamingSessionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case volumeRetentionMode
+    }
 
     public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let volumeRetentionModeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.VolumeRetentionMode.self, forKey: .volumeRetentionMode)
+        volumeRetentionMode = volumeRetentionModeDecoded
     }
 }
 
@@ -7815,7 +8220,7 @@ extension StopStreamingSessionOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7874,16 +8279,23 @@ extension StopStreamingSessionOutputResponseBody: Swift.Decodable {
 
 extension NimbleClientTypes.StreamConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automaticTerminationMode
         case clipboardMode
         case ec2InstanceTypes
         case maxSessionLengthInMinutes
         case maxStoppedSessionLengthInMinutes
+        case sessionBackup
+        case sessionPersistenceMode
         case sessionStorage
         case streamingImageIds
+        case volumeConfiguration
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let automaticTerminationMode = self.automaticTerminationMode {
+            try encodeContainer.encode(automaticTerminationMode.rawValue, forKey: .automaticTerminationMode)
+        }
         if let clipboardMode = self.clipboardMode {
             try encodeContainer.encode(clipboardMode.rawValue, forKey: .clipboardMode)
         }
@@ -7899,6 +8311,12 @@ extension NimbleClientTypes.StreamConfiguration: Swift.Codable {
         if let maxStoppedSessionLengthInMinutes = self.maxStoppedSessionLengthInMinutes {
             try encodeContainer.encode(maxStoppedSessionLengthInMinutes, forKey: .maxStoppedSessionLengthInMinutes)
         }
+        if let sessionBackup = self.sessionBackup {
+            try encodeContainer.encode(sessionBackup, forKey: .sessionBackup)
+        }
+        if let sessionPersistenceMode = self.sessionPersistenceMode {
+            try encodeContainer.encode(sessionPersistenceMode.rawValue, forKey: .sessionPersistenceMode)
+        }
         if let sessionStorage = self.sessionStorage {
             try encodeContainer.encode(sessionStorage, forKey: .sessionStorage)
         }
@@ -7907,6 +8325,9 @@ extension NimbleClientTypes.StreamConfiguration: Swift.Codable {
             for streamingimageidlist0 in streamingImageIds {
                 try streamingImageIdsContainer.encode(streamingimageidlist0)
             }
+        }
+        if let volumeConfiguration = self.volumeConfiguration {
+            try encodeContainer.encode(volumeConfiguration, forKey: .volumeConfiguration)
         }
     }
 
@@ -7918,9 +8339,9 @@ extension NimbleClientTypes.StreamConfiguration: Swift.Codable {
         var ec2InstanceTypesDecoded0:[NimbleClientTypes.StreamingInstanceType]? = nil
         if let ec2InstanceTypesContainer = ec2InstanceTypesContainer {
             ec2InstanceTypesDecoded0 = [NimbleClientTypes.StreamingInstanceType]()
-            for string0 in ec2InstanceTypesContainer {
-                if let string0 = string0 {
-                    ec2InstanceTypesDecoded0?.append(string0)
+            for enum0 in ec2InstanceTypesContainer {
+                if let enum0 = enum0 {
+                    ec2InstanceTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -7942,13 +8363,30 @@ extension NimbleClientTypes.StreamConfiguration: Swift.Codable {
         maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutesDecoded
         let sessionStorageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamConfigurationSessionStorage.self, forKey: .sessionStorage)
         sessionStorage = sessionStorageDecoded
+        let sessionBackupDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamConfigurationSessionBackup.self, forKey: .sessionBackup)
+        sessionBackup = sessionBackupDecoded
+        let sessionPersistenceModeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.SessionPersistenceMode.self, forKey: .sessionPersistenceMode)
+        sessionPersistenceMode = sessionPersistenceModeDecoded
+        let volumeConfigurationDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.VolumeConfiguration.self, forKey: .volumeConfiguration)
+        volumeConfiguration = volumeConfigurationDecoded
+        let automaticTerminationModeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.AutomaticTerminationMode.self, forKey: .automaticTerminationMode)
+        automaticTerminationMode = automaticTerminationModeDecoded
     }
 }
 
 extension NimbleClientTypes {
     /// A configuration for a streaming session.
     public struct StreamConfiguration: Swift.Equatable {
-        /// Enable or disable the use of the system clipboard to copy and paste between the streaming session and streaming client.
+        /// Indicates if a streaming session created from this launch profile should be terminated automatically or retained without termination after being in a STOPPED state.
+        ///
+        /// * When ACTIVATED, the streaming session is scheduled for termination after being in the STOPPED state for the time specified in maxStoppedSessionLengthInMinutes.
+        ///
+        /// * When DEACTIVATED, the streaming session can remain in the STOPPED state indefinitely.
+        ///
+        ///
+        /// This parameter is only allowed when sessionPersistenceMode is ACTIVATED. When allowed, the default value for this parameter is DEACTIVATED.
+        public var automaticTerminationMode: NimbleClientTypes.AutomaticTerminationMode?
+        /// Allows or deactivates the use of the system clipboard to copy and paste between the streaming session and streaming client.
         /// This member is required.
         public var clipboardMode: NimbleClientTypes.StreamingClipboardMode?
         /// The EC2 instance types that users can select from when launching a streaming session with this launch profile.
@@ -7956,29 +8394,43 @@ extension NimbleClientTypes {
         public var ec2InstanceTypes: [NimbleClientTypes.StreamingInstanceType]?
         /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public var maxSessionLengthInMinutes: Swift.Int?
-        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
+        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. This field is allowed only when sessionPersistenceMode is ACTIVATED and automaticTerminationMode is ACTIVATED. If the value is set to 0, your sessions can’t be STOPPED. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of STOPPED). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
         public var maxStoppedSessionLengthInMinutes: Swift.Int?
-        /// (Optional) The upload storage for a streaming session.
+        /// Information about the streaming session backup.
+        public var sessionBackup: NimbleClientTypes.StreamConfigurationSessionBackup?
+        /// Determine if a streaming session created from this launch profile can configure persistent storage. This means that volumeConfiguration and automaticTerminationMode are configured.
+        public var sessionPersistenceMode: NimbleClientTypes.SessionPersistenceMode?
+        /// The upload storage for a streaming session.
         public var sessionStorage: NimbleClientTypes.StreamConfigurationSessionStorage?
         /// The streaming images that users can select from when launching a streaming session with this launch profile.
         /// This member is required.
         public var streamingImageIds: [Swift.String]?
+        /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
+        public var volumeConfiguration: NimbleClientTypes.VolumeConfiguration?
 
         public init (
+            automaticTerminationMode: NimbleClientTypes.AutomaticTerminationMode? = nil,
             clipboardMode: NimbleClientTypes.StreamingClipboardMode? = nil,
             ec2InstanceTypes: [NimbleClientTypes.StreamingInstanceType]? = nil,
             maxSessionLengthInMinutes: Swift.Int? = nil,
             maxStoppedSessionLengthInMinutes: Swift.Int? = nil,
+            sessionBackup: NimbleClientTypes.StreamConfigurationSessionBackup? = nil,
+            sessionPersistenceMode: NimbleClientTypes.SessionPersistenceMode? = nil,
             sessionStorage: NimbleClientTypes.StreamConfigurationSessionStorage? = nil,
-            streamingImageIds: [Swift.String]? = nil
+            streamingImageIds: [Swift.String]? = nil,
+            volumeConfiguration: NimbleClientTypes.VolumeConfiguration? = nil
         )
         {
+            self.automaticTerminationMode = automaticTerminationMode
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
             self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
+            self.sessionBackup = sessionBackup
+            self.sessionPersistenceMode = sessionPersistenceMode
             self.sessionStorage = sessionStorage
             self.streamingImageIds = streamingImageIds
+            self.volumeConfiguration = volumeConfiguration
         }
     }
 
@@ -7986,16 +8438,23 @@ extension NimbleClientTypes {
 
 extension NimbleClientTypes.StreamConfigurationCreate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case automaticTerminationMode
         case clipboardMode
         case ec2InstanceTypes
         case maxSessionLengthInMinutes
         case maxStoppedSessionLengthInMinutes
+        case sessionBackup
+        case sessionPersistenceMode
         case sessionStorage
         case streamingImageIds
+        case volumeConfiguration
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let automaticTerminationMode = self.automaticTerminationMode {
+            try encodeContainer.encode(automaticTerminationMode.rawValue, forKey: .automaticTerminationMode)
+        }
         if let clipboardMode = self.clipboardMode {
             try encodeContainer.encode(clipboardMode.rawValue, forKey: .clipboardMode)
         }
@@ -8011,6 +8470,12 @@ extension NimbleClientTypes.StreamConfigurationCreate: Swift.Codable {
         if let maxStoppedSessionLengthInMinutes = self.maxStoppedSessionLengthInMinutes {
             try encodeContainer.encode(maxStoppedSessionLengthInMinutes, forKey: .maxStoppedSessionLengthInMinutes)
         }
+        if let sessionBackup = self.sessionBackup {
+            try encodeContainer.encode(sessionBackup, forKey: .sessionBackup)
+        }
+        if let sessionPersistenceMode = self.sessionPersistenceMode {
+            try encodeContainer.encode(sessionPersistenceMode.rawValue, forKey: .sessionPersistenceMode)
+        }
         if let sessionStorage = self.sessionStorage {
             try encodeContainer.encode(sessionStorage, forKey: .sessionStorage)
         }
@@ -8019,6 +8484,9 @@ extension NimbleClientTypes.StreamConfigurationCreate: Swift.Codable {
             for streamingimageidlist0 in streamingImageIds {
                 try streamingImageIdsContainer.encode(streamingimageidlist0)
             }
+        }
+        if let volumeConfiguration = self.volumeConfiguration {
+            try encodeContainer.encode(volumeConfiguration, forKey: .volumeConfiguration)
         }
     }
 
@@ -8030,9 +8498,9 @@ extension NimbleClientTypes.StreamConfigurationCreate: Swift.Codable {
         var ec2InstanceTypesDecoded0:[NimbleClientTypes.StreamingInstanceType]? = nil
         if let ec2InstanceTypesContainer = ec2InstanceTypesContainer {
             ec2InstanceTypesDecoded0 = [NimbleClientTypes.StreamingInstanceType]()
-            for string0 in ec2InstanceTypesContainer {
-                if let string0 = string0 {
-                    ec2InstanceTypesDecoded0?.append(string0)
+            for enum0 in ec2InstanceTypesContainer {
+                if let enum0 = enum0 {
+                    ec2InstanceTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -8054,13 +8522,30 @@ extension NimbleClientTypes.StreamConfigurationCreate: Swift.Codable {
         maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutesDecoded
         let sessionStorageDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamConfigurationSessionStorage.self, forKey: .sessionStorage)
         sessionStorage = sessionStorageDecoded
+        let sessionBackupDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamConfigurationSessionBackup.self, forKey: .sessionBackup)
+        sessionBackup = sessionBackupDecoded
+        let sessionPersistenceModeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.SessionPersistenceMode.self, forKey: .sessionPersistenceMode)
+        sessionPersistenceMode = sessionPersistenceModeDecoded
+        let volumeConfigurationDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.VolumeConfiguration.self, forKey: .volumeConfiguration)
+        volumeConfiguration = volumeConfigurationDecoded
+        let automaticTerminationModeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.AutomaticTerminationMode.self, forKey: .automaticTerminationMode)
+        automaticTerminationMode = automaticTerminationModeDecoded
     }
 }
 
 extension NimbleClientTypes {
     /// Configuration for streaming workstations created using this launch profile.
     public struct StreamConfigurationCreate: Swift.Equatable {
-        /// Enable or disable the use of the system clipboard to copy and paste between the streaming session and streaming client.
+        /// Indicates if a streaming session created from this launch profile should be terminated automatically or retained without termination after being in a STOPPED state.
+        ///
+        /// * When ACTIVATED, the streaming session is scheduled for termination after being in the STOPPED state for the time specified in maxStoppedSessionLengthInMinutes.
+        ///
+        /// * When DEACTIVATED, the streaming session can remain in the STOPPED state indefinitely.
+        ///
+        ///
+        /// This parameter is only allowed when sessionPersistenceMode is ACTIVATED. When allowed, the default value for this parameter is DEACTIVATED.
+        public var automaticTerminationMode: NimbleClientTypes.AutomaticTerminationMode?
+        /// Allows or deactivates the use of the system clipboard to copy and paste between the streaming session and streaming client.
         /// This member is required.
         public var clipboardMode: NimbleClientTypes.StreamingClipboardMode?
         /// The EC2 instance types that users can select from when launching a streaming session with this launch profile.
@@ -8068,29 +8553,88 @@ extension NimbleClientTypes {
         public var ec2InstanceTypes: [NimbleClientTypes.StreamingInstanceType]?
         /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public var maxSessionLengthInMinutes: Swift.Int?
-        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
+        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. This field is allowed only when sessionPersistenceMode is ACTIVATED and automaticTerminationMode is ACTIVATED. If the value is set to 0, your sessions can’t be STOPPED. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated (instead of STOPPED). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped (instead of terminated).
         public var maxStoppedSessionLengthInMinutes: Swift.Int?
-        /// (Optional) The upload storage for a streaming workstation that is created using this launch profile.
+        /// Configures how streaming sessions are backed up when launched from this launch profile.
+        public var sessionBackup: NimbleClientTypes.StreamConfigurationSessionBackup?
+        /// Determine if a streaming session created from this launch profile can configure persistent storage. This means that volumeConfiguration and automaticTerminationMode are configured.
+        public var sessionPersistenceMode: NimbleClientTypes.SessionPersistenceMode?
+        /// The upload storage for a streaming workstation that is created using this launch profile.
         public var sessionStorage: NimbleClientTypes.StreamConfigurationSessionStorage?
         /// The streaming images that users can select from when launching a streaming session with this launch profile.
         /// This member is required.
         public var streamingImageIds: [Swift.String]?
+        /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
+        public var volumeConfiguration: NimbleClientTypes.VolumeConfiguration?
 
         public init (
+            automaticTerminationMode: NimbleClientTypes.AutomaticTerminationMode? = nil,
             clipboardMode: NimbleClientTypes.StreamingClipboardMode? = nil,
             ec2InstanceTypes: [NimbleClientTypes.StreamingInstanceType]? = nil,
             maxSessionLengthInMinutes: Swift.Int? = nil,
             maxStoppedSessionLengthInMinutes: Swift.Int? = nil,
+            sessionBackup: NimbleClientTypes.StreamConfigurationSessionBackup? = nil,
+            sessionPersistenceMode: NimbleClientTypes.SessionPersistenceMode? = nil,
             sessionStorage: NimbleClientTypes.StreamConfigurationSessionStorage? = nil,
-            streamingImageIds: [Swift.String]? = nil
+            streamingImageIds: [Swift.String]? = nil,
+            volumeConfiguration: NimbleClientTypes.VolumeConfiguration? = nil
         )
         {
+            self.automaticTerminationMode = automaticTerminationMode
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
             self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
+            self.sessionBackup = sessionBackup
+            self.sessionPersistenceMode = sessionPersistenceMode
             self.sessionStorage = sessionStorage
             self.streamingImageIds = streamingImageIds
+            self.volumeConfiguration = volumeConfiguration
+        }
+    }
+
+}
+
+extension NimbleClientTypes.StreamConfigurationSessionBackup: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxBackupsToRetain
+        case mode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxBackupsToRetain = self.maxBackupsToRetain {
+            try encodeContainer.encode(maxBackupsToRetain, forKey: .maxBackupsToRetain)
+        }
+        if let mode = self.mode {
+            try encodeContainer.encode(mode.rawValue, forKey: .mode)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.SessionBackupMode.self, forKey: .mode)
+        mode = modeDecoded
+        let maxBackupsToRetainDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBackupsToRetain)
+        maxBackupsToRetain = maxBackupsToRetainDecoded
+    }
+}
+
+extension NimbleClientTypes {
+    /// Configures how streaming sessions are backed up when launched from this launch profile.
+    public struct StreamConfigurationSessionBackup: Swift.Equatable {
+        /// The maximum number of backups that each streaming session created from this launch profile can have.
+        public var maxBackupsToRetain: Swift.Int?
+        /// Specifies how artists sessions are backed up. Configures backups for streaming sessions launched with this launch profile. The default value is DEACTIVATED, which means that backups are deactivated. To allow backups, set this value to AUTOMATIC.
+        public var mode: NimbleClientTypes.SessionBackupMode?
+
+        public init (
+            maxBackupsToRetain: Swift.Int? = nil,
+            mode: NimbleClientTypes.SessionBackupMode? = nil
+        )
+        {
+            self.maxBackupsToRetain = maxBackupsToRetain
+            self.mode = mode
         }
     }
 
@@ -8123,9 +8667,9 @@ extension NimbleClientTypes.StreamConfigurationSessionStorage: Swift.Codable {
         var modeDecoded0:[NimbleClientTypes.StreamingSessionStorageMode]? = nil
         if let modeContainer = modeContainer {
             modeDecoded0 = [NimbleClientTypes.StreamingSessionStorageMode]()
-            for string0 in modeContainer {
-                if let string0 = string0 {
-                    modeDecoded0?.append(string0)
+            for enum0 in modeContainer {
+                if let enum0 = enum0 {
+                    modeDecoded0?.append(enum0)
                 }
             }
         }
@@ -8307,9 +8851,9 @@ extension NimbleClientTypes.StreamingImage: Swift.CustomDebugStringConvertible {
 }
 
 extension NimbleClientTypes {
-    /// Represents a streaming image resource. Streaming images are used by studio users to select which operating system and software they want to use in a Nimble Studio streaming session. Amazon provides a number of streaming images that include popular 3rd-party software. You can create your own streaming images using an Amazon Elastic Compute Cloud (Amazon EC2) machine image that you create for this purpose. You can also include software that your users require.
+    /// Represents a streaming image resource. Streaming images are used by studio users to select which operating system and software they want to use in a Nimble Studio streaming session. Amazon provides a number of streaming images that include popular 3rd-party software. You can create your own streaming images using an Amazon EC2 machine image that you create for this purpose. You can also include software that your users require.
     public struct StreamingImage: Swift.Equatable {
-        /// The ARN of the resource.
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
         /// A human-readable description of the streaming image.
         public var description: Swift.String?
@@ -8321,9 +8865,9 @@ extension NimbleClientTypes {
         public var eulaIds: [Swift.String]?
         /// A friendly name for a streaming image resource.
         public var name: Swift.String?
-        /// The owner of the streaming image, either the studioId that contains the streaming image, or 'amazon' for images that are provided by Amazon Nimble Studio.
+        /// The owner of the streaming image, either the studioId that contains the streaming image, or amazon for images that are provided by Amazon Nimble Studio.
         public var owner: Swift.String?
-        /// The platform of the streaming image, either WINDOWS or LINUX.
+        /// The platform of the streaming image, either Windows or Linux.
         public var platform: Swift.String?
         /// The current state.
         public var state: NimbleClientTypes.StreamingImageState?
@@ -8333,7 +8877,7 @@ extension NimbleClientTypes {
         public var statusMessage: Swift.String?
         /// The ID of the streaming image.
         public var streamingImageId: Swift.String?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -8611,14 +9155,19 @@ extension NimbleClientTypes {
 extension NimbleClientTypes.StreamingSession: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case automaticTerminationMode
+        case backupMode
         case createdAt
         case createdBy
         case ec2InstanceType
         case launchProfileId
+        case maxBackupsToRetain
         case ownedBy
         case sessionId
+        case sessionPersistenceMode
         case startedAt
         case startedBy
+        case startedFromBackupId
         case state
         case statusCode
         case statusMessage
@@ -8630,12 +9179,20 @@ extension NimbleClientTypes.StreamingSession: Swift.Codable {
         case terminateAt
         case updatedAt
         case updatedBy
+        case volumeConfiguration
+        case volumeRetentionMode
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let automaticTerminationMode = self.automaticTerminationMode {
+            try encodeContainer.encode(automaticTerminationMode.rawValue, forKey: .automaticTerminationMode)
+        }
+        if let backupMode = self.backupMode {
+            try encodeContainer.encode(backupMode.rawValue, forKey: .backupMode)
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
@@ -8649,17 +9206,26 @@ extension NimbleClientTypes.StreamingSession: Swift.Codable {
         if let launchProfileId = self.launchProfileId {
             try encodeContainer.encode(launchProfileId, forKey: .launchProfileId)
         }
+        if let maxBackupsToRetain = self.maxBackupsToRetain {
+            try encodeContainer.encode(maxBackupsToRetain, forKey: .maxBackupsToRetain)
+        }
         if let ownedBy = self.ownedBy {
             try encodeContainer.encode(ownedBy, forKey: .ownedBy)
         }
         if let sessionId = self.sessionId {
             try encodeContainer.encode(sessionId, forKey: .sessionId)
         }
+        if let sessionPersistenceMode = self.sessionPersistenceMode {
+            try encodeContainer.encode(sessionPersistenceMode.rawValue, forKey: .sessionPersistenceMode)
+        }
         if let startedAt = self.startedAt {
             try encodeContainer.encodeTimestamp(startedAt, format: .dateTime, forKey: .startedAt)
         }
         if let startedBy = self.startedBy {
             try encodeContainer.encode(startedBy, forKey: .startedBy)
+        }
+        if let startedFromBackupId = self.startedFromBackupId {
+            try encodeContainer.encode(startedFromBackupId, forKey: .startedFromBackupId)
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
@@ -8696,6 +9262,12 @@ extension NimbleClientTypes.StreamingSession: Swift.Codable {
         }
         if let updatedBy = self.updatedBy {
             try encodeContainer.encode(updatedBy, forKey: .updatedBy)
+        }
+        if let volumeConfiguration = self.volumeConfiguration {
+            try encodeContainer.encode(volumeConfiguration, forKey: .volumeConfiguration)
+        }
+        if let volumeRetentionMode = self.volumeRetentionMode {
+            try encodeContainer.encode(volumeRetentionMode.rawValue, forKey: .volumeRetentionMode)
         }
     }
 
@@ -8750,15 +9322,40 @@ extension NimbleClientTypes.StreamingSession: Swift.Codable {
         startedBy = startedByDecoded
         let stopAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .stopAt)
         stopAt = stopAtDecoded
+        let startedFromBackupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startedFromBackupId)
+        startedFromBackupId = startedFromBackupIdDecoded
+        let backupModeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.SessionBackupMode.self, forKey: .backupMode)
+        backupMode = backupModeDecoded
+        let maxBackupsToRetainDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBackupsToRetain)
+        maxBackupsToRetain = maxBackupsToRetainDecoded
+        let volumeRetentionModeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.VolumeRetentionMode.self, forKey: .volumeRetentionMode)
+        volumeRetentionMode = volumeRetentionModeDecoded
+        let sessionPersistenceModeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.SessionPersistenceMode.self, forKey: .sessionPersistenceMode)
+        sessionPersistenceMode = sessionPersistenceModeDecoded
+        let volumeConfigurationDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.VolumeConfiguration.self, forKey: .volumeConfiguration)
+        volumeConfiguration = volumeConfigurationDecoded
+        let automaticTerminationModeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.AutomaticTerminationMode.self, forKey: .automaticTerminationMode)
+        automaticTerminationMode = automaticTerminationModeDecoded
     }
 }
 
 extension NimbleClientTypes {
     /// A streaming session is a virtual workstation created using a particular launch profile.
     public struct StreamingSession: Swift.Equatable {
-        /// The ARN of the resource.
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// Indicates if a streaming session created from this launch profile should be terminated automatically or retained without termination after being in a STOPPED state.
+        ///
+        /// * When ACTIVATED, the streaming session is scheduled for termination after being in the STOPPED state for the time specified in maxStoppedSessionLengthInMinutes.
+        ///
+        /// * When DEACTIVATED, the streaming session can remain in the STOPPED state indefinitely.
+        ///
+        ///
+        /// This parameter is only allowed when sessionPersistenceMode is ACTIVATED. When allowed, the default value for this parameter is DEACTIVATED.
+        public var automaticTerminationMode: NimbleClientTypes.AutomaticTerminationMode?
+        /// Shows the current backup setting of the session.
+        public var backupMode: NimbleClientTypes.SessionBackupMode?
+        /// The ISO timestamp in seconds for when the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// The user ID of the user that created the streaming session.
         public var createdBy: Swift.String?
@@ -8766,14 +9363,20 @@ extension NimbleClientTypes {
         public var ec2InstanceType: Swift.String?
         /// The ID of the launch profile used to control access from the streaming session.
         public var launchProfileId: Swift.String?
+        /// The maximum number of backups of a streaming session that you can have. When the maximum number of backups is reached, the oldest backup is deleted.
+        public var maxBackupsToRetain: Swift.Int?
         /// The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.
         public var ownedBy: Swift.String?
         /// The session ID.
         public var sessionId: Swift.String?
+        /// Determine if a streaming session created from this launch profile can configure persistent storage. This means that volumeConfiguration and automaticTerminationMode are configured.
+        public var sessionPersistenceMode: NimbleClientTypes.SessionPersistenceMode?
         /// The time the session entered START_IN_PROGRESS state.
         public var startedAt: ClientRuntime.Date?
         /// The user ID of the user that started the streaming session.
         public var startedBy: Swift.String?
+        /// The backup ID used to restore a streaming session.
+        public var startedFromBackupId: Swift.String?
         /// The current state.
         public var state: NimbleClientTypes.StreamingSessionState?
         /// The status code.
@@ -8788,25 +9391,34 @@ extension NimbleClientTypes {
         public var stoppedBy: Swift.String?
         /// The ID of the streaming image.
         public var streamingImageId: Swift.String?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public var tags: [Swift.String:Swift.String]?
         /// The time the streaming session will automatically terminate if not terminated by the user.
         public var terminateAt: ClientRuntime.Date?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         public var updatedAt: ClientRuntime.Date?
         /// The user ID of the user that most recently updated the resource.
         public var updatedBy: Swift.String?
+        /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
+        public var volumeConfiguration: NimbleClientTypes.VolumeConfiguration?
+        /// Determine if an EBS volume created from this streaming session will be backed up.
+        public var volumeRetentionMode: NimbleClientTypes.VolumeRetentionMode?
 
         public init (
             arn: Swift.String? = nil,
+            automaticTerminationMode: NimbleClientTypes.AutomaticTerminationMode? = nil,
+            backupMode: NimbleClientTypes.SessionBackupMode? = nil,
             createdAt: ClientRuntime.Date? = nil,
             createdBy: Swift.String? = nil,
             ec2InstanceType: Swift.String? = nil,
             launchProfileId: Swift.String? = nil,
+            maxBackupsToRetain: Swift.Int? = nil,
             ownedBy: Swift.String? = nil,
             sessionId: Swift.String? = nil,
+            sessionPersistenceMode: NimbleClientTypes.SessionPersistenceMode? = nil,
             startedAt: ClientRuntime.Date? = nil,
             startedBy: Swift.String? = nil,
+            startedFromBackupId: Swift.String? = nil,
             state: NimbleClientTypes.StreamingSessionState? = nil,
             statusCode: NimbleClientTypes.StreamingSessionStatusCode? = nil,
             statusMessage: Swift.String? = nil,
@@ -8817,18 +9429,25 @@ extension NimbleClientTypes {
             tags: [Swift.String:Swift.String]? = nil,
             terminateAt: ClientRuntime.Date? = nil,
             updatedAt: ClientRuntime.Date? = nil,
-            updatedBy: Swift.String? = nil
+            updatedBy: Swift.String? = nil,
+            volumeConfiguration: NimbleClientTypes.VolumeConfiguration? = nil,
+            volumeRetentionMode: NimbleClientTypes.VolumeRetentionMode? = nil
         )
         {
             self.arn = arn
+            self.automaticTerminationMode = automaticTerminationMode
+            self.backupMode = backupMode
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.ec2InstanceType = ec2InstanceType
             self.launchProfileId = launchProfileId
+            self.maxBackupsToRetain = maxBackupsToRetain
             self.ownedBy = ownedBy
             self.sessionId = sessionId
+            self.sessionPersistenceMode = sessionPersistenceMode
             self.startedAt = startedAt
             self.startedBy = startedBy
+            self.startedFromBackupId = startedFromBackupId
             self.state = state
             self.statusCode = statusCode
             self.statusMessage = statusMessage
@@ -8840,6 +9459,145 @@ extension NimbleClientTypes {
             self.terminateAt = terminateAt
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.volumeConfiguration = volumeConfiguration
+            self.volumeRetentionMode = volumeRetentionMode
+        }
+    }
+
+}
+
+extension NimbleClientTypes.StreamingSessionBackup: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case backupId
+        case createdAt
+        case launchProfileId
+        case ownedBy
+        case sessionId
+        case state
+        case statusCode
+        case statusMessage
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let backupId = self.backupId {
+            try encodeContainer.encode(backupId, forKey: .backupId)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let launchProfileId = self.launchProfileId {
+            try encodeContainer.encode(launchProfileId, forKey: .launchProfileId)
+        }
+        if let ownedBy = self.ownedBy {
+            try encodeContainer.encode(ownedBy, forKey: .ownedBy)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let statusCode = self.statusCode {
+            try encodeContainer.encode(statusCode.rawValue, forKey: .statusCode)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let launchProfileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchProfileId)
+        launchProfileId = launchProfileIdDecoded
+        let ownedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownedBy)
+        ownedBy = ownedByDecoded
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSessionState.self, forKey: .state)
+        state = stateDecoded
+        let statusCodeDecoded = try containerValues.decodeIfPresent(NimbleClientTypes.StreamingSessionStatusCode.self, forKey: .statusCode)
+        statusCode = statusCodeDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let backupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backupId)
+        backupId = backupIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in tagsContainer {
+                if let string0 = string0 {
+                    tagsDecoded0?[key0] = string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension NimbleClientTypes {
+    /// Information about the streaming session backup.
+    public struct StreamingSessionBackup: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
+        public var arn: Swift.String?
+        /// The ID of the backup.
+        public var backupId: Swift.String?
+        /// The ISO timestamp in for when the resource was created.
+        public var createdAt: ClientRuntime.Date?
+        /// The ID of the launch profile which allowed the backups for the streaming session.
+        public var launchProfileId: Swift.String?
+        /// The user ID of the user that owns the streaming session.
+        public var ownedBy: Swift.String?
+        /// The streaming session ID for the StreamingSessionBackup.
+        public var sessionId: Swift.String?
+        /// The streaming session state.
+        public var state: NimbleClientTypes.StreamingSessionState?
+        /// The status code.
+        public var statusCode: NimbleClientTypes.StreamingSessionStatusCode?
+        /// The status message for the streaming session backup.
+        public var statusMessage: Swift.String?
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init (
+            arn: Swift.String? = nil,
+            backupId: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            launchProfileId: Swift.String? = nil,
+            ownedBy: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            state: NimbleClientTypes.StreamingSessionState? = nil,
+            statusCode: NimbleClientTypes.StreamingSessionStatusCode? = nil,
+            statusMessage: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.backupId = backupId
+            self.createdAt = createdAt
+            self.launchProfileId = launchProfileId
+            self.ownedBy = ownedBy
+            self.sessionId = sessionId
+            self.state = state
+            self.statusCode = statusCode
+            self.statusMessage = statusMessage
+            self.tags = tags
         }
     }
 
@@ -9127,11 +9885,11 @@ extension NimbleClientTypes.StreamingSessionStream: Swift.CustomDebugStringConve
 extension NimbleClientTypes {
     /// A stream is an active connection to a streaming session, enabling a studio user to control the streaming session using a compatible client. Streaming session streams are compatible with the NICE DCV web client, included in the Nimble Studio portal, or the NICE DCV desktop client.
     public struct StreamingSessionStream: Swift.Equatable {
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// The user ID of the user that created the streaming session stream.
         public var createdBy: Swift.String?
-        /// The Unix epoch timestamp in seconds for when the resource expires.
+        /// The ISO timestamp in seconds for when the resource expires.
         public var expiresAt: ClientRuntime.Date?
         /// The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.
         public var ownedBy: Swift.String?
@@ -9389,13 +10147,13 @@ extension NimbleClientTypes {
         public var adminRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// A friendly name for the studio.
         public var displayName: Swift.String?
         /// The Amazon Web Services Region where the studio resource is located.
         public var homeRegion: Swift.String?
-        /// The IAM Identity Center application client ID used to integrate with IAM Identity Center to enable IAM Identity Center users to log in to Nimble Studio portal.
+        /// The IAM Identity Center application client ID used to integrate with IAM Identity Center. This ID allows IAM Identity Center users to log in to Nimble Studio portal.
         public var ssoClientId: Swift.String?
         /// The current state of the studio resource.
         public var state: NimbleClientTypes.StudioState?
@@ -9411,9 +10169,9 @@ extension NimbleClientTypes {
         public var studioName: Swift.String?
         /// The address of the web page for the studio.
         public var studioUrl: Swift.String?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public var tags: [Swift.String:Swift.String]?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         public var updatedAt: ClientRuntime.Date?
         /// The IAM role that studio users assume when logging in to the Nimble Studio portal.
         public var userRoleArn: Swift.String?
@@ -9647,11 +10405,11 @@ extension NimbleClientTypes.StudioComponent: Swift.CustomDebugStringConvertible 
 extension NimbleClientTypes {
     /// A studio component represents a network resource to be used by a studio's users and workflows. A typical studio contains studio components for each of the following: render farm, Active Directory, licensing, and file system. Access to a studio component is managed by specifying security groups for the resource, as well as its endpoint. A studio component also has a set of initialization scripts that are returned by GetLaunchProfileInitialization. These initialization scripts run on streaming sessions when they start. They provide users with flexibility in controlling how the studio resources are configured on a streaming session.
     public struct StudioComponent: Swift.Equatable {
-        /// The ARN of the resource.
+        /// The Amazon Resource Name (ARN) that is assigned to a studio resource and uniquely identifies it. ARNs are unique across all Regions.
         public var arn: Swift.String?
         /// The configuration of the studio component, based on component type.
         public var configuration: NimbleClientTypes.StudioComponentConfiguration?
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// The user ID of the user that created the studio component.
         public var createdBy: Swift.String?
@@ -9663,11 +10421,11 @@ extension NimbleClientTypes {
         public var initializationScripts: [NimbleClientTypes.StudioComponentInitializationScript]?
         /// A friendly name for the studio component resource.
         public var name: Swift.String?
-        /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+        /// An IAM role attached to a Studio Component that gives the studio component access to Amazon Web Services resources at anytime while the instance is running.
         public var runtimeRoleArn: Swift.String?
         /// Parameters for the studio component scripts.
         public var scriptParameters: [NimbleClientTypes.ScriptParameterKeyValue]?
-        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+        /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to Amazon Web Services resources when the system initialization script runs.
         public var secureInitializationRoleArn: Swift.String?
         /// The current state.
         public var state: NimbleClientTypes.StudioComponentState?
@@ -9679,11 +10437,11 @@ extension NimbleClientTypes {
         public var studioComponentId: Swift.String?
         /// The specific subtype of a studio component.
         public var subtype: NimbleClientTypes.StudioComponentSubtype?
-        /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+        /// A collection of labels, in the form of key-value pairs, that apply to this resource.
         public var tags: [Swift.String:Swift.String]?
         /// The type of the studio component.
         public var type: NimbleClientTypes.StudioComponentType?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         public var updatedAt: ClientRuntime.Date?
         /// The user ID of the user that most recently updated the resource.
         public var updatedBy: Swift.String?
@@ -9790,7 +10548,7 @@ extension NimbleClientTypes.StudioComponentConfiguration: Swift.Codable {
 extension NimbleClientTypes {
     /// The configuration of the studio component, based on component type.
     public enum StudioComponentConfiguration: Swift.Equatable {
-        /// The configuration for a Microsoft Active Directory (Microsoft AD) studio resource.
+        /// The configuration for a Directory Service for Microsoft Active Directory studio resource.
         case activedirectoryconfiguration(NimbleClientTypes.ActiveDirectoryConfiguration)
         /// The configuration for a render farm that is associated with a studio resource.
         case computefarmconfiguration(NimbleClientTypes.ComputeFarmConfiguration)
@@ -9850,7 +10608,7 @@ extension NimbleClientTypes {
     public struct StudioComponentInitializationScript: Swift.Equatable {
         /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
         public var launchProfileProtocolVersion: Swift.String?
-        /// The platform of the initialization script, either WINDOWS or LINUX.
+        /// The platform of the initialization script, either Windows or Linux.
         public var platform: NimbleClientTypes.LaunchProfilePlatform?
         /// The method to use when running the initialization script.
         public var runContext: NimbleClientTypes.StudioComponentInitializationScriptRunContext?
@@ -9906,7 +10664,7 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
-    /// The current state of the studio component resource. While a studio component is being created, modified, or deleted, its state will equal "CREATE_IN_PROGRESS", "UPDATE_IN_PROGRESS", or "DELETE_IN_PROGRESS" These are called 'transition states'. No modifications may be made to the studio component while it is in a transition state. If creation of the resource fails, the state will change to `CREATE_FAILED`. The resource StatusCode and StatusMessage will provide more information of why creation failed. The resource in this state will automatically be deleted from your account after a period of time. If updating the resource fails, the state will change to `UPDATE_FAILED`. The resource StatusCode and StatusMessage will provide more information of why the update failed. The resource will be returned to the state it was in when the update request was invoked. If deleting the resource fails, the state will change to `DELETE_FAILED`. The resource StatusCode and StatusMessage will provide more information of why the update failed. The resource will be returned to the state it was in when the update request was invoked. After the resource is deleted successfully, it will change to the "DELETED" state. The resource will no longer count against service quotas and cannot be used or acted upon any futher. It will be removed from your account after a period of time.
+    /// The current state of the studio component resource. While a studio component is being created, modified, or deleted, its state will be CREATE_IN_PROGRESS, UPDATE_IN_PROGRESS, or DELETE_IN_PROGRESS. These are called transition states. No modifications may be made to the studio component while it is in a transition state. If creation of the resource fails, the state will change to CREATE_FAILED. The resource StatusCode and StatusMessage will provide more information of why creation failed. The resource in this state will automatically be deleted from your account after a period of time. If updating the resource fails, the state will change to UPDATE_FAILED. The resource StatusCode and StatusMessage will provide more information of why the update failed. The resource will be returned to the state it was in when the update request was invoked. If deleting the resource fails, the state will change to DELETE_FAILED. The resource StatusCode and StatusMessage will provide more information of why the update failed. The resource will be returned to the state it was in when the update request was invoked. After the resource is deleted successfully, it will change to the DELETED state. The resource will no longer count against service quotas and cannot be used or acted upon any futher. It will be removed from your account after a period of time.
     public enum StudioComponentState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case createFailed
         case createInProgress
@@ -9957,7 +10715,7 @@ extension NimbleClientTypes {
 }
 
 extension NimbleClientTypes {
-    /// The current status of the studio component resource. When the resource is in the 'READY' state, the status code signals what the last mutation made to the resource was. When the resource is in a CREATE_FAILED/UPDATE_FAILED/DELETE_FAILED state, the status code signals what went wrong and why the mutation failed.
+    /// The current status of the studio component resource. When the resource is in the READY state, the status code signals what the last mutation made to the resource was. When the resource is in a CREATE_FAILED, UPDATE_FAILED, or DELETE_FAILED state, the status code signals what went wrong and why the mutation failed.
     public enum StudioComponentStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case activeDirectoryAlreadyExists
         case encryptionKeyAccessDenied
@@ -10126,7 +10884,7 @@ extension NimbleClientTypes.StudioComponentSummary: Swift.CustomDebugStringConve
 extension NimbleClientTypes {
     /// The studio component's summary.
     public struct StudioComponentSummary: Swift.Equatable {
-        /// The Unix epoch timestamp in seconds for when the resource was created.
+        /// The ISO timestamp in seconds for when the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// The user ID of the user that created the studio component.
         public var createdBy: Swift.String?
@@ -10140,7 +10898,7 @@ extension NimbleClientTypes {
         public var subtype: NimbleClientTypes.StudioComponentSubtype?
         /// The type of the studio component.
         public var type: NimbleClientTypes.StudioComponentType?
-        /// The Unix epoch timestamp in seconds for when the resource was updated.
+        /// The ISO timestamp in seconds for when the resource was updated.
         public var updatedAt: ClientRuntime.Date?
         /// The user ID of the user that most recently updated the resource.
         public var updatedBy: Swift.String?
@@ -10329,7 +11087,7 @@ extension NimbleClientTypes.StudioMembership: Swift.Codable {
 }
 
 extension NimbleClientTypes {
-    /// A studio member is an association of a user from your studio identity source to elevated permissions that they are granted in the studio. When you add a user to your studio using the Nimble Studio console, they are given access to the studio's IAM Identity Center application and are given access to log in to the Nimble Studio portal. These users have the permissions provided by the studio's user IAM role and do not appear in the studio membership collection. Only studio admins appear in studio membership. When you add a user to studio membership with the persona ADMIN, upon logging in to the Nimble Studio portal, they are granted permissions specified by the Studio's Admin IAM role.
+    /// A studio member is an association of a user from your studio identity source to elevated permissions that they are granted in the studio. When you add a user to your studio using the Nimble Studio console, they are given access to the studio's IAM Identity Center application and are given access to log in to the Nimble Studio portal. These users have the permissions provided by the studio's user IAM role and do not appear in the studio membership collection. Only studio admins appear in studio membership. When you add a user to studio membership with the ADMIN persona, upon logging in to the Nimble Studio portal, they are granted permissions specified by the Studio's Admin IAM role.
     public struct StudioMembership: Swift.Equatable {
         /// The ID of the identity store.
         public var identityStoreId: Swift.String?
@@ -10442,6 +11200,7 @@ extension NimbleClientTypes {
         case awsSsoConfigurationRepaired
         case awsSsoConfigurationRepairInProgress
         case awsSsoNotEnabled
+        case awsStsRegionDisabled
         case encryptionKeyAccessDenied
         case encryptionKeyNotFound
         case internalError
@@ -10464,6 +11223,7 @@ extension NimbleClientTypes {
                 .awsSsoConfigurationRepaired,
                 .awsSsoConfigurationRepairInProgress,
                 .awsSsoNotEnabled,
+                .awsStsRegionDisabled,
                 .encryptionKeyAccessDenied,
                 .encryptionKeyNotFound,
                 .internalError,
@@ -10491,6 +11251,7 @@ extension NimbleClientTypes {
             case .awsSsoConfigurationRepaired: return "AWS_SSO_CONFIGURATION_REPAIRED"
             case .awsSsoConfigurationRepairInProgress: return "AWS_SSO_CONFIGURATION_REPAIR_IN_PROGRESS"
             case .awsSsoNotEnabled: return "AWS_SSO_NOT_ENABLED"
+            case .awsStsRegionDisabled: return "AWS_STS_REGION_DISABLED"
             case .encryptionKeyAccessDenied: return "ENCRYPTION_KEY_ACCESS_DENIED"
             case .encryptionKeyNotFound: return "ENCRYPTION_KEY_NOT_FOUND"
             case .internalError: return "INTERNAL_ERROR"
@@ -10545,7 +11306,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A collection of labels, in the form of key:value pairs, that apply to this resource.
+    /// A collection of labels, in the form of key-value pairs, that apply to this resource.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -10601,7 +11362,7 @@ extension TagResourceOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10780,7 +11541,7 @@ extension UntagResourceOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10869,11 +11630,11 @@ extension UpdateLaunchProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateLaunchProfileInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The description.
     public var description: Swift.String?
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// The version number of the protocol that is used by the launch profile. The only valid version is "2021-03-31".
@@ -10999,9 +11760,9 @@ extension UpdateLaunchProfileMemberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateLaunchProfileMemberInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
-    /// The Launch Profile ID.
+    /// The ID of the launch profile used to control access from the streaming session.
     /// This member is required.
     public var launchProfileId: Swift.String?
     /// The persona.
@@ -11064,7 +11825,7 @@ extension UpdateLaunchProfileMemberOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11139,7 +11900,7 @@ extension UpdateLaunchProfileOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11241,7 +12002,7 @@ extension UpdateStreamingImageInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateStreamingImageInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The description.
     public var description: Swift.String?
@@ -11308,7 +12069,7 @@ extension UpdateStreamingImageOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11338,7 +12099,7 @@ extension UpdateStreamingImageOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct UpdateStreamingImageOutputResponse: Swift.Equatable {
-    /// Represents a streaming image resource. Streaming images are used by studio users to select which operating system and software they want to use in a Nimble Studio streaming session. Amazon provides a number of streaming images that include popular 3rd-party software. You can create your own streaming images using an Amazon Elastic Compute Cloud (Amazon EC2) machine image that you create for this purpose. You can also include software that your users require.
+    /// Represents a streaming image resource. Streaming images are used by studio users to select which operating system and software they want to use in a Nimble Studio streaming session. Amazon provides a number of streaming images that include popular 3rd-party software. You can create your own streaming images using an Amazon EC2 machine image that you create for this purpose. You can also include software that your users require.
     public var streamingImage: NimbleClientTypes.StreamingImage?
 
     public init (
@@ -11451,7 +12212,7 @@ extension UpdateStudioComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateStudioComponentInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// The configuration of the studio component, based on component type.
     public var configuration: NimbleClientTypes.StudioComponentConfiguration?
@@ -11463,11 +12224,11 @@ public struct UpdateStudioComponentInput: Swift.Equatable {
     public var initializationScripts: [NimbleClientTypes.StudioComponentInitializationScript]?
     /// The name for the studio component.
     public var name: Swift.String?
-    /// An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running.
+    /// An IAM role attached to a Studio Component that gives the studio component access to Amazon Web Services resources at anytime while the instance is running.
     public var runtimeRoleArn: Swift.String?
     /// Parameters for the studio component scripts.
     public var scriptParameters: [NimbleClientTypes.ScriptParameterKeyValue]?
-    /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.
+    /// An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to Amazon Web Services resources when the system initialization script runs.
     public var secureInitializationRoleArn: Swift.String?
     /// The studio component ID.
     /// This member is required.
@@ -11609,7 +12370,7 @@ extension UpdateStudioComponentOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11714,7 +12475,7 @@ extension UpdateStudioInput: ClientRuntime.URLPathProvider {
 public struct UpdateStudioInput: Swift.Equatable {
     /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
     public var adminRoleArn: Swift.String?
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the AWS SDK automatically generates a client token and uses it for the request to ensure idempotency.
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
     public var clientToken: Swift.String?
     /// A friendly name for the studio.
     public var displayName: Swift.String?
@@ -11782,7 +12543,7 @@ extension UpdateStudioOutputError {
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11989,4 +12750,91 @@ extension NimbleClientTypes {
         }
     }
 
+}
+
+extension NimbleClientTypes.VolumeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iops
+        case size
+        case throughput
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iops = self.iops {
+            try encodeContainer.encode(iops, forKey: .iops)
+        }
+        if let size = self.size {
+            try encodeContainer.encode(size, forKey: .size)
+        }
+        if let throughput = self.throughput {
+            try encodeContainer.encode(throughput, forKey: .throughput)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
+        size = sizeDecoded
+        let throughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughput)
+        throughput = throughputDecoded
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
+        iops = iopsDecoded
+    }
+}
+
+extension NimbleClientTypes {
+    /// Custom volume configuration for the root volumes that are attached to streaming sessions. This parameter is only allowed when sessionPersistenceMode is ACTIVATED.
+    public struct VolumeConfiguration: Swift.Equatable {
+        /// The number of I/O operations per second for the root volume that is attached to streaming session.
+        public var iops: Swift.Int?
+        /// The size of the root volume that is attached to the streaming session. The root volume size is measured in GiBs.
+        public var size: Swift.Int?
+        /// The throughput to provision for the root volume that is attached to the streaming session. The throughput is measured in MiB/s.
+        public var throughput: Swift.Int?
+
+        public init (
+            iops: Swift.Int? = nil,
+            size: Swift.Int? = nil,
+            throughput: Swift.Int? = nil
+        )
+        {
+            self.iops = iops
+            self.size = size
+            self.throughput = throughput
+        }
+    }
+
+}
+
+extension NimbleClientTypes {
+    public enum VolumeRetentionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case delete
+        case retain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VolumeRetentionMode] {
+            return [
+                .delete,
+                .retain,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .retain: return "RETAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VolumeRetentionMode(rawValue: rawValue) ?? VolumeRetentionMode.sdkUnknown(rawValue)
+        }
+    }
 }

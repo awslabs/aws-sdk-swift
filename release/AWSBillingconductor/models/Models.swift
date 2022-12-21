@@ -264,7 +264,7 @@ extension AssociateAccountsOutputError {
         case "ServiceLimitExceededException" : self = .serviceLimitExceededException(try ServiceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -412,7 +412,7 @@ extension AssociatePricingRulesOutputError {
         case "ServiceLimitExceededException" : self = .serviceLimitExceededException(try ServiceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -703,7 +703,7 @@ extension BatchAssociateResourcesToCustomLineItemOutputError {
         case "ServiceLimitExceededException" : self = .serviceLimitExceededException(try ServiceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -890,7 +890,7 @@ extension BatchDisassociateResourcesFromCustomLineItemOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1541,7 +1541,7 @@ extension CreateBillingGroupOutputError {
         case "ServiceLimitExceededException" : self = .serviceLimitExceededException(try ServiceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1756,7 +1756,7 @@ extension CreateCustomLineItemOutputError {
         case "ServiceLimitExceededException" : self = .serviceLimitExceededException(try ServiceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1810,6 +1810,42 @@ extension CreateCustomLineItemOutputResponseBody: Swift.Decodable {
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
+}
+
+extension BillingconductorClientTypes.CreateFreeTierConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activated = "Activated"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activated = self.activated {
+            try encodeContainer.encode(activated, forKey: .activated)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let activatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activated)
+        activated = activatedDecoded
+    }
+}
+
+extension BillingconductorClientTypes {
+    /// The possible Amazon Web Services Free Tier configurations.
+    public struct CreateFreeTierConfig: Swift.Equatable {
+        /// Activate or deactivate Amazon Web Services Free Tier.
+        /// This member is required.
+        public var activated: Swift.Bool?
+
+        public init (
+            activated: Swift.Bool? = nil
+        )
+        {
+            self.activated = activated
+        }
+    }
+
 }
 
 extension CreatePricingPlanInput: Swift.CustomDebugStringConvertible {
@@ -1957,7 +1993,7 @@ extension CreatePricingPlanOutputError {
         case "ServiceLimitExceededException" : self = .serviceLimitExceededException(try ServiceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2016,7 +2052,7 @@ extension CreatePricingPlanOutputResponseBody: Swift.Decodable {
 
 extension CreatePricingRuleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePricingRuleInput(billingEntity: \(Swift.String(describing: billingEntity)), clientToken: \(Swift.String(describing: clientToken)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreatePricingRuleInput(billingEntity: \(Swift.String(describing: billingEntity)), clientToken: \(Swift.String(describing: clientToken)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tags: \(Swift.String(describing: tags)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreatePricingRuleInput: Swift.Encodable {
@@ -2028,6 +2064,7 @@ extension CreatePricingRuleInput: Swift.Encodable {
         case scope = "Scope"
         case service = "Service"
         case tags = "Tags"
+        case tiering = "Tiering"
         case type = "Type"
     }
 
@@ -2056,6 +2093,9 @@ extension CreatePricingRuleInput: Swift.Encodable {
             for (dictKey0, tagmap0) in tags {
                 try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let tiering = self.tiering {
+            try encodeContainer.encode(tiering, forKey: .tiering)
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
@@ -2087,7 +2127,6 @@ public struct CreatePricingRuleInput: Swift.Equatable {
     /// The pricing rule description.
     public var description: Swift.String?
     /// A percentage modifier that's applied on the public pricing rates.
-    /// This member is required.
     public var modifierPercentage: Swift.Double?
     /// The pricing rule name. The names must be unique to each pricing rule.
     /// This member is required.
@@ -2099,6 +2138,8 @@ public struct CreatePricingRuleInput: Swift.Equatable {
     public var service: Swift.String?
     /// A map that contains tag keys and tag values that are attached to a pricing rule.
     public var tags: [Swift.String:Swift.String]?
+    /// The set of tiering configurations for the pricing rule.
+    public var tiering: BillingconductorClientTypes.CreateTieringInput?
     /// The type of pricing rule.
     /// This member is required.
     public var type: BillingconductorClientTypes.PricingRuleType?
@@ -2112,6 +2153,7 @@ public struct CreatePricingRuleInput: Swift.Equatable {
         scope: BillingconductorClientTypes.PricingRuleScope? = nil,
         service: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        tiering: BillingconductorClientTypes.CreateTieringInput? = nil,
         type: BillingconductorClientTypes.PricingRuleType? = nil
     )
     {
@@ -2123,6 +2165,7 @@ public struct CreatePricingRuleInput: Swift.Equatable {
         self.scope = scope
         self.service = service
         self.tags = tags
+        self.tiering = tiering
         self.type = type
     }
 }
@@ -2136,6 +2179,7 @@ struct CreatePricingRuleInputBody: Swift.Equatable {
     let service: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let billingEntity: Swift.String?
+    let tiering: BillingconductorClientTypes.CreateTieringInput?
 }
 
 extension CreatePricingRuleInputBody: Swift.Decodable {
@@ -2147,6 +2191,7 @@ extension CreatePricingRuleInputBody: Swift.Decodable {
         case scope = "Scope"
         case service = "Service"
         case tags = "Tags"
+        case tiering = "Tiering"
         case type = "Type"
     }
 
@@ -2177,6 +2222,8 @@ extension CreatePricingRuleInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let billingEntityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .billingEntity)
         billingEntity = billingEntityDecoded
+        let tieringDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.CreateTieringInput.self, forKey: .tiering)
+        tiering = tieringDecoded
     }
 }
 
@@ -2197,7 +2244,7 @@ extension CreatePricingRuleOutputError {
         case "ServiceLimitExceededException" : self = .serviceLimitExceededException(try ServiceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2251,6 +2298,42 @@ extension CreatePricingRuleOutputResponseBody: Swift.Decodable {
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
     }
+}
+
+extension BillingconductorClientTypes.CreateTieringInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case freeTier = "FreeTier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let freeTier = self.freeTier {
+            try encodeContainer.encode(freeTier, forKey: .freeTier)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let freeTierDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.CreateFreeTierConfig.self, forKey: .freeTier)
+        freeTier = freeTierDecoded
+    }
+}
+
+extension BillingconductorClientTypes {
+    /// The set of tiering configurations for the pricing rule.
+    public struct CreateTieringInput: Swift.Equatable {
+        /// The possible Amazon Web Services Free Tier configurations.
+        /// This member is required.
+        public var freeTier: BillingconductorClientTypes.CreateFreeTierConfig?
+
+        public init (
+            freeTier: BillingconductorClientTypes.CreateFreeTierConfig? = nil
+        )
+        {
+            self.freeTier = freeTier
+        }
+    }
+
 }
 
 extension BillingconductorClientTypes {
@@ -2878,7 +2961,7 @@ extension DeleteBillingGroupOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3008,7 +3091,7 @@ extension DeleteCustomLineItemOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3127,7 +3210,7 @@ extension DeletePricingPlanOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3246,7 +3329,7 @@ extension DeletePricingRuleOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3391,7 +3474,7 @@ extension DisassociateAccountsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3537,7 +3620,7 @@ extension DisassociatePricingRulesOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3633,6 +3716,42 @@ extension BillingconductorClientTypes {
         {
             self.arn = arn
             self.error = error
+        }
+    }
+
+}
+
+extension BillingconductorClientTypes.FreeTierConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activated = "Activated"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activated = self.activated {
+            try encodeContainer.encode(activated, forKey: .activated)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let activatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activated)
+        activated = activatedDecoded
+    }
+}
+
+extension BillingconductorClientTypes {
+    /// The possible Amazon Web Services Free Tier configurations.
+    public struct FreeTierConfig: Swift.Equatable {
+        /// Activate or deactivate Amazon Web Services Free Tier application.
+        /// This member is required.
+        public var activated: Swift.Bool?
+
+        public init (
+            activated: Swift.Bool? = nil
+        )
+        {
+            self.activated = activated
         }
     }
 
@@ -3832,7 +3951,7 @@ extension ListAccountAssociationsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4052,7 +4171,7 @@ extension ListBillingGroupCostReportsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4282,7 +4401,7 @@ extension ListBillingGroupsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4663,7 +4782,7 @@ extension ListCustomLineItemVersionsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4926,7 +5045,7 @@ extension ListCustomLineItemsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5100,7 +5219,7 @@ extension ListPricingPlansAssociatedWithPricingRuleOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5339,7 +5458,7 @@ extension ListPricingPlansOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5522,7 +5641,7 @@ extension ListPricingRulesAssociatedToPricingPlanOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5761,7 +5880,7 @@ extension ListPricingRulesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5991,7 +6110,7 @@ extension ListResourcesAssociatedToCustomLineItemOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6177,7 +6296,7 @@ extension ListTagsForResourceOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6343,6 +6462,7 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
         case name = "Name"
         case scope = "Scope"
         case service = "Service"
+        case tiering = "Tiering"
         case type = "Type"
     }
 
@@ -6378,6 +6498,9 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
         if let service = self.service {
             try encodeContainer.encode(service, forKey: .service)
         }
+        if let tiering = self.tiering {
+            try encodeContainer.encode(tiering, forKey: .tiering)
+        }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
         }
@@ -6407,12 +6530,14 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
         lastModifiedTime = lastModifiedTimeDecoded
         let billingEntityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .billingEntity)
         billingEntity = billingEntityDecoded
+        let tieringDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.Tiering.self, forKey: .tiering)
+        tiering = tieringDecoded
     }
 }
 
 extension BillingconductorClientTypes.PricingRuleListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PricingRuleListElement(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "PricingRuleListElement(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BillingconductorClientTypes {
@@ -6438,6 +6563,8 @@ extension BillingconductorClientTypes {
         public var scope: BillingconductorClientTypes.PricingRuleScope?
         /// If the Scope attribute is SERVICE, this attribute indicates which service the PricingRule is applicable for.
         public var service: Swift.String?
+        /// The set of tiering configurations for the pricing rule.
+        public var tiering: BillingconductorClientTypes.Tiering?
         /// The type of pricing rule.
         public var type: BillingconductorClientTypes.PricingRuleType?
 
@@ -6452,6 +6579,7 @@ extension BillingconductorClientTypes {
             name: Swift.String? = nil,
             scope: BillingconductorClientTypes.PricingRuleScope? = nil,
             service: Swift.String? = nil,
+            tiering: BillingconductorClientTypes.Tiering? = nil,
             type: BillingconductorClientTypes.PricingRuleType? = nil
         )
         {
@@ -6465,6 +6593,7 @@ extension BillingconductorClientTypes {
             self.name = name
             self.scope = scope
             self.service = service
+            self.tiering = tiering
             self.type = type
         }
     }
@@ -6510,12 +6639,14 @@ extension BillingconductorClientTypes {
     public enum PricingRuleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case discount
         case markup
+        case tiering
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PricingRuleType] {
             return [
                 .discount,
                 .markup,
+                .tiering,
                 .sdkUnknown("")
             ]
         }
@@ -6527,6 +6658,7 @@ extension BillingconductorClientTypes {
             switch self {
             case .discount: return "DISCOUNT"
             case .markup: return "MARKUP"
+            case .tiering: return "TIERING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6792,7 +6924,7 @@ extension TagResourceOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6878,6 +7010,42 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension BillingconductorClientTypes.Tiering: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case freeTier = "FreeTier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let freeTier = self.freeTier {
+            try encodeContainer.encode(freeTier, forKey: .freeTier)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let freeTierDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.FreeTierConfig.self, forKey: .freeTier)
+        freeTier = freeTierDecoded
+    }
+}
+
+extension BillingconductorClientTypes {
+    /// The set of tiering configurations for the pricing rule.
+    public struct Tiering: Swift.Equatable {
+        /// The possible Amazon Web Services Free Tier configurations.
+        /// This member is required.
+        public var freeTier: BillingconductorClientTypes.FreeTierConfig?
+
+        public init (
+            freeTier: BillingconductorClientTypes.FreeTierConfig? = nil
+        )
+        {
+            self.freeTier = freeTier
+        }
+    }
+
+}
+
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -6947,7 +7115,7 @@ extension UntagResourceOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7089,7 +7257,7 @@ extension UpdateBillingGroupOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7428,7 +7596,7 @@ extension UpdateCustomLineItemOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7584,6 +7752,42 @@ extension BillingconductorClientTypes {
 
 }
 
+extension BillingconductorClientTypes.UpdateFreeTierConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activated = "Activated"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activated = self.activated {
+            try encodeContainer.encode(activated, forKey: .activated)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let activatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activated)
+        activated = activatedDecoded
+    }
+}
+
+extension BillingconductorClientTypes {
+    /// The possible Amazon Web Services Free Tier configurations.
+    public struct UpdateFreeTierConfig: Swift.Equatable {
+        /// Activate or deactivate application of Amazon Web Services Free Tier.
+        /// This member is required.
+        public var activated: Swift.Bool?
+
+        public init (
+            activated: Swift.Bool? = nil
+        )
+        {
+            self.activated = activated
+        }
+    }
+
+}
+
 extension UpdatePricingPlanInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UpdatePricingPlanInput(arn: \(Swift.String(describing: arn)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
@@ -7678,7 +7882,7 @@ extension UpdatePricingPlanOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7781,7 +7985,7 @@ extension UpdatePricingPlanOutputResponseBody: Swift.Decodable {
 
 extension UpdatePricingRuleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePricingRuleInput(arn: \(Swift.String(describing: arn)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdatePricingRuleInput(arn: \(Swift.String(describing: arn)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdatePricingRuleInput: Swift.Encodable {
@@ -7790,6 +7994,7 @@ extension UpdatePricingRuleInput: Swift.Encodable {
         case description = "Description"
         case modifierPercentage = "ModifierPercentage"
         case name = "Name"
+        case tiering = "Tiering"
         case type = "Type"
     }
 
@@ -7806,6 +8011,9 @@ extension UpdatePricingRuleInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tiering = self.tiering {
+            try encodeContainer.encode(tiering, forKey: .tiering)
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
@@ -7829,6 +8037,8 @@ public struct UpdatePricingRuleInput: Swift.Equatable {
     public var modifierPercentage: Swift.Double?
     /// The new name of the pricing rule. The name must be unique to each pricing rule.
     public var name: Swift.String?
+    /// The set of tiering configurations for the pricing rule.
+    public var tiering: BillingconductorClientTypes.UpdateTieringInput?
     /// The new pricing rule type.
     public var type: BillingconductorClientTypes.PricingRuleType?
 
@@ -7837,6 +8047,7 @@ public struct UpdatePricingRuleInput: Swift.Equatable {
         description: Swift.String? = nil,
         modifierPercentage: Swift.Double? = nil,
         name: Swift.String? = nil,
+        tiering: BillingconductorClientTypes.UpdateTieringInput? = nil,
         type: BillingconductorClientTypes.PricingRuleType? = nil
     )
     {
@@ -7844,6 +8055,7 @@ public struct UpdatePricingRuleInput: Swift.Equatable {
         self.description = description
         self.modifierPercentage = modifierPercentage
         self.name = name
+        self.tiering = tiering
         self.type = type
     }
 }
@@ -7854,6 +8066,7 @@ struct UpdatePricingRuleInputBody: Swift.Equatable {
     let description: Swift.String?
     let type: BillingconductorClientTypes.PricingRuleType?
     let modifierPercentage: Swift.Double?
+    let tiering: BillingconductorClientTypes.UpdateTieringInput?
 }
 
 extension UpdatePricingRuleInputBody: Swift.Decodable {
@@ -7862,6 +8075,7 @@ extension UpdatePricingRuleInputBody: Swift.Decodable {
         case description = "Description"
         case modifierPercentage = "ModifierPercentage"
         case name = "Name"
+        case tiering = "Tiering"
         case type = "Type"
     }
 
@@ -7877,6 +8091,8 @@ extension UpdatePricingRuleInputBody: Swift.Decodable {
         type = typeDecoded
         let modifierPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .modifierPercentage)
         modifierPercentage = modifierPercentageDecoded
+        let tieringDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.UpdateTieringInput.self, forKey: .tiering)
+        tiering = tieringDecoded
     }
 }
 
@@ -7897,7 +8113,7 @@ extension UpdatePricingRuleOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7914,7 +8130,7 @@ public enum UpdatePricingRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePricingRuleOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePricingRuleOutputResponse(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdatePricingRuleOutputResponse(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -7932,6 +8148,7 @@ extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.name = output.name
             self.scope = output.scope
             self.service = output.service
+            self.tiering = output.tiering
             self.type = output.type
         } else {
             self.arn = nil
@@ -7943,6 +8160,7 @@ extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.name = nil
             self.scope = nil
             self.service = nil
+            self.tiering = nil
             self.type = nil
         }
     }
@@ -7967,6 +8185,8 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
     public var scope: BillingconductorClientTypes.PricingRuleScope?
     /// If the Scope attribute is set to SERVICE, the attribute indicates which service the PricingRule is applicable for.
     public var service: Swift.String?
+    /// The set of tiering configurations for the pricing rule.
+    public var tiering: BillingconductorClientTypes.UpdateTieringInput?
     /// The new pricing rule type.
     public var type: BillingconductorClientTypes.PricingRuleType?
 
@@ -7980,6 +8200,7 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
         name: Swift.String? = nil,
         scope: BillingconductorClientTypes.PricingRuleScope? = nil,
         service: Swift.String? = nil,
+        tiering: BillingconductorClientTypes.UpdateTieringInput? = nil,
         type: BillingconductorClientTypes.PricingRuleType? = nil
     )
     {
@@ -7992,6 +8213,7 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
         self.name = name
         self.scope = scope
         self.service = service
+        self.tiering = tiering
         self.type = type
     }
 }
@@ -8007,6 +8229,7 @@ struct UpdatePricingRuleOutputResponseBody: Swift.Equatable {
     let associatedPricingPlanCount: Swift.Int
     let lastModifiedTime: Swift.Int
     let billingEntity: Swift.String?
+    let tiering: BillingconductorClientTypes.UpdateTieringInput?
 }
 
 extension UpdatePricingRuleOutputResponseBody: Swift.Decodable {
@@ -8020,6 +8243,7 @@ extension UpdatePricingRuleOutputResponseBody: Swift.Decodable {
         case name = "Name"
         case scope = "Scope"
         case service = "Service"
+        case tiering = "Tiering"
         case type = "Type"
     }
 
@@ -8045,7 +8269,45 @@ extension UpdatePricingRuleOutputResponseBody: Swift.Decodable {
         lastModifiedTime = lastModifiedTimeDecoded
         let billingEntityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .billingEntity)
         billingEntity = billingEntityDecoded
+        let tieringDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.UpdateTieringInput.self, forKey: .tiering)
+        tiering = tieringDecoded
     }
+}
+
+extension BillingconductorClientTypes.UpdateTieringInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case freeTier = "FreeTier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let freeTier = self.freeTier {
+            try encodeContainer.encode(freeTier, forKey: .freeTier)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let freeTierDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.UpdateFreeTierConfig.self, forKey: .freeTier)
+        freeTier = freeTierDecoded
+    }
+}
+
+extension BillingconductorClientTypes {
+    /// The set of tiering configurations for the pricing rule.
+    public struct UpdateTieringInput: Swift.Equatable {
+        /// The possible Amazon Web Services Free Tier configurations.
+        /// This member is required.
+        public var freeTier: BillingconductorClientTypes.UpdateFreeTierConfig?
+
+        public init (
+            freeTier: BillingconductorClientTypes.UpdateFreeTierConfig? = nil
+        )
+        {
+            self.freeTier = freeTier
+        }
+    }
+
 }
 
 extension ValidationException {
@@ -8195,12 +8457,15 @@ extension BillingconductorClientTypes {
         case illegalCustomlineitem
         case illegalCustomlineitemModification
         case illegalCustomlineitemUpdate
+        case illegalEndedBillinggroup
         case illegalExpression
         case illegalModifierPercentage
         case illegalPrimaryAccount
         case illegalResourceArns
         case illegalScope
         case illegalService
+        case illegalTieringInput
+        case illegalType
         case illegalUpdateChargeDetails
         case invalidArn
         case invalidBillingviewArn
@@ -8249,12 +8514,15 @@ extension BillingconductorClientTypes {
                 .illegalCustomlineitem,
                 .illegalCustomlineitemModification,
                 .illegalCustomlineitemUpdate,
+                .illegalEndedBillinggroup,
                 .illegalExpression,
                 .illegalModifierPercentage,
                 .illegalPrimaryAccount,
                 .illegalResourceArns,
                 .illegalScope,
                 .illegalService,
+                .illegalTieringInput,
+                .illegalType,
                 .illegalUpdateChargeDetails,
                 .invalidArn,
                 .invalidBillingviewArn,
@@ -8308,12 +8576,15 @@ extension BillingconductorClientTypes {
             case .illegalCustomlineitem: return "ILLEGAL_CUSTOMLINEITEM"
             case .illegalCustomlineitemModification: return "ILLEGAL_CUSTOMLINEITEM_MODIFICATION"
             case .illegalCustomlineitemUpdate: return "ILLEGAL_CUSTOMLINEITEM_UPDATE"
+            case .illegalEndedBillinggroup: return "ILLEGAL_ENDED_BILLINGGROUP"
             case .illegalExpression: return "ILLEGAL_EXPRESSION"
             case .illegalModifierPercentage: return "ILLEGAL_MODIFIER_PERCENTAGE"
             case .illegalPrimaryAccount: return "ILLEGAL_PRIMARY_ACCOUNT"
             case .illegalResourceArns: return "ILLEGAL_RESOURCE_ARNS"
             case .illegalScope: return "ILLEGAL_SCOPE"
             case .illegalService: return "ILLEGAL_SERVICE"
+            case .illegalTieringInput: return "ILLEGAL_TIERING_INPUT"
+            case .illegalType: return "ILLEGAL_TYPE"
             case .illegalUpdateChargeDetails: return "ILLEGAL_UPDATE_CHARGE_DETAILS"
             case .invalidArn: return "INVALID_ARN"
             case .invalidBillingviewArn: return "INVALID_BILLINGVIEW_ARN"

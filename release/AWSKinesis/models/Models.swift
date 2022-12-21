@@ -2,14 +2,70 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AccessDeniedException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Specifies that you do not have the permissions required to perform this operation.
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension AddTagsToStreamInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
         case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
         }
@@ -30,18 +86,21 @@ extension AddTagsToStreamInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input for AddTagsToStream.
 public struct AddTagsToStreamInput: Swift.Equatable {
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream.
-    /// This member is required.
     public var streamName: Swift.String?
     /// A set of up to 10 key-value pairs to use to create the tags.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.streamARN = streamARN
         self.streamName = streamName
         self.tags = tags
     }
@@ -50,10 +109,12 @@ public struct AddTagsToStreamInput: Swift.Equatable {
 struct AddTagsToStreamInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let streamARN: Swift.String?
 }
 
 extension AddTagsToStreamInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
         case tags = "Tags"
     }
@@ -73,6 +134,8 @@ extension AddTagsToStreamInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -87,16 +150,18 @@ extension AddTagsToStreamOutputError: ClientRuntime.HttpResponseBinding {
 extension AddTagsToStreamOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum AddTagsToStreamOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -455,7 +520,7 @@ extension CreateStreamOutputError {
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -480,6 +545,7 @@ public struct CreateStreamOutputResponse: Swift.Equatable {
 extension DecreaseStreamRetentionPeriodInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case retentionPeriodHours = "RetentionPeriodHours"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -487,6 +553,9 @@ extension DecreaseStreamRetentionPeriodInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let retentionPeriodHours = self.retentionPeriodHours {
             try encodeContainer.encode(retentionPeriodHours, forKey: .retentionPeriodHours)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -505,16 +574,19 @@ public struct DecreaseStreamRetentionPeriodInput: Swift.Equatable {
     /// The new retention period of the stream, in hours. Must be less than the current retention period.
     /// This member is required.
     public var retentionPeriodHours: Swift.Int?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream to modify.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         retentionPeriodHours: Swift.Int? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.retentionPeriodHours = retentionPeriodHours
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -522,11 +594,13 @@ public struct DecreaseStreamRetentionPeriodInput: Swift.Equatable {
 struct DecreaseStreamRetentionPeriodInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let retentionPeriodHours: Swift.Int?
+    let streamARN: Swift.String?
 }
 
 extension DecreaseStreamRetentionPeriodInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case retentionPeriodHours = "RetentionPeriodHours"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -536,6 +610,8 @@ extension DecreaseStreamRetentionPeriodInputBody: Swift.Decodable {
         streamName = streamNameDecoded
         let retentionPeriodHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriodHours)
         retentionPeriodHours = retentionPeriodHoursDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -550,16 +626,18 @@ extension DecreaseStreamRetentionPeriodOutputError: ClientRuntime.HttpResponseBi
 extension DecreaseStreamRetentionPeriodOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum DecreaseStreamRetentionPeriodOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -580,6 +658,7 @@ public struct DecreaseStreamRetentionPeriodOutputResponse: Swift.Equatable {
 extension DeleteStreamInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enforceConsumerDeletion = "EnforceConsumerDeletion"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -587,6 +666,9 @@ extension DeleteStreamInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let enforceConsumerDeletion = self.enforceConsumerDeletion {
             try encodeContainer.encode(enforceConsumerDeletion, forKey: .enforceConsumerDeletion)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -604,16 +686,19 @@ extension DeleteStreamInput: ClientRuntime.URLPathProvider {
 public struct DeleteStreamInput: Swift.Equatable {
     /// If this parameter is unset (null) or if you set it to false, and the stream has registered consumers, the call to DeleteStream fails with a ResourceInUseException.
     public var enforceConsumerDeletion: Swift.Bool?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream to delete.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         enforceConsumerDeletion: Swift.Bool? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.enforceConsumerDeletion = enforceConsumerDeletion
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -621,11 +706,13 @@ public struct DeleteStreamInput: Swift.Equatable {
 struct DeleteStreamInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let enforceConsumerDeletion: Swift.Bool?
+    let streamARN: Swift.String?
 }
 
 extension DeleteStreamInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enforceConsumerDeletion = "EnforceConsumerDeletion"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -635,6 +722,8 @@ extension DeleteStreamInputBody: Swift.Decodable {
         streamName = streamNameDecoded
         let enforceConsumerDeletionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enforceConsumerDeletion)
         enforceConsumerDeletion = enforceConsumerDeletionDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -649,15 +738,19 @@ extension DeleteStreamOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteStreamOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum DeleteStreamOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
     case resourceNotFoundException(ResourceNotFoundException)
@@ -759,7 +852,7 @@ extension DeregisterStreamConsumerOutputError {
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -821,7 +914,7 @@ extension DescribeLimitsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -991,7 +1084,7 @@ extension DescribeStreamConsumerOutputError {
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1049,6 +1142,7 @@ extension DescribeStreamInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exclusiveStartShardId = "ExclusiveStartShardId"
         case limit = "Limit"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -1059,6 +1153,9 @@ extension DescribeStreamInput: Swift.Encodable {
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -1078,18 +1175,21 @@ public struct DescribeStreamInput: Swift.Equatable {
     public var exclusiveStartShardId: Swift.String?
     /// The maximum number of shards to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
     public var limit: Swift.Int?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream to describe.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         exclusiveStartShardId: Swift.String? = nil,
         limit: Swift.Int? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.exclusiveStartShardId = exclusiveStartShardId
         self.limit = limit
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -1098,12 +1198,14 @@ struct DescribeStreamInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let limit: Swift.Int?
     let exclusiveStartShardId: Swift.String?
+    let streamARN: Swift.String?
 }
 
 extension DescribeStreamInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exclusiveStartShardId = "ExclusiveStartShardId"
         case limit = "Limit"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -1115,6 +1217,8 @@ extension DescribeStreamInputBody: Swift.Decodable {
         limit = limitDecoded
         let exclusiveStartShardIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exclusiveStartShardId)
         exclusiveStartShardId = exclusiveStartShardIdDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -1129,14 +1233,33 @@ extension DescribeStreamOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeStreamOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeStreamOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .accessDeniedException: return "AccessDeniedException"
+        case .invalidArgumentException: return "InvalidArgumentException"
+        case .limitExceededException: return "LimitExceededException"
+        case .resourceNotFoundException: return "ResourceNotFoundException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
 
 public enum DescribeStreamOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
@@ -1187,11 +1310,15 @@ extension DescribeStreamOutputResponseBody: Swift.Decodable {
 
 extension DescribeStreamSummaryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
         }
@@ -1205,24 +1332,29 @@ extension DescribeStreamSummaryInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeStreamSummaryInput: Swift.Equatable {
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream to describe.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
 
 struct DescribeStreamSummaryInputBody: Swift.Equatable {
     let streamName: Swift.String?
+    let streamARN: Swift.String?
 }
 
 extension DescribeStreamSummaryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -1230,6 +1362,8 @@ extension DescribeStreamSummaryInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
         streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -1244,14 +1378,18 @@ extension DescribeStreamSummaryOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeStreamSummaryOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum DescribeStreamSummaryOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
@@ -1302,6 +1440,7 @@ extension DescribeStreamSummaryOutputResponseBody: Swift.Decodable {
 extension DisableEnhancedMonitoringInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case shardLevelMetrics = "ShardLevelMetrics"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -1312,6 +1451,9 @@ extension DisableEnhancedMonitoringInput: Swift.Encodable {
             for metricsnamelist0 in shardLevelMetrics {
                 try shardLevelMetricsContainer.encode(metricsnamelist0.rawValue)
             }
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -1349,16 +1491,19 @@ public struct DisableEnhancedMonitoringInput: Swift.Equatable {
     /// For more information, see [Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch](https://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html) in the Amazon Kinesis Data Streams Developer Guide.
     /// This member is required.
     public var shardLevelMetrics: [KinesisClientTypes.MetricsName]?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the Kinesis data stream for which to disable enhanced monitoring.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         shardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.shardLevelMetrics = shardLevelMetrics
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -1366,11 +1511,13 @@ public struct DisableEnhancedMonitoringInput: Swift.Equatable {
 struct DisableEnhancedMonitoringInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let shardLevelMetrics: [KinesisClientTypes.MetricsName]?
+    let streamARN: Swift.String?
 }
 
 extension DisableEnhancedMonitoringInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case shardLevelMetrics = "ShardLevelMetrics"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -1382,13 +1529,15 @@ extension DisableEnhancedMonitoringInputBody: Swift.Decodable {
         var shardLevelMetricsDecoded0:[KinesisClientTypes.MetricsName]? = nil
         if let shardLevelMetricsContainer = shardLevelMetricsContainer {
             shardLevelMetricsDecoded0 = [KinesisClientTypes.MetricsName]()
-            for string0 in shardLevelMetricsContainer {
-                if let string0 = string0 {
-                    shardLevelMetricsDecoded0?.append(string0)
+            for enum0 in shardLevelMetricsContainer {
+                if let enum0 = enum0 {
+                    shardLevelMetricsDecoded0?.append(enum0)
                 }
             }
         }
         shardLevelMetrics = shardLevelMetricsDecoded0
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -1403,16 +1552,18 @@ extension DisableEnhancedMonitoringOutputError: ClientRuntime.HttpResponseBindin
 extension DisableEnhancedMonitoringOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum DisableEnhancedMonitoringOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -1428,10 +1579,12 @@ extension DisableEnhancedMonitoringOutputResponse: ClientRuntime.HttpResponseBin
             let output: DisableEnhancedMonitoringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentShardLevelMetrics = output.currentShardLevelMetrics
             self.desiredShardLevelMetrics = output.desiredShardLevelMetrics
+            self.streamARN = output.streamARN
             self.streamName = output.streamName
         } else {
             self.currentShardLevelMetrics = nil
             self.desiredShardLevelMetrics = nil
+            self.streamARN = nil
             self.streamName = nil
         }
     }
@@ -1443,17 +1596,21 @@ public struct DisableEnhancedMonitoringOutputResponse: Swift.Equatable {
     public var currentShardLevelMetrics: [KinesisClientTypes.MetricsName]?
     /// Represents the list of all the metrics that would be in the enhanced state after the operation.
     public var desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the Kinesis data stream.
     public var streamName: Swift.String?
 
     public init (
         currentShardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
         desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.currentShardLevelMetrics = currentShardLevelMetrics
         self.desiredShardLevelMetrics = desiredShardLevelMetrics
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -1462,12 +1619,14 @@ struct DisableEnhancedMonitoringOutputResponseBody: Swift.Equatable {
     let streamName: Swift.String?
     let currentShardLevelMetrics: [KinesisClientTypes.MetricsName]?
     let desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]?
+    let streamARN: Swift.String?
 }
 
 extension DisableEnhancedMonitoringOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currentShardLevelMetrics = "CurrentShardLevelMetrics"
         case desiredShardLevelMetrics = "DesiredShardLevelMetrics"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -1479,9 +1638,9 @@ extension DisableEnhancedMonitoringOutputResponseBody: Swift.Decodable {
         var currentShardLevelMetricsDecoded0:[KinesisClientTypes.MetricsName]? = nil
         if let currentShardLevelMetricsContainer = currentShardLevelMetricsContainer {
             currentShardLevelMetricsDecoded0 = [KinesisClientTypes.MetricsName]()
-            for string0 in currentShardLevelMetricsContainer {
-                if let string0 = string0 {
-                    currentShardLevelMetricsDecoded0?.append(string0)
+            for enum0 in currentShardLevelMetricsContainer {
+                if let enum0 = enum0 {
+                    currentShardLevelMetricsDecoded0?.append(enum0)
                 }
             }
         }
@@ -1490,19 +1649,22 @@ extension DisableEnhancedMonitoringOutputResponseBody: Swift.Decodable {
         var desiredShardLevelMetricsDecoded0:[KinesisClientTypes.MetricsName]? = nil
         if let desiredShardLevelMetricsContainer = desiredShardLevelMetricsContainer {
             desiredShardLevelMetricsDecoded0 = [KinesisClientTypes.MetricsName]()
-            for string0 in desiredShardLevelMetricsContainer {
-                if let string0 = string0 {
-                    desiredShardLevelMetricsDecoded0?.append(string0)
+            for enum0 in desiredShardLevelMetricsContainer {
+                if let enum0 = enum0 {
+                    desiredShardLevelMetricsDecoded0?.append(enum0)
                 }
             }
         }
         desiredShardLevelMetrics = desiredShardLevelMetricsDecoded0
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
 extension EnableEnhancedMonitoringInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case shardLevelMetrics = "ShardLevelMetrics"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -1513,6 +1675,9 @@ extension EnableEnhancedMonitoringInput: Swift.Encodable {
             for metricsnamelist0 in shardLevelMetrics {
                 try shardLevelMetricsContainer.encode(metricsnamelist0.rawValue)
             }
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -1550,16 +1715,19 @@ public struct EnableEnhancedMonitoringInput: Swift.Equatable {
     /// For more information, see [Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch](https://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html) in the Amazon Kinesis Data Streams Developer Guide.
     /// This member is required.
     public var shardLevelMetrics: [KinesisClientTypes.MetricsName]?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream for which to enable enhanced monitoring.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         shardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.shardLevelMetrics = shardLevelMetrics
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -1567,11 +1735,13 @@ public struct EnableEnhancedMonitoringInput: Swift.Equatable {
 struct EnableEnhancedMonitoringInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let shardLevelMetrics: [KinesisClientTypes.MetricsName]?
+    let streamARN: Swift.String?
 }
 
 extension EnableEnhancedMonitoringInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case shardLevelMetrics = "ShardLevelMetrics"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -1583,13 +1753,15 @@ extension EnableEnhancedMonitoringInputBody: Swift.Decodable {
         var shardLevelMetricsDecoded0:[KinesisClientTypes.MetricsName]? = nil
         if let shardLevelMetricsContainer = shardLevelMetricsContainer {
             shardLevelMetricsDecoded0 = [KinesisClientTypes.MetricsName]()
-            for string0 in shardLevelMetricsContainer {
-                if let string0 = string0 {
-                    shardLevelMetricsDecoded0?.append(string0)
+            for enum0 in shardLevelMetricsContainer {
+                if let enum0 = enum0 {
+                    shardLevelMetricsDecoded0?.append(enum0)
                 }
             }
         }
         shardLevelMetrics = shardLevelMetricsDecoded0
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -1604,16 +1776,18 @@ extension EnableEnhancedMonitoringOutputError: ClientRuntime.HttpResponseBinding
 extension EnableEnhancedMonitoringOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum EnableEnhancedMonitoringOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -1629,10 +1803,12 @@ extension EnableEnhancedMonitoringOutputResponse: ClientRuntime.HttpResponseBind
             let output: EnableEnhancedMonitoringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentShardLevelMetrics = output.currentShardLevelMetrics
             self.desiredShardLevelMetrics = output.desiredShardLevelMetrics
+            self.streamARN = output.streamARN
             self.streamName = output.streamName
         } else {
             self.currentShardLevelMetrics = nil
             self.desiredShardLevelMetrics = nil
+            self.streamARN = nil
             self.streamName = nil
         }
     }
@@ -1644,17 +1820,21 @@ public struct EnableEnhancedMonitoringOutputResponse: Swift.Equatable {
     public var currentShardLevelMetrics: [KinesisClientTypes.MetricsName]?
     /// Represents the list of all the metrics that would be in the enhanced state after the operation.
     public var desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the Kinesis data stream.
     public var streamName: Swift.String?
 
     public init (
         currentShardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
         desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.currentShardLevelMetrics = currentShardLevelMetrics
         self.desiredShardLevelMetrics = desiredShardLevelMetrics
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -1663,12 +1843,14 @@ struct EnableEnhancedMonitoringOutputResponseBody: Swift.Equatable {
     let streamName: Swift.String?
     let currentShardLevelMetrics: [KinesisClientTypes.MetricsName]?
     let desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]?
+    let streamARN: Swift.String?
 }
 
 extension EnableEnhancedMonitoringOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currentShardLevelMetrics = "CurrentShardLevelMetrics"
         case desiredShardLevelMetrics = "DesiredShardLevelMetrics"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -1680,9 +1862,9 @@ extension EnableEnhancedMonitoringOutputResponseBody: Swift.Decodable {
         var currentShardLevelMetricsDecoded0:[KinesisClientTypes.MetricsName]? = nil
         if let currentShardLevelMetricsContainer = currentShardLevelMetricsContainer {
             currentShardLevelMetricsDecoded0 = [KinesisClientTypes.MetricsName]()
-            for string0 in currentShardLevelMetricsContainer {
-                if let string0 = string0 {
-                    currentShardLevelMetricsDecoded0?.append(string0)
+            for enum0 in currentShardLevelMetricsContainer {
+                if let enum0 = enum0 {
+                    currentShardLevelMetricsDecoded0?.append(enum0)
                 }
             }
         }
@@ -1691,13 +1873,15 @@ extension EnableEnhancedMonitoringOutputResponseBody: Swift.Decodable {
         var desiredShardLevelMetricsDecoded0:[KinesisClientTypes.MetricsName]? = nil
         if let desiredShardLevelMetricsContainer = desiredShardLevelMetricsContainer {
             desiredShardLevelMetricsDecoded0 = [KinesisClientTypes.MetricsName]()
-            for string0 in desiredShardLevelMetricsContainer {
-                if let string0 = string0 {
-                    desiredShardLevelMetricsDecoded0?.append(string0)
+            for enum0 in desiredShardLevelMetricsContainer {
+                if let enum0 = enum0 {
+                    desiredShardLevelMetricsDecoded0?.append(enum0)
                 }
             }
         }
         desiredShardLevelMetrics = desiredShardLevelMetricsDecoded0
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -1754,9 +1938,9 @@ extension KinesisClientTypes.EnhancedMetrics: Swift.Codable {
         var shardLevelMetricsDecoded0:[KinesisClientTypes.MetricsName]? = nil
         if let shardLevelMetricsContainer = shardLevelMetricsContainer {
             shardLevelMetricsDecoded0 = [KinesisClientTypes.MetricsName]()
-            for string0 in shardLevelMetricsContainer {
-                if let string0 = string0 {
-                    shardLevelMetricsDecoded0?.append(string0)
+            for enum0 in shardLevelMetricsContainer {
+                if let enum0 = enum0 {
+                    shardLevelMetricsDecoded0?.append(enum0)
                 }
             }
         }
@@ -1908,6 +2092,7 @@ extension GetRecordsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case limit = "Limit"
         case shardIterator = "ShardIterator"
+        case streamARN = "StreamARN"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1917,6 +2102,9 @@ extension GetRecordsInput: Swift.Encodable {
         }
         if let shardIterator = self.shardIterator {
             try encodeContainer.encode(shardIterator, forKey: .shardIterator)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
     }
 }
@@ -1934,26 +2122,32 @@ public struct GetRecordsInput: Swift.Equatable {
     /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
     /// This member is required.
     public var shardIterator: Swift.String?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
 
     public init (
         limit: Swift.Int? = nil,
-        shardIterator: Swift.String? = nil
+        shardIterator: Swift.String? = nil,
+        streamARN: Swift.String? = nil
     )
     {
         self.limit = limit
         self.shardIterator = shardIterator
+        self.streamARN = streamARN
     }
 }
 
 struct GetRecordsInputBody: Swift.Equatable {
     let shardIterator: Swift.String?
     let limit: Swift.Int?
+    let streamARN: Swift.String?
 }
 
 extension GetRecordsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case limit = "Limit"
         case shardIterator = "ShardIterator"
+        case streamARN = "StreamARN"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1962,6 +2156,8 @@ extension GetRecordsInputBody: Swift.Decodable {
         shardIterator = shardIteratorDecoded
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -1976,6 +2172,7 @@ extension GetRecordsOutputError: ClientRuntime.HttpResponseBinding {
 extension GetRecordsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ExpiredIteratorException" : self = .expiredIteratorException(try ExpiredIteratorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSAccessDeniedException" : self = .kMSAccessDeniedException(try KMSAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1986,12 +2183,13 @@ extension GetRecordsOutputError {
         case "KMSThrottlingException" : self = .kMSThrottlingException(try KMSThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetRecordsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case expiredIteratorException(ExpiredIteratorException)
     case invalidArgumentException(InvalidArgumentException)
     case kMSAccessDeniedException(KMSAccessDeniedException)
@@ -2101,6 +2299,7 @@ extension GetShardIteratorInput: Swift.Encodable {
         case shardId = "ShardId"
         case shardIteratorType = "ShardIteratorType"
         case startingSequenceNumber = "StartingSequenceNumber"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
         case timestamp = "Timestamp"
     }
@@ -2115,6 +2314,9 @@ extension GetShardIteratorInput: Swift.Encodable {
         }
         if let startingSequenceNumber = self.startingSequenceNumber {
             try encodeContainer.encode(startingSequenceNumber, forKey: .startingSequenceNumber)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -2151,8 +2353,9 @@ public struct GetShardIteratorInput: Swift.Equatable {
     public var shardIteratorType: KinesisClientTypes.ShardIteratorType?
     /// The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER.
     public var startingSequenceNumber: Swift.String?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the Amazon Kinesis data stream.
-    /// This member is required.
     public var streamName: Swift.String?
     /// The time stamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, the iterator returned is for the next (later) record. If the time stamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
     public var timestamp: ClientRuntime.Date?
@@ -2161,6 +2364,7 @@ public struct GetShardIteratorInput: Swift.Equatable {
         shardId: Swift.String? = nil,
         shardIteratorType: KinesisClientTypes.ShardIteratorType? = nil,
         startingSequenceNumber: Swift.String? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         timestamp: ClientRuntime.Date? = nil
     )
@@ -2168,6 +2372,7 @@ public struct GetShardIteratorInput: Swift.Equatable {
         self.shardId = shardId
         self.shardIteratorType = shardIteratorType
         self.startingSequenceNumber = startingSequenceNumber
+        self.streamARN = streamARN
         self.streamName = streamName
         self.timestamp = timestamp
     }
@@ -2179,6 +2384,7 @@ struct GetShardIteratorInputBody: Swift.Equatable {
     let shardIteratorType: KinesisClientTypes.ShardIteratorType?
     let startingSequenceNumber: Swift.String?
     let timestamp: ClientRuntime.Date?
+    let streamARN: Swift.String?
 }
 
 extension GetShardIteratorInputBody: Swift.Decodable {
@@ -2186,6 +2392,7 @@ extension GetShardIteratorInputBody: Swift.Decodable {
         case shardId = "ShardId"
         case shardIteratorType = "ShardIteratorType"
         case startingSequenceNumber = "StartingSequenceNumber"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
         case timestamp = "Timestamp"
     }
@@ -2202,6 +2409,8 @@ extension GetShardIteratorInputBody: Swift.Decodable {
         startingSequenceNumber = startingSequenceNumberDecoded
         let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
         timestamp = timestampDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -2216,15 +2425,17 @@ extension GetShardIteratorOutputError: ClientRuntime.HttpResponseBinding {
 extension GetShardIteratorOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum GetShardIteratorOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
     case resourceNotFoundException(ResourceNotFoundException)
@@ -2323,6 +2534,7 @@ extension KinesisClientTypes {
 extension IncreaseStreamRetentionPeriodInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case retentionPeriodHours = "RetentionPeriodHours"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -2330,6 +2542,9 @@ extension IncreaseStreamRetentionPeriodInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let retentionPeriodHours = self.retentionPeriodHours {
             try encodeContainer.encode(retentionPeriodHours, forKey: .retentionPeriodHours)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -2348,16 +2563,19 @@ public struct IncreaseStreamRetentionPeriodInput: Swift.Equatable {
     /// The new retention period of the stream, in hours. Must be more than the current retention period.
     /// This member is required.
     public var retentionPeriodHours: Swift.Int?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream to modify.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         retentionPeriodHours: Swift.Int? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.retentionPeriodHours = retentionPeriodHours
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -2365,11 +2583,13 @@ public struct IncreaseStreamRetentionPeriodInput: Swift.Equatable {
 struct IncreaseStreamRetentionPeriodInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let retentionPeriodHours: Swift.Int?
+    let streamARN: Swift.String?
 }
 
 extension IncreaseStreamRetentionPeriodInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case retentionPeriodHours = "RetentionPeriodHours"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -2379,6 +2599,8 @@ extension IncreaseStreamRetentionPeriodInputBody: Swift.Decodable {
         streamName = streamNameDecoded
         let retentionPeriodHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriodHours)
         retentionPeriodHours = retentionPeriodHoursDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -2393,16 +2615,18 @@ extension IncreaseStreamRetentionPeriodOutputError: ClientRuntime.HttpResponseBi
 extension IncreaseStreamRetentionPeriodOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum IncreaseStreamRetentionPeriodOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -3002,6 +3226,7 @@ extension ListShardsInput: Swift.Encodable {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case shardFilter = "ShardFilter"
+        case streamARN = "StreamARN"
         case streamCreationTimestamp = "StreamCreationTimestamp"
         case streamName = "StreamName"
     }
@@ -3019,6 +3244,9 @@ extension ListShardsInput: Swift.Encodable {
         }
         if let shardFilter = self.shardFilter {
             try encodeContainer.encode(shardFilter, forKey: .shardFilter)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamCreationTimestamp = self.streamCreationTimestamp {
             try encodeContainer.encodeTimestamp(streamCreationTimestamp, format: .epochSeconds, forKey: .streamCreationTimestamp)
@@ -3044,6 +3272,8 @@ public struct ListShardsInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// Enables you to filter out the response of the ListShards API. You can only specify one filter at a time. If you use the ShardFilter parameter when invoking the ListShards API, the Type is the required property and must be specified. If you specify the AT_TRIM_HORIZON, FROM_TRIM_HORIZON, or AT_LATEST types, you do not need to specify either the ShardId or the Timestamp optional properties. If you specify the AFTER_SHARD_ID type, you must also provide the value for the optional ShardId property. The ShardId property is identical in fuctionality to the ExclusiveStartShardId parameter of the ListShards API. When ShardId property is specified, the response includes the shards starting with the shard whose ID immediately follows the ShardId that you provided. If you specify the AT_TIMESTAMP or FROM_TIMESTAMP_ID type, you must also provide the value for the optional Timestamp property. If you specify the AT_TIMESTAMP type, then all shards that were open at the provided timestamp are returned. If you specify the FROM_TIMESTAMP type, then all shards starting from the provided timestamp to TIP are returned.
     public var shardFilter: KinesisClientTypes.ShardFilter?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the shards for. You cannot specify this parameter if you specify the NextToken parameter.
     public var streamCreationTimestamp: ClientRuntime.Date?
     /// The name of the data stream whose shards you want to list. You cannot specify this parameter if you specify the NextToken parameter.
@@ -3054,6 +3284,7 @@ public struct ListShardsInput: Swift.Equatable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         shardFilter: KinesisClientTypes.ShardFilter? = nil,
+        streamARN: Swift.String? = nil,
         streamCreationTimestamp: ClientRuntime.Date? = nil,
         streamName: Swift.String? = nil
     )
@@ -3062,6 +3293,7 @@ public struct ListShardsInput: Swift.Equatable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.shardFilter = shardFilter
+        self.streamARN = streamARN
         self.streamCreationTimestamp = streamCreationTimestamp
         self.streamName = streamName
     }
@@ -3074,6 +3306,7 @@ struct ListShardsInputBody: Swift.Equatable {
     let maxResults: Swift.Int?
     let streamCreationTimestamp: ClientRuntime.Date?
     let shardFilter: KinesisClientTypes.ShardFilter?
+    let streamARN: Swift.String?
 }
 
 extension ListShardsInputBody: Swift.Decodable {
@@ -3082,6 +3315,7 @@ extension ListShardsInputBody: Swift.Decodable {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case shardFilter = "ShardFilter"
+        case streamARN = "StreamARN"
         case streamCreationTimestamp = "StreamCreationTimestamp"
         case streamName = "StreamName"
     }
@@ -3100,6 +3334,8 @@ extension ListShardsInputBody: Swift.Decodable {
         streamCreationTimestamp = streamCreationTimestampDecoded
         let shardFilterDecoded = try containerValues.decodeIfPresent(KinesisClientTypes.ShardFilter.self, forKey: .shardFilter)
         shardFilter = shardFilterDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -3114,17 +3350,19 @@ extension ListShardsOutputError: ClientRuntime.HttpResponseBinding {
 extension ListShardsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ExpiredNextTokenException" : self = .expiredNextTokenException(try ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum ListShardsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case expiredNextTokenException(ExpiredNextTokenException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
@@ -3293,7 +3531,7 @@ extension ListStreamConsumersOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3371,6 +3609,7 @@ extension ListStreamsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exclusiveStartStreamName = "ExclusiveStartStreamName"
         case limit = "Limit"
+        case nextToken = "NextToken"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3380,6 +3619,9 @@ extension ListStreamsInput: Swift.Encodable {
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
     }
 }
@@ -3396,26 +3638,32 @@ public struct ListStreamsInput: Swift.Equatable {
     public var exclusiveStartStreamName: Swift.String?
     /// The maximum number of streams to list. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
     public var limit: Swift.Int?
+    ///
+    public var nextToken: Swift.String?
 
     public init (
         exclusiveStartStreamName: Swift.String? = nil,
-        limit: Swift.Int? = nil
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     )
     {
         self.exclusiveStartStreamName = exclusiveStartStreamName
         self.limit = limit
+        self.nextToken = nextToken
     }
 }
 
 struct ListStreamsInputBody: Swift.Equatable {
     let limit: Swift.Int?
     let exclusiveStartStreamName: Swift.String?
+    let nextToken: Swift.String?
 }
 
 extension ListStreamsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exclusiveStartStreamName = "ExclusiveStartStreamName"
         case limit = "Limit"
+        case nextToken = "NextToken"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3424,6 +3672,8 @@ extension ListStreamsInputBody: Swift.Decodable {
         limit = limitDecoded
         let exclusiveStartStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exclusiveStartStreamName)
         exclusiveStartStreamName = exclusiveStartStreamNameDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -3438,13 +3688,17 @@ extension ListStreamsOutputError: ClientRuntime.HttpResponseBinding {
 extension ListStreamsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ExpiredNextTokenException" : self = .expiredNextTokenException(try ExpiredNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum ListStreamsOutputError: Swift.Error, Swift.Equatable {
+    case expiredNextTokenException(ExpiredNextTokenException)
+    case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -3456,10 +3710,14 @@ extension ListStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().toData()
             let output: ListStreamsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hasMoreStreams = output.hasMoreStreams
+            self.nextToken = output.nextToken
             self.streamNames = output.streamNames
+            self.streamSummaries = output.streamSummaries
         } else {
             self.hasMoreStreams = nil
+            self.nextToken = nil
             self.streamNames = nil
+            self.streamSummaries = nil
         }
     }
 }
@@ -3469,29 +3727,41 @@ public struct ListStreamsOutputResponse: Swift.Equatable {
     /// If set to true, there are more streams available to list.
     /// This member is required.
     public var hasMoreStreams: Swift.Bool?
+    ///
+    public var nextToken: Swift.String?
     /// The names of the streams that are associated with the Amazon Web Services account making the ListStreams request.
     /// This member is required.
     public var streamNames: [Swift.String]?
+    ///
+    public var streamSummaries: [KinesisClientTypes.StreamSummary]?
 
     public init (
         hasMoreStreams: Swift.Bool? = nil,
-        streamNames: [Swift.String]? = nil
+        nextToken: Swift.String? = nil,
+        streamNames: [Swift.String]? = nil,
+        streamSummaries: [KinesisClientTypes.StreamSummary]? = nil
     )
     {
         self.hasMoreStreams = hasMoreStreams
+        self.nextToken = nextToken
         self.streamNames = streamNames
+        self.streamSummaries = streamSummaries
     }
 }
 
 struct ListStreamsOutputResponseBody: Swift.Equatable {
     let streamNames: [Swift.String]?
     let hasMoreStreams: Swift.Bool?
+    let nextToken: Swift.String?
+    let streamSummaries: [KinesisClientTypes.StreamSummary]?
 }
 
 extension ListStreamsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hasMoreStreams = "HasMoreStreams"
+        case nextToken = "NextToken"
         case streamNames = "StreamNames"
+        case streamSummaries = "StreamSummaries"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3509,6 +3779,19 @@ extension ListStreamsOutputResponseBody: Swift.Decodable {
         streamNames = streamNamesDecoded0
         let hasMoreStreamsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasMoreStreams)
         hasMoreStreams = hasMoreStreamsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let streamSummariesContainer = try containerValues.decodeIfPresent([KinesisClientTypes.StreamSummary?].self, forKey: .streamSummaries)
+        var streamSummariesDecoded0:[KinesisClientTypes.StreamSummary]? = nil
+        if let streamSummariesContainer = streamSummariesContainer {
+            streamSummariesDecoded0 = [KinesisClientTypes.StreamSummary]()
+            for structure0 in streamSummariesContainer {
+                if let structure0 = structure0 {
+                    streamSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        streamSummaries = streamSummariesDecoded0
     }
 }
 
@@ -3516,6 +3799,7 @@ extension ListTagsForStreamInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exclusiveStartTagKey = "ExclusiveStartTagKey"
         case limit = "Limit"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -3526,6 +3810,9 @@ extension ListTagsForStreamInput: Swift.Encodable {
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -3545,18 +3832,21 @@ public struct ListTagsForStreamInput: Swift.Equatable {
     public var exclusiveStartTagKey: Swift.String?
     /// The number of tags to return. If this number is less than the total number of tags associated with the stream, HasMoreTags is set to true. To list additional tags, set ExclusiveStartTagKey to the last key in the response.
     public var limit: Swift.Int?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         exclusiveStartTagKey: Swift.String? = nil,
         limit: Swift.Int? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.exclusiveStartTagKey = exclusiveStartTagKey
         self.limit = limit
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -3565,12 +3855,14 @@ struct ListTagsForStreamInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let exclusiveStartTagKey: Swift.String?
     let limit: Swift.Int?
+    let streamARN: Swift.String?
 }
 
 extension ListTagsForStreamInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exclusiveStartTagKey = "ExclusiveStartTagKey"
         case limit = "Limit"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -3582,6 +3874,8 @@ extension ListTagsForStreamInputBody: Swift.Decodable {
         exclusiveStartTagKey = exclusiveStartTagKeyDecoded
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -3596,15 +3890,17 @@ extension ListTagsForStreamOutputError: ClientRuntime.HttpResponseBinding {
 extension ListTagsForStreamOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum ListTagsForStreamOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceNotFoundException(ResourceNotFoundException)
@@ -3678,6 +3974,7 @@ extension MergeShardsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adjacentShardToMerge = "AdjacentShardToMerge"
         case shardToMerge = "ShardToMerge"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -3688,6 +3985,9 @@ extension MergeShardsInput: Swift.Encodable {
         }
         if let shardToMerge = self.shardToMerge {
             try encodeContainer.encode(shardToMerge, forKey: .shardToMerge)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -3709,18 +4009,21 @@ public struct MergeShardsInput: Swift.Equatable {
     /// The shard ID of the shard to combine with the adjacent shard for the merge.
     /// This member is required.
     public var shardToMerge: Swift.String?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream for the merge.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         adjacentShardToMerge: Swift.String? = nil,
         shardToMerge: Swift.String? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.adjacentShardToMerge = adjacentShardToMerge
         self.shardToMerge = shardToMerge
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -3729,12 +4032,14 @@ struct MergeShardsInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let shardToMerge: Swift.String?
     let adjacentShardToMerge: Swift.String?
+    let streamARN: Swift.String?
 }
 
 extension MergeShardsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adjacentShardToMerge = "AdjacentShardToMerge"
         case shardToMerge = "ShardToMerge"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -3746,6 +4051,8 @@ extension MergeShardsInputBody: Swift.Decodable {
         shardToMerge = shardToMergeDecoded
         let adjacentShardToMergeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .adjacentShardToMerge)
         adjacentShardToMerge = adjacentShardToMergeDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -3760,17 +4067,19 @@ extension MergeShardsOutputError: ClientRuntime.HttpResponseBinding {
 extension MergeShardsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum MergeShardsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -3898,6 +4207,7 @@ extension PutRecordInput: Swift.Encodable {
         case explicitHashKey = "ExplicitHashKey"
         case partitionKey = "PartitionKey"
         case sequenceNumberForOrdering = "SequenceNumberForOrdering"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -3914,6 +4224,9 @@ extension PutRecordInput: Swift.Encodable {
         }
         if let sequenceNumberForOrdering = self.sequenceNumberForOrdering {
             try encodeContainer.encode(sequenceNumberForOrdering, forKey: .sequenceNumberForOrdering)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -3939,8 +4252,9 @@ public struct PutRecordInput: Swift.Equatable {
     public var partitionKey: Swift.String?
     /// Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1). If this parameter is not set, records are coarsely ordered based on arrival time.
     public var sequenceNumberForOrdering: Swift.String?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream to put the data record into.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
@@ -3948,6 +4262,7 @@ public struct PutRecordInput: Swift.Equatable {
         explicitHashKey: Swift.String? = nil,
         partitionKey: Swift.String? = nil,
         sequenceNumberForOrdering: Swift.String? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
@@ -3955,6 +4270,7 @@ public struct PutRecordInput: Swift.Equatable {
         self.explicitHashKey = explicitHashKey
         self.partitionKey = partitionKey
         self.sequenceNumberForOrdering = sequenceNumberForOrdering
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -3965,6 +4281,7 @@ struct PutRecordInputBody: Swift.Equatable {
     let partitionKey: Swift.String?
     let explicitHashKey: Swift.String?
     let sequenceNumberForOrdering: Swift.String?
+    let streamARN: Swift.String?
 }
 
 extension PutRecordInputBody: Swift.Decodable {
@@ -3973,6 +4290,7 @@ extension PutRecordInputBody: Swift.Decodable {
         case explicitHashKey = "ExplicitHashKey"
         case partitionKey = "PartitionKey"
         case sequenceNumberForOrdering = "SequenceNumberForOrdering"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -3988,6 +4306,8 @@ extension PutRecordInputBody: Swift.Decodable {
         explicitHashKey = explicitHashKeyDecoded
         let sequenceNumberForOrderingDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sequenceNumberForOrdering)
         sequenceNumberForOrdering = sequenceNumberForOrderingDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -4002,6 +4322,7 @@ extension PutRecordOutputError: ClientRuntime.HttpResponseBinding {
 extension PutRecordOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSAccessDeniedException" : self = .kMSAccessDeniedException(try KMSAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSDisabledException" : self = .kMSDisabledException(try KMSDisabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4011,12 +4332,13 @@ extension PutRecordOutputError {
         case "KMSThrottlingException" : self = .kMSThrottlingException(try KMSThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum PutRecordOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case kMSAccessDeniedException(KMSAccessDeniedException)
     case kMSDisabledException(KMSDisabledException)
@@ -4100,6 +4422,7 @@ extension PutRecordOutputResponseBody: Swift.Decodable {
 extension PutRecordsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case records = "Records"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -4110,6 +4433,9 @@ extension PutRecordsInput: Swift.Encodable {
             for putrecordsrequestentrylist0 in records {
                 try recordsContainer.encode(putrecordsrequestentrylist0)
             }
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -4128,16 +4454,19 @@ public struct PutRecordsInput: Swift.Equatable {
     /// The records associated with the request.
     /// This member is required.
     public var records: [KinesisClientTypes.PutRecordsRequestEntry]?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The stream name associated with the request.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         records: [KinesisClientTypes.PutRecordsRequestEntry]? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.records = records
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -4145,11 +4474,13 @@ public struct PutRecordsInput: Swift.Equatable {
 struct PutRecordsInputBody: Swift.Equatable {
     let records: [KinesisClientTypes.PutRecordsRequestEntry]?
     let streamName: Swift.String?
+    let streamARN: Swift.String?
 }
 
 extension PutRecordsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case records = "Records"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -4168,6 +4499,8 @@ extension PutRecordsInputBody: Swift.Decodable {
         records = recordsDecoded0
         let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
         streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -4182,6 +4515,7 @@ extension PutRecordsOutputError: ClientRuntime.HttpResponseBinding {
 extension PutRecordsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSAccessDeniedException" : self = .kMSAccessDeniedException(try KMSAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSDisabledException" : self = .kMSDisabledException(try KMSDisabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4191,12 +4525,13 @@ extension PutRecordsOutputError {
         case "KMSThrottlingException" : self = .kMSThrottlingException(try KMSThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum PutRecordsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case kMSAccessDeniedException(KMSAccessDeniedException)
     case kMSDisabledException(KMSDisabledException)
@@ -4565,7 +4900,7 @@ extension RegisterStreamConsumerOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4622,12 +4957,16 @@ extension RegisterStreamConsumerOutputResponseBody: Swift.Decodable {
 
 extension RemoveTagsFromStreamInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
         case tagKeys = "TagKeys"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
         }
@@ -4648,18 +4987,21 @@ extension RemoveTagsFromStreamInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input for RemoveTagsFromStream.
 public struct RemoveTagsFromStreamInput: Swift.Equatable {
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream.
-    /// This member is required.
     public var streamName: Swift.String?
     /// A list of tag keys. Each corresponding tag is removed from the stream.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
     public init (
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     )
     {
+        self.streamARN = streamARN
         self.streamName = streamName
         self.tagKeys = tagKeys
     }
@@ -4668,10 +5010,12 @@ public struct RemoveTagsFromStreamInput: Swift.Equatable {
 struct RemoveTagsFromStreamInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let tagKeys: [Swift.String]?
+    let streamARN: Swift.String?
 }
 
 extension RemoveTagsFromStreamInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
         case tagKeys = "TagKeys"
     }
@@ -4691,6 +5035,8 @@ extension RemoveTagsFromStreamInputBody: Swift.Decodable {
             }
         }
         tagKeys = tagKeysDecoded0
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -4705,16 +5051,18 @@ extension RemoveTagsFromStreamOutputError: ClientRuntime.HttpResponseBinding {
 extension RemoveTagsFromStreamOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum RemoveTagsFromStreamOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -5186,6 +5534,7 @@ extension SplitShardInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case newStartingHashKey = "NewStartingHashKey"
         case shardToSplit = "ShardToSplit"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -5196,6 +5545,9 @@ extension SplitShardInput: Swift.Encodable {
         }
         if let shardToSplit = self.shardToSplit {
             try encodeContainer.encode(shardToSplit, forKey: .shardToSplit)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -5217,18 +5569,21 @@ public struct SplitShardInput: Swift.Equatable {
     /// The shard ID of the shard to split.
     /// This member is required.
     public var shardToSplit: Swift.String?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream for the shard split.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         newStartingHashKey: Swift.String? = nil,
         shardToSplit: Swift.String? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.newStartingHashKey = newStartingHashKey
         self.shardToSplit = shardToSplit
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -5237,12 +5592,14 @@ struct SplitShardInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let shardToSplit: Swift.String?
     let newStartingHashKey: Swift.String?
+    let streamARN: Swift.String?
 }
 
 extension SplitShardInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case newStartingHashKey = "NewStartingHashKey"
         case shardToSplit = "ShardToSplit"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -5254,6 +5611,8 @@ extension SplitShardInputBody: Swift.Decodable {
         shardToSplit = shardToSplitDecoded
         let newStartingHashKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newStartingHashKey)
         newStartingHashKey = newStartingHashKeyDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -5268,17 +5627,19 @@ extension SplitShardOutputError: ClientRuntime.HttpResponseBinding {
 extension SplitShardOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum SplitShardOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -5301,6 +5662,7 @@ extension StartStreamEncryptionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptionType = "EncryptionType"
         case keyId = "KeyId"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -5311,6 +5673,9 @@ extension StartStreamEncryptionInput: Swift.Encodable {
         }
         if let keyId = self.keyId {
             try encodeContainer.encode(keyId, forKey: .keyId)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -5341,18 +5706,21 @@ public struct StartStreamEncryptionInput: Swift.Equatable {
     /// * Master key owned by Kinesis Data Streams: alias/aws/kinesis
     /// This member is required.
     public var keyId: Swift.String?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream for which to start encrypting records.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         encryptionType: KinesisClientTypes.EncryptionType? = nil,
         keyId: Swift.String? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.encryptionType = encryptionType
         self.keyId = keyId
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -5361,12 +5729,14 @@ struct StartStreamEncryptionInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let encryptionType: KinesisClientTypes.EncryptionType?
     let keyId: Swift.String?
+    let streamARN: Swift.String?
 }
 
 extension StartStreamEncryptionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptionType = "EncryptionType"
         case keyId = "KeyId"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -5378,6 +5748,8 @@ extension StartStreamEncryptionInputBody: Swift.Decodable {
         encryptionType = encryptionTypeDecoded
         let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
         keyId = keyIdDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -5392,6 +5764,7 @@ extension StartStreamEncryptionOutputError: ClientRuntime.HttpResponseBinding {
 extension StartStreamEncryptionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSAccessDeniedException" : self = .kMSAccessDeniedException(try KMSAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSDisabledException" : self = .kMSDisabledException(try KMSDisabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -5402,12 +5775,13 @@ extension StartStreamEncryptionOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum StartStreamEncryptionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case kMSAccessDeniedException(KMSAccessDeniedException)
     case kMSDisabledException(KMSDisabledException)
@@ -5491,6 +5865,7 @@ extension StopStreamEncryptionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptionType = "EncryptionType"
         case keyId = "KeyId"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -5501,6 +5876,9 @@ extension StopStreamEncryptionInput: Swift.Encodable {
         }
         if let keyId = self.keyId {
             try encodeContainer.encode(keyId, forKey: .keyId)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -5531,18 +5909,21 @@ public struct StopStreamEncryptionInput: Swift.Equatable {
     /// * Master key owned by Kinesis Data Streams: alias/aws/kinesis
     /// This member is required.
     public var keyId: Swift.String?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream on which to stop encrypting records.
-    /// This member is required.
     public var streamName: Swift.String?
 
     public init (
         encryptionType: KinesisClientTypes.EncryptionType? = nil,
         keyId: Swift.String? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
     )
     {
         self.encryptionType = encryptionType
         self.keyId = keyId
+        self.streamARN = streamARN
         self.streamName = streamName
     }
 }
@@ -5551,12 +5932,14 @@ struct StopStreamEncryptionInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let encryptionType: KinesisClientTypes.EncryptionType?
     let keyId: Swift.String?
+    let streamARN: Swift.String?
 }
 
 extension StopStreamEncryptionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptionType = "EncryptionType"
         case keyId = "KeyId"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
     }
 
@@ -5568,6 +5951,8 @@ extension StopStreamEncryptionInputBody: Swift.Decodable {
         encryptionType = encryptionTypeDecoded
         let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
         keyId = keyIdDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -5582,16 +5967,18 @@ extension StopStreamEncryptionOutputError: ClientRuntime.HttpResponseBinding {
 extension StopStreamEncryptionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum StopStreamEncryptionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -6080,6 +6467,84 @@ extension KinesisClientTypes {
     }
 }
 
+extension KinesisClientTypes.StreamSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
+        case streamCreationTimestamp = "StreamCreationTimestamp"
+        case streamModeDetails = "StreamModeDetails"
+        case streamName = "StreamName"
+        case streamStatus = "StreamStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
+        if let streamCreationTimestamp = self.streamCreationTimestamp {
+            try encodeContainer.encodeTimestamp(streamCreationTimestamp, format: .epochSeconds, forKey: .streamCreationTimestamp)
+        }
+        if let streamModeDetails = self.streamModeDetails {
+            try encodeContainer.encode(streamModeDetails, forKey: .streamModeDetails)
+        }
+        if let streamName = self.streamName {
+            try encodeContainer.encode(streamName, forKey: .streamName)
+        }
+        if let streamStatus = self.streamStatus {
+            try encodeContainer.encode(streamStatus.rawValue, forKey: .streamStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
+        streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
+        let streamStatusDecoded = try containerValues.decodeIfPresent(KinesisClientTypes.StreamStatus.self, forKey: .streamStatus)
+        streamStatus = streamStatusDecoded
+        let streamModeDetailsDecoded = try containerValues.decodeIfPresent(KinesisClientTypes.StreamModeDetails.self, forKey: .streamModeDetails)
+        streamModeDetails = streamModeDetailsDecoded
+        let streamCreationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .streamCreationTimestamp)
+        streamCreationTimestamp = streamCreationTimestampDecoded
+    }
+}
+
+extension KinesisClientTypes {
+    /// The summary of a stream.
+    public struct StreamSummary: Swift.Equatable {
+        /// The ARN of the stream.
+        /// This member is required.
+        public var streamARN: Swift.String?
+        /// The timestamp at which the stream was created.
+        public var streamCreationTimestamp: ClientRuntime.Date?
+        /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
+        public var streamModeDetails: KinesisClientTypes.StreamModeDetails?
+        /// The name of a stream.
+        /// This member is required.
+        public var streamName: Swift.String?
+        /// The status of the stream.
+        /// This member is required.
+        public var streamStatus: KinesisClientTypes.StreamStatus?
+
+        public init (
+            streamARN: Swift.String? = nil,
+            streamCreationTimestamp: ClientRuntime.Date? = nil,
+            streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
+            streamName: Swift.String? = nil,
+            streamStatus: KinesisClientTypes.StreamStatus? = nil
+        )
+        {
+            self.streamARN = streamARN
+            self.streamCreationTimestamp = streamCreationTimestamp
+            self.streamModeDetails = streamModeDetails
+            self.streamName = streamName
+            self.streamStatus = streamStatus
+        }
+    }
+
+}
+
 extension KinesisClientTypes.SubscribeToShardEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case childShards = "ChildShards"
@@ -6384,16 +6849,18 @@ extension SubscribeToShardOutputError: ClientRuntime.HttpResponseBinding {
 extension SubscribeToShardOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum SubscribeToShardOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -6492,6 +6959,7 @@ extension KinesisClientTypes {
 extension UpdateShardCountInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scalingType = "ScalingType"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
         case targetShardCount = "TargetShardCount"
     }
@@ -6500,6 +6968,9 @@ extension UpdateShardCountInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let scalingType = self.scalingType {
             try encodeContainer.encode(scalingType.rawValue, forKey: .scalingType)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
         }
         if let streamName = self.streamName {
             try encodeContainer.encode(streamName, forKey: .streamName)
@@ -6520,8 +6991,9 @@ public struct UpdateShardCountInput: Swift.Equatable {
     /// The scaling type. Uniform scaling creates shards of equal size.
     /// This member is required.
     public var scalingType: KinesisClientTypes.ScalingType?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream.
-    /// This member is required.
     public var streamName: Swift.String?
     /// The new number of shards. This value has the following default limits. By default, you cannot do the following:
     ///
@@ -6537,11 +7009,13 @@ public struct UpdateShardCountInput: Swift.Equatable {
 
     public init (
         scalingType: KinesisClientTypes.ScalingType? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         targetShardCount: Swift.Int? = nil
     )
     {
         self.scalingType = scalingType
+        self.streamARN = streamARN
         self.streamName = streamName
         self.targetShardCount = targetShardCount
     }
@@ -6551,11 +7025,13 @@ struct UpdateShardCountInputBody: Swift.Equatable {
     let streamName: Swift.String?
     let targetShardCount: Swift.Int?
     let scalingType: KinesisClientTypes.ScalingType?
+    let streamARN: Swift.String?
 }
 
 extension UpdateShardCountInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scalingType = "ScalingType"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
         case targetShardCount = "TargetShardCount"
     }
@@ -6568,6 +7044,8 @@ extension UpdateShardCountInputBody: Swift.Decodable {
         targetShardCount = targetShardCountDecoded
         let scalingTypeDecoded = try containerValues.decodeIfPresent(KinesisClientTypes.ScalingType.self, forKey: .scalingType)
         scalingType = scalingTypeDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -6582,17 +7060,19 @@ extension UpdateShardCountOutputError: ClientRuntime.HttpResponseBinding {
 extension UpdateShardCountOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum UpdateShardCountOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case invalidArgumentException(InvalidArgumentException)
     case limitExceededException(LimitExceededException)
     case resourceInUseException(ResourceInUseException)
@@ -6608,10 +7088,12 @@ extension UpdateShardCountOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().toData()
             let output: UpdateShardCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentShardCount = output.currentShardCount
+            self.streamARN = output.streamARN
             self.streamName = output.streamName
             self.targetShardCount = output.targetShardCount
         } else {
             self.currentShardCount = nil
+            self.streamARN = nil
             self.streamName = nil
             self.targetShardCount = nil
         }
@@ -6621,6 +7103,8 @@ extension UpdateShardCountOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateShardCountOutputResponse: Swift.Equatable {
     /// The current number of shards.
     public var currentShardCount: Swift.Int?
+    /// The ARN of the stream.
+    public var streamARN: Swift.String?
     /// The name of the stream.
     public var streamName: Swift.String?
     /// The updated number of shards.
@@ -6628,11 +7112,13 @@ public struct UpdateShardCountOutputResponse: Swift.Equatable {
 
     public init (
         currentShardCount: Swift.Int? = nil,
+        streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         targetShardCount: Swift.Int? = nil
     )
     {
         self.currentShardCount = currentShardCount
+        self.streamARN = streamARN
         self.streamName = streamName
         self.targetShardCount = targetShardCount
     }
@@ -6642,11 +7128,13 @@ struct UpdateShardCountOutputResponseBody: Swift.Equatable {
     let streamName: Swift.String?
     let currentShardCount: Swift.Int?
     let targetShardCount: Swift.Int?
+    let streamARN: Swift.String?
 }
 
 extension UpdateShardCountOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currentShardCount = "CurrentShardCount"
+        case streamARN = "StreamARN"
         case streamName = "StreamName"
         case targetShardCount = "TargetShardCount"
     }
@@ -6659,6 +7147,8 @@ extension UpdateShardCountOutputResponseBody: Swift.Decodable {
         currentShardCount = currentShardCountDecoded
         let targetShardCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetShardCount)
         targetShardCount = targetShardCountDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
     }
 }
 
@@ -6738,7 +7228,7 @@ extension UpdateStreamModeOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6778,7 +7268,7 @@ extension ValidationException {
     }
 }
 
-///
+/// Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
