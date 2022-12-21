@@ -197,7 +197,7 @@ extension ActivateKeySigningKeyOutputError {
         case "InvalidKMSArn" : self = .invalidKMSArn(try InvalidKMSArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSigningStatus" : self = .invalidSigningStatus(try InvalidSigningStatus(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchKeySigningKey" : self = .noSuchKeySigningKey(try NoSuchKeySigningKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -620,7 +620,7 @@ extension AssociateVPCWithHostedZoneOutputError {
         case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorRequestNotComplete" : self = .priorRequestNotComplete(try PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PublicZoneVPCAssociation" : self = .publicZoneVPCAssociation(try PublicZoneVPCAssociation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -993,7 +993,7 @@ extension ChangeCidrCollectionOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitsExceeded" : self = .limitsExceeded(try LimitsExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCidrCollectionException" : self = .noSuchCidrCollectionException(try NoSuchCidrCollectionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1249,7 +1249,7 @@ extension ChangeResourceRecordSetsOutputError {
         case "NoSuchHealthCheck" : self = .noSuchHealthCheck(try NoSuchHealthCheck(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorRequestNotComplete" : self = .priorRequestNotComplete(try PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1490,7 +1490,7 @@ extension ChangeTagsForResourceOutputError {
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorRequestNotComplete" : self = .priorRequestNotComplete(try PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2100,7 +2100,7 @@ extension Route53ClientTypes.CloudWatchAlarmConfiguration: Swift.Codable {
             try container.encode(statistic, forKey: ClientRuntime.Key("Statistic"))
         }
         if let threshold = threshold {
-            try container.encode(Swift.String(threshold), forKey: ClientRuntime.Key("Threshold"))
+            try container.encode(threshold, forKey: ClientRuntime.Key("Threshold"))
         }
     }
 
@@ -2708,7 +2708,7 @@ extension CreateCidrCollectionOutputError {
         case "ConcurrentModification" : self = .concurrentModification(try ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitsExceeded" : self = .limitsExceeded(try LimitsExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2871,7 +2871,7 @@ extension CreateHealthCheckOutputError {
         case "HealthCheckAlreadyExists" : self = .healthCheckAlreadyExists(try HealthCheckAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyHealthChecks" : self = .tooManyHealthChecks(try TooManyHealthChecks(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3077,7 +3077,7 @@ extension CreateHostedZoneOutputError {
         case "InvalidVPCId" : self = .invalidVPCId(try InvalidVPCId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDelegationSet" : self = .noSuchDelegationSet(try NoSuchDelegationSet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyHostedZones" : self = .tooManyHostedZones(try TooManyHostedZones(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3331,7 +3331,7 @@ extension CreateKeySigningKeyOutputError {
         case "KeySigningKeyAlreadyExists" : self = .keySigningKeyAlreadyExists(try KeySigningKeyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyKeySigningKeys" : self = .tooManyKeySigningKeys(try TooManyKeySigningKeys(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3507,7 +3507,7 @@ extension CreateQueryLoggingConfigOutputError {
         case "NoSuchCloudWatchLogsLogGroup" : self = .noSuchCloudWatchLogsLogGroup(try NoSuchCloudWatchLogsLogGroup(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "QueryLoggingConfigAlreadyExists" : self = .queryLoggingConfigAlreadyExists(try QueryLoggingConfigAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3668,7 +3668,7 @@ extension CreateReusableDelegationSetOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitsExceeded" : self = .limitsExceeded(try LimitsExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3960,7 +3960,7 @@ extension CreateTrafficPolicyInstanceOutputError {
         case "NoSuchTrafficPolicy" : self = .noSuchTrafficPolicy(try NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTrafficPolicyInstances" : self = .tooManyTrafficPolicyInstances(try TooManyTrafficPolicyInstances(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrafficPolicyInstanceAlreadyExists" : self = .trafficPolicyInstanceAlreadyExists(try TrafficPolicyInstanceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4041,7 +4041,7 @@ extension CreateTrafficPolicyOutputError {
         case "InvalidTrafficPolicyDocument" : self = .invalidTrafficPolicyDocument(try InvalidTrafficPolicyDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTrafficPolicies" : self = .tooManyTrafficPolicies(try TooManyTrafficPolicies(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrafficPolicyAlreadyExists" : self = .trafficPolicyAlreadyExists(try TrafficPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4208,7 +4208,7 @@ extension CreateTrafficPolicyVersionOutputError {
         case "InvalidTrafficPolicyDocument" : self = .invalidTrafficPolicyDocument(try InvalidTrafficPolicyDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicy" : self = .noSuchTrafficPolicy(try NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTrafficPolicyVersionsForCurrentPolicy" : self = .tooManyTrafficPolicyVersionsForCurrentPolicy(try TooManyTrafficPolicyVersionsForCurrentPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4389,7 +4389,7 @@ extension CreateVPCAssociationAuthorizationOutputError {
         case "InvalidVPCId" : self = .invalidVPCId(try InvalidVPCId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyVPCAssociationAuthorizations" : self = .tooManyVPCAssociationAuthorizations(try TooManyVPCAssociationAuthorizations(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4652,7 +4652,7 @@ extension DeactivateKeySigningKeyOutputError {
         case "KeySigningKeyInParentDSRecord" : self = .keySigningKeyInParentDSRecord(try KeySigningKeyInParentDSRecord(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KeySigningKeyInUse" : self = .keySigningKeyInUse(try KeySigningKeyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchKeySigningKey" : self = .noSuchKeySigningKey(try NoSuchKeySigningKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5113,7 +5113,7 @@ extension DeleteCidrCollectionOutputError {
         case "ConcurrentModification" : self = .concurrentModification(try ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCidrCollectionException" : self = .noSuchCidrCollectionException(try NoSuchCidrCollectionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5181,7 +5181,7 @@ extension DeleteHealthCheckOutputError {
         case "HealthCheckInUse" : self = .healthCheckInUse(try HealthCheckInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHealthCheck" : self = .noSuchHealthCheck(try NoSuchHealthCheck(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5251,7 +5251,7 @@ extension DeleteHostedZoneOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorRequestNotComplete" : self = .priorRequestNotComplete(try PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5388,7 +5388,7 @@ extension DeleteKeySigningKeyOutputError {
         case "InvalidKMSArn" : self = .invalidKMSArn(try InvalidKMSArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSigningStatus" : self = .invalidSigningStatus(try InvalidSigningStatus(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchKeySigningKey" : self = .noSuchKeySigningKey(try NoSuchKeySigningKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5489,7 +5489,7 @@ extension DeleteQueryLoggingConfigOutputError {
         case "ConcurrentModification" : self = .concurrentModification(try ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchQueryLoggingConfig" : self = .noSuchQueryLoggingConfig(try NoSuchQueryLoggingConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5557,7 +5557,7 @@ extension DeleteReusableDelegationSetOutputError {
         case "DelegationSetNotReusable" : self = .delegationSetNotReusable(try DelegationSetNotReusable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDelegationSet" : self = .noSuchDelegationSet(try NoSuchDelegationSet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5666,7 +5666,7 @@ extension DeleteTrafficPolicyInstanceOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicyInstance" : self = .noSuchTrafficPolicyInstance(try NoSuchTrafficPolicyInstance(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorRequestNotComplete" : self = .priorRequestNotComplete(try PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5703,7 +5703,7 @@ extension DeleteTrafficPolicyOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicy" : self = .noSuchTrafficPolicy(try NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrafficPolicyInUse" : self = .trafficPolicyInUse(try TrafficPolicyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5841,7 +5841,7 @@ extension DeleteVPCAssociationAuthorizationOutputError {
         case "InvalidVPCId" : self = .invalidVPCId(try InvalidVPCId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VPCAssociationAuthorizationNotFound" : self = .vPCAssociationAuthorizationNotFound(try VPCAssociationAuthorizationNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6004,7 +6004,7 @@ extension DisableHostedZoneDNSSECOutputError {
         case "InvalidKMSArn" : self = .invalidKMSArn(try InvalidKMSArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KeySigningKeyInParentDSRecord" : self = .keySigningKeyInParentDSRecord(try KeySigningKeyInParentDSRecord(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6189,7 +6189,7 @@ extension DisassociateVPCFromHostedZoneOutputError {
         case "LastVPCAssociation" : self = .lastVPCAssociation(try LastVPCAssociation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VPCAssociationNotFound" : self = .vPCAssociationNotFound(try VPCAssociationNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6321,7 +6321,7 @@ extension EnableHostedZoneDNSSECOutputError {
         case "InvalidKMSArn" : self = .invalidKMSArn(try InvalidKMSArn(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KeySigningKeyWithActiveStatusNotFound" : self = .keySigningKeyWithActiveStatusNotFound(try KeySigningKeyWithActiveStatusNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6625,7 +6625,7 @@ extension GetAccountLimitOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6733,7 +6733,7 @@ extension GetChangeOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchChange" : self = .noSuchChange(try NoSuchChange(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6818,7 +6818,7 @@ extension GetCheckerIpRangesOutputError: ClientRuntime.HttpResponseBinding {
 extension GetCheckerIpRangesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6956,7 +6956,7 @@ extension GetDNSSECOutputError {
         case "InvalidArgument" : self = .invalidArgument(try InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7121,7 +7121,7 @@ extension GetGeoLocationOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchGeoLocation" : self = .noSuchGeoLocation(try NoSuchGeoLocation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7206,7 +7206,7 @@ extension GetHealthCheckCountOutputError: ClientRuntime.HttpResponseBinding {
 extension GetHealthCheckCountOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7334,7 +7334,7 @@ extension GetHealthCheckLastFailureReasonOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHealthCheck" : self = .noSuchHealthCheck(try NoSuchHealthCheck(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7418,7 +7418,7 @@ extension GetHealthCheckOutputError {
         case "IncompatibleVersion" : self = .incompatibleVersion(try IncompatibleVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHealthCheck" : self = .noSuchHealthCheck(try NoSuchHealthCheck(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7517,7 +7517,7 @@ extension GetHealthCheckStatusOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHealthCheck" : self = .noSuchHealthCheck(try NoSuchHealthCheck(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7620,7 +7620,7 @@ extension GetHostedZoneCountOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7787,7 +7787,7 @@ extension GetHostedZoneLimitOutputError {
         case "HostedZoneNotPrivate" : self = .hostedZoneNotPrivate(try HostedZoneNotPrivate(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7865,7 +7865,7 @@ extension GetHostedZoneOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7999,7 +7999,7 @@ extension GetQueryLoggingConfigOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchQueryLoggingConfig" : self = .noSuchQueryLoggingConfig(try NoSuchQueryLoggingConfig(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8136,7 +8136,7 @@ extension GetReusableDelegationSetLimitOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDelegationSet" : self = .noSuchDelegationSet(try NoSuchDelegationSet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8214,7 +8214,7 @@ extension GetReusableDelegationSetOutputError {
         case "DelegationSetNotReusable" : self = .delegationSetNotReusable(try DelegationSetNotReusable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDelegationSet" : self = .noSuchDelegationSet(try NoSuchDelegationSet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8340,7 +8340,7 @@ extension GetTrafficPolicyInstanceCountOutputError: ClientRuntime.HttpResponseBi
 extension GetTrafficPolicyInstanceCountOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8436,7 +8436,7 @@ extension GetTrafficPolicyInstanceOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicyInstance" : self = .noSuchTrafficPolicyInstance(try NoSuchTrafficPolicyInstance(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8502,7 +8502,7 @@ extension GetTrafficPolicyOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicy" : self = .noSuchTrafficPolicy(try NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11413,7 +11413,7 @@ extension ListCidrBlocksOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCidrCollectionException" : self = .noSuchCidrCollectionException(try NoSuchCidrCollectionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCidrLocationException" : self = .noSuchCidrLocationException(try NoSuchCidrLocationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11552,7 +11552,7 @@ extension ListCidrCollectionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11698,7 +11698,7 @@ extension ListCidrLocationsOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchCidrCollectionException" : self = .noSuchCidrCollectionException(try NoSuchCidrCollectionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11853,7 +11853,7 @@ extension ListGeoLocationsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12036,7 +12036,7 @@ extension ListHealthChecksOutputError {
         switch errorType {
         case "IncompatibleVersion" : self = .incompatibleVersion(try IncompatibleVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12219,7 +12219,7 @@ extension ListHostedZonesByNameOutputError {
         switch errorType {
         case "InvalidDomainName" : self = .invalidDomainName(try InvalidDomainName(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12435,7 +12435,7 @@ extension ListHostedZonesByVPCOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12596,7 +12596,7 @@ extension ListHostedZonesOutputError {
         case "DelegationSetNotReusable" : self = .delegationSetNotReusable(try DelegationSetNotReusable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchDelegationSet" : self = .noSuchDelegationSet(try NoSuchDelegationSet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12779,7 +12779,7 @@ extension ListQueryLoggingConfigsOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12987,7 +12987,7 @@ extension ListResourceRecordSetsOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13170,7 +13170,7 @@ extension ListReusableDelegationSetsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13342,7 +13342,7 @@ extension ListTagsForResourceOutputError {
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorRequestNotComplete" : self = .priorRequestNotComplete(try PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13512,7 +13512,7 @@ extension ListTagsForResourcesOutputError {
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorRequestNotComplete" : self = .priorRequestNotComplete(try PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13646,7 +13646,7 @@ extension ListTrafficPoliciesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13830,7 +13830,7 @@ extension ListTrafficPolicyInstancesByHostedZoneOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicyInstance" : self = .noSuchTrafficPolicyInstance(try NoSuchTrafficPolicyInstance(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14044,7 +14044,7 @@ extension ListTrafficPolicyInstancesByPolicyOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicy" : self = .noSuchTrafficPolicy(try NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicyInstance" : self = .noSuchTrafficPolicyInstance(try NoSuchTrafficPolicyInstance(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14245,7 +14245,7 @@ extension ListTrafficPolicyInstancesOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicyInstance" : self = .noSuchTrafficPolicyInstance(try NoSuchTrafficPolicyInstance(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14437,7 +14437,7 @@ extension ListTrafficPolicyVersionsOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicy" : self = .noSuchTrafficPolicy(try NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14636,7 +14636,7 @@ extension ListVPCAssociationAuthorizationsOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidPaginationToken" : self = .invalidPaginationToken(try InvalidPaginationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16832,7 +16832,7 @@ extension TestDNSAnswerOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18269,7 +18269,7 @@ extension UpdateHealthCheckOutputError {
         case "HealthCheckVersionMismatch" : self = .healthCheckVersionMismatch(try HealthCheckVersionMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHealthCheck" : self = .noSuchHealthCheck(try NoSuchHealthCheck(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18410,7 +18410,7 @@ extension UpdateHostedZoneCommentOutputError {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchHostedZone" : self = .noSuchHostedZone(try NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorRequestNotComplete" : self = .priorRequestNotComplete(try PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18560,7 +18560,7 @@ extension UpdateTrafficPolicyCommentOutputError {
         case "ConcurrentModification" : self = .concurrentModification(try ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicy" : self = .noSuchTrafficPolicy(try NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18730,7 +18730,7 @@ extension UpdateTrafficPolicyInstanceOutputError {
         case "NoSuchTrafficPolicy" : self = .noSuchTrafficPolicy(try NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NoSuchTrafficPolicyInstance" : self = .noSuchTrafficPolicyInstance(try NoSuchTrafficPolicyInstance(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "PriorRequestNotComplete" : self = .priorRequestNotComplete(try PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

@@ -407,7 +407,7 @@ extension AssociateDelegateToResourceOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -524,7 +524,7 @@ extension AssociateMemberToGroupOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -627,7 +627,7 @@ extension AssumeImpersonationRoleOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -952,7 +952,7 @@ extension CancelMailboxExportJobOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1069,7 +1069,7 @@ extension CreateAliasOutputError {
         case "MailDomainStateException" : self = .mailDomainStateException(try MailDomainStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1210,7 +1210,7 @@ extension CreateAvailabilityConfigurationOutputError {
         case "NameAvailabilityException" : self = .nameAvailabilityException(try NameAvailabilityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1314,7 +1314,7 @@ extension CreateGroupOutputError {
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNameException" : self = .reservedNameException(try ReservedNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1512,7 +1512,7 @@ extension CreateImpersonationRoleOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1873,7 +1873,7 @@ extension CreateMobileDeviceAccessRuleOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2063,7 +2063,7 @@ extension CreateOrganizationOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NameAvailabilityException" : self = .nameAvailabilityException(try NameAvailabilityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2210,7 +2210,7 @@ extension CreateResourceOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNameException" : self = .reservedNameException(try ReservedNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2379,7 +2379,7 @@ extension CreateUserOutputError {
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedNameException" : self = .reservedNameException(try ReservedNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2559,7 +2559,7 @@ extension DeleteAccessControlRuleOutputError {
         switch errorType {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2670,7 +2670,7 @@ extension DeleteAliasOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2768,7 +2768,7 @@ extension DeleteAvailabilityConfigurationOutputError {
         switch errorType {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2851,7 +2851,7 @@ extension DeleteEmailMonitoringConfigurationOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2952,7 +2952,7 @@ extension DeleteGroupOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3053,7 +3053,7 @@ extension DeleteImpersonationRoleOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3165,7 +3165,7 @@ extension DeleteMailboxPermissionsOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3284,7 +3284,7 @@ extension DeleteMobileDeviceAccessOverrideOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3382,7 +3382,7 @@ extension DeleteMobileDeviceAccessRuleOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3491,7 +3491,7 @@ extension DeleteOrganizationOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3630,7 +3630,7 @@ extension DeleteResourceOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3728,7 +3728,7 @@ extension DeleteRetentionPolicyOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3829,7 +3829,7 @@ extension DeleteUserOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3932,7 +3932,7 @@ extension DeregisterFromWorkMailOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4033,7 +4033,7 @@ extension DeregisterMailDomainOutputError {
         case "MailDomainInUseException" : self = .mailDomainInUseException(try MailDomainInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4120,7 +4120,7 @@ extension DescribeEmailMonitoringConfigurationOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4260,7 +4260,7 @@ extension DescribeGroupOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4425,7 +4425,7 @@ extension DescribeInboundDmarcSettingsOutputError {
         switch errorType {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4553,7 +4553,7 @@ extension DescribeMailboxExportJobOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4778,7 +4778,7 @@ extension DescribeOrganizationOutputError {
         switch errorType {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4986,7 +4986,7 @@ extension DescribeResourceOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5186,7 +5186,7 @@ extension DescribeUserOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5556,7 +5556,7 @@ extension DisassociateDelegateFromResourceOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5673,7 +5673,7 @@ extension DisassociateMemberFromGroupOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6353,7 +6353,7 @@ extension GetAccessControlEffectOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6490,7 +6490,7 @@ extension GetDefaultRetentionPolicyOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6680,7 +6680,7 @@ extension GetImpersonationRoleEffectOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6841,7 +6841,7 @@ extension GetImpersonationRoleOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7040,7 +7040,7 @@ extension GetMailDomainOutputError {
         case "MailDomainNotFoundException" : self = .mailDomainNotFoundException(try MailDomainNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7218,7 +7218,7 @@ extension GetMailboxDetailsOutputError {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7391,7 +7391,7 @@ extension GetMobileDeviceAccessEffectOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7559,7 +7559,7 @@ extension GetMobileDeviceAccessOverrideOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8369,7 +8369,7 @@ extension ListAccessControlRulesOutputError {
         switch errorType {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8531,7 +8531,7 @@ extension ListAliasesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8690,7 +8690,7 @@ extension ListAvailabilityConfigurationsOutputError {
         switch errorType {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8862,7 +8862,7 @@ extension ListGroupMembersOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9023,7 +9023,7 @@ extension ListGroupsOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9182,7 +9182,7 @@ extension ListImpersonationRolesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9340,7 +9340,7 @@ extension ListMailDomainsOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9498,7 +9498,7 @@ extension ListMailboxExportJobsOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9670,7 +9670,7 @@ extension ListMailboxPermissionsOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9860,7 +9860,7 @@ extension ListMobileDeviceAccessOverridesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9995,7 +9995,7 @@ extension ListMobileDeviceAccessRulesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10128,7 +10128,7 @@ extension ListOrganizationsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10299,7 +10299,7 @@ extension ListResourceDelegatesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10459,7 +10459,7 @@ extension ListResourcesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10591,7 +10591,7 @@ extension ListTagsForResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10737,7 +10737,7 @@ extension ListUsersOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12335,7 +12335,7 @@ extension PutAccessControlRuleOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12449,7 +12449,7 @@ extension PutEmailMonitoringConfigurationOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12546,7 +12546,7 @@ extension PutInboundDmarcSettingsOutputError {
         switch errorType {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12682,7 +12682,7 @@ extension PutMailboxPermissionsOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12827,7 +12827,7 @@ extension PutMobileDeviceAccessOverrideOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12981,7 +12981,7 @@ extension PutRetentionPolicyOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13138,7 +13138,7 @@ extension RegisterMailDomainOutputError {
         case "MailDomainInUseException" : self = .mailDomainInUseException(try MailDomainInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13258,7 +13258,7 @@ extension RegisterToWorkMailOutputError {
         case "MailDomainStateException" : self = .mailDomainStateException(try MailDomainStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13439,7 +13439,7 @@ extension ResetPasswordOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13835,7 +13835,7 @@ extension StartMailboxExportJobOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14024,7 +14024,7 @@ extension TagResourceOutputError {
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14145,7 +14145,7 @@ extension TestAvailabilityConfigurationOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14398,7 +14398,7 @@ extension UntagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14518,7 +14518,7 @@ extension UpdateAvailabilityConfigurationOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14618,7 +14618,7 @@ extension UpdateDefaultMailDomainOutputError {
         case "MailDomainStateException" : self = .mailDomainStateException(try MailDomainStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14784,7 +14784,7 @@ extension UpdateImpersonationRoleOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14900,7 +14900,7 @@ extension UpdateMailboxQuotaOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15230,7 +15230,7 @@ extension UpdateMobileDeviceAccessRuleOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15349,7 +15349,7 @@ extension UpdatePrimaryEmailAddressOutputError {
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperationException" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15485,7 +15485,7 @@ extension UpdateResourceOutputError {
         case "NameAvailabilityException" : self = .nameAvailabilityException(try NameAvailabilityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationNotFoundException" : self = .organizationNotFoundException(try OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OrganizationStateException" : self = .organizationStateException(try OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

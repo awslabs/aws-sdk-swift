@@ -55,7 +55,11 @@ extension ListOperationsInput: ClientRuntime.PaginateToken {
         return ListOperationsInput(
             marker: token,
             maxItems: self.maxItems,
-            submittedSince: self.submittedSince
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            status: self.status,
+            submittedSince: self.submittedSince,
+            type: self.type
         )}
 }
 

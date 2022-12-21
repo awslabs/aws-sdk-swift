@@ -146,7 +146,7 @@ extension AddPermissionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "OverLimit" : self = .overLimit(try OverLimit(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -376,7 +376,7 @@ extension ChangeMessageVisibilityBatchOutputError {
         case "AWS.SimpleQueueService.EmptyBatchRequest" : self = .emptyBatchRequest(try EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AWS.SimpleQueueService.InvalidBatchEntryId" : self = .invalidBatchEntryId(try InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest" : self = .tooManyEntriesInBatchRequest(try TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -655,7 +655,7 @@ extension ChangeMessageVisibilityOutputError {
         switch errorType {
         case "AWS.SimpleQueueService.MessageNotInflight" : self = .messageNotInflight(try MessageNotInflight(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReceiptHandleIsInvalid" : self = .receiptHandleIsInvalid(try ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -905,7 +905,7 @@ extension CreateQueueOutputError {
         switch errorType {
         case "AWS.SimpleQueueService.QueueDeletedRecently" : self = .queueDeletedRecently(try QueueDeletedRecently(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "QueueAlreadyExists" : self = .queueNameExists(try QueueNameExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1057,7 +1057,7 @@ extension DeleteMessageBatchOutputError {
         case "AWS.SimpleQueueService.EmptyBatchRequest" : self = .emptyBatchRequest(try EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AWS.SimpleQueueService.InvalidBatchEntryId" : self = .invalidBatchEntryId(try InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest" : self = .tooManyEntriesInBatchRequest(try TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1311,7 +1311,7 @@ extension DeleteMessageOutputError {
         switch errorType {
         case "InvalidIdFormat" : self = .invalidIdFormat(try InvalidIdFormat(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReceiptHandleIsInvalid" : self = .receiptHandleIsInvalid(try ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1389,7 +1389,7 @@ extension DeleteQueueOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteQueueOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1592,7 +1592,7 @@ extension GetQueueAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidAttributeName" : self = .invalidAttributeName(try InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1731,7 +1731,7 @@ extension GetQueueUrlOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AWS.SimpleQueueService.NonExistentQueue" : self = .queueDoesNotExist(try QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1952,7 +1952,7 @@ extension ListDeadLetterSourceQueuesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AWS.SimpleQueueService.NonExistentQueue" : self = .queueDoesNotExist(try QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2088,7 +2088,7 @@ extension ListQueueTagsOutputError: ClientRuntime.HttpResponseBinding {
 extension ListQueueTagsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2234,7 +2234,7 @@ extension ListQueuesOutputError: ClientRuntime.HttpResponseBinding {
 extension ListQueuesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2948,7 +2948,7 @@ extension PurgeQueueOutputError {
         switch errorType {
         case "AWS.SimpleQueueService.PurgeQueueInProgress" : self = .purgeQueueInProgress(try PurgeQueueInProgress(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AWS.SimpleQueueService.NonExistentQueue" : self = .queueDoesNotExist(try QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3380,7 +3380,7 @@ extension ReceiveMessageOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "OverLimit" : self = .overLimit(try OverLimit(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3518,7 +3518,7 @@ extension RemovePermissionOutputError: ClientRuntime.HttpResponseBinding {
 extension RemovePermissionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3637,7 +3637,7 @@ extension SendMessageBatchOutputError {
         case "AWS.SimpleQueueService.InvalidBatchEntryId" : self = .invalidBatchEntryId(try InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest" : self = .tooManyEntriesInBatchRequest(try TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AWS.SimpleQueueService.UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4220,7 +4220,7 @@ extension SendMessageOutputError {
         switch errorType {
         case "InvalidMessageContents" : self = .invalidMessageContents(try InvalidMessageContents(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AWS.SimpleQueueService.UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4489,7 +4489,7 @@ extension SetQueueAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidAttributeName" : self = .invalidAttributeName(try InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4604,7 +4604,7 @@ extension TagQueueOutputError: ClientRuntime.HttpResponseBinding {
 extension TagQueueOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4760,7 +4760,7 @@ extension UntagQueueOutputError: ClientRuntime.HttpResponseBinding {
 extension UntagQueueOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

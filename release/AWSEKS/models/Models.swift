@@ -12,6 +12,10 @@ extension EKSClientTypes {
         case bottlerocketX8664
         case bottlerocketX8664Nvidia
         case custom
+        case windowsCore2019X8664
+        case windowsCore2022X8664
+        case windowsFull2019X8664
+        case windowsFull2022X8664
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AMITypes] {
@@ -24,6 +28,10 @@ extension EKSClientTypes {
                 .bottlerocketX8664,
                 .bottlerocketX8664Nvidia,
                 .custom,
+                .windowsCore2019X8664,
+                .windowsCore2022X8664,
+                .windowsFull2019X8664,
+                .windowsFull2022X8664,
                 .sdkUnknown("")
             ]
         }
@@ -41,6 +49,10 @@ extension EKSClientTypes {
             case .bottlerocketX8664: return "BOTTLEROCKET_x86_64"
             case .bottlerocketX8664Nvidia: return "BOTTLEROCKET_x86_64_NVIDIA"
             case .custom: return "CUSTOM"
+            case .windowsCore2019X8664: return "WINDOWS_CORE_2019_x86_64"
+            case .windowsCore2022X8664: return "WINDOWS_CORE_2022_x86_64"
+            case .windowsFull2019X8664: return "WINDOWS_FULL_2019_x86_64"
+            case .windowsFull2022X8664: return "WINDOWS_FULL_2022_x86_64"
             case let .sdkUnknown(s): return s
             }
         }
@@ -110,6 +122,7 @@ extension EKSClientTypes.Addon: Swift.Codable {
         case addonName
         case addonVersion
         case clusterName
+        case configurationValues
         case createdAt
         case health
         case marketplaceInformation
@@ -134,6 +147,9 @@ extension EKSClientTypes.Addon: Swift.Codable {
         }
         if let clusterName = self.clusterName {
             try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let configurationValues = self.configurationValues {
+            try encodeContainer.encode(configurationValues, forKey: .configurationValues)
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
@@ -204,6 +220,8 @@ extension EKSClientTypes.Addon: Swift.Codable {
         owner = ownerDecoded
         let marketplaceInformationDecoded = try containerValues.decodeIfPresent(EKSClientTypes.MarketplaceInformation.self, forKey: .marketplaceInformation)
         marketplaceInformation = marketplaceInformationDecoded
+        let configurationValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationValues)
+        configurationValues = configurationValuesDecoded
     }
 }
 
@@ -218,9 +236,11 @@ extension EKSClientTypes {
         public var addonVersion: Swift.String?
         /// The name of the cluster.
         public var clusterName: Swift.String?
+        /// The configuration values that you provided.
+        public var configurationValues: Swift.String?
         /// The date and time that the add-on was created.
         public var createdAt: ClientRuntime.Date?
-        /// An object representing the health of the add-on.
+        /// An object that represents the health of the add-on.
         public var health: EKSClientTypes.AddonHealth?
         /// Information about an Amazon EKS add-on from the Amazon Web Services Marketplace.
         public var marketplaceInformation: EKSClientTypes.MarketplaceInformation?
@@ -230,7 +250,7 @@ extension EKSClientTypes {
         public var owner: Swift.String?
         /// The publisher of the add-on.
         public var publisher: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM role that is bound to the Kubernetes service account used by the add-on.
+        /// The Amazon Resource Name (ARN) of the IAM role that's bound to the Kubernetes service account that the add-on uses.
         public var serviceAccountRoleArn: Swift.String?
         /// The status of the add-on.
         public var status: EKSClientTypes.AddonStatus?
@@ -242,6 +262,7 @@ extension EKSClientTypes {
             addonName: Swift.String? = nil,
             addonVersion: Swift.String? = nil,
             clusterName: Swift.String? = nil,
+            configurationValues: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             health: EKSClientTypes.AddonHealth? = nil,
             marketplaceInformation: EKSClientTypes.MarketplaceInformation? = nil,
@@ -257,6 +278,7 @@ extension EKSClientTypes {
             self.addonName = addonName
             self.addonVersion = addonVersion
             self.clusterName = clusterName
+            self.configurationValues = configurationValues
             self.createdAt = createdAt
             self.health = health
             self.marketplaceInformation = marketplaceInformation
@@ -768,7 +790,7 @@ extension AssociateEncryptionConfigOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -933,7 +955,7 @@ extension AssociateIdentityProviderConfigOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2046,6 +2068,7 @@ extension CreateAddonInput: Swift.Encodable {
         case addonName
         case addonVersion
         case clientRequestToken
+        case configurationValues
         case resolveConflicts
         case serviceAccountRoleArn
         case tags
@@ -2061,6 +2084,9 @@ extension CreateAddonInput: Swift.Encodable {
         }
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let configurationValues = self.configurationValues {
+            try encodeContainer.encode(configurationValues, forKey: .configurationValues)
         }
         if let resolveConflicts = self.resolveConflicts {
             try encodeContainer.encode(resolveConflicts.rawValue, forKey: .resolveConflicts)
@@ -2087,7 +2113,7 @@ extension CreateAddonInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateAddonInput: Swift.Equatable {
-    /// The name of the add-on. The name must match one of the names returned by [DescribeAddonVersions](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
+    /// The name of the add-on. The name must match one of the names that [DescribeAddonVersions](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html) returns.
     /// This member is required.
     public var addonName: Swift.String?
     /// The version of the add-on. The version must match one of the versions returned by [DescribeAddonVersions](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
@@ -2097,6 +2123,8 @@ public struct CreateAddonInput: Swift.Equatable {
     /// The name of the cluster to create the add-on for.
     /// This member is required.
     public var clusterName: Swift.String?
+    /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema in [DescribeAddonConfiguration](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonConfiguration.html).
+    public var configurationValues: Swift.String?
     /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:
     ///
     /// * None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.
@@ -2118,6 +2146,7 @@ public struct CreateAddonInput: Swift.Equatable {
         addonVersion: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
+        configurationValues: Swift.String? = nil,
         resolveConflicts: EKSClientTypes.ResolveConflicts? = nil,
         serviceAccountRoleArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -2127,6 +2156,7 @@ public struct CreateAddonInput: Swift.Equatable {
         self.addonVersion = addonVersion
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
+        self.configurationValues = configurationValues
         self.resolveConflicts = resolveConflicts
         self.serviceAccountRoleArn = serviceAccountRoleArn
         self.tags = tags
@@ -2140,6 +2170,7 @@ struct CreateAddonInputBody: Swift.Equatable {
     let resolveConflicts: EKSClientTypes.ResolveConflicts?
     let clientRequestToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let configurationValues: Swift.String?
 }
 
 extension CreateAddonInputBody: Swift.Decodable {
@@ -2147,6 +2178,7 @@ extension CreateAddonInputBody: Swift.Decodable {
         case addonName
         case addonVersion
         case clientRequestToken
+        case configurationValues
         case resolveConflicts
         case serviceAccountRoleArn
         case tags
@@ -2175,6 +2207,8 @@ extension CreateAddonInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let configurationValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationValues)
+        configurationValues = configurationValuesDecoded
     }
 }
 
@@ -2195,7 +2229,7 @@ extension CreateAddonOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2451,7 +2485,7 @@ extension CreateClusterOutputError {
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedAvailabilityZoneException" : self = .unsupportedAvailabilityZoneException(try UnsupportedAvailabilityZoneException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2678,7 +2712,7 @@ extension CreateFargateProfileOutputError {
         case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedAvailabilityZoneException" : self = .unsupportedAvailabilityZoneException(try UnsupportedAvailabilityZoneException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2836,7 +2870,7 @@ extension CreateNodegroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateNodegroupInput: Swift.Equatable {
-    /// The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type. Non-GPU instances should use the AL2_x86_64 AMI type. Arm instances should use the AL2_ARM_64 AMI type. All types use the Amazon EKS optimized Amazon Linux 2 AMI. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// The AMI type for your node group. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. If your launch template uses a Windows custom AMI, then add eks:kube-proxy-windows to your Windows nodes rolearn in the aws-authConfigMap. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var amiType: EKSClientTypes.AMITypes?
     /// The capacity type for your node group.
     public var capacityType: EKSClientTypes.CapacityTypes?
@@ -2845,9 +2879,9 @@ public struct CreateNodegroupInput: Swift.Equatable {
     /// The name of the cluster to create the node group in.
     /// This member is required.
     public var clusterName: Swift.String?
-    /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB. If you specify launchTemplate, then don't specify diskSize, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB for Linux and Bottlerocket. The default disk size is 50 GiB for Windows. If you specify launchTemplate, then don't specify diskSize, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var diskSize: Swift.Int?
-    /// Specify the instance types for a node group. If you specify a GPU instance type, be sure to specify AL2_x86_64_GPU with the amiType parameter. If you specify launchTemplate, then you can specify zero or one instance type in your launch template or you can specify 0-20 instance types for instanceTypes. If however, you specify an instance type in your launch template and specify any instanceTypes, the node group deployment will fail. If you don't specify an instance type in a launch template or for instanceTypes, then t3.medium is used, by default. If you specify Spot for capacityType, then we recommend specifying multiple values for instanceTypes. For more information, see [Managed node group capacity types](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html#managed-node-group-capacity-types) and [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// Specify the instance types for a node group. If you specify a GPU instance type, make sure to also specify an applicable GPU AMI type with the amiType parameter. If you specify launchTemplate, then you can specify zero or one instance type in your launch template or you can specify 0-20 instance types for instanceTypes. If however, you specify an instance type in your launch template and specify any instanceTypes, the node group deployment will fail. If you don't specify an instance type in a launch template or for instanceTypes, then t3.medium is used, by default. If you specify Spot for capacityType, then we recommend specifying multiple values for instanceTypes. For more information, see [Managed node group capacity types](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html#managed-node-group-capacity-types) and [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var instanceTypes: [Swift.String]?
     /// The Kubernetes labels to be applied to the nodes in the node group when they are created.
     public var labels: [Swift.String:Swift.String]?
@@ -2859,9 +2893,9 @@ public struct CreateNodegroupInput: Swift.Equatable {
     /// The unique name to give your node group.
     /// This member is required.
     public var nodegroupName: Swift.String?
-    /// The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see [Amazon EKS optimized Amazon Linux 2 AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var releaseVersion: Swift.String?
-    /// The remote access (SSH) configuration to use with your node group. If you specify launchTemplate, then don't specify remoteAccess, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// The remote access configuration to use with your node group. For Linux, the protocol is SSH. For Windows, the protocol is RDP. If you specify launchTemplate, then don't specify remoteAccess, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var remoteAccess: EKSClientTypes.RemoteAccessConfig?
     /// The scaling configuration details for the Auto Scaling group that is created for your node group.
     public var scalingConfig: EKSClientTypes.NodegroupScalingConfig?
@@ -3062,7 +3096,7 @@ extension CreateNodegroupOutputError {
         case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3191,7 +3225,7 @@ extension DeleteAddonOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3293,7 +3327,7 @@ extension DeleteClusterOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3402,7 +3436,7 @@ extension DeleteFargateProfileOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3512,7 +3546,7 @@ extension DeleteNodegroupOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3616,7 +3650,7 @@ extension DeregisterClusterOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3669,6 +3703,147 @@ extension DeregisterClusterOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterDecoded = try containerValues.decodeIfPresent(EKSClientTypes.Cluster.self, forKey: .cluster)
         cluster = clusterDecoded
+    }
+}
+
+extension DescribeAddonConfigurationInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let addonName = addonName else {
+                let message = "Creating a URL Query Item failed. addonName is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let addonNameQueryItem = ClientRuntime.URLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
+            items.append(addonNameQueryItem)
+            guard let addonVersion = addonVersion else {
+                let message = "Creating a URL Query Item failed. addonVersion is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let addonVersionQueryItem = ClientRuntime.URLQueryItem(name: "addonVersion".urlPercentEncoding(), value: Swift.String(addonVersion).urlPercentEncoding())
+            items.append(addonVersionQueryItem)
+            return items
+        }
+    }
+}
+
+extension DescribeAddonConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/addons/configuration-schemas"
+    }
+}
+
+public struct DescribeAddonConfigurationInput: Swift.Equatable {
+    /// The name of the add-on. The name must match one of the names that [DescribeAddonVersions](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html) returns.
+    /// This member is required.
+    public var addonName: Swift.String?
+    /// The version of the add-on. The version must match one of the versions returned by [DescribeAddonVersions](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
+    /// This member is required.
+    public var addonVersion: Swift.String?
+
+    public init (
+        addonName: Swift.String? = nil,
+        addonVersion: Swift.String? = nil
+    )
+    {
+        self.addonName = addonName
+        self.addonVersion = addonVersion
+    }
+}
+
+struct DescribeAddonConfigurationInputBody: Swift.Equatable {
+}
+
+extension DescribeAddonConfigurationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeAddonConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeAddonConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeAddonConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serverException(ServerException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAddonConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeAddonConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.addonName = output.addonName
+            self.addonVersion = output.addonVersion
+            self.configurationSchema = output.configurationSchema
+        } else {
+            self.addonName = nil
+            self.addonVersion = nil
+            self.configurationSchema = nil
+        }
+    }
+}
+
+public struct DescribeAddonConfigurationOutputResponse: Swift.Equatable {
+    /// The name of the add-on.
+    public var addonName: Swift.String?
+    /// The version of the add-on. The version must match one of the versions returned by [DescribeAddonVersions](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonVersions.html).
+    public var addonVersion: Swift.String?
+    /// A JSON schema that's used to validate the configuration values that you provide when an addon is created or updated.
+    public var configurationSchema: Swift.String?
+
+    public init (
+        addonName: Swift.String? = nil,
+        addonVersion: Swift.String? = nil,
+        configurationSchema: Swift.String? = nil
+    )
+    {
+        self.addonName = addonName
+        self.addonVersion = addonVersion
+        self.configurationSchema = configurationSchema
+    }
+}
+
+struct DescribeAddonConfigurationOutputResponseBody: Swift.Equatable {
+    let addonName: Swift.String?
+    let addonVersion: Swift.String?
+    let configurationSchema: Swift.String?
+}
+
+extension DescribeAddonConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addonName
+        case addonVersion
+        case configurationSchema
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let addonNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addonName)
+        addonName = addonNameDecoded
+        let addonVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addonVersion)
+        addonVersion = addonVersionDecoded
+        let configurationSchemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationSchema)
+        configurationSchema = configurationSchemaDecoded
     }
 }
 
@@ -3727,7 +3902,23 @@ extension DescribeAddonOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeAddonOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .clientException: return "ClientException"
+        case .invalidParameterException: return "InvalidParameterException"
+        case .invalidRequestException: return "InvalidRequestException"
+        case .resourceNotFoundException: return "ResourceNotFoundException"
+        case .serverException: return "ServerException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -3890,7 +4081,7 @@ extension DescribeAddonVersionsOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4008,7 +4199,22 @@ extension DescribeClusterOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeClusterOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .clientException: return "ClientException"
+        case .resourceNotFoundException: return "ResourceNotFoundException"
+        case .serverException: return "ServerException"
+        case .serviceUnavailableException: return "ServiceUnavailableException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -4116,7 +4322,22 @@ extension DescribeFargateProfileOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeFargateProfileOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .clientException: return "ClientException"
+        case .invalidParameterException: return "InvalidParameterException"
+        case .resourceNotFoundException: return "ResourceNotFoundException"
+        case .serverException: return "ServerException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -4242,7 +4463,7 @@ extension DescribeIdentityProviderConfigOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4352,7 +4573,23 @@ extension DescribeNodegroupOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeNodegroupOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .clientException: return "ClientException"
+        case .invalidParameterException: return "InvalidParameterException"
+        case .resourceNotFoundException: return "ResourceNotFoundException"
+        case .serverException: return "ServerException"
+        case .serviceUnavailableException: return "ServiceUnavailableException"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -4486,7 +4723,7 @@ extension DescribeUpdateOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4625,7 +4862,7 @@ extension DisassociateIdentityProviderConfigOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5799,7 +6036,7 @@ extension ListAddonsOutputError {
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5946,7 +6183,7 @@ extension ListClustersOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6090,7 +6327,7 @@ extension ListFargateProfilesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6235,7 +6472,7 @@ extension ListIdentityProviderConfigsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6381,7 +6618,7 @@ extension ListNodegroupsOutputError {
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6499,7 +6736,7 @@ extension ListTagsForResourceOutputError {
         switch errorType {
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6647,7 +6884,7 @@ extension ListUpdatesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8224,7 +8461,7 @@ extension RegisterClusterOutputError {
         case "ResourcePropagationDelayException" : self = .resourcePropagationDelayException(try ResourcePropagationDelayException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8322,9 +8559,9 @@ extension EKSClientTypes.RemoteAccessConfig: Swift.Codable {
 extension EKSClientTypes {
     /// An object representing the remote access configuration for the managed node group.
     public struct RemoteAccessConfig: Swift.Equatable {
-        /// The Amazon EC2 SSH key that provides access for SSH communication with the nodes in the managed node group. For more information, see [Amazon EC2 key pairs and Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
+        /// The Amazon EC2 SSH key name that provides access for SSH communication with the nodes in the managed node group. For more information, see [Amazon EC2 key pairs and Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For Windows, an Amazon EC2 SSH key is used to obtain the RDP password. For more information, see [Amazon EC2 key pairs and Windows instances](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide for Windows Instances.
         public var ec2SshKey: Swift.String?
-        /// The security groups that are allowed SSH access (port 22) to the nodes. If you specify an Amazon EC2 SSH key but do not specify a source security group when you create a managed node group, then port 22 on the nodes is opened to the internet (0.0.0.0/0). For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the Amazon Virtual Private Cloud User Guide.
+        /// The security group IDs that are allowed SSH access (port 22) to the nodes. For Windows, the port is 3389. If you specify an Amazon EC2 SSH key but don't specify a source security group when you create a managed node group, then the port on the nodes is opened to the internet (0.0.0.0/0). For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the Amazon Virtual Private Cloud User Guide.
         public var sourceSecurityGroups: [Swift.String]?
 
         public init (
@@ -8884,7 +9121,7 @@ extension TagResourceOutputError {
         switch errorType {
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9152,7 +9389,7 @@ extension UntagResourceOutputError {
         switch errorType {
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9286,6 +9523,7 @@ extension UpdateAddonInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addonVersion
         case clientRequestToken
+        case configurationValues
         case resolveConflicts
         case serviceAccountRoleArn
     }
@@ -9297,6 +9535,9 @@ extension UpdateAddonInput: Swift.Encodable {
         }
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let configurationValues = self.configurationValues {
+            try encodeContainer.encode(configurationValues, forKey: .configurationValues)
         }
         if let resolveConflicts = self.resolveConflicts {
             try encodeContainer.encode(resolveConflicts.rawValue, forKey: .resolveConflicts)
@@ -9330,6 +9571,8 @@ public struct UpdateAddonInput: Swift.Equatable {
     /// The name of the cluster.
     /// This member is required.
     public var clusterName: Swift.String?
+    /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema in [DescribeAddonConfiguration](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeAddonConfiguration.html).
+    public var configurationValues: Swift.String?
     /// How to resolve field value conflicts for an Amazon EKS add-on if you've changed a value from the Amazon EKS default value. Conflicts are handled based on the option you choose:
     ///
     /// * None – Amazon EKS doesn't change the value. The update might fail.
@@ -9346,6 +9589,7 @@ public struct UpdateAddonInput: Swift.Equatable {
         addonVersion: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
+        configurationValues: Swift.String? = nil,
         resolveConflicts: EKSClientTypes.ResolveConflicts? = nil,
         serviceAccountRoleArn: Swift.String? = nil
     )
@@ -9354,6 +9598,7 @@ public struct UpdateAddonInput: Swift.Equatable {
         self.addonVersion = addonVersion
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
+        self.configurationValues = configurationValues
         self.resolveConflicts = resolveConflicts
         self.serviceAccountRoleArn = serviceAccountRoleArn
     }
@@ -9364,12 +9609,14 @@ struct UpdateAddonInputBody: Swift.Equatable {
     let serviceAccountRoleArn: Swift.String?
     let resolveConflicts: EKSClientTypes.ResolveConflicts?
     let clientRequestToken: Swift.String?
+    let configurationValues: Swift.String?
 }
 
 extension UpdateAddonInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addonVersion
         case clientRequestToken
+        case configurationValues
         case resolveConflicts
         case serviceAccountRoleArn
     }
@@ -9384,6 +9631,8 @@ extension UpdateAddonInputBody: Swift.Decodable {
         resolveConflicts = resolveConflictsDecoded
         let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
         clientRequestToken = clientRequestTokenDecoded
+        let configurationValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationValues)
+        configurationValues = configurationValuesDecoded
     }
 }
 
@@ -9404,7 +9653,7 @@ extension UpdateAddonOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9556,7 +9805,7 @@ extension UpdateClusterConfigOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9697,7 +9946,7 @@ extension UpdateClusterVersionOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9950,7 +10199,7 @@ extension UpdateNodegroupConfigOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10060,7 +10309,7 @@ public struct UpdateNodegroupVersionInput: Swift.Equatable {
     /// The name of the managed node group to update.
     /// This member is required.
     public var nodegroupName: Swift.String?
-    /// The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For more information, see [Amazon EKS optimized Amazon Linux 2 AMI versions ](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var releaseVersion: Swift.String?
     /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group update will fail. For more information about using launch templates with Amazon EKS, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var version: Swift.String?
@@ -10134,7 +10383,7 @@ extension UpdateNodegroupVersionOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

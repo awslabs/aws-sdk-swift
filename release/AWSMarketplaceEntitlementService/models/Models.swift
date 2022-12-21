@@ -79,67 +79,65 @@ extension MarketplaceEntitlementClientTypes {
 
 extension MarketplaceEntitlementClientTypes.EntitlementValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case booleanvalue = "BooleanValue"
-        case doublevalue = "DoubleValue"
-        case integervalue = "IntegerValue"
-        case stringvalue = "StringValue"
-        case sdkUnknown
+        case booleanValue = "BooleanValue"
+        case doubleValue = "DoubleValue"
+        case integerValue = "IntegerValue"
+        case stringValue = "StringValue"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case let .booleanvalue(booleanvalue):
-                try container.encode(booleanvalue, forKey: .booleanvalue)
-            case let .doublevalue(doublevalue):
-                try container.encode(doublevalue, forKey: .doublevalue)
-            case let .integervalue(integervalue):
-                try container.encode(integervalue, forKey: .integervalue)
-            case let .stringvalue(stringvalue):
-                try container.encode(stringvalue, forKey: .stringvalue)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let booleanValue = self.booleanValue {
+            try encodeContainer.encode(booleanValue, forKey: .booleanValue)
+        }
+        if let doubleValue = self.doubleValue {
+            try encodeContainer.encode(doubleValue, forKey: .doubleValue)
+        }
+        if let integerValue = self.integerValue {
+            try encodeContainer.encode(integerValue, forKey: .integerValue)
+        }
+        if let stringValue = self.stringValue {
+            try encodeContainer.encode(stringValue, forKey: .stringValue)
         }
     }
 
     public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let integervalueDecoded = try values.decodeIfPresent(Swift.Int.self, forKey: .integervalue)
-        if let integervalue = integervalueDecoded {
-            self = .integervalue(integervalue)
-            return
-        }
-        let doublevalueDecoded = try values.decodeIfPresent(Swift.Double.self, forKey: .doublevalue)
-        if let doublevalue = doublevalueDecoded {
-            self = .doublevalue(doublevalue)
-            return
-        }
-        let booleanvalueDecoded = try values.decodeIfPresent(Swift.Bool.self, forKey: .booleanvalue)
-        if let booleanvalue = booleanvalueDecoded {
-            self = .booleanvalue(booleanvalue)
-            return
-        }
-        let stringvalueDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .stringvalue)
-        if let stringvalue = stringvalueDecoded {
-            self = .stringvalue(stringvalue)
-            return
-        }
-        self = .sdkUnknown("")
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let integerValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .integerValue)
+        integerValue = integerValueDecoded
+        let doubleValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .doubleValue)
+        doubleValue = doubleValueDecoded
+        let booleanValueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .booleanValue)
+        booleanValue = booleanValueDecoded
+        let stringValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stringValue)
+        stringValue = stringValueDecoded
     }
 }
 
 extension MarketplaceEntitlementClientTypes {
     /// The EntitlementValue represents the amount of capacity that the customer is entitled to for the product.
-    public enum EntitlementValue: Swift.Equatable {
-        /// The IntegerValue field will be populated with an integer value when the entitlement is an integer type. Otherwise, the field will not be set.
-        case integervalue(Swift.Int)
-        /// The DoubleValue field will be populated with a double value when the entitlement is a double type. Otherwise, the field will not be set.
-        case doublevalue(Swift.Double)
+    public struct EntitlementValue: Swift.Equatable {
         /// The BooleanValue field will be populated with a boolean value when the entitlement is a boolean type. Otherwise, the field will not be set.
-        case booleanvalue(Swift.Bool)
+        public var booleanValue: Swift.Bool?
+        /// The DoubleValue field will be populated with a double value when the entitlement is a double type. Otherwise, the field will not be set.
+        public var doubleValue: Swift.Double?
+        /// The IntegerValue field will be populated with an integer value when the entitlement is an integer type. Otherwise, the field will not be set.
+        public var integerValue: Swift.Int?
         /// The StringValue field will be populated with a string value when the entitlement is a string type. Otherwise, the field will not be set.
-        case stringvalue(Swift.String)
-        case sdkUnknown(Swift.String)
+        public var stringValue: Swift.String?
+
+        public init (
+            booleanValue: Swift.Bool? = nil,
+            doubleValue: Swift.Double? = nil,
+            integerValue: Swift.Int? = nil,
+            stringValue: Swift.String? = nil
+        )
+        {
+            self.booleanValue = booleanValue
+            self.doubleValue = doubleValue
+            self.integerValue = integerValue
+            self.stringValue = stringValue
+        }
     }
 
 }
@@ -294,7 +292,7 @@ extension GetEntitlementsOutputError {
         case "InternalServiceErrorException" : self = .internalServiceErrorException(try InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

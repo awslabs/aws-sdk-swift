@@ -801,7 +801,7 @@ extension CloneReceiptRuleSetOutputError {
         case "AlreadyExists" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleSetDoesNotExist" : self = .ruleSetDoesNotExistException(try RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1337,7 +1337,7 @@ extension CreateConfigurationSetEventDestinationOutputError {
         case "InvalidFirehoseDestination" : self = .invalidFirehoseDestinationException(try InvalidFirehoseDestinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSNSDestination" : self = .invalidSNSDestinationException(try InvalidSNSDestinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1423,7 +1423,7 @@ extension CreateConfigurationSetOutputError {
         case "ConfigurationSetAlreadyExists" : self = .configurationSetAlreadyExistsException(try ConfigurationSetAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidConfigurationSet" : self = .invalidConfigurationSetException(try InvalidConfigurationSetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1518,7 +1518,7 @@ extension CreateConfigurationSetTrackingOptionsOutputError {
         case "ConfigurationSetDoesNotExist" : self = .configurationSetDoesNotExistException(try ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrackingOptions" : self = .invalidTrackingOptionsException(try InvalidTrackingOptionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrackingOptionsAlreadyExistsException" : self = .trackingOptionsAlreadyExistsException(try TrackingOptionsAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1662,7 +1662,7 @@ extension CreateCustomVerificationEmailTemplateOutputError {
         case "CustomVerificationEmailTemplateAlreadyExists" : self = .customVerificationEmailTemplateAlreadyExistsException(try CustomVerificationEmailTemplateAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FromEmailAddressNotVerified" : self = .fromEmailAddressNotVerifiedException(try FromEmailAddressNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1744,7 +1744,7 @@ extension CreateReceiptFilterOutputError {
         switch errorType {
         case "AlreadyExists" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1853,7 +1853,7 @@ extension CreateReceiptRuleOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleDoesNotExist" : self = .ruleDoesNotExistException(try RuleDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleSetDoesNotExist" : self = .ruleSetDoesNotExistException(try RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1945,7 +1945,7 @@ extension CreateReceiptRuleSetOutputError {
         switch errorType {
         case "AlreadyExists" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2027,7 +2027,7 @@ extension CreateTemplateOutputError {
         case "AlreadyExists" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTemplate" : self = .invalidTemplateException(try InvalidTemplateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2409,7 +2409,7 @@ extension DeleteConfigurationSetEventDestinationOutputError {
         switch errorType {
         case "ConfigurationSetDoesNotExist" : self = .configurationSetDoesNotExistException(try ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDestinationDoesNotExist" : self = .eventDestinationDoesNotExistException(try EventDestinationDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2489,7 +2489,7 @@ extension DeleteConfigurationSetOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConfigurationSetDoesNotExist" : self = .configurationSetDoesNotExistException(try ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2569,7 +2569,7 @@ extension DeleteConfigurationSetTrackingOptionsOutputError {
         switch errorType {
         case "ConfigurationSetDoesNotExist" : self = .configurationSetDoesNotExistException(try ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrackingOptionsDoesNotExistException" : self = .trackingOptionsDoesNotExistException(try TrackingOptionsDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2648,7 +2648,7 @@ extension DeleteCustomVerificationEmailTemplateOutputError: ClientRuntime.HttpRe
 extension DeleteCustomVerificationEmailTemplateOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2724,7 +2724,7 @@ extension DeleteIdentityOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteIdentityOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2813,7 +2813,7 @@ extension DeleteIdentityPolicyOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteIdentityPolicyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2890,7 +2890,7 @@ extension DeleteReceiptFilterOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteReceiptFilterOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2980,7 +2980,7 @@ extension DeleteReceiptRuleOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "RuleSetDoesNotExist" : self = .ruleSetDoesNotExistException(try RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3059,7 +3059,7 @@ extension DeleteReceiptRuleSetOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "CannotDelete" : self = .cannotDeleteException(try CannotDeleteException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3137,7 +3137,7 @@ extension DeleteTemplateOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteTemplateOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3213,7 +3213,7 @@ extension DeleteVerifiedEmailAddressOutputError: ClientRuntime.HttpResponseBindi
 extension DeleteVerifiedEmailAddressOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3297,7 +3297,7 @@ extension DescribeActiveReceiptRuleSetOutputError: ClientRuntime.HttpResponseBin
 extension DescribeActiveReceiptRuleSetOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3471,7 +3471,7 @@ extension DescribeConfigurationSetOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConfigurationSetDoesNotExist" : self = .configurationSetDoesNotExistException(try ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3652,7 +3652,7 @@ extension DescribeReceiptRuleOutputError {
         switch errorType {
         case "RuleDoesNotExist" : self = .ruleDoesNotExistException(try RuleDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleSetDoesNotExist" : self = .ruleSetDoesNotExistException(try RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3764,7 +3764,7 @@ extension DescribeReceiptRuleSetOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "RuleSetDoesNotExist" : self = .ruleSetDoesNotExistException(try RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4502,7 +4502,7 @@ extension GetAccountSendingEnabledOutputError: ClientRuntime.HttpResponseBinding
 extension GetAccountSendingEnabledOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4612,7 +4612,7 @@ extension GetCustomVerificationEmailTemplateOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "CustomVerificationEmailTemplateDoesNotExist" : self = .customVerificationEmailTemplateDoesNotExistException(try CustomVerificationEmailTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4798,7 +4798,7 @@ extension GetIdentityDkimAttributesOutputError: ClientRuntime.HttpResponseBindin
 extension GetIdentityDkimAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4951,7 +4951,7 @@ extension GetIdentityMailFromDomainAttributesOutputError: ClientRuntime.HttpResp
 extension GetIdentityMailFromDomainAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5104,7 +5104,7 @@ extension GetIdentityNotificationAttributesOutputError: ClientRuntime.HttpRespon
 extension GetIdentityNotificationAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5269,7 +5269,7 @@ extension GetIdentityPoliciesOutputError: ClientRuntime.HttpResponseBinding {
 extension GetIdentityPoliciesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5422,7 +5422,7 @@ extension GetIdentityVerificationAttributesOutputError: ClientRuntime.HttpRespon
 extension GetIdentityVerificationAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5521,7 +5521,7 @@ extension GetSendQuotaOutputError: ClientRuntime.HttpResponseBinding {
 extension GetSendQuotaOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5622,7 +5622,7 @@ extension GetSendStatisticsOutputError: ClientRuntime.HttpResponseBinding {
 extension GetSendStatisticsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5748,7 +5748,7 @@ extension GetTemplateOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "TemplateDoesNotExist" : self = .templateDoesNotExistException(try TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7108,7 +7108,7 @@ extension ListConfigurationSetsOutputError: ClientRuntime.HttpResponseBinding {
 extension ListConfigurationSetsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7254,7 +7254,7 @@ extension ListCustomVerificationEmailTemplatesOutputError: ClientRuntime.HttpRes
 extension ListCustomVerificationEmailTemplatesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7411,7 +7411,7 @@ extension ListIdentitiesOutputError: ClientRuntime.HttpResponseBinding {
 extension ListIdentitiesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7548,7 +7548,7 @@ extension ListIdentityPoliciesOutputError: ClientRuntime.HttpResponseBinding {
 extension ListIdentityPoliciesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7648,7 +7648,7 @@ extension ListReceiptFiltersOutputError: ClientRuntime.HttpResponseBinding {
 extension ListReceiptFiltersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7773,7 +7773,7 @@ extension ListReceiptRuleSetsOutputError: ClientRuntime.HttpResponseBinding {
 extension ListReceiptRuleSetsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7918,7 +7918,7 @@ extension ListTemplatesOutputError: ClientRuntime.HttpResponseBinding {
 extension ListTemplatesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8025,7 +8025,7 @@ extension ListVerifiedEmailAddressesOutputError: ClientRuntime.HttpResponseBindi
 extension ListVerifiedEmailAddressesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8600,7 +8600,7 @@ extension PutConfigurationSetDeliveryOptionsOutputError {
         switch errorType {
         case "ConfigurationSetDoesNotExist" : self = .configurationSetDoesNotExistException(try ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeliveryOptions" : self = .invalidDeliveryOptionsException(try InvalidDeliveryOptionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8704,7 +8704,7 @@ extension PutIdentityPolicyOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidPolicy" : self = .invalidPolicyException(try InvalidPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9411,7 +9411,7 @@ extension ReorderReceiptRuleSetOutputError {
         switch errorType {
         case "RuleDoesNotExist" : self = .ruleDoesNotExistException(try RuleDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleSetDoesNotExist" : self = .ruleSetDoesNotExistException(try RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9940,7 +9940,7 @@ extension SendBounceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10246,7 +10246,7 @@ extension SendBulkTemplatedEmailOutputError {
         case "MailFromDomainNotVerifiedException" : self = .mailFromDomainNotVerifiedException(try MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplateDoesNotExist" : self = .templateDoesNotExistException(try TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10406,7 +10406,7 @@ extension SendCustomVerificationEmailOutputError {
         case "FromEmailAddressNotVerified" : self = .fromEmailAddressNotVerifiedException(try FromEmailAddressNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProductionAccessNotGranted" : self = .productionAccessNotGrantedException(try ProductionAccessNotGrantedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10742,7 +10742,7 @@ extension SendEmailOutputError {
         case "ConfigurationSetSendingPausedException" : self = .configurationSetSendingPausedException(try ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MailFromDomainNotVerifiedException" : self = .mailFromDomainNotVerifiedException(try MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11005,7 +11005,7 @@ extension SendRawEmailOutputError {
         case "ConfigurationSetSendingPausedException" : self = .configurationSetSendingPausedException(try ConfigurationSetSendingPausedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MailFromDomainNotVerifiedException" : self = .mailFromDomainNotVerifiedException(try MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11291,7 +11291,7 @@ extension SendTemplatedEmailOutputError {
         case "MailFromDomainNotVerifiedException" : self = .mailFromDomainNotVerifiedException(try MailFromDomainNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MessageRejected" : self = .messageRejected(try MessageRejected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplateDoesNotExist" : self = .templateDoesNotExistException(try TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11406,7 +11406,7 @@ extension SetActiveReceiptRuleSetOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "RuleSetDoesNotExist" : self = .ruleSetDoesNotExistException(try RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11496,7 +11496,7 @@ extension SetIdentityDkimEnabledOutputError: ClientRuntime.HttpResponseBinding {
 extension SetIdentityDkimEnabledOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11585,7 +11585,7 @@ extension SetIdentityFeedbackForwardingEnabledOutputError: ClientRuntime.HttpRes
 extension SetIdentityFeedbackForwardingEnabledOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11686,7 +11686,7 @@ extension SetIdentityHeadersInNotificationsEnabledOutputError: ClientRuntime.Htt
 extension SetIdentityHeadersInNotificationsEnabledOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11785,7 +11785,7 @@ extension SetIdentityMailFromDomainOutputError: ClientRuntime.HttpResponseBindin
 extension SetIdentityMailFromDomainOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11885,7 +11885,7 @@ extension SetIdentityNotificationTopicOutputError: ClientRuntime.HttpResponseBin
 extension SetIdentityNotificationTopicOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11987,7 +11987,7 @@ extension SetReceiptRulePositionOutputError {
         switch errorType {
         case "RuleDoesNotExist" : self = .ruleDoesNotExistException(try RuleDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleSetDoesNotExist" : self = .ruleSetDoesNotExistException(try RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12327,7 +12327,7 @@ extension TestRenderTemplateOutputError {
         case "InvalidRenderingParameter" : self = .invalidRenderingParameterException(try InvalidRenderingParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingRenderingAttribute" : self = .missingRenderingAttributeException(try MissingRenderingAttributeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplateDoesNotExist" : self = .templateDoesNotExistException(try TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12628,7 +12628,7 @@ extension UpdateAccountSendingEnabledOutputError: ClientRuntime.HttpResponseBind
 extension UpdateAccountSendingEnabledOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12721,7 +12721,7 @@ extension UpdateConfigurationSetEventDestinationOutputError {
         case "InvalidCloudWatchDestination" : self = .invalidCloudWatchDestinationException(try InvalidCloudWatchDestinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFirehoseDestination" : self = .invalidFirehoseDestinationException(try InvalidFirehoseDestinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSNSDestination" : self = .invalidSNSDestinationException(try InvalidSNSDestinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12816,7 +12816,7 @@ extension UpdateConfigurationSetReputationMetricsEnabledOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConfigurationSetDoesNotExist" : self = .configurationSetDoesNotExistException(try ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12906,7 +12906,7 @@ extension UpdateConfigurationSetSendingEnabledOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ConfigurationSetDoesNotExist" : self = .configurationSetDoesNotExistException(try ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12998,7 +12998,7 @@ extension UpdateConfigurationSetTrackingOptionsOutputError {
         case "ConfigurationSetDoesNotExist" : self = .configurationSetDoesNotExistException(try ConfigurationSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrackingOptions" : self = .invalidTrackingOptionsException(try InvalidTrackingOptionsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TrackingOptionsDoesNotExistException" : self = .trackingOptionsDoesNotExistException(try TrackingOptionsDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13136,7 +13136,7 @@ extension UpdateCustomVerificationEmailTemplateOutputError {
         case "CustomVerificationEmailInvalidContent" : self = .customVerificationEmailInvalidContentException(try CustomVerificationEmailInvalidContentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CustomVerificationEmailTemplateDoesNotExist" : self = .customVerificationEmailTemplateDoesNotExistException(try CustomVerificationEmailTemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FromEmailAddressNotVerified" : self = .fromEmailAddressNotVerifiedException(try FromEmailAddressNotVerifiedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13233,7 +13233,7 @@ extension UpdateReceiptRuleOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleDoesNotExist" : self = .ruleDoesNotExistException(try RuleDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RuleSetDoesNotExist" : self = .ruleSetDoesNotExistException(try RuleSetDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13317,7 +13317,7 @@ extension UpdateTemplateOutputError {
         switch errorType {
         case "InvalidTemplate" : self = .invalidTemplateException(try InvalidTemplateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TemplateDoesNotExist" : self = .templateDoesNotExistException(try TemplateDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13436,7 +13436,7 @@ extension VerifyDomainDkimOutputError: ClientRuntime.HttpResponseBinding {
 extension VerifyDomainDkimOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13563,7 +13563,7 @@ extension VerifyDomainIdentityOutputError: ClientRuntime.HttpResponseBinding {
 extension VerifyDomainIdentityOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13673,7 +13673,7 @@ extension VerifyEmailAddressOutputError: ClientRuntime.HttpResponseBinding {
 extension VerifyEmailAddressOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13749,7 +13749,7 @@ extension VerifyEmailIdentityOutputError: ClientRuntime.HttpResponseBinding {
 extension VerifyEmailIdentityOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

@@ -13,6 +13,8 @@ public protocol IoTTwinMakerClientProtocol {
     func createEntity(input: CreateEntityInput) async throws -> CreateEntityOutputResponse
     /// Creates a scene.
     func createScene(input: CreateSceneInput) async throws -> CreateSceneOutputResponse
+    /// This action creates a SyncJob.
+    func createSyncJob(input: CreateSyncJobInput) async throws -> CreateSyncJobOutputResponse
     /// Creates a workplace.
     func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutputResponse
     /// Deletes a component type.
@@ -21,6 +23,8 @@ public protocol IoTTwinMakerClientProtocol {
     func deleteEntity(input: DeleteEntityInput) async throws -> DeleteEntityOutputResponse
     /// Deletes a scene.
     func deleteScene(input: DeleteSceneInput) async throws -> DeleteSceneOutputResponse
+    /// Delete the SyncJob.
+    func deleteSyncJob(input: DeleteSyncJobInput) async throws -> DeleteSyncJobOutputResponse
     /// Deletes a workspace.
     func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutputResponse
     /// Run queries to access information from your knowledge graph of entities within individual workspaces.
@@ -37,6 +41,8 @@ public protocol IoTTwinMakerClientProtocol {
     func getPropertyValueHistory(input: GetPropertyValueHistoryInput) async throws -> GetPropertyValueHistoryOutputResponse
     /// Retrieves information about a scene.
     func getScene(input: GetSceneInput) async throws -> GetSceneOutputResponse
+    /// Gets the SyncJob.
+    func getSyncJob(input: GetSyncJobInput) async throws -> GetSyncJobOutputResponse
     /// Retrieves information about a workspace.
     func getWorkspace(input: GetWorkspaceInput) async throws -> GetWorkspaceOutputResponse
     /// Lists all component types in a workspace.
@@ -45,6 +51,10 @@ public protocol IoTTwinMakerClientProtocol {
     func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutputResponse
     /// Lists all scenes in a workspace.
     func listScenes(input: ListScenesInput) async throws -> ListScenesOutputResponse
+    /// List all SyncJobs.
+    func listSyncJobs(input: ListSyncJobsInput) async throws -> ListSyncJobsOutputResponse
+    /// Lists the sync resources.
+    func listSyncResources(input: ListSyncResourcesInput) async throws -> ListSyncResourcesOutputResponse
     /// Lists all tags associated with a resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Retrieves information about workspaces in the current account.

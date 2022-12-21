@@ -331,11 +331,54 @@ extension CostExplorerClientTypes {
         /// The name of the monitor.
         /// This member is required.
         public var monitorName: Swift.String?
-        /// Use Expression to filter by cost or by usage. There are two patterns:
+        /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
         ///
-        /// * Simple dimension values - You can set the dimension name and values for the filters that you plan to use. For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia). The Expression example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } } The list of dimension values are OR'd together to retrieve cost or usage data. You can create Expression and DimensionValues objects using either with* methods or set* methods in multiple lines.
+        /// * Simple dimension values.
         ///
-        /// * Compound dimension values with logical operations - You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter on more advanced options. For example, you can filter on ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer). The Expression for that is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }  Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error.  { "And": [ ... ], "DimensionValues": { "Dimension": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
+        /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+        ///
+        /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+        ///
+        /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+        ///
+        /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+        ///
+        ///
+        ///
+        ///
+        /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+        ///
+        /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+        ///
+        /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+        ///
+        /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+        ///
+        ///
+        ///
+        ///
+        /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+        ///
+        /// * For example, you can filter for linked account names that start with “a”.
+        ///
+        /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// * Compound Expression types with logical operations.
+        ///
+        /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+        ///
+        /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+        ///
+        /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+        ///
+        ///
+        /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
         ///
         ///
         /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
@@ -426,6 +469,7 @@ extension CostExplorerClientTypes.AnomalySubscription: Swift.Codable {
         case subscriptionArn = "SubscriptionArn"
         case subscriptionName = "SubscriptionName"
         case threshold = "Threshold"
+        case thresholdExpression = "ThresholdExpression"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -456,6 +500,9 @@ extension CostExplorerClientTypes.AnomalySubscription: Swift.Codable {
         }
         if let threshold = self.threshold {
             try encodeContainer.encode(threshold, forKey: .threshold)
+        }
+        if let thresholdExpression = self.thresholdExpression {
+            try encodeContainer.encode(thresholdExpression, forKey: .thresholdExpression)
         }
     }
 
@@ -493,6 +540,8 @@ extension CostExplorerClientTypes.AnomalySubscription: Swift.Codable {
         frequency = frequencyDecoded
         let subscriptionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionName)
         subscriptionName = subscriptionNameDecoded
+        let thresholdExpressionDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.Expression.self, forKey: .thresholdExpression)
+        thresholdExpression = thresholdExpressionDecoded
     }
 }
 
@@ -515,9 +564,19 @@ extension CostExplorerClientTypes {
         /// The name for the subscription.
         /// This member is required.
         public var subscriptionName: Swift.String?
-        /// The dollar value that triggers a notification if the threshold is exceeded.
-        /// This member is required.
+        /// (deprecated) The dollar value that triggers a notification if the threshold is exceeded. This field has been deprecated. To specify a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression. One of Threshold or ThresholdExpression is required for this resource.
+        @available(*, deprecated, message: "Threshold has been deprecated in favor of ThresholdExpression")
         public var threshold: Swift.Double?
+        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000. One of Threshold or ThresholdExpression is required for this resource. The following are examples of valid ThresholdExpressions:
+        ///
+        /// * Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }
+        ///
+        /// * Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }
+        ///
+        /// * AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
+        ///
+        /// * OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
+        public var thresholdExpression: CostExplorerClientTypes.Expression?
 
         public init (
             accountId: Swift.String? = nil,
@@ -526,7 +585,8 @@ extension CostExplorerClientTypes {
             subscribers: [CostExplorerClientTypes.Subscriber]? = nil,
             subscriptionArn: Swift.String? = nil,
             subscriptionName: Swift.String? = nil,
-            threshold: Swift.Double? = nil
+            threshold: Swift.Double? = nil,
+            thresholdExpression: CostExplorerClientTypes.Expression? = nil
         )
         {
             self.accountId = accountId
@@ -536,6 +596,7 @@ extension CostExplorerClientTypes {
             self.subscriptionArn = subscriptionArn
             self.subscriptionName = subscriptionName
             self.threshold = threshold
+            self.thresholdExpression = thresholdExpression
         }
     }
 
@@ -2106,7 +2167,7 @@ extension CreateAnomalyMonitorOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2257,7 +2318,7 @@ extension CreateAnomalySubscriptionOutputError {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2495,7 +2556,7 @@ extension CreateCostCategoryDefinitionOutputError {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2864,7 +2925,7 @@ extension DeleteAnomalyMonitorOutputError {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2946,7 +3007,7 @@ extension DeleteAnomalySubscriptionOutputError {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownSubscriptionException" : self = .unknownSubscriptionException(try UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3028,7 +3089,7 @@ extension DeleteCostCategoryDefinitionOutputError {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3163,7 +3224,7 @@ extension DescribeCostCategoryDefinitionOutputError {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3219,6 +3280,8 @@ extension CostExplorerClientTypes {
     public enum Dimension: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case agreementEndDateTimeAfter
         case agreementEndDateTimeBefore
+        case anomalyTotalImpactAbsolute
+        case anomalyTotalImpactPercentage
         case az
         case billingEntity
         case cacheEngine
@@ -3255,6 +3318,8 @@ extension CostExplorerClientTypes {
             return [
                 .agreementEndDateTimeAfter,
                 .agreementEndDateTimeBefore,
+                .anomalyTotalImpactAbsolute,
+                .anomalyTotalImpactPercentage,
                 .az,
                 .billingEntity,
                 .cacheEngine,
@@ -3296,6 +3361,8 @@ extension CostExplorerClientTypes {
             switch self {
             case .agreementEndDateTimeAfter: return "AGREEMENT_END_DATE_TIME_AFTER"
             case .agreementEndDateTimeBefore: return "AGREEMENT_END_DATE_TIME_BEFORE"
+            case .anomalyTotalImpactAbsolute: return "ANOMALY_TOTAL_IMPACT_ABSOLUTE"
+            case .anomalyTotalImpactPercentage: return "ANOMALY_TOTAL_IMPACT_PERCENTAGE"
             case .az: return "AZ"
             case .billingEntity: return "BILLING_ENTITY"
             case .cacheEngine: return "CACHE_ENGINE"
@@ -3395,9 +3462,9 @@ extension CostExplorerClientTypes.DimensionValues: Swift.Codable {
 extension CostExplorerClientTypes {
     /// The metadata that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
     public struct DimensionValues: Swift.Equatable {
-        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/AAPI_CostCategoryRule.html).
+        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html). ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in [AnomalySubscriptions](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html).
         public var key: CostExplorerClientTypes.Dimension?
-        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category and Anomaly Subscriptions. Refer to the documentation for each specific API to see what is supported. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public var matchOptions: [CostExplorerClientTypes.MatchOption]?
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
         public var values: [Swift.String]?
@@ -4177,11 +4244,54 @@ extension CostExplorerClientTypes.Expression: Swift.Codable {
 }
 
 extension CostExplorerClientTypes {
-    /// Use Expression to filter by cost or by usage. There are two patterns:
+    /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
-    /// * Simple dimension values - You can set the dimension name and values for the filters that you plan to use. For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia). The Expression example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } } The list of dimension values are OR'd together to retrieve cost or usage data. You can create Expression and DimensionValues objects using either with* methods or set* methods in multiple lines.
+    /// * Simple dimension values.
     ///
-    /// * Compound dimension values with logical operations - You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter on more advanced options. For example, you can filter on ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer). The Expression for that is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }  Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error.  { "And": [ ... ], "DimensionValues": { "Dimension": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
+    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    ///
+    /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+    ///
+    /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+    ///
+    /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    ///
+    ///
+    ///
+    /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+    ///
+    /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    ///
+    /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+    ///
+    ///
+    ///
+    ///
+    /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+    ///
+    /// * For example, you can filter for linked account names that start with “a”.
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * Compound Expression types with logical operations.
+    ///
+    /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+    ///
+    /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+    ///
+    ///
+    /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
     ///
     ///
     /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
@@ -4641,7 +4751,7 @@ extension GetAnomaliesOutputError {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4810,7 +4920,7 @@ extension GetAnomalyMonitorsOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4992,7 +5102,7 @@ extension GetAnomalySubscriptionsOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownSubscriptionException" : self = .unknownSubscriptionException(try UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5215,7 +5325,7 @@ extension GetCostAndUsageOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5477,7 +5587,7 @@ extension GetCostAndUsageWithResourcesOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5638,11 +5748,54 @@ extension GetCostCategoriesInput: ClientRuntime.URLPathProvider {
 public struct GetCostCategoriesInput: Swift.Equatable {
     /// The unique name of the Cost Category.
     public var costCategoryName: Swift.String?
-    /// Use Expression to filter by cost or by usage. There are two patterns:
+    /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
-    /// * Simple dimension values - You can set the dimension name and values for the filters that you plan to use. For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia). The Expression example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } } The list of dimension values are OR'd together to retrieve cost or usage data. You can create Expression and DimensionValues objects using either with* methods or set* methods in multiple lines.
+    /// * Simple dimension values.
     ///
-    /// * Compound dimension values with logical operations - You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter on more advanced options. For example, you can filter on ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer). The Expression for that is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }  Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error.  { "And": [ ... ], "DimensionValues": { "Dimension": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
+    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    ///
+    /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+    ///
+    /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+    ///
+    /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    ///
+    ///
+    ///
+    /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+    ///
+    /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    ///
+    /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+    ///
+    ///
+    ///
+    ///
+    /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+    ///
+    /// * For example, you can filter for linked account names that start with “a”.
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * Compound Expression types with logical operations.
+    ///
+    /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+    ///
+    /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+    ///
+    ///
+    /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
     ///
     ///
     /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
@@ -5761,7 +5914,7 @@ extension GetCostCategoriesOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6043,7 +6196,7 @@ extension GetCostForecastOutputError {
         switch errorType {
         case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6256,11 +6409,54 @@ public struct GetDimensionValuesInput: Swift.Equatable {
     /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/AAPI_CostCategoryRule.html).
     /// This member is required.
     public var dimension: CostExplorerClientTypes.Dimension?
-    /// Use Expression to filter by cost or by usage. There are two patterns:
+    /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
-    /// * Simple dimension values - You can set the dimension name and values for the filters that you plan to use. For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia). The Expression example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } } The list of dimension values are OR'd together to retrieve cost or usage data. You can create Expression and DimensionValues objects using either with* methods or set* methods in multiple lines.
+    /// * Simple dimension values.
     ///
-    /// * Compound dimension values with logical operations - You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter on more advanced options. For example, you can filter on ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer). The Expression for that is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }  Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error.  { "And": [ ... ], "DimensionValues": { "Dimension": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
+    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    ///
+    /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+    ///
+    /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+    ///
+    /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    ///
+    ///
+    ///
+    /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+    ///
+    /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    ///
+    /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+    ///
+    ///
+    ///
+    ///
+    /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+    ///
+    /// * For example, you can filter for linked account names that start with “a”.
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * Compound Expression types with logical operations.
+    ///
+    /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+    ///
+    /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+    ///
+    ///
+    /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
     ///
     ///
     /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
@@ -6385,7 +6581,7 @@ extension GetDimensionValuesOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6791,7 +6987,7 @@ extension GetReservationCoverageOutputError {
         case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6934,11 +7130,54 @@ public struct GetReservationPurchaseRecommendationInput: Swift.Equatable {
     public var accountId: Swift.String?
     /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
     public var accountScope: CostExplorerClientTypes.AccountScope?
-    /// Use Expression to filter by cost or by usage. There are two patterns:
+    /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
-    /// * Simple dimension values - You can set the dimension name and values for the filters that you plan to use. For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia). The Expression example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } } The list of dimension values are OR'd together to retrieve cost or usage data. You can create Expression and DimensionValues objects using either with* methods or set* methods in multiple lines.
+    /// * Simple dimension values.
     ///
-    /// * Compound dimension values with logical operations - You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter on more advanced options. For example, you can filter on ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer). The Expression for that is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }  Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error.  { "And": [ ... ], "DimensionValues": { "Dimension": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
+    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    ///
+    /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+    ///
+    /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+    ///
+    /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    ///
+    ///
+    ///
+    /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+    ///
+    /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    ///
+    /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+    ///
+    ///
+    ///
+    ///
+    /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+    ///
+    /// * For example, you can filter for linked account names that start with “a”.
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * Compound Expression types with logical operations.
+    ///
+    /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+    ///
+    /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+    ///
+    ///
+    /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
     ///
     ///
     /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
@@ -7051,7 +7290,7 @@ extension GetReservationPurchaseRecommendationOutputError {
         case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7341,7 +7580,7 @@ extension GetReservationUtilizationOutputError {
         case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7462,11 +7701,54 @@ extension GetRightsizingRecommendationInput: ClientRuntime.URLPathProvider {
 public struct GetRightsizingRecommendationInput: Swift.Equatable {
     /// You can use Configuration to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings that are associated with recommendations with consideration of existing Savings Plans or RI benefits, or neither.
     public var configuration: CostExplorerClientTypes.RightsizingRecommendationConfiguration?
-    /// Use Expression to filter by cost or by usage. There are two patterns:
+    /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
-    /// * Simple dimension values - You can set the dimension name and values for the filters that you plan to use. For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia). The Expression example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } } The list of dimension values are OR'd together to retrieve cost or usage data. You can create Expression and DimensionValues objects using either with* methods or set* methods in multiple lines.
+    /// * Simple dimension values.
     ///
-    /// * Compound dimension values with logical operations - You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter on more advanced options. For example, you can filter on ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer). The Expression for that is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }  Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error.  { "And": [ ... ], "DimensionValues": { "Dimension": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
+    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    ///
+    /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+    ///
+    /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+    ///
+    /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    ///
+    ///
+    ///
+    /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+    ///
+    /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    ///
+    /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+    ///
+    ///
+    ///
+    ///
+    /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+    ///
+    /// * For example, you can filter for linked account names that start with “a”.
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * Compound Expression types with logical operations.
+    ///
+    /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+    ///
+    /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+    ///
+    ///
+    /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
     ///
     ///
     /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
@@ -7540,7 +7822,7 @@ extension GetRightsizingRecommendationOutputError {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7839,7 +8121,7 @@ extension GetSavingsPlansCoverageOutputError {
         case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8060,7 +8342,7 @@ extension GetSavingsPlansPurchaseRecommendationOutputError {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8296,7 +8578,7 @@ extension GetSavingsPlansUtilizationDetailsOutputError {
         case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8515,7 +8797,7 @@ extension GetSavingsPlansUtilizationOutputError {
         switch errorType {
         case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8634,11 +8916,54 @@ extension GetTagsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetTagsInput: Swift.Equatable {
-    /// Use Expression to filter by cost or by usage. There are two patterns:
+    /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
-    /// * Simple dimension values - You can set the dimension name and values for the filters that you plan to use. For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia). The Expression example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } } The list of dimension values are OR'd together to retrieve cost or usage data. You can create Expression and DimensionValues objects using either with* methods or set* methods in multiple lines.
+    /// * Simple dimension values.
     ///
-    /// * Compound dimension values with logical operations - You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter on more advanced options. For example, you can filter on ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer). The Expression for that is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }  Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error.  { "And": [ ... ], "DimensionValues": { "Dimension": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }
+    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    ///
+    /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+    ///
+    /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+    ///
+    /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    ///
+    ///
+    ///
+    /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+    ///
+    /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] } }
+    ///
+    /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+    ///
+    ///
+    ///
+    ///
+    /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+    ///
+    /// * For example, you can filter for linked account names that start with “a”.
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * Compound Expression types with logical operations.
+    ///
+    /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+    ///
+    /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+    ///
+    ///
+    /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
     ///
     ///
     /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
@@ -8759,7 +9084,7 @@ extension GetTagsOutputError {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RequestChangedException" : self = .requestChangedException(try RequestChangedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9018,7 +9343,7 @@ extension GetUsageForecastOutputError {
         case "DataUnavailableException" : self = .dataUnavailableException(try DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnresolvableUsageUnitException" : self = .unresolvableUsageUnitException(try UnresolvableUsageUnitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9277,7 +9602,10 @@ extension CostExplorerClientTypes {
 extension CostExplorerClientTypes.Impact: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxImpact = "MaxImpact"
+        case totalActualSpend = "TotalActualSpend"
+        case totalExpectedSpend = "TotalExpectedSpend"
         case totalImpact = "TotalImpact"
+        case totalImpactPercentage = "TotalImpactPercentage"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9285,8 +9613,17 @@ extension CostExplorerClientTypes.Impact: Swift.Codable {
         if maxImpact != 0.0 {
             try encodeContainer.encode(maxImpact, forKey: .maxImpact)
         }
+        if let totalActualSpend = self.totalActualSpend {
+            try encodeContainer.encode(totalActualSpend, forKey: .totalActualSpend)
+        }
+        if let totalExpectedSpend = self.totalExpectedSpend {
+            try encodeContainer.encode(totalExpectedSpend, forKey: .totalExpectedSpend)
+        }
         if totalImpact != 0.0 {
             try encodeContainer.encode(totalImpact, forKey: .totalImpact)
+        }
+        if let totalImpactPercentage = self.totalImpactPercentage {
+            try encodeContainer.encode(totalImpactPercentage, forKey: .totalImpactPercentage)
         }
     }
 
@@ -9296,6 +9633,12 @@ extension CostExplorerClientTypes.Impact: Swift.Codable {
         maxImpact = maxImpactDecoded
         let totalImpactDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalImpact) ?? 0.0
         totalImpact = totalImpactDecoded
+        let totalActualSpendDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalActualSpend)
+        totalActualSpend = totalActualSpendDecoded
+        let totalExpectedSpendDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalExpectedSpend)
+        totalExpectedSpend = totalExpectedSpendDecoded
+        let totalImpactPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalImpactPercentage)
+        totalImpactPercentage = totalImpactPercentageDecoded
     }
 }
 
@@ -9305,16 +9648,28 @@ extension CostExplorerClientTypes {
         /// The maximum dollar value that's observed for an anomaly.
         /// This member is required.
         public var maxImpact: Swift.Double
-        /// The cumulative dollar value that's observed for an anomaly.
+        /// The cumulative dollar amount that was actually spent during the anomaly.
+        public var totalActualSpend: Swift.Double?
+        /// The cumulative dollar amount that was expected to be spent during the anomaly. It is calculated using advanced machine learning models to determine the typical spending pattern based on historical data for a customer.
+        public var totalExpectedSpend: Swift.Double?
+        /// The cumulative dollar difference between the total actual spend and total expected spend. It is calculated as TotalActualSpend - TotalExpectedSpend.
         public var totalImpact: Swift.Double
+        /// The cumulative percentage difference between the total actual spend and total expected spend. It is calculated as (TotalImpact / TotalExpectedSpend) * 100. When TotalExpectedSpend is zero, this field is omitted. Expected spend can be zero in situations such as when you start to use a service for the first time.
+        public var totalImpactPercentage: Swift.Double?
 
         public init (
             maxImpact: Swift.Double = 0.0,
-            totalImpact: Swift.Double = 0.0
+            totalActualSpend: Swift.Double? = nil,
+            totalExpectedSpend: Swift.Double? = nil,
+            totalImpact: Swift.Double = 0.0,
+            totalImpactPercentage: Swift.Double? = nil
         )
         {
             self.maxImpact = maxImpact
+            self.totalActualSpend = totalActualSpend
+            self.totalExpectedSpend = totalExpectedSpend
             self.totalImpact = totalImpact
+            self.totalImpactPercentage = totalImpactPercentage
         }
     }
 
@@ -9619,7 +9974,7 @@ extension ListCostAllocationTagsOutputError {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9773,7 +10128,7 @@ extension ListCostCategoryDefinitionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9951,7 +10306,7 @@ extension ListSavingsPlansPurchaseRecommendationGenerationOutputError {
         switch errorType {
         case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10083,7 +10438,7 @@ extension ListTagsForResourceOutputError {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10187,6 +10542,7 @@ extension CostExplorerClientTypes {
         case contains
         case endsWith
         case equals
+        case greaterThanOrEqual
         case startsWith
         case sdkUnknown(Swift.String)
 
@@ -10198,6 +10554,7 @@ extension CostExplorerClientTypes {
                 .contains,
                 .endsWith,
                 .equals,
+                .greaterThanOrEqual,
                 .startsWith,
                 .sdkUnknown("")
             ]
@@ -10214,6 +10571,7 @@ extension CostExplorerClientTypes {
             case .contains: return "CONTAINS"
             case .endsWith: return "ENDS_WITH"
             case .equals: return "EQUALS"
+            case .greaterThanOrEqual: return "GREATER_THAN_OR_EQUAL"
             case .startsWith: return "STARTS_WITH"
             case let .sdkUnknown(s): return s
             }
@@ -10725,7 +11083,7 @@ extension ProvideAnomalyFeedbackOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12378,6 +12736,7 @@ extension CostExplorerClientTypes {
 extension CostExplorerClientTypes.RootCause: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case linkedAccount = "LinkedAccount"
+        case linkedAccountName = "LinkedAccountName"
         case region = "Region"
         case service = "Service"
         case usageType = "UsageType"
@@ -12387,6 +12746,9 @@ extension CostExplorerClientTypes.RootCause: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let linkedAccount = self.linkedAccount {
             try encodeContainer.encode(linkedAccount, forKey: .linkedAccount)
+        }
+        if let linkedAccountName = self.linkedAccountName {
+            try encodeContainer.encode(linkedAccountName, forKey: .linkedAccountName)
         }
         if let region = self.region {
             try encodeContainer.encode(region, forKey: .region)
@@ -12409,14 +12771,18 @@ extension CostExplorerClientTypes.RootCause: Swift.Codable {
         linkedAccount = linkedAccountDecoded
         let usageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .usageType)
         usageType = usageTypeDecoded
+        let linkedAccountNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .linkedAccountName)
+        linkedAccountName = linkedAccountNameDecoded
     }
 }
 
 extension CostExplorerClientTypes {
-    /// The combination of Amazon Web Service, linked account, Region, and usage type where a cost anomaly is observed.
+    /// The combination of Amazon Web Service, linked account, linked account name, Region, and usage type where a cost anomaly is observed. The linked account name will only be available when the account name can be identified.
     public struct RootCause: Swift.Equatable {
         /// The member account value that's associated with the cost anomaly.
         public var linkedAccount: Swift.String?
+        /// The member account name value that's associated with the cost anomaly.
+        public var linkedAccountName: Swift.String?
         /// The Amazon Web Services Region that's associated with the cost anomaly.
         public var region: Swift.String?
         /// The Amazon Web Service name that's associated with the cost anomaly.
@@ -12426,12 +12792,14 @@ extension CostExplorerClientTypes {
 
         public init (
             linkedAccount: Swift.String? = nil,
+            linkedAccountName: Swift.String? = nil,
             region: Swift.String? = nil,
             service: Swift.String? = nil,
             usageType: Swift.String? = nil
         )
         {
             self.linkedAccount = linkedAccount
+            self.linkedAccountName = linkedAccountName
             self.region = region
             self.service = service
             self.usageType = usageType
@@ -13729,7 +14097,7 @@ extension StartSavingsPlansPurchaseRecommendationGenerationOutputError {
         case "GenerationExistsException" : self = .generationExistsException(try GenerationExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14057,7 +14425,7 @@ extension TagResourceOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14702,7 +15070,7 @@ extension UntagResourceOutputError {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14796,7 +15164,7 @@ extension UpdateAnomalyMonitorOutputError {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14857,6 +15225,7 @@ extension UpdateAnomalySubscriptionInput: Swift.Encodable {
         case subscriptionArn = "SubscriptionArn"
         case subscriptionName = "SubscriptionName"
         case threshold = "Threshold"
+        case thresholdExpression = "ThresholdExpression"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -14885,6 +15254,9 @@ extension UpdateAnomalySubscriptionInput: Swift.Encodable {
         if let threshold = self.threshold {
             try encodeContainer.encode(threshold, forKey: .threshold)
         }
+        if let thresholdExpression = self.thresholdExpression {
+            try encodeContainer.encode(thresholdExpression, forKey: .thresholdExpression)
+        }
     }
 }
 
@@ -14906,8 +15278,19 @@ public struct UpdateAnomalySubscriptionInput: Swift.Equatable {
     public var subscriptionArn: Swift.String?
     /// The new name of the subscription.
     public var subscriptionName: Swift.String?
-    /// The update to the threshold value for receiving notifications.
+    /// (deprecated) The update to the threshold value for receiving notifications. This field has been deprecated. To update a threshold, use ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a ThresholdExpression.
+    @available(*, deprecated, message: "Threshold has been deprecated in favor of ThresholdExpression")
     public var threshold: Swift.Double?
+    /// The update to the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000. The following are examples of valid ThresholdExpressions:
+    ///
+    /// * Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }
+    ///
+    /// * Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }
+    ///
+    /// * AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
+    ///
+    /// * OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
+    public var thresholdExpression: CostExplorerClientTypes.Expression?
 
     public init (
         frequency: CostExplorerClientTypes.AnomalySubscriptionFrequency? = nil,
@@ -14915,7 +15298,8 @@ public struct UpdateAnomalySubscriptionInput: Swift.Equatable {
         subscribers: [CostExplorerClientTypes.Subscriber]? = nil,
         subscriptionArn: Swift.String? = nil,
         subscriptionName: Swift.String? = nil,
-        threshold: Swift.Double? = nil
+        threshold: Swift.Double? = nil,
+        thresholdExpression: CostExplorerClientTypes.Expression? = nil
     )
     {
         self.frequency = frequency
@@ -14924,6 +15308,7 @@ public struct UpdateAnomalySubscriptionInput: Swift.Equatable {
         self.subscriptionArn = subscriptionArn
         self.subscriptionName = subscriptionName
         self.threshold = threshold
+        self.thresholdExpression = thresholdExpression
     }
 }
 
@@ -14934,6 +15319,7 @@ struct UpdateAnomalySubscriptionInputBody: Swift.Equatable {
     let monitorArnList: [Swift.String]?
     let subscribers: [CostExplorerClientTypes.Subscriber]?
     let subscriptionName: Swift.String?
+    let thresholdExpression: CostExplorerClientTypes.Expression?
 }
 
 extension UpdateAnomalySubscriptionInputBody: Swift.Decodable {
@@ -14944,6 +15330,7 @@ extension UpdateAnomalySubscriptionInputBody: Swift.Decodable {
         case subscriptionArn = "SubscriptionArn"
         case subscriptionName = "SubscriptionName"
         case threshold = "Threshold"
+        case thresholdExpression = "ThresholdExpression"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -14978,6 +15365,8 @@ extension UpdateAnomalySubscriptionInputBody: Swift.Decodable {
         subscribers = subscribersDecoded0
         let subscriptionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionName)
         subscriptionName = subscriptionNameDecoded
+        let thresholdExpressionDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.Expression.self, forKey: .thresholdExpression)
+        thresholdExpression = thresholdExpressionDecoded
     }
 }
 
@@ -14995,7 +15384,7 @@ extension UpdateAnomalySubscriptionOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownMonitorException" : self = .unknownMonitorException(try UnknownMonitorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnknownSubscriptionException" : self = .unknownSubscriptionException(try UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15176,7 +15565,7 @@ extension UpdateCostAllocationTagsStatusOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15384,7 +15773,7 @@ extension UpdateCostCategoryDefinitionOutputError {
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

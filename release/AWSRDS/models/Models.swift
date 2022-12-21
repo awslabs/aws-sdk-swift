@@ -287,7 +287,7 @@ extension AddRoleToDBClusterOutputError {
         case "DBClusterRoleAlreadyExists" : self = .dBClusterRoleAlreadyExistsFault(try DBClusterRoleAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBClusterRoleQuotaExceeded" : self = .dBClusterRoleQuotaExceededFault(try DBClusterRoleQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -394,7 +394,7 @@ extension AddRoleToDBInstanceOutputError {
         case "DBInstanceRoleAlreadyExists" : self = .dBInstanceRoleAlreadyExistsFault(try DBInstanceRoleAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBInstanceRoleQuotaExceeded" : self = .dBInstanceRoleQuotaExceededFault(try DBInstanceRoleQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -502,7 +502,7 @@ extension AddSourceIdentifierToSubscriptionOutputError {
         switch errorType {
         case "SourceNotFound" : self = .sourceNotFoundFault(try SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -650,17 +650,19 @@ extension AddTagsToResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension AddTagsToResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "BlueGreenDeploymentNotFoundFault" : self = .blueGreenDeploymentNotFoundFault(try BlueGreenDeploymentNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyTargetGroupNotFoundFault" : self = .dBProxyTargetGroupNotFoundFault(try DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum AddTagsToResourceOutputError: Swift.Error, Swift.Equatable {
+    case blueGreenDeploymentNotFoundFault(BlueGreenDeploymentNotFoundFault)
     case dBClusterNotFoundFault(DBClusterNotFoundFault)
     case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
     case dBProxyNotFoundFault(DBProxyNotFoundFault)
@@ -801,7 +803,7 @@ extension ApplyPendingMaintenanceActionOutputError {
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1177,7 +1179,7 @@ extension AuthorizeDBSecurityGroupIngressOutputError {
         case "AuthorizationQuotaExceeded" : self = .authorizationQuotaExceededFault(try AuthorizationQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBSecurityGroupNotFound" : self = .dBSecurityGroupNotFoundFault(try DBSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBSecurityGroupState" : self = .invalidDBSecurityGroupStateFault(try InvalidDBSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1463,7 +1465,7 @@ extension BacktrackDBClusterOutputError {
         switch errorType {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2069,7 +2071,7 @@ extension CancelExportTaskOutputError {
         switch errorType {
         case "ExportTaskNotFound" : self = .exportTaskNotFoundFault(try ExportTaskNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidExportTaskStateFault" : self = .invalidExportTaskStateFault(try InvalidExportTaskStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2498,6 +2500,44 @@ extension RDSClientTypes {
         }
     }
 
+}
+
+extension RDSClientTypes {
+    public enum ClientPasswordAuthType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case mysqlNativePassword
+        case postgresMd5
+        case postgresScramSha256
+        case sqlServerAuthentication
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientPasswordAuthType] {
+            return [
+                .mysqlNativePassword,
+                .postgresMd5,
+                .postgresScramSha256,
+                .sqlServerAuthentication,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .mysqlNativePassword: return "MYSQL_NATIVE_PASSWORD"
+            case .postgresMd5: return "POSTGRES_MD5"
+            case .postgresScramSha256: return "POSTGRES_SCRAM_SHA_256"
+            case .sqlServerAuthentication: return "SQL_SERVER_AUTHENTICATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ClientPasswordAuthType(rawValue: rawValue) ?? ClientPasswordAuthType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension RDSClientTypes.CloudwatchLogsExportConfiguration: Swift.Codable {
@@ -3037,7 +3077,7 @@ extension CopyDBClusterParameterGroupOutputError {
         case "DBParameterGroupAlreadyExists" : self = .dBParameterGroupAlreadyExistsFault(try DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBParameterGroupQuotaExceeded" : self = .dBParameterGroupQuotaExceededFault(try DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3263,7 +3303,7 @@ extension CopyDBClusterSnapshotOutputError {
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3454,7 +3494,7 @@ extension CopyDBParameterGroupOutputError {
         case "DBParameterGroupAlreadyExists" : self = .dBParameterGroupAlreadyExistsFault(try DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBParameterGroupQuotaExceeded" : self = .dBParameterGroupQuotaExceededFault(try DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3511,6 +3551,9 @@ extension CopyDBParameterGroupOutputResponseBody: Swift.Decodable {
 extension CopyDBSnapshotInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let copyOptionGroup = copyOptionGroup {
+            try container.encode(copyOptionGroup, forKey: ClientRuntime.Key("CopyOptionGroup"))
+        }
         if let copyTags = copyTags {
             try container.encode(copyTags, forKey: ClientRuntime.Key("CopyTags"))
         }
@@ -3557,7 +3600,9 @@ extension CopyDBSnapshotInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct CopyDBSnapshotInput: Swift.Equatable {
-    /// A value that indicates whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags are not copied.
+    /// A value that indicates whether to copy the DB option group associated with the source DB snapshot to the target Amazon Web Services account and associate with the target DB snapshot. The associated option group can be copied only with cross-account snapshot copy calls.
+    public var copyOptionGroup: Swift.Bool?
+    /// A value that indicates whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags aren't copied.
     public var copyTags: Swift.Bool?
     /// The Amazon Web Services KMS key identifier for an encrypted DB snapshot. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you copy an encrypted DB snapshot from your Amazon Web Services account, you can specify a value for this parameter to encrypt the copy with a new KMS key. If you don't specify a value for this parameter, then the copy of the DB snapshot is encrypted with the same Amazon Web Services KMS key as the source DB snapshot. If you copy an encrypted DB snapshot that is shared from another Amazon Web Services account, then you must specify a value for this parameter. If you specify this parameter when you copy an unencrypted snapshot, the copy is encrypted. If you copy an encrypted snapshot to a different Amazon Web Services Region, then you must specify an Amazon Web Services KMS key identifier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region.
     public var kmsKeyId: Swift.String?
@@ -3602,6 +3647,7 @@ public struct CopyDBSnapshotInput: Swift.Equatable {
     public var targetDBSnapshotIdentifier: Swift.String?
 
     public init (
+        copyOptionGroup: Swift.Bool? = nil,
         copyTags: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
@@ -3612,6 +3658,7 @@ public struct CopyDBSnapshotInput: Swift.Equatable {
         targetDBSnapshotIdentifier: Swift.String? = nil
     )
     {
+        self.copyOptionGroup = copyOptionGroup
         self.copyTags = copyTags
         self.kmsKeyId = kmsKeyId
         self.optionGroupName = optionGroupName
@@ -3632,10 +3679,12 @@ struct CopyDBSnapshotInputBody: Swift.Equatable {
     let preSignedUrl: Swift.String?
     let optionGroupName: Swift.String?
     let targetCustomAvailabilityZone: Swift.String?
+    let copyOptionGroup: Swift.Bool?
 }
 
 extension CopyDBSnapshotInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyOptionGroup = "CopyOptionGroup"
         case copyTags = "CopyTags"
         case kmsKeyId = "KmsKeyId"
         case optionGroupName = "OptionGroupName"
@@ -3681,6 +3730,8 @@ extension CopyDBSnapshotInputBody: Swift.Decodable {
         optionGroupName = optionGroupNameDecoded
         let targetCustomAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetCustomAvailabilityZone)
         targetCustomAvailabilityZone = targetCustomAvailabilityZoneDecoded
+        let copyOptionGroupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyOptionGroup)
+        copyOptionGroup = copyOptionGroupDecoded
     }
 }
 
@@ -3700,7 +3751,7 @@ extension CopyDBSnapshotOutputError {
         case "InvalidDBSnapshotState" : self = .invalidDBSnapshotStateFault(try InvalidDBSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3891,7 +3942,7 @@ extension CopyOptionGroupOutputError {
         case "OptionGroupAlreadyExistsFault" : self = .optionGroupAlreadyExistsFault(try OptionGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OptionGroupNotFoundFault" : self = .optionGroupNotFoundFault(try OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OptionGroupQuotaExceededFault" : self = .optionGroupQuotaExceededFault(try OptionGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4096,7 +4147,7 @@ extension CreateBlueGreenDeploymentOutputError {
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SourceClusterNotSupportedFault" : self = .sourceClusterNotSupportedFault(try SourceClusterNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SourceDatabaseNotSupportedFault" : self = .sourceDatabaseNotSupportedFault(try SourceDatabaseNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4324,7 +4375,7 @@ extension CreateCustomDBEngineVersionOutputError {
         case "CustomDBEngineVersionAlreadyExistsFault" : self = .customDBEngineVersionAlreadyExistsFault(try CustomDBEngineVersionAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CustomDBEngineVersionQuotaExceededFault" : self = .customDBEngineVersionQuotaExceededFault(try CustomDBEngineVersionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4972,7 +5023,7 @@ extension CreateDBClusterEndpointOutputError {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5978,7 +6029,7 @@ extension CreateDBClusterOutputError {
         case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6182,7 +6233,7 @@ extension CreateDBClusterParameterGroupOutputError {
         switch errorType {
         case "DBParameterGroupAlreadyExists" : self = .dBParameterGroupAlreadyExistsFault(try DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBParameterGroupQuotaExceeded" : self = .dBParameterGroupQuotaExceededFault(try DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6360,7 +6411,7 @@ extension CreateDBClusterSnapshotOutputError {
         case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6824,7 +6875,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var domainIAMRoleName: Swift.String?
     /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine. For more information, see [ Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. Amazon Aurora Not applicable. CloudWatch Logs exports are managed by the DB cluster. RDS Custom Not applicable. MariaDB Possible values are audit, error, general, and slowquery. Microsoft SQL Server Possible values are agent and error. MySQL Possible values are audit, error, general, and slowquery. Oracle Possible values are alert, audit, listener, trace, and oemagent. PostgreSQL Possible values are postgresql and upgrade.
     public var enableCloudwatchLogsExports: [Swift.String]?
-    /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
+    /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
     public var enableCustomerOwnedIp: Swift.Bool?
     /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication for MySQL and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom. Amazon Aurora Not applicable. Mapping Amazon Web Services IAM accounts to database accounts is managed by the DB cluster.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -7427,7 +7478,7 @@ extension CreateDBInstanceOutputError {
         case "ProvisionedIopsNotAvailableInAZFault" : self = .provisionedIopsNotAvailableInAZFault(try ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7545,6 +7596,9 @@ extension CreateDBInstanceReadReplicaInput: Swift.Encodable {
                 var enableCloudwatchLogsExportsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("EnableCloudwatchLogsExports"))
                 try enableCloudwatchLogsExportsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let enableCustomerOwnedIp = enableCustomerOwnedIp {
+            try container.encode(enableCustomerOwnedIp, forKey: ClientRuntime.Key("EnableCustomerOwnedIp"))
         }
         if let enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication {
             try container.encode(enableIAMDatabaseAuthentication, forKey: ClientRuntime.Key("EnableIAMDatabaseAuthentication"))
@@ -7712,6 +7766,8 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var domainIAMRoleName: Swift.String?
     /// The list of logs that the new DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see [Publishing Database Logs to Amazon CloudWatch Logs ](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enableCloudwatchLogsExports: [Swift.String]?
+    /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts read replica. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the read replica from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
+    public var enableCustomerOwnedIp: Swift.Bool?
     /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information about IAM database authentication, see [ IAM Database Authentication for MySQL and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
     /// A value that indicates whether to enable Performance Insights for the read replica. For more information, see [Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
@@ -7825,6 +7881,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         domain: Swift.String? = nil,
         domainIAMRoleName: Swift.String? = nil,
         enableCloudwatchLogsExports: [Swift.String]? = nil,
+        enableCustomerOwnedIp: Swift.Bool? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
         iops: Swift.Int? = nil,
@@ -7862,6 +7919,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         self.domain = domain
         self.domainIAMRoleName = domainIAMRoleName
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
+        self.enableCustomerOwnedIp = enableCustomerOwnedIp
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.enablePerformanceInsights = enablePerformanceInsights
         self.iops = iops
@@ -7924,6 +7982,7 @@ struct CreateDBInstanceReadReplicaInputBody: Swift.Equatable {
     let customIamInstanceProfile: Swift.String?
     let networkType: Swift.String?
     let storageThroughput: Swift.Int?
+    let enableCustomerOwnedIp: Swift.Bool?
 }
 
 extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
@@ -7940,6 +7999,7 @@ extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
         case domain = "Domain"
         case domainIAMRoleName = "DomainIAMRoleName"
         case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
+        case enableCustomerOwnedIp = "EnableCustomerOwnedIp"
         case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
         case enablePerformanceInsights = "EnablePerformanceInsights"
         case iops = "Iops"
@@ -8105,6 +8165,8 @@ extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let storageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageThroughput)
         storageThroughput = storageThroughputDecoded
+        let enableCustomerOwnedIpDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableCustomerOwnedIp)
+        enableCustomerOwnedIp = enableCustomerOwnedIpDecoded
     }
 }
 
@@ -8138,7 +8200,7 @@ extension CreateDBInstanceReadReplicaOutputError {
         case "ProvisionedIopsNotAvailableInAZFault" : self = .provisionedIopsNotAvailableInAZFault(try ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8366,7 +8428,7 @@ extension CreateDBParameterGroupOutputError {
         switch errorType {
         case "DBParameterGroupAlreadyExists" : self = .dBParameterGroupAlreadyExistsFault(try DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBParameterGroupQuotaExceeded" : self = .dBParameterGroupQuotaExceededFault(try DBParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8615,7 +8677,7 @@ extension CreateDBProxyEndpointOutputError {
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyStateFault" : self = .invalidDBProxyStateFault(try InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8937,7 +8999,7 @@ extension CreateDBProxyOutputError {
         case "DBProxyAlreadyExistsFault" : self = .dBProxyAlreadyExistsFault(try DBProxyAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyQuotaExceededFault" : self = .dBProxyQuotaExceededFault(try DBProxyQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9111,7 +9173,7 @@ extension CreateDBSecurityGroupOutputError {
         case "DBSecurityGroupAlreadyExists" : self = .dBSecurityGroupAlreadyExistsFault(try DBSecurityGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBSecurityGroupNotSupported" : self = .dBSecurityGroupNotSupportedFault(try DBSecurityGroupNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "QuotaExceeded.DBSecurityGroup" : self = .dBSecurityGroupQuotaExceededFault(try DBSecurityGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9288,7 +9350,7 @@ extension CreateDBSnapshotOutputError {
         case "DBSnapshotAlreadyExists" : self = .dBSnapshotAlreadyExistsFault(try DBSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9501,7 +9563,7 @@ extension CreateDBSubnetGroupOutputError {
         case "DBSubnetGroupQuotaExceeded" : self = .dBSubnetGroupQuotaExceededFault(try DBSubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBSubnetQuotaExceededFault" : self = .dBSubnetQuotaExceededFault(try DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9782,7 +9844,7 @@ extension CreateEventSubscriptionOutputError {
         case "SourceNotFound" : self = .sourceNotFoundFault(try SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionAlreadyExist" : self = .subscriptionAlreadyExistFault(try SubscriptionAlreadyExistFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionCategoryNotFound" : self = .subscriptionCategoryNotFoundFault(try SubscriptionCategoryNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9965,7 +10027,7 @@ extension CreateGlobalClusterOutputError {
         case "GlobalClusterAlreadyExistsFault" : self = .globalClusterAlreadyExistsFault(try GlobalClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlobalClusterQuotaExceededFault" : self = .globalClusterQuotaExceededFault(try GlobalClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10183,7 +10245,7 @@ extension CreateOptionGroupOutputError {
         switch errorType {
         case "OptionGroupAlreadyExistsFault" : self = .optionGroupAlreadyExistsFault(try OptionGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OptionGroupQuotaExceededFault" : self = .optionGroupQuotaExceededFault(try OptionGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14511,7 +14573,7 @@ extension RDSClientTypes {
         ///
         /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide.
         public var customIamInstanceProfile: Swift.String?
-        /// Specifies whether a customer-owned IP address (CoIP) is enabled for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
+        /// Specifies whether a customer-owned IP address (CoIP) is enabled for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
         public var customerOwnedIpEnabled: Swift.Bool?
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
         public var dbClusterIdentifier: Swift.String?
@@ -18913,7 +18975,7 @@ extension DeleteBlueGreenDeploymentOutputError {
         switch errorType {
         case "BlueGreenDeploymentNotFoundFault" : self = .blueGreenDeploymentNotFoundFault(try BlueGreenDeploymentNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidBlueGreenDeploymentStateFault" : self = .invalidBlueGreenDeploymentStateFault(try InvalidBlueGreenDeploymentStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19036,7 +19098,7 @@ extension DeleteCustomDBEngineVersionOutputError {
         switch errorType {
         case "CustomDBEngineVersionNotFoundFault" : self = .customDBEngineVersionNotFoundFault(try CustomDBEngineVersionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidCustomDBEngineVersionStateFault" : self = .invalidCustomDBEngineVersionStateFault(try InvalidCustomDBEngineVersionStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19545,7 +19607,7 @@ extension DeleteDBClusterEndpointOutputError {
         case "DBClusterEndpointNotFoundFault" : self = .dBClusterEndpointNotFoundFault(try DBClusterEndpointNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterEndpointStateFault" : self = .invalidDBClusterEndpointStateFault(try InvalidDBClusterEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19827,7 +19889,7 @@ extension DeleteDBClusterOutputError {
         case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19948,7 +20010,7 @@ extension DeleteDBClusterParameterGroupOutputError {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBParameterGroupState" : self = .invalidDBParameterGroupStateFault(try InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20028,7 +20090,7 @@ extension DeleteDBClusterSnapshotOutputError {
         switch errorType {
         case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20150,7 +20212,7 @@ extension DeleteDBInstanceAutomatedBackupOutputError {
         switch errorType {
         case "DBInstanceAutomatedBackupNotFound" : self = .dBInstanceAutomatedBackupNotFoundFault(try DBInstanceAutomatedBackupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceAutomatedBackupState" : self = .invalidDBInstanceAutomatedBackupStateFault(try InvalidDBInstanceAutomatedBackupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20309,7 +20371,7 @@ extension DeleteDBInstanceOutputError {
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20431,7 +20493,7 @@ extension DeleteDBParameterGroupOutputError {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBParameterGroupState" : self = .invalidDBParameterGroupStateFault(try InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20510,7 +20572,7 @@ extension DeleteDBProxyEndpointOutputError {
         switch errorType {
         case "DBProxyEndpointNotFoundFault" : self = .dBProxyEndpointNotFoundFault(try DBProxyEndpointNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyEndpointStateFault" : self = .invalidDBProxyEndpointStateFault(try InvalidDBProxyEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20621,7 +20683,7 @@ extension DeleteDBProxyOutputError {
         switch errorType {
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyStateFault" : self = .invalidDBProxyStateFault(try InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20741,7 +20803,7 @@ extension DeleteDBSecurityGroupOutputError {
         switch errorType {
         case "DBSecurityGroupNotFound" : self = .dBSecurityGroupNotFoundFault(try DBSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBSecurityGroupState" : self = .invalidDBSecurityGroupStateFault(try InvalidDBSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20821,7 +20883,7 @@ extension DeleteDBSnapshotOutputError {
         switch errorType {
         case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBSnapshotState" : self = .invalidDBSnapshotStateFault(try InvalidDBSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20934,7 +20996,7 @@ extension DeleteDBSubnetGroupOutputError {
         case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBSubnetGroupStateFault" : self = .invalidDBSubnetGroupStateFault(try InvalidDBSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBSubnetStateFault" : self = .invalidDBSubnetStateFault(try InvalidDBSubnetStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21015,7 +21077,7 @@ extension DeleteEventSubscriptionOutputError {
         switch errorType {
         case "InvalidEventSubscriptionState" : self = .invalidEventSubscriptionStateFault(try InvalidEventSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21126,7 +21188,7 @@ extension DeleteGlobalClusterOutputError {
         switch errorType {
         case "GlobalClusterNotFoundFault" : self = .globalClusterNotFoundFault(try GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidGlobalClusterStateFault" : self = .invalidGlobalClusterStateFault(try InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21238,7 +21300,7 @@ extension DeleteOptionGroupOutputError {
         switch errorType {
         case "InvalidOptionGroupStateFault" : self = .invalidOptionGroupStateFault(try InvalidOptionGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OptionGroupNotFoundFault" : self = .optionGroupNotFoundFault(try OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21404,7 +21466,7 @@ extension DeregisterDBProxyTargetsOutputError {
         case "DBProxyTargetGroupNotFoundFault" : self = .dBProxyTargetGroupNotFoundFault(try DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyTargetNotFoundFault" : self = .dBProxyTargetNotFoundFault(try DBProxyTargetNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyStateFault" : self = .invalidDBProxyStateFault(try InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21457,7 +21519,7 @@ extension DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseBindin
 extension DescribeAccountAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21651,7 +21713,7 @@ extension DescribeBlueGreenDeploymentsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "BlueGreenDeploymentNotFoundFault" : self = .blueGreenDeploymentNotFoundFault(try BlueGreenDeploymentNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21848,7 +21910,7 @@ extension DescribeCertificatesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "CertificateNotFound" : self = .certificateNotFoundFault(try CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22086,7 +22148,7 @@ extension DescribeDBClusterBacktracksOutputError {
         switch errorType {
         case "DBClusterBacktrackNotFoundFault" : self = .dBClusterBacktrackNotFoundFault(try DBClusterBacktrackNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22293,7 +22355,7 @@ extension DescribeDBClusterEndpointsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22490,7 +22552,7 @@ extension DescribeDBClusterParameterGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22700,7 +22762,7 @@ extension DescribeDBClusterParametersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22838,7 +22900,7 @@ extension DescribeDBClusterSnapshotAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23075,7 +23137,19 @@ extension DescribeDBClusterSnapshotsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeDBClusterSnapshotsOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .dBClusterSnapshotNotFoundFault: return "DBClusterSnapshotNotFoundFault"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -23292,7 +23366,19 @@ extension DescribeDBClustersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeDBClustersOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .dBClusterNotFoundFault: return "DBClusterNotFoundFault"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -23609,7 +23695,7 @@ extension DescribeDBEngineVersionsOutputError: ClientRuntime.HttpResponseBinding
 extension DescribeDBEngineVersionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23844,7 +23930,7 @@ extension DescribeDBInstanceAutomatedBackupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBInstanceAutomatedBackupNotFound" : self = .dBInstanceAutomatedBackupNotFoundFault(try DBInstanceAutomatedBackupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24052,7 +24138,19 @@ extension DescribeDBInstancesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeDBInstancesOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .dBInstanceNotFoundFault: return "DBInstanceNotFound"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -24339,7 +24437,7 @@ extension DescribeDBLogFilesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24537,7 +24635,7 @@ extension DescribeDBParameterGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24746,7 +24844,7 @@ extension DescribeDBParametersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24941,7 +25039,7 @@ extension DescribeDBProxiesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25147,7 +25245,7 @@ extension DescribeDBProxyEndpointsOutputError {
         switch errorType {
         case "DBProxyEndpointNotFoundFault" : self = .dBProxyEndpointNotFoundFault(try DBProxyEndpointNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25356,7 +25454,7 @@ extension DescribeDBProxyTargetGroupsOutputError {
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyTargetGroupNotFoundFault" : self = .dBProxyTargetGroupNotFoundFault(try DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyStateFault" : self = .invalidDBProxyStateFault(try InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25567,7 +25665,7 @@ extension DescribeDBProxyTargetsOutputError {
         case "DBProxyTargetGroupNotFoundFault" : self = .dBProxyTargetGroupNotFoundFault(try DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyTargetNotFoundFault" : self = .dBProxyTargetNotFoundFault(try DBProxyTargetNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyStateFault" : self = .invalidDBProxyStateFault(try InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25765,7 +25863,7 @@ extension DescribeDBSecurityGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBSecurityGroupNotFound" : self = .dBSecurityGroupNotFoundFault(try DBSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -25903,7 +26001,7 @@ extension DescribeDBSnapshotAttributesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26155,7 +26253,19 @@ extension DescribeDBSnapshotsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension DescribeDBSnapshotsOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .dBSnapshotNotFoundFault: return "DBSnapshotNotFound"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -26351,7 +26461,7 @@ extension DescribeDBSubnetGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26547,7 +26657,7 @@ extension DescribeEngineDefaultClusterParametersOutputError: ClientRuntime.HttpR
 extension DescribeEngineDefaultClusterParametersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26808,7 +26918,7 @@ extension DescribeEngineDefaultParametersOutputError: ClientRuntime.HttpResponse
 extension DescribeEngineDefaultParametersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -26952,7 +27062,7 @@ extension DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseBinding 
 extension DescribeEventCategoriesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27137,7 +27247,7 @@ extension DescribeEventSubscriptionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27431,7 +27541,7 @@ extension DescribeEventsOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeEventsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27667,7 +27777,7 @@ extension DescribeExportTasksOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ExportTaskNotFound" : self = .exportTaskNotFoundFault(try ExportTaskNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -27863,7 +27973,7 @@ extension DescribeGlobalClustersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "GlobalClusterNotFoundFault" : self = .globalClusterNotFoundFault(try GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28091,7 +28201,7 @@ extension DescribeOptionGroupOptionsOutputError: ClientRuntime.HttpResponseBindi
 extension DescribeOptionGroupOptionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28330,7 +28440,7 @@ extension DescribeOptionGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "OptionGroupNotFoundFault" : self = .optionGroupNotFoundFault(try OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28609,7 +28719,7 @@ extension DescribeOrderableDBInstanceOptionsOutputError: ClientRuntime.HttpRespo
 extension DescribeOrderableDBInstanceOptionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -28808,7 +28918,7 @@ extension DescribePendingMaintenanceActionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29241,7 +29351,7 @@ extension DescribeReservedDBInstancesOfferingsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ReservedDBInstancesOfferingNotFound" : self = .reservedDBInstancesOfferingNotFoundFault(try ReservedDBInstancesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29332,7 +29442,7 @@ extension DescribeReservedDBInstancesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "ReservedDBInstanceNotFound" : self = .reservedDBInstanceNotFoundFault(try ReservedDBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29529,7 +29639,7 @@ extension DescribeSourceRegionsOutputError: ClientRuntime.HttpResponseBinding {
 extension DescribeSourceRegionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29667,7 +29777,7 @@ extension DescribeValidDBInstanceModificationsOutputError {
         switch errorType {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29985,7 +30095,7 @@ extension DownloadDBLogFilePortionOutputError {
         switch errorType {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBLogFileNotFoundFault" : self = .dBLogFileNotFoundFault(try DBLogFileNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31149,7 +31259,7 @@ extension FailoverDBClusterOutputError {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31277,7 +31387,7 @@ extension FailoverGlobalClusterOutputError {
         case "GlobalClusterNotFoundFault" : self = .globalClusterNotFoundFault(try GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidGlobalClusterStateFault" : self = .invalidGlobalClusterStateFault(try InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -33861,17 +33971,19 @@ extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension ListTagsForResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "BlueGreenDeploymentNotFoundFault" : self = .blueGreenDeploymentNotFoundFault(try BlueGreenDeploymentNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyTargetGroupNotFoundFault" : self = .dBProxyTargetGroupNotFoundFault(try DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
+    case blueGreenDeploymentNotFoundFault(BlueGreenDeploymentNotFoundFault)
     case dBClusterNotFoundFault(DBClusterNotFoundFault)
     case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
     case dBProxyNotFoundFault(DBProxyNotFoundFault)
@@ -34054,7 +34166,7 @@ extension ModifyActivityStreamOutputError {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34225,7 +34337,7 @@ extension ModifyCertificatesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "CertificateNotFound" : self = .certificateNotFoundFault(try CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34375,7 +34487,7 @@ extension ModifyCurrentDBClusterCapacityOutputError {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterCapacityFault" : self = .invalidDBClusterCapacityFault(try InvalidDBClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34561,7 +34673,7 @@ extension ModifyCustomDBEngineVersionOutputError {
         switch errorType {
         case "CustomDBEngineVersionNotFoundFault" : self = .customDBEngineVersionNotFoundFault(try CustomDBEngineVersionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidCustomDBEngineVersionStateFault" : self = .invalidCustomDBEngineVersionStateFault(try InvalidCustomDBEngineVersionStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35157,7 +35269,7 @@ extension ModifyDBClusterEndpointOutputError {
         case "InvalidDBClusterEndpointStateFault" : self = .invalidDBClusterEndpointStateFault(try InvalidDBClusterEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -35893,7 +36005,7 @@ extension ModifyDBClusterOutputError {
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36053,7 +36165,7 @@ extension ModifyDBClusterParameterGroupOutputError {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBParameterGroupState" : self = .invalidDBParameterGroupStateFault(try InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36262,7 +36374,7 @@ extension ModifyDBClusterSnapshotAttributeOutputError {
         case "DBClusterSnapshotNotFoundFault" : self = .dBClusterSnapshotNotFoundFault(try DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterSnapshotStateFault" : self = .invalidDBClusterSnapshotStateFault(try InvalidDBClusterSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SharedSnapshotQuotaExceeded" : self = .sharedSnapshotQuotaExceededFault(try SharedSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -36550,7 +36662,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. Amazon Aurora Not applicable. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is enabled for this request. This setting doesn't apply to RDS Custom for Oracle. Default: Uses existing setting
+    /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. For RDS Custom, see [DB instance class support for RDS Custom for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances) and [ DB instance class support for RDS Custom for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS). If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request. Default: Uses existing setting
     public var dbInstanceClass: Swift.String?
     /// The DB instance identifier. This value is stored as a lowercase string. Constraints:
     ///
@@ -36573,7 +36685,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var domain: Swift.String?
     /// The name of the IAM role to use when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
     public var domainIAMRoleName: Swift.String?
-    /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
+    /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
     public var enableCustomerOwnedIp: Swift.Bool?
     /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. This setting doesn't apply to Amazon Aurora. Mapping Amazon Web Services IAM accounts to database accounts is managed by the DB cluster. For more information about IAM database authentication, see [ IAM Database Authentication for MySQL and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -37071,7 +37183,7 @@ extension ModifyDBInstanceOutputError {
         case "ProvisionedIopsNotAvailableInAZFault" : self = .provisionedIopsNotAvailableInAZFault(try ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37241,7 +37353,7 @@ extension ModifyDBParameterGroupOutputError {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBParameterGroupState" : self = .invalidDBParameterGroupStateFault(try InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37403,7 +37515,7 @@ extension ModifyDBProxyEndpointOutputError {
         case "DBProxyEndpointNotFoundFault" : self = .dBProxyEndpointNotFoundFault(try DBProxyEndpointNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyEndpointStateFault" : self = .invalidDBProxyEndpointStateFault(try InvalidDBProxyEndpointStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyStateFault" : self = .invalidDBProxyStateFault(try InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37646,7 +37758,7 @@ extension ModifyDBProxyOutputError {
         case "DBProxyAlreadyExistsFault" : self = .dBProxyAlreadyExistsFault(try DBProxyAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyStateFault" : self = .invalidDBProxyStateFault(try InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37793,7 +37905,7 @@ extension ModifyDBProxyTargetGroupOutputError {
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyTargetGroupNotFoundFault" : self = .dBProxyTargetGroupNotFoundFault(try DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyStateFault" : self = .invalidDBProxyStateFault(try InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -37993,7 +38105,7 @@ extension ModifyDBSnapshotAttributeOutputError {
         case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBSnapshotState" : self = .invalidDBSnapshotStateFault(try InvalidDBSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SharedSnapshotQuotaExceeded" : self = .sharedSnapshotQuotaExceededFault(try SharedSnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38140,7 +38252,7 @@ extension ModifyDBSnapshotOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38303,7 +38415,7 @@ extension ModifyDBSubnetGroupOutputError {
         case "DBSubnetQuotaExceededFault" : self = .dBSubnetQuotaExceededFault(try DBSubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubnetAlreadyInUse" : self = .subnetAlreadyInUse(try SubnetAlreadyInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38492,7 +38604,7 @@ extension ModifyEventSubscriptionOutputError {
         case "SNSTopicArnNotFound" : self = .sNSTopicArnNotFoundFault(try SNSTopicArnNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionCategoryNotFound" : self = .subscriptionCategoryNotFoundFault(try SubscriptionCategoryNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38663,7 +38775,7 @@ extension ModifyGlobalClusterOutputError {
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidGlobalClusterStateFault" : self = .invalidGlobalClusterStateFault(try InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -38862,7 +38974,7 @@ extension ModifyOptionGroupOutputError {
         switch errorType {
         case "InvalidOptionGroupStateFault" : self = .invalidOptionGroupStateFault(try InvalidOptionGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OptionGroupNotFoundFault" : self = .optionGroupNotFoundFault(try OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -39327,12 +39439,15 @@ extension RDSClientTypes {
 extension RDSClientTypes.OptionGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowsVpcAndNonVpcInstanceMemberships = "AllowsVpcAndNonVpcInstanceMemberships"
+        case copyTimestamp = "CopyTimestamp"
         case engineName = "EngineName"
         case majorEngineVersion = "MajorEngineVersion"
         case optionGroupArn = "OptionGroupArn"
         case optionGroupDescription = "OptionGroupDescription"
         case optionGroupName = "OptionGroupName"
         case options = "Options"
+        case sourceAccountId = "SourceAccountId"
+        case sourceOptionGroup = "SourceOptionGroup"
         case vpcId = "VpcId"
     }
 
@@ -39340,6 +39455,9 @@ extension RDSClientTypes.OptionGroup: Swift.Codable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if allowsVpcAndNonVpcInstanceMemberships != false {
             try container.encode(allowsVpcAndNonVpcInstanceMemberships, forKey: ClientRuntime.Key("AllowsVpcAndNonVpcInstanceMemberships"))
+        }
+        if let copyTimestamp = copyTimestamp {
+            try container.encodeTimestamp(copyTimestamp, format: .dateTime, forKey: ClientRuntime.Key("copyTimestamp"))
         }
         if let engineName = engineName {
             try container.encode(engineName, forKey: ClientRuntime.Key("EngineName"))
@@ -39367,6 +39485,12 @@ extension RDSClientTypes.OptionGroup: Swift.Codable {
                 var optionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Options"))
                 try optionsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let sourceAccountId = sourceAccountId {
+            try container.encode(sourceAccountId, forKey: ClientRuntime.Key("SourceAccountId"))
+        }
+        if let sourceOptionGroup = sourceOptionGroup {
+            try container.encode(sourceOptionGroup, forKey: ClientRuntime.Key("SourceOptionGroup"))
         }
         if let vpcId = vpcId {
             try container.encode(vpcId, forKey: ClientRuntime.Key("VpcId"))
@@ -39408,6 +39532,12 @@ extension RDSClientTypes.OptionGroup: Swift.Codable {
         vpcId = vpcIdDecoded
         let optionGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .optionGroupArn)
         optionGroupArn = optionGroupArnDecoded
+        let sourceOptionGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceOptionGroup)
+        sourceOptionGroup = sourceOptionGroupDecoded
+        let sourceAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceAccountId)
+        sourceAccountId = sourceAccountIdDecoded
+        let copyTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .copyTimestamp)
+        copyTimestamp = copyTimestampDecoded
     }
 }
 
@@ -39416,11 +39546,13 @@ extension RDSClientTypes {
     public struct OptionGroup: Swift.Equatable {
         /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances.
         public var allowsVpcAndNonVpcInstanceMemberships: Swift.Bool
+        /// Indicates when the option group was copied.
+        public var copyTimestamp: ClientRuntime.Date?
         /// Indicates the name of the engine that this option group can be applied to.
         public var engineName: Swift.String?
         /// Indicates the major engine version associated with this option group.
         public var majorEngineVersion: Swift.String?
-        /// The Amazon Resource Name (ARN) for the option group.
+        /// Specifies the Amazon Resource Name (ARN) for the option group.
         public var optionGroupArn: Swift.String?
         /// Provides a description of the option group.
         public var optionGroupDescription: Swift.String?
@@ -39428,27 +39560,37 @@ extension RDSClientTypes {
         public var optionGroupName: Swift.String?
         /// Indicates what options are available in the option group.
         public var options: [RDSClientTypes.Option]?
+        /// Specifies the Amazon Web Services account ID for the option group from which this option group is copied.
+        public var sourceAccountId: Swift.String?
+        /// Specifies the name of the option group from which this option group is copied.
+        public var sourceOptionGroup: Swift.String?
         /// If AllowsVpcAndNonVpcInstanceMemberships is false, this field is blank. If AllowsVpcAndNonVpcInstanceMemberships is true and this field is blank, then this option group can be applied to both VPC and non-VPC instances. If this field contains a value, then this option group can only be applied to instances that are in the VPC indicated by this field.
         public var vpcId: Swift.String?
 
         public init (
             allowsVpcAndNonVpcInstanceMemberships: Swift.Bool = false,
+            copyTimestamp: ClientRuntime.Date? = nil,
             engineName: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
             optionGroupArn: Swift.String? = nil,
             optionGroupDescription: Swift.String? = nil,
             optionGroupName: Swift.String? = nil,
             options: [RDSClientTypes.Option]? = nil,
+            sourceAccountId: Swift.String? = nil,
+            sourceOptionGroup: Swift.String? = nil,
             vpcId: Swift.String? = nil
         )
         {
             self.allowsVpcAndNonVpcInstanceMemberships = allowsVpcAndNonVpcInstanceMemberships
+            self.copyTimestamp = copyTimestamp
             self.engineName = engineName
             self.majorEngineVersion = majorEngineVersion
             self.optionGroupArn = optionGroupArn
             self.optionGroupDescription = optionGroupDescription
             self.optionGroupName = optionGroupName
             self.options = options
+            self.sourceAccountId = sourceAccountId
+            self.sourceOptionGroup = sourceOptionGroup
             self.vpcId = vpcId
         }
     }
@@ -39606,6 +39748,7 @@ extension OptionGroupNotFoundFaultBody: Swift.Decodable {
 
 extension RDSClientTypes.OptionGroupOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyableCrossAccount = "CopyableCrossAccount"
         case defaultPort = "DefaultPort"
         case description = "Description"
         case engineName = "EngineName"
@@ -39626,6 +39769,9 @@ extension RDSClientTypes.OptionGroupOption: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let copyableCrossAccount = copyableCrossAccount {
+            try container.encode(copyableCrossAccount, forKey: ClientRuntime.Key("CopyableCrossAccount"))
+        }
         if let defaultPort = defaultPort {
             try container.encode(defaultPort, forKey: ClientRuntime.Key("DefaultPort"))
         }
@@ -39814,12 +39960,16 @@ extension RDSClientTypes.OptionGroupOption: Swift.Codable {
         } else {
             optionGroupOptionVersions = nil
         }
+        let copyableCrossAccountDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyableCrossAccount)
+        copyableCrossAccount = copyableCrossAccountDecoded
     }
 }
 
 extension RDSClientTypes {
     /// Available option.
     public struct OptionGroupOption: Swift.Equatable {
+        /// Specifies whether the option can be copied across Amazon Web Services accounts.
+        public var copyableCrossAccount: Swift.Bool?
         /// If the option requires a port, specifies the default port for the option.
         public var defaultPort: Swift.Int?
         /// The description of the option.
@@ -39854,6 +40004,7 @@ extension RDSClientTypes {
         public var vpcOnly: Swift.Bool
 
         public init (
+            copyableCrossAccount: Swift.Bool? = nil,
             defaultPort: Swift.Int? = nil,
             description: Swift.String? = nil,
             engineName: Swift.String? = nil,
@@ -39872,6 +40023,7 @@ extension RDSClientTypes {
             vpcOnly: Swift.Bool = false
         )
         {
+            self.copyableCrossAccount = copyableCrossAccount
             self.defaultPort = defaultPort
             self.description = description
             self.engineName = engineName
@@ -41552,7 +41704,7 @@ extension PromoteReadReplicaDBClusterOutputError {
         switch errorType {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41703,7 +41855,7 @@ extension PromoteReadReplicaOutputError {
         switch errorType {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41927,7 +42079,7 @@ extension PurchaseReservedDBInstancesOfferingOutputError {
         case "ReservedDBInstanceAlreadyExists" : self = .reservedDBInstanceAlreadyExistsFault(try ReservedDBInstanceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedDBInstanceQuotaExceeded" : self = .reservedDBInstanceQuotaExceededFault(try ReservedDBInstanceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ReservedDBInstancesOfferingNotFound" : self = .reservedDBInstancesOfferingNotFoundFault(try ReservedDBInstancesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -42097,7 +42249,7 @@ extension RebootDBClusterOutputError {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -42223,7 +42375,7 @@ extension RebootDBInstanceOutputError {
         switch errorType {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -42471,7 +42623,7 @@ extension RegisterDBProxyTargetsOutputError {
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBProxyStateFault" : self = .invalidDBProxyStateFault(try InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -42617,7 +42769,7 @@ extension RemoveFromGlobalClusterOutputError {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlobalClusterNotFoundFault" : self = .globalClusterNotFoundFault(try GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidGlobalClusterStateFault" : self = .invalidGlobalClusterStateFault(try InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -42753,7 +42905,7 @@ extension RemoveRoleFromDBClusterOutputError {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBClusterRoleNotFound" : self = .dBClusterRoleNotFoundFault(try DBClusterRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -42858,7 +43010,7 @@ extension RemoveRoleFromDBInstanceOutputError {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBInstanceRoleNotFound" : self = .dBInstanceRoleNotFoundFault(try DBInstanceRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -42951,7 +43103,7 @@ extension RemoveSourceIdentifierFromSubscriptionOutputError {
         switch errorType {
         case "SourceNotFound" : self = .sourceNotFoundFault(try SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SubscriptionNotFound" : self = .subscriptionNotFoundFault(try SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -43099,17 +43251,19 @@ extension RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension RemoveTagsFromResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "BlueGreenDeploymentNotFoundFault" : self = .blueGreenDeploymentNotFoundFault(try BlueGreenDeploymentNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyNotFoundFault" : self = .dBProxyNotFoundFault(try DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBProxyTargetGroupNotFoundFault" : self = .dBProxyTargetGroupNotFoundFault(try DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBSnapshotNotFound" : self = .dBSnapshotNotFoundFault(try DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
 
 public enum RemoveTagsFromResourceOutputError: Swift.Error, Swift.Equatable {
+    case blueGreenDeploymentNotFoundFault(BlueGreenDeploymentNotFoundFault)
     case dBClusterNotFoundFault(DBClusterNotFoundFault)
     case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
     case dBProxyNotFoundFault(DBProxyNotFoundFault)
@@ -43837,7 +43991,7 @@ extension ResetDBClusterParameterGroupOutputError {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBParameterGroupState" : self = .invalidDBParameterGroupStateFault(try InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -44009,7 +44163,7 @@ extension ResetDBParameterGroupOutputError {
         switch errorType {
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBParameterGroupState" : self = .invalidDBParameterGroupStateFault(try InvalidDBParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -44755,7 +44909,7 @@ extension RestoreDBClusterFromS3OutputError {
         case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -45356,7 +45510,7 @@ extension RestoreDBClusterFromSnapshotOutputError {
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OptionGroupNotFoundFault" : self = .optionGroupNotFoundFault(try OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -45941,7 +46095,7 @@ extension RestoreDBClusterToPointInTimeOutputError {
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OptionGroupNotFoundFault" : self = .optionGroupNotFoundFault(try OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -46243,7 +46397,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     public var domainIAMRoleName: Swift.String?
     /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enableCloudwatchLogsExports: [Swift.String]?
-    /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
+    /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
     public var enableCustomerOwnedIp: Swift.Bool?
     /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information about IAM database authentication, see [ IAM Database Authentication for MySQL and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -46631,7 +46785,7 @@ extension RestoreDBInstanceFromDBSnapshotOutputError {
         case "ProvisionedIopsNotAvailableInAZFault" : self = .provisionedIopsNotAvailableInAZFault(try ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -47469,7 +47623,7 @@ extension RestoreDBInstanceFromS3OutputError {
         case "ProvisionedIopsNotAvailableInAZFault" : self = .provisionedIopsNotAvailableInAZFault(try ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -47747,7 +47901,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     public var domainIAMRoleName: Swift.String?
     /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enableCloudwatchLogsExports: [Swift.String]?
-    /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-networking-components.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
+    /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
     public var enableCustomerOwnedIp: Swift.Bool?
     /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. This setting doesn't apply to RDS Custom. For more information about IAM database authentication, see [ IAM Database Authentication for MySQL and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -48190,7 +48344,7 @@ extension RestoreDBInstanceToPointInTimeOutputError {
         case "ProvisionedIopsNotAvailableInAZFault" : self = .provisionedIopsNotAvailableInAZFault(try ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageQuotaExceeded" : self = .storageQuotaExceededFault(try StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48413,7 +48567,7 @@ extension RevokeDBSecurityGroupIngressOutputError {
         case "AuthorizationNotFound" : self = .authorizationNotFoundFault(try AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBSecurityGroupNotFound" : self = .dBSecurityGroupNotFoundFault(try DBSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBSecurityGroupState" : self = .invalidDBSecurityGroupStateFault(try InvalidDBSecurityGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49210,6 +49364,7 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
     public enum SourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case blueGreenDeployment
         case customEngineVersion
         case dbCluster
         case dbClusterSnapshot
@@ -49222,6 +49377,7 @@ extension RDSClientTypes {
 
         public static var allCases: [SourceType] {
             return [
+                .blueGreenDeployment,
                 .customEngineVersion,
                 .dbCluster,
                 .dbClusterSnapshot,
@@ -49239,6 +49395,7 @@ extension RDSClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .blueGreenDeployment: return "blue-green-deployment"
             case .customEngineVersion: return "custom-engine-version"
             case .dbCluster: return "db-cluster"
             case .dbClusterSnapshot: return "db-cluster-snapshot"
@@ -49366,7 +49523,7 @@ extension StartActivityStreamOutputError {
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49532,7 +49689,7 @@ extension StartDBClusterOutputError {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49680,7 +49837,7 @@ extension StartDBInstanceAutomatedBackupsReplicationOutputError {
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageTypeNotSupported" : self = .storageTypeNotSupportedFault(try StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49803,7 +49960,7 @@ extension StartDBInstanceOutputError {
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidVPCNetworkStateFault" : self = .invalidVPCNetworkStateFault(try InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -50053,7 +50210,7 @@ extension StartExportTaskOutputError {
         case "InvalidExportSourceState" : self = .invalidExportSourceStateFault(try InvalidExportSourceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidS3BucketFault" : self = .invalidS3BucketFault(try InvalidS3BucketFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -50362,7 +50519,7 @@ extension StopActivityStreamOutputError {
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundFault" : self = .resourceNotFoundFault(try ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -50497,7 +50654,7 @@ extension StopDBClusterOutputError {
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -50609,7 +50766,7 @@ extension StopDBInstanceAutomatedBackupsReplicationOutputError {
         switch errorType {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -50734,7 +50891,7 @@ extension StopDBInstanceOutputError {
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotQuotaExceeded" : self = .snapshotQuotaExceededFault(try SnapshotQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -51238,7 +51395,7 @@ extension SwitchoverBlueGreenDeploymentOutputError {
         switch errorType {
         case "BlueGreenDeploymentNotFoundFault" : self = .blueGreenDeploymentNotFoundFault(try BlueGreenDeploymentNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidBlueGreenDeploymentStateFault" : self = .invalidBlueGreenDeploymentStateFault(try InvalidBlueGreenDeploymentStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -51416,7 +51573,7 @@ extension SwitchoverReadReplicaOutputError {
         switch errorType {
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -51894,6 +52051,7 @@ extension RDSClientTypes {
 extension RDSClientTypes.UserAuthConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authScheme = "AuthScheme"
+        case clientPasswordAuthType = "ClientPasswordAuthType"
         case description = "Description"
         case iamAuth = "IAMAuth"
         case secretArn = "SecretArn"
@@ -51904,6 +52062,9 @@ extension RDSClientTypes.UserAuthConfig: Swift.Codable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let authScheme = authScheme {
             try container.encode(authScheme, forKey: ClientRuntime.Key("AuthScheme"))
+        }
+        if let clientPasswordAuthType = clientPasswordAuthType {
+            try container.encode(clientPasswordAuthType, forKey: ClientRuntime.Key("ClientPasswordAuthType"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -51931,6 +52092,8 @@ extension RDSClientTypes.UserAuthConfig: Swift.Codable {
         secretArn = secretArnDecoded
         let iamAuthDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IAMAuthMode.self, forKey: .iamAuth)
         iamAuth = iamAuthDecoded
+        let clientPasswordAuthTypeDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ClientPasswordAuthType.self, forKey: .clientPasswordAuthType)
+        clientPasswordAuthType = clientPasswordAuthTypeDecoded
     }
 }
 
@@ -51939,6 +52102,8 @@ extension RDSClientTypes {
     public struct UserAuthConfig: Swift.Equatable {
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public var authScheme: RDSClientTypes.AuthScheme?
+        /// The type of authentication the proxy uses for connections from clients.
+        public var clientPasswordAuthType: RDSClientTypes.ClientPasswordAuthType?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
         public var description: Swift.String?
         /// Whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentication for connections to the proxy. The ENABLED value is valid only for proxies with RDS for Microsoft SQL Server.
@@ -51950,6 +52115,7 @@ extension RDSClientTypes {
 
         public init (
             authScheme: RDSClientTypes.AuthScheme? = nil,
+            clientPasswordAuthType: RDSClientTypes.ClientPasswordAuthType? = nil,
             description: Swift.String? = nil,
             iamAuth: RDSClientTypes.IAMAuthMode? = nil,
             secretArn: Swift.String? = nil,
@@ -51957,6 +52123,7 @@ extension RDSClientTypes {
         )
         {
             self.authScheme = authScheme
+            self.clientPasswordAuthType = clientPasswordAuthType
             self.description = description
             self.iamAuth = iamAuth
             self.secretArn = secretArn
@@ -51969,6 +52136,7 @@ extension RDSClientTypes {
 extension RDSClientTypes.UserAuthConfigInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authScheme = "AuthScheme"
+        case clientPasswordAuthType = "ClientPasswordAuthType"
         case description = "Description"
         case iamAuth = "IAMAuth"
         case secretArn = "SecretArn"
@@ -51979,6 +52147,9 @@ extension RDSClientTypes.UserAuthConfigInfo: Swift.Codable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let authScheme = authScheme {
             try container.encode(authScheme, forKey: ClientRuntime.Key("AuthScheme"))
+        }
+        if let clientPasswordAuthType = clientPasswordAuthType {
+            try container.encode(clientPasswordAuthType, forKey: ClientRuntime.Key("ClientPasswordAuthType"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -52006,6 +52177,8 @@ extension RDSClientTypes.UserAuthConfigInfo: Swift.Codable {
         secretArn = secretArnDecoded
         let iamAuthDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IAMAuthMode.self, forKey: .iamAuth)
         iamAuth = iamAuthDecoded
+        let clientPasswordAuthTypeDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ClientPasswordAuthType.self, forKey: .clientPasswordAuthType)
+        clientPasswordAuthType = clientPasswordAuthTypeDecoded
     }
 }
 
@@ -52014,6 +52187,8 @@ extension RDSClientTypes {
     public struct UserAuthConfigInfo: Swift.Equatable {
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public var authScheme: RDSClientTypes.AuthScheme?
+        /// The type of authentication the proxy uses for connections from clients.
+        public var clientPasswordAuthType: RDSClientTypes.ClientPasswordAuthType?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
         public var description: Swift.String?
         /// Whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentication for connections to the proxy. The ENABLED value is valid only for proxies with RDS for Microsoft SQL Server.
@@ -52025,6 +52200,7 @@ extension RDSClientTypes {
 
         public init (
             authScheme: RDSClientTypes.AuthScheme? = nil,
+            clientPasswordAuthType: RDSClientTypes.ClientPasswordAuthType? = nil,
             description: Swift.String? = nil,
             iamAuth: RDSClientTypes.IAMAuthMode? = nil,
             secretArn: Swift.String? = nil,
@@ -52032,6 +52208,7 @@ extension RDSClientTypes {
         )
         {
             self.authScheme = authScheme
+            self.clientPasswordAuthType = clientPasswordAuthType
             self.description = description
             self.iamAuth = iamAuth
             self.secretArn = secretArn

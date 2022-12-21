@@ -229,7 +229,7 @@ extension MarketplaceEntitlementClient: MarketplaceEntitlementClientProtocol {
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEntitlementsInput, GetEntitlementsOutputResponse>(xAmzTarget: "AWSMPEntitlementService.GetEntitlements"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEntitlementsInput, GetEntitlementsOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEntitlementsInput, GetEntitlementsOutputResponse>(xmlName: "GetEntitlementsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEntitlementsInput, GetEntitlementsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetEntitlementsOutputResponse, GetEntitlementsOutputError>(retryer: config.retryer))

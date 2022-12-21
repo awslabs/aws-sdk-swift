@@ -164,7 +164,7 @@ extension AddProfileKeyOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1222,7 +1222,7 @@ extension CreateDomainOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1495,7 +1495,7 @@ extension CreateIntegrationWorkflowOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1576,12 +1576,14 @@ extension CreateProfileInput: Swift.Encodable {
         case emailAddress = "EmailAddress"
         case firstName = "FirstName"
         case gender = "Gender"
+        case genderString = "GenderString"
         case homePhoneNumber = "HomePhoneNumber"
         case lastName = "LastName"
         case mailingAddress = "MailingAddress"
         case middleName = "MiddleName"
         case mobilePhoneNumber = "MobilePhoneNumber"
         case partyType = "PartyType"
+        case partyTypeString = "PartyTypeString"
         case personalEmailAddress = "PersonalEmailAddress"
         case phoneNumber = "PhoneNumber"
         case shippingAddress = "ShippingAddress"
@@ -1628,6 +1630,9 @@ extension CreateProfileInput: Swift.Encodable {
         if let gender = self.gender {
             try encodeContainer.encode(gender.rawValue, forKey: .gender)
         }
+        if let genderString = self.genderString {
+            try encodeContainer.encode(genderString, forKey: .genderString)
+        }
         if let homePhoneNumber = self.homePhoneNumber {
             try encodeContainer.encode(homePhoneNumber, forKey: .homePhoneNumber)
         }
@@ -1645,6 +1650,9 @@ extension CreateProfileInput: Swift.Encodable {
         }
         if let partyType = self.partyType {
             try encodeContainer.encode(partyType.rawValue, forKey: .partyType)
+        }
+        if let partyTypeString = self.partyTypeString {
+            try encodeContainer.encode(partyTypeString, forKey: .partyTypeString)
         }
         if let personalEmailAddress = self.personalEmailAddress {
             try encodeContainer.encode(personalEmailAddress, forKey: .personalEmailAddress)
@@ -1695,6 +1703,8 @@ public struct CreateProfileInput: Swift.Equatable {
     public var firstName: Swift.String?
     /// The gender with which the customer identifies.
     public var gender: CustomerProfilesClientTypes.Gender?
+    /// An alternative to Gender which accepts any string as input.
+    public var genderString: Swift.String?
     /// The customer’s home phone number.
     public var homePhoneNumber: Swift.String?
     /// The customer’s last name.
@@ -1707,6 +1717,8 @@ public struct CreateProfileInput: Swift.Equatable {
     public var mobilePhoneNumber: Swift.String?
     /// The type of profile used to describe the customer.
     public var partyType: CustomerProfilesClientTypes.PartyType?
+    /// An alternative to PartyType which accepts any string as input.
+    public var partyTypeString: Swift.String?
     /// The customer’s personal email address.
     public var personalEmailAddress: Swift.String?
     /// The customer’s phone number, which has not been specified as a mobile, home, or business number.
@@ -1728,12 +1740,14 @@ public struct CreateProfileInput: Swift.Equatable {
         emailAddress: Swift.String? = nil,
         firstName: Swift.String? = nil,
         gender: CustomerProfilesClientTypes.Gender? = nil,
+        genderString: Swift.String? = nil,
         homePhoneNumber: Swift.String? = nil,
         lastName: Swift.String? = nil,
         mailingAddress: CustomerProfilesClientTypes.Address? = nil,
         middleName: Swift.String? = nil,
         mobilePhoneNumber: Swift.String? = nil,
         partyType: CustomerProfilesClientTypes.PartyType? = nil,
+        partyTypeString: Swift.String? = nil,
         personalEmailAddress: Swift.String? = nil,
         phoneNumber: Swift.String? = nil,
         shippingAddress: CustomerProfilesClientTypes.Address? = nil
@@ -1752,12 +1766,14 @@ public struct CreateProfileInput: Swift.Equatable {
         self.emailAddress = emailAddress
         self.firstName = firstName
         self.gender = gender
+        self.genderString = genderString
         self.homePhoneNumber = homePhoneNumber
         self.lastName = lastName
         self.mailingAddress = mailingAddress
         self.middleName = middleName
         self.mobilePhoneNumber = mobilePhoneNumber
         self.partyType = partyType
+        self.partyTypeString = partyTypeString
         self.personalEmailAddress = personalEmailAddress
         self.phoneNumber = phoneNumber
         self.shippingAddress = shippingAddress
@@ -1786,6 +1802,8 @@ struct CreateProfileInputBody: Swift.Equatable {
     let mailingAddress: CustomerProfilesClientTypes.Address?
     let billingAddress: CustomerProfilesClientTypes.Address?
     let attributes: [Swift.String:Swift.String]?
+    let partyTypeString: Swift.String?
+    let genderString: Swift.String?
 }
 
 extension CreateProfileInputBody: Swift.Decodable {
@@ -1802,12 +1820,14 @@ extension CreateProfileInputBody: Swift.Decodable {
         case emailAddress = "EmailAddress"
         case firstName = "FirstName"
         case gender = "Gender"
+        case genderString = "GenderString"
         case homePhoneNumber = "HomePhoneNumber"
         case lastName = "LastName"
         case mailingAddress = "MailingAddress"
         case middleName = "MiddleName"
         case mobilePhoneNumber = "MobilePhoneNumber"
         case partyType = "PartyType"
+        case partyTypeString = "PartyTypeString"
         case personalEmailAddress = "PersonalEmailAddress"
         case phoneNumber = "PhoneNumber"
         case shippingAddress = "ShippingAddress"
@@ -1866,6 +1886,10 @@ extension CreateProfileInputBody: Swift.Decodable {
             }
         }
         attributes = attributesDecoded0
+        let partyTypeStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .partyTypeString)
+        partyTypeString = partyTypeStringDecoded
+        let genderStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .genderString)
+        genderString = genderStringDecoded
     }
 }
 
@@ -1885,7 +1909,7 @@ extension CreateProfileOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2020,7 +2044,7 @@ extension DeleteDomainOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2148,7 +2172,7 @@ extension DeleteIntegrationOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2370,7 +2394,7 @@ extension DeleteProfileKeyOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2523,7 +2547,7 @@ extension DeleteProfileObjectOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2633,7 +2657,7 @@ extension DeleteProfileObjectTypeOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2705,7 +2729,7 @@ extension DeleteProfileOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2815,7 +2839,7 @@ extension DeleteWorkflowOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3553,7 +3577,7 @@ extension GetAutoMergingPreviewOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3686,7 +3710,7 @@ extension GetDomainOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3888,7 +3912,7 @@ extension GetIdentityResolutionJobOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4129,7 +4153,7 @@ extension GetIntegrationOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4358,7 +4382,7 @@ extension GetMatchesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4507,7 +4531,7 @@ extension GetProfileObjectTypeOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4755,7 +4779,7 @@ extension GetProfileObjectTypeTemplateOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4950,7 +4974,7 @@ extension GetWorkflowOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5155,7 +5179,7 @@ extension GetWorkflowStepsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5783,7 +5807,7 @@ extension ListAccountIntegrationsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6001,7 +6025,7 @@ extension ListDomainsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6147,7 +6171,7 @@ extension ListIdentityResolutionJobsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6444,7 +6468,7 @@ extension ListIntegrationsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6726,7 +6750,7 @@ extension ListProfileObjectTypeTemplatesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6872,7 +6896,7 @@ extension ListProfileObjectTypesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7123,7 +7147,7 @@ extension ListProfileObjectsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7242,7 +7266,7 @@ extension ListTagsForResourceOutputError {
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7527,7 +7551,7 @@ extension ListWorkflowsOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8049,7 +8073,7 @@ extension MergeProfilesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8818,7 +8842,7 @@ extension PutIntegrationOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9060,7 +9084,7 @@ extension PutProfileObjectOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9334,7 +9358,7 @@ extension PutProfileObjectTypeOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10216,7 +10240,7 @@ extension SearchProfilesOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10777,7 +10801,7 @@ extension TagResourceOutputError {
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11182,7 +11206,7 @@ extension UntagResourceOutputError {
         case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11460,7 +11484,7 @@ extension UpdateDomainOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11611,12 +11635,14 @@ extension UpdateProfileInput: Swift.Encodable {
         case emailAddress = "EmailAddress"
         case firstName = "FirstName"
         case gender = "Gender"
+        case genderString = "GenderString"
         case homePhoneNumber = "HomePhoneNumber"
         case lastName = "LastName"
         case mailingAddress = "MailingAddress"
         case middleName = "MiddleName"
         case mobilePhoneNumber = "MobilePhoneNumber"
         case partyType = "PartyType"
+        case partyTypeString = "PartyTypeString"
         case personalEmailAddress = "PersonalEmailAddress"
         case phoneNumber = "PhoneNumber"
         case profileId = "ProfileId"
@@ -11664,6 +11690,9 @@ extension UpdateProfileInput: Swift.Encodable {
         if let gender = self.gender {
             try encodeContainer.encode(gender.rawValue, forKey: .gender)
         }
+        if let genderString = self.genderString {
+            try encodeContainer.encode(genderString, forKey: .genderString)
+        }
         if let homePhoneNumber = self.homePhoneNumber {
             try encodeContainer.encode(homePhoneNumber, forKey: .homePhoneNumber)
         }
@@ -11681,6 +11710,9 @@ extension UpdateProfileInput: Swift.Encodable {
         }
         if let partyType = self.partyType {
             try encodeContainer.encode(partyType.rawValue, forKey: .partyType)
+        }
+        if let partyTypeString = self.partyTypeString {
+            try encodeContainer.encode(partyTypeString, forKey: .partyTypeString)
         }
         if let personalEmailAddress = self.personalEmailAddress {
             try encodeContainer.encode(personalEmailAddress, forKey: .personalEmailAddress)
@@ -11734,6 +11766,8 @@ public struct UpdateProfileInput: Swift.Equatable {
     public var firstName: Swift.String?
     /// The gender with which the customer identifies.
     public var gender: CustomerProfilesClientTypes.Gender?
+    /// An alternative to Gender which accepts any string as input.
+    public var genderString: Swift.String?
     /// The customer’s home phone number.
     public var homePhoneNumber: Swift.String?
     /// The customer’s last name.
@@ -11746,6 +11780,8 @@ public struct UpdateProfileInput: Swift.Equatable {
     public var mobilePhoneNumber: Swift.String?
     /// The type of profile used to describe the customer.
     public var partyType: CustomerProfilesClientTypes.PartyType?
+    /// An alternative to PartyType which accepts any string as input.
+    public var partyTypeString: Swift.String?
     /// The customer’s personal email address.
     public var personalEmailAddress: Swift.String?
     /// The customer’s phone number, which has not been specified as a mobile, home, or business number.
@@ -11770,12 +11806,14 @@ public struct UpdateProfileInput: Swift.Equatable {
         emailAddress: Swift.String? = nil,
         firstName: Swift.String? = nil,
         gender: CustomerProfilesClientTypes.Gender? = nil,
+        genderString: Swift.String? = nil,
         homePhoneNumber: Swift.String? = nil,
         lastName: Swift.String? = nil,
         mailingAddress: CustomerProfilesClientTypes.UpdateAddress? = nil,
         middleName: Swift.String? = nil,
         mobilePhoneNumber: Swift.String? = nil,
         partyType: CustomerProfilesClientTypes.PartyType? = nil,
+        partyTypeString: Swift.String? = nil,
         personalEmailAddress: Swift.String? = nil,
         phoneNumber: Swift.String? = nil,
         profileId: Swift.String? = nil,
@@ -11795,12 +11833,14 @@ public struct UpdateProfileInput: Swift.Equatable {
         self.emailAddress = emailAddress
         self.firstName = firstName
         self.gender = gender
+        self.genderString = genderString
         self.homePhoneNumber = homePhoneNumber
         self.lastName = lastName
         self.mailingAddress = mailingAddress
         self.middleName = middleName
         self.mobilePhoneNumber = mobilePhoneNumber
         self.partyType = partyType
+        self.partyTypeString = partyTypeString
         self.personalEmailAddress = personalEmailAddress
         self.phoneNumber = phoneNumber
         self.profileId = profileId
@@ -11831,6 +11871,8 @@ struct UpdateProfileInputBody: Swift.Equatable {
     let mailingAddress: CustomerProfilesClientTypes.UpdateAddress?
     let billingAddress: CustomerProfilesClientTypes.UpdateAddress?
     let attributes: [Swift.String:Swift.String]?
+    let partyTypeString: Swift.String?
+    let genderString: Swift.String?
 }
 
 extension UpdateProfileInputBody: Swift.Decodable {
@@ -11847,12 +11889,14 @@ extension UpdateProfileInputBody: Swift.Decodable {
         case emailAddress = "EmailAddress"
         case firstName = "FirstName"
         case gender = "Gender"
+        case genderString = "GenderString"
         case homePhoneNumber = "HomePhoneNumber"
         case lastName = "LastName"
         case mailingAddress = "MailingAddress"
         case middleName = "MiddleName"
         case mobilePhoneNumber = "MobilePhoneNumber"
         case partyType = "PartyType"
+        case partyTypeString = "PartyTypeString"
         case personalEmailAddress = "PersonalEmailAddress"
         case phoneNumber = "PhoneNumber"
         case profileId = "ProfileId"
@@ -11914,6 +11958,10 @@ extension UpdateProfileInputBody: Swift.Decodable {
             }
         }
         attributes = attributesDecoded0
+        let partyTypeStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .partyTypeString)
+        partyTypeString = partyTypeStringDecoded
+        let genderStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .genderString)
+        genderString = genderStringDecoded
     }
 }
 
@@ -11933,7 +11981,7 @@ extension UpdateProfileOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

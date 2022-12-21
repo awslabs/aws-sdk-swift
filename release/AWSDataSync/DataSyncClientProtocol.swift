@@ -29,17 +29,13 @@ public protocol DataSyncClientProtocol {
     func createLocationS3(input: CreateLocationS3Input) async throws -> CreateLocationS3OutputResponse
     /// Defines a file system on a Server Message Block (SMB) server that can be read from or written to.
     func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutputResponse
-    /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options). When you create a task that transfers data between Amazon Web Services services in different Amazon Web Services Regions, one of your locations must reside in the Region where you're using DataSync. For more information, see the following topics:
-    ///
-    /// * [Working with DataSync locations](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-locations.html)
-    ///
-    /// * [Configure DataSync task settings](https://docs.aws.amazon.com/datasync/latest/userguide/create-task.html)
+    /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options).
     func createTask(input: CreateTaskInput) async throws -> CreateTaskOutputResponse
     /// Deletes an agent. To specify which agent to delete, use the Amazon Resource Name (ARN) of the agent in your request. The operation disassociates the agent from your Amazon Web Services account. However, it doesn't delete the agent virtual machine (VM) from your on-premises environment.
     func deleteAgent(input: DeleteAgentInput) async throws -> DeleteAgentOutputResponse
     /// Deletes the configuration of a location used by DataSync.
     func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutputResponse
-    /// Deletes a task.
+    /// Deletes an DataSync task.
     func deleteTask(input: DeleteTaskInput) async throws -> DeleteTaskOutputResponse
     /// Returns metadata such as the name, the network interfaces, and the status (that is, whether the agent is running or not) for an agent. To specify which agent to describe, use the Amazon Resource Name (ARN) of the agent in your request.
     func describeAgent(input: DescribeAgentInput) async throws -> DescribeAgentOutputResponse
@@ -71,17 +67,17 @@ public protocol DataSyncClientProtocol {
     func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutputResponse
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     func listLocations(input: ListLocationsInput) async throws -> ListLocationsOutputResponse
-    /// Returns all the tags associated with a specified resource.
+    /// Returns all the tags associated with an Amazon Web Services resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Returns a list of executed tasks.
     func listTaskExecutions(input: ListTaskExecutionsInput) async throws -> ListTaskExecutionsOutputResponse
     /// Returns a list of the DataSync tasks you created.
     func listTasks(input: ListTasksInput) async throws -> ListTasksOutputResponse
-    /// Starts a specific invocation of a task. A TaskExecution value represents an individual run of a task. Each task can have at most one TaskExecution at a time. TaskExecution has the following transition phases: INITIALIZING | PREPARING | TRANSFERRING | VERIFYING | SUCCESS/FAILURE. For detailed information, see the Task Execution section in the Components and Terminology topic in the DataSync User Guide.
+    /// Starts an DataSync task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses).
     func startTaskExecution(input: StartTaskExecutionInput) async throws -> StartTaskExecutionOutputResponse
-    /// Applies a key-value pair to an Amazon Web Services resource.
+    /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
-    /// Removes a tag from an Amazon Web Services resource.
+    /// Removes tags from an Amazon Web Services resource.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the name of an agent.
     func updateAgent(input: UpdateAgentInput) async throws -> UpdateAgentOutputResponse

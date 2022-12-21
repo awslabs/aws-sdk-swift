@@ -89,7 +89,7 @@ extension AddTagsToResourceOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -399,7 +399,7 @@ extension CreateHapgOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -607,7 +607,7 @@ extension CreateHsmOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -736,7 +736,7 @@ extension CreateLunaClientOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -853,7 +853,7 @@ extension DeleteHapgOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -971,7 +971,7 @@ extension DeleteHsmOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1088,7 +1088,7 @@ extension DeleteLunaClientOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1205,7 +1205,7 @@ extension DescribeHapgOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1449,7 +1449,7 @@ extension DescribeHsmOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1789,7 +1789,7 @@ extension DescribeLunaClientOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1982,7 +1982,7 @@ extension GetConfigOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2208,7 +2208,7 @@ extension ListAvailableZonesOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2331,7 +2331,7 @@ extension ListHapgsOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2465,7 +2465,7 @@ extension ListHsmsOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2599,7 +2599,7 @@ extension ListLunaClientsOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2734,7 +2734,7 @@ extension ListTagsForResourceOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2895,7 +2895,7 @@ extension ModifyHapgOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3071,7 +3071,7 @@ extension ModifyHsmOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3198,7 +3198,7 @@ extension ModifyLunaClientOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3336,7 +3336,7 @@ extension RemoveTagsFromResourceOutputError {
         case "CloudHsmInternalException" : self = .cloudHsmInternalException(try CloudHsmInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudHsmServiceException" : self = .cloudHsmServiceException(try CloudHsmServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

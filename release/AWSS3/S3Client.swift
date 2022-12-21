@@ -17,9 +17,11 @@ public class S3Client {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.encoder = config.encoder ?? encoder
         let decoder = ClientRuntime.XMLDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
+        decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         decoder.trimValueWhitespaces = false
         decoder.removeWhitespaceElements = true
         self.decoder = config.decoder ?? decoder
@@ -4597,7 +4599,7 @@ extension S3Client: S3ClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<SelectObjectContentInput, SelectObjectContentOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<SelectObjectContentInput, SelectObjectContentOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SelectObjectContentInput, SelectObjectContentOutputResponse>(contentType: "application/xml"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SelectObjectContentInput, SelectObjectContentOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SelectObjectContentInput, SelectObjectContentOutputResponse>(xmlName: "SelectObjectContentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<SelectObjectContentOutputResponse, SelectObjectContentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, signedBodyHeader: .contentSha256, unsignedBody: false)

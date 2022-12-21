@@ -238,7 +238,7 @@ extension CancelKeyDeletionOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -626,7 +626,7 @@ extension ConnectCustomKeyStoreOutputError {
         case "CustomKeyStoreInvalidStateException" : self = .customKeyStoreInvalidStateException(try CustomKeyStoreInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CustomKeyStoreNotFoundException" : self = .customKeyStoreNotFoundException(try CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -860,7 +860,7 @@ extension CreateAliasOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -956,7 +956,7 @@ public struct CreateCustomKeyStoreInput: Swift.Equatable {
     public var customKeyStoreType: KMSClientTypes.CustomKeyStoreType?
     /// Specifies the kmsuser password for an CloudHSM key store. This parameter is required for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM. Enter the password of the [kmsuser] crypto user (CU) account(https://docs.aws.amazon.com/kms/latest/developerguide/key-store-concepts.html#concept-kmsuser) in the specified CloudHSM cluster. KMS logs into the cluster as this user to manage key material on your behalf. The password must be a string of 7 to 32 characters. Its value is case sensitive. This parameter tells KMS the kmsuser account password; it does not change the password in the CloudHSM cluster.
     public var keyStorePassword: Swift.String?
-    /// * CreateCustom Specifies the certificate for an CloudHSM key store. This parameter is required for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM. Enter the content of the trust anchor certificate for the CloudHSM cluster. This is the content of the customerCA.crt file that you created when you [initialized the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html).
+    /// Specifies the certificate for an CloudHSM key store. This parameter is required for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM. Enter the content of the trust anchor certificate for the CloudHSM cluster. This is the content of the customerCA.crt file that you created when you [initialized the cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html).
     public var trustAnchorCertificate: Swift.String?
     /// Specifies an authentication credential for the external key store proxy (XKS proxy). This parameter is required for all custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. The XksProxyAuthenticationCredential has two required elements: RawSecretAccessKey, a secret key, and AccessKeyId, a unique identifier for the RawSecretAccessKey. For character requirements, see [XksProxyAuthenticationCredentialType]. KMS uses this authentication credential to sign requests to the external key store proxy on your behalf. This credential is unrelated to Identity and Access Management (IAM) and Amazon Web Services credentials. This parameter doesn't set or change the authentication credentials on the XKS proxy. It just tells KMS the credential that you established on your external key store proxy. If you rotate your proxy authentication credential, use the [UpdateCustomKeyStore] operation to provide the new credential to KMS.
     public var xksProxyAuthenticationCredential: KMSClientTypes.XksProxyAuthenticationCredentialType?
@@ -1085,7 +1085,7 @@ extension CreateCustomKeyStoreOutputError {
         case "XksProxyVpcEndpointServiceInUseException" : self = .xksProxyVpcEndpointServiceInUseException(try XksProxyVpcEndpointServiceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "XksProxyVpcEndpointServiceInvalidConfigurationException" : self = .xksProxyVpcEndpointServiceInvalidConfigurationException(try XksProxyVpcEndpointServiceInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "XksProxyVpcEndpointServiceNotFoundException" : self = .xksProxyVpcEndpointServiceNotFoundException(try XksProxyVpcEndpointServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1327,7 +1327,7 @@ extension CreateGrantOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1669,7 +1669,7 @@ extension CreateKeyOutputError {
         case "XksKeyAlreadyInUse" : self = .xksKeyAlreadyInUseException(try XksKeyAlreadyInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "XksKeyInvalidConfiguration" : self = .xksKeyInvalidConfigurationException(try XksKeyInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "XksKeyNotFoundException" : self = .xksKeyNotFoundException(try XksKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2464,7 +2464,7 @@ extension DecryptOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2612,7 +2612,7 @@ extension DeleteAliasOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2698,7 +2698,7 @@ extension DeleteCustomKeyStoreOutputError {
         case "CustomKeyStoreInvalidStateException" : self = .customKeyStoreInvalidStateException(try CustomKeyStoreInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CustomKeyStoreNotFoundException" : self = .customKeyStoreNotFoundException(try CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2796,7 +2796,7 @@ extension DeleteImportedKeyMaterialOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2970,7 +2970,7 @@ extension DescribeCustomKeyStoresOutputError {
         case "CustomKeyStoreNotFoundException" : self = .customKeyStoreNotFoundException(try CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidMarker" : self = .invalidMarkerException(try InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3153,7 +3153,7 @@ extension DescribeKeyOutputError {
         case "InvalidArn" : self = .invalidArnException(try InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3281,7 +3281,7 @@ extension DisableKeyOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3381,7 +3381,7 @@ extension DisableKeyRotationOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3521,7 +3521,7 @@ extension DisconnectCustomKeyStoreOutputError {
         case "CustomKeyStoreInvalidStateException" : self = .customKeyStoreInvalidStateException(try CustomKeyStoreInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CustomKeyStoreNotFoundException" : self = .customKeyStoreNotFoundException(try CustomKeyStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3618,7 +3618,7 @@ extension EnableKeyOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3719,7 +3719,7 @@ extension EnableKeyRotationOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3904,7 +3904,7 @@ extension EncryptOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4257,7 +4257,7 @@ extension GenerateDataKeyOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4483,7 +4483,7 @@ extension GenerateDataKeyPairOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4730,7 +4730,7 @@ extension GenerateDataKeyPairWithoutPlaintextOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4972,7 +4972,7 @@ extension GenerateDataKeyWithoutPlaintextOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5161,7 +5161,7 @@ extension GenerateMacOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5313,7 +5313,7 @@ extension GenerateRandomOutputError {
         case "DependencyTimeout" : self = .dependencyTimeoutException(try DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5460,7 +5460,7 @@ extension GetKeyPolicyOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5590,7 +5590,7 @@ extension GetKeyRotationStatusOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5747,7 +5747,7 @@ extension GetParametersForImportOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5945,7 +5945,7 @@ extension GetPublicKeyOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6483,7 +6483,7 @@ extension ImportKeyMaterialOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8040,7 +8040,7 @@ extension ListAliasesOutputError {
         case "InvalidMarker" : self = .invalidMarkerException(try InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8248,7 +8248,7 @@ extension ListGrantsOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8432,7 +8432,7 @@ extension ListKeyPoliciesOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8589,7 +8589,7 @@ extension ListKeysOutputError {
         case "DependencyTimeout" : self = .dependencyTimeoutException(try DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidMarker" : self = .invalidMarkerException(try InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8768,7 +8768,7 @@ extension ListResourceTagsOutputError {
         case "InvalidMarker" : self = .invalidMarkerException(try InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8939,7 +8939,7 @@ extension ListRetirableGrantsOutputError {
         case "InvalidMarker" : self = .invalidMarkerException(try InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9510,7 +9510,7 @@ extension PutKeyPolicyOutputError {
         case "MalformedPolicyDocument" : self = .malformedPolicyDocumentException(try MalformedPolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9755,7 +9755,7 @@ extension ReEncryptOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10023,7 +10023,7 @@ extension ReplicateKeyOutputError {
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagException" : self = .tagException(try TagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10203,7 +10203,7 @@ extension RetireGrantOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10317,7 +10317,7 @@ extension RevokeGrantOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10428,7 +10428,7 @@ extension ScheduleKeyDeletionOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10661,7 +10661,7 @@ extension SignOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11001,7 +11001,7 @@ extension TagResourceOutputError {
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagException" : self = .tagException(try TagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11177,7 +11177,7 @@ extension UntagResourceOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagException" : self = .tagException(try TagException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11288,7 +11288,7 @@ extension UpdateAliasOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceeded" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11489,7 +11489,7 @@ extension UpdateCustomKeyStoreOutputError {
         case "XksProxyVpcEndpointServiceInUseException" : self = .xksProxyVpcEndpointServiceInUseException(try XksProxyVpcEndpointServiceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "XksProxyVpcEndpointServiceInvalidConfigurationException" : self = .xksProxyVpcEndpointServiceInvalidConfigurationException(try XksProxyVpcEndpointServiceInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "XksProxyVpcEndpointServiceNotFoundException" : self = .xksProxyVpcEndpointServiceNotFoundException(try XksProxyVpcEndpointServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11612,7 +11612,7 @@ extension UpdateKeyDescriptionOutputError {
         case "KMSInternal" : self = .kMSInternalException(try KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11724,7 +11724,7 @@ extension UpdatePrimaryRegionOutputError {
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12026,7 +12026,7 @@ extension VerifyMacOutputError {
         case "KMSInvalidMac" : self = .kMSInvalidMacException(try KMSInvalidMacException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12124,7 +12124,7 @@ extension VerifyOutputError {
         case "KMSInvalidSignature" : self = .kMSInvalidSignatureException(try KMSInvalidSignatureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotFound" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12304,7 +12304,7 @@ extension KMSClientTypes.XksKeyConfigurationType: Swift.Codable {
 }
 
 extension KMSClientTypes {
-    /// Information about the [external key ](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key)that is associated with a KMS key in an external key store. These fields appear in a [CreateKey] or [DescribeKey] response only for a KMS key in an external key store. The external key is a symmetric encryption key that is hosted by an external key manager outside of Amazon Web Services. When you use the KMS key in an external key store in a cryptographic operation, the cryptographic operation is performed in the external key manager using the specified external key. For more information, see [External key](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key) in the Key Management Service Developer Guide.
+    /// Information about the [external key ](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key)that is associated with a KMS key in an external key store. This element appears in a [CreateKey] or [DescribeKey] response only for a KMS key in an external key store. The external key is a symmetric encryption key that is hosted by an external key manager outside of Amazon Web Services. When you use the KMS key in an external key store in a cryptographic operation, the cryptographic operation is performed in the external key manager using the specified external key. For more information, see [External key](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key) in the Key Management Service Developer Guide.
     public struct XksKeyConfigurationType: Swift.Equatable {
         /// The ID of the external key in its external key manager. This is the ID that the external key store proxy uses to identify the external key.
         public var id: Swift.String?

@@ -180,6 +180,7 @@ extension RekognitionClient {
 extension GetLabelDetectionInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetLabelDetectionInput {
         return GetLabelDetectionInput(
+            aggregateBy: self.aggregateBy,
             jobId: self.jobId,
             maxResults: self.maxResults,
             nextToken: token,

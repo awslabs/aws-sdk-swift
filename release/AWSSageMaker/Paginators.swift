@@ -76,6 +76,40 @@ extension PaginatorSequence where Input == ListAlgorithmsInput, Output == ListAl
     }
 }
 
+/// Paginate over `[ListAliasesOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[ListAliasesInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutputResponse`
+extension SageMakerClient {
+    public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse>(input: input, inputKey: \ListAliasesInput.nextToken, outputKey: \ListAliasesOutputResponse.nextToken, paginationFunction: self.listAliases(input:))
+    }
+}
+
+extension ListAliasesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAliasesInput {
+        return ListAliasesInput(
+            alias: self.alias,
+            imageName: self.imageName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            version: self.version
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
+/// to access the nested member `[Swift.String]`
+/// - Returns: `[Swift.String]`
+extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutputResponse {
+    public func sageMakerImageVersionAliases() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.sageMakerImageVersionAliases }
+    }
+}
+
 /// Paginate over `[ListAppImageConfigsOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

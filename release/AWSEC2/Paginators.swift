@@ -882,6 +882,43 @@ extension PaginatorSequence where Input == DescribeIamInstanceProfileAssociation
     }
 }
 
+/// Paginate over `[DescribeImagesOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[DescribeImagesInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutputResponse`
+extension EC2Client {
+    public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutputResponse.nextToken, paginationFunction: self.describeImages(input:))
+    }
+}
+
+extension DescribeImagesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeImagesInput {
+        return DescribeImagesInput(
+            dryRun: self.dryRun,
+            executableUsers: self.executableUsers,
+            filters: self.filters,
+            imageIds: self.imageIds,
+            includeDeprecated: self.includeDeprecated,
+            maxResults: self.maxResults,
+            nextToken: token,
+            owners: self.owners
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `describeImagesPaginated`
+/// to access the nested member `[EC2ClientTypes.Image]`
+/// - Returns: `[EC2ClientTypes.Image]`
+extension PaginatorSequence where Input == DescribeImagesInput, Output == DescribeImagesOutputResponse {
+    public func images() async throws -> [EC2ClientTypes.Image] {
+        return try await self.asyncCompactMap { item in item.images }
+    }
+}
+
 /// Paginate over `[DescribeImportImageTasksOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

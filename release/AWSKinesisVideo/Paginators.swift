@@ -3,6 +3,39 @@
 import ClientRuntime
 
 
+/// Paginate over `[DescribeMappedResourceConfigurationOutputResponse]` results.
+///
+/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+/// until then. If there are errors in your request, you will see the failures only after you start iterating.
+/// - Parameters:
+///     - input: A `[DescribeMappedResourceConfigurationInput]` to start pagination
+/// - Returns: An `AsyncSequence` that can iterate over `DescribeMappedResourceConfigurationOutputResponse`
+extension KinesisVideoClient {
+    public func describeMappedResourceConfigurationPaginated(input: DescribeMappedResourceConfigurationInput) -> ClientRuntime.PaginatorSequence<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutputResponse>(input: input, inputKey: \DescribeMappedResourceConfigurationInput.nextToken, outputKey: \DescribeMappedResourceConfigurationOutputResponse.nextToken, paginationFunction: self.describeMappedResourceConfiguration(input:))
+    }
+}
+
+extension DescribeMappedResourceConfigurationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMappedResourceConfigurationInput {
+        return DescribeMappedResourceConfigurationInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            streamARN: self.streamARN,
+            streamName: self.streamName
+        )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `describeMappedResourceConfigurationPaginated`
+/// to access the nested member `[KinesisVideoClientTypes.MappedResourceConfigurationListItem]`
+/// - Returns: `[KinesisVideoClientTypes.MappedResourceConfigurationListItem]`
+extension PaginatorSequence where Input == DescribeMappedResourceConfigurationInput, Output == DescribeMappedResourceConfigurationOutputResponse {
+    public func mappedResourceConfigurationList() async throws -> [KinesisVideoClientTypes.MappedResourceConfigurationListItem] {
+        return try await self.asyncCompactMap { item in item.mappedResourceConfigurationList }
+    }
+}
+
 /// Paginate over `[ListSignalingChannelsOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

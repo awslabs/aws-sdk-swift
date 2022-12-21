@@ -351,12 +351,14 @@ extension KinesisVideoClientTypes {
 extension KinesisVideoClientTypes {
     public enum ChannelProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case https
+        case webrtc
         case wss
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ChannelProtocol] {
             return [
                 .https,
+                .webrtc,
                 .wss,
                 .sdkUnknown("")
             ]
@@ -368,6 +370,7 @@ extension KinesisVideoClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .https: return "HTTPS"
+            case .webrtc: return "WEBRTC"
             case .wss: return "WSS"
             case let .sdkUnknown(s): return s
             }
@@ -670,7 +673,7 @@ extension CreateSignalingChannelOutputError {
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagsPerResourceExceededLimitException" : self = .tagsPerResourceExceededLimitException(try TagsPerResourceExceededLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -864,7 +867,7 @@ extension CreateStreamOutputError {
         case "InvalidDeviceException" : self = .invalidDeviceException(try InvalidDeviceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagsPerResourceExceededLimitException" : self = .tagsPerResourceExceededLimitException(try TagsPerResourceExceededLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -998,7 +1001,7 @@ extension DeleteSignalingChannelOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VersionMismatchException" : self = .versionMismatchException(try VersionMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1100,7 +1103,7 @@ extension DeleteStreamOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VersionMismatchException" : self = .versionMismatchException(try VersionMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1123,6 +1126,251 @@ extension DeleteStreamOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteStreamOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension KinesisVideoClientTypes.DeletionConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteAfterUpload = "DeleteAfterUpload"
+        case edgeRetentionInHours = "EdgeRetentionInHours"
+        case localSizeConfig = "LocalSizeConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deleteAfterUpload = self.deleteAfterUpload {
+            try encodeContainer.encode(deleteAfterUpload, forKey: .deleteAfterUpload)
+        }
+        if let edgeRetentionInHours = self.edgeRetentionInHours {
+            try encodeContainer.encode(edgeRetentionInHours, forKey: .edgeRetentionInHours)
+        }
+        if let localSizeConfig = self.localSizeConfig {
+            try encodeContainer.encode(localSizeConfig, forKey: .localSizeConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let edgeRetentionInHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .edgeRetentionInHours)
+        edgeRetentionInHours = edgeRetentionInHoursDecoded
+        let localSizeConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.LocalSizeConfig.self, forKey: .localSizeConfig)
+        localSizeConfig = localSizeConfigDecoded
+        let deleteAfterUploadDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAfterUpload)
+        deleteAfterUpload = deleteAfterUploadDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// The configuration details required to delete the connection of the stream from the Edge Agent.
+    public struct DeletionConfig: Swift.Equatable {
+        /// The boolean value used to indicate whether or not you want to mark the media for deletion, once it has been uploaded to the Kinesis Video Stream cloud. The media files can be deleted if any of the deletion configuration values are set to true, such as when the limit for the EdgeRetentionInHours, or the MaxLocalMediaSizeInMB, has been reached. Since the default value is set to true, configure the uploader schedule such that the media files are not being deleted before they are initially uploaded to AWS cloud.
+        public var deleteAfterUpload: Swift.Bool?
+        /// The number of hours that you want to retain the data in the stream on the Edge Agent. The default value of the retention time is 720 hours, which translates to 30 days.
+        public var edgeRetentionInHours: Swift.Int?
+        /// The value of the local size required in order to delete the edge configuration.
+        public var localSizeConfig: KinesisVideoClientTypes.LocalSizeConfig?
+
+        public init (
+            deleteAfterUpload: Swift.Bool? = nil,
+            edgeRetentionInHours: Swift.Int? = nil,
+            localSizeConfig: KinesisVideoClientTypes.LocalSizeConfig? = nil
+        )
+        {
+            self.deleteAfterUpload = deleteAfterUpload
+            self.edgeRetentionInHours = edgeRetentionInHours
+            self.localSizeConfig = localSizeConfig
+        }
+    }
+
+}
+
+extension DescribeEdgeConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
+        if let streamName = self.streamName {
+            try encodeContainer.encode(streamName, forKey: .streamName)
+        }
+    }
+}
+
+extension DescribeEdgeConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/describeEdgeConfiguration"
+    }
+}
+
+public struct DescribeEdgeConfigurationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the stream. Specify either the StreamNameor the StreamARN.
+    public var streamARN: Swift.String?
+    /// The name of the stream whose edge configuration you want to update. Specify either the StreamName or the StreamARN.
+    public var streamName: Swift.String?
+
+    public init (
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil
+    )
+    {
+        self.streamARN = streamARN
+        self.streamName = streamName
+    }
+}
+
+struct DescribeEdgeConfigurationInputBody: Swift.Equatable {
+    let streamName: Swift.String?
+    let streamARN: Swift.String?
+}
+
+extension DescribeEdgeConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
+        streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
+    }
+}
+
+extension DescribeEdgeConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeEdgeConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "StreamEdgeConfigurationNotFoundException" : self = .streamEdgeConfigurationNotFoundException(try StreamEdgeConfigurationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeEdgeConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case clientLimitExceededException(ClientLimitExceededException)
+    case invalidArgumentException(InvalidArgumentException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case streamEdgeConfigurationNotFoundException(StreamEdgeConfigurationNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeEdgeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeEdgeConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.edgeConfig = output.edgeConfig
+            self.failedStatusDetails = output.failedStatusDetails
+            self.lastUpdatedTime = output.lastUpdatedTime
+            self.streamARN = output.streamARN
+            self.streamName = output.streamName
+            self.syncStatus = output.syncStatus
+        } else {
+            self.creationTime = nil
+            self.edgeConfig = nil
+            self.failedStatusDetails = nil
+            self.lastUpdatedTime = nil
+            self.streamARN = nil
+            self.streamName = nil
+            self.syncStatus = nil
+        }
+    }
+}
+
+public struct DescribeEdgeConfigurationOutputResponse: Swift.Equatable {
+    /// The timestamp at which a stream’s edge configuration was first created.
+    public var creationTime: ClientRuntime.Date?
+    /// A description of the stream's edge configuration that will be used to sync with the Edge Agent IoT Greengrass component. The Edge Agent component will run on an IoT Hub Device setup at your premise.
+    public var edgeConfig: KinesisVideoClientTypes.EdgeConfig?
+    /// A description of the generated failure status.
+    public var failedStatusDetails: Swift.String?
+    /// The timestamp at which a stream’s edge configuration was last updated.
+    public var lastUpdatedTime: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the stream.
+    public var streamARN: Swift.String?
+    /// The name of the stream from which the edge configuration was updated.
+    public var streamName: Swift.String?
+    /// The latest status of the edge configuration update.
+    public var syncStatus: KinesisVideoClientTypes.SyncStatus?
+
+    public init (
+        creationTime: ClientRuntime.Date? = nil,
+        edgeConfig: KinesisVideoClientTypes.EdgeConfig? = nil,
+        failedStatusDetails: Swift.String? = nil,
+        lastUpdatedTime: ClientRuntime.Date? = nil,
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil,
+        syncStatus: KinesisVideoClientTypes.SyncStatus? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.edgeConfig = edgeConfig
+        self.failedStatusDetails = failedStatusDetails
+        self.lastUpdatedTime = lastUpdatedTime
+        self.streamARN = streamARN
+        self.streamName = streamName
+        self.syncStatus = syncStatus
+    }
+}
+
+struct DescribeEdgeConfigurationOutputResponseBody: Swift.Equatable {
+    let streamName: Swift.String?
+    let streamARN: Swift.String?
+    let creationTime: ClientRuntime.Date?
+    let lastUpdatedTime: ClientRuntime.Date?
+    let syncStatus: KinesisVideoClientTypes.SyncStatus?
+    let failedStatusDetails: Swift.String?
+    let edgeConfig: KinesisVideoClientTypes.EdgeConfig?
+}
+
+extension DescribeEdgeConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case edgeConfig = "EdgeConfig"
+        case failedStatusDetails = "FailedStatusDetails"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+        case syncStatus = "SyncStatus"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
+        streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let syncStatusDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.SyncStatus.self, forKey: .syncStatus)
+        syncStatus = syncStatusDecoded
+        let failedStatusDetailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failedStatusDetails)
+        failedStatusDetails = failedStatusDetailsDecoded
+        let edgeConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.EdgeConfig.self, forKey: .edgeConfig)
+        edgeConfig = edgeConfigDecoded
+    }
 }
 
 extension DescribeImageGenerationConfigurationInput: Swift.Encodable {
@@ -1199,7 +1447,7 @@ extension DescribeImageGenerationConfigurationOutputError {
         case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1250,6 +1498,305 @@ extension DescribeImageGenerationConfigurationOutputResponseBody: Swift.Decodabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageGenerationConfigurationDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.ImageGenerationConfiguration.self, forKey: .imageGenerationConfiguration)
         imageGenerationConfiguration = imageGenerationConfigurationDecoded
+    }
+}
+
+extension DescribeMappedResourceConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
+        if let streamName = self.streamName {
+            try encodeContainer.encode(streamName, forKey: .streamName)
+        }
+    }
+}
+
+extension DescribeMappedResourceConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/describeMappedResourceConfiguration"
+    }
+}
+
+public struct DescribeMappedResourceConfigurationInput: Swift.Equatable {
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// The token to provide in your next request, to get another batch of results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the stream.
+    public var streamARN: Swift.String?
+    /// The name of the stream.
+    public var streamName: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.streamARN = streamARN
+        self.streamName = streamName
+    }
+}
+
+struct DescribeMappedResourceConfigurationInputBody: Swift.Equatable {
+    let streamName: Swift.String?
+    let streamARN: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeMappedResourceConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
+        streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeMappedResourceConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeMappedResourceConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeMappedResourceConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case clientLimitExceededException(ClientLimitExceededException)
+    case invalidArgumentException(InvalidArgumentException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeMappedResourceConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeMappedResourceConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.mappedResourceConfigurationList = output.mappedResourceConfigurationList
+            self.nextToken = output.nextToken
+        } else {
+            self.mappedResourceConfigurationList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeMappedResourceConfigurationOutputResponse: Swift.Equatable {
+    /// A structure that encapsulates, or contains, the media storage configuration properties.
+    public var mappedResourceConfigurationList: [KinesisVideoClientTypes.MappedResourceConfigurationListItem]?
+    /// The token that was used in the NextTokenrequest to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        mappedResourceConfigurationList: [KinesisVideoClientTypes.MappedResourceConfigurationListItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.mappedResourceConfigurationList = mappedResourceConfigurationList
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeMappedResourceConfigurationOutputResponseBody: Swift.Equatable {
+    let mappedResourceConfigurationList: [KinesisVideoClientTypes.MappedResourceConfigurationListItem]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeMappedResourceConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mappedResourceConfigurationList = "MappedResourceConfigurationList"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mappedResourceConfigurationListContainer = try containerValues.decodeIfPresent([KinesisVideoClientTypes.MappedResourceConfigurationListItem?].self, forKey: .mappedResourceConfigurationList)
+        var mappedResourceConfigurationListDecoded0:[KinesisVideoClientTypes.MappedResourceConfigurationListItem]? = nil
+        if let mappedResourceConfigurationListContainer = mappedResourceConfigurationListContainer {
+            mappedResourceConfigurationListDecoded0 = [KinesisVideoClientTypes.MappedResourceConfigurationListItem]()
+            for structure0 in mappedResourceConfigurationListContainer {
+                if let structure0 = structure0 {
+                    mappedResourceConfigurationListDecoded0?.append(structure0)
+                }
+            }
+        }
+        mappedResourceConfigurationList = mappedResourceConfigurationListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeMediaStorageConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelARN = "ChannelARN"
+        case channelName = "ChannelName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channelARN = self.channelARN {
+            try encodeContainer.encode(channelARN, forKey: .channelARN)
+        }
+        if let channelName = self.channelName {
+            try encodeContainer.encode(channelName, forKey: .channelName)
+        }
+    }
+}
+
+extension DescribeMediaStorageConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/describeMediaStorageConfiguration"
+    }
+}
+
+public struct DescribeMediaStorageConfigurationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the channel.
+    public var channelARN: Swift.String?
+    /// The name of the channel.
+    public var channelName: Swift.String?
+
+    public init (
+        channelARN: Swift.String? = nil,
+        channelName: Swift.String? = nil
+    )
+    {
+        self.channelARN = channelARN
+        self.channelName = channelName
+    }
+}
+
+struct DescribeMediaStorageConfigurationInputBody: Swift.Equatable {
+    let channelName: Swift.String?
+    let channelARN: Swift.String?
+}
+
+extension DescribeMediaStorageConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelARN = "ChannelARN"
+        case channelName = "ChannelName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelName)
+        channelName = channelNameDecoded
+        let channelARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelARN)
+        channelARN = channelARNDecoded
+    }
+}
+
+extension DescribeMediaStorageConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeMediaStorageConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeMediaStorageConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case clientLimitExceededException(ClientLimitExceededException)
+    case invalidArgumentException(InvalidArgumentException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeMediaStorageConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeMediaStorageConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.mediaStorageConfiguration = output.mediaStorageConfiguration
+        } else {
+            self.mediaStorageConfiguration = nil
+        }
+    }
+}
+
+public struct DescribeMediaStorageConfigurationOutputResponse: Swift.Equatable {
+    /// A structure that encapsulates, or contains, the media storage configuration properties.
+    public var mediaStorageConfiguration: KinesisVideoClientTypes.MediaStorageConfiguration?
+
+    public init (
+        mediaStorageConfiguration: KinesisVideoClientTypes.MediaStorageConfiguration? = nil
+    )
+    {
+        self.mediaStorageConfiguration = mediaStorageConfiguration
+    }
+}
+
+struct DescribeMediaStorageConfigurationOutputResponseBody: Swift.Equatable {
+    let mediaStorageConfiguration: KinesisVideoClientTypes.MediaStorageConfiguration?
+}
+
+extension DescribeMediaStorageConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mediaStorageConfiguration = "MediaStorageConfiguration"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mediaStorageConfigurationDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.MediaStorageConfiguration.self, forKey: .mediaStorageConfiguration)
+        mediaStorageConfiguration = mediaStorageConfigurationDecoded
     }
 }
 
@@ -1327,7 +1874,7 @@ extension DescribeNotificationConfigurationOutputError {
         case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1455,7 +2002,7 @@ extension DescribeSignalingChannelOutputError {
         case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1583,7 +2130,7 @@ extension DescribeStreamOutputError {
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1687,6 +2234,73 @@ extension DeviceStreamLimitExceededExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension KinesisVideoClientTypes.EdgeConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletionConfig = "DeletionConfig"
+        case hubDeviceArn = "HubDeviceArn"
+        case recorderConfig = "RecorderConfig"
+        case uploaderConfig = "UploaderConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deletionConfig = self.deletionConfig {
+            try encodeContainer.encode(deletionConfig, forKey: .deletionConfig)
+        }
+        if let hubDeviceArn = self.hubDeviceArn {
+            try encodeContainer.encode(hubDeviceArn, forKey: .hubDeviceArn)
+        }
+        if let recorderConfig = self.recorderConfig {
+            try encodeContainer.encode(recorderConfig, forKey: .recorderConfig)
+        }
+        if let uploaderConfig = self.uploaderConfig {
+            try encodeContainer.encode(uploaderConfig, forKey: .uploaderConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hubDeviceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hubDeviceArn)
+        hubDeviceArn = hubDeviceArnDecoded
+        let recorderConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.RecorderConfig.self, forKey: .recorderConfig)
+        recorderConfig = recorderConfigDecoded
+        let uploaderConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.UploaderConfig.self, forKey: .uploaderConfig)
+        uploaderConfig = uploaderConfigDecoded
+        let deletionConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.DeletionConfig.self, forKey: .deletionConfig)
+        deletionConfig = deletionConfigDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// A description of the stream's edge configuration that will be used to sync with the Edge Agent IoT Greengrass component. The Edge Agent component will run on an IoT Hub Device setup at your premise.
+    public struct EdgeConfig: Swift.Equatable {
+        /// The deletion configuration is made up of the retention time (EdgeRetentionInHours) and local size configuration (LocalSizeConfig) details that are used to make the deletion.
+        public var deletionConfig: KinesisVideoClientTypes.DeletionConfig?
+        /// The "Internet of Things (IoT) Thing" Arn of the stream.
+        /// This member is required.
+        public var hubDeviceArn: Swift.String?
+        /// The recorder configuration consists of the local MediaSourceConfig details, that are used as credentials to access the local media files streamed on the camera.
+        /// This member is required.
+        public var recorderConfig: KinesisVideoClientTypes.RecorderConfig?
+        /// The uploader configuration contains the ScheduleExpression details that are used to schedule upload jobs for the recorded media files from the Edge Agent to a Kinesis Video Stream.
+        public var uploaderConfig: KinesisVideoClientTypes.UploaderConfig?
+
+        public init (
+            deletionConfig: KinesisVideoClientTypes.DeletionConfig? = nil,
+            hubDeviceArn: Swift.String? = nil,
+            recorderConfig: KinesisVideoClientTypes.RecorderConfig? = nil,
+            uploaderConfig: KinesisVideoClientTypes.UploaderConfig? = nil
+        )
+        {
+            self.deletionConfig = deletionConfig
+            self.hubDeviceArn = hubDeviceArn
+            self.recorderConfig = recorderConfig
+            self.uploaderConfig = uploaderConfig
+        }
+    }
+
 }
 
 extension KinesisVideoClientTypes {
@@ -1837,7 +2451,7 @@ extension GetDataEndpointOutputError {
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1967,7 +2581,7 @@ extension GetSignalingChannelEndpointOutputError {
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2184,7 +2798,7 @@ extension KinesisVideoClientTypes {
         /// The AWS Region of the S3 bucket where images will be delivered. This DestinationRegion must match the Region where the stream is located.
         /// This member is required.
         public var destinationRegion: Swift.String?
-        /// The Uniform Resource Idenifier (URI) that identifies where the images will be delivered.
+        /// The Uniform Resource Identifier (URI) that identifies where the images will be delivered.
         /// This member is required.
         public var uri: Swift.String?
 
@@ -2473,7 +3087,7 @@ extension ListSignalingChannelsOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2629,7 +3243,7 @@ extension ListStreamsOutputError {
         switch errorType {
         case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2775,7 +3389,7 @@ extension ListTagsForResourceOutputError {
         case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2935,7 +3549,7 @@ extension ListTagsForStreamOutputError {
         case "InvalidResourceFormatException" : self = .invalidResourceFormatException(try InvalidResourceFormatException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3006,6 +3620,258 @@ extension ListTagsForStreamOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+extension KinesisVideoClientTypes.LocalSizeConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxLocalMediaSizeInMB = "MaxLocalMediaSizeInMB"
+        case strategyOnFullSize = "StrategyOnFullSize"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxLocalMediaSizeInMB = self.maxLocalMediaSizeInMB {
+            try encodeContainer.encode(maxLocalMediaSizeInMB, forKey: .maxLocalMediaSizeInMB)
+        }
+        if let strategyOnFullSize = self.strategyOnFullSize {
+            try encodeContainer.encode(strategyOnFullSize.rawValue, forKey: .strategyOnFullSize)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxLocalMediaSizeInMBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxLocalMediaSizeInMB)
+        maxLocalMediaSizeInMB = maxLocalMediaSizeInMBDecoded
+        let strategyOnFullSizeDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.StrategyOnFullSize.self, forKey: .strategyOnFullSize)
+        strategyOnFullSize = strategyOnFullSizeDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// The configuration details that include the maximum size of the media (MaxLocalMediaSizeInMB) that you want to store for a stream on the Edge Agent, as well as the strategy that should be used (StrategyOnFullSize) when a stream's maximum size has been reached.
+    public struct LocalSizeConfig: Swift.Equatable {
+        /// The overall maximum size of the media that you want to store for a stream on the Edge Agent.
+        public var maxLocalMediaSizeInMB: Swift.Int?
+        /// The strategy to perform when a stream’s MaxLocalMediaSizeInMB limit is reached.
+        public var strategyOnFullSize: KinesisVideoClientTypes.StrategyOnFullSize?
+
+        public init (
+            maxLocalMediaSizeInMB: Swift.Int? = nil,
+            strategyOnFullSize: KinesisVideoClientTypes.StrategyOnFullSize? = nil
+        )
+        {
+            self.maxLocalMediaSizeInMB = maxLocalMediaSizeInMB
+            self.strategyOnFullSize = strategyOnFullSize
+        }
+    }
+
+}
+
+extension KinesisVideoClientTypes.MappedResourceConfigurationListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "ARN"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// A structure that encapsulates, or contains, the media storage configuration properties.
+    public struct MappedResourceConfigurationListItem: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Kinesis Video Stream resource, associated with the stream.
+        public var arn: Swift.String?
+        /// The type of the associated resource for the kinesis video stream.
+        public var type: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.type = type
+        }
+    }
+
+}
+
+extension KinesisVideoClientTypes.MediaSourceConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mediaUriSecretArn = "MediaUriSecretArn"
+        case mediaUriType = "MediaUriType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mediaUriSecretArn = self.mediaUriSecretArn {
+            try encodeContainer.encode(mediaUriSecretArn, forKey: .mediaUriSecretArn)
+        }
+        if let mediaUriType = self.mediaUriType {
+            try encodeContainer.encode(mediaUriType.rawValue, forKey: .mediaUriType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mediaUriSecretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaUriSecretArn)
+        mediaUriSecretArn = mediaUriSecretArnDecoded
+        let mediaUriTypeDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.MediaUriType.self, forKey: .mediaUriType)
+        mediaUriType = mediaUriTypeDecoded
+    }
+}
+
+extension KinesisVideoClientTypes.MediaSourceConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MediaSourceConfig(mediaUriType: \(Swift.String(describing: mediaUriType)), mediaUriSecretArn: \"CONTENT_REDACTED\")"}
+}
+
+extension KinesisVideoClientTypes {
+    /// The configuration details that consist of the credentials required (MediaUriSecretArn and MediaUriType) to access the media files that are streamed to the camera.
+    public struct MediaSourceConfig: Swift.Equatable {
+        /// The AWS Secrets Manager ARN for the username and password of the camera, or a local media file location.
+        /// This member is required.
+        public var mediaUriSecretArn: Swift.String?
+        /// The Uniform Resource Identifier (URI) type. The FILE_URI value can be used to stream local media files. Preview only supports the RTSP_URI media source URI format .
+        /// This member is required.
+        public var mediaUriType: KinesisVideoClientTypes.MediaUriType?
+
+        public init (
+            mediaUriSecretArn: Swift.String? = nil,
+            mediaUriType: KinesisVideoClientTypes.MediaUriType? = nil
+        )
+        {
+            self.mediaUriSecretArn = mediaUriSecretArn
+            self.mediaUriType = mediaUriType
+        }
+    }
+
+}
+
+extension KinesisVideoClientTypes.MediaStorageConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+        case streamARN = "StreamARN"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.MediaStorageConfigurationStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// A structure that encapsulates, or contains, the media storage configuration properties.
+    public struct MediaStorageConfiguration: Swift.Equatable {
+        /// The status of the media storage configuration.
+        /// This member is required.
+        public var status: KinesisVideoClientTypes.MediaStorageConfigurationStatus?
+        /// The Amazon Resource Name (ARN) of the stream
+        public var streamARN: Swift.String?
+
+        public init (
+            status: KinesisVideoClientTypes.MediaStorageConfigurationStatus? = nil,
+            streamARN: Swift.String? = nil
+        )
+        {
+            self.status = status
+            self.streamARN = streamARN
+        }
+    }
+
+}
+
+extension KinesisVideoClientTypes {
+    public enum MediaStorageConfigurationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaStorageConfigurationStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MediaStorageConfigurationStatus(rawValue: rawValue) ?? MediaStorageConfigurationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension KinesisVideoClientTypes {
+    public enum MediaUriType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fileUri
+        case rtspUri
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaUriType] {
+            return [
+                .fileUri,
+                .rtspUri,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fileUri: return "FILE_URI"
+            case .rtspUri: return "RTSP_URI"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MediaUriType(rawValue: rawValue) ?? MediaUriType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -3182,7 +4048,7 @@ extension KinesisVideoClientTypes.NotificationDestinationConfig: Swift.Codable {
 extension KinesisVideoClientTypes {
     /// The structure that contains the information required to deliver a notification to a customer.
     public struct NotificationDestinationConfig: Swift.Equatable {
-        /// The Uniform Resource Idenifier (URI) that identifies where the images will be delivered.
+        /// The Uniform Resource Identifier (URI) that identifies where the images will be delivered.
         /// This member is required.
         public var uri: Swift.String?
 
@@ -3191,6 +4057,52 @@ extension KinesisVideoClientTypes {
         )
         {
             self.uri = uri
+        }
+    }
+
+}
+
+extension KinesisVideoClientTypes.RecorderConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mediaSourceConfig = "MediaSourceConfig"
+        case scheduleConfig = "ScheduleConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mediaSourceConfig = self.mediaSourceConfig {
+            try encodeContainer.encode(mediaSourceConfig, forKey: .mediaSourceConfig)
+        }
+        if let scheduleConfig = self.scheduleConfig {
+            try encodeContainer.encode(scheduleConfig, forKey: .scheduleConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mediaSourceConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.MediaSourceConfig.self, forKey: .mediaSourceConfig)
+        mediaSourceConfig = mediaSourceConfigDecoded
+        let scheduleConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.ScheduleConfig.self, forKey: .scheduleConfig)
+        scheduleConfig = scheduleConfigDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// The recorder configuration consists of the local MediaSourceConfig details that are used as credentials to accesss the local media files streamed on the camera.
+    public struct RecorderConfig: Swift.Equatable {
+        /// The configuration details that consist of the credentials required (MediaUriSecretArn and MediaUriType) to access the media files streamed to the camera.
+        /// This member is required.
+        public var mediaSourceConfig: KinesisVideoClientTypes.MediaSourceConfig?
+        /// The configuration that consists of the ScheduleExpression and the DurationInMinutes details that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression attribute is not provided, then the Edge Agent will always be set to recording mode.
+        public var scheduleConfig: KinesisVideoClientTypes.ScheduleConfig?
+
+        public init (
+            mediaSourceConfig: KinesisVideoClientTypes.MediaSourceConfig? = nil,
+            scheduleConfig: KinesisVideoClientTypes.ScheduleConfig? = nil
+        )
+        {
+            self.mediaSourceConfig = mediaSourceConfig
+            self.scheduleConfig = scheduleConfig
         }
     }
 
@@ -3258,7 +4170,13 @@ extension ResourceInUseException {
     }
 }
 
-/// The resource is currently not available for this operation. New resources cannot be created with the same name as existing resources. Also, resources cannot be updated or deleted unless they are in an ACTIVE state. If this exception is returned, do not use it to determine whether the requested resource already exists. Instead, it is recommended you use the resource-specific describe API, for example, DescribeStream for video streams.
+/// When the input StreamARN or ChannelARN in CLOUD_STORAGE_MODE is already mapped to a different Kinesis Video Stream resource, or if the provided input StreamARN or ChannelARN is not in Active status, try one of the following :
+///
+/// * The DescribeMediaStorageConfiguration API to determine what the stream given channel is mapped to.
+///
+/// * The DescribeMappedResourceConfiguration API to determine the channel that the given stream is mapped to.
+///
+/// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
 public struct ResourceInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3345,6 +4263,53 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension KinesisVideoClientTypes.ScheduleConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case durationInSeconds = "DurationInSeconds"
+        case scheduleExpression = "ScheduleExpression"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let durationInSeconds = self.durationInSeconds {
+            try encodeContainer.encode(durationInSeconds, forKey: .durationInSeconds)
+        }
+        if let scheduleExpression = self.scheduleExpression {
+            try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scheduleExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpression)
+        scheduleExpression = scheduleExpressionDecoded
+        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
+        durationInSeconds = durationInSecondsDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// This API enables you to specify the duration that the camera, or local media file, should record onto the Edge Agent. The ScheduleConfig consists of the ScheduleExpression and the DurationInMinutes attributes. If the ScheduleExpression is not provided, then the Edge Agent will always be set to recording mode.
+    public struct ScheduleConfig: Swift.Equatable {
+        /// The total duration to record the media. If the ScheduleExpression attribute is provided, then the DurationInSeconds attribute should also be specified.
+        /// This member is required.
+        public var durationInSeconds: Swift.Int?
+        /// The Quartz cron expression that takes care of scheduling jobs to record from the camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided for the RecorderConfig, then the Edge Agent will always be set to recording mode. For more information about Quartz, refer to the [ Cron Trigger Tutorial ](http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html) page to understand the valid expressions and its use.
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+
+        public init (
+            durationInSeconds: Swift.Int? = nil,
+            scheduleExpression: Swift.String? = nil
+        )
+        {
+            self.durationInSeconds = durationInSeconds
+            self.scheduleExpression = scheduleExpression
+        }
+    }
+
+}
+
 extension KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case protocols = "Protocols"
@@ -3370,9 +4335,9 @@ extension KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration: Swif
         var protocolsDecoded0:[KinesisVideoClientTypes.ChannelProtocol]? = nil
         if let protocolsContainer = protocolsContainer {
             protocolsDecoded0 = [KinesisVideoClientTypes.ChannelProtocol]()
-            for string0 in protocolsContainer {
-                if let string0 = string0 {
-                    protocolsDecoded0?.append(string0)
+            for enum0 in protocolsContainer {
+                if let enum0 = enum0 {
+                    protocolsDecoded0?.append(enum0)
                 }
             }
         }
@@ -3437,6 +4402,211 @@ extension KinesisVideoClientTypes {
 
 }
 
+extension StartEdgeConfigurationUpdateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case edgeConfig = "EdgeConfig"
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let edgeConfig = self.edgeConfig {
+            try encodeContainer.encode(edgeConfig, forKey: .edgeConfig)
+        }
+        if let streamARN = self.streamARN {
+            try encodeContainer.encode(streamARN, forKey: .streamARN)
+        }
+        if let streamName = self.streamName {
+            try encodeContainer.encode(streamName, forKey: .streamName)
+        }
+    }
+}
+
+extension StartEdgeConfigurationUpdateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/startEdgeConfigurationUpdate"
+    }
+}
+
+public struct StartEdgeConfigurationUpdateInput: Swift.Equatable {
+    /// The edge configuration details required to invoke the update process.
+    /// This member is required.
+    public var edgeConfig: KinesisVideoClientTypes.EdgeConfig?
+    /// The Amazon Resource Name (ARN) of the stream. Specify either the StreamName or the StreamARN.
+    public var streamARN: Swift.String?
+    /// The name of the stream whose edge configuration you want to update. Specify either the StreamName or the StreamARN.
+    public var streamName: Swift.String?
+
+    public init (
+        edgeConfig: KinesisVideoClientTypes.EdgeConfig? = nil,
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil
+    )
+    {
+        self.edgeConfig = edgeConfig
+        self.streamARN = streamARN
+        self.streamName = streamName
+    }
+}
+
+struct StartEdgeConfigurationUpdateInputBody: Swift.Equatable {
+    let streamName: Swift.String?
+    let streamARN: Swift.String?
+    let edgeConfig: KinesisVideoClientTypes.EdgeConfig?
+}
+
+extension StartEdgeConfigurationUpdateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case edgeConfig = "EdgeConfig"
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
+        streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
+        let edgeConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.EdgeConfig.self, forKey: .edgeConfig)
+        edgeConfig = edgeConfigDecoded
+    }
+}
+
+extension StartEdgeConfigurationUpdateOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartEdgeConfigurationUpdateOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoDataRetentionException" : self = .noDataRetentionException(try NoDataRetentionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartEdgeConfigurationUpdateOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case clientLimitExceededException(ClientLimitExceededException)
+    case invalidArgumentException(InvalidArgumentException)
+    case noDataRetentionException(NoDataRetentionException)
+    case resourceInUseException(ResourceInUseException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartEdgeConfigurationUpdateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StartEdgeConfigurationUpdateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.edgeConfig = output.edgeConfig
+            self.failedStatusDetails = output.failedStatusDetails
+            self.lastUpdatedTime = output.lastUpdatedTime
+            self.streamARN = output.streamARN
+            self.streamName = output.streamName
+            self.syncStatus = output.syncStatus
+        } else {
+            self.creationTime = nil
+            self.edgeConfig = nil
+            self.failedStatusDetails = nil
+            self.lastUpdatedTime = nil
+            self.streamARN = nil
+            self.streamName = nil
+            self.syncStatus = nil
+        }
+    }
+}
+
+public struct StartEdgeConfigurationUpdateOutputResponse: Swift.Equatable {
+    /// The timestamp at which a stream’s edge configuration was first created.
+    public var creationTime: ClientRuntime.Date?
+    /// A description of the stream's edge configuration that will be used to sync with the Edge Agent IoT Greengrass component. The Edge Agent component will run on an IoT Hub Device setup at your premise.
+    public var edgeConfig: KinesisVideoClientTypes.EdgeConfig?
+    /// A description of the generated failure status.
+    public var failedStatusDetails: Swift.String?
+    /// The timestamp at which a stream’s edge configuration was last updated.
+    public var lastUpdatedTime: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the stream.
+    public var streamARN: Swift.String?
+    /// The name of the stream from which the edge configuration was updated.
+    public var streamName: Swift.String?
+    /// The current sync status of the stream's edge configuration. When you invoke this API, the sync status will be set to the SYNCING state. Use the DescribeEdgeConfiguration API to get the latest status of the edge configuration.
+    public var syncStatus: KinesisVideoClientTypes.SyncStatus?
+
+    public init (
+        creationTime: ClientRuntime.Date? = nil,
+        edgeConfig: KinesisVideoClientTypes.EdgeConfig? = nil,
+        failedStatusDetails: Swift.String? = nil,
+        lastUpdatedTime: ClientRuntime.Date? = nil,
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil,
+        syncStatus: KinesisVideoClientTypes.SyncStatus? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.edgeConfig = edgeConfig
+        self.failedStatusDetails = failedStatusDetails
+        self.lastUpdatedTime = lastUpdatedTime
+        self.streamARN = streamARN
+        self.streamName = streamName
+        self.syncStatus = syncStatus
+    }
+}
+
+struct StartEdgeConfigurationUpdateOutputResponseBody: Swift.Equatable {
+    let streamName: Swift.String?
+    let streamARN: Swift.String?
+    let creationTime: ClientRuntime.Date?
+    let lastUpdatedTime: ClientRuntime.Date?
+    let syncStatus: KinesisVideoClientTypes.SyncStatus?
+    let failedStatusDetails: Swift.String?
+    let edgeConfig: KinesisVideoClientTypes.EdgeConfig?
+}
+
+extension StartEdgeConfigurationUpdateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case edgeConfig = "EdgeConfig"
+        case failedStatusDetails = "FailedStatusDetails"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case streamARN = "StreamARN"
+        case streamName = "StreamName"
+        case syncStatus = "SyncStatus"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
+        streamName = streamNameDecoded
+        let streamARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamARN)
+        streamARN = streamARNDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let syncStatusDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.SyncStatus.self, forKey: .syncStatus)
+        syncStatus = syncStatusDecoded
+        let failedStatusDetailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failedStatusDetails)
+        failedStatusDetails = failedStatusDetailsDecoded
+        let edgeConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.EdgeConfig.self, forKey: .edgeConfig)
+        edgeConfig = edgeConfigDecoded
+    }
+}
+
 extension KinesisVideoClientTypes {
     public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
@@ -3472,6 +4642,90 @@ extension KinesisVideoClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = Status(rawValue: rawValue) ?? Status.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension KinesisVideoClientTypes {
+    public enum StrategyOnFullSize: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleteOldestMedia
+        case denyNewMedia
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StrategyOnFullSize] {
+            return [
+                .deleteOldestMedia,
+                .denyNewMedia,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleteOldestMedia: return "DELETE_OLDEST_MEDIA"
+            case .denyNewMedia: return "DENY_NEW_MEDIA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StrategyOnFullSize(rawValue: rawValue) ?? StrategyOnFullSize.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension StreamEdgeConfigurationNotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: StreamEdgeConfigurationNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The Exception rendered when the Amazon Kinesis Video Stream can't find a stream's edge configuration that you specified.
+public struct StreamEdgeConfigurationNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct StreamEdgeConfigurationNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension StreamEdgeConfigurationNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -3635,6 +4889,50 @@ extension KinesisVideoClientTypes {
 
 }
 
+extension KinesisVideoClientTypes {
+    public enum SyncStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case acknowledged
+        case deleteFailed
+        case deleting
+        case inSync
+        case syncing
+        case syncFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyncStatus] {
+            return [
+                .acknowledged,
+                .deleteFailed,
+                .deleting,
+                .inSync,
+                .syncing,
+                .syncFailed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .acknowledged: return "ACKNOWLEDGED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .inSync: return "IN_SYNC"
+            case .syncing: return "SYNCING"
+            case .syncFailed: return "SYNC_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SyncStatus(rawValue: rawValue) ?? SyncStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension KinesisVideoClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"
@@ -3771,7 +5069,7 @@ extension TagResourceOutputError {
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagsPerResourceExceededLimitException" : self = .tagsPerResourceExceededLimitException(try TagsPerResourceExceededLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3896,7 +5194,7 @@ extension TagStreamOutputError {
         case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TagsPerResourceExceededLimitException" : self = .tagsPerResourceExceededLimitException(try TagsPerResourceExceededLimitException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4061,7 +5359,7 @@ extension UntagResourceOutputError {
         case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4184,7 +5482,7 @@ extension UntagStreamOutputError {
         case "InvalidResourceFormatException" : self = .invalidResourceFormatException(try InvalidResourceFormatException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotAuthorizedException" : self = .notAuthorizedException(try NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4355,7 +5653,7 @@ extension UpdateDataRetentionOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VersionMismatchException" : self = .versionMismatchException(try VersionMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4468,7 +5766,7 @@ extension UpdateImageGenerationConfigurationOutputError {
         case "NoDataRetentionException" : self = .noDataRetentionException(try NoDataRetentionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4489,6 +5787,109 @@ extension UpdateImageGenerationConfigurationOutputResponse: ClientRuntime.HttpRe
 }
 
 public struct UpdateImageGenerationConfigurationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension UpdateMediaStorageConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelARN = "ChannelARN"
+        case mediaStorageConfiguration = "MediaStorageConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channelARN = self.channelARN {
+            try encodeContainer.encode(channelARN, forKey: .channelARN)
+        }
+        if let mediaStorageConfiguration = self.mediaStorageConfiguration {
+            try encodeContainer.encode(mediaStorageConfiguration, forKey: .mediaStorageConfiguration)
+        }
+    }
+}
+
+extension UpdateMediaStorageConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/updateMediaStorageConfiguration"
+    }
+}
+
+public struct UpdateMediaStorageConfigurationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the channel.
+    /// This member is required.
+    public var channelARN: Swift.String?
+    /// A structure that encapsulates, or contains, the media storage configuration properties.
+    /// This member is required.
+    public var mediaStorageConfiguration: KinesisVideoClientTypes.MediaStorageConfiguration?
+
+    public init (
+        channelARN: Swift.String? = nil,
+        mediaStorageConfiguration: KinesisVideoClientTypes.MediaStorageConfiguration? = nil
+    )
+    {
+        self.channelARN = channelARN
+        self.mediaStorageConfiguration = mediaStorageConfiguration
+    }
+}
+
+struct UpdateMediaStorageConfigurationInputBody: Swift.Equatable {
+    let channelARN: Swift.String?
+    let mediaStorageConfiguration: KinesisVideoClientTypes.MediaStorageConfiguration?
+}
+
+extension UpdateMediaStorageConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelARN = "ChannelARN"
+        case mediaStorageConfiguration = "MediaStorageConfiguration"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelARN)
+        channelARN = channelARNDecoded
+        let mediaStorageConfigurationDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.MediaStorageConfiguration.self, forKey: .mediaStorageConfiguration)
+        mediaStorageConfiguration = mediaStorageConfigurationDecoded
+    }
+}
+
+extension UpdateMediaStorageConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateMediaStorageConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NoDataRetentionException" : self = .noDataRetentionException(try NoDataRetentionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateMediaStorageConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case clientLimitExceededException(ClientLimitExceededException)
+    case invalidArgumentException(InvalidArgumentException)
+    case noDataRetentionException(NoDataRetentionException)
+    case resourceInUseException(ResourceInUseException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateMediaStorageConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateMediaStorageConfigurationOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -4581,7 +5982,7 @@ extension UpdateNotificationConfigurationOutputError {
         case "NoDataRetentionException" : self = .noDataRetentionException(try NoDataRetentionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4696,7 +6097,7 @@ extension UpdateSignalingChannelOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VersionMismatchException" : self = .versionMismatchException(try VersionMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4834,7 +6235,7 @@ extension UpdateStreamOutputError {
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VersionMismatchException" : self = .versionMismatchException(try VersionMismatchException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4857,6 +6258,42 @@ extension UpdateStreamOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateStreamOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension KinesisVideoClientTypes.UploaderConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scheduleConfig = "ScheduleConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scheduleConfig = self.scheduleConfig {
+            try encodeContainer.encode(scheduleConfig, forKey: .scheduleConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scheduleConfigDecoded = try containerValues.decodeIfPresent(KinesisVideoClientTypes.ScheduleConfig.self, forKey: .scheduleConfig)
+        scheduleConfig = scheduleConfigDecoded
+    }
+}
+
+extension KinesisVideoClientTypes {
+    /// The configuration that consists of the ScheduleExpression and the DurationInMinutesdetails, that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided, then the Edge Agent will always be in upload mode.
+    public struct UploaderConfig: Swift.Equatable {
+        /// The configuration that consists of the ScheduleExpression and the DurationInMinutesdetails that specify the scheduling to record from a camera, or local media file, onto the Edge Agent. If the ScheduleExpression is not provided, then the Edge Agent will always be in recording mode.
+        /// This member is required.
+        public var scheduleConfig: KinesisVideoClientTypes.ScheduleConfig?
+
+        public init (
+            scheduleConfig: KinesisVideoClientTypes.ScheduleConfig? = nil
+        )
+        {
+            self.scheduleConfig = scheduleConfig
+        }
+    }
+
 }
 
 extension VersionMismatchException {

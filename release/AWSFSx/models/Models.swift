@@ -635,7 +635,7 @@ extension AssociateFileSystemAliasesOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FileSystemNotFound" : self = .fileSystemNotFound(try FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1547,7 +1547,7 @@ extension CancelDataRepositoryTaskOutputError {
         case "DataRepositoryTaskNotFound" : self = .dataRepositoryTaskNotFound(try DataRepositoryTaskNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1843,7 +1843,7 @@ extension CopyBackupOutputError {
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SourceBackupUnavailable" : self = .sourceBackupUnavailable(try SourceBackupUnavailable(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2019,7 +2019,7 @@ extension CreateBackupOutputError {
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VolumeNotFound" : self = .volumeNotFound(try VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2240,7 +2240,7 @@ extension CreateDataRepositoryAssociationOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2464,7 +2464,7 @@ extension CreateDataRepositoryTaskOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2833,7 +2833,7 @@ extension CreateFileCacheOutputError {
         case "InvalidPerUnitStorageThroughput" : self = .invalidPerUnitStorageThroughput(try InvalidPerUnitStorageThroughput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingFileCacheConfiguration" : self = .missingFileCacheConfiguration(try MissingFileCacheConfiguration(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3154,7 +3154,7 @@ extension CreateFileSystemFromBackupOutputError {
         case "InvalidPerUnitStorageThroughput" : self = .invalidPerUnitStorageThroughput(try InvalidPerUnitStorageThroughput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingFileSystemConfiguration" : self = .missingFileSystemConfiguration(try MissingFileSystemConfiguration(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3991,7 +3991,7 @@ extension CreateFileSystemOutputError {
         case "InvalidPerUnitStorageThroughput" : self = .invalidPerUnitStorageThroughput(try InvalidPerUnitStorageThroughput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingFileSystemConfiguration" : self = .missingFileSystemConfiguration(try MissingFileSystemConfiguration(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4698,7 +4698,7 @@ extension CreateSnapshotOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VolumeNotFound" : self = .volumeNotFound(try VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4914,7 +4914,7 @@ extension CreateStorageVirtualMachineOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5145,7 +5145,7 @@ extension CreateVolumeFromBackupOutputError {
         case "MissingVolumeConfiguration" : self = .missingVolumeConfiguration(try MissingVolumeConfiguration(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageVirtualMachineNotFound" : self = .storageVirtualMachineNotFound(try StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5343,7 +5343,7 @@ extension CreateVolumeOutputError {
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageVirtualMachineNotFound" : self = .storageVirtualMachineNotFound(try StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6664,7 +6664,7 @@ extension DeleteBackupOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "IncompatibleParameterError" : self = .incompatibleParameterError(try IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6820,7 +6820,7 @@ extension DeleteDataRepositoryAssociationOutputError {
         case "IncompatibleParameterError" : self = .incompatibleParameterError(try IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6971,7 +6971,7 @@ extension DeleteFileCacheOutputError {
         case "IncompatibleParameterError" : self = .incompatibleParameterError(try IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7428,7 +7428,7 @@ extension DeleteFileSystemOutputError {
         case "IncompatibleParameterError" : self = .incompatibleParameterError(try IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7741,7 +7741,7 @@ extension DeleteSnapshotOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotNotFound" : self = .snapshotNotFound(try SnapshotNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7879,7 +7879,7 @@ extension DeleteStorageVirtualMachineOutputError {
         case "IncompatibleParameterError" : self = .incompatibleParameterError(try IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageVirtualMachineNotFound" : self = .storageVirtualMachineNotFound(try StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8203,7 +8203,7 @@ extension DeleteVolumeOutputError {
         case "IncompatibleParameterError" : self = .incompatibleParameterError(try IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VolumeNotFound" : self = .volumeNotFound(try VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8401,7 +8401,7 @@ extension DescribeBackupsOutputError {
         case "FileSystemNotFound" : self = .fileSystemNotFound(try FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VolumeNotFound" : self = .volumeNotFound(try VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8599,7 +8599,7 @@ extension DescribeDataRepositoryAssociationsOutputError {
         case "FileSystemNotFound" : self = .fileSystemNotFound(try FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDataRepositoryType" : self = .invalidDataRepositoryType(try InvalidDataRepositoryType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8795,7 +8795,7 @@ extension DescribeDataRepositoryTasksOutputError {
         case "DataRepositoryTaskNotFound" : self = .dataRepositoryTaskNotFound(try DataRepositoryTaskNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FileSystemNotFound" : self = .fileSystemNotFound(try FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8965,7 +8965,7 @@ extension DescribeFileCachesOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FileCacheNotFound" : self = .fileCacheNotFound(try FileCacheNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9136,7 +9136,7 @@ extension DescribeFileSystemAliasesOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FileSystemNotFound" : self = .fileSystemNotFound(try FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9307,7 +9307,7 @@ extension DescribeFileSystemsOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FileSystemNotFound" : self = .fileSystemNotFound(try FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9501,7 +9501,7 @@ extension DescribeSnapshotsOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotNotFound" : self = .snapshotNotFound(try SnapshotNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9694,7 +9694,7 @@ extension DescribeStorageVirtualMachinesOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageVirtualMachineNotFound" : self = .storageVirtualMachineNotFound(try StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9887,7 +9887,7 @@ extension DescribeVolumesOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VolumeNotFound" : self = .volumeNotFound(try VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10059,7 +10059,7 @@ extension DisassociateFileSystemAliasesOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FileSystemNotFound" : self = .fileSystemNotFound(try FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12751,7 +12751,7 @@ extension ListTagsForResourceOutputError {
         case "NotServiceResourceError" : self = .notServiceResourceError(try NotServiceResourceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDoesNotSupportTagging" : self = .resourceDoesNotSupportTagging(try ResourceDoesNotSupportTagging(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14796,7 +14796,7 @@ extension ReleaseFileSystemNfsV3LocksOutputError {
         case "IncompatibleParameterError" : self = .incompatibleParameterError(try IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15216,7 +15216,7 @@ extension RestoreVolumeFromSnapshotOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VolumeNotFound" : self = .volumeNotFound(try VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16919,7 +16919,7 @@ extension TagResourceOutputError {
         case "NotServiceResourceError" : self = .notServiceResourceError(try NotServiceResourceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDoesNotSupportTagging" : self = .resourceDoesNotSupportTagging(try ResourceDoesNotSupportTagging(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17195,7 +17195,7 @@ extension UntagResourceOutputError {
         case "NotServiceResourceError" : self = .notServiceResourceError(try NotServiceResourceError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDoesNotSupportTagging" : self = .resourceDoesNotSupportTagging(try ResourceDoesNotSupportTagging(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFound" : self = .resourceNotFound(try ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17320,7 +17320,7 @@ extension UpdateDataRepositoryAssociationOutputError {
         case "IncompatibleParameterError" : self = .incompatibleParameterError(try IncompatibleParameterError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -17500,7 +17500,7 @@ extension UpdateFileCacheOutputError {
         case "MissingFileCacheConfiguration" : self = .missingFileCacheConfiguration(try MissingFileCacheConfiguration(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18052,7 +18052,7 @@ extension UpdateFileSystemOutputError {
         case "MissingFileSystemConfiguration" : self = .missingFileSystemConfiguration(try MissingFileSystemConfiguration(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceLimitExceeded" : self = .serviceLimitExceeded(try ServiceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18512,7 +18512,7 @@ extension UpdateSnapshotOutputError {
         case "BadRequest" : self = .badRequest(try BadRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "SnapshotNotFound" : self = .snapshotNotFound(try SnapshotNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18670,7 +18670,7 @@ extension UpdateStorageVirtualMachineOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StorageVirtualMachineNotFound" : self = .storageVirtualMachineNotFound(try StorageVirtualMachineNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperation" : self = .unsupportedOperation(try UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -18872,7 +18872,7 @@ extension UpdateVolumeOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MissingVolumeConfiguration" : self = .missingVolumeConfiguration(try MissingVolumeConfiguration(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "VolumeNotFound" : self = .volumeNotFound(try VolumeNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

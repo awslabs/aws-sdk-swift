@@ -113,7 +113,7 @@ extension AcceptDirectConnectGatewayAssociationProposalOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -310,7 +310,7 @@ extension AllocateConnectionOnInterconnectOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -749,7 +749,7 @@ extension AllocateHostedConnectionOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1140,7 +1140,7 @@ extension AllocatePrivateVirtualInterfaceOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -1579,7 +1579,7 @@ extension AllocatePublicVirtualInterfaceOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2018,7 +2018,7 @@ extension AllocateTransitVirtualInterfaceOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2146,7 +2146,7 @@ extension AssociateConnectionWithLagOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2520,7 +2520,7 @@ extension AssociateHostedConnectionOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -2917,7 +2917,7 @@ extension AssociateMacSecKeyOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3062,7 +3062,7 @@ extension AssociateVirtualInterfaceOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3753,7 +3753,7 @@ extension ConfirmConnectionOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -3883,7 +3883,7 @@ extension ConfirmCustomerAgreementOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4020,7 +4020,7 @@ extension ConfirmPrivateVirtualInterfaceOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4151,7 +4151,7 @@ extension ConfirmPublicVirtualInterfaceOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4295,7 +4295,7 @@ extension ConfirmTransitVirtualInterfaceOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4778,7 +4778,7 @@ extension CreateBGPPeerOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4979,7 +4979,7 @@ extension CreateConnectionOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5390,7 +5390,7 @@ extension CreateDirectConnectGatewayAssociationOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5577,7 +5577,7 @@ extension CreateDirectConnectGatewayAssociationProposalOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5702,7 +5702,7 @@ extension CreateDirectConnectGatewayOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -5891,7 +5891,7 @@ extension CreateInterconnectOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6296,7 +6296,7 @@ extension CreateLagOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6669,7 +6669,7 @@ extension CreatePrivateVirtualInterfaceOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7095,7 +7095,7 @@ extension CreatePublicVirtualInterfaceOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7521,7 +7521,7 @@ extension CreateTransitVirtualInterfaceOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7716,7 +7716,7 @@ extension DeleteBGPPeerOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7829,7 +7829,7 @@ extension DeleteConnectionOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8213,7 +8213,7 @@ extension DeleteDirectConnectGatewayAssociationOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8326,7 +8326,7 @@ extension DeleteDirectConnectGatewayAssociationProposalOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8439,7 +8439,7 @@ extension DeleteDirectConnectGatewayOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8552,7 +8552,7 @@ extension DeleteInterconnectOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8679,7 +8679,7 @@ extension DeleteLagOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9035,7 +9035,7 @@ extension DeleteVirtualInterfaceOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9190,7 +9190,7 @@ extension DescribeConnectionLoaOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9350,7 +9350,7 @@ extension DescribeConnectionsOnInterconnectOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9424,7 +9424,7 @@ extension DescribeConnectionsOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9526,7 +9526,7 @@ extension DescribeCustomerMetadataOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9711,7 +9711,7 @@ extension DescribeDirectConnectGatewayAssociationProposalsOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9902,7 +9902,7 @@ extension DescribeDirectConnectGatewayAssociationsOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10069,7 +10069,7 @@ extension DescribeDirectConnectGatewayAttachmentsOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10224,7 +10224,7 @@ extension DescribeDirectConnectGatewaysOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10356,7 +10356,7 @@ extension DescribeHostedConnectionsOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10502,7 +10502,7 @@ extension DescribeInterconnectLoaOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10614,7 +10614,7 @@ extension DescribeInterconnectsOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10735,7 +10735,7 @@ extension DescribeLagsOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10881,7 +10881,7 @@ extension DescribeLoaOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10985,7 +10985,7 @@ extension DescribeLocationsOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11120,7 +11120,7 @@ extension DescribeRouterConfigurationOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11275,7 +11275,7 @@ extension DescribeTagsOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11377,7 +11377,7 @@ extension DescribeVirtualGatewaysOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11510,7 +11510,7 @@ extension DescribeVirtualInterfacesOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12400,7 +12400,7 @@ extension DisassociateConnectionFromLagOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12774,7 +12774,7 @@ extension DisassociateMacSecKeyOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13678,7 +13678,7 @@ extension ListVirtualInterfaceTestHistoryOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15249,7 +15249,7 @@ extension StartBgpFailoverTestOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15362,7 +15362,7 @@ extension StopBgpFailoverTestOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15548,7 +15548,7 @@ extension TagResourceOutputError {
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DuplicateTagKeysException" : self = .duplicateTagKeysException(try DuplicateTagKeysException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15709,7 +15709,7 @@ extension UntagResourceOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15815,7 +15815,7 @@ extension UpdateConnectionOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16223,7 +16223,7 @@ extension UpdateDirectConnectGatewayAssociationOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16349,7 +16349,7 @@ extension UpdateDirectConnectGatewayOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16498,7 +16498,7 @@ extension UpdateLagOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16890,7 +16890,7 @@ extension UpdateVirtualInterfaceAttributesOutputError {
         switch errorType {
         case "DirectConnectClientException" : self = .directConnectClientException(try DirectConnectClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DirectConnectServerException" : self = .directConnectServerException(try DirectConnectServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }

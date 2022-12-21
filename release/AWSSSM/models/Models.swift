@@ -286,7 +286,7 @@ extension AddTagsToResourceOutputError {
         case "InvalidResourceType" : self = .invalidResourceType(try InvalidResourceType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsError" : self = .tooManyTagsError(try TooManyTagsError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -606,7 +606,7 @@ extension AssociateOpsItemRelatedItemOutputError {
         case "OpsItemLimitExceededException" : self = .opsItemLimitExceededException(try OpsItemLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemNotFoundException" : self = .opsItemNotFoundException(try OpsItemNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemRelatedItemAlreadyExistsException" : self = .opsItemRelatedItemAlreadyExistsException(try OpsItemRelatedItemAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4589,7 +4589,7 @@ extension CancelCommandOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidCommandId" : self = .invalidCommandId(try InvalidCommandId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -4674,7 +4674,7 @@ extension CancelMaintenanceWindowExecutionOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6651,7 +6651,7 @@ extension CreateActivationOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameters" : self = .invalidParameters(try InvalidParameters(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -6796,7 +6796,7 @@ extension CreateAssociationBatchOutputError {
         case "InvalidTarget" : self = .invalidTarget(try InvalidTarget(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTargetMaps" : self = .invalidTargetMaps(try InvalidTargetMaps(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedPlatformType" : self = .unsupportedPlatformType(try UnsupportedPlatformType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7602,7 +7602,7 @@ extension CreateAssociationOutputError {
         case "InvalidTarget" : self = .invalidTarget(try InvalidTarget(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTargetMaps" : self = .invalidTargetMaps(try InvalidTargetMaps(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedPlatformType" : self = .unsupportedPlatformType(try UnsupportedPlatformType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -7894,7 +7894,7 @@ extension CreateDocumentOutputError {
         case "InvalidDocumentContent" : self = .invalidDocumentContent(try InvalidDocumentContent(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentSchemaVersion" : self = .invalidDocumentSchemaVersion(try InvalidDocumentSchemaVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MaxDocumentSizeExceeded" : self = .maxDocumentSizeExceeded(try MaxDocumentSizeExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8174,7 +8174,7 @@ extension CreateMaintenanceWindowOutputError {
         case "IdempotentParameterMismatch" : self = .idempotentParameterMismatch(try IdempotentParameterMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8527,7 +8527,7 @@ extension CreateOpsItemOutputError {
         case "OpsItemAlreadyExistsException" : self = .opsItemAlreadyExistsException(try OpsItemAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemInvalidParameterException" : self = .opsItemInvalidParameterException(try OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemLimitExceededException" : self = .opsItemLimitExceededException(try OpsItemLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -8708,7 +8708,7 @@ extension CreateOpsMetadataOutputError {
         case "OpsMetadataInvalidArgumentException" : self = .opsMetadataInvalidArgumentException(try OpsMetadataInvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsMetadataLimitExceededException" : self = .opsMetadataLimitExceededException(try OpsMetadataLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsMetadataTooManyUpdatesException" : self = .opsMetadataTooManyUpdatesException(try OpsMetadataTooManyUpdatesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9028,7 +9028,7 @@ extension CreatePatchBaselineOutputError {
         case "IdempotentParameterMismatch" : self = .idempotentParameterMismatch(try IdempotentParameterMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9180,7 +9180,7 @@ extension CreateResourceDataSyncOutputError {
         case "ResourceDataSyncAlreadyExists" : self = .resourceDataSyncAlreadyExistsException(try ResourceDataSyncAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDataSyncCountExceeded" : self = .resourceDataSyncCountExceededException(try ResourceDataSyncCountExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDataSyncInvalidConfiguration" : self = .resourceDataSyncInvalidConfigurationException(try ResourceDataSyncInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9318,7 +9318,7 @@ extension DeleteActivationOutputError {
         case "InvalidActivation" : self = .invalidActivation(try InvalidActivation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidActivationId" : self = .invalidActivationId(try InvalidActivationId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9428,7 +9428,7 @@ extension DeleteAssociationOutputError {
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9551,7 +9551,7 @@ extension DeleteDocumentOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentOperation" : self = .invalidDocumentOperation(try InvalidDocumentOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9674,7 +9674,7 @@ extension DeleteInventoryOutputError {
         case "InvalidInventoryRequest" : self = .invalidInventoryRequestException(try InvalidInventoryRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidOption" : self = .invalidOptionException(try InvalidOptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTypeName" : self = .invalidTypeNameException(try InvalidTypeNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9809,7 +9809,7 @@ extension DeleteMaintenanceWindowOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -9922,7 +9922,7 @@ extension DeleteOpsMetadataOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsMetadataInvalidArgumentException" : self = .opsMetadataInvalidArgumentException(try OpsMetadataInvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsMetadataNotFoundException" : self = .opsMetadataNotFoundException(try OpsMetadataNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10005,7 +10005,7 @@ extension DeleteParameterOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterNotFound" : self = .parameterNotFound(try ParameterNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10098,7 +10098,7 @@ extension DeleteParametersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10238,7 +10238,7 @@ extension DeletePatchBaselineOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10364,7 +10364,7 @@ extension DeleteResourceDataSyncOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDataSyncInvalidConfiguration" : self = .resourceDataSyncInvalidConfigurationException(try ResourceDataSyncInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDataSyncNotFound" : self = .resourceDataSyncNotFoundException(try ResourceDataSyncNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10474,7 +10474,7 @@ extension DeleteResourcePolicyOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourcePolicyConflictException" : self = .resourcePolicyConflictException(try ResourcePolicyConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourcePolicyInvalidParameterException" : self = .resourcePolicyInvalidParameterException(try ResourcePolicyInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10557,7 +10557,7 @@ extension DeregisterManagedInstanceOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10652,7 +10652,7 @@ extension DeregisterPatchBaselineForPatchGroupOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceId" : self = .invalidResourceId(try InvalidResourceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10801,7 +10801,7 @@ extension DeregisterTargetFromMaintenanceWindowOutputError {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetInUseException" : self = .targetInUseException(try TargetInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -10938,7 +10938,7 @@ extension DeregisterTaskFromMaintenanceWindowOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11189,7 +11189,7 @@ extension DescribeActivationsOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFilter" : self = .invalidFilter(try InvalidFilter(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11385,7 +11385,7 @@ extension DescribeAssociationExecutionTargetsOutputError {
         case "AssociationExecutionDoesNotExist" : self = .associationExecutionDoesNotExist(try AssociationExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11568,7 +11568,7 @@ extension DescribeAssociationExecutionsOutputError {
         case "AssociationDoesNotExist" : self = .associationDoesNotExist(try AssociationDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11739,7 +11739,7 @@ extension DescribeAssociationOutputError {
         case "InvalidAssociationVersion" : self = .invalidAssociationVersion(try InvalidAssociationVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -11892,7 +11892,7 @@ extension DescribeAutomationExecutionsOutputError {
         case "InvalidFilterKey" : self = .invalidFilterKey(try InvalidFilterKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFilterValue" : self = .invalidFilterValue(try InvalidFilterValue(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12089,7 +12089,7 @@ extension DescribeAutomationStepExecutionsOutputError {
         case "InvalidFilterKey" : self = .invalidFilterKey(try InvalidFilterKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFilterValue" : self = .invalidFilterValue(try InvalidFilterValue(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12295,7 +12295,7 @@ extension DescribeAvailablePatchesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12451,7 +12451,7 @@ extension DescribeDocumentOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentVersion" : self = .invalidDocumentVersion(try InvalidDocumentVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12605,7 +12605,7 @@ extension DescribeDocumentPermissionOutputError {
         case "InvalidDocumentOperation" : self = .invalidDocumentOperation(try InvalidDocumentOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidPermissionType" : self = .invalidPermissionType(try InvalidPermissionType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12784,7 +12784,7 @@ extension DescribeEffectiveInstanceAssociationsOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -12943,7 +12943,7 @@ extension DescribeEffectivePatchesForPatchBaselineOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceId" : self = .invalidResourceId(try InvalidResourceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperatingSystem" : self = .unsupportedOperatingSystem(try UnsupportedOperatingSystem(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13102,7 +13102,7 @@ extension DescribeInstanceAssociationsStatusOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13297,7 +13297,7 @@ extension DescribeInstanceInformationOutputError {
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceInformationFilterValue" : self = .invalidInstanceInformationFilterValue(try InvalidInstanceInformationFilterValue(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13487,7 +13487,7 @@ extension DescribeInstancePatchStatesForPatchGroupOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFilter" : self = .invalidFilter(try InvalidFilter(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13656,7 +13656,7 @@ extension DescribeInstancePatchStatesOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -13846,7 +13846,7 @@ extension DescribeInstancePatchesOutputError {
         case "InvalidFilter" : self = .invalidFilter(try InvalidFilter(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14018,7 +14018,7 @@ extension DescribeInventoryDeletionsOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDeletionId" : self = .invalidDeletionIdException(try InvalidDeletionIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14212,7 +14212,7 @@ extension DescribeMaintenanceWindowExecutionTaskInvocationsOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14392,7 +14392,7 @@ extension DescribeMaintenanceWindowExecutionTasksOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14575,7 +14575,7 @@ extension DescribeMaintenanceWindowExecutionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14789,7 +14789,7 @@ extension DescribeMaintenanceWindowScheduleOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -14969,7 +14969,7 @@ extension DescribeMaintenanceWindowTargetsOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15149,7 +15149,7 @@ extension DescribeMaintenanceWindowTasksOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15329,7 +15329,7 @@ extension DescribeMaintenanceWindowsForTargetOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15494,7 +15494,7 @@ extension DescribeMaintenanceWindowsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15688,7 +15688,7 @@ extension DescribeOpsItemsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -15881,7 +15881,7 @@ extension DescribeParametersOutputError {
         case "InvalidFilterOption" : self = .invalidFilterOption(try InvalidFilterOption(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFilterValue" : self = .invalidFilterValue(try InvalidFilterValue(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16056,7 +16056,7 @@ extension DescribePatchBaselinesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16187,7 +16187,7 @@ extension DescribePatchGroupStateOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16448,7 +16448,7 @@ extension DescribePatchGroupsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16631,7 +16631,7 @@ extension DescribePatchPropertiesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16820,7 +16820,7 @@ extension DescribeSessionsOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFilterKey" : self = .invalidFilterKey(try InvalidFilterKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -16968,7 +16968,7 @@ extension DisassociateOpsItemRelatedItemOutputError {
         case "OpsItemInvalidParameterException" : self = .opsItemInvalidParameterException(try OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemNotFoundException" : self = .opsItemNotFoundException(try OpsItemNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemRelatedItemAssociationNotFoundException" : self = .opsItemRelatedItemAssociationNotFoundException(try OpsItemRelatedItemAssociationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19438,7 +19438,7 @@ extension GetAutomationExecutionOutputError {
         switch errorType {
         case "AutomationExecutionNotFound" : self = .automationExecutionNotFoundException(try AutomationExecutionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19577,7 +19577,7 @@ extension GetCalendarStateOutputError {
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentType" : self = .invalidDocumentType(try InvalidDocumentType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedCalendarException" : self = .unsupportedCalendarException(try UnsupportedCalendarException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -19740,7 +19740,23 @@ extension GetCommandInvocationOutputError {
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidPluginName" : self = .invalidPluginName(try InvalidPluginName(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvocationDoesNotExist" : self = .invocationDoesNotExist(try InvocationDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+extension GetCommandInvocationOutputError: WaiterTypedError {
+
+    /// The Smithy identifier, without namespace, for the type of this error, or `nil` if the
+    /// error has no known type.
+    public var waiterErrorType: String? {
+        switch self {
+        case .internalServerError: return "InternalServerError"
+        case .invalidCommandId: return "InvalidCommandId"
+        case .invalidInstanceId: return "InvalidInstanceId"
+        case .invalidPluginName: return "InvalidPluginName"
+        case .invocationDoesNotExist: return "InvocationDoesNotExist"
+        case .unknown(let error): return error.waiterErrorType
         }
     }
 }
@@ -20035,7 +20051,7 @@ extension GetConnectionStatusOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20155,7 +20171,7 @@ extension GetDefaultPatchBaselineOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20303,7 +20319,7 @@ extension GetDeployablePatchSnapshotForInstanceOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedFeatureRequiredException" : self = .unsupportedFeatureRequiredException(try UnsupportedFeatureRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedOperatingSystem" : self = .unsupportedOperatingSystem(try UnsupportedOperatingSystem(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20484,7 +20500,7 @@ extension GetDocumentOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentVersion" : self = .invalidDocumentVersion(try InvalidDocumentVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -20824,7 +20840,7 @@ extension GetInventoryOutputError {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResultAttribute" : self = .invalidResultAttributeException(try InvalidResultAttributeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTypeName" : self = .invalidTypeNameException(try InvalidTypeNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21009,7 +21025,7 @@ extension GetInventorySchemaOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTypeName" : self = .invalidTypeNameException(try InvalidTypeNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21142,7 +21158,7 @@ extension GetMaintenanceWindowExecutionOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21401,7 +21417,7 @@ extension GetMaintenanceWindowExecutionTaskInvocationOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21581,7 +21597,7 @@ extension GetMaintenanceWindowExecutionTaskOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -21870,7 +21886,7 @@ extension GetMaintenanceWindowOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22141,7 +22157,7 @@ extension GetMaintenanceWindowTaskOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22440,7 +22456,7 @@ extension GetOpsItemOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemAccessDeniedException" : self = .opsItemAccessDeniedException(try OpsItemAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemNotFoundException" : self = .opsItemNotFoundException(try OpsItemNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22579,7 +22595,7 @@ extension GetOpsMetadataOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsMetadataInvalidArgumentException" : self = .opsMetadataInvalidArgumentException(try OpsMetadataInvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsMetadataNotFoundException" : self = .opsMetadataNotFoundException(try OpsMetadataNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22821,7 +22837,7 @@ extension GetOpsSummaryOutputError {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTypeName" : self = .invalidTypeNameException(try InvalidTypeNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDataSyncNotFound" : self = .resourceDataSyncNotFoundException(try ResourceDataSyncNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -22995,7 +23011,7 @@ extension GetParameterHistoryOutputError {
         case "InvalidKeyId" : self = .invalidKeyId(try InvalidKeyId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterNotFound" : self = .parameterNotFound(try ParameterNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23143,7 +23159,7 @@ extension GetParameterOutputError {
         case "InvalidKeyId" : self = .invalidKeyId(try InvalidKeyId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterNotFound" : self = .parameterNotFound(try ParameterNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterVersionNotFound" : self = .parameterVersionNotFound(try ParameterVersionNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23334,7 +23350,7 @@ extension GetParametersByPathOutputError {
         case "InvalidFilterValue" : self = .invalidFilterValue(try InvalidFilterValue(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidKeyId" : self = .invalidKeyId(try InvalidKeyId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23494,7 +23510,7 @@ extension GetParametersOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidKeyId" : self = .invalidKeyId(try InvalidKeyId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23646,7 +23662,7 @@ extension GetPatchBaselineForPatchGroupOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -23779,7 +23795,7 @@ extension GetPatchBaselineOutputError {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceId" : self = .invalidResourceId(try InvalidResourceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24093,7 +24109,7 @@ extension GetResourcePoliciesOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourcePolicyInvalidParameterException" : self = .resourcePolicyInvalidParameterException(try ResourcePolicyInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -24295,7 +24311,7 @@ extension GetServiceSettingOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceSettingNotFound" : self = .serviceSettingNotFound(try ServiceSettingNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29333,7 +29349,7 @@ extension LabelParameterVersionOutputError {
         case "ParameterVersionLabelLimitExceeded" : self = .parameterVersionLabelLimitExceeded(try ParameterVersionLabelLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterVersionNotFound" : self = .parameterVersionNotFound(try ParameterVersionNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29528,7 +29544,7 @@ extension ListAssociationVersionsOutputError {
         case "AssociationDoesNotExist" : self = .associationDoesNotExist(try AssociationDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29696,7 +29712,7 @@ extension ListAssociationsOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -29902,7 +29918,7 @@ extension ListCommandInvocationsOutputError {
         case "InvalidFilterKey" : self = .invalidFilterKey(try InvalidFilterKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -30099,7 +30115,7 @@ extension ListCommandsOutputError {
         case "InvalidFilterKey" : self = .invalidFilterKey(try InvalidFilterKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -30320,7 +30336,7 @@ extension ListComplianceItemsOutputError {
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceId" : self = .invalidResourceId(try InvalidResourceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceType" : self = .invalidResourceType(try InvalidResourceType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -30491,7 +30507,7 @@ extension ListComplianceSummariesOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFilter" : self = .invalidFilter(try InvalidFilter(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -30675,7 +30691,7 @@ extension ListDocumentMetadataHistoryOutputError {
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentVersion" : self = .invalidDocumentVersion(try InvalidDocumentVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -30855,7 +30871,7 @@ extension ListDocumentVersionsOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31048,7 +31064,7 @@ extension ListDocumentsOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFilterKey" : self = .invalidFilterKey(try InvalidFilterKey(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31245,7 +31261,7 @@ extension ListInventoryEntriesOutputError {
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTypeName" : self = .invalidTypeNameException(try InvalidTypeNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31466,7 +31482,7 @@ extension ListOpsItemEventsOutputError {
         case "OpsItemInvalidParameterException" : self = .opsItemInvalidParameterException(try OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemLimitExceededException" : self = .opsItemLimitExceededException(try OpsItemLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemNotFoundException" : self = .opsItemNotFoundException(try OpsItemNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31647,7 +31663,7 @@ extension ListOpsItemRelatedItemsOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemInvalidParameterException" : self = .opsItemInvalidParameterException(try OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31814,7 +31830,7 @@ extension ListOpsMetadataOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsMetadataInvalidArgumentException" : self = .opsMetadataInvalidArgumentException(try OpsMetadataInvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -31982,7 +31998,7 @@ extension ListResourceComplianceSummariesOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidFilter" : self = .invalidFilter(try InvalidFilter(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32139,7 +32155,7 @@ extension ListResourceDataSyncOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidNextToken" : self = .invalidNextToken(try InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDataSyncInvalidConfiguration" : self = .resourceDataSyncInvalidConfigurationException(try ResourceDataSyncInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -32286,7 +32302,7 @@ extension ListTagsForResourceOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceId" : self = .invalidResourceId(try InvalidResourceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceType" : self = .invalidResourceType(try InvalidResourceType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -34188,7 +34204,7 @@ extension ModifyDocumentPermissionOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidPermissionType" : self = .invalidPermissionType(try InvalidPermissionType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -39971,7 +39987,7 @@ extension PutComplianceItemsOutputError {
         case "InvalidResourceType" : self = .invalidResourceType(try InvalidResourceType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ItemSizeLimitExceeded" : self = .itemSizeLimitExceededException(try ItemSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TotalSizeLimitExceeded" : self = .totalSizeLimitExceededException(try TotalSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40093,7 +40109,7 @@ extension PutInventoryOutputError {
         case "TotalSizeLimitExceeded" : self = .totalSizeLimitExceededException(try TotalSizeLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedInventoryItemContext" : self = .unsupportedInventoryItemContextException(try UnsupportedInventoryItemContextException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedInventorySchemaVersion" : self = .unsupportedInventorySchemaVersionException(try UnsupportedInventorySchemaVersionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40420,7 +40436,7 @@ extension PutParameterOutputError {
         case "PoliciesLimitExceededException" : self = .policiesLimitExceededException(try PoliciesLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedParameterType" : self = .unsupportedParameterType(try UnsupportedParameterType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40595,7 +40611,7 @@ extension PutResourcePolicyOutputError {
         case "ResourcePolicyConflictException" : self = .resourcePolicyConflictException(try ResourcePolicyConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourcePolicyInvalidParameterException" : self = .resourcePolicyInvalidParameterException(try ResourcePolicyInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourcePolicyLimitExceededException" : self = .resourcePolicyLimitExceededException(try ResourcePolicyLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40753,7 +40769,7 @@ extension RegisterDefaultPatchBaselineOutputError {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceId" : self = .invalidResourceId(try InvalidResourceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -40883,7 +40899,7 @@ extension RegisterPatchBaselineForPatchGroupOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceId" : self = .invalidResourceId(try InvalidResourceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41102,7 +41118,7 @@ extension RegisterTargetWithMaintenanceWindowOutputError {
         case "IdempotentParameterMismatch" : self = .idempotentParameterMismatch(try IdempotentParameterMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41446,7 +41462,7 @@ extension RegisterTaskWithMaintenanceWindowOutputError {
         case "IdempotentParameterMismatch" : self = .idempotentParameterMismatch(try IdempotentParameterMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41685,7 +41701,7 @@ extension RemoveTagsFromResourceOutputError {
         case "InvalidResourceId" : self = .invalidResourceId(try InvalidResourceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidResourceType" : self = .invalidResourceType(try InvalidResourceType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -41785,7 +41801,7 @@ extension ResetServiceSettingOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceSettingNotFound" : self = .serviceSettingNotFound(try ServiceSettingNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -43316,7 +43332,7 @@ extension ResumeSessionOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -43926,7 +43942,7 @@ extension SendAutomationSignalOutputError {
         case "AutomationStepNotFoundException" : self = .automationStepNotFoundException(try AutomationStepNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAutomationSignalException" : self = .invalidAutomationSignalException(try InvalidAutomationSignalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -44271,7 +44287,7 @@ extension SendCommandOutputError {
         case "InvalidRole" : self = .invalidRole(try InvalidRole(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MaxDocumentSizeExceeded" : self = .maxDocumentSizeExceeded(try MaxDocumentSizeExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "UnsupportedPlatformType" : self = .unsupportedPlatformType(try UnsupportedPlatformType(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -45083,7 +45099,7 @@ extension StartAssociationsOnceOutputError {
         switch errorType {
         case "AssociationDoesNotExist" : self = .associationDoesNotExist(try AssociationDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAssociation" : self = .invalidAssociation(try InvalidAssociation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -45410,7 +45426,7 @@ extension StartAutomationExecutionOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAutomationExecutionParameters" : self = .invalidAutomationExecutionParametersException(try InvalidAutomationExecutionParametersException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTarget" : self = .invalidTarget(try InvalidTarget(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -45701,7 +45717,7 @@ extension StartChangeRequestExecutionOutputError {
         case "IdempotentParameterMismatch" : self = .idempotentParameterMismatch(try IdempotentParameterMismatch(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAutomationExecutionParameters" : self = .invalidAutomationExecutionParametersException(try InvalidAutomationExecutionParametersException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -45875,7 +45891,7 @@ extension StartSessionOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TargetNotConnected" : self = .targetNotConnected(try TargetNotConnected(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -46488,7 +46504,7 @@ extension StopAutomationExecutionOutputError {
         case "AutomationExecutionNotFound" : self = .automationExecutionNotFoundException(try AutomationExecutionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidAutomationStatusUpdateException" : self = .invalidAutomationStatusUpdateException(try InvalidAutomationStatusUpdateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -47003,7 +47019,7 @@ extension TerminateSessionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -47281,7 +47297,7 @@ extension UnlabelParameterVersionOutputError {
         case "ParameterNotFound" : self = .parameterNotFound(try ParameterNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ParameterVersionNotFound" : self = .parameterVersionNotFound(try ParameterVersionNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48130,7 +48146,7 @@ extension UpdateAssociationOutputError {
         case "InvalidTargetMaps" : self = .invalidTargetMaps(try InvalidTargetMaps(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidUpdate" : self = .invalidUpdate(try InvalidUpdate(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48284,7 +48300,7 @@ extension UpdateAssociationStatusOutputError {
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "StatusUnchanged" : self = .statusUnchanged(try StatusUnchanged(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48416,7 +48432,7 @@ extension UpdateDocumentDefaultVersionOutputError {
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentSchemaVersion" : self = .invalidDocumentSchemaVersion(try InvalidDocumentSchemaVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentVersion" : self = .invalidDocumentVersion(try InvalidDocumentVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48703,7 +48719,7 @@ extension UpdateDocumentMetadataOutputError {
         case "InvalidDocument" : self = .invalidDocument(try InvalidDocument(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentOperation" : self = .invalidDocumentOperation(try InvalidDocumentOperation(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentVersion" : self = .invalidDocumentVersion(try InvalidDocumentVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -48747,7 +48763,7 @@ extension UpdateDocumentOutputError {
         case "InvalidDocumentSchemaVersion" : self = .invalidDocumentSchemaVersion(try InvalidDocumentSchemaVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDocumentVersion" : self = .invalidDocumentVersion(try InvalidDocumentVersion(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "MaxDocumentSizeExceeded" : self = .maxDocumentSizeExceeded(try MaxDocumentSizeExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49017,7 +49033,7 @@ extension UpdateMaintenanceWindowOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49335,7 +49351,7 @@ extension UpdateMaintenanceWindowTargetOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -49737,7 +49753,7 @@ extension UpdateMaintenanceWindowTaskOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -50026,7 +50042,7 @@ extension UpdateManagedInstanceRoleOutputError {
         switch errorType {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInstanceId" : self = .invalidInstanceId(try InvalidInstanceId(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -50340,7 +50356,7 @@ extension UpdateOpsItemOutputError {
         case "OpsItemInvalidParameterException" : self = .opsItemInvalidParameterException(try OpsItemInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemLimitExceededException" : self = .opsItemLimitExceededException(try OpsItemLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsItemNotFoundException" : self = .opsItemNotFoundException(try OpsItemNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -50477,7 +50493,7 @@ extension UpdateOpsMetadataOutputError {
         case "OpsMetadataKeyLimitExceededException" : self = .opsMetadataKeyLimitExceededException(try OpsMetadataKeyLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsMetadataNotFoundException" : self = .opsMetadataNotFoundException(try OpsMetadataNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OpsMetadataTooManyUpdatesException" : self = .opsMetadataTooManyUpdatesException(try OpsMetadataTooManyUpdatesException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -50765,7 +50781,7 @@ extension UpdatePatchBaselineOutputError {
         switch errorType {
         case "DoesNotExistException" : self = .doesNotExistException(try DoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -51063,7 +51079,7 @@ extension UpdateResourceDataSyncOutputError {
         case "ResourceDataSyncConflictException" : self = .resourceDataSyncConflictException(try ResourceDataSyncConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDataSyncInvalidConfiguration" : self = .resourceDataSyncInvalidConfigurationException(try ResourceDataSyncInvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceDataSyncNotFound" : self = .resourceDataSyncNotFoundException(try ResourceDataSyncNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
@@ -51190,7 +51206,7 @@ extension UpdateServiceSettingOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceSettingNotFound" : self = .serviceSettingNotFound(try ServiceSettingNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyUpdates" : self = .tooManyUpdates(try TooManyUpdates(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
 }
