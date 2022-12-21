@@ -14,7 +14,7 @@ public struct RestXMLError {
     public init(httpResponse: HttpResponse) throws {
         switch httpResponse.body {
         case .stream(let reader):
-            let responseBody = reader.toBytes().toData()
+            let responseBody = reader.toBytes().getData()
             do {
                 let decoded: ErrorResponseContainer<RestXMLErrorPayload>
                 decoded = try XMLDecoder().decode(responseBody: responseBody)

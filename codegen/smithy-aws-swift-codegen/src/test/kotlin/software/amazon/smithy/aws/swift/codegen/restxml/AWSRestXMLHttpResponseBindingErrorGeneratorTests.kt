@@ -73,7 +73,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     }
                     if case .stream(let reader) = httpResponse.body,
                         let responseDecoder = decoder {
-                        let data = reader.toBytes().toData()
+                        let data = reader.toBytes().getData()
                         let output: AWSClientRuntime.ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
                         self.nested = output.error.nested
                         self.topLevel = output.error.topLevel
@@ -139,7 +139,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     }
                     if case .stream(let reader) = httpResponse.body,
                         let responseDecoder = decoder {
-                        let data = reader.toBytes().toData()
+                        let data = reader.toBytes().getData()
                         let output: ComplexXMLErrorNoErrorWrappingBody = try responseDecoder.decode(responseBody: data)
                         self.nested = output.nested
                         self.topLevel = output.topLevel

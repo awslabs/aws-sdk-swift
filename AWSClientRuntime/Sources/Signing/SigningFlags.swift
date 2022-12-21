@@ -17,11 +17,3 @@ public struct SigningFlags {
         self.omitSessionToken = omitSessionToken
     }
 }
-
-extension SigningFlags {
-    func toCRTType() -> SigningConfig.Flags {
-        return SigningConfig.Flags(useDoubleURIEncode: useDoubleURIEncode,
-                                   shouldNormalizeURIPath: shouldNormalizeURIPath,
-                                   omitSessionToken: omitSessionToken)
-    }
-}

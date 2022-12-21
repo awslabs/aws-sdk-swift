@@ -17,44 +17,15 @@ public struct AWSCredentialsProviderProfileOptions {
     
     public let credentialsFileNameOverride: String?
     
-    public init(configFileNameOverride: String? = nil,
-                profileFileNameOverride: String? = nil,
-                credentialsFileNameOverride: String? = nil,
-                shutdownCallback: ShutDownCallback? = nil) {
+    public init(
+        configFileNameOverride: String? = nil,
+        profileFileNameOverride: String? = nil,
+        credentialsFileNameOverride: String? = nil,
+        shutdownCallback: ShutDownCallback? = nil
+    ) {
         self.configFileNameOverride = configFileNameOverride
         self.profileFileNameOverride = profileFileNameOverride
         self.credentialsFileNameOverride = credentialsFileNameOverride
         self.shutdownCallback = shutdownCallback
-    }
-}
-
-extension AWSCredentialsProviderProfileOptions {
-    func toCRTType() -> CredentialsProviderProfileOptions {
-        return CredentialsProviderProfileOptions(configFileNameOverride: configFileNameOverride,
-                                                 profileFileNameOverride: profileFileNameOverride,
-                                                 credentialsFileNameOverride: credentialsFileNameOverride,
-                                                 shutdownOptions: shutdownCallback)
-    }
-}
-
-struct CredentialsProviderProfileOptions: CRTCredentialsProviderProfileOptions {
-    var shutdownOptions: CRTCredentialsProviderShutdownOptions?
-    
-    var configFileNameOverride: String?
-    
-    var profileFileNameOverride: String?
-    
-    var credentialsFileNameOverride: String?
-    
-    init(configFileNameOverride: String? = nil,
-         profileFileNameOverride: String? = nil,
-         credentialsFileNameOverride: String? = nil,
-         shutdownOptions: ShutDownCallback? = nil) {
-        self.configFileNameOverride = configFileNameOverride
-        self.profileFileNameOverride = profileFileNameOverride
-        self.credentialsFileNameOverride = credentialsFileNameOverride
-        if let shutdownOptions = shutdownOptions {
-            self.shutdownOptions = CRTCredentialsProviderShutdownOptions(shutDownCallback: shutdownOptions)
-        }
     }
 }

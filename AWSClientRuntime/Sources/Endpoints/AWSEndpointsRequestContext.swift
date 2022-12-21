@@ -6,10 +6,10 @@ import AwsCommonRuntimeKit
 /// Wrapper for CRTAWSEndpointsRequestContext
 public class AWSEndpointsRequestContext {
 
-    let crtContext: CRTAWSEndpointsRequestContext
+    let crtContext: AwsCommonRuntimeKit.EndpointsRequestContext
     
     public init() throws {
-        self.crtContext = try CRTAWSEndpointsRequestContext()
+        self.crtContext = try AwsCommonRuntimeKit.EndpointsRequestContext()
     }
 
     public func add(name: String, value: String?) throws {
@@ -20,7 +20,7 @@ public class AWSEndpointsRequestContext {
         try crtContext.add(name: name, value: value)
     }
     
-    public func toCRT() -> CRTAWSEndpointsRequestContext {
+    public func toCRT() -> AwsCommonRuntimeKit.EndpointsRequestContext {
         crtContext
     }
 }

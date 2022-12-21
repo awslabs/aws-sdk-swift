@@ -68,7 +68,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
                 public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
                     if case .stream(let reader) = httpResponse.body,
                         let responseDecoder = decoder {
-                        let data = reader.toBytes().toData()
+                        let data = reader.toBytes().getData()
                         let output: AWSClientRuntime.Ec2NarrowedResponse<ComplexErrorBody> = try responseDecoder.decode(responseBody: data)
                         self.nested = output.errors.error.nested
                         self.topLevel = output.errors.error.topLevel

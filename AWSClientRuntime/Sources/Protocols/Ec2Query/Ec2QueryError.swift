@@ -21,7 +21,7 @@ public struct Ec2QueryError {
             self.requestId = decoded.requestId
             return
         } else if case .stream(let byteStream) = httpResponse.body {
-            let decoded: Ec2Response = try XMLDecoder().decode(responseBody: byteStream.toBytes().toData())
+            let decoded: Ec2Response = try XMLDecoder().decode(responseBody: byteStream.toBytes().getData())
             self.errorCode = decoded.errors.error.code
             self.message = decoded.errors.error.message
             self.requestId = decoded.requestId

@@ -6,17 +6,14 @@ import AwsCommonRuntimeKit
 /// Wrapper for CRTAWSEndpointsRuleEngine
 public class AWSEndpointsRuleEngine {
 
-    let crtEngine: CRTAWSEndpointsRuleEngine
+    let crtEngine: AwsCommonRuntimeKit.EndpointsRuleEngine
     
     public init(partitions: String, ruleSet: String) throws {
-        crtEngine = try CRTAWSEndpointsRuleEngine(partitions: partitions, ruleSet: ruleSet)
+        crtEngine = try AwsCommonRuntimeKit.EndpointsRuleEngine(partitions: partitions, ruleSet: ruleSet)
     }
     
     public func resolve(context: AWSEndpointsRequestContext) throws -> AWSEndpointsResolvedEndpoint? {
-        guard let crtResolvedEndpoint = try crtEngine.resolve(context: context.toCRT()) else {
-            return nil
-        }
-        
+        let crtResolvedEndpoint = try crtEngine.resolve(context: context.toCRT())
         return AWSEndpointsResolvedEndpoint(crtResolvedEndpoint: crtResolvedEndpoint)
     }
 }

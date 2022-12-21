@@ -11,11 +11,11 @@ public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     let logger: SwiftLogger
 
-    public init(providers: [RegionProvider]? = nil) {
+    public init(providers: [RegionProvider]? = nil) throws {
         #if os(iOS) || os(watchOS) || os(tvOS)
         self.providers = providers ?? [BundleRegionProvider(), EnvironmentRegionProvider()]
         #else
-        self.providers = providers ?? [
+        self.providers = try providers ?? [
             BundleRegionProvider(),
             EnvironmentRegionProvider(),
             ProfileRegionProvider(),
@@ -27,14 +27,10 @@ public struct DefaultRegionResolver: RegionResolver {
     
     public func resolveRegion() async -> String? {
         for provider in providers {
-            do {
-                logger.debug("Attempting to resolve region with: \(String(describing: type(of: provider)))")
-                if let region = try await provider.resolveRegion() {
-                    logger.debug("Resolved region with: \(String(describing: type(of: provider)))")
-                    return region
-                }
-            } catch {
-                return nil
+            logger.debug("Attempting to resolve region with: \(String(describing: type(of: provider)))")
+            if let region = try? await provider.resolveRegion() {
+                logger.debug("Resolved region with: \(String(describing: type(of: provider)))")
+                return region
             }
         }
         logger.debug("Unable to resolve region")

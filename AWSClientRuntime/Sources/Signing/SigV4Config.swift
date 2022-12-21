@@ -4,6 +4,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+
+import Foundation
         
 public struct SigV4Config {
     let credentialsProvider: AWSCredentialsProvider?
@@ -12,19 +14,21 @@ public struct SigV4Config {
     let useDoubleURIEncode: Bool
     let shouldNormalizeURIPath: Bool
     let omitSessionToken: Bool
-    let expiration: Int64
+    let expiration: TimeInterval
     let signedBodyHeader: AWSSignedBodyHeader
     let unsignedBody: Bool
     
-    public init(credentialsProvider: AWSCredentialsProvider? = nil,
-                signingService: String? = nil,
-                signatureType: AWSSignatureType = .requestHeaders,
-                useDoubleURIEncode: Bool = true,
-                shouldNormalizeURIPath: Bool = true,
-                omitSessionToken: Bool = false,
-                expiration: Int64 = 0,
-                signedBodyHeader: AWSSignedBodyHeader = .none,
-                unsignedBody: Bool) {
+    public init(
+        credentialsProvider: AWSCredentialsProvider? = nil,
+        signingService: String? = nil,
+        signatureType: AWSSignatureType = .requestHeaders,
+        useDoubleURIEncode: Bool = true,
+        shouldNormalizeURIPath: Bool = true,
+        omitSessionToken: Bool = false,
+        expiration: TimeInterval = 0,
+        signedBodyHeader: AWSSignedBodyHeader = .none,
+        unsignedBody: Bool
+    ) {
         self.credentialsProvider = credentialsProvider
         self.signingService = signingService
         self.signatureType = signatureType

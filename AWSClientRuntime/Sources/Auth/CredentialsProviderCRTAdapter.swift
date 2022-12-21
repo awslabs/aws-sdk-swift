@@ -8,7 +8,7 @@
 import AwsCommonRuntimeKit
 import ClientRuntime
         
-struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
+class CredentialsProviderCRTAdapter: CredentialsProviding {
     var allocator: Allocator
     let credentialsProvider: CredentialsProvider
     let logger: SwiftLogger
@@ -20,8 +20,8 @@ struct CredentialsProviderCRTAdapter: CRTCredentialsProvider {
         self.allocator = defaultAllocator
     }
     
-    func getCredentials() async throws -> CRTCredentials {
+    func getCredentials() async throws -> Credentials {
         let credentials = try await credentialsProvider.getCredentials()
-        return credentials.toCRTType()
+        return try credentials.toCRTType()
     }
 }

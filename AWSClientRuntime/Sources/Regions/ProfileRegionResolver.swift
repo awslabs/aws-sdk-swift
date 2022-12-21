@@ -26,13 +26,7 @@ public struct ProfileRegionProvider: RegionProvider {
     }
     
     public func resolveRegion() async throws -> String? {
-
-        let profileCollection = profileCollection ?? CRTAWSProfileCollection(fromFile: path, source: .config)
-        guard let profileCollection = profileCollection else {
-            logger.debug("No default profile collection was found at the path of \(path)")
-            return nil
-        }
-        
+        let profileCollection = try profileCollection ?? AwsCommonRuntimeKit.ProfileCollection(fromFile: path, source: .config)
         guard let profile = profileCollection.profile(for: profileName) else {
             logger.debug("Unable to find profile: \(profileName) in \(path)")
             return nil

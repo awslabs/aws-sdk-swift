@@ -91,7 +91,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 }
 
                 REGION_RESOLVER -> {
-                    writer.write("self.${it.memberName} = ${it.memberName} ?? DefaultRegionResolver()")
+                    writer.write("self.${it.memberName} = try ${it.memberName} ?? DefaultRegionResolver()")
                 }
 
                 else -> {
@@ -156,7 +156,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
             when (it.memberName) {
                 REGION_CONFIG_NAME -> {
                     // region must be resolved asynchronously
-                    writer.write("let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()")
+                    writer.write("let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()")
                     writer.write("self.${it.memberName} = await resolvedRegionResolver.resolveRegion()")
                 }
 
@@ -190,7 +190,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 }
 
                 REGION_RESOLVER -> {
-                    writer.write("self.${it.memberName} = ${it.memberName} ?? DefaultRegionResolver()")
+                    writer.write("self.${it.memberName} = try ${it.memberName} ?? DefaultRegionResolver()")
                 }
 
                 else -> {

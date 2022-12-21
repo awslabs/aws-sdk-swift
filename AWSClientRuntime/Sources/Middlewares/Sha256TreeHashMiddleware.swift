@@ -30,15 +30,15 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                       return try await next.handle(context: context, input: input)
                   }
                   if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
-                      let sha256 = ByteBuffer(data: data).sha256().encodeToHexString()
+                      let sha256 = try data.sha256().encodeToHexString()
                       input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: sha256)
                   }
               case .stream(let stream):
                   let streamBytes = stream.toBytes()
-                  guard streamBytes.length > 0 else {
+                  guard streamBytes.length() > 0 else {
                       return try await next.handle(context: context, input: input)
                   }
-                  let (linearHash, treeHash) = computeHashes(bytes: streamBytes)
+                  let (linearHash, treeHash) = try computeHashes(data: streamBytes.getData())
                   if let treeHash = treeHash, let linearHash = linearHash {
                       input.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: treeHash)
                       input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: linearHash)
@@ -50,30 +50,19 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
               return try await next.handle(context: context, input: input)
           }
     
-    /// Computes the tree-hash and linear hash of a `ByteBuffer`.
+    /// Computes the tree-hash and linear hash of Data.
     /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
-    private func computeHashes(bytes: ByteBuffer) -> (String?, String?) {
-        let bufferSize = 1024 * 1024
-        var hashes = [[UInt8]]()
-        
-        while true {
-            var oneMbTempBuffer = ByteBuffer(size: bufferSize)
-            let bytesRead = bytes.readIntoBuffer(buffer: &oneMbTempBuffer)
-            if bytesRead == 0 {
-                break
-            }
-            let hash = oneMbTempBuffer.sha256()
-            hashes.append(hash.toByteArray())
-        }
-        
-        return (bytes.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
+    private func computeHashes(data: Data) throws -> (String?, String?) {
+        let ONE_MB = 1024 * 1024
+        let hashes: [[UInt8]] = try data.chunked(size: ONE_MB).map{ try $0.sha256().bytes() }
+        return try (data.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
     }
     
     /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes
     /// of 1MB chunks of the data.
     /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html
     /// for more information.
-    private func computeTreeHash(hashes: [[UInt8]]) -> String? {
+    private func computeTreeHash(hashes: [[UInt8]]) throws -> String? {
         guard !hashes.isEmpty else {
             return nil
         }
@@ -85,10 +74,8 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                     var concatenatedLevelHash = [UInt8]()
                     concatenatedLevelHash.append(contentsOf: previousLevelHashes[index])
                     concatenatedLevelHash.append(contentsOf: previousLevelHashes[index + 1])
-                    let concatenatedLevelHashByteBuffer = ByteBuffer(bytes: concatenatedLevelHash)
-                    
-                    let md = concatenatedLevelHashByteBuffer.sha256()
-                    currentLevelHashes.append(md.toByteArray())
+                    let data = Data(concatenatedLevelHash)
+                    currentLevelHashes.append(try data.sha256().bytes())
                     
                 } else {
                     currentLevelHashes.append(previousLevelHashes[index])
@@ -97,8 +84,8 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
             previousLevelHashes = currentLevelHashes
         }
         
-        let byteBuf = ByteBuffer(bytes: previousLevelHashes[0])
-        return byteBuf.encodeToHexString()
+        let data = Data(previousLevelHashes[0])
+        return data.encodeToHexString()
     }
     
     public typealias MInput = SdkHttpRequestBuilder

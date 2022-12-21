@@ -36,7 +36,7 @@ public struct RestJSONError {
         var type = httpResponse.headers.value(for: X_AMZN_ERROR_TYPE_HEADER_NAME)
 
         if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RestJSONErrorPayload = try JSONDecoder().decode(responseBody: data)
             if message == nil {
                 message = output.resolvedErrorMessage

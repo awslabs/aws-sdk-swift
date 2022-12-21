@@ -15,7 +15,7 @@ extension InvalidGreeting: AWSHttpServiceError {
 
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidGreetingBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
