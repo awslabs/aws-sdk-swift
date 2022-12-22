@@ -54,7 +54,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
     /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
     private func computeHashes(data: Data) throws -> (String?, String?) {
         let ONE_MB = 1024 * 1024
-        let hashes: [[UInt8]] = try data.chunked(size: ONE_MB).map{ try $0.sha256().bytes() }
+        let hashes: [[UInt8]] = try data.chunked(size: ONE_MB).map { try $0.sha256().bytes() }
         return try (data.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
     }
     

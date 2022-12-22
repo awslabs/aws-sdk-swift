@@ -88,7 +88,7 @@ class EndpointResolverGenerator() {
                     }.write("")
 
                     writer.openBlock("if crtResolvedEndpoint.getType() == .error {", "}") {
-                        writer.write("let error = try crtResolvedEndpoint.getError()")
+                        writer.write("let error = crtResolvedEndpoint.getError()")
                         writer.write("throw EndpointError.unresolved(error)")
                     }.write("")
 
