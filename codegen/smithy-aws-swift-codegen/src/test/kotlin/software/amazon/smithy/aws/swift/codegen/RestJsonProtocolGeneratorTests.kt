@@ -107,10 +107,6 @@ class RestJsonProtocolGeneratorTests {
                     self.init(config: config)
                 }
             
-                deinit {
-                    client.close()
-                }
-            
                 public class ExampleClientConfiguration: ExampleClientConfigurationProtocol {
                     public var clientLogMode: ClientRuntime.ClientLogMode
                     public var decoder: ClientRuntime.ResponseDecoder?
