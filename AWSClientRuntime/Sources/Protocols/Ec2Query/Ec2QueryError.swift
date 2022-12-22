@@ -13,22 +13,16 @@ public struct Ec2QueryError {
     public let message: String?
 
     public init(httpResponse: HttpResponse) throws {
-        if case .data(let data) = httpResponse.body,
-           let responseBody = data {
-            let decoded: Ec2Response = try XMLDecoder().decode(responseBody: responseBody)
-            self.errorCode = decoded.errors.error.code
-            self.message = decoded.errors.error.message
-            self.requestId = decoded.requestId
-            return
-        } else if case .stream(let byteStream) = httpResponse.body {
-            let decoded: Ec2Response = try XMLDecoder().decode(responseBody: byteStream.toBytes().getData())
-            self.errorCode = decoded.errors.error.code
-            self.message = decoded.errors.error.message
-            self.requestId = decoded.requestId
+        guard let data = httpResponse.body.toBytes()?.getData() else {
+            errorCode = nil
+            requestId = nil
+            message = nil
             return
         }
-        errorCode = nil
-        requestId = nil
-        message = nil
+        
+        let decoded: Ec2Response = try XMLDecoder().decode(responseBody: data)
+        self.errorCode = decoded.errors.error.code
+        self.message = decoded.errors.error.message
+        self.requestId = decoded.requestId
     }
 }

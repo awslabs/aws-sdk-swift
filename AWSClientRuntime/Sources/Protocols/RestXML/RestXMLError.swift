@@ -12,25 +12,23 @@ public struct RestXMLError {
     public let requestId: String?
     public let message: String?
     public init(httpResponse: HttpResponse) throws {
-        switch httpResponse.body {
-        case .stream(let reader):
-            let responseBody = reader.toBytes().getData()
-            do {
-                let decoded: ErrorResponseContainer<RestXMLErrorPayload>
-                decoded = try XMLDecoder().decode(responseBody: responseBody)
-                self.errorCode = decoded.error.errorCode
-                self.message = decoded.error.message
-                self.requestId = decoded.requestId
-            } catch {
-                let decoded: RestXMLErrorNoErrorWrappingPayload = try XMLDecoder().decode(responseBody: responseBody)
-                self.errorCode = decoded.errorCode
-                self.message = decoded.message
-                self.requestId = decoded.requestId
-            }
-        default:
+        guard let data = httpResponse.body.toBytes()?.getData() else {
             errorCode = nil
             requestId = nil
             message = nil
+            return
+        }
+        do {
+            let decoded: ErrorResponseContainer<RestXMLErrorPayload>
+            decoded = try XMLDecoder().decode(responseBody: data)
+            self.errorCode = decoded.error.errorCode
+            self.message = decoded.error.message
+            self.requestId = decoded.requestId
+        } catch {
+            let decoded: RestXMLErrorNoErrorWrappingPayload = try XMLDecoder().decode(responseBody: data)
+            self.errorCode = decoded.errorCode
+            self.message = decoded.message
+            self.requestId = decoded.requestId
         }
     }
     public init(errorCode: String? = nil, requestId: String? = nil, message: String? = nil) {
