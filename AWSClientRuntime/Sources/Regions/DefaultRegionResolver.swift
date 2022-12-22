@@ -28,9 +28,17 @@ public struct DefaultRegionResolver: RegionResolver {
     public func resolveRegion() async -> String? {
         for provider in providers {
             logger.debug("Attempting to resolve region with: \(String(describing: type(of: provider)))")
-            if let region = try? await provider.resolveRegion() {
-                logger.debug("Resolved region with: \(String(describing: type(of: provider)))")
-                return region
+            do {
+                if let region = try await provider.resolveRegion() {
+                    logger.debug("Resolved region with: \(String(describing: type(of: provider)))")
+                    return region
+                }
+            } catch {
+                let logMessage = [
+                    "Failed to resolve region with: \(String(describing: type(of: provider)))",
+                    "Error: \(error.localizedDescription)"
+                ].joined(separator: "\n")
+                logger.debug(logMessage)
             }
         }
         logger.debug("Unable to resolve region")
