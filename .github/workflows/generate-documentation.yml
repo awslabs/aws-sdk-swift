@@ -1,0 +1,24 @@
+name: Generate Documentation
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  spm-context:
+    runs-on: ubuntu-latest
+    outputs:
+      package-dump: ${{ steps.dump-package.outputs.package-dump }}
+    steps:
+      - uses: swift-actions/setup-swift@v1.21.0
+        with:
+          swift-version: "5.7"
+      - uses: actions/checkout@v3.2.0
+      # We don't use a cache here, because SPM doesn't resolve dependencies when dumping packages.
+      - name: Dump package
+        id: dump-package
+        run: |
+          delimiter="$(openssl rand -hex 8)"
+          echo "package-dump<<${delimiter}" >> "${GITHUB_OUTPUT}"
+          swift package dump-package >> "${GITHUB_OUTPUT}"
+          echo "${delimiter}" >> "${GITHUB_OUTPUT}"
