@@ -22,3 +22,26 @@ jobs:
           echo "package-dump<<${delimiter}" >> "${GITHUB_OUTPUT}"
           swift package dump-package >> "${GITHUB_OUTPUT}"
           echo "${delimiter}" >> "${GITHUB_OUTPUT}"
+  generate-docs:
+    needs:
+      - spm-context
+    runs-on: macos-12
+    strategy:
+      matrix:
+        target: ${{ fromJson(needs.spm-context.outputs.package-dump).products.*.targets.* }}
+    steps:
+      - uses: swift-actions/setup-swift@v1.21.0
+        id: swift-setup
+        with:
+          swift-version: "5.7"
+      - name: Checkout Sources
+        uses: actions/checkout@v2
+      - name: Generate docs
+        run: |
+          mkdir -p ./docs/0.7.0/
+          swift package --allow-writing-to-directory ./docs \
+            generate-documentation --target ${{ matrix.target }} \
+            --disable-indexing \
+            --transform-for-static-hosting \
+            --hosting-base-path 0.7.0/${{ matrix.target }} \
+            --output-path ./docs/0.7.0/${{ matrix.target }}
