@@ -141,6 +141,71 @@ structure EnumQueryInput {
     enum: StringEnum
 }
 
+// A service which has a POST operation for a structure with a nested map.
+@service(sdkId: "NestedAggregates")
+@restJson1
+service NestedAggregates {
+    version: "2022-11-30",
+    operations: [CreateNestedMap]
+}
+
+@http(uri: "/create_nested_map", method: "POST")
+@httpRequestTests([
+    {
+        id: "request_nested_map"
+        protocol: restJson1
+        method: "POST"
+        host: "example.com"
+        uri: "/create_nested_map"
+        body: "{\"nestedMaps\":{\"a\":{\"b\":[\"x\",\"y\",\"z\"]}}}"
+        bodyMediaType: "application/json"
+        params: {
+            "nestedMaps": {
+                "a": {
+                    "b": ["x", "y", "z"]
+                }
+            }
+        }
+    }
+])
+@httpResponseTests([
+    {
+        id: "response_nested_map"
+        protocol: restJson1
+        code: 201
+        body: "{\"nestedMaps\":{\"a\":{\"b\":[\"x\",\"y\",\"z\"]}}}"
+        params: {
+            "nestedMaps": {
+                "a": {
+                    "b": ["x", "y", "z"]
+                }
+            }
+        }
+    }
+])
+operation CreateNestedMap {
+    input: HasNestedMap,
+    output: HasNestedMap
+}
+
+structure HasNestedMap {
+    nestedMaps: OuterMap
+}
+
+map OuterMap {
+    key: String
+    value: InnerMap
+}
+
+map InnerMap {
+    key: String
+    value: StringList
+}
+
+list StringList {
+    member: String
+}
+
 // A service which has a GET operation with waiters defined upon it.
 // The acceptor in each waiter serves as subject for unit testing,
 // to ensure that the logic in code-generated acceptors works as

@@ -1,4 +1,4 @@
-// swift-tools-version:5.4.0
+// swift-tools-version:5.5.0
 
 /*
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -61,6 +61,8 @@ appendLibTarget(name: "rest_json_extras", path: "\(baseDirLocal)/rest_json_extra
 appendTstTarget(name: "rest_json_extrasTests", path: "\(baseDirLocal)/rest_json_extras", dependency: "rest_json_extras")
 appendLibTarget(name: "Waiters", path: "\(baseDirLocal)/Waiters")
 appendTstTarget(name: "WaitersTests", path: "./protocol-test-codegen-local/Tests", dependency: "Waiters")
+appendLibTarget(name: "NestedAggregates", path: "\(baseDirLocal)/NestedAggregates")
+appendTstTarget(name: "NestedAggregatesTests", path: "\(baseDirLocal)/NestedAggregates", dependency: "NestedAggregates")
 
 func appendLibTarget(name: String, path: String) {
     package.targets.append(
