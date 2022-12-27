@@ -11,11 +11,11 @@ public extension HttpResponse {
         return statusCode == .notFound && body.isEmpty
     }
     
-    var requestID: String? {
-        return httpResponse.headers.value(for: "x-amz-request-id")
+    var requestId: String? {
+        return headers.value(for: "x-amz-request-id")
     }
     
     var requestId2: String? {
-        return httpResponse.headers.value(for: "x-amz-id-2")
+        return headers.value(for: "x-amz-id-2")
     }
 }
