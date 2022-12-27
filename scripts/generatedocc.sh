@@ -16,6 +16,9 @@ fi
 VERSION="$1"
 MOD="$2"
 
+# services to ignore
+IGNORE=("AWSBatch")
+
 # setup directory
 mkdir -p ./docs/$VERSION
 
@@ -33,8 +36,17 @@ for package in $packages; do
         current=$((current + 1))
         continue
     fi
+
     # remove quotes
     package=$(echo $package | sed 's/"//g')
+
+    # skip if in ignore list
+    if [[ " ${IGNORE[@]} " =~ " ${package} " ]]; then
+        echo "Skipping $package"
+        current=$((current + 1))
+        continue
+    fi
+
     # generate docs
     echo "Generating docs for $package"
     swift package --allow-writing-to-directory ./docs \
@@ -43,5 +55,12 @@ for package in $packages; do
             --transform-for-static-hosting \
             --hosting-base-path $VERSION/$package \
             --output-path ./docs/$VERSION/$package
+    
+    # break if swift package generate-documentation fails
+    if [ $? -ne 0 ]; then
+        echo "Failed to generate docs for $package"
+        exit 1
+    fi
+
     current=$((current + 1))
 done
