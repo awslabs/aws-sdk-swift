@@ -356,7 +356,9 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.7.0")),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.4.0"))
+        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.4.0")),
+        // TODO: it must only be added for generation only
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
     ],
     targets: [
         .target(
