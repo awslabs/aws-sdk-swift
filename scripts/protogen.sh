@@ -41,6 +41,7 @@ rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-cod
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/rest_json_extras/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/Waiters/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/NestedAggregates/swift-codegen/Package.swift
+rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/NestedSparseAggregates/swift-codegen/Package.swift
 
 # If on Mac, reopen Xcode to the refreshed tests
 if [ -x "$(command -v osascript)" ]; then

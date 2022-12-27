@@ -206,6 +206,77 @@ list StringList {
     member: String
 }
 
+
+// A service which has a POST operation for a structure with nested, sparse maps & lists.
+@service(sdkId: "NestedSparseAggregates")
+@restJson1
+service NestedSparseAggregates {
+    version: "2022-11-30",
+    operations: [CreateNestedMap]
+}
+
+@http(uri: "/create_nested_sparse_map", method: "POST")
+@httpRequestTests([
+    {
+        id: "request_nested_sparse_map"
+        protocol: restJson1
+        method: "POST"
+        host: "example.com"
+        uri: "/create_nested_sparse_map"
+        body: "{\"nestedMaps\":{\"a\":{\"b\":[\"x\",null,\"y\",null,\"z\",null],\"c\":null}}}"
+        bodyMediaType: "application/json"
+        params: {
+            "nestedMaps": {
+                "a": {
+                    "b": ["x", null, "y", null, "z", null]
+                    "c": null
+                }
+            }
+        }
+    }
+])
+@httpResponseTests([
+    {
+        id: "response_nested_sparse_map"
+        protocol: restJson1
+        code: 201
+        body: "{\"nestedSparseMaps\":{\"a\":{\"b\":[\"x\",null,\"y\",null,\"z\",null],\"c\":null}}}"
+        params: {
+            "nestedSparseMaps": {
+                "a": {
+                    "b": ["x", null, "y", null, "z", null]
+                    "c": null
+                }
+            }
+        }
+    }
+])
+operation CreateNestedSparseMap {
+    input: HasNestedSparseMap,
+    output: HasNestedSparseMap
+}
+
+structure HasNestedSparseMap {
+    nestedSparseMaps: OuterSparseMap
+}
+
+@sparse
+map OuterSparseMap {
+    key: String
+    value: InnerSparseMap
+}
+
+@sparse
+map InnerSparseMap {
+    key: String
+    value: SparseStringList
+}
+
+@sparse
+list SparseStringList {
+    member: String
+}
+
 // A service which has a GET operation with waiters defined upon it.
 // The acceptor in each waiter serves as subject for unit testing,
 // to ensure that the logic in code-generated acceptors works as

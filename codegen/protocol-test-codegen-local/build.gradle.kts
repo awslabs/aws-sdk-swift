@@ -43,6 +43,10 @@ val codegenTests = listOf(
     CodegenTest(
         "aws.protocoltests.restjson#NestedAggregates",
         "NestedAggregates"
+    ),
+    CodegenTest(
+        "aws.protocoltests.restjson#NestedSparseAggregates",
+        "NestedSparseAggregates"
     )
 )
 
