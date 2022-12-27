@@ -8,26 +8,7 @@ permissions:
   id-token: write
 
 jobs:
-  spm-context:
-    runs-on: ubuntu-latest
-    outputs:
-      package-dump: ${{ steps.dump-package.outputs.package-dump }}
-    steps:
-      - uses: swift-actions/setup-swift@v1.21.0
-        with:
-          swift-version: "5.7"
-      - uses: actions/checkout@v3.2.0
-      # We don't use a cache here, because SPM doesn't resolve dependencies when dumping packages.
-      - name: Dump package
-        id: dump-package
-        run: |
-          delimiter="$(openssl rand -hex 8)"
-          echo "package-dump<<${delimiter}" >> "${GITHUB_OUTPUT}"
-          swift package dump-package >> "${GITHUB_OUTPUT}"
-          echo "${delimiter}" >> "${GITHUB_OUTPUT}"
   generate-docs:
-    needs:
-      - spm-context
     runs-on: macos-12
     steps:
       - name: Configure AWS Credentials
@@ -43,19 +24,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Generate docs
         run: |
-          mkdir -p ./docs/0.7.0/
-          swift package --allow-writing-to-directory ./docs \
-            generate-documentation --target AWSSNS \
-            --disable-indexing \
-            --transform-for-static-hosting \
-            --hosting-base-path 0.7.0/AWSSNS \
-            --output-path ./docs/0.7.0/AWSSNS
-          swift package --allow-writing-to-directory ./docs \
-            generate-documentation --target AWSS3 \
-            --disable-indexing \
-            --transform-for-static-hosting \
-            --hosting-base-path 0.7.0/AWSS3 \
-            --output-path ./docs/0.7.0/AWSS3
+          ./scripts/generatedocc.sh 0.7.0
       - name: Upload to S3
         run: |
           aws s3 cp ./docs/0.7.0 s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/0.7.0/ --recursive
