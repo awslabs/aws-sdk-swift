@@ -26,9 +26,6 @@ jobs:
     needs:
       - spm-context
     runs-on: macos-12
-    strategy:
-      matrix:
-        target: ${{ fromJson(needs.spm-context.outputs.package-dump).products.*.targets.* }}
     steps:
       - uses: swift-actions/setup-swift@v1.21.0
         id: swift-setup
@@ -40,8 +37,14 @@ jobs:
         run: |
           mkdir -p ./docs/0.7.0/
           swift package --allow-writing-to-directory ./docs \
-            generate-documentation --target ${{ matrix.target }} \
+            generate-documentation --target AWSSNS \
             --disable-indexing \
             --transform-for-static-hosting \
-            --hosting-base-path 0.7.0/${{ matrix.target }} \
-            --output-path ./docs/0.7.0/${{ matrix.target }}
+            --hosting-base-path 0.7.0/AWSSNS \
+            --output-path ./docs/0.7.0/AWSSNS
+          swift package --allow-writing-to-directory ./docs \
+            generate-documentation --target AWSS3 \
+            --disable-indexing \
+            --transform-for-static-hosting \
+            --hosting-base-path 0.7.0/AWSS3 \
+            --output-path ./docs/0.7.0/AWSS3
