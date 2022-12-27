@@ -2,10 +2,10 @@
 # generate docs for all packages in a swift package
 usage() {
     echo "Usage:"
-    echo "  ./scripts/generatedocc [version]" 
+    echo "  ./scripts/generatedocc [version] [mod]" 
     echo ""
     echo "Example:"
-    echo " ./scripts/generatedocc 0.7.0"
+    echo " ./scripts/generatedocc 0.7.0 3"
 }
 
 if [ $# -ne 1 ]; then
@@ -14,17 +14,25 @@ if [ $# -ne 1 ]; then
 fi
 
 VERSION="$1"
+MOD="$2"
 
 # setup directory
 mkdir -p ./docs/$VERSION
 
-# dump all packages to a variable
+echo "Dumping packages"
 dump=$(swift package dump-package)
 
+echo "Finding packages"
 packages=$(echo $dump |  jq '.products[].name')
 
-# loop through each package
+# loop through each package with index
+current=0
 for package in $packages; do
+    # skip if not in mod
+    if [ $((current % MOD)) -ne 0 ]; then
+        current=$((current + 1))
+        continue
+    fi
     # remove quotes
     package=$(echo $package | sed 's/"//g')
     # generate docs
@@ -35,4 +43,5 @@ for package in $packages; do
             --transform-for-static-hosting \
             --hosting-base-path $VERSION/$package \
             --output-path ./docs/$VERSION/$package
+    current=$((current + 1))
 done
