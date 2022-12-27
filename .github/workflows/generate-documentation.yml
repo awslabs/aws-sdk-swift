@@ -30,6 +30,11 @@ jobs:
       - spm-context
     runs-on: macos-12
     steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.CD_API_REFS_PUBLISH_ROLE_ARN }}
+          aws-region: us-east-1
       - uses: swift-actions/setup-swift@v1.21.0
         id: swift-setup
         with:
@@ -51,11 +56,6 @@ jobs:
             --transform-for-static-hosting \
             --hosting-base-path 0.7.0/AWSS3 \
             --output-path ./docs/0.7.0/AWSS3
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.CD_API_REFS_PUBLISH_ROLE_ARN }}
-          aws-region: us-east-1
       - name: Upload to S3
         run: |
           aws s3 sync ./docs/0.7.0 S3://${{ secrets.CD_API_REFS_BUCKET_NAME }} --delete
