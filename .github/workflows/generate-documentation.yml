@@ -4,8 +4,8 @@ on:
   pull_request:
   workflow_dispatch:
 
-permissions:
-  id-token: write
+# permissions:
+#   id-token: write
 
 jobs:
   spm-context:
