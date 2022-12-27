@@ -8,7 +8,7 @@ usage() {
     echo " ./scripts/generatedocc 0.7.0 3"
 }
 
-if [ $# -ne 1 ]; then
+if [ $# -ne 2 ]; then
     usage
     exit 1
 fi
