@@ -58,4 +58,4 @@ jobs:
             --output-path ./docs/0.7.0/AWSS3
       - name: Upload to S3
         run: |
-          aws s3 sync ./docs/0.7.0 S3://${{ secrets.CD_API_REFS_BUCKET_NAME }} --delete
+          aws s3 cp ./docs/0.7.0 s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/0.7.0/ --recursive
