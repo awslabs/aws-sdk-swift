@@ -37,16 +37,8 @@ val codegenTests = listOf(
         "rest_json_extras"
     ),
     CodegenTest(
-        "aws.protocoltests.restjson#Waiters",
+        "aws.protocoltests.waiters#Waiters",
         "Waiters"
-    ),
-    CodegenTest(
-        "aws.protocoltests.restjson#NestedAggregates",
-        "NestedAggregates"
-    ),
-    CodegenTest(
-        "aws.protocoltests.restjson#NestedSparseAggregates",
-        "NestedSparseAggregates"
     )
 )
 

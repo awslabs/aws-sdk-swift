@@ -61,10 +61,6 @@ appendLibTarget(name: "rest_json_extras", path: "\(baseDirLocal)/rest_json_extra
 appendTstTarget(name: "rest_json_extrasTests", path: "\(baseDirLocal)/rest_json_extras", dependency: "rest_json_extras")
 appendLibTarget(name: "Waiters", path: "\(baseDirLocal)/Waiters")
 appendTstTarget(name: "WaitersTests", path: "./protocol-test-codegen-local/Tests", dependency: "Waiters")
-appendLibTarget(name: "NestedAggregates", path: "\(baseDirLocal)/NestedAggregates")
-appendTstTarget(name: "NestedAggregatesTests", path: "\(baseDirLocal)/NestedAggregates", dependency: "NestedAggregates")
-appendLibTarget(name: "NestedSparseAggregates", path: "\(baseDirLocal)/NestedSparseAggregates")
-appendTstTarget(name: "NestedSparseAggregatesTests", path: "\(baseDirLocal)/NestedSparseAggregates", dependency: "NestedSparseAggregates")
 
 func appendLibTarget(name: String, path: String) {
     package.targets.append(
