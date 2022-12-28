@@ -32,35 +32,5 @@ jobs:
           ./scripts/generatedocc.sh 0.7.0 ${{ matrix.job }}  ${{ strategy.job-total }}
       - name: Upload to S3
         run: |
-          # copy css root recursively
-          mkdir -p docs/css
-          cp -f -r ./docs/0.7.0/**/css/ ./docs/css
-          # delete css
-          rm -rf ./docs/0.7.0/**/css
-
-          # copy js to root recursively
-          mkdir -p docs/js
-          cp -f -r ./docs/0.7.0/**/js/ ./docs/js
-          # delete js
-          rm -rf ./docs/0.7.0/**/js
-
-          # copy img to root recursively
-          mkdir -p docs/img
-          cp -f -r ./docs/0.7.0/**/img/ ./docs/img
-          # delete img
-          rm -rf ./docs/0.7.0/**/img
-
-          # copy media to root recursively
-          mkdir -p docs
-          cp -f -r ./docs/0.7.0/**/*.jpg ./docs/
-          cp -f -r ./docs/0.7.0/**/*.ico ./docs/
-          cp -f -r ./docs/0.7.0/**/*.svg ./docs/
-          # delete media
-          rm -rf ./docs/0.7.0/**/*.jpg
-          rm -rf ./docs/0.7.0/**/*.ico
-          rm -rf ./docs/0.7.0/**/*.svg
-
-          # Upload package data
+          # Upload to S3
           aws s3 cp ./docs/0.7.0 s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/0.7.0/ --recursive
-          # Upload static files
-          aws s3 cp ./docs/ s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/ --recursive --exclude "0.7.0/*"
