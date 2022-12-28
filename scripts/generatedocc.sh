@@ -54,7 +54,7 @@ for package in $packages; do
             generate-documentation --target $package \
             --disable-indexing \
             --transform-for-static-hosting \
-            --hosting-base-path $VERSION/$package \
+            --hosting-base-path / \ # this is the base path for the css and js files, we don't want to duplicate them
             --output-path ./docs/$VERSION/$package
     
     # break if swift package generate-documentation fails
