@@ -207,7 +207,7 @@ list StringList {
         method: "POST"
         host: "example.com"
         uri: "/create_nested_sparse_map"
-        body: "{\"nestedSparseMaps\":{\"a\":{\"b\":[\"x\",null,\"y\",null,\"z\",null],\"c\":null},\"d\":null}}"
+        body: "{\"nestedSparseMaps\":{\"a\":{\"b\":[\"x\",null,\"y\",null,\"z\",null],\"c\":null},\"d\":null},\"sparseStructureMap\":{\"m\":{\"string\":\"rst\"},\"n\":null}}"
         bodyMediaType: "application/json"
         params: {
             "nestedSparseMaps": {
@@ -217,6 +217,12 @@ list StringList {
                 },
                 "d": null
             }
+            "sparseStructureMap": {
+                "m": {
+                    "string": "rst"
+                }
+                "n": null
+            }
         }
     }
 ])
@@ -225,7 +231,7 @@ list StringList {
         id: "response_nested_sparse_map"
         protocol: restJson1
         code: 201
-        body: "{\"nestedSparseMaps\":{\"a\":{\"b\":[\"x\",null,\"y\",null,\"z\",null],\"c\":null},\"d\":null}}"
+        body: "{\"nestedSparseMaps\":{\"a\":{\"b\":[\"x\",null,\"y\",null,\"z\",null],\"c\":null},\"d\":null},\"sparseStructureMap\":{\"m\":{\"string\":\"rst\"},\"n\":null}}"
         params: {
             "nestedSparseMaps": {
                 "a": {
@@ -233,6 +239,12 @@ list StringList {
                     "c": null
                 }
                 "d": null
+            }
+            "sparseStructureMap": {
+                "m": {
+                    "string": "rst"
+                }
+                "n": null
             }
         }
     }
@@ -244,6 +256,7 @@ operation CreateNestedSparseMap {
 
 structure HasNestedSparseMap {
     nestedSparseMaps: OuterSparseMap
+    sparseStructureMap: SparseStructureMap
 }
 
 @sparse
@@ -261,4 +274,14 @@ map InnerSparseMap {
 @sparse
 list SparseStringList {
     member: String
+}
+
+@sparse
+map SparseStructureMap {
+    key: String
+    value: InnerStructure
+}
+
+structure InnerStructure {
+    string: String
 }
