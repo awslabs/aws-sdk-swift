@@ -18,7 +18,7 @@ CURRENT_JOB="$2"
 TOTAL_JOBS="$3"
 
 # services to ignore
-IGNORE=("AWSBatch" "AWSIoTAnalytics")
+IGNORE=("AWSBatch" "AWSIoTAnalytics" "AWSServerlessApplicationRepository")
 
 # setup directory
 mkdir -p ./docs/$VERSION
