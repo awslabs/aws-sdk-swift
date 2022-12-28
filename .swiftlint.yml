@@ -1,9 +1,5 @@
 included:
   - AWSClientRuntime/Sources
-    #excluded:
-    #  - ./AWSClientRuntime/Tests/*
-    #  - release/
-    #  - .build
 
 analyzer_rules:
   - unused_import
