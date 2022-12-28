@@ -41,7 +41,7 @@ for package in $packages; do
     # remove quotes
     package=$(echo $package | sed 's/"//g')
 
-    # lowecase package name
+    # lowercase package name
     package_lowercase=$(echo $package | tr '[:upper:]' '[:lower:]')
 
     # skip if in ignore list
