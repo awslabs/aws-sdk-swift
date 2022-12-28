@@ -41,6 +41,9 @@ for package in $packages; do
     # remove quotes
     package=$(echo $package | sed 's/"//g')
 
+    # lowecase package name
+    package_lowercase=$(echo $package | tr '[:upper:]' '[:lower:]')
+
     # skip if in ignore list
     if [[ " ${IGNORE[@]} " =~ " ${package} " ]]; then
         echo "Skipping $package"
@@ -54,8 +57,8 @@ for package in $packages; do
             generate-documentation --target $package \
             --disable-indexing \
             --transform-for-static-hosting \
-            --hosting-base-path $VERSION/$package \
-            --output-path ./docs/$VERSION/$package
+            --hosting-base-path $VERSION/$package_lowercase \
+            --output-path ./docs/$VERSION/$package_lowercase
     
     # break if swift package generate-documentation fails
     if [ $? -ne 0 ]; then
