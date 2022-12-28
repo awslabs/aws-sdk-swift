@@ -41,15 +41,15 @@ for package in $packages; do
     # remove quotes
     package=$(echo $package | sed 's/"//g')
 
-    # lowercase package name
-    package_lowercase=$(echo $package | tr '[:upper:]' '[:lower:]')
-
     # skip if in ignore list
     if [[ " ${IGNORE[@]} " =~ " ${package} " ]]; then
         echo "Skipping $package"
         current=$((current + 1))
         continue
     fi
+
+    # lowercase package name
+    package_lowercase=$(echo $package | tr '[:upper:]' '[:lower:]')
 
     # generate docs
     echo "Generating docs for $package"
