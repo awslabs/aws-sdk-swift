@@ -56,7 +56,7 @@ class S3ErrorIntegration : SwiftIntegration {
 
     private val httpResponseBinding = SectionWriter { writer, _ ->
         val operationErrorName = writer.getContext("operationErrorName") as String
-        writer.write("let restXMLError = try \$N.makeError(from: httpResponse)",  AWSClientRuntimeTypes.RestXML.RestXMLError)
+        writer.write("let restXMLError = try \$N.makeError(from: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
         writer.openBlock("try self.init(", ")") {
             writer.write("errorType: restXMLError.errorCode,")
             writer.write("httpResponse: httpResponse,")
