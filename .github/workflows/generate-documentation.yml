@@ -22,6 +22,11 @@ jobs:
           swift-version: "5.7"
       - name: Checkout Sources
         uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.CD_API_REFS_PUBLISH_ROLE_ARN }}
+          aws-region: us-east-1 
       - name: Generate docs index
         run: |
           # Download template in version directory from S3
