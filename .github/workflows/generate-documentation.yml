@@ -85,6 +85,6 @@ jobs:
           # Unzip template
           unzip ./docs/${{ needs.versioning.outputs.VERSION }}/awssdkswift.zip -d ./docs/${{ needs.versioning.outputs.VERSION }}/
           # Generate index
-          ./scripts/generatedoccindex.sh ${{ needs.versioning.outputs.VERSION }} "docs/${{ needs.versioning.outputs.VERSION }}/awssdkswift/data/documentation/awssdkswift.json" ${{ env.IGNORE }}
+          ./scripts/generatedoccindex.sh ${{ needs.versioning.outputs.VERSION }} ${{ env.IGNORE }}
           # Upload to S3
           aws s3 cp ./docs/${{ needs.versioning.outputs.VERSION }}/awssdkswift s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/${{ needs.versioning.outputs.VERSION }}/awssdkswift/ --recursive
