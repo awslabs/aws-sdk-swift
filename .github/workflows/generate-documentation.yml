@@ -30,6 +30,8 @@ jobs:
           unzip ./docs/0.7.0/awssdkswift.zip -d ./docs/0.7.0/
           # Generate index
           ./scripts/generatedoccindex.sh 0.7.0 "docs/0.7.0/awssdkswift/data/documentation/awssdkswift.json" {{ env.IGNORE }}
+          # Upload to S3
+          aws s3 cp ./docs/0.7.0/awssdkswift s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/0.7.0/awssdkswift/ --recursive
   # generate-docs:
   #   env:
   #     VERSION: 0.7.0
