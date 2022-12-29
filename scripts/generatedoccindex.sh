@@ -2,20 +2,21 @@
 # generate index page for all packages in a swift package
 usage() {
     echo "Usage:"
-    echo "  ./scripts/generatedoccindex [version] [ignorelist]" 
+    echo "  ./scripts/generatedoccindex [version] [datafilepath] [ignorelist]" 
     echo ""
     echo "Example:"
-    echo " ./scripts/generatedoccindex 0.7.0 AWSBatch,AWSIoTAnalytics"
+    echo " ./scripts/generatedoccindex 0.7.0 docs/0.7.0/awssdkswift/data/documentation/awssdkswift.json AWSBatch,AWSIoTAnalytics"
 }
 
-if [ $# -ne 2 ]; then
+if [ $# -ne 3 ]; then
     usage
     exit 1
 fi
 
 VERSION="$1"
+DATAFILE="$2"
 # convert comma separated list to array
-IGNORE=($(echo $2 | tr ',' '\n'))
+IGNORE=($(echo $3 | tr ',' '\n'))
 
 echo "Dumping packages"
 dump=$(swift package dump-package)
@@ -72,7 +73,6 @@ references=$(echo $references | sed 's/,$//')
 
 # replace variables in template
 echo "Replacing IDENTIFIERS in template"
-sed -i '' "s/IDENTIFIERS/$identifiers/g" docs/$VERSION/awssdkswift/data/documentation/awssdkswift.json
-
+sed -i '' "s/IDENTIFIERS/$identifiers/g" $DATAFILE
 echo "Replacing REFERENCES in template"
-sed -i '' "s/REFERENCES/$references/g" docs/$VERSION/awssdkswift/data/documentation/awssdkswift.json
+sed -i '' "s/REFERENCES/$references/g" $DATAFILE

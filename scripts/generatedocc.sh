@@ -2,10 +2,10 @@
 # generate docs for all packages in a swift package
 usage() {
     echo "Usage:"
-    echo "  ./scripts/generatedocc [version] [currentJob] [totalJobs]" 
+    echo "  ./scripts/generatedocc [version] [currentJob] [totalJobs] [ignorelist]" 
     echo ""
     echo "Example:"
-    echo " ./scripts/generatedocc 0.7.0 0 16"
+    echo " ./scripts/generatedocc 0.7.0 0 16 AWSBatch,AWSIoTAnalytics"
 }
 
 if [ $# -ne 3 ]; then
@@ -17,8 +17,8 @@ VERSION="$1"
 CURRENT_JOB="$2"
 TOTAL_JOBS="$3"
 
-# services to ignore
-IGNORE=("AWSBatch" "AWSIoTAnalytics" "AWSServerlessApplicationRepository")
+# convert comma separated list to array
+IGNORE=($(echo $4 | tr ',' '\n'))
 
 # setup directory
 mkdir -p ./docs/$VERSION
