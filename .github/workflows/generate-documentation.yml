@@ -2,15 +2,32 @@ name: Generate Documentation
 
 on:
   pull_request:
-  workflow_dispatch:
+  release:
+    types: [published]
 
 permissions:
   id-token: write
 
 env:
   IGNORE: AWSBatch,AWSIoTAnalytics,AWSServerlessApplicationRepository
+  DISABLE_TAG_CHECK: false
 
 jobs:
+  check-if-tag-available:
+    runs-on: macos-12
+    if: ${{ !env.DISABLE_TAG_CHECK }}
+    outputs:
+      tag-available: ${{ steps.check.outputs.tag-available }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check if tag is available, if not, exit
+        id: check
+        run: |
+          # check of prefix is efs/tags/
+          if [[ "${GITHUB_REF:10:4}" != "tags" ]]; then
+            echo "Not a tag"
+            exit 1
+          fi
   generate-docs:
     env:
       VERSION: 0.7.0

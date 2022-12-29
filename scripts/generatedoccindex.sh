@@ -46,7 +46,6 @@ for package in $packages; do
     # skip if in ignore list
     if [[ " ${IGNORE[@]} " =~ " ${package} " ]]; then
         echo "Skipping $package"
-        current=$((current + 1))
         continue
     fi
 
