@@ -75,5 +75,5 @@ sed -i '' "s/{{IDENTIFIERS}}/$identifiers/g" docs/$VERSION/awssdkswift/data/docu
 echo "Replacing {{REFERENCES}} in template"
 sed -i '' "s/{{REFERENCES}}/$references/g" docs/$VERSION/awssdkswift/data/documentation/awssdkswift.json
 echo "Replacing {{BASEURL}} in template"
-sed -i '' "s/{{BASEURL}}/$VERSION/g" docs/$VERSION/awssdkswift/documentation/awssdkswift/index.html
-sed -i '' "s/{{BASEURL}}/$VERSION/g" docs/$VERSION/awssdkswift/index.html
+sed -i '' "s#{{BASEURL}}#$VERSION#g" docs/$VERSION/awssdkswift/documentation/awssdkswift/index.html
+sed -i '' "s#{{BASEURL}}#$VERSION#g" docs/$VERSION/awssdkswift/index.html
