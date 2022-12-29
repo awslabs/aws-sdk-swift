@@ -3,9 +3,9 @@ package software.amazon.smithy.aws.swift.codegen.customization.route53
 import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftDependency
+import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.CodegenContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -75,7 +75,6 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
                 writer.write("return try? XMLDecoder().decode(CustomInvalidBatchError.self, from: data)")
             }
         }
-
     }
 
     private fun renderInvalidChangeBatch(writer: SwiftWriter) {
