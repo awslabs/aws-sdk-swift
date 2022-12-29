@@ -11,6 +11,33 @@ env:
   IGNORE: AWSBatch,AWSIoTAnalytics,AWSServerlessApplicationRepository
 
 jobs:
+  generate-docs:
+    env:
+      VERSION: 0.7.0
+    strategy:
+      matrix:
+        # Use strategy to split up the work into 32 jobs
+        job: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+    runs-on: macos-12
+    steps:       
+      - uses: swift-actions/setup-swift@v1.21.0
+        id: swift-setup
+        with:
+          swift-version: "5.7"
+      - name: Checkout Sources
+        uses: actions/checkout@v2
+      - name: Generate docs
+        run: |
+          ./scripts/generatedocc.sh 0.7.0 ${{ matrix.job }}  ${{ strategy.job-total }} ${{ env.IGNORE }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.CD_API_REFS_PUBLISH_ROLE_ARN }}
+          aws-region: us-east-1 
+      - name: Upload to S3
+        run: |
+          # Upload to S3
+          aws s3 cp ./docs/0.7.0 s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/0.7.0/ --recursive
   generate-docs-index:
     env:
       VERSION: 0.7.0
@@ -37,30 +64,3 @@ jobs:
           ./scripts/generatedoccindex.sh 0.7.0 "docs/0.7.0/awssdkswift/data/documentation/awssdkswift.json" ${{ env.IGNORE }}
           # Upload to S3
           aws s3 cp ./docs/0.7.0/awssdkswift s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/0.7.0/awssdkswift/ --recursive
-  # generate-docs:
-  #   env:
-  #     VERSION: 0.7.0
-  #   strategy:
-  #     matrix:
-  #       # Use strategy to split up the work into 32 jobs
-  #       job: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
-  #   runs-on: macos-12
-  #   steps:       
-  #     - uses: swift-actions/setup-swift@v1.21.0
-  #       id: swift-setup
-  #       with:
-  #         swift-version: "5.7"
-  #     - name: Checkout Sources
-  #       uses: actions/checkout@v2
-  #     - name: Generate docs
-  #       run: |
-  #         ./scripts/generatedocc.sh 0.7.0 ${{ matrix.job }}  ${{ strategy.job-total }} ${{ env.IGNORE }}
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         role-to-assume: ${{ secrets.CD_API_REFS_PUBLISH_ROLE_ARN }}
-  #         aws-region: us-east-1 
-  #     - name: Upload to S3
-  #       run: |
-  #         # Upload to S3
-  #         aws s3 cp ./docs/0.7.0 s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/0.7.0/ --recursive
