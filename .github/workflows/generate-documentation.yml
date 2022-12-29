@@ -11,7 +11,7 @@ permissions:
 env:
   IGNORE: AWSBatch,AWSIoTAnalytics,AWSServerlessApplicationRepository
   DISABLE_TAG_CHECK: false
-  VERSION: ${{ github.ref:10 }}
+  VERSION: ${{ GITHUB_REF:10 }}
 
 jobs:
   check-if-tag-available:
@@ -24,7 +24,7 @@ jobs:
       - name: Check if tag is available, if not, exit
         id: check
         run: |
-          if [[ "${GITHUB_REF:10:4}" != "tags" ]]; then
+          if [[ "${{ GITHUB_REF:10:4 }}" != "tags" ]]; then
             echo "Not a tag, if you want to debug this, set DISABLE_TAG_CHECK to true"
             exit 1
           fi
