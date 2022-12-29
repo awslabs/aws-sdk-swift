@@ -15,7 +15,7 @@ env:
 jobs:
   check-if-tag-available:
     runs-on: macos-12
-    if: ${{ !env.DISABLE_TAG_CHECK }}
+    if: ${{ env.DISABLE_TAG_CHECK == 'false' }}
     outputs:
       tag-available: ${{ steps.check.outputs.tag-available }}
     steps:
@@ -25,7 +25,7 @@ jobs:
         run: |
           # check of prefix is efs/tags/
           if [[ "${GITHUB_REF:10:4}" != "tags" ]]; then
-            echo "Not a tag"
+            echo "Not a tag, if you want to debug this, set DISABLE_TAG_CHECK to true"
             exit 1
           fi
   generate-docs:
