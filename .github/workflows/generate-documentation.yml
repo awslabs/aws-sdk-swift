@@ -7,9 +7,10 @@ on:
 permissions:
   id-token: write
 
-jobs:
 env:
   IGNORE: AWSBatch,AWSIoTAnalytics,AWSServerlessApplicationRepository
+
+jobs:
   generate-docs-index:
     env:
       VERSION: 0.7.0
