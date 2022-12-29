@@ -15,7 +15,7 @@ env:
 jobs:
   check-if-tag-available:
     runs-on: macos-12
-    if: ${{ env.DISABLE_TAG_CHECK == 'false' }}
+    if: ${{ env.DISABLE_TAG_CHECK }} == false
     outputs:
       tag-available: ${{ steps.check.outputs.tag-available }}
     steps:
