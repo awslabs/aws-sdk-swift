@@ -2,6 +2,10 @@ name: Generate Documentation
 
 on:
   pull_request:
+    paths:
+      - .github/workflows/generate-documentation.yml
+      - scripts/generatedocc.sh
+      - scripts/generatedoccindex.sh
   release:
     types: [published]
 
@@ -10,24 +14,20 @@ permissions:
 
 env:
   IGNORE: AWSBatch,AWSIoTAnalytics,AWSServerlessApplicationRepository
-  DISABLE_TAG_CHECK: false
-  VERSION: ${{ GITHUB_REF:10 }}
 
 jobs:
   check-if-tag-available:
     runs-on: macos-12
-    if: ${{ env.DISABLE_TAG_CHECK }} == false
     outputs:
       tag-available: ${{ steps.check.outputs.tag-available }}
     steps:
       - uses: actions/checkout@v2
-      - name: Check if tag is available, if not, exit
-        id: check
+      - name: Extract version from GITHUB_REF
+        id: versioning
         run: |
-          if [[ "${{ GITHUB_REF:10:4 }}" != "tags" ]]; then
-            echo "Not a tag, if you want to debug this, set DISABLE_TAG_CHECK to true"
-            exit 1
-          fi
+          # get last part of GITHUB_REF separated by /
+          VERSION=${{ GITHUB_REF:10 }} | tr '/' '\n' | tail -1
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
   generate-docs:
     env:
     strategy:
@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Generate docs
         run: |
-          ./scripts/generatedocc.sh {{ env.VERSION }} ${{ matrix.job }}  ${{ strategy.job-total }} ${{ env.IGNORE }}
+          ./scripts/generatedocc.sh ${{ steps.versioning.outputs.VERSION }} ${{ matrix.job }}  ${{ strategy.job-total }} ${{ env.IGNORE }}
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -53,7 +53,7 @@ jobs:
       - name: Upload to S3
         run: |
           # Upload to S3
-          aws s3 cp ./docs/{{ env.VERSION }} s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/{{ env.VERSION }}/ --recursive
+          aws s3 cp ./docs/${{ steps.versioning.outputs.VERSION }} s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/${{ steps.versioning.outputs.VERSION }}/ --recursive
   generate-docs-index:
     env:
     runs-on: macos-12
@@ -72,10 +72,10 @@ jobs:
       - name: Generate docs index
         run: |
           # Download template in version directory from S3
-          aws s3 cp s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/awssdkswift.zip ./docs/{{ env.VERSION }}/awssdkswift.zip
+          aws s3 cp s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/awssdkswift.zip ./docs/${{ steps.versioning.outputs.VERSION }}/awssdkswift.zip
           # Unzip template
-          unzip ./docs/{{ env.VERSION }}/awssdkswift.zip -d ./docs/{{ env.VERSION }}/
+          unzip ./docs/${{ steps.versioning.outputs.VERSION }}/awssdkswift.zip -d ./docs/${{ steps.versioning.outputs.VERSION }}/
           # Generate index
-          ./scripts/generatedoccindex.sh {{ env.VERSION }} "docs/{{ env.VERSION }}/awssdkswift/data/documentation/awssdkswift.json" ${{ env.IGNORE }}
+          ./scripts/generatedoccindex.sh ${{ steps.versioning.outputs.VERSION }} "docs/${{ steps.versioning.outputs.VERSION }}/awssdkswift/data/documentation/awssdkswift.json" ${{ env.IGNORE }}
           # Upload to S3
-          aws s3 cp ./docs/{{ env.VERSION }}/awssdkswift s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/{{ env.VERSION }}/awssdkswift/ --recursive
+          aws s3 cp ./docs/${{ steps.versioning.outputs.VERSION }}/awssdkswift s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/${{ steps.versioning.outputs.VERSION }}/awssdkswift/ --recursive
