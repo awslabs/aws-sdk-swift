@@ -16,20 +16,19 @@ env:
   IGNORE: AWSBatch,AWSIoTAnalytics,AWSServerlessApplicationRepository
 
 jobs:
-  check-if-tag-available:
+  versioning:
     runs-on: macos-12
     outputs:
-      tag-available: ${{ steps.check.outputs.tag-available }}
+      VERSION: ${{ steps.update-version.outputs.VERSION }}
     steps:
       - uses: actions/checkout@v2
       - name: Extract version from GITHUB_REF
-        id: versioning
+        id: update-version
         run: |
           # get last part of GITHUB_REF separated by /
           VERSION=${GITHUB_REF} | tr '/' '\n' | tail -1
           echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
   generate-docs:
-    env:
     strategy:
       matrix:
         # Use strategy to split up the work into 32 jobs
@@ -55,7 +54,6 @@ jobs:
           # Upload to S3
           aws s3 cp ./docs/${{ steps.versioning.outputs.VERSION }} s3://${{ secrets.CD_API_REFS_BUCKET_NAME }}/${{ steps.versioning.outputs.VERSION }}/ --recursive
   generate-docs-index:
-    env:
     runs-on: macos-12
     steps:       
       - uses: swift-actions/setup-swift@v1.21.0
