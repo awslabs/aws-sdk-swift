@@ -128,8 +128,8 @@ extension ECRClientTypes.AwsEcrContainerImageDetails: Swift.Codable {
         }
         if let imageTags = imageTags {
             var imageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageTags)
-            for imagetagslist0 in imageTags {
-                try imageTagsContainer.encode(imagetagslist0)
+            for imagetag0 in imageTags {
+                try imageTagsContainer.encode(imagetag0)
             }
         }
         if let platform = self.platform {
@@ -231,8 +231,8 @@ extension BatchCheckLayerAvailabilityInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let layerDigests = layerDigests {
             var layerDigestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerDigests)
-            for batchedoperationlayerdigestlist0 in layerDigests {
-                try layerDigestsContainer.encode(batchedoperationlayerdigestlist0)
+            for batchedoperationlayerdigest0 in layerDigests {
+                try layerDigestsContainer.encode(batchedoperationlayerdigest0)
             }
         }
         if let registryId = self.registryId {
@@ -411,8 +411,8 @@ extension BatchDeleteImageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let imageIds = imageIds {
             var imageIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageIds)
-            for imageidentifierlist0 in imageIds {
-                try imageIdsContainer.encode(imageidentifierlist0)
+            for imageidentifier0 in imageIds {
+                try imageIdsContainer.encode(imageidentifier0)
             }
         }
         if let registryId = self.registryId {
@@ -593,14 +593,14 @@ extension BatchGetImageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let acceptedMediaTypes = acceptedMediaTypes {
             var acceptedMediaTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acceptedMediaTypes)
-            for mediatypelist0 in acceptedMediaTypes {
-                try acceptedMediaTypesContainer.encode(mediatypelist0)
+            for mediatype0 in acceptedMediaTypes {
+                try acceptedMediaTypesContainer.encode(mediatype0)
             }
         }
         if let imageIds = imageIds {
             var imageIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageIds)
-            for imageidentifierlist0 in imageIds {
-                try imageIdsContainer.encode(imageidentifierlist0)
+            for imageidentifier0 in imageIds {
+                try imageIdsContainer.encode(imageidentifier0)
             }
         }
         if let registryId = self.registryId {
@@ -794,8 +794,8 @@ extension BatchGetRepositoryScanningConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let repositoryNames = repositoryNames {
             var repositoryNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositoryNames)
-            for scanningconfigurationrepositorynamelist0 in repositoryNames {
-                try repositoryNamesContainer.encode(scanningconfigurationrepositorynamelist0)
+            for repositoryname0 in repositoryNames {
+                try repositoryNamesContainer.encode(repositoryname0)
             }
         }
     }
@@ -954,8 +954,8 @@ extension CompleteLayerUploadInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let layerDigests = layerDigests {
             var layerDigestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerDigests)
-            for layerdigestlist0 in layerDigests {
-                try layerDigestsContainer.encode(layerdigestlist0)
+            for layerdigest0 in layerDigests {
+                try layerDigestsContainer.encode(layerdigest0)
             }
         }
         if let registryId = self.registryId {
@@ -1354,8 +1354,8 @@ extension CreateRepositoryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1643,8 +1643,8 @@ extension ECRClientTypes.CvssScoreDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adjustments = adjustments {
             var adjustmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adjustments)
-            for cvssscoreadjustmentlist0 in adjustments {
-                try adjustmentsContainer.encode(cvssscoreadjustmentlist0)
+            for cvssscoreadjustment0 in adjustments {
+                try adjustmentsContainer.encode(cvssscoreadjustment0)
             }
         }
         if score != 0.0 {
@@ -2879,8 +2879,8 @@ extension DescribeImagesInput: Swift.Encodable {
         }
         if let imageIds = imageIds {
             var imageIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageIds)
-            for imageidentifierlist0 in imageIds {
-                try imageIdsContainer.encode(imageidentifierlist0)
+            for imageidentifier0 in imageIds {
+                try imageIdsContainer.encode(imageidentifier0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3082,8 +3082,8 @@ extension DescribePullThroughCacheRulesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ecrRepositoryPrefixes = ecrRepositoryPrefixes {
             var ecrRepositoryPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrRepositoryPrefixes)
-            for pullthroughcacherulerepositoryprefixlist0 in ecrRepositoryPrefixes {
-                try ecrRepositoryPrefixesContainer.encode(pullthroughcacherulerepositoryprefixlist0)
+            for pullthroughcacherulerepositoryprefix0 in ecrRepositoryPrefixes {
+                try ecrRepositoryPrefixesContainer.encode(pullthroughcacherulerepositoryprefix0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3379,8 +3379,8 @@ extension DescribeRepositoriesInput: Swift.Encodable {
         }
         if let repositoryNames = repositoryNames {
             var repositoryNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositoryNames)
-            for repositorynamelist0 in repositoryNames {
-                try repositoryNamesContainer.encode(repositorynamelist0)
+            for repositoryname0 in repositoryNames {
+                try repositoryNamesContainer.encode(repositoryname0)
             }
         }
     }
@@ -3714,8 +3714,8 @@ extension ECRClientTypes.EnhancedImageScanFinding: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for resourcelist0 in resources {
-                try resourcesContainer.encode(resourcelist0)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
             }
         }
         if score != 0.0 {
@@ -3910,8 +3910,8 @@ extension GetAuthorizationTokenInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let registryIds = registryIds {
             var registryIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .registryIds)
-            for getauthorizationtokenregistryidlist0 in registryIds {
-                try registryIdsContainer.encode(getauthorizationtokenregistryidlist0)
+            for registryid0 in registryIds {
+                try registryIdsContainer.encode(registryid0)
             }
         }
     }
@@ -4365,8 +4365,8 @@ extension GetLifecyclePolicyPreviewInput: Swift.Encodable {
         }
         if let imageIds = imageIds {
             var imageIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageIds)
-            for imageidentifierlist0 in imageIds {
-                try imageIdsContainer.encode(imageidentifierlist0)
+            for imageidentifier0 in imageIds {
+                try imageIdsContainer.encode(imageidentifier0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5164,8 +5164,8 @@ extension ECRClientTypes.ImageDetail: Swift.Codable {
         }
         if let imageTags = imageTags {
             var imageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageTags)
-            for imagetaglist0 in imageTags {
-                try imageTagsContainer.encode(imagetaglist0)
+            for imagetag0 in imageTags {
+                try imageTagsContainer.encode(imagetag0)
             }
         }
         if let lastRecordedPullTime = self.lastRecordedPullTime {
@@ -5600,8 +5600,8 @@ extension ECRClientTypes.ImageScanFinding: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributelist0 in attributes {
-                try attributesContainer.encode(attributelist0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let description = self.description {
@@ -5687,20 +5687,20 @@ extension ECRClientTypes.ImageScanFindings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let enhancedFindings = enhancedFindings {
             var enhancedFindingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enhancedFindings)
-            for enhancedimagescanfindinglist0 in enhancedFindings {
-                try enhancedFindingsContainer.encode(enhancedimagescanfindinglist0)
+            for enhancedimagescanfinding0 in enhancedFindings {
+                try enhancedFindingsContainer.encode(enhancedimagescanfinding0)
             }
         }
         if let findingSeverityCounts = findingSeverityCounts {
             var findingSeverityCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .findingSeverityCounts)
-            for (dictKey0, findingseveritycounts0) in findingSeverityCounts {
-                try findingSeverityCountsContainer.encode(findingseveritycounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, findingSeverityCounts0) in findingSeverityCounts {
+                try findingSeverityCountsContainer.encode(findingSeverityCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let findings = findings {
             var findingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findings)
-            for imagescanfindinglist0 in findings {
-                try findingsContainer.encode(imagescanfindinglist0)
+            for imagescanfinding0 in findings {
+                try findingsContainer.encode(imagescanfinding0)
             }
         }
         if let imageScanCompletedAt = self.imageScanCompletedAt {
@@ -5796,8 +5796,8 @@ extension ECRClientTypes.ImageScanFindingsSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let findingSeverityCounts = findingSeverityCounts {
             var findingSeverityCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .findingSeverityCounts)
-            for (dictKey0, findingseveritycounts0) in findingSeverityCounts {
-                try findingSeverityCountsContainer.encode(findingseveritycounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, findingSeverityCounts0) in findingSeverityCounts {
+                try findingSeverityCountsContainer.encode(findingSeverityCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let imageScanCompletedAt = self.imageScanCompletedAt {
@@ -7080,8 +7080,8 @@ extension ECRClientTypes.LifecyclePolicyPreviewResult: Swift.Codable {
         }
         if let imageTags = imageTags {
             var imageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageTags)
-            for imagetaglist0 in imageTags {
-                try imageTagsContainer.encode(imagetaglist0)
+            for imagetag0 in imageTags {
+                try imageTagsContainer.encode(imagetag0)
             }
         }
     }
@@ -7662,20 +7662,20 @@ extension ECRClientTypes.PackageVulnerabilityDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cvss = cvss {
             var cvssContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cvss)
-            for cvssscorelist0 in cvss {
-                try cvssContainer.encode(cvssscorelist0)
+            for cvssscore0 in cvss {
+                try cvssContainer.encode(cvssscore0)
             }
         }
         if let referenceUrls = referenceUrls {
             var referenceUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceUrls)
-            for referenceurlslist0 in referenceUrls {
-                try referenceUrlsContainer.encode(referenceurlslist0)
+            for url0 in referenceUrls {
+                try referenceUrlsContainer.encode(url0)
             }
         }
         if let relatedVulnerabilities = relatedVulnerabilities {
             var relatedVulnerabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedVulnerabilities)
-            for relatedvulnerabilitieslist0 in relatedVulnerabilities {
-                try relatedVulnerabilitiesContainer.encode(relatedvulnerabilitieslist0)
+            for relatedvulnerability0 in relatedVulnerabilities {
+                try relatedVulnerabilitiesContainer.encode(relatedvulnerability0)
             }
         }
         if let source = self.source {
@@ -7698,8 +7698,8 @@ extension ECRClientTypes.PackageVulnerabilityDetails: Swift.Codable {
         }
         if let vulnerablePackages = vulnerablePackages {
             var vulnerablePackagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerablePackages)
-            for vulnerablepackageslist0 in vulnerablePackages {
-                try vulnerablePackagesContainer.encode(vulnerablepackageslist0)
+            for vulnerablepackage0 in vulnerablePackages {
+                try vulnerablePackagesContainer.encode(vulnerablepackage0)
             }
         }
     }
@@ -8793,8 +8793,8 @@ extension PutRegistryScanningConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for registryscanningrulelist0 in rules {
-                try rulesContainer.encode(registryscanningrulelist0)
+            for registryscanningrule0 in rules {
+                try rulesContainer.encode(registryscanningrule0)
             }
         }
         if let scanType = self.scanType {
@@ -9195,8 +9195,8 @@ extension ECRClientTypes.RegistryScanningConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for registryscanningrulelist0 in rules {
-                try rulesContainer.encode(registryscanningrulelist0)
+            for registryscanningrule0 in rules {
+                try rulesContainer.encode(registryscanningrule0)
             }
         }
         if let scanType = self.scanType {
@@ -9252,8 +9252,8 @@ extension ECRClientTypes.RegistryScanningRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let repositoryFilters = repositoryFilters {
             var repositoryFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositoryFilters)
-            for scanningrepositoryfilterlist0 in repositoryFilters {
-                try repositoryFiltersContainer.encode(scanningrepositoryfilterlist0)
+            for scanningrepositoryfilter0 in repositoryFilters {
+                try repositoryFiltersContainer.encode(scanningrepositoryfilter0)
             }
         }
         if let scanFrequency = self.scanFrequency {
@@ -9345,8 +9345,8 @@ extension ECRClientTypes.ReplicationConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for replicationrulelist0 in rules {
-                try rulesContainer.encode(replicationrulelist0)
+            for replicationrule0 in rules {
+                try rulesContainer.encode(replicationrule0)
             }
         }
     }
@@ -9441,14 +9441,14 @@ extension ECRClientTypes.ReplicationRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for replicationdestinationlist0 in destinations {
-                try destinationsContainer.encode(replicationdestinationlist0)
+            for replicationdestination0 in destinations {
+                try destinationsContainer.encode(replicationdestination0)
             }
         }
         if let repositoryFilters = repositoryFilters {
             var repositoryFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositoryFilters)
-            for repositoryfilterlist0 in repositoryFilters {
-                try repositoryFiltersContainer.encode(repositoryfilterlist0)
+            for repositoryfilter0 in repositoryFilters {
+                try repositoryFiltersContainer.encode(repositoryfilter0)
             }
         }
     }
@@ -9942,8 +9942,8 @@ extension ECRClientTypes.RepositoryScanningConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appliedScanFilters = appliedScanFilters {
             var appliedScanFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appliedScanFilters)
-            for scanningrepositoryfilterlist0 in appliedScanFilters {
-                try appliedScanFiltersContainer.encode(scanningrepositoryfilterlist0)
+            for scanningrepositoryfilter0 in appliedScanFilters {
+                try appliedScanFiltersContainer.encode(scanningrepositoryfilter0)
             }
         }
         if let repositoryArn = self.repositoryArn {
@@ -11126,8 +11126,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -11430,8 +11430,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

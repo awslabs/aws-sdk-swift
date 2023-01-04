@@ -474,14 +474,14 @@ extension FinspacedataClientTypes.ChangesetSummary: Swift.Codable {
         }
         if let formatParams = formatParams {
             var formatParamsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .formatParams)
-            for (dictKey0, formatparams0) in formatParams {
-                try formatParamsContainer.encode(formatparams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, formatParams0) in formatParams {
+                try formatParamsContainer.encode(formatParams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sourceParams = sourceParams {
             var sourceParamsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sourceParams)
-            for (dictKey0, sourceparams0) in sourceParams {
-                try sourceParamsContainer.encode(sourceparams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, sourceParams0) in sourceParams {
+                try sourceParamsContainer.encode(sourceParams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let status = self.status {
@@ -823,14 +823,14 @@ extension CreateChangesetInput: Swift.Encodable {
         }
         if let formatParams = formatParams {
             var formatParamsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .formatParams)
-            for (dictKey0, formatparams0) in formatParams {
-                try formatParamsContainer.encode(formatparams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, formatParams0) in formatParams {
+                try formatParamsContainer.encode(formatParams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sourceParams = sourceParams {
             var sourceParamsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sourceParams)
-            for (dictKey0, sourceparams0) in sourceParams {
-                try sourceParamsContainer.encode(sourceparams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, sourceParams0) in sourceParams {
+                try sourceParamsContainer.encode(sourceParams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1053,14 +1053,14 @@ extension CreateDataViewInput: Swift.Encodable {
         }
         if let partitionColumns = partitionColumns {
             var partitionColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionColumns)
-            for partitioncolumnlist0 in partitionColumns {
-                try partitionColumnsContainer.encode(partitioncolumnlist0)
+            for stringvaluelength1to2550 in partitionColumns {
+                try partitionColumnsContainer.encode(stringvaluelength1to2550)
             }
         }
         if let sortColumns = sortColumns {
             var sortColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortColumns)
-            for sortcolumnlist0 in sortColumns {
-                try sortColumnsContainer.encode(sortcolumnlist0)
+            for stringvaluelength1to2550 in sortColumns {
+                try sortColumnsContainer.encode(stringvaluelength1to2550)
             }
         }
     }
@@ -1484,8 +1484,8 @@ extension CreatePermissionGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationPermissions = applicationPermissions {
             var applicationPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationPermissions)
-            for applicationpermissionlist0 in applicationPermissions {
-                try applicationPermissionsContainer.encode(applicationpermissionlist0.rawValue)
+            for applicationpermission0 in applicationPermissions {
+                try applicationPermissionsContainer.encode(applicationpermission0.rawValue)
             }
         }
         if let clientToken = self.clientToken {
@@ -1935,8 +1935,8 @@ extension FinspacedataClientTypes.DataViewDestinationTypeParams: Swift.Codable {
         }
         if let s3DestinationExportFileFormatOptions = s3DestinationExportFileFormatOptions {
             var s3DestinationExportFileFormatOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .s3DestinationExportFileFormatOptions)
-            for (dictKey0, s3destinationformatoptions0) in s3DestinationExportFileFormatOptions {
-                try s3DestinationExportFileFormatOptionsContainer.encode(s3destinationformatoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, s3DestinationFormatOptions0) in s3DestinationExportFileFormatOptions {
+                try s3DestinationExportFileFormatOptionsContainer.encode(s3DestinationFormatOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2154,14 +2154,14 @@ extension FinspacedataClientTypes.DataViewSummary: Swift.Codable {
         }
         if let partitionColumns = partitionColumns {
             var partitionColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionColumns)
-            for partitioncolumnlist0 in partitionColumns {
-                try partitionColumnsContainer.encode(partitioncolumnlist0)
+            for stringvaluelength1to2550 in partitionColumns {
+                try partitionColumnsContainer.encode(stringvaluelength1to2550)
             }
         }
         if let sortColumns = sortColumns {
             var sortColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortColumns)
-            for sortcolumnlist0 in sortColumns {
-                try sortColumnsContainer.encode(sortcolumnlist0)
+            for stringvaluelength1to2550 in sortColumns {
+                try sortColumnsContainer.encode(stringvaluelength1to2550)
             }
         }
         if let status = self.status {
@@ -5915,8 +5915,8 @@ extension FinspacedataClientTypes.PermissionGroup: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationPermissions = applicationPermissions {
             var applicationPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationPermissions)
-            for applicationpermissionlist0 in applicationPermissions {
-                try applicationPermissionsContainer.encode(applicationpermissionlist0.rawValue)
+            for applicationpermission0 in applicationPermissions {
+                try applicationPermissionsContainer.encode(applicationpermission0.rawValue)
             }
         }
         if createTime != 0 {
@@ -6143,8 +6143,8 @@ extension FinspacedataClientTypes.PermissionGroupParams: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let datasetPermissions = datasetPermissions {
             var datasetPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasetPermissions)
-            for resourcepermissionslist0 in datasetPermissions {
-                try datasetPermissionsContainer.encode(resourcepermissionslist0)
+            for resourcepermission0 in datasetPermissions {
+                try datasetPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let permissionGroupId = self.permissionGroupId {
@@ -6501,14 +6501,14 @@ extension FinspacedataClientTypes.SchemaDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for columnlist0 in columns {
-                try columnsContainer.encode(columnlist0)
+            for columndefinition0 in columns {
+                try columnsContainer.encode(columndefinition0)
             }
         }
         if let primaryKeyColumns = primaryKeyColumns {
             var primaryKeyColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .primaryKeyColumns)
-            for columnnamelist0 in primaryKeyColumns {
-                try primaryKeyColumnsContainer.encode(columnnamelist0)
+            for columnname0 in primaryKeyColumns {
+                try primaryKeyColumnsContainer.encode(columnname0)
             }
         }
     }
@@ -6631,14 +6631,14 @@ extension UpdateChangesetInput: Swift.Encodable {
         }
         if let formatParams = formatParams {
             var formatParamsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .formatParams)
-            for (dictKey0, formatparams0) in formatParams {
-                try formatParamsContainer.encode(formatparams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, formatParams0) in formatParams {
+                try formatParamsContainer.encode(formatParams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sourceParams = sourceParams {
             var sourceParamsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sourceParams)
-            for (dictKey0, sourceparams0) in sourceParams {
-                try sourceParamsContainer.encode(sourceparams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, sourceParams0) in sourceParams {
+                try sourceParamsContainer.encode(sourceParams0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7039,8 +7039,8 @@ extension UpdatePermissionGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationPermissions = applicationPermissions {
             var applicationPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationPermissions)
-            for applicationpermissionlist0 in applicationPermissions {
-                try applicationPermissionsContainer.encode(applicationpermissionlist0.rawValue)
+            for applicationpermission0 in applicationPermissions {
+                try applicationPermissionsContainer.encode(applicationpermission0.rawValue)
             }
         }
         if let clientToken = self.clientToken {

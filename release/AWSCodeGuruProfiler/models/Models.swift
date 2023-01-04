@@ -41,8 +41,8 @@ extension AddNotificationChannelsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channels = channels {
             var channelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channels)
-            for channels0 in channels {
-                try channelsContainer.encode(channels0)
+            for channel0 in channels {
+                try channelsContainer.encode(channel0)
             }
         }
     }
@@ -186,8 +186,8 @@ extension CodeGuruProfilerClientTypes.AgentConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentParameters = agentParameters {
             var agentParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .agentParameters)
-            for (dictKey0, agentparameters0) in agentParameters {
-                try agentParametersContainer.encode(agentparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, agentParameters0) in agentParameters {
+                try agentParametersContainer.encode(agentParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let periodInSeconds = self.periodInSeconds {
@@ -436,8 +436,8 @@ extension CodeGuruProfilerClientTypes.Anomaly: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instances = instances {
             var instancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instances)
-            for anomalyinstances0 in instances {
-                try instancesContainer.encode(anomalyinstances0)
+            for anomalyinstance0 in instances {
+                try instancesContainer.encode(anomalyinstance0)
             }
         }
         if let metric = self.metric {
@@ -571,8 +571,8 @@ extension BatchGetFrameMetricDataInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let frameMetrics = frameMetrics {
             var frameMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .frameMetrics)
-            for framemetrics0 in frameMetrics {
-                try frameMetricsContainer.encode(framemetrics0)
+            for framemetric0 in frameMetrics {
+                try frameMetricsContainer.encode(framemetric0)
             }
         }
     }
@@ -854,8 +854,8 @@ extension CodeGuruProfilerClientTypes.Channel: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventPublishers = eventPublishers {
             var eventPublishersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventPublishers)
-            for eventpublishers0 in eventPublishers {
-                try eventPublishersContainer.encode(eventpublishers0.rawValue)
+            for eventpublisher0 in eventPublishers {
+                try eventPublishersContainer.encode(eventpublisher0.rawValue)
             }
         }
         if let id = self.id {
@@ -1192,8 +1192,8 @@ extension CreateProfilingGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1696,8 +1696,8 @@ extension CodeGuruProfilerClientTypes.FrameMetric: Swift.Codable {
         }
         if let threadStates = threadStates {
             var threadStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .threadStates)
-            for threadstates0 in threadStates {
-                try threadStatesContainer.encode(threadstates0)
+            for string0 in threadStates {
+                try threadStatesContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -1765,8 +1765,8 @@ extension CodeGuruProfilerClientTypes.FrameMetricDatum: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for framemetricvalues0 in values {
-                try valuesContainer.encode(framemetricvalues0)
+            for framemetricvalue0 in values {
+                try valuesContainer.encode(framemetricvalue0)
             }
         }
     }
@@ -3400,8 +3400,8 @@ extension CodeGuruProfilerClientTypes.Metric: Swift.Codable {
         }
         if let threadStates = threadStates {
             var threadStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .threadStates)
-            for strings0 in threadStates {
-                try threadStatesContainer.encode(strings0)
+            for string0 in threadStates {
+                try threadStatesContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -3495,8 +3495,8 @@ extension CodeGuruProfilerClientTypes.NotificationConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channels = channels {
             var channelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channels)
-            for channels0 in channels {
-                try channelsContainer.encode(channels0)
+            for channel0 in channels {
+                try channelsContainer.encode(channel0)
             }
         }
     }
@@ -3582,8 +3582,8 @@ extension CodeGuruProfilerClientTypes.Pattern: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let countersToAggregate = countersToAggregate {
             var countersToAggregateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .countersToAggregate)
-            for strings0 in countersToAggregate {
-                try countersToAggregateContainer.encode(strings0)
+            for string0 in countersToAggregate {
+                try countersToAggregateContainer.encode(string0)
             }
         }
         if let description = self.description {
@@ -3600,10 +3600,10 @@ extension CodeGuruProfilerClientTypes.Pattern: Swift.Codable {
         }
         if let targetFrames = targetFrames {
             var targetFramesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetFrames)
-            for targetframes0 in targetFrames {
-                var targetframes0Container = targetFramesContainer.nestedUnkeyedContainer()
-                for targetframe1 in targetframes0 {
-                    try targetframes0Container.encode(targetframe1)
+            for targetframe0 in targetFrames {
+                var targetframe0Container = targetFramesContainer.nestedUnkeyedContainer()
+                for string1 in targetframe0 {
+                    try targetframe0Container.encode(string1)
                 }
             }
         }
@@ -3925,8 +3925,8 @@ extension CodeGuruProfilerClientTypes.ProfilingGroupDescription: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updatedAt = self.updatedAt {
@@ -4073,8 +4073,8 @@ extension PutPermissionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let principals = principals {
             var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
-            for principals0 in principals {
-                try principalsContainer.encode(principals0)
+            for principal0 in principals {
+                try principalsContainer.encode(principal0)
             }
         }
         if let revisionId = self.revisionId {
@@ -4265,8 +4265,8 @@ extension CodeGuruProfilerClientTypes.Recommendation: Swift.Codable {
         }
         if let topMatches = topMatches {
             var topMatchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topMatches)
-            for matches0 in topMatches {
-                try topMatchesContainer.encode(matches0)
+            for match0 in topMatches {
+                try topMatchesContainer.encode(match0)
             }
         }
     }
@@ -4824,8 +4824,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

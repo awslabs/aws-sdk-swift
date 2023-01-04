@@ -877,8 +877,8 @@ extension ARCZonalShiftClientTypes.ManagedResourceSummary: Swift.Codable {
         }
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzones0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzones0)
+            for availabilityzone0 in availabilityZones {
+                try availabilityZonesContainer.encode(availabilityzone0)
             }
         }
         if let name = self.name {

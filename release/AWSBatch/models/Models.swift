@@ -86,8 +86,8 @@ extension BatchClientTypes.ArrayPropertiesDetail: Swift.Codable {
         }
         if let statusSummary = statusSummary {
             var statusSummaryContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .statusSummary)
-            for (dictKey0, arrayjobstatussummary0) in statusSummary {
-                try statusSummaryContainer.encode(arrayjobstatussummary0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, arrayJobStatusSummary0) in statusSummary {
+                try statusSummaryContainer.encode(arrayJobStatusSummary0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -236,8 +236,8 @@ extension BatchClientTypes.AttemptContainerDetail: Swift.Codable {
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfacelist0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfacelist0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let reason = self.reason {
@@ -789,8 +789,8 @@ extension BatchClientTypes.ComputeEnvironmentDetail: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -1006,8 +1006,8 @@ extension BatchClientTypes.ComputeResource: Swift.Codable {
         }
         if let ec2Configuration = ec2Configuration {
             var ec2ConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2Configuration)
-            for ec2configurationlist0 in ec2Configuration {
-                try ec2ConfigurationContainer.encode(ec2configurationlist0)
+            for ec2configuration0 in ec2Configuration {
+                try ec2ConfigurationContainer.encode(ec2configuration0)
             }
         }
         if let ec2KeyPair = self.ec2KeyPair {
@@ -1021,8 +1021,8 @@ extension BatchClientTypes.ComputeResource: Swift.Codable {
         }
         if let instanceTypes = instanceTypes {
             var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
-            for stringlist0 in instanceTypes {
-                try instanceTypesContainer.encode(stringlist0)
+            for string0 in instanceTypes {
+                try instanceTypesContainer.encode(string0)
             }
         }
         if let launchTemplate = self.launchTemplate {
@@ -1039,8 +1039,8 @@ extension BatchClientTypes.ComputeResource: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for stringlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(stringlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let spotIamFleetRole = self.spotIamFleetRole {
@@ -1048,14 +1048,14 @@ extension BatchClientTypes.ComputeResource: Swift.Codable {
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -1265,8 +1265,8 @@ extension BatchClientTypes.ComputeResourceUpdate: Swift.Codable {
         }
         if let ec2Configuration = ec2Configuration {
             var ec2ConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2Configuration)
-            for ec2configurationlist0 in ec2Configuration {
-                try ec2ConfigurationContainer.encode(ec2configurationlist0)
+            for ec2configuration0 in ec2Configuration {
+                try ec2ConfigurationContainer.encode(ec2configuration0)
             }
         }
         if let ec2KeyPair = self.ec2KeyPair {
@@ -1280,8 +1280,8 @@ extension BatchClientTypes.ComputeResourceUpdate: Swift.Codable {
         }
         if let instanceTypes = instanceTypes {
             var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
-            for stringlist0 in instanceTypes {
-                try instanceTypesContainer.encode(stringlist0)
+            for string0 in instanceTypes {
+                try instanceTypesContainer.encode(string0)
             }
         }
         if let launchTemplate = self.launchTemplate {
@@ -1298,20 +1298,20 @@ extension BatchClientTypes.ComputeResourceUpdate: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for stringlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(stringlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -1520,8 +1520,8 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let containerInstanceArn = self.containerInstanceArn {
@@ -1529,8 +1529,8 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         }
         if let environment = environment {
             var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
-            for environmentvariables0 in environment {
-                try environmentContainer.encode(environmentvariables0)
+            for keyvaluepair0 in environment {
+                try environmentContainer.encode(keyvaluepair0)
             }
         }
         if let executionRoleArn = self.executionRoleArn {
@@ -1565,8 +1565,8 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         }
         if let mountPoints = mountPoints {
             var mountPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mountPoints)
-            for mountpoints0 in mountPoints {
-                try mountPointsContainer.encode(mountpoints0)
+            for mountpoint0 in mountPoints {
+                try mountPointsContainer.encode(mountpoint0)
             }
         }
         if let networkConfiguration = self.networkConfiguration {
@@ -1574,8 +1574,8 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfacelist0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfacelist0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let privileged = self.privileged {
@@ -1589,14 +1589,14 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         }
         if let resourceRequirements = resourceRequirements {
             var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
-            for resourcerequirements0 in resourceRequirements {
-                try resourceRequirementsContainer.encode(resourcerequirements0)
+            for resourcerequirement0 in resourceRequirements {
+                try resourceRequirementsContainer.encode(resourcerequirement0)
             }
         }
         if let secrets = secrets {
             var secretsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secrets)
-            for secretlist0 in secrets {
-                try secretsContainer.encode(secretlist0)
+            for secret0 in secrets {
+                try secretsContainer.encode(secret0)
             }
         }
         if let taskArn = self.taskArn {
@@ -1604,8 +1604,8 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         }
         if let ulimits = ulimits {
             var ulimitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ulimits)
-            for ulimits0 in ulimits {
-                try ulimitsContainer.encode(ulimits0)
+            for ulimit0 in ulimits {
+                try ulimitsContainer.encode(ulimit0)
             }
         }
         if let user = self.user {
@@ -1616,8 +1616,8 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
-            for volumes0 in volumes {
-                try volumesContainer.encode(volumes0)
+            for volume0 in volumes {
+                try volumesContainer.encode(volume0)
             }
         }
     }
@@ -1881,14 +1881,14 @@ extension BatchClientTypes.ContainerOverrides: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let environment = environment {
             var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
-            for environmentvariables0 in environment {
-                try environmentContainer.encode(environmentvariables0)
+            for keyvaluepair0 in environment {
+                try environmentContainer.encode(keyvaluepair0)
             }
         }
         if let instanceType = self.instanceType {
@@ -1899,8 +1899,8 @@ extension BatchClientTypes.ContainerOverrides: Swift.Codable {
         }
         if let resourceRequirements = resourceRequirements {
             var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
-            for resourcerequirements0 in resourceRequirements {
-                try resourceRequirementsContainer.encode(resourcerequirements0)
+            for resourcerequirement0 in resourceRequirements {
+                try resourceRequirementsContainer.encode(resourcerequirement0)
             }
         }
         if let vcpus = self.vcpus {
@@ -2018,14 +2018,14 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let environment = environment {
             var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
-            for environmentvariables0 in environment {
-                try environmentContainer.encode(environmentvariables0)
+            for keyvaluepair0 in environment {
+                try environmentContainer.encode(keyvaluepair0)
             }
         }
         if let executionRoleArn = self.executionRoleArn {
@@ -2054,8 +2054,8 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
         }
         if let mountPoints = mountPoints {
             var mountPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mountPoints)
-            for mountpoints0 in mountPoints {
-                try mountPointsContainer.encode(mountpoints0)
+            for mountpoint0 in mountPoints {
+                try mountPointsContainer.encode(mountpoint0)
             }
         }
         if let networkConfiguration = self.networkConfiguration {
@@ -2069,20 +2069,20 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
         }
         if let resourceRequirements = resourceRequirements {
             var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
-            for resourcerequirements0 in resourceRequirements {
-                try resourceRequirementsContainer.encode(resourcerequirements0)
+            for resourcerequirement0 in resourceRequirements {
+                try resourceRequirementsContainer.encode(resourcerequirement0)
             }
         }
         if let secrets = secrets {
             var secretsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secrets)
-            for secretlist0 in secrets {
-                try secretsContainer.encode(secretlist0)
+            for secret0 in secrets {
+                try secretsContainer.encode(secret0)
             }
         }
         if let ulimits = ulimits {
             var ulimitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ulimits)
-            for ulimits0 in ulimits {
-                try ulimitsContainer.encode(ulimits0)
+            for ulimit0 in ulimits {
+                try ulimitsContainer.encode(ulimit0)
             }
         }
         if let user = self.user {
@@ -2093,8 +2093,8 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
-            for volumes0 in volumes {
-                try volumesContainer.encode(volumes0)
+            for volume0 in volumes {
+                try volumesContainer.encode(volume0)
             }
         }
     }
@@ -2387,8 +2387,8 @@ extension CreateComputeEnvironmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -2591,8 +2591,8 @@ extension CreateJobQueueInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computeEnvironmentOrder = computeEnvironmentOrder {
             var computeEnvironmentOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computeEnvironmentOrder)
-            for computeenvironmentorders0 in computeEnvironmentOrder {
-                try computeEnvironmentOrderContainer.encode(computeenvironmentorders0)
+            for computeenvironmentorder0 in computeEnvironmentOrder {
+                try computeEnvironmentOrderContainer.encode(computeenvironmentorder0)
             }
         }
         if let jobQueueName = self.jobQueueName {
@@ -2609,8 +2609,8 @@ extension CreateJobQueueInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2806,8 +2806,8 @@ extension CreateSchedulingPolicyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3293,8 +3293,8 @@ extension DescribeComputeEnvironmentsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computeEnvironments = computeEnvironments {
             var computeEnvironmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computeEnvironments)
-            for stringlist0 in computeEnvironments {
-                try computeEnvironmentsContainer.encode(stringlist0)
+            for string0 in computeEnvironments {
+                try computeEnvironmentsContainer.encode(string0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3466,8 +3466,8 @@ extension DescribeJobDefinitionsInput: Swift.Encodable {
         }
         if let jobDefinitions = jobDefinitions {
             var jobDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobDefinitions)
-            for stringlist0 in jobDefinitions {
-                try jobDefinitionsContainer.encode(stringlist0)
+            for string0 in jobDefinitions {
+                try jobDefinitionsContainer.encode(string0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3653,8 +3653,8 @@ extension DescribeJobQueuesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobQueues = jobQueues {
             var jobQueuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobQueues)
-            for stringlist0 in jobQueues {
-                try jobQueuesContainer.encode(stringlist0)
+            for string0 in jobQueues {
+                try jobQueuesContainer.encode(string0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3819,8 +3819,8 @@ extension DescribeJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobs = jobs {
             var jobsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobs)
-            for stringlist0 in jobs {
-                try jobsContainer.encode(stringlist0)
+            for string0 in jobs {
+                try jobsContainer.encode(string0)
             }
         }
     }
@@ -3954,8 +3954,8 @@ extension DescribeSchedulingPoliciesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for stringlist0 in arns {
-                try arnsContainer.encode(stringlist0)
+            for string0 in arns {
+                try arnsContainer.encode(string0)
             }
         }
     }
@@ -4097,8 +4097,8 @@ extension BatchClientTypes.Device: Swift.Codable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for devicecgrouppermissions0 in permissions {
-                try permissionsContainer.encode(devicecgrouppermissions0.rawValue)
+            for devicecgrouppermission0 in permissions {
+                try permissionsContainer.encode(devicecgrouppermission0.rawValue)
             }
         }
     }
@@ -4483,8 +4483,8 @@ extension BatchClientTypes.EksAttemptDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containers = containers {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
-            for eksattemptcontainerdetails0 in containers {
-                try containersContainer.encode(eksattemptcontainerdetails0)
+            for eksattemptcontainerdetail0 in containers {
+                try containersContainer.encode(eksattemptcontainerdetail0)
             }
         }
         if let nodeName = self.nodeName {
@@ -4630,20 +4630,20 @@ extension BatchClientTypes.EksContainer: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for stringlist0 in args {
-                try argsContainer.encode(stringlist0)
+            for string0 in args {
+                try argsContainer.encode(string0)
             }
         }
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let env = env {
             var envContainer = encodeContainer.nestedUnkeyedContainer(forKey: .env)
-            for ekscontainerenvironmentvariables0 in env {
-                try envContainer.encode(ekscontainerenvironmentvariables0)
+            for ekscontainerenvironmentvariable0 in env {
+                try envContainer.encode(ekscontainerenvironmentvariable0)
             }
         }
         if let image = self.image {
@@ -4663,8 +4663,8 @@ extension BatchClientTypes.EksContainer: Swift.Codable {
         }
         if let volumeMounts = volumeMounts {
             var volumeMountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeMounts)
-            for ekscontainervolumemounts0 in volumeMounts {
-                try volumeMountsContainer.encode(ekscontainervolumemounts0)
+            for ekscontainervolumemount0 in volumeMounts {
+                try volumeMountsContainer.encode(ekscontainervolumemount0)
             }
         }
     }
@@ -4796,20 +4796,20 @@ extension BatchClientTypes.EksContainerDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for stringlist0 in args {
-                try argsContainer.encode(stringlist0)
+            for string0 in args {
+                try argsContainer.encode(string0)
             }
         }
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let env = env {
             var envContainer = encodeContainer.nestedUnkeyedContainer(forKey: .env)
-            for ekscontainerenvironmentvariables0 in env {
-                try envContainer.encode(ekscontainerenvironmentvariables0)
+            for ekscontainerenvironmentvariable0 in env {
+                try envContainer.encode(ekscontainerenvironmentvariable0)
             }
         }
         if let exitCode = self.exitCode {
@@ -4835,8 +4835,8 @@ extension BatchClientTypes.EksContainerDetail: Swift.Codable {
         }
         if let volumeMounts = volumeMounts {
             var volumeMountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeMounts)
-            for ekscontainervolumemounts0 in volumeMounts {
-                try volumeMountsContainer.encode(ekscontainervolumemounts0)
+            for ekscontainervolumemount0 in volumeMounts {
+                try volumeMountsContainer.encode(ekscontainervolumemount0)
             }
         }
     }
@@ -5019,20 +5019,20 @@ extension BatchClientTypes.EksContainerOverride: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for stringlist0 in args {
-                try argsContainer.encode(stringlist0)
+            for string0 in args {
+                try argsContainer.encode(string0)
             }
         }
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let env = env {
             var envContainer = encodeContainer.nestedUnkeyedContainer(forKey: .env)
-            for ekscontainerenvironmentvariables0 in env {
-                try envContainer.encode(ekscontainerenvironmentvariables0)
+            for ekscontainerenvironmentvariable0 in env {
+                try envContainer.encode(ekscontainerenvironmentvariable0)
             }
         }
         if let image = self.image {
@@ -5127,14 +5127,14 @@ extension BatchClientTypes.EksContainerResourceRequirements: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let limits = limits {
             var limitsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .limits)
-            for (dictKey0, ekslimits0) in limits {
-                try limitsContainer.encode(ekslimits0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, eksLimits0) in limits {
+                try limitsContainer.encode(eksLimits0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requests = requests {
             var requestsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requests)
-            for (dictKey0, eksrequests0) in requests {
-                try requestsContainer.encode(eksrequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, eksRequests0) in requests {
+                try requestsContainer.encode(eksRequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5409,8 +5409,8 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containers = containers {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
-            for ekscontainers0 in containers {
-                try containersContainer.encode(ekscontainers0)
+            for ekscontainer0 in containers {
+                try containersContainer.encode(ekscontainer0)
             }
         }
         if let dnsPolicy = self.dnsPolicy {
@@ -5424,8 +5424,8 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
-            for eksvolumes0 in volumes {
-                try volumesContainer.encode(eksvolumes0)
+            for eksvolume0 in volumes {
+                try volumesContainer.encode(eksvolume0)
             }
         }
     }
@@ -5510,8 +5510,8 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containers = containers {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
-            for ekscontainerdetails0 in containers {
-                try containersContainer.encode(ekscontainerdetails0)
+            for ekscontainerdetail0 in containers {
+                try containersContainer.encode(ekscontainerdetail0)
             }
         }
         if let dnsPolicy = self.dnsPolicy {
@@ -5531,8 +5531,8 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
-            for eksvolumes0 in volumes {
-                try volumesContainer.encode(eksvolumes0)
+            for eksvolume0 in volumes {
+                try volumesContainer.encode(eksvolume0)
             }
         }
     }
@@ -5623,8 +5623,8 @@ extension BatchClientTypes.EksPodPropertiesOverride: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containers = containers {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
-            for ekscontaineroverridelist0 in containers {
-                try containersContainer.encode(ekscontaineroverridelist0)
+            for ekscontaineroverride0 in containers {
+                try containersContainer.encode(ekscontaineroverride0)
             }
         }
     }
@@ -5961,8 +5961,8 @@ extension BatchClientTypes.FairsharePolicy: Swift.Codable {
         }
         if let shareDistribution = shareDistribution {
             var shareDistributionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shareDistribution)
-            for shareattributeslist0 in shareDistribution {
-                try shareDistributionContainer.encode(shareattributeslist0)
+            for shareattributes0 in shareDistribution {
+                try shareDistributionContainer.encode(shareattributes0)
             }
         }
     }
@@ -6199,14 +6199,14 @@ extension BatchClientTypes.JobDefinition: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let platformCapabilities = platformCapabilities {
             var platformCapabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platformCapabilities)
-            for platformcapabilitylist0 in platformCapabilities {
-                try platformCapabilitiesContainer.encode(platformcapabilitylist0.rawValue)
+            for platformcapability0 in platformCapabilities {
+                try platformCapabilitiesContainer.encode(platformcapability0.rawValue)
             }
         }
         if let propagateTags = self.propagateTags {
@@ -6226,8 +6226,8 @@ extension BatchClientTypes.JobDefinition: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeout = self.timeout {
@@ -6498,8 +6498,8 @@ extension BatchClientTypes.JobDetail: Swift.Codable {
         }
         if let attempts = attempts {
             var attemptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attempts)
-            for attemptdetails0 in attempts {
-                try attemptsContainer.encode(attemptdetails0)
+            for attemptdetail0 in attempts {
+                try attemptsContainer.encode(attemptdetail0)
             }
         }
         if let container = self.container {
@@ -6510,14 +6510,14 @@ extension BatchClientTypes.JobDetail: Swift.Codable {
         }
         if let dependsOn = dependsOn {
             var dependsOnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOn)
-            for jobdependencylist0 in dependsOn {
-                try dependsOnContainer.encode(jobdependencylist0)
+            for jobdependency0 in dependsOn {
+                try dependsOnContainer.encode(jobdependency0)
             }
         }
         if let eksAttempts = eksAttempts {
             var eksAttemptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eksAttempts)
-            for eksattemptdetails0 in eksAttempts {
-                try eksAttemptsContainer.encode(eksattemptdetails0)
+            for eksattemptdetail0 in eksAttempts {
+                try eksAttemptsContainer.encode(eksattemptdetail0)
             }
         }
         if let eksProperties = self.eksProperties {
@@ -6552,14 +6552,14 @@ extension BatchClientTypes.JobDetail: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let platformCapabilities = platformCapabilities {
             var platformCapabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platformCapabilities)
-            for platformcapabilitylist0 in platformCapabilities {
-                try platformCapabilitiesContainer.encode(platformcapabilitylist0.rawValue)
+            for platformcapability0 in platformCapabilities {
+                try platformCapabilitiesContainer.encode(platformcapability0.rawValue)
             }
         }
         if let propagateTags = self.propagateTags {
@@ -6588,8 +6588,8 @@ extension BatchClientTypes.JobDetail: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeout = self.timeout {
@@ -6859,8 +6859,8 @@ extension BatchClientTypes.JobQueueDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computeEnvironmentOrder = computeEnvironmentOrder {
             var computeEnvironmentOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computeEnvironmentOrder)
-            for computeenvironmentorders0 in computeEnvironmentOrder {
-                try computeEnvironmentOrderContainer.encode(computeenvironmentorders0)
+            for computeenvironmentorder0 in computeEnvironmentOrder {
+                try computeEnvironmentOrderContainer.encode(computeenvironmentorder0)
             }
         }
         if let jobQueueArn = self.jobQueueArn {
@@ -6886,8 +6886,8 @@ extension BatchClientTypes.JobQueueDetail: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7273,8 +7273,8 @@ extension BatchClientTypes.KeyValuesPair: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for stringlist0 in values {
-                try valuesContainer.encode(stringlist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -7386,8 +7386,8 @@ extension BatchClientTypes.LinuxParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let devices = devices {
             var devicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .devices)
-            for deviceslist0 in devices {
-                try devicesContainer.encode(deviceslist0)
+            for device0 in devices {
+                try devicesContainer.encode(device0)
             }
         }
         if let initProcessEnabled = self.initProcessEnabled {
@@ -7404,8 +7404,8 @@ extension BatchClientTypes.LinuxParameters: Swift.Codable {
         }
         if let tmpfs = tmpfs {
             var tmpfsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tmpfs)
-            for tmpfslist0 in tmpfs {
-                try tmpfsContainer.encode(tmpfslist0)
+            for tmpfs0 in tmpfs {
+                try tmpfsContainer.encode(tmpfs0)
             }
         }
     }
@@ -7508,8 +7508,8 @@ extension ListJobsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for listjobsfilterlist0 in filters {
-                try filtersContainer.encode(listjobsfilterlist0)
+            for keyvaluespair0 in filters {
+                try filtersContainer.encode(keyvaluespair0)
             }
         }
         if let jobQueue = self.jobQueue {
@@ -7971,14 +7971,14 @@ extension BatchClientTypes.LogConfiguration: Swift.Codable {
         }
         if let options = options {
             var optionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .options)
-            for (dictKey0, logconfigurationoptionsmap0) in options {
-                try optionsContainer.encode(logconfigurationoptionsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logConfigurationOptionsMap0) in options {
+                try optionsContainer.encode(logConfigurationOptionsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let secretOptions = secretOptions {
             var secretOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secretOptions)
-            for secretlist0 in secretOptions {
-                try secretOptionsContainer.encode(secretlist0)
+            for secret0 in secretOptions {
+                try secretOptionsContainer.encode(secret0)
             }
         }
     }
@@ -8284,8 +8284,8 @@ extension BatchClientTypes.NodeOverrides: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let nodePropertyOverrides = nodePropertyOverrides {
             var nodePropertyOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodePropertyOverrides)
-            for nodepropertyoverrides0 in nodePropertyOverrides {
-                try nodePropertyOverridesContainer.encode(nodepropertyoverrides0)
+            for nodepropertyoverride0 in nodePropertyOverrides {
+                try nodePropertyOverridesContainer.encode(nodepropertyoverride0)
             }
         }
         if let numNodes = self.numNodes {
@@ -8351,8 +8351,8 @@ extension BatchClientTypes.NodeProperties: Swift.Codable {
         }
         if let nodeRangeProperties = nodeRangeProperties {
             var nodeRangePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeRangeProperties)
-            for noderangeproperties0 in nodeRangeProperties {
-                try nodeRangePropertiesContainer.encode(noderangeproperties0)
+            for noderangeproperty0 in nodeRangeProperties {
+                try nodeRangePropertiesContainer.encode(noderangeproperty0)
             }
         }
         if let numNodes = self.numNodes {
@@ -8650,14 +8650,14 @@ extension RegisterJobDefinitionInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let platformCapabilities = platformCapabilities {
             var platformCapabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platformCapabilities)
-            for platformcapabilitylist0 in platformCapabilities {
-                try platformCapabilitiesContainer.encode(platformcapabilitylist0.rawValue)
+            for platformcapability0 in platformCapabilities {
+                try platformCapabilitiesContainer.encode(platformcapability0.rawValue)
             }
         }
         if let propagateTags = self.propagateTags {
@@ -8671,8 +8671,8 @@ extension RegisterJobDefinitionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeout = self.timeout {
@@ -9051,8 +9051,8 @@ extension BatchClientTypes.RetryStrategy: Swift.Codable {
         }
         if let evaluateOnExit = evaluateOnExit {
             var evaluateOnExitContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evaluateOnExit)
-            for evaluateonexitlist0 in evaluateOnExit {
-                try evaluateOnExitContainer.encode(evaluateonexitlist0)
+            for evaluateonexit0 in evaluateOnExit {
+                try evaluateOnExitContainer.encode(evaluateonexit0)
             }
         }
     }
@@ -9116,8 +9116,8 @@ extension BatchClientTypes.SchedulingPolicyDetail: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9391,8 +9391,8 @@ extension SubmitJobInput: Swift.Encodable {
         }
         if let dependsOn = dependsOn {
             var dependsOnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOn)
-            for jobdependencylist0 in dependsOn {
-                try dependsOnContainer.encode(jobdependencylist0)
+            for jobdependency0 in dependsOn {
+                try dependsOnContainer.encode(jobdependency0)
             }
         }
         if let eksPropertiesOverride = self.eksPropertiesOverride {
@@ -9412,8 +9412,8 @@ extension SubmitJobInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let propagateTags = self.propagateTags {
@@ -9430,8 +9430,8 @@ extension SubmitJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeout = self.timeout {
@@ -9713,8 +9713,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagristagsmap0) in tags {
-                try tagsContainer.encode(tagristagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagrisTagsMap0) in tags {
+                try tagsContainer.encode(tagrisTagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9917,8 +9917,8 @@ extension BatchClientTypes.Tmpfs: Swift.Codable {
         }
         if let mountOptions = mountOptions {
             var mountOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mountOptions)
-            for stringlist0 in mountOptions {
-                try mountOptionsContainer.encode(stringlist0)
+            for string0 in mountOptions {
+                try mountOptionsContainer.encode(string0)
             }
         }
         if let size = self.size {
@@ -10315,8 +10315,8 @@ extension UpdateJobQueueInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computeEnvironmentOrder = computeEnvironmentOrder {
             var computeEnvironmentOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computeEnvironmentOrder)
-            for computeenvironmentorders0 in computeEnvironmentOrder {
-                try computeEnvironmentOrderContainer.encode(computeenvironmentorders0)
+            for computeenvironmentorder0 in computeEnvironmentOrder {
+                try computeEnvironmentOrderContainer.encode(computeenvironmentorder0)
             }
         }
         if let jobQueue = self.jobQueue {

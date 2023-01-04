@@ -226,8 +226,8 @@ extension CreateDatasetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -448,8 +448,8 @@ extension CreateInferenceSchedulerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -687,8 +687,8 @@ extension CreateLabelGroupInput: Swift.Encodable {
         }
         if let faultCodes = faultCodes {
             var faultCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .faultCodes)
-            for faultcodes0 in faultCodes {
-                try faultCodesContainer.encode(faultcodes0)
+            for faultcode0 in faultCodes {
+                try faultCodesContainer.encode(faultcode0)
             }
         }
         if let labelGroupName = self.labelGroupName {
@@ -696,8 +696,8 @@ extension CreateLabelGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1130,8 +1130,8 @@ extension CreateModelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let trainingDataEndTime = self.trainingDataEndTime {
@@ -4336,8 +4336,8 @@ extension LookoutEquipmentClientTypes.IngestedFilesSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let discardedFiles = discardedFiles {
             var discardedFilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .discardedFiles)
-            for listofdiscardedfiles0 in discardedFiles {
-                try discardedFilesContainer.encode(listofdiscardedfiles0)
+            for s3object0 in discardedFiles {
+                try discardedFilesContainer.encode(s3object0)
             }
         }
         if let ingestedNumberOfFiles = self.ingestedNumberOfFiles {
@@ -8063,8 +8063,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8326,8 +8326,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -8586,8 +8586,8 @@ extension UpdateLabelGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let faultCodes = faultCodes {
             var faultCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .faultCodes)
-            for faultcodes0 in faultCodes {
-                try faultCodesContainer.encode(faultcodes0)
+            for faultcode0 in faultCodes {
+                try faultCodesContainer.encode(faultcode0)
             }
         }
         if let labelGroupName = self.labelGroupName {

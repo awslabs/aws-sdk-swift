@@ -323,8 +323,8 @@ extension DevOpsGuruClientTypes.AnomalousLogGroup: Swift.Codable {
         }
         if let logAnomalyShowcases = logAnomalyShowcases {
             var logAnomalyShowcasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logAnomalyShowcases)
-            for loganomalyshowcases0 in logAnomalyShowcases {
-                try logAnomalyShowcasesContainer.encode(loganomalyshowcases0)
+            for loganomalyshowcase0 in logAnomalyShowcases {
+                try logAnomalyShowcasesContainer.encode(loganomalyshowcase0)
             }
         }
         if let logGroupName = self.logGroupName {
@@ -527,14 +527,14 @@ extension DevOpsGuruClientTypes.AnomalySourceDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cloudWatchMetrics = cloudWatchMetrics {
             var cloudWatchMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchMetrics)
-            for cloudwatchmetricsdetails0 in cloudWatchMetrics {
-                try cloudWatchMetricsContainer.encode(cloudwatchmetricsdetails0)
+            for cloudwatchmetricsdetail0 in cloudWatchMetrics {
+                try cloudWatchMetricsContainer.encode(cloudwatchmetricsdetail0)
             }
         }
         if let performanceInsightsMetrics = performanceInsightsMetrics {
             var performanceInsightsMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .performanceInsightsMetrics)
-            for performanceinsightsmetricsdetails0 in performanceInsightsMetrics {
-                try performanceInsightsMetricsContainer.encode(performanceinsightsmetricsdetails0)
+            for performanceinsightsmetricsdetail0 in performanceInsightsMetrics {
+                try performanceInsightsMetricsContainer.encode(performanceinsightsmetricsdetail0)
             }
         }
     }
@@ -760,8 +760,8 @@ extension DevOpsGuruClientTypes.CloudFormationCollection: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stackNames = stackNames {
             var stackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackNames)
-            for stacknames0 in stackNames {
-                try stackNamesContainer.encode(stacknames0)
+            for stackname0 in stackNames {
+                try stackNamesContainer.encode(stackname0)
             }
         }
     }
@@ -807,8 +807,8 @@ extension DevOpsGuruClientTypes.CloudFormationCollectionFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stackNames = stackNames {
             var stackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackNames)
-            for stacknames0 in stackNames {
-                try stackNamesContainer.encode(stacknames0)
+            for stackname0 in stackNames {
+                try stackNamesContainer.encode(stackname0)
             }
         }
     }
@@ -854,8 +854,8 @@ extension DevOpsGuruClientTypes.CloudFormationCostEstimationResourceCollectionFi
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stackNames = stackNames {
             var stackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackNames)
-            for costestimationstacknames0 in stackNames {
-                try stackNamesContainer.encode(costestimationstacknames0)
+            for stackname0 in stackNames {
+                try stackNamesContainer.encode(stackname0)
             }
         }
     }
@@ -995,8 +995,8 @@ extension DevOpsGuruClientTypes.CloudWatchMetricsDataSummary: Swift.Codable {
         }
         if let timestampMetricValuePairList = timestampMetricValuePairList {
             var timestampMetricValuePairListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timestampMetricValuePairList)
-            for timestampmetricvaluepairlist0 in timestampMetricValuePairList {
-                try timestampMetricValuePairListContainer.encode(timestampmetricvaluepairlist0)
+            for timestampmetricvaluepair0 in timestampMetricValuePairList {
+                try timestampMetricValuePairListContainer.encode(timestampmetricvaluepair0)
             }
         }
     }
@@ -1054,8 +1054,8 @@ extension DevOpsGuruClientTypes.CloudWatchMetricsDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for cloudwatchmetricsdimensions0 in dimensions {
-                try dimensionsContainer.encode(cloudwatchmetricsdimensions0)
+            for cloudwatchmetricsdimension0 in dimensions {
+                try dimensionsContainer.encode(cloudwatchmetricsdimension0)
             }
         }
         if let metricDataSummary = self.metricDataSummary {
@@ -1329,8 +1329,8 @@ extension DevOpsGuruClientTypes.CostEstimationResourceCollectionFilter: Swift.Co
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagcostestimationresourcecollectionfilters0 in tags {
-                try tagsContainer.encode(tagcostestimationresourcecollectionfilters0)
+            for tagcostestimationresourcecollectionfilter0 in tags {
+                try tagsContainer.encode(tagcostestimationresourcecollectionfilter0)
             }
         }
     }
@@ -2322,14 +2322,14 @@ extension DescribeOrganizationHealthInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidlist0 in accountIds {
-                try accountIdsContainer.encode(accountidlist0)
+            for awsaccountid0 in accountIds {
+                try accountIdsContainer.encode(awsaccountid0)
             }
         }
         if let organizationalUnitIds = organizationalUnitIds {
             var organizationalUnitIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnitIds)
-            for organizationalunitidlist0 in organizationalUnitIds {
-                try organizationalUnitIdsContainer.encode(organizationalunitidlist0)
+            for organizationalunitid0 in organizationalUnitIds {
+                try organizationalUnitIdsContainer.encode(organizationalunitid0)
             }
         }
     }
@@ -2510,8 +2510,8 @@ extension DescribeOrganizationOverviewInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidlist0 in accountIds {
-                try accountIdsContainer.encode(accountidlist0)
+            for awsaccountid0 in accountIds {
+                try accountIdsContainer.encode(awsaccountid0)
             }
         }
         if let fromTime = self.fromTime {
@@ -2519,8 +2519,8 @@ extension DescribeOrganizationOverviewInput: Swift.Encodable {
         }
         if let organizationalUnitIds = organizationalUnitIds {
             var organizationalUnitIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnitIds)
-            for organizationalunitidlist0 in organizationalUnitIds {
-                try organizationalUnitIdsContainer.encode(organizationalunitidlist0)
+            for organizationalunitid0 in organizationalUnitIds {
+                try organizationalUnitIdsContainer.encode(organizationalunitid0)
             }
         }
         if let toTime = self.toTime {
@@ -2700,8 +2700,8 @@ extension DescribeOrganizationResourceCollectionHealthInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidlist0 in accountIds {
-                try accountIdsContainer.encode(accountidlist0)
+            for awsaccountid0 in accountIds {
+                try accountIdsContainer.encode(awsaccountid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -2715,8 +2715,8 @@ extension DescribeOrganizationResourceCollectionHealthInput: Swift.Encodable {
         }
         if let organizationalUnitIds = organizationalUnitIds {
             var organizationalUnitIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnitIds)
-            for organizationalunitidlist0 in organizationalUnitIds {
-                try organizationalUnitIdsContainer.encode(organizationalunitidlist0)
+            for organizationalunitid0 in organizationalUnitIds {
+                try organizationalUnitIdsContainer.encode(organizationalunitid0)
             }
         }
     }
@@ -3310,8 +3310,8 @@ extension DevOpsGuruClientTypes.Event: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for eventresources0 in resources {
-                try resourcesContainer.encode(eventresources0)
+            for eventresource0 in resources {
+                try resourcesContainer.encode(eventresource0)
             }
         }
         if let time = self.time {
@@ -5293,8 +5293,8 @@ extension DevOpsGuruClientTypes.ListMonitoredResourcesFilters: Swift.Codable {
         }
         if let resourceTypeFilters = resourceTypeFilters {
             var resourceTypeFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypeFilters)
-            for resourcetypefilters0 in resourceTypeFilters {
-                try resourceTypeFiltersContainer.encode(resourcetypefilters0.rawValue)
+            for resourcetypefilter0 in resourceTypeFilters {
+                try resourceTypeFiltersContainer.encode(resourcetypefilter0.rawValue)
             }
         }
     }
@@ -5647,8 +5647,8 @@ extension ListOrganizationInsightsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for listinsightsaccountidlist0 in accountIds {
-                try accountIdsContainer.encode(listinsightsaccountidlist0)
+            for awsaccountid0 in accountIds {
+                try accountIdsContainer.encode(awsaccountid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5659,8 +5659,8 @@ extension ListOrganizationInsightsInput: Swift.Encodable {
         }
         if let organizationalUnitIds = organizationalUnitIds {
             var organizationalUnitIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnitIds)
-            for listinsightsorganizationalunitidlist0 in organizationalUnitIds {
-                try organizationalUnitIdsContainer.encode(listinsightsorganizationalunitidlist0)
+            for organizationalunitid0 in organizationalUnitIds {
+                try organizationalUnitIdsContainer.encode(organizationalunitid0)
             }
         }
         if let statusFilter = self.statusFilter {
@@ -6198,8 +6198,8 @@ extension DevOpsGuruClientTypes.LogAnomalyShowcase: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logAnomalyClasses = logAnomalyClasses {
             var logAnomalyClassesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logAnomalyClasses)
-            for loganomalyclasses0 in logAnomalyClasses {
-                try logAnomalyClassesContainer.encode(loganomalyclasses0)
+            for loganomalyclass0 in logAnomalyClasses {
+                try logAnomalyClassesContainer.encode(loganomalyclass0)
             }
         }
     }
@@ -6532,14 +6532,14 @@ extension DevOpsGuruClientTypes.NotificationFilterConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let messageTypes = messageTypes {
             var messageTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageTypes)
-            for notificationmessagetypes0 in messageTypes {
-                try messageTypesContainer.encode(notificationmessagetypes0.rawValue)
+            for notificationmessagetype0 in messageTypes {
+                try messageTypesContainer.encode(notificationmessagetype0.rawValue)
             }
         }
         if let severities = severities {
             var severitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .severities)
-            for insightseverities0 in severities {
-                try severitiesContainer.encode(insightseverities0.rawValue)
+            for insightseverity0 in severities {
+                try severitiesContainer.encode(insightseverity0.rawValue)
             }
         }
     }
@@ -6784,8 +6784,8 @@ extension DevOpsGuruClientTypes.PerformanceInsightsMetricDimensionGroup: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for performanceinsightsmetricdimensions0 in dimensions {
-                try dimensionsContainer.encode(performanceinsightsmetricdimensions0)
+            for performanceinsightsmetricdimension0 in dimensions {
+                try dimensionsContainer.encode(performanceinsightsmetricdimension0)
             }
         }
         if let group = self.group {
@@ -6907,8 +6907,8 @@ extension DevOpsGuruClientTypes.PerformanceInsightsMetricQuery: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, performanceinsightsmetricfiltermap0) in filter {
-                try filterContainer.encode(performanceinsightsmetricfiltermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, performanceInsightsMetricFilterMap0) in filter {
+                try filterContainer.encode(performanceInsightsMetricFilterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let groupBy = self.groupBy {
@@ -6998,20 +6998,20 @@ extension DevOpsGuruClientTypes.PerformanceInsightsMetricsDetail: Swift.Codable 
         }
         if let referenceData = referenceData {
             var referenceDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceData)
-            for performanceinsightsreferencedatalist0 in referenceData {
-                try referenceDataContainer.encode(performanceinsightsreferencedatalist0)
+            for performanceinsightsreferencedata0 in referenceData {
+                try referenceDataContainer.encode(performanceinsightsreferencedata0)
             }
         }
         if let statsAtAnomaly = statsAtAnomaly {
             var statsAtAnomalyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statsAtAnomaly)
-            for performanceinsightsstats0 in statsAtAnomaly {
-                try statsAtAnomalyContainer.encode(performanceinsightsstats0)
+            for performanceinsightsstat0 in statsAtAnomaly {
+                try statsAtAnomalyContainer.encode(performanceinsightsstat0)
             }
         }
         if let statsAtBaseline = statsAtBaseline {
             var statsAtBaselineContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statsAtBaseline)
-            for performanceinsightsstats0 in statsAtBaseline {
-                try statsAtBaselineContainer.encode(performanceinsightsstats0)
+            for performanceinsightsstat0 in statsAtBaseline {
+                try statsAtBaselineContainer.encode(performanceinsightsstat0)
             }
         }
         if let unit = self.unit {
@@ -7378,8 +7378,8 @@ extension DevOpsGuruClientTypes.ProactiveAnomaly: Swift.Codable {
         }
         if let anomalyResources = anomalyResources {
             var anomalyResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .anomalyResources)
-            for anomalyresources0 in anomalyResources {
-                try anomalyResourcesContainer.encode(anomalyresources0)
+            for anomalyresource0 in anomalyResources {
+                try anomalyResourcesContainer.encode(anomalyresource0)
             }
         }
         if let anomalyTimeRange = self.anomalyTimeRange {
@@ -7545,8 +7545,8 @@ extension DevOpsGuruClientTypes.ProactiveAnomalySummary: Swift.Codable {
         }
         if let anomalyResources = anomalyResources {
             var anomalyResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .anomalyResources)
-            for anomalyresources0 in anomalyResources {
-                try anomalyResourcesContainer.encode(anomalyresources0)
+            for anomalyresource0 in anomalyResources {
+                try anomalyResourcesContainer.encode(anomalyresource0)
             }
         }
         if let anomalyTimeRange = self.anomalyTimeRange {
@@ -7820,8 +7820,8 @@ extension DevOpsGuruClientTypes.ProactiveInsightSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associatedResourceArns = associatedResourceArns {
             var associatedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedResourceArns)
-            for associatedresourcearns0 in associatedResourceArns {
-                try associatedResourceArnsContainer.encode(associatedresourcearns0)
+            for resourcearn0 in associatedResourceArns {
+                try associatedResourceArnsContainer.encode(resourcearn0)
             }
         }
         if let id = self.id {
@@ -8168,8 +8168,8 @@ extension DevOpsGuruClientTypes.ReactiveAnomaly: Swift.Codable {
         }
         if let anomalyResources = anomalyResources {
             var anomalyResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .anomalyResources)
-            for anomalyresources0 in anomalyResources {
-                try anomalyResourcesContainer.encode(anomalyresources0)
+            for anomalyresource0 in anomalyResources {
+                try anomalyResourcesContainer.encode(anomalyresource0)
             }
         }
         if let anomalyTimeRange = self.anomalyTimeRange {
@@ -8339,8 +8339,8 @@ extension DevOpsGuruClientTypes.ReactiveAnomalySummary: Swift.Codable {
         }
         if let anomalyResources = anomalyResources {
             var anomalyResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .anomalyResources)
-            for anomalyresources0 in anomalyResources {
-                try anomalyResourcesContainer.encode(anomalyresources0)
+            for anomalyresource0 in anomalyResources {
+                try anomalyResourcesContainer.encode(anomalyresource0)
             }
         }
         if let anomalyTimeRange = self.anomalyTimeRange {
@@ -8607,8 +8607,8 @@ extension DevOpsGuruClientTypes.ReactiveInsightSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associatedResourceArns = associatedResourceArns {
             var associatedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedResourceArns)
-            for associatedresourcearns0 in associatedResourceArns {
-                try associatedResourceArnsContainer.encode(associatedresourcearns0)
+            for resourcearn0 in associatedResourceArns {
+                try associatedResourceArnsContainer.encode(resourcearn0)
             }
         }
         if let id = self.id {
@@ -8853,14 +8853,14 @@ extension DevOpsGuruClientTypes.Recommendation: Swift.Codable {
         }
         if let relatedAnomalies = relatedAnomalies {
             var relatedAnomaliesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedAnomalies)
-            for recommendationrelatedanomalies0 in relatedAnomalies {
-                try relatedAnomaliesContainer.encode(recommendationrelatedanomalies0)
+            for recommendationrelatedanomaly0 in relatedAnomalies {
+                try relatedAnomaliesContainer.encode(recommendationrelatedanomaly0)
             }
         }
         if let relatedEvents = relatedEvents {
             var relatedEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedEvents)
-            for recommendationrelatedevents0 in relatedEvents {
-                try relatedEventsContainer.encode(recommendationrelatedevents0)
+            for recommendationrelatedevent0 in relatedEvents {
+                try relatedEventsContainer.encode(recommendationrelatedevent0)
             }
         }
     }
@@ -8956,14 +8956,14 @@ extension DevOpsGuruClientTypes.RecommendationRelatedAnomaly: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for recommendationrelatedanomalyresources0 in resources {
-                try resourcesContainer.encode(recommendationrelatedanomalyresources0)
+            for recommendationrelatedanomalyresource0 in resources {
+                try resourcesContainer.encode(recommendationrelatedanomalyresource0)
             }
         }
         if let sourceDetails = sourceDetails {
             var sourceDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceDetails)
-            for relatedanomalysourcedetails0 in sourceDetails {
-                try sourceDetailsContainer.encode(relatedanomalysourcedetails0)
+            for recommendationrelatedanomalysourcedetail0 in sourceDetails {
+                try sourceDetailsContainer.encode(recommendationrelatedanomalysourcedetail0)
             }
         }
     }
@@ -9075,8 +9075,8 @@ extension DevOpsGuruClientTypes.RecommendationRelatedAnomalySourceDetail: Swift.
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cloudWatchMetrics = cloudWatchMetrics {
             var cloudWatchMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchMetrics)
-            for recommendationrelatedcloudwatchmetricssourcedetails0 in cloudWatchMetrics {
-                try cloudWatchMetricsContainer.encode(recommendationrelatedcloudwatchmetricssourcedetails0)
+            for recommendationrelatedcloudwatchmetricssourcedetail0 in cloudWatchMetrics {
+                try cloudWatchMetricsContainer.encode(recommendationrelatedcloudwatchmetricssourcedetail0)
             }
         }
     }
@@ -9171,8 +9171,8 @@ extension DevOpsGuruClientTypes.RecommendationRelatedEvent: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for recommendationrelatedeventresources0 in resources {
-                try resourcesContainer.encode(recommendationrelatedeventresources0)
+            for recommendationrelatedeventresource0 in resources {
+                try resourcesContainer.encode(recommendationrelatedeventresource0)
             }
         }
     }
@@ -9346,8 +9346,8 @@ extension DevOpsGuruClientTypes.ResourceCollection: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagcollections0 in tags {
-                try tagsContainer.encode(tagcollections0)
+            for tagcollection0 in tags {
+                try tagsContainer.encode(tagcollection0)
             }
         }
     }
@@ -9410,8 +9410,8 @@ extension DevOpsGuruClientTypes.ResourceCollectionFilter: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagcollectionfilters0 in tags {
-                try tagsContainer.encode(tagcollectionfilters0)
+            for tagcollectionfilter0 in tags {
+                try tagsContainer.encode(tagcollectionfilter0)
             }
         }
     }
@@ -9728,14 +9728,14 @@ extension DevOpsGuruClientTypes.SearchInsightsFilters: Swift.Codable {
         }
         if let severities = severities {
             var severitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .severities)
-            for insightseverities0 in severities {
-                try severitiesContainer.encode(insightseverities0.rawValue)
+            for insightseverity0 in severities {
+                try severitiesContainer.encode(insightseverity0.rawValue)
             }
         }
         if let statuses = statuses {
             var statusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statuses)
-            for insightstatuses0 in statuses {
-                try statusesContainer.encode(insightstatuses0.rawValue)
+            for insightstatus0 in statuses {
+                try statusesContainer.encode(insightstatus0.rawValue)
             }
         }
     }
@@ -10021,14 +10021,14 @@ extension DevOpsGuruClientTypes.SearchOrganizationInsightsFilters: Swift.Codable
         }
         if let severities = severities {
             var severitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .severities)
-            for insightseverities0 in severities {
-                try severitiesContainer.encode(insightseverities0.rawValue)
+            for insightseverity0 in severities {
+                try severitiesContainer.encode(insightseverity0.rawValue)
             }
         }
         if let statuses = statuses {
             var statusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statuses)
-            for insightstatuses0 in statuses {
-                try statusesContainer.encode(insightstatuses0.rawValue)
+            for insightstatus0 in statuses {
+                try statusesContainer.encode(insightstatus0.rawValue)
             }
         }
     }
@@ -10106,8 +10106,8 @@ extension SearchOrganizationInsightsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for searchinsightsaccountidlist0 in accountIds {
-                try accountIdsContainer.encode(searchinsightsaccountidlist0)
+            for awsaccountid0 in accountIds {
+                try accountIdsContainer.encode(awsaccountid0)
             }
         }
         if let filters = self.filters {
@@ -10330,8 +10330,8 @@ extension DevOpsGuruClientTypes.ServiceCollection: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let serviceNames = serviceNames {
             var serviceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceNames)
-            for servicenames0 in serviceNames {
-                try serviceNamesContainer.encode(servicenames0.rawValue)
+            for servicename0 in serviceNames {
+                try serviceNamesContainer.encode(servicename0.rawValue)
             }
         }
     }
@@ -10936,8 +10936,8 @@ extension DevOpsGuruClientTypes.TagCollection: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for tagvalues0 in tagValues {
-                try tagValuesContainer.encode(tagvalues0)
+            for tagvalue0 in tagValues {
+                try tagValuesContainer.encode(tagvalue0)
             }
         }
     }
@@ -11002,8 +11002,8 @@ extension DevOpsGuruClientTypes.TagCollectionFilter: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for tagvalues0 in tagValues {
-                try tagValuesContainer.encode(tagvalues0)
+            for tagvalue0 in tagValues {
+                try tagValuesContainer.encode(tagvalue0)
             }
         }
     }
@@ -11061,8 +11061,8 @@ extension DevOpsGuruClientTypes.TagCostEstimationResourceCollectionFilter: Swift
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for costestimationtagvalues0 in tagValues {
-                try tagValuesContainer.encode(costestimationtagvalues0)
+            for tagvalue0 in tagValues {
+                try tagValuesContainer.encode(tagvalue0)
             }
         }
     }
@@ -11308,8 +11308,8 @@ extension DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter: Swift.Coda
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stackNames = stackNames {
             var stackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackNames)
-            for updatestacknames0 in stackNames {
-                try stackNamesContainer.encode(updatestacknames0)
+            for stackname0 in stackNames {
+                try stackNamesContainer.encode(stackname0)
             }
         }
     }
@@ -11476,8 +11476,8 @@ extension DevOpsGuruClientTypes.UpdateResourceCollectionFilter: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for updatetagcollectionfilters0 in tags {
-                try tagsContainer.encode(updatetagcollectionfilters0)
+            for updatetagcollectionfilter0 in tags {
+                try tagsContainer.encode(updatetagcollectionfilter0)
             }
         }
     }
@@ -11774,8 +11774,8 @@ extension DevOpsGuruClientTypes.UpdateTagCollectionFilter: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for updatetagvalues0 in tagValues {
-                try tagValuesContainer.encode(updatetagvalues0)
+            for tagvalue0 in tagValues {
+                try tagValuesContainer.encode(tagvalue0)
             }
         }
     }

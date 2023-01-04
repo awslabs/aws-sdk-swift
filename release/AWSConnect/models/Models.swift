@@ -302,8 +302,8 @@ extension ConnectClientTypes.AgentStatus: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -388,6 +388,7 @@ extension ConnectClientTypes {
 extension ConnectClientTypes.AgentStatusReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case statusArn = "StatusArn"
+        case statusName = "StatusName"
         case statusStartTimestamp = "StatusStartTimestamp"
     }
 
@@ -395,6 +396,9 @@ extension ConnectClientTypes.AgentStatusReference: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statusArn = self.statusArn {
             try encodeContainer.encode(statusArn, forKey: .statusArn)
+        }
+        if let statusName = self.statusName {
+            try encodeContainer.encode(statusName, forKey: .statusName)
         }
         if let statusStartTimestamp = self.statusStartTimestamp {
             try encodeContainer.encodeTimestamp(statusStartTimestamp, format: .epochSeconds, forKey: .statusStartTimestamp)
@@ -407,6 +411,8 @@ extension ConnectClientTypes.AgentStatusReference: Swift.Codable {
         statusStartTimestamp = statusStartTimestampDecoded
         let statusArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusArn)
         statusArn = statusArnDecoded
+        let statusNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusName)
+        statusName = statusNameDecoded
     }
 }
 
@@ -415,15 +421,19 @@ extension ConnectClientTypes {
     public struct AgentStatusReference: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the agent's status.
         public var statusArn: Swift.String?
+        /// The name of the agent status.
+        public var statusName: Swift.String?
         /// The start timestamp of the agent's status.
         public var statusStartTimestamp: ClientRuntime.Date?
 
         public init (
             statusArn: Swift.String? = nil,
+            statusName: Swift.String? = nil,
             statusStartTimestamp: ClientRuntime.Date? = nil
         )
         {
             self.statusArn = statusArn
+            self.statusName = statusName
             self.statusStartTimestamp = statusStartTimestamp
         }
     }
@@ -1401,8 +1411,8 @@ extension AssociateQueueQuickConnectsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let quickConnectIds = quickConnectIds {
             var quickConnectIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .quickConnectIds)
-            for quickconnectslist0 in quickConnectIds {
-                try quickConnectIdsContainer.encode(quickconnectslist0)
+            for quickconnectid0 in quickConnectIds {
+                try quickConnectIdsContainer.encode(quickconnectid0)
             }
         }
     }
@@ -1519,8 +1529,8 @@ extension AssociateRoutingProfileQueuesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let queueConfigs = queueConfigs {
             var queueConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queueConfigs)
-            for routingprofilequeueconfiglist0 in queueConfigs {
-                try queueConfigsContainer.encode(routingprofilequeueconfiglist0)
+            for routingprofilequeueconfig0 in queueConfigs {
+                try queueConfigsContainer.encode(routingprofilequeueconfig0)
             }
         }
     }
@@ -1976,9 +1986,13 @@ extension ConnectClientTypes {
     /// A chat message.
     public struct ChatMessage: Swift.Equatable {
         /// The content of the chat message.
+        ///
+        /// * For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.
+        ///
+        /// * For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.
         /// This member is required.
         public var content: Swift.String?
-        /// The type of the content. Supported types are text/plain.
+        /// The type of the content. Supported types are text/plain, text/markdown, and application/json.
         /// This member is required.
         public var contentType: Swift.String?
 
@@ -1989,6 +2003,54 @@ extension ConnectClientTypes {
         {
             self.content = content
             self.contentType = contentType
+        }
+    }
+
+}
+
+extension ConnectClientTypes.ChatParticipantRoleConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case participantTimerConfigList = "ParticipantTimerConfigList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let participantTimerConfigList = participantTimerConfigList {
+            var participantTimerConfigListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .participantTimerConfigList)
+            for participanttimerconfiguration0 in participantTimerConfigList {
+                try participantTimerConfigListContainer.encode(participanttimerconfiguration0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let participantTimerConfigListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.ParticipantTimerConfiguration?].self, forKey: .participantTimerConfigList)
+        var participantTimerConfigListDecoded0:[ConnectClientTypes.ParticipantTimerConfiguration]? = nil
+        if let participantTimerConfigListContainer = participantTimerConfigListContainer {
+            participantTimerConfigListDecoded0 = [ConnectClientTypes.ParticipantTimerConfiguration]()
+            for structure0 in participantTimerConfigListContainer {
+                if let structure0 = structure0 {
+                    participantTimerConfigListDecoded0?.append(structure0)
+                }
+            }
+        }
+        participantTimerConfigList = participantTimerConfigListDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// Configuration information for the chat participant role.
+    public struct ChatParticipantRoleConfig: Swift.Equatable {
+        /// A list of participant timers. You can specify any unique combination of role and timer type. Duplicate entries error out the request with a 400.
+        /// This member is required.
+        public var participantTimerConfigList: [ConnectClientTypes.ParticipantTimerConfiguration]?
+
+        public init (
+            participantTimerConfigList: [ConnectClientTypes.ParticipantTimerConfiguration]? = nil
+        )
+        {
+            self.participantTimerConfigList = participantTimerConfigList
         }
     }
 
@@ -2052,8 +2114,8 @@ extension ClaimPhoneNumberInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetArn = self.targetArn {
@@ -2260,8 +2322,8 @@ extension ConnectClientTypes.ClaimedPhoneNumberSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetArn = self.targetArn {
@@ -2561,8 +2623,8 @@ extension ConnectClientTypes.ContactFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contactStates = contactStates {
             var contactStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contactStates)
-            for contactstates0 in contactStates {
-                try contactStatesContainer.encode(contactstates0.rawValue)
+            for contactstate0 in contactStates {
+                try contactStatesContainer.encode(contactstate0.rawValue)
             }
         }
     }
@@ -2633,8 +2695,8 @@ extension ConnectClientTypes.ContactFlow: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -2753,8 +2815,8 @@ extension ConnectClientTypes.ContactFlowModule: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3335,16 +3397,16 @@ extension ConnectClientTypes.ControlPlaneTagFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let andConditions = andConditions {
             var andConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andConditions)
-            for tagandconditionlist0 in andConditions {
-                try andConditionsContainer.encode(tagandconditionlist0)
+            for tagcondition0 in andConditions {
+                try andConditionsContainer.encode(tagcondition0)
             }
         }
         if let orConditions = orConditions {
             var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
-            for tagorconditionlist0 in orConditions {
-                var tagorconditionlist0Container = orConditionsContainer.nestedUnkeyedContainer()
-                for tagandconditionlist1 in tagorconditionlist0 {
-                    try tagorconditionlist0Container.encode(tagandconditionlist1)
+            for tagandconditionlist0 in orConditions {
+                var tagandconditionlist0Container = orConditionsContainer.nestedUnkeyedContainer()
+                for tagcondition1 in tagandconditionlist0 {
+                    try tagandconditionlist0Container.encode(tagcondition1)
                 }
             }
         }
@@ -3444,8 +3506,8 @@ extension CreateAgentStatusInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3643,8 +3705,8 @@ extension CreateContactFlowInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -3764,8 +3826,8 @@ extension CreateContactFlowModuleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4047,8 +4109,8 @@ extension CreateHoursOfOperationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let config = config {
             var configContainer = encodeContainer.nestedUnkeyedContainer(forKey: .config)
-            for hoursofoperationconfiglist0 in config {
-                try configContainer.encode(hoursofoperationconfiglist0)
+            for hoursofoperationconfig0 in config {
+                try configContainer.encode(hoursofoperationconfig0)
             }
         }
         if let description = self.description {
@@ -4059,8 +4121,8 @@ extension CreateHoursOfOperationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeZone = self.timeZone {
@@ -4474,8 +4536,8 @@ extension CreateIntegrationAssociationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4685,14 +4747,14 @@ extension CreateQueueInput: Swift.Encodable {
         }
         if let quickConnectIds = quickConnectIds {
             var quickConnectIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .quickConnectIds)
-            for quickconnectslist0 in quickConnectIds {
-                try quickConnectIdsContainer.encode(quickconnectslist0)
+            for quickconnectid0 in quickConnectIds {
+                try quickConnectIdsContainer.encode(quickconnectid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4914,8 +4976,8 @@ extension CreateQuickConnectInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5103,8 +5165,8 @@ extension CreateRoutingProfileInput: Swift.Encodable {
         }
         if let mediaConcurrencies = mediaConcurrencies {
             var mediaConcurrenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaConcurrencies)
-            for mediaconcurrencies0 in mediaConcurrencies {
-                try mediaConcurrenciesContainer.encode(mediaconcurrencies0)
+            for mediaconcurrency0 in mediaConcurrencies {
+                try mediaConcurrenciesContainer.encode(mediaconcurrency0)
             }
         }
         if let name = self.name {
@@ -5112,14 +5174,14 @@ extension CreateRoutingProfileInput: Swift.Encodable {
         }
         if let queueConfigs = queueConfigs {
             var queueConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queueConfigs)
-            for routingprofilequeueconfiglist0 in queueConfigs {
-                try queueConfigsContainer.encode(routingprofilequeueconfiglist0)
+            for routingprofilequeueconfig0 in queueConfigs {
+                try queueConfigsContainer.encode(routingprofilequeueconfig0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5337,8 +5399,8 @@ extension CreateRuleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for ruleactions0 in actions {
-                try actionsContainer.encode(ruleactions0)
+            for ruleaction0 in actions {
+                try actionsContainer.encode(ruleaction0)
             }
         }
         if let clientToken = self.clientToken {
@@ -5556,8 +5618,8 @@ extension CreateSecurityProfileInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedAccessControlTags = allowedAccessControlTags {
             var allowedAccessControlTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .allowedAccessControlTags)
-            for (dictKey0, allowedaccesscontroltags0) in allowedAccessControlTags {
-                try allowedAccessControlTagsContainer.encode(allowedaccesscontroltags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, allowedAccessControlTags0) in allowedAccessControlTags {
+                try allowedAccessControlTagsContainer.encode(allowedAccessControlTags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -5565,8 +5627,8 @@ extension CreateSecurityProfileInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionslist0 in permissions {
-                try permissionsContainer.encode(permissionslist0)
+            for securityprofilepermission0 in permissions {
+                try permissionsContainer.encode(securityprofilepermission0)
             }
         }
         if let securityProfileName = self.securityProfileName {
@@ -5574,14 +5636,14 @@ extension CreateSecurityProfileInput: Swift.Encodable {
         }
         if let tagRestrictedResources = tagRestrictedResources {
             var tagRestrictedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagRestrictedResources)
-            for tagrestrictedresourcelist0 in tagRestrictedResources {
-                try tagRestrictedResourcesContainer.encode(tagrestrictedresourcelist0)
+            for tagrestrictedresourcename0 in tagRestrictedResources {
+                try tagRestrictedResourcesContainer.encode(tagrestrictedresourcename0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5822,8 +5884,8 @@ extension CreateTaskTemplateInput: Swift.Encodable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for tasktemplatefields0 in fields {
-                try fieldsContainer.encode(tasktemplatefields0)
+            for tasktemplatefield0 in fields {
+                try fieldsContainer.encode(tasktemplatefield0)
             }
         }
         if let name = self.name {
@@ -6054,8 +6116,8 @@ extension CreateTrafficDistributionGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6235,8 +6297,8 @@ extension CreateUseCaseInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useCaseType = self.useCaseType {
@@ -6411,8 +6473,8 @@ extension CreateUserHierarchyGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6606,14 +6668,14 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let securityProfileIds = securityProfileIds {
             var securityProfileIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityProfileIds)
-            for securityprofileids0 in securityProfileIds {
-                try securityProfileIdsContainer.encode(securityprofileids0)
+            for securityprofileid0 in securityProfileIds {
+                try securityProfileIdsContainer.encode(securityprofileid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let username = self.username {
@@ -6857,8 +6919,8 @@ extension CreateVocabularyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vocabularyName = self.vocabularyName {
@@ -7287,8 +7349,8 @@ extension ConnectClientTypes.CurrentMetricResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let collections = collections {
             var collectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .collections)
-            for currentmetricdatacollections0 in collections {
-                try collectionsContainer.encode(currentmetricdatacollections0)
+            for currentmetricdata0 in collections {
+                try collectionsContainer.encode(currentmetricdata0)
             }
         }
         if let dimensions = self.dimensions {
@@ -7329,6 +7391,51 @@ extension ConnectClientTypes {
         {
             self.collections = collections
             self.dimensions = dimensions
+        }
+    }
+
+}
+
+extension ConnectClientTypes.CurrentMetricSortCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sortByMetric = "SortByMetric"
+        case sortOrder = "SortOrder"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sortByMetric = self.sortByMetric {
+            try encodeContainer.encode(sortByMetric.rawValue, forKey: .sortByMetric)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sortByMetricDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.CurrentMetricName.self, forKey: .sortByMetric)
+        sortByMetric = sortByMetricDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The way to sort the resulting response based on metrics. By default resources are sorted based on AGENTS_ONLINE, DESCENDING. The metric collection is sorted based on the input metrics.
+    public struct CurrentMetricSortCriteria: Swift.Equatable {
+        /// The current metric names.
+        public var sortByMetric: ConnectClientTypes.CurrentMetricName?
+        /// The way to sort.
+        public var sortOrder: ConnectClientTypes.SortOrder?
+
+        public init (
+            sortByMetric: ConnectClientTypes.CurrentMetricName? = nil,
+            sortOrder: ConnectClientTypes.SortOrder? = nil
+        )
+        {
+            self.sortByMetric = sortByMetric
+            self.sortOrder = sortOrder
         }
     }
 
@@ -10741,6 +10848,7 @@ extension ConnectClientTypes.Dimensions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channel = "Channel"
         case queue = "Queue"
+        case routingProfile = "RoutingProfile"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10751,6 +10859,9 @@ extension ConnectClientTypes.Dimensions: Swift.Codable {
         if let queue = self.queue {
             try encodeContainer.encode(queue, forKey: .queue)
         }
+        if let routingProfile = self.routingProfile {
+            try encodeContainer.encode(routingProfile, forKey: .routingProfile)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -10759,6 +10870,8 @@ extension ConnectClientTypes.Dimensions: Swift.Codable {
         queue = queueDecoded
         let channelDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Channel.self, forKey: .channel)
         channel = channelDecoded
+        let routingProfileDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.RoutingProfileReference.self, forKey: .routingProfile)
+        routingProfile = routingProfileDecoded
     }
 }
 
@@ -10769,14 +10882,18 @@ extension ConnectClientTypes {
         public var channel: ConnectClientTypes.Channel?
         /// Information about the queue for which metrics are returned.
         public var queue: ConnectClientTypes.QueueReference?
+        /// Information about the routing profile assigned to the user.
+        public var routingProfile: ConnectClientTypes.RoutingProfileReference?
 
         public init (
             channel: ConnectClientTypes.Channel? = nil,
-            queue: ConnectClientTypes.QueueReference? = nil
+            queue: ConnectClientTypes.QueueReference? = nil,
+            routingProfile: ConnectClientTypes.RoutingProfileReference? = nil
         )
         {
             self.channel = channel
             self.queue = queue
+            self.routingProfile = routingProfile
         }
     }
 
@@ -11405,8 +11522,8 @@ extension DisassociateQueueQuickConnectsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let quickConnectIds = quickConnectIds {
             var quickConnectIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .quickConnectIds)
-            for quickconnectslist0 in quickConnectIds {
-                try quickConnectIdsContainer.encode(quickconnectslist0)
+            for quickconnectid0 in quickConnectIds {
+                try quickConnectIdsContainer.encode(quickconnectid0)
             }
         }
     }
@@ -11521,8 +11638,8 @@ extension DisassociateRoutingProfileQueuesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let queueReferences = queueReferences {
             var queueReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queueReferences)
-            for routingprofilequeuereferencelist0 in queueReferences {
-                try queueReferencesContainer.encode(routingprofilequeuereferencelist0)
+            for routingprofilequeuereference0 in queueReferences {
+                try queueReferencesContainer.encode(routingprofilequeuereference0)
             }
         }
     }
@@ -12117,20 +12234,27 @@ extension ConnectClientTypes.Filters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channels = "Channels"
         case queues = "Queues"
+        case routingProfiles = "RoutingProfiles"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channels = channels {
             var channelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channels)
-            for channels0 in channels {
-                try channelsContainer.encode(channels0.rawValue)
+            for channel0 in channels {
+                try channelsContainer.encode(channel0.rawValue)
             }
         }
         if let queues = queues {
             var queuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queues)
-            for queues0 in queues {
-                try queuesContainer.encode(queues0)
+            for queueid0 in queues {
+                try queuesContainer.encode(queueid0)
+            }
+        }
+        if let routingProfiles = routingProfiles {
+            var routingProfilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routingProfiles)
+            for routingprofileid0 in routingProfiles {
+                try routingProfilesContainer.encode(routingprofileid0)
             }
         }
     }
@@ -12159,6 +12283,17 @@ extension ConnectClientTypes.Filters: Swift.Codable {
             }
         }
         channels = channelsDecoded0
+        let routingProfilesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .routingProfiles)
+        var routingProfilesDecoded0:[Swift.String]? = nil
+        if let routingProfilesContainer = routingProfilesContainer {
+            routingProfilesDecoded0 = [Swift.String]()
+            for string0 in routingProfilesContainer {
+                if let string0 = string0 {
+                    routingProfilesDecoded0?.append(string0)
+                }
+            }
+        }
+        routingProfiles = routingProfilesDecoded0
     }
 }
 
@@ -12169,14 +12304,18 @@ extension ConnectClientTypes {
         public var channels: [ConnectClientTypes.Channel]?
         /// The queues to use to filter the metrics. You should specify at least one queue, and can specify up to 100 queues per request. The GetCurrentMetricsData API in particular requires a queue when you include a Filter in your request.
         public var queues: [Swift.String]?
+        /// A list of up to 100 routing profile IDs or ARNs.
+        public var routingProfiles: [Swift.String]?
 
         public init (
             channels: [ConnectClientTypes.Channel]? = nil,
-            queues: [Swift.String]? = nil
+            queues: [Swift.String]? = nil,
+            routingProfiles: [Swift.String]? = nil
         )
         {
             self.channels = channels
             self.queues = queues
+            self.routingProfiles = routingProfiles
         }
     }
 
@@ -12304,14 +12443,15 @@ extension GetCurrentMetricDataInput: Swift.Encodable {
         case groupings = "Groupings"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case sortCriteria = "SortCriteria"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let currentMetrics = currentMetrics {
             var currentMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .currentMetrics)
-            for currentmetrics0 in currentMetrics {
-                try currentMetricsContainer.encode(currentmetrics0)
+            for currentmetric0 in currentMetrics {
+                try currentMetricsContainer.encode(currentmetric0)
             }
         }
         if let filters = self.filters {
@@ -12319,8 +12459,8 @@ extension GetCurrentMetricDataInput: Swift.Encodable {
         }
         if let groupings = groupings {
             var groupingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupings)
-            for groupings0 in groupings {
-                try groupingsContainer.encode(groupings0.rawValue)
+            for grouping0 in groupings {
+                try groupingsContainer.encode(grouping0.rawValue)
             }
         }
         if let maxResults = self.maxResults {
@@ -12328,6 +12468,12 @@ extension GetCurrentMetricDataInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortCriteria = sortCriteria {
+            var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
+            for currentmetricsortcriteria0 in sortCriteria {
+                try sortCriteriaContainer.encode(currentmetricsortcriteria0)
+            }
         }
     }
 }
@@ -12345,14 +12491,23 @@ public struct GetCurrentMetricDataInput: Swift.Equatable {
     /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html) in the Amazon Connect Administrator Guide. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#scheduled-real-time) OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time)
     /// This member is required.
     public var currentMetrics: [ConnectClientTypes.CurrentMetric]?
-    /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.
+    /// The filters to apply to returned metrics. You can filter up to the following limits:
+    ///
+    /// * Queues: 100
+    ///
+    /// * Routing profiles: 100
+    ///
+    /// * Channels: 3 (VOICE, CHAT, and TASK channels are supported.)
+    ///
+    ///
+    /// Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. Currently tagging is only supported on the resources that are passed in the filter.
     /// This member is required.
     public var filters: ConnectClientTypes.Filters?
     /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.
     ///
     /// * If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.
     ///
-    /// * If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter.
+    /// * If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.
     ///
     /// * If no Grouping is included in the request, a summary of metrics is returned.
     public var groupings: [ConnectClientTypes.Grouping]?
@@ -12363,6 +12518,10 @@ public struct GetCurrentMetricDataInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
     public var nextToken: Swift.String?
+    /// The way to sort the resulting response based on metrics. You can enter one sort criteria. By default resources are sorted based on AGENTS_ONLINE, DESCENDING. The metric collection is sorted based on the input metrics. Note the following:
+    ///
+    /// * Sorting on SLOTS_ACTIVE and SLOTS_AVAILABLE is not supported.
+    public var sortCriteria: [ConnectClientTypes.CurrentMetricSortCriteria]?
 
     public init (
         currentMetrics: [ConnectClientTypes.CurrentMetric]? = nil,
@@ -12370,7 +12529,8 @@ public struct GetCurrentMetricDataInput: Swift.Equatable {
         groupings: [ConnectClientTypes.Grouping]? = nil,
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        sortCriteria: [ConnectClientTypes.CurrentMetricSortCriteria]? = nil
     )
     {
         self.currentMetrics = currentMetrics
@@ -12379,6 +12539,7 @@ public struct GetCurrentMetricDataInput: Swift.Equatable {
         self.instanceId = instanceId
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.sortCriteria = sortCriteria
     }
 }
 
@@ -12388,6 +12549,7 @@ struct GetCurrentMetricDataInputBody: Swift.Equatable {
     let currentMetrics: [ConnectClientTypes.CurrentMetric]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let sortCriteria: [ConnectClientTypes.CurrentMetricSortCriteria]?
 }
 
 extension GetCurrentMetricDataInputBody: Swift.Decodable {
@@ -12397,6 +12559,7 @@ extension GetCurrentMetricDataInputBody: Swift.Decodable {
         case groupings = "Groupings"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case sortCriteria = "SortCriteria"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -12429,6 +12592,17 @@ extension GetCurrentMetricDataInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let sortCriteriaContainer = try containerValues.decodeIfPresent([ConnectClientTypes.CurrentMetricSortCriteria?].self, forKey: .sortCriteria)
+        var sortCriteriaDecoded0:[ConnectClientTypes.CurrentMetricSortCriteria]? = nil
+        if let sortCriteriaContainer = sortCriteriaContainer {
+            sortCriteriaDecoded0 = [ConnectClientTypes.CurrentMetricSortCriteria]()
+            for structure0 in sortCriteriaContainer {
+                if let structure0 = structure0 {
+                    sortCriteriaDecoded0?.append(structure0)
+                }
+            }
+        }
+        sortCriteria = sortCriteriaDecoded0
     }
 }
 
@@ -12468,10 +12642,12 @@ extension GetCurrentMetricDataOutputResponse: ClientRuntime.HttpResponseBinding 
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: GetCurrentMetricDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.approximateTotalCount = output.approximateTotalCount
             self.dataSnapshotTime = output.dataSnapshotTime
             self.metricResults = output.metricResults
             self.nextToken = output.nextToken
         } else {
+            self.approximateTotalCount = nil
             self.dataSnapshotTime = nil
             self.metricResults = nil
             self.nextToken = nil
@@ -12480,6 +12656,8 @@ extension GetCurrentMetricDataOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct GetCurrentMetricDataOutputResponse: Swift.Equatable {
+    /// The total count of the result, regardless of the current page size.
+    public var approximateTotalCount: Swift.Int?
     /// The time at which the metrics were retrieved and cached for pagination.
     public var dataSnapshotTime: ClientRuntime.Date?
     /// Information about the real-time metrics.
@@ -12488,11 +12666,13 @@ public struct GetCurrentMetricDataOutputResponse: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init (
+        approximateTotalCount: Swift.Int? = nil,
         dataSnapshotTime: ClientRuntime.Date? = nil,
         metricResults: [ConnectClientTypes.CurrentMetricResult]? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.approximateTotalCount = approximateTotalCount
         self.dataSnapshotTime = dataSnapshotTime
         self.metricResults = metricResults
         self.nextToken = nextToken
@@ -12503,10 +12683,12 @@ struct GetCurrentMetricDataOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
     let metricResults: [ConnectClientTypes.CurrentMetricResult]?
     let dataSnapshotTime: ClientRuntime.Date?
+    let approximateTotalCount: Swift.Int?
 }
 
 extension GetCurrentMetricDataOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateTotalCount = "ApproximateTotalCount"
         case dataSnapshotTime = "DataSnapshotTime"
         case metricResults = "MetricResults"
         case nextToken = "NextToken"
@@ -12529,6 +12711,8 @@ extension GetCurrentMetricDataOutputResponseBody: Swift.Decodable {
         metricResults = metricResultsDecoded0
         let dataSnapshotTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dataSnapshotTime)
         dataSnapshotTime = dataSnapshotTimeDecoded
+        let approximateTotalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateTotalCount)
+        approximateTotalCount = approximateTotalCountDecoded
     }
 }
 
@@ -12563,7 +12747,20 @@ extension GetCurrentUserDataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetCurrentUserDataInput: Swift.Equatable {
-    /// Filters up to 100 Queues, or up to 9 ContactStates. The user data is retrieved only for those users who are associated with the queues and have contacts that are in the specified ContactState.
+    /// The filters to apply to returned user data. You can filter up to the following limits:
+    ///
+    /// * Queues: 100
+    ///
+    /// * Routing profiles: 100
+    ///
+    /// * Agents: 100
+    ///
+    /// * Contact states: 9
+    ///
+    /// * User hierarchy groups: 1
+    ///
+    ///
+    /// The user data is retrieved for only the specified values/resources in the filter. A maximum of one filter can be passed from queues, routing profiles, agents, and user hierarchy groups. Currently tagging is only supported on the resources that are passed in the filter.
     /// This member is required.
     public var filters: ConnectClientTypes.UserDataFilters?
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -12648,9 +12845,11 @@ extension GetCurrentUserDataOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().toData()
             let output: GetCurrentUserDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.approximateTotalCount = output.approximateTotalCount
             self.nextToken = output.nextToken
             self.userDataList = output.userDataList
         } else {
+            self.approximateTotalCount = nil
             self.nextToken = nil
             self.userDataList = nil
         }
@@ -12658,16 +12857,20 @@ extension GetCurrentUserDataOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetCurrentUserDataOutputResponse: Swift.Equatable {
+    /// The total count of the result, regardless of the current page size.
+    public var approximateTotalCount: Swift.Int?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// A list of the user data that is returned.
     public var userDataList: [ConnectClientTypes.UserData]?
 
     public init (
+        approximateTotalCount: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userDataList: [ConnectClientTypes.UserData]? = nil
     )
     {
+        self.approximateTotalCount = approximateTotalCount
         self.nextToken = nextToken
         self.userDataList = userDataList
     }
@@ -12676,10 +12879,12 @@ public struct GetCurrentUserDataOutputResponse: Swift.Equatable {
 struct GetCurrentUserDataOutputResponseBody: Swift.Equatable {
     let nextToken: Swift.String?
     let userDataList: [ConnectClientTypes.UserData]?
+    let approximateTotalCount: Swift.Int?
 }
 
 extension GetCurrentUserDataOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateTotalCount = "ApproximateTotalCount"
         case nextToken = "NextToken"
         case userDataList = "UserDataList"
     }
@@ -12699,6 +12904,8 @@ extension GetCurrentUserDataOutputResponseBody: Swift.Decodable {
             }
         }
         userDataList = userDataListDecoded0
+        let approximateTotalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateTotalCount)
+        approximateTotalCount = approximateTotalCountDecoded
     }
 }
 
@@ -12857,14 +13064,14 @@ extension GetMetricDataInput: Swift.Encodable {
         }
         if let groupings = groupings {
             var groupingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupings)
-            for groupings0 in groupings {
-                try groupingsContainer.encode(groupings0.rawValue)
+            for grouping0 in groupings {
+                try groupingsContainer.encode(grouping0.rawValue)
             }
         }
         if let historicalMetrics = historicalMetrics {
             var historicalMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .historicalMetrics)
-            for historicalmetrics0 in historicalMetrics {
-                try historicalMetricsContainer.encode(historicalmetrics0)
+            for historicalmetric0 in historicalMetrics {
+                try historicalMetricsContainer.encode(historicalmetric0)
             }
         }
         if let maxResults = self.maxResults {
@@ -13475,12 +13682,14 @@ extension ConnectClientTypes {
     public enum Grouping: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case channel
         case queue
+        case routingProfile
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Grouping] {
             return [
                 .channel,
                 .queue,
+                .routingProfile,
                 .sdkUnknown("")
             ]
         }
@@ -13492,6 +13701,7 @@ extension ConnectClientTypes {
             switch self {
             case .channel: return "CHANNEL"
             case .queue: return "QUEUE"
+            case .routingProfile: return "ROUTING_PROFILE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13532,8 +13742,8 @@ extension ConnectClientTypes.HierarchyGroup: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14390,8 +14600,8 @@ extension ConnectClientTypes.HistoricalMetricResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let collections = collections {
             var collectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .collections)
-            for historicalmetricdatacollections0 in collections {
-                try collectionsContainer.encode(historicalmetricdatacollections0)
+            for historicalmetricdata0 in collections {
+                try collectionsContainer.encode(historicalmetricdata0)
             }
         }
         if let dimensions = self.dimensions {
@@ -14452,8 +14662,8 @@ extension ConnectClientTypes.HoursOfOperation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let config = config {
             var configContainer = encodeContainer.nestedUnkeyedContainer(forKey: .config)
-            for hoursofoperationconfiglist0 in config {
-                try configContainer.encode(hoursofoperationconfiglist0)
+            for hoursofoperationconfig0 in config {
+                try configContainer.encode(hoursofoperationconfig0)
             }
         }
         if let description = self.description {
@@ -14470,8 +14680,8 @@ extension ConnectClientTypes.HoursOfOperation: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeZone = self.timeZone {
@@ -18522,8 +18732,8 @@ extension ListPhoneNumbersV2Input: Swift.Encodable {
         }
         if let phoneNumberCountryCodes = phoneNumberCountryCodes {
             var phoneNumberCountryCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumberCountryCodes)
-            for phonenumbercountrycodes0 in phoneNumberCountryCodes {
-                try phoneNumberCountryCodesContainer.encode(phonenumbercountrycodes0.rawValue)
+            for phonenumbercountrycode0 in phoneNumberCountryCodes {
+                try phoneNumberCountryCodesContainer.encode(phonenumbercountrycode0.rawValue)
             }
         }
         if let phoneNumberPrefix = self.phoneNumberPrefix {
@@ -18531,8 +18741,8 @@ extension ListPhoneNumbersV2Input: Swift.Encodable {
         }
         if let phoneNumberTypes = phoneNumberTypes {
             var phoneNumberTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumberTypes)
-            for phonenumbertypes0 in phoneNumberTypes {
-                try phoneNumberTypesContainer.encode(phonenumbertypes0.rawValue)
+            for phonenumbertype0 in phoneNumberTypes {
+                try phoneNumberTypesContainer.encode(phonenumbertype0.rawValue)
             }
         }
         if let targetArn = self.targetArn {
@@ -21198,8 +21408,8 @@ extension MonitorContactInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedMonitorCapabilities = allowedMonitorCapabilities {
             var allowedMonitorCapabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedMonitorCapabilities)
-            for allowedmonitorcapabilities0 in allowedMonitorCapabilities {
-                try allowedMonitorCapabilitiesContainer.encode(allowedmonitorcapabilities0.rawValue)
+            for monitorcapability0 in allowedMonitorCapabilities {
+                try allowedMonitorCapabilitiesContainer.encode(monitorcapability0.rawValue)
             }
         }
         if let clientToken = self.clientToken {
@@ -21448,14 +21658,14 @@ extension ConnectClientTypes.NotificationRecipientType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let userIds = userIds {
             var userIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userIds)
-            for useridlist0 in userIds {
-                try userIdsContainer.encode(useridlist0)
+            for userid0 in userIds {
+                try userIdsContainer.encode(userid0)
             }
         }
         if let userTags = userTags {
             var userTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .userTags)
-            for (dictKey0, usertagmap0) in userTags {
-                try userTagsContainer.encode(usertagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, userTagMap0) in userTags {
+                try userTagsContainer.encode(userTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -21692,6 +21902,172 @@ extension ConnectClientTypes {
         {
             self.displayName = displayName
         }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum ParticipantTimerAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case unset
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParticipantTimerAction] {
+            return [
+                .unset,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .unset: return "Unset"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ParticipantTimerAction(rawValue: rawValue) ?? ParticipantTimerAction.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.ParticipantTimerConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case participantRole = "ParticipantRole"
+        case timerType = "TimerType"
+        case timerValue = "TimerValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let participantRole = self.participantRole {
+            try encodeContainer.encode(participantRole.rawValue, forKey: .participantRole)
+        }
+        if let timerType = self.timerType {
+            try encodeContainer.encode(timerType.rawValue, forKey: .timerType)
+        }
+        if let timerValue = self.timerValue {
+            try encodeContainer.encode(timerValue, forKey: .timerValue)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let participantRoleDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.TimerEligibleParticipantRoles.self, forKey: .participantRole)
+        participantRole = participantRoleDecoded
+        let timerTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ParticipantTimerType.self, forKey: .timerType)
+        timerType = timerTypeDecoded
+        let timerValueDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ParticipantTimerValue.self, forKey: .timerValue)
+        timerValue = timerValueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Configuration information for the timer. After the timer configuration is set, it persists for the duration of the chat. It persists across new contacts in the chain, for example, transfer contacts. For more information about how chat timeouts work, see [Set up chat timeouts for human participants](https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html).
+    public struct ParticipantTimerConfiguration: Swift.Equatable {
+        /// The role of the participant in the chat conversation.
+        /// This member is required.
+        public var participantRole: ConnectClientTypes.TimerEligibleParticipantRoles?
+        /// The type of timer. IDLE indicates the timer applies for considering a human chat participant as idle. DISCONNECT_NONCUSTOMER indicates the timer applies to automatically disconnecting a chat participant due to idleness.
+        /// This member is required.
+        public var timerType: ConnectClientTypes.ParticipantTimerType?
+        /// The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set.
+        /// This member is required.
+        public var timerValue: ConnectClientTypes.ParticipantTimerValue?
+
+        public init (
+            participantRole: ConnectClientTypes.TimerEligibleParticipantRoles? = nil,
+            timerType: ConnectClientTypes.ParticipantTimerType? = nil,
+            timerValue: ConnectClientTypes.ParticipantTimerValue? = nil
+        )
+        {
+            self.participantRole = participantRole
+            self.timerType = timerType
+            self.timerValue = timerValue
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum ParticipantTimerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disconnectNoncustomer
+        case idle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParticipantTimerType] {
+            return [
+                .disconnectNoncustomer,
+                .idle,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disconnectNoncustomer: return "DISCONNECT_NONCUSTOMER"
+            case .idle: return "IDLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ParticipantTimerType(rawValue: rawValue) ?? ParticipantTimerType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.ParticipantTimerValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case participanttimeraction = "ParticipantTimerAction"
+        case participanttimerdurationinminutes = "ParticipantTimerDurationInMinutes"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .participanttimeraction(participanttimeraction):
+                try container.encode(participanttimeraction.rawValue, forKey: .participanttimeraction)
+            case let .participanttimerdurationinminutes(participanttimerdurationinminutes):
+                try container.encode(participanttimerdurationinminutes, forKey: .participanttimerdurationinminutes)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let participanttimeractionDecoded = try values.decodeIfPresent(ConnectClientTypes.ParticipantTimerAction.self, forKey: .participanttimeraction)
+        if let participanttimeraction = participanttimeractionDecoded {
+            self = .participanttimeraction(participanttimeraction)
+            return
+        }
+        let participanttimerdurationinminutesDecoded = try values.decodeIfPresent(Swift.Int.self, forKey: .participanttimerdurationinminutes)
+        if let participanttimerdurationinminutes = participanttimerdurationinminutesDecoded {
+            self = .participanttimerdurationinminutes(participanttimerdurationinminutes)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set. For more information about how chat timeouts work, see [Set up chat timeouts for human participants](https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html).
+    public enum ParticipantTimerValue: Swift.Equatable {
+        /// The timer action. Currently only one value is allowed: Unset. It deletes a timer.
+        case participanttimeraction(ConnectClientTypes.ParticipantTimerAction)
+        /// The duration of a timer, in minutes.
+        case participanttimerdurationinminutes(Swift.Int)
+        case sdkUnknown(Swift.String)
     }
 
 }
@@ -23104,8 +23480,8 @@ extension ConnectClientTypes.Queue: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -23339,14 +23715,14 @@ extension ConnectClientTypes.QueueSearchCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let andConditions = andConditions {
             var andConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andConditions)
-            for queuesearchconditionlist0 in andConditions {
-                try andConditionsContainer.encode(queuesearchconditionlist0)
+            for queuesearchcriteria0 in andConditions {
+                try andConditionsContainer.encode(queuesearchcriteria0)
             }
         }
         if let orConditions = orConditions {
             var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
-            for queuesearchconditionlist0 in orConditions {
-                try orConditionsContainer.encode(queuesearchconditionlist0)
+            for queuesearchcriteria0 in orConditions {
+                try orConditionsContainer.encode(queuesearchcriteria0)
             }
         }
         if let queueTypeCondition = self.queueTypeCondition {
@@ -23613,8 +23989,8 @@ extension ConnectClientTypes.QuickConnect: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -24805,8 +25181,8 @@ extension ConnectClientTypes.RoutingProfile: Swift.Codable {
         }
         if let mediaConcurrencies = mediaConcurrencies {
             var mediaConcurrenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaConcurrencies)
-            for mediaconcurrencies0 in mediaConcurrencies {
-                try mediaConcurrenciesContainer.encode(mediaconcurrencies0)
+            for mediaconcurrency0 in mediaConcurrencies {
+                try mediaConcurrenciesContainer.encode(mediaconcurrency0)
             }
         }
         if let name = self.name {
@@ -24826,8 +25202,8 @@ extension ConnectClientTypes.RoutingProfile: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -25179,14 +25555,14 @@ extension ConnectClientTypes.RoutingProfileSearchCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let andConditions = andConditions {
             var andConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andConditions)
-            for routingprofilesearchconditionlist0 in andConditions {
-                try andConditionsContainer.encode(routingprofilesearchconditionlist0)
+            for routingprofilesearchcriteria0 in andConditions {
+                try andConditionsContainer.encode(routingprofilesearchcriteria0)
             }
         }
         if let orConditions = orConditions {
             var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
-            for routingprofilesearchconditionlist0 in orConditions {
-                try orConditionsContainer.encode(routingprofilesearchconditionlist0)
+            for routingprofilesearchcriteria0 in orConditions {
+                try orConditionsContainer.encode(routingprofilesearchcriteria0)
             }
         }
         if let stringCondition = self.stringCondition {
@@ -25360,8 +25736,8 @@ extension ConnectClientTypes.Rule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for ruleactions0 in actions {
-                try actionsContainer.encode(ruleactions0)
+            for ruleaction0 in actions {
+                try actionsContainer.encode(ruleaction0)
             }
         }
         if let createdTime = self.createdTime {
@@ -25390,8 +25766,8 @@ extension ConnectClientTypes.Rule: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let triggerEventSource = self.triggerEventSource {
@@ -25634,8 +26010,8 @@ extension ConnectClientTypes.RuleSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actionSummaries = actionSummaries {
             var actionSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionSummaries)
-            for actionsummaries0 in actionSummaries {
-                try actionSummariesContainer.encode(actionsummaries0)
+            for actionsummary0 in actionSummaries {
+                try actionSummariesContainer.encode(actionsummary0)
             }
         }
         if let createdTime = self.createdTime {
@@ -27118,8 +27494,8 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedAccessControlTags = allowedAccessControlTags {
             var allowedAccessControlTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .allowedAccessControlTags)
-            for (dictKey0, allowedaccesscontroltags0) in allowedAccessControlTags {
-                try allowedAccessControlTagsContainer.encode(allowedaccesscontroltags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, allowedAccessControlTags0) in allowedAccessControlTags {
+                try allowedAccessControlTagsContainer.encode(allowedAccessControlTags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let arn = self.arn {
@@ -27139,14 +27515,14 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
         }
         if let tagRestrictedResources = tagRestrictedResources {
             var tagRestrictedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagRestrictedResources)
-            for tagrestrictedresourcelist0 in tagRestrictedResources {
-                try tagRestrictedResourcesContainer.encode(tagrestrictedresourcelist0)
+            for tagrestrictedresourcename0 in tagRestrictedResources {
+                try tagRestrictedResourcesContainer.encode(tagrestrictedresourcename0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -27254,14 +27630,14 @@ extension ConnectClientTypes.SecurityProfileSearchCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let andConditions = andConditions {
             var andConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andConditions)
-            for securityprofilesearchconditionlist0 in andConditions {
-                try andConditionsContainer.encode(securityprofilesearchconditionlist0)
+            for securityprofilesearchcriteria0 in andConditions {
+                try andConditionsContainer.encode(securityprofilesearchcriteria0)
             }
         }
         if let orConditions = orConditions {
             var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
-            for securityprofilesearchconditionlist0 in orConditions {
-                try orConditionsContainer.encode(securityprofilesearchconditionlist0)
+            for securityprofilesearchcriteria0 in orConditions {
+                try orConditionsContainer.encode(securityprofilesearchcriteria0)
             }
         }
         if let stringCondition = self.stringCondition {
@@ -27351,8 +27727,8 @@ extension ConnectClientTypes.SecurityProfileSearchSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -27645,6 +28021,38 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
 }
 
 extension ConnectClientTypes {
+    public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes {
     public enum SourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case salesforce
         case zendesk
@@ -27716,8 +28124,8 @@ extension StartChatContactInput: Swift.Encodable {
         }
         if let supportedMessagingContentTypes = supportedMessagingContentTypes {
             var supportedMessagingContentTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedMessagingContentTypes)
-            for supportedmessagingcontenttypes0 in supportedMessagingContentTypes {
-                try supportedMessagingContentTypesContainer.encode(supportedmessagingcontenttypes0)
+            for supportedmessagingcontenttype0 in supportedMessagingContentTypes {
+                try supportedMessagingContentTypesContainer.encode(supportedmessagingcontenttype0)
             }
         }
     }
@@ -27747,7 +28155,7 @@ public struct StartChatContactInput: Swift.Equatable {
     /// Information identifying the participant.
     /// This member is required.
     public var participantDetails: ConnectClientTypes.ParticipantDetails?
-    /// The supported chat message content types. Content types can be text/plain or both text/plain and text/markdown.
+    /// The supported chat message content types. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json].
     public var supportedMessagingContentTypes: [Swift.String]?
 
     public init (
@@ -28500,8 +28908,8 @@ extension StartTaskContactInput: Swift.Encodable {
         }
         if let references = references {
             var referencesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .references)
-            for (dictKey0, contactreferences0) in references {
-                try referencesContainer.encode(contactreferences0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, contactReferences0) in references {
+                try referencesContainer.encode(contactReferences0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let scheduledTime = self.scheduledTime {
@@ -29415,8 +29823,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -29535,8 +29943,8 @@ extension ConnectClientTypes.TaskActionDefinition: Swift.Codable {
         }
         if let references = references {
             var referencesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .references)
-            for (dictKey0, contactreferences0) in references {
-                try referencesContainer.encode(contactreferences0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, contactReferences0) in references {
+                try referencesContainer.encode(contactReferences0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -29604,20 +30012,20 @@ extension ConnectClientTypes.TaskTemplateConstraints: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let invisibleFields = invisibleFields {
             var invisibleFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .invisibleFields)
-            for invisibletasktemplatefields0 in invisibleFields {
-                try invisibleFieldsContainer.encode(invisibletasktemplatefields0)
+            for invisiblefieldinfo0 in invisibleFields {
+                try invisibleFieldsContainer.encode(invisiblefieldinfo0)
             }
         }
         if let readOnlyFields = readOnlyFields {
             var readOnlyFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readOnlyFields)
-            for readonlytasktemplatefields0 in readOnlyFields {
-                try readOnlyFieldsContainer.encode(readonlytasktemplatefields0)
+            for readonlyfieldinfo0 in readOnlyFields {
+                try readOnlyFieldsContainer.encode(readonlyfieldinfo0)
             }
         }
         if let requiredFields = requiredFields {
             var requiredFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiredFields)
-            for requiredtasktemplatefields0 in requiredFields {
-                try requiredFieldsContainer.encode(requiredtasktemplatefields0)
+            for requiredfieldinfo0 in requiredFields {
+                try requiredFieldsContainer.encode(requiredfieldinfo0)
             }
         }
     }
@@ -29738,8 +30146,8 @@ extension ConnectClientTypes.TaskTemplateDefaults: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultFieldValues = defaultFieldValues {
             var defaultFieldValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultFieldValues)
-            for tasktemplatedefaultfieldvaluelist0 in defaultFieldValues {
-                try defaultFieldValuesContainer.encode(tasktemplatedefaultfieldvaluelist0)
+            for tasktemplatedefaultfieldvalue0 in defaultFieldValues {
+                try defaultFieldValuesContainer.encode(tasktemplatedefaultfieldvalue0)
             }
         }
     }
@@ -29794,8 +30202,8 @@ extension ConnectClientTypes.TaskTemplateField: Swift.Codable {
         }
         if let singleSelectOptions = singleSelectOptions {
             var singleSelectOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .singleSelectOptions)
-            for singleselectoptions0 in singleSelectOptions {
-                try singleSelectOptionsContainer.encode(singleselectoptions0)
+            for tasktemplatesingleselectoption0 in singleSelectOptions {
+                try singleSelectOptionsContainer.encode(tasktemplatesingleselectoption0)
             }
         }
         if let type = self.type {
@@ -30087,8 +30495,8 @@ extension ConnectClientTypes.TelephonyConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let distributions = distributions {
             var distributionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .distributions)
-            for distributionlist0 in distributions {
-                try distributionsContainer.encode(distributionlist0)
+            for distribution0 in distributions {
+                try distributionsContainer.encode(distribution0)
             }
         }
     }
@@ -30223,6 +30631,38 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConnectClientTypes {
+    public enum TimerEligibleParticipantRoles: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case agent
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimerEligibleParticipantRoles] {
+            return [
+                .agent,
+                .customer,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case .customer: return "CUSTOMER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TimerEligibleParticipantRoles(rawValue: rawValue) ?? TimerEligibleParticipantRoles.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConnectClientTypes.TrafficDistributionGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -30256,8 +30696,8 @@ extension ConnectClientTypes.TrafficDistributionGroup: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -31713,8 +32153,8 @@ extension UpdateContactInput: Swift.Encodable {
         }
         if let references = references {
             var referencesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .references)
-            for (dictKey0, contactreferences0) in references {
-                try referencesContainer.encode(contactreferences0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, contactReferences0) in references {
+                try referencesContainer.encode(contactReferences0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -31963,8 +32403,8 @@ extension UpdateHoursOfOperationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let config = config {
             var configContainer = encodeContainer.nestedUnkeyedContainer(forKey: .config)
-            for hoursofoperationconfiglist0 in config {
-                try configContainer.encode(hoursofoperationconfiglist0)
+            for hoursofoperationconfig0 in config {
+                try configContainer.encode(hoursofoperationconfig0)
             }
         }
         if let description = self.description {
@@ -32328,6 +32768,149 @@ extension UpdateInstanceStorageConfigOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct UpdateInstanceStorageConfigOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case chat = "Chat"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .chat(chat):
+                try container.encode(chat, forKey: .chat)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let chatDecoded = try values.decodeIfPresent(ConnectClientTypes.ChatParticipantRoleConfig.self, forKey: .chat)
+        if let chat = chatDecoded {
+            self = .chat(chat)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// Configuration information for the chat participant role.
+    public enum UpdateParticipantRoleConfigChannelInfo: Swift.Equatable {
+        /// Configuration information for the chat participant role.
+        case chat(ConnectClientTypes.ChatParticipantRoleConfig)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension UpdateParticipantRoleConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelConfiguration = "ChannelConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channelConfiguration = self.channelConfiguration {
+            try encodeContainer.encode(channelConfiguration, forKey: .channelConfiguration)
+        }
+    }
+}
+
+extension UpdateParticipantRoleConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let contactId = contactId else {
+            return nil
+        }
+        return "/contact/participant-role-config/\(instanceId.urlPercentEncoding())/\(contactId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateParticipantRoleConfigInput: Swift.Equatable {
+    /// The Amazon Connect channel you want to configure.
+    /// This member is required.
+    public var channelConfiguration: ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo?
+    /// The identifier of the contact in this instance of Amazon Connect.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init (
+        channelConfiguration: ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo? = nil,
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.channelConfiguration = channelConfiguration
+        self.contactId = contactId
+        self.instanceId = instanceId
+    }
+}
+
+struct UpdateParticipantRoleConfigInputBody: Swift.Equatable {
+    let channelConfiguration: ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo?
+}
+
+extension UpdateParticipantRoleConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelConfiguration = "ChannelConfiguration"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelConfigurationDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.UpdateParticipantRoleConfigChannelInfo.self, forKey: .channelConfiguration)
+        channelConfiguration = channelConfigurationDecoded
+    }
+}
+
+extension UpdateParticipantRoleConfigOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateParticipantRoleConfigOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateParticipantRoleConfigOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServiceException(InternalServiceException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateParticipantRoleConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateParticipantRoleConfigOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -33245,8 +33828,8 @@ extension UpdateRoutingProfileConcurrencyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let mediaConcurrencies = mediaConcurrencies {
             var mediaConcurrenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaConcurrencies)
-            for mediaconcurrencies0 in mediaConcurrencies {
-                try mediaConcurrenciesContainer.encode(mediaconcurrencies0)
+            for mediaconcurrency0 in mediaConcurrencies {
+                try mediaConcurrenciesContainer.encode(mediaconcurrency0)
             }
         }
     }
@@ -33582,8 +34165,8 @@ extension UpdateRoutingProfileQueuesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let queueConfigs = queueConfigs {
             var queueConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queueConfigs)
-            for routingprofilequeueconfiglist0 in queueConfigs {
-                try queueConfigsContainer.encode(routingprofilequeueconfiglist0)
+            for routingprofilequeueconfig0 in queueConfigs {
+                try queueConfigsContainer.encode(routingprofilequeueconfig0)
             }
         }
     }
@@ -33701,8 +34284,8 @@ extension UpdateRuleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for ruleactions0 in actions {
-                try actionsContainer.encode(ruleactions0)
+            for ruleaction0 in actions {
+                try actionsContainer.encode(ruleaction0)
             }
         }
         if let function = self.function {
@@ -33858,8 +34441,8 @@ extension UpdateSecurityProfileInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedAccessControlTags = allowedAccessControlTags {
             var allowedAccessControlTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .allowedAccessControlTags)
-            for (dictKey0, allowedaccesscontroltags0) in allowedAccessControlTags {
-                try allowedAccessControlTagsContainer.encode(allowedaccesscontroltags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, allowedAccessControlTags0) in allowedAccessControlTags {
+                try allowedAccessControlTagsContainer.encode(allowedAccessControlTags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -33867,14 +34450,14 @@ extension UpdateSecurityProfileInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionslist0 in permissions {
-                try permissionsContainer.encode(permissionslist0)
+            for securityprofilepermission0 in permissions {
+                try permissionsContainer.encode(securityprofilepermission0)
             }
         }
         if let tagRestrictedResources = tagRestrictedResources {
             var tagRestrictedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagRestrictedResources)
-            for tagrestrictedresourcelist0 in tagRestrictedResources {
-                try tagRestrictedResourcesContainer.encode(tagrestrictedresourcelist0)
+            for tagrestrictedresourcename0 in tagRestrictedResources {
+                try tagRestrictedResourcesContainer.encode(tagrestrictedresourcename0)
             }
         }
     }
@@ -34048,8 +34631,8 @@ extension UpdateTaskTemplateInput: Swift.Encodable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for tasktemplatefields0 in fields {
-                try fieldsContainer.encode(tasktemplatefields0)
+            for tasktemplatefield0 in fields {
+                try fieldsContainer.encode(tasktemplatefield0)
             }
         }
         if let name = self.name {
@@ -35085,8 +35668,8 @@ extension UpdateUserSecurityProfilesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityProfileIds = securityProfileIds {
             var securityProfileIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityProfileIds)
-            for securityprofileids0 in securityProfileIds {
-                try securityProfileIdsContainer.encode(securityprofileids0)
+            for securityprofileid0 in securityProfileIds {
+                try securityProfileIdsContainer.encode(securityprofileid0)
             }
         }
     }
@@ -35363,14 +35946,14 @@ extension ConnectClientTypes.User: Swift.Codable {
         }
         if let securityProfileIds = securityProfileIds {
             var securityProfileIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityProfileIds)
-            for securityprofileids0 in securityProfileIds {
-                try securityProfileIdsContainer.encode(securityprofileids0)
+            for securityprofileid0 in securityProfileIds {
+                try securityProfileIdsContainer.encode(securityprofileid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let username = self.username {
@@ -35480,6 +36063,7 @@ extension ConnectClientTypes.UserData: Swift.Codable {
         case contacts = "Contacts"
         case hierarchyPath = "HierarchyPath"
         case maxSlotsByChannel = "MaxSlotsByChannel"
+        case nextStatus = "NextStatus"
         case routingProfile = "RoutingProfile"
         case status = "Status"
         case user = "User"
@@ -35489,20 +36073,20 @@ extension ConnectClientTypes.UserData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activeSlotsByChannel = activeSlotsByChannel {
             var activeSlotsByChannelContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .activeSlotsByChannel)
-            for (dictKey0, channeltocountmap0) in activeSlotsByChannel {
-                try activeSlotsByChannelContainer.encode(channeltocountmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, channelToCountMap0) in activeSlotsByChannel {
+                try activeSlotsByChannelContainer.encode(channelToCountMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let availableSlotsByChannel = availableSlotsByChannel {
             var availableSlotsByChannelContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .availableSlotsByChannel)
-            for (dictKey0, channeltocountmap0) in availableSlotsByChannel {
-                try availableSlotsByChannelContainer.encode(channeltocountmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, channelToCountMap0) in availableSlotsByChannel {
+                try availableSlotsByChannelContainer.encode(channelToCountMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let contacts = contacts {
             var contactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contacts)
-            for agentcontactreferencelist0 in contacts {
-                try contactsContainer.encode(agentcontactreferencelist0)
+            for agentcontactreference0 in contacts {
+                try contactsContainer.encode(agentcontactreference0)
             }
         }
         if let hierarchyPath = self.hierarchyPath {
@@ -35510,9 +36094,12 @@ extension ConnectClientTypes.UserData: Swift.Codable {
         }
         if let maxSlotsByChannel = maxSlotsByChannel {
             var maxSlotsByChannelContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .maxSlotsByChannel)
-            for (dictKey0, channeltocountmap0) in maxSlotsByChannel {
-                try maxSlotsByChannelContainer.encode(channeltocountmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, channelToCountMap0) in maxSlotsByChannel {
+                try maxSlotsByChannelContainer.encode(channelToCountMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let nextStatus = self.nextStatus {
+            try encodeContainer.encode(nextStatus, forKey: .nextStatus)
         }
         if let routingProfile = self.routingProfile {
             try encodeContainer.encode(routingProfile, forKey: .routingProfile)
@@ -35579,6 +36166,8 @@ extension ConnectClientTypes.UserData: Swift.Codable {
             }
         }
         contacts = contactsDecoded0
+        let nextStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextStatus)
+        nextStatus = nextStatusDecoded
     }
 }
 
@@ -35595,6 +36184,8 @@ extension ConnectClientTypes {
         public var hierarchyPath: ConnectClientTypes.HierarchyPathReference?
         /// A map of maximum slots by channel. The key is a channel name. The value is an integer: the maximum number of slots. This is calculated from [MediaConcurrency](https://docs.aws.amazon.com/connect/latest/APIReference/API_MediaConcurrency.html) of the RoutingProfile assigned to the agent.
         public var maxSlotsByChannel: [Swift.String:Swift.Int]?
+        /// The Next status of the agent.
+        public var nextStatus: Swift.String?
         /// Information about the routing profile that is assigned to the user.
         public var routingProfile: ConnectClientTypes.RoutingProfileReference?
         /// The status of the agent that they manually set in their Contact Control Panel (CCP), or that the supervisor manually changes in the real-time metrics report.
@@ -35608,6 +36199,7 @@ extension ConnectClientTypes {
             contacts: [ConnectClientTypes.AgentContactReference]? = nil,
             hierarchyPath: ConnectClientTypes.HierarchyPathReference? = nil,
             maxSlotsByChannel: [Swift.String:Swift.Int]? = nil,
+            nextStatus: Swift.String? = nil,
             routingProfile: ConnectClientTypes.RoutingProfileReference? = nil,
             status: ConnectClientTypes.AgentStatusReference? = nil,
             user: ConnectClientTypes.UserReference? = nil
@@ -35618,6 +36210,7 @@ extension ConnectClientTypes {
             self.contacts = contacts
             self.hierarchyPath = hierarchyPath
             self.maxSlotsByChannel = maxSlotsByChannel
+            self.nextStatus = nextStatus
             self.routingProfile = routingProfile
             self.status = status
             self.user = user
@@ -35628,19 +36221,40 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.UserDataFilters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agents = "Agents"
         case contactFilter = "ContactFilter"
         case queues = "Queues"
+        case routingProfiles = "RoutingProfiles"
+        case userHierarchyGroups = "UserHierarchyGroups"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agents = agents {
+            var agentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agents)
+            for userid0 in agents {
+                try agentsContainer.encode(userid0)
+            }
+        }
         if let contactFilter = self.contactFilter {
             try encodeContainer.encode(contactFilter, forKey: .contactFilter)
         }
         if let queues = queues {
             var queuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queues)
-            for queues0 in queues {
-                try queuesContainer.encode(queues0)
+            for queueid0 in queues {
+                try queuesContainer.encode(queueid0)
+            }
+        }
+        if let routingProfiles = routingProfiles {
+            var routingProfilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routingProfiles)
+            for routingprofileid0 in routingProfiles {
+                try routingProfilesContainer.encode(routingprofileid0)
+            }
+        }
+        if let userHierarchyGroups = userHierarchyGroups {
+            var userHierarchyGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userHierarchyGroups)
+            for hierarchygroupid0 in userHierarchyGroups {
+                try userHierarchyGroupsContainer.encode(hierarchygroupid0)
             }
         }
     }
@@ -35660,24 +36274,69 @@ extension ConnectClientTypes.UserDataFilters: Swift.Codable {
         queues = queuesDecoded0
         let contactFilterDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ContactFilter.self, forKey: .contactFilter)
         contactFilter = contactFilterDecoded
+        let routingProfilesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .routingProfiles)
+        var routingProfilesDecoded0:[Swift.String]? = nil
+        if let routingProfilesContainer = routingProfilesContainer {
+            routingProfilesDecoded0 = [Swift.String]()
+            for string0 in routingProfilesContainer {
+                if let string0 = string0 {
+                    routingProfilesDecoded0?.append(string0)
+                }
+            }
+        }
+        routingProfiles = routingProfilesDecoded0
+        let agentsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agents)
+        var agentsDecoded0:[Swift.String]? = nil
+        if let agentsContainer = agentsContainer {
+            agentsDecoded0 = [Swift.String]()
+            for string0 in agentsContainer {
+                if let string0 = string0 {
+                    agentsDecoded0?.append(string0)
+                }
+            }
+        }
+        agents = agentsDecoded0
+        let userHierarchyGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .userHierarchyGroups)
+        var userHierarchyGroupsDecoded0:[Swift.String]? = nil
+        if let userHierarchyGroupsContainer = userHierarchyGroupsContainer {
+            userHierarchyGroupsDecoded0 = [Swift.String]()
+            for string0 in userHierarchyGroupsContainer {
+                if let string0 = string0 {
+                    userHierarchyGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        userHierarchyGroups = userHierarchyGroupsDecoded0
     }
 }
 
 extension ConnectClientTypes {
     /// A filter for the user data.
     public struct UserDataFilters: Swift.Equatable {
+        /// A list of up to 100 agent IDs or ARNs.
+        public var agents: [Swift.String]?
         /// A filter for the user data based on the contact information that is associated to the user. It contains a list of contact states.
         public var contactFilter: ConnectClientTypes.ContactFilter?
-        /// Contains information about a queue resource for which metrics are returned.
+        /// A list of up to 100 queues or ARNs.
         public var queues: [Swift.String]?
+        /// A list of up to 100 routing profile IDs or ARNs.
+        public var routingProfiles: [Swift.String]?
+        /// A UserHierarchyGroup ID or ARN.
+        public var userHierarchyGroups: [Swift.String]?
 
         public init (
+            agents: [Swift.String]? = nil,
             contactFilter: ConnectClientTypes.ContactFilter? = nil,
-            queues: [Swift.String]? = nil
+            queues: [Swift.String]? = nil,
+            routingProfiles: [Swift.String]? = nil,
+            userHierarchyGroups: [Swift.String]? = nil
         )
         {
+            self.agents = agents
             self.contactFilter = contactFilter
             self.queues = queues
+            self.routingProfiles = routingProfiles
+            self.userHierarchyGroups = userHierarchyGroups
         }
     }
 
@@ -36025,8 +36684,8 @@ extension ConnectClientTypes.UserSearchCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let andConditions = andConditions {
             var andConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andConditions)
-            for usersearchconditionlist0 in andConditions {
-                try andConditionsContainer.encode(usersearchconditionlist0)
+            for usersearchcriteria0 in andConditions {
+                try andConditionsContainer.encode(usersearchcriteria0)
             }
         }
         if let hierarchyGroupCondition = self.hierarchyGroupCondition {
@@ -36034,8 +36693,8 @@ extension ConnectClientTypes.UserSearchCriteria: Swift.Codable {
         }
         if let orConditions = orConditions {
             var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
-            for usersearchconditionlist0 in orConditions {
-                try orConditionsContainer.encode(usersearchconditionlist0)
+            for usersearchcriteria0 in orConditions {
+                try orConditionsContainer.encode(usersearchcriteria0)
             }
         }
         if let stringCondition = self.stringCondition {
@@ -36180,14 +36839,14 @@ extension ConnectClientTypes.UserSearchSummary: Swift.Codable {
         }
         if let securityProfileIds = securityProfileIds {
             var securityProfileIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityProfileIds)
-            for securityprofileids0 in securityProfileIds {
-                try securityProfileIdsContainer.encode(securityprofileids0)
+            for securityprofileid0 in securityProfileIds {
+                try securityProfileIdsContainer.encode(securityprofileid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let username = self.username {
@@ -36386,8 +37045,8 @@ extension ConnectClientTypes.Vocabulary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

@@ -1,12 +1,7 @@
 name: Release
 
 on:
-  push:
-    branches:
-        - 'release/**'
   pull_request:
-    branches:
-        - 'release/**'
   workflow_dispatch:
 
 env:
@@ -30,6 +25,7 @@ env:
 
 jobs:
   macos-release:
+    if:  startsWith(github.head_ref, 'release/')
     runs-on: macos-11
     steps:
       - name: Checkout sources

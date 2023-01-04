@@ -112,8 +112,8 @@ extension FraudDetectorClientTypes.ATITrainingMetricsValue: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metricDataPoints = metricDataPoints {
             var metricDataPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricDataPoints)
-            for atimetricdatapointslist0 in metricDataPoints {
-                try metricDataPointsContainer.encode(atimetricdatapointslist0)
+            for atimetricdatapoint0 in metricDataPoints {
+                try metricDataPointsContainer.encode(atimetricdatapoint0)
             }
         }
         if let modelPerformance = self.modelPerformance {
@@ -225,8 +225,8 @@ extension FraudDetectorClientTypes.AggregatedLogOddsMetric: Swift.Codable {
         }
         if let variableNames = variableNames {
             var variableNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variableNames)
-            for listofstrings0 in variableNames {
-                try variableNamesContainer.encode(listofstrings0)
+            for string0 in variableNames {
+                try variableNamesContainer.encode(string0)
             }
         }
     }
@@ -282,8 +282,8 @@ extension FraudDetectorClientTypes.AggregatedVariablesImpactExplanation: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventVariableNames = eventVariableNames {
             var eventVariableNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventVariableNames)
-            for listofstrings0 in eventVariableNames {
-                try eventVariableNamesContainer.encode(listofstrings0)
+            for string0 in eventVariableNames {
+                try eventVariableNamesContainer.encode(string0)
             }
         }
         if let logOddsImpact = self.logOddsImpact {
@@ -351,8 +351,8 @@ extension FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logOddsMetrics = logOddsMetrics {
             var logOddsMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logOddsMetrics)
-            for listofaggregatedlogoddsmetrics0 in logOddsMetrics {
-                try logOddsMetricsContainer.encode(listofaggregatedlogoddsmetrics0)
+            for aggregatedlogoddsmetric0 in logOddsMetrics {
+                try logOddsMetricsContainer.encode(aggregatedlogoddsmetric0)
             }
         }
     }
@@ -498,14 +498,14 @@ extension BatchCreateVariableInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let variableEntries = variableEntries {
             var variableEntriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variableEntries)
-            for variableentrylist0 in variableEntries {
-                try variableEntriesContainer.encode(variableentrylist0)
+            for variableentry0 in variableEntries {
+                try variableEntriesContainer.encode(variableentry0)
             }
         }
     }
@@ -714,8 +714,8 @@ extension BatchGetVariableInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for namelist0 in names {
-                try namesContainer.encode(namelist0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
     }
@@ -1450,8 +1450,8 @@ extension CreateBatchImportJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1622,8 +1622,8 @@ extension CreateBatchPredictionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1795,14 +1795,14 @@ extension CreateDetectorVersionInput: Swift.Encodable {
         }
         if let externalModelEndpoints = externalModelEndpoints {
             var externalModelEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .externalModelEndpoints)
-            for listofstrings0 in externalModelEndpoints {
-                try externalModelEndpointsContainer.encode(listofstrings0)
+            for string0 in externalModelEndpoints {
+                try externalModelEndpointsContainer.encode(string0)
             }
         }
         if let modelVersions = modelVersions {
             var modelVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modelVersions)
-            for listofmodelversions0 in modelVersions {
-                try modelVersionsContainer.encode(listofmodelversions0)
+            for modelversion0 in modelVersions {
+                try modelVersionsContainer.encode(modelversion0)
             }
         }
         if let ruleExecutionMode = self.ruleExecutionMode {
@@ -1810,14 +1810,14 @@ extension CreateDetectorVersionInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rulelist0 in rules {
-                try rulesContainer.encode(rulelist0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2059,8 +2059,8 @@ extension CreateModelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2209,8 +2209,8 @@ extension CreateModelVersionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let trainingDataSchema = self.trainingDataSchema {
@@ -2450,8 +2450,8 @@ extension CreateRuleInput: Swift.Encodable {
         }
         if let outcomes = outcomes {
             var outcomesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outcomes)
-            for nonemptylistofstrings0 in outcomes {
-                try outcomesContainer.encode(nonemptylistofstrings0)
+            for string0 in outcomes {
+                try outcomesContainer.encode(string0)
             }
         }
         if let ruleId = self.ruleId {
@@ -2459,8 +2459,8 @@ extension CreateRuleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2670,8 +2670,8 @@ extension CreateVariableInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let variableType = self.variableType {
@@ -2896,14 +2896,14 @@ extension FraudDetectorClientTypes.DataValidationMetrics: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fieldLevelMessages = fieldLevelMessages {
             var fieldLevelMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldLevelMessages)
-            for fieldvalidationmessagelist0 in fieldLevelMessages {
-                try fieldLevelMessagesContainer.encode(fieldvalidationmessagelist0)
+            for fieldvalidationmessage0 in fieldLevelMessages {
+                try fieldLevelMessagesContainer.encode(fieldvalidationmessage0)
             }
         }
         if let fileLevelMessages = fileLevelMessages {
             var fileLevelMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileLevelMessages)
-            for filevalidationmessagelist0 in fileLevelMessages {
-                try fileLevelMessagesContainer.encode(filevalidationmessagelist0)
+            for filevalidationmessage0 in fileLevelMessages {
+                try fileLevelMessagesContainer.encode(filevalidationmessage0)
             }
         }
     }
@@ -5081,8 +5081,8 @@ extension FraudDetectorClientTypes.EvaluatedExternalModel: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputVariables = inputVariables {
             var inputVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .inputVariables)
-            for (dictKey0, mapofstrings0) in inputVariables {
-                try inputVariablesContainer.encode(mapofstrings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStrings0) in inputVariables {
+                try inputVariablesContainer.encode(mapOfStrings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let modelEndpoint = self.modelEndpoint {
@@ -5090,8 +5090,8 @@ extension FraudDetectorClientTypes.EvaluatedExternalModel: Swift.Codable {
         }
         if let outputVariables = outputVariables {
             var outputVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .outputVariables)
-            for (dictKey0, mapofstrings0) in outputVariables {
-                try outputVariablesContainer.encode(mapofstrings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStrings0) in outputVariables {
+                try outputVariablesContainer.encode(mapOfStrings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useEventVariables = self.useEventVariables {
@@ -5175,8 +5175,8 @@ extension FraudDetectorClientTypes.EvaluatedModelVersion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let evaluations = evaluations {
             var evaluationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evaluations)
-            for listofmodelversionevaluations0 in evaluations {
-                try evaluationsContainer.encode(listofmodelversionevaluations0)
+            for modelversionevaluation0 in evaluations {
+                try evaluationsContainer.encode(modelversionevaluation0)
             }
         }
         if let modelId = self.modelId {
@@ -5267,8 +5267,8 @@ extension FraudDetectorClientTypes.EvaluatedRule: Swift.Codable {
         }
         if let outcomes = outcomes {
             var outcomesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outcomes)
-            for listofstrings0 in outcomes {
-                try outcomesContainer.encode(listofstrings0)
+            for string0 in outcomes {
+                try outcomesContainer.encode(string0)
             }
         }
         if let ruleId = self.ruleId {
@@ -5370,8 +5370,8 @@ extension FraudDetectorClientTypes.Event: Swift.Codable {
         }
         if let entities = entities {
             var entitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entities)
-            for listofentities0 in entities {
-                try entitiesContainer.encode(listofentities0)
+            for entity0 in entities {
+                try entitiesContainer.encode(entity0)
             }
         }
         if let eventId = self.eventId {
@@ -5385,8 +5385,8 @@ extension FraudDetectorClientTypes.Event: Swift.Codable {
         }
         if let eventVariables = eventVariables {
             var eventVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .eventVariables)
-            for (dictKey0, eventattributemap0) in eventVariables {
-                try eventVariablesContainer.encode(eventattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, eventAttributeMap0) in eventVariables {
+                try eventVariablesContainer.encode(eventAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let labelTimestamp = self.labelTimestamp {
@@ -5615,8 +5615,8 @@ extension FraudDetectorClientTypes.EventType: Swift.Codable {
         }
         if let entityTypes = entityTypes {
             var entityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTypes)
-            for nonemptylistofstrings0 in entityTypes {
-                try entityTypesContainer.encode(nonemptylistofstrings0)
+            for string0 in entityTypes {
+                try entityTypesContainer.encode(string0)
             }
         }
         if let eventIngestion = self.eventIngestion {
@@ -5624,8 +5624,8 @@ extension FraudDetectorClientTypes.EventType: Swift.Codable {
         }
         if let eventVariables = eventVariables {
             var eventVariablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventVariables)
-            for listofstrings0 in eventVariables {
-                try eventVariablesContainer.encode(listofstrings0)
+            for string0 in eventVariables {
+                try eventVariablesContainer.encode(string0)
             }
         }
         if let ingestedEventStatistics = self.ingestedEventStatistics {
@@ -5633,8 +5633,8 @@ extension FraudDetectorClientTypes.EventType: Swift.Codable {
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for listofstrings0 in labels {
-                try labelsContainer.encode(listofstrings0)
+            for string0 in labels {
+                try labelsContainer.encode(string0)
             }
         }
         if let lastUpdatedTime = self.lastUpdatedTime {
@@ -5990,8 +5990,8 @@ extension FraudDetectorClientTypes.ExternalModelOutputs: Swift.Codable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .outputs)
-            for (dictKey0, externalmodelpredictionmap0) in outputs {
-                try outputsContainer.encode(externalmodelpredictionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, externalModelPredictionMap0) in outputs {
+                try outputsContainer.encode(externalModelPredictionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7435,8 +7435,8 @@ extension GetEventPredictionInput: Swift.Encodable {
         }
         if let entities = entities {
             var entitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entities)
-            for listofentities0 in entities {
-                try entitiesContainer.encode(listofentities0)
+            for entity0 in entities {
+                try entitiesContainer.encode(entity0)
             }
         }
         if let eventId = self.eventId {
@@ -7450,14 +7450,14 @@ extension GetEventPredictionInput: Swift.Encodable {
         }
         if let eventVariables = eventVariables {
             var eventVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .eventVariables)
-            for (dictKey0, eventvariablemap0) in eventVariables {
-                try eventVariablesContainer.encode(eventvariablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, eventVariableMap0) in eventVariables {
+                try eventVariablesContainer.encode(eventVariableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let externalModelEndpointDataBlobs = externalModelEndpointDataBlobs {
             var externalModelEndpointDataBlobsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .externalModelEndpointDataBlobs)
-            for (dictKey0, externalmodelendpointdatablobmap0) in externalModelEndpointDataBlobs {
-                try externalModelEndpointDataBlobsContainer.encode(externalmodelendpointdatablobmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, externalModelEndpointDataBlobMap0) in externalModelEndpointDataBlobs {
+                try externalModelEndpointDataBlobsContainer.encode(externalModelEndpointDataBlobMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9899,8 +9899,11 @@ extension FraudDetectorClientTypes.LabelSchema: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let labelMapper = labelMapper {
             var labelMapperContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .labelMapper)
-            for (dictKey0, labelmapper0) in labelMapper {
-                try labelMapperContainer.encode(labelmapper0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, labelMapper0) in labelMapper {
+                var labelMapper0Container = labelMapperContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in labelMapper0 {
+                    try labelMapper0Container.encode(string1)
+                }
             }
         }
         if let unlabeledEventsTreatment = self.unlabeledEventsTreatment {
@@ -10763,8 +10766,8 @@ extension FraudDetectorClientTypes.ModelOutputConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let csvIndexToVariableMap = csvIndexToVariableMap {
             var csvIndexToVariableMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .csvIndexToVariableMap)
-            for (dictKey0, csvindextovariablemap0) in csvIndexToVariableMap {
-                try csvIndexToVariableMapContainer.encode(csvindextovariablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, csvIndexToVariableMap0) in csvIndexToVariableMap {
+                try csvIndexToVariableMapContainer.encode(csvIndexToVariableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let format = self.format {
@@ -10772,8 +10775,8 @@ extension FraudDetectorClientTypes.ModelOutputConfiguration: Swift.Codable {
         }
         if let jsonKeyToVariableMap = jsonKeyToVariableMap {
             var jsonKeyToVariableMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .jsonKeyToVariableMap)
-            for (dictKey0, jsonkeytovariablemap0) in jsonKeyToVariableMap {
-                try jsonKeyToVariableMapContainer.encode(jsonkeytovariablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, jsonKeyToVariableMap0) in jsonKeyToVariableMap {
+                try jsonKeyToVariableMapContainer.encode(jsonKeyToVariableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -10877,8 +10880,8 @@ extension FraudDetectorClientTypes.ModelScores: Swift.Codable {
         }
         if let scores = scores {
             var scoresContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .scores)
-            for (dictKey0, modelpredictionmap0) in scores {
-                try scoresContainer.encode(modelpredictionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, modelPredictionMap0) in scores {
+                try scoresContainer.encode(modelPredictionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -11408,8 +11411,8 @@ extension FraudDetectorClientTypes.OFITrainingMetricsValue: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metricDataPoints = metricDataPoints {
             var metricDataPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricDataPoints)
-            for ofimetricdatapointslist0 in metricDataPoints {
-                try metricDataPointsContainer.encode(ofimetricdatapointslist0)
+            for ofimetricdatapoint0 in metricDataPoints {
+                try metricDataPointsContainer.encode(ofimetricdatapoint0)
             }
         }
         if let modelPerformance = self.modelPerformance {
@@ -11540,14 +11543,14 @@ extension FraudDetectorClientTypes.PredictionExplanations: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aggregatedVariablesImpactExplanations = aggregatedVariablesImpactExplanations {
             var aggregatedVariablesImpactExplanationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregatedVariablesImpactExplanations)
-            for listofaggregatedvariablesimpactexplanations0 in aggregatedVariablesImpactExplanations {
-                try aggregatedVariablesImpactExplanationsContainer.encode(listofaggregatedvariablesimpactexplanations0)
+            for aggregatedvariablesimpactexplanation0 in aggregatedVariablesImpactExplanations {
+                try aggregatedVariablesImpactExplanationsContainer.encode(aggregatedvariablesimpactexplanation0)
             }
         }
         if let variableImpactExplanations = variableImpactExplanations {
             var variableImpactExplanationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variableImpactExplanations)
-            for listofvariableimpactexplanations0 in variableImpactExplanations {
-                try variableImpactExplanationsContainer.encode(listofvariableimpactexplanations0)
+            for variableimpactexplanation0 in variableImpactExplanations {
+                try variableImpactExplanationsContainer.encode(variableimpactexplanation0)
             }
         }
     }
@@ -11667,8 +11670,8 @@ extension PutDetectorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -11800,8 +11803,8 @@ extension PutEntityTypeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -11925,8 +11928,8 @@ extension PutEventTypeInput: Swift.Encodable {
         }
         if let entityTypes = entityTypes {
             var entityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTypes)
-            for nonemptylistofstrings0 in entityTypes {
-                try entityTypesContainer.encode(nonemptylistofstrings0)
+            for string0 in entityTypes {
+                try entityTypesContainer.encode(string0)
             }
         }
         if let eventIngestion = self.eventIngestion {
@@ -11934,14 +11937,14 @@ extension PutEventTypeInput: Swift.Encodable {
         }
         if let eventVariables = eventVariables {
             var eventVariablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventVariables)
-            for nonemptylistofstrings0 in eventVariables {
-                try eventVariablesContainer.encode(nonemptylistofstrings0)
+            for string0 in eventVariables {
+                try eventVariablesContainer.encode(string0)
             }
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for listofstrings0 in labels {
-                try labelsContainer.encode(listofstrings0)
+            for string0 in labels {
+                try labelsContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -11949,8 +11952,8 @@ extension PutEventTypeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12150,8 +12153,8 @@ extension PutExternalModelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12401,8 +12404,8 @@ extension PutLabelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12525,8 +12528,8 @@ extension PutOutcomeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12834,8 +12837,8 @@ extension FraudDetectorClientTypes.RuleDetail: Swift.Codable {
         }
         if let outcomes = outcomes {
             var outcomesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outcomes)
-            for nonemptylistofstrings0 in outcomes {
-                try outcomesContainer.encode(nonemptylistofstrings0)
+            for string0 in outcomes {
+                try outcomesContainer.encode(string0)
             }
         }
         if let ruleId = self.ruleId {
@@ -12979,8 +12982,8 @@ extension FraudDetectorClientTypes.RuleResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let outcomes = outcomes {
             var outcomesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outcomes)
-            for listofstrings0 in outcomes {
-                try outcomesContainer.encode(listofstrings0)
+            for string0 in outcomes {
+                try outcomesContainer.encode(string0)
             }
         }
         if let ruleId = self.ruleId {
@@ -13044,8 +13047,8 @@ extension SendEventInput: Swift.Encodable {
         }
         if let entities = entities {
             var entitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entities)
-            for listofentities0 in entities {
-                try entitiesContainer.encode(listofentities0)
+            for entity0 in entities {
+                try entitiesContainer.encode(entity0)
             }
         }
         if let eventId = self.eventId {
@@ -13059,8 +13062,8 @@ extension SendEventInput: Swift.Encodable {
         }
         if let eventVariables = eventVariables {
             var eventVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .eventVariables)
-            for (dictKey0, eventvariablemap0) in eventVariables {
-                try eventVariablesContainer.encode(eventvariablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, eventVariableMap0) in eventVariables {
+                try eventVariablesContainer.encode(eventVariableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let labelTimestamp = self.labelTimestamp {
@@ -13326,8 +13329,8 @@ extension FraudDetectorClientTypes.TFITrainingMetricsValue: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metricDataPoints = metricDataPoints {
             var metricDataPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricDataPoints)
-            for tfimetricdatapointslist0 in metricDataPoints {
-                try metricDataPointsContainer.encode(tfimetricdatapointslist0)
+            for tfimetricdatapoint0 in metricDataPoints {
+                try metricDataPointsContainer.encode(tfimetricdatapoint0)
             }
         }
         if let modelPerformance = self.modelPerformance {
@@ -13433,8 +13436,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -13597,8 +13600,8 @@ extension FraudDetectorClientTypes.TrainingDataSchema: Swift.Codable {
         }
         if let modelVariables = modelVariables {
             var modelVariablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modelVariables)
-            for listofstrings0 in modelVariables {
-                try modelVariablesContainer.encode(listofstrings0)
+            for string0 in modelVariables {
+                try modelVariablesContainer.encode(string0)
             }
         }
     }
@@ -13687,8 +13690,8 @@ extension FraudDetectorClientTypes.TrainingMetrics: Swift.Codable {
         }
         if let metricDataPoints = metricDataPoints {
             var metricDataPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricDataPoints)
-            for metricdatapointslist0 in metricDataPoints {
-                try metricDataPointsContainer.encode(metricdatapointslist0)
+            for metricdatapoint0 in metricDataPoints {
+                try metricDataPointsContainer.encode(metricdatapoint0)
             }
         }
     }
@@ -13954,8 +13957,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -14076,14 +14079,14 @@ extension UpdateDetectorVersionInput: Swift.Encodable {
         }
         if let externalModelEndpoints = externalModelEndpoints {
             var externalModelEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .externalModelEndpoints)
-            for listofstrings0 in externalModelEndpoints {
-                try externalModelEndpointsContainer.encode(listofstrings0)
+            for string0 in externalModelEndpoints {
+                try externalModelEndpointsContainer.encode(string0)
             }
         }
         if let modelVersions = modelVersions {
             var modelVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modelVersions)
-            for listofmodelversions0 in modelVersions {
-                try modelVersionsContainer.encode(listofmodelversions0)
+            for modelversion0 in modelVersions {
+                try modelVersionsContainer.encode(modelversion0)
             }
         }
         if let ruleExecutionMode = self.ruleExecutionMode {
@@ -14091,8 +14094,8 @@ extension UpdateDetectorVersionInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rulelist0 in rules {
-                try rulesContainer.encode(rulelist0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
     }
@@ -14756,8 +14759,8 @@ extension UpdateModelVersionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -15212,8 +15215,8 @@ extension UpdateRuleVersionInput: Swift.Encodable {
         }
         if let outcomes = outcomes {
             var outcomesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outcomes)
-            for nonemptylistofstrings0 in outcomes {
-                try outcomesContainer.encode(nonemptylistofstrings0)
+            for string0 in outcomes {
+                try outcomesContainer.encode(string0)
             }
         }
         if let rule = self.rule {
@@ -15221,8 +15224,8 @@ extension UpdateRuleVersionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -15844,8 +15847,8 @@ extension FraudDetectorClientTypes.VariableImportanceMetrics: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logOddsMetrics = logOddsMetrics {
             var logOddsMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logOddsMetrics)
-            for listoflogoddsmetrics0 in logOddsMetrics {
-                try logOddsMetricsContainer.encode(listoflogoddsmetrics0)
+            for logoddsmetric0 in logOddsMetrics {
+                try logOddsMetricsContainer.encode(logoddsmetric0)
             }
         }
     }

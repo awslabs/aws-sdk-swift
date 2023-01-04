@@ -214,14 +214,14 @@ extension CreateChatTokenInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, chattokenattributes0) in attributes {
-                try attributesContainer.encode(chattokenattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, chatTokenAttributes0) in attributes {
+                try attributesContainer.encode(chatTokenAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let capabilities = capabilities {
             var capabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capabilities)
-            for chattokencapabilities0 in capabilities {
-                try capabilitiesContainer.encode(chattokencapabilities0.rawValue)
+            for chattokencapability0 in capabilities {
+                try capabilitiesContainer.encode(chattokencapability0.rawValue)
             }
         }
         if let roomIdentifier = self.roomIdentifier {
@@ -690,8 +690,8 @@ extension CreateRoomInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let loggingConfigurationIdentifiers = loggingConfigurationIdentifiers {
             var loggingConfigurationIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loggingConfigurationIdentifiers)
-            for loggingconfigurationidentifierlist0 in loggingConfigurationIdentifiers {
-                try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifierlist0)
+            for loggingconfigurationidentifier0 in loggingConfigurationIdentifiers {
+                try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifier0)
             }
         }
         if maximumMessageLength != 0 {
@@ -2839,8 +2839,8 @@ extension IvschatClientTypes.RoomSummary: Swift.Codable {
         }
         if let loggingConfigurationIdentifiers = loggingConfigurationIdentifiers {
             var loggingConfigurationIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loggingConfigurationIdentifiers)
-            for loggingconfigurationidentifierlist0 in loggingConfigurationIdentifiers {
-                try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifierlist0)
+            for loggingconfigurationidentifier0 in loggingConfigurationIdentifiers {
+                try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifier0)
             }
         }
         if let messageReviewHandler = self.messageReviewHandler {
@@ -2990,8 +2990,8 @@ extension SendEventInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, eventattributes0) in attributes {
-                try attributesContainer.encode(eventattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, eventAttributes0) in attributes {
+                try attributesContainer.encode(eventAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let eventName = self.eventName {
@@ -3766,8 +3766,8 @@ extension UpdateRoomInput: Swift.Encodable {
         }
         if let loggingConfigurationIdentifiers = loggingConfigurationIdentifiers {
             var loggingConfigurationIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loggingConfigurationIdentifiers)
-            for loggingconfigurationidentifierlist0 in loggingConfigurationIdentifiers {
-                try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifierlist0)
+            for loggingconfigurationidentifier0 in loggingConfigurationIdentifiers {
+                try loggingConfigurationIdentifiersContainer.encode(loggingconfigurationidentifier0)
             }
         }
         if maximumMessageLength != 0 {

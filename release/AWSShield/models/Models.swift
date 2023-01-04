@@ -481,8 +481,8 @@ extension AssociateProactiveEngagementDetailsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let emergencyContactList = emergencyContactList {
             var emergencyContactListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emergencyContactList)
-            for emergencycontactlist0 in emergencyContactList {
-                try emergencyContactListContainer.encode(emergencycontactlist0)
+            for emergencycontact0 in emergencyContactList {
+                try emergencyContactListContainer.encode(emergencycontact0)
             }
         }
     }
@@ -588,8 +588,8 @@ extension ShieldClientTypes.AttackDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attackCounters = attackCounters {
             var attackCountersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attackCounters)
-            for summarizedcounterlist0 in attackCounters {
-                try attackCountersContainer.encode(summarizedcounterlist0)
+            for summarizedcounter0 in attackCounters {
+                try attackCountersContainer.encode(summarizedcounter0)
             }
         }
         if let attackId = self.attackId {
@@ -597,8 +597,8 @@ extension ShieldClientTypes.AttackDetail: Swift.Codable {
         }
         if let attackProperties = attackProperties {
             var attackPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attackProperties)
-            for attackproperties0 in attackProperties {
-                try attackPropertiesContainer.encode(attackproperties0)
+            for attackproperty0 in attackProperties {
+                try attackPropertiesContainer.encode(attackproperty0)
             }
         }
         if let endTime = self.endTime {
@@ -606,8 +606,8 @@ extension ShieldClientTypes.AttackDetail: Swift.Codable {
         }
         if let mitigations = mitigations {
             var mitigationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mitigations)
-            for mitigationlist0 in mitigations {
-                try mitigationsContainer.encode(mitigationlist0)
+            for mitigation0 in mitigations {
+                try mitigationsContainer.encode(mitigation0)
             }
         }
         if let resourceArn = self.resourceArn {
@@ -618,8 +618,8 @@ extension ShieldClientTypes.AttackDetail: Swift.Codable {
         }
         if let subResources = subResources {
             var subResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subResources)
-            for subresourcesummarylist0 in subResources {
-                try subResourcesContainer.encode(subresourcesummarylist0)
+            for subresourcesummary0 in subResources {
+                try subResourcesContainer.encode(subresourcesummary0)
             }
         }
     }
@@ -776,8 +776,8 @@ extension ShieldClientTypes.AttackProperty: Swift.Codable {
         }
         if let topContributors = topContributors {
             var topContributorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topContributors)
-            for topcontributors0 in topContributors {
-                try topContributorsContainer.encode(topcontributors0)
+            for contributor0 in topContributors {
+                try topContributorsContainer.encode(contributor0)
             }
         }
         if total != 0 {
@@ -956,8 +956,8 @@ extension ShieldClientTypes.AttackSummary: Swift.Codable {
         }
         if let attackVectors = attackVectors {
             var attackVectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attackVectors)
-            for attackvectordescriptionlist0 in attackVectors {
-                try attackVectorsContainer.encode(attackvectordescriptionlist0)
+            for attackvectordescription0 in attackVectors {
+                try attackVectorsContainer.encode(attackvectordescription0)
             }
         }
         if let endTime = self.endTime {
@@ -1324,8 +1324,8 @@ extension CreateProtectionGroupInput: Swift.Encodable {
         }
         if let members = members {
             var membersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .members)
-            for protectiongroupmembers0 in members {
-                try membersContainer.encode(protectiongroupmembers0)
+            for resourcearn0 in members {
+                try membersContainer.encode(resourcearn0)
             }
         }
         if let pattern = self.pattern {
@@ -1339,8 +1339,8 @@ extension CreateProtectionGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1506,8 +1506,8 @@ extension CreateProtectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3474,20 +3474,20 @@ extension ShieldClientTypes.InclusionProtectionFilters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let protectionNames = protectionNames {
             var protectionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protectionNames)
-            for protectionnamefilters0 in protectionNames {
-                try protectionNamesContainer.encode(protectionnamefilters0)
+            for protectionname0 in protectionNames {
+                try protectionNamesContainer.encode(protectionname0)
             }
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnfilters0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnfilters0)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
             }
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for protectedresourcetypefilters0 in resourceTypes {
-                try resourceTypesContainer.encode(protectedresourcetypefilters0.rawValue)
+            for protectedresourcetype0 in resourceTypes {
+                try resourceTypesContainer.encode(protectedresourcetype0.rawValue)
             }
         }
     }
@@ -3566,26 +3566,26 @@ extension ShieldClientTypes.InclusionProtectionGroupFilters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aggregations = aggregations {
             var aggregationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregations)
-            for protectiongroupaggregationfilters0 in aggregations {
-                try aggregationsContainer.encode(protectiongroupaggregationfilters0.rawValue)
+            for protectiongroupaggregation0 in aggregations {
+                try aggregationsContainer.encode(protectiongroupaggregation0.rawValue)
             }
         }
         if let patterns = patterns {
             var patternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patterns)
-            for protectiongrouppatternfilters0 in patterns {
-                try patternsContainer.encode(protectiongrouppatternfilters0.rawValue)
+            for protectiongrouppattern0 in patterns {
+                try patternsContainer.encode(protectiongrouppattern0.rawValue)
             }
         }
         if let protectionGroupIds = protectionGroupIds {
             var protectionGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protectionGroupIds)
-            for protectiongroupidfilters0 in protectionGroupIds {
-                try protectionGroupIdsContainer.encode(protectiongroupidfilters0)
+            for protectiongroupid0 in protectionGroupIds {
+                try protectionGroupIdsContainer.encode(protectiongroupid0)
             }
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for protectedresourcetypefilters0 in resourceTypes {
-                try resourceTypesContainer.encode(protectedresourcetypefilters0.rawValue)
+            for protectedresourcetype0 in resourceTypes {
+                try resourceTypesContainer.encode(protectedresourcetype0.rawValue)
             }
         }
     }
@@ -4095,8 +4095,8 @@ extension ListAttacksInput: Swift.Encodable {
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnfilterlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnfilterlist0)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
             }
         }
         if let startTime = self.startTime {
@@ -5151,8 +5151,8 @@ extension ShieldClientTypes.Protection: Swift.Codable {
         }
         if let healthCheckIds = healthCheckIds {
             var healthCheckIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .healthCheckIds)
-            for healthcheckids0 in healthCheckIds {
-                try healthCheckIdsContainer.encode(healthcheckids0)
+            for healthcheckid0 in healthCheckIds {
+                try healthCheckIdsContainer.encode(healthcheckid0)
             }
         }
         if let id = self.id {
@@ -5248,8 +5248,8 @@ extension ShieldClientTypes.ProtectionGroup: Swift.Codable {
         }
         if let members = members {
             var membersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .members)
-            for protectiongroupmembers0 in members {
-                try membersContainer.encode(protectiongroupmembers0)
+            for resourcearn0 in members {
+                try membersContainer.encode(resourcearn0)
             }
         }
         if let pattern = self.pattern {
@@ -5536,8 +5536,8 @@ extension ShieldClientTypes.ProtectionLimits: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let protectedResourceTypeLimits = protectedResourceTypeLimits {
             var protectedResourceTypeLimitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protectedResourceTypeLimits)
-            for limits0 in protectedResourceTypeLimits {
-                try protectedResourceTypeLimitsContainer.encode(limits0)
+            for limit0 in protectedResourceTypeLimits {
+                try protectedResourceTypeLimitsContainer.encode(limit0)
             }
         }
     }
@@ -5756,14 +5756,14 @@ extension ShieldClientTypes.SubResourceSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attackVectors = attackVectors {
             var attackVectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attackVectors)
-            for summarizedattackvectorlist0 in attackVectors {
-                try attackVectorsContainer.encode(summarizedattackvectorlist0)
+            for summarizedattackvector0 in attackVectors {
+                try attackVectorsContainer.encode(summarizedattackvector0)
             }
         }
         if let counters = counters {
             var countersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .counters)
-            for summarizedcounterlist0 in counters {
-                try countersContainer.encode(summarizedcounterlist0)
+            for summarizedcounter0 in counters {
+                try countersContainer.encode(summarizedcounter0)
             }
         }
         if let id = self.id {
@@ -5887,8 +5887,8 @@ extension ShieldClientTypes.Subscription: Swift.Codable {
         }
         if let limits = limits {
             var limitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .limits)
-            for limits0 in limits {
-                try limitsContainer.encode(limits0)
+            for limit0 in limits {
+                try limitsContainer.encode(limit0)
             }
         }
         if let proactiveEngagementStatus = self.proactiveEngagementStatus {
@@ -6072,8 +6072,8 @@ extension ShieldClientTypes.SummarizedAttackVector: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let vectorCounters = vectorCounters {
             var vectorCountersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vectorCounters)
-            for summarizedcounterlist0 in vectorCounters {
-                try vectorCountersContainer.encode(summarizedcounterlist0)
+            for summarizedcounter0 in vectorCounters {
+                try vectorCountersContainer.encode(summarizedcounter0)
             }
         }
         if let vectorType = self.vectorType {
@@ -6263,8 +6263,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6457,8 +6457,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -6665,8 +6665,8 @@ extension UpdateEmergencyContactSettingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let emergencyContactList = emergencyContactList {
             var emergencyContactListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emergencyContactList)
-            for emergencycontactlist0 in emergencyContactList {
-                try emergencyContactListContainer.encode(emergencycontactlist0)
+            for emergencycontact0 in emergencyContactList {
+                try emergencyContactListContainer.encode(emergencycontact0)
             }
         }
     }
@@ -6769,8 +6769,8 @@ extension UpdateProtectionGroupInput: Swift.Encodable {
         }
         if let members = members {
             var membersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .members)
-            for protectiongroupmembers0 in members {
-                try membersContainer.encode(protectiongroupmembers0)
+            for resourcearn0 in members {
+                try membersContainer.encode(resourcearn0)
             }
         }
         if let pattern = self.pattern {

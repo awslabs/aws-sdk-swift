@@ -86,14 +86,14 @@ extension APIGatewayClientTypes.ApiKey: Swift.Codable {
         }
         if let stageKeys = stageKeys {
             var stageKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stageKeys)
-            for listofstring0 in stageKeys {
-                try stageKeysContainer.encode(listofstring0)
+            for string0 in stageKeys {
+                try stageKeysContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let value = self.value {
@@ -274,8 +274,8 @@ extension APIGatewayClientTypes.ApiStage: Swift.Codable {
         }
         if let throttle = throttle {
             var throttleContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .throttle)
-            for (dictKey0, mapofapistagethrottlesettings0) in throttle {
-                try throttleContainer.encode(mapofapistagethrottlesettings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfApiStageThrottleSettings0) in throttle {
+                try throttleContainer.encode(mapOfApiStageThrottleSettings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -366,8 +366,8 @@ extension APIGatewayClientTypes.Authorizer: Swift.Codable {
         }
         if let providerARNs = providerARNs {
             var providerARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .providerARNs)
-            for listofarns0 in providerARNs {
-                try providerARNsContainer.encode(listofarns0)
+            for providerarn0 in providerARNs {
+                try providerARNsContainer.encode(providerarn0)
             }
         }
         if let type = self.type {
@@ -715,8 +715,8 @@ extension APIGatewayClientTypes.CanarySettings: Swift.Codable {
         }
         if let stageVariableOverrides = stageVariableOverrides {
             var stageVariableOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stageVariableOverrides)
-            for (dictKey0, mapofstringtostring0) in stageVariableOverrides {
-                try stageVariableOverridesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in stageVariableOverrides {
+                try stageVariableOverridesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if useStageCache != false {
@@ -803,8 +803,8 @@ extension APIGatewayClientTypes.ClientCertificate: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1018,14 +1018,14 @@ extension CreateApiKeyInput: Swift.Encodable {
         }
         if let stageKeys = stageKeys {
             var stageKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stageKeys)
-            for listofstagekeys0 in stageKeys {
-                try stageKeysContainer.encode(listofstagekeys0)
+            for stagekey0 in stageKeys {
+                try stageKeysContainer.encode(stagekey0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let value = self.value {
@@ -1363,8 +1363,8 @@ extension CreateAuthorizerInput: Swift.Encodable {
         }
         if let providerARNs = providerARNs {
             var providerARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .providerARNs)
-            for listofarns0 in providerARNs {
-                try providerARNsContainer.encode(listofarns0)
+            for providerarn0 in providerARNs {
+                try providerARNsContainer.encode(providerarn0)
             }
         }
         if let type = self.type {
@@ -1876,8 +1876,8 @@ extension CreateDeploymentInput: Swift.Encodable {
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variables)
-            for (dictKey0, mapofstringtostring0) in variables {
-                try variablesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in variables {
+                try variablesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1896,7 +1896,7 @@ extension CreateDeploymentInput: ClientRuntime.URLPathProvider {
 public struct CreateDeploymentInput: Swift.Equatable {
     /// Enables a cache cluster for the Stage resource specified in the input.
     public var cacheClusterEnabled: Swift.Bool?
-    /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
+    /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
     public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?
     /// The input configuration for the canary deployment when the deployment is a canary release deployment.
     public var canarySettings: APIGatewayClientTypes.DeploymentCanarySettings?
@@ -2509,8 +2509,8 @@ extension CreateDomainNameInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3500,8 +3500,8 @@ extension CreateRestApiInput: Swift.Encodable {
         }
         if let binaryMediaTypes = binaryMediaTypes {
             var binaryMediaTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binaryMediaTypes)
-            for listofstring0 in binaryMediaTypes {
-                try binaryMediaTypesContainer.encode(listofstring0)
+            for string0 in binaryMediaTypes {
+                try binaryMediaTypesContainer.encode(string0)
             }
         }
         if let cloneFrom = self.cloneFrom {
@@ -3527,8 +3527,8 @@ extension CreateRestApiInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let version = self.version {
@@ -3929,8 +3929,8 @@ extension CreateStageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if tracingEnabled != false {
@@ -3938,8 +3938,8 @@ extension CreateStageInput: Swift.Encodable {
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variables)
-            for (dictKey0, mapofstringtostring0) in variables {
-                try variablesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in variables {
+                try variablesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3958,7 +3958,7 @@ extension CreateStageInput: ClientRuntime.URLPathProvider {
 public struct CreateStageInput: Swift.Equatable {
     /// Whether cache clustering is enabled for the stage.
     public var cacheClusterEnabled: Swift.Bool
-    /// The stage's cache cluster size.
+    /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
     public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?
     /// The canary deployment settings of this stage.
     public var canarySettings: APIGatewayClientTypes.CanarySettings?
@@ -4163,7 +4163,7 @@ public struct CreateStageOutputResponse: Swift.Equatable {
     public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
     /// Specifies whether a cache cluster is enabled for the stage.
     public var cacheClusterEnabled: Swift.Bool
-    /// The size of the cache cluster for the stage, if enabled.
+    /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
     public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?
     /// The status of the cache cluster for the stage, if enabled.
     public var cacheClusterStatus: APIGatewayClientTypes.CacheClusterStatus?
@@ -4355,8 +4355,8 @@ extension CreateUsagePlanInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let apiStages = apiStages {
             var apiStagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .apiStages)
-            for listofapistage0 in apiStages {
-                try apiStagesContainer.encode(listofapistage0)
+            for apistage0 in apiStages {
+                try apiStagesContainer.encode(apistage0)
             }
         }
         if let description = self.description {
@@ -4370,8 +4370,8 @@ extension CreateUsagePlanInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let throttle = self.throttle {
@@ -4828,14 +4828,14 @@ extension CreateVpcLinkInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetArns = targetArns {
             var targetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetArns)
-            for listofstring0 in targetArns {
-                try targetArnsContainer.encode(listofstring0)
+            for string0 in targetArns {
+                try targetArnsContainer.encode(string0)
             }
         }
     }
@@ -6764,8 +6764,11 @@ extension APIGatewayClientTypes.Deployment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let apiSummary = apiSummary {
             var apiSummaryContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .apiSummary)
-            for (dictKey0, pathtomapofmethodsnapshot0) in apiSummary {
-                try apiSummaryContainer.encode(pathtomapofmethodsnapshot0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, pathToMapOfMethodSnapshot0) in apiSummary {
+                var pathToMapOfMethodSnapshot0Container = apiSummaryContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, mapOfMethodSnapshot1) in pathToMapOfMethodSnapshot0 {
+                    try pathToMapOfMethodSnapshot0Container.encode(mapOfMethodSnapshot1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let createdDate = self.createdDate {
@@ -6850,8 +6853,8 @@ extension APIGatewayClientTypes.DeploymentCanarySettings: Swift.Codable {
         }
         if let stageVariableOverrides = stageVariableOverrides {
             var stageVariableOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stageVariableOverrides)
-            for (dictKey0, mapofstringtostring0) in stageVariableOverrides {
-                try stageVariableOverridesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in stageVariableOverrides {
+                try stageVariableOverridesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if useStageCache != false {
@@ -7224,8 +7227,8 @@ extension APIGatewayClientTypes.DomainName: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7409,14 +7412,14 @@ extension APIGatewayClientTypes.EndpointConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let types = types {
             var typesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .types)
-            for listofendpointtype0 in types {
-                try typesContainer.encode(listofendpointtype0.rawValue)
+            for endpointtype0 in types {
+                try typesContainer.encode(endpointtype0.rawValue)
             }
         }
         if let vpcEndpointIds = vpcEndpointIds {
             var vpcEndpointIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcEndpointIds)
-            for listofstring0 in vpcEndpointIds {
-                try vpcEndpointIdsContainer.encode(listofstring0)
+            for string0 in vpcEndpointIds {
+                try vpcEndpointIdsContainer.encode(string0)
             }
         }
     }
@@ -7427,9 +7430,9 @@ extension APIGatewayClientTypes.EndpointConfiguration: Swift.Codable {
         var typesDecoded0:[APIGatewayClientTypes.EndpointType]? = nil
         if let typesContainer = typesContainer {
             typesDecoded0 = [APIGatewayClientTypes.EndpointType]()
-            for string0 in typesContainer {
-                if let string0 = string0 {
-                    typesDecoded0?.append(string0)
+            for enum0 in typesContainer {
+                if let enum0 = enum0 {
+                    typesDecoded0?.append(enum0)
                 }
             }
         }
@@ -7684,14 +7687,14 @@ extension APIGatewayClientTypes.GatewayResponse: Swift.Codable {
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, mapofstringtostring0) in responseParameters {
-                try responseParametersContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseParameters {
+                try responseParametersContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseTemplates = responseTemplates {
             var responseTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseTemplates)
-            for (dictKey0, mapofstringtostring0) in responseTemplates {
-                try responseTemplatesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseTemplates {
+                try responseTemplatesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseType = self.responseType {
@@ -7869,8 +7872,8 @@ extension GenerateClientCertificateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14138,7 +14141,7 @@ public struct GetStageOutputResponse: Swift.Equatable {
     public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
     /// Specifies whether a cache cluster is enabled for the stage.
     public var cacheClusterEnabled: Swift.Bool
-    /// The size of the cache cluster for the stage, if enabled.
+    /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
     public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?
     /// The status of the cache cluster for the stage, if enabled.
     public var cacheClusterStatus: APIGatewayClientTypes.CacheClusterStatus?
@@ -16500,8 +16503,8 @@ extension APIGatewayClientTypes.Integration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cacheKeyParameters = cacheKeyParameters {
             var cacheKeyParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cacheKeyParameters)
-            for listofstring0 in cacheKeyParameters {
-                try cacheKeyParametersContainer.encode(listofstring0)
+            for string0 in cacheKeyParameters {
+                try cacheKeyParametersContainer.encode(string0)
             }
         }
         if let cacheNamespace = self.cacheNamespace {
@@ -16524,8 +16527,8 @@ extension APIGatewayClientTypes.Integration: Swift.Codable {
         }
         if let integrationResponses = integrationResponses {
             var integrationResponsesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .integrationResponses)
-            for (dictKey0, mapofintegrationresponse0) in integrationResponses {
-                try integrationResponsesContainer.encode(mapofintegrationresponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfIntegrationResponse0) in integrationResponses {
+                try integrationResponsesContainer.encode(mapOfIntegrationResponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let passthroughBehavior = self.passthroughBehavior {
@@ -16533,14 +16536,14 @@ extension APIGatewayClientTypes.Integration: Swift.Codable {
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, mapofstringtostring0) in requestParameters {
-                try requestParametersContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in requestParameters {
+                try requestParametersContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestTemplates = requestTemplates {
             var requestTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestTemplates)
-            for (dictKey0, mapofstringtostring0) in requestTemplates {
-                try requestTemplatesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in requestTemplates {
+                try requestTemplatesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if timeoutInMillis != 0 {
@@ -16716,14 +16719,14 @@ extension APIGatewayClientTypes.IntegrationResponse: Swift.Codable {
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, mapofstringtostring0) in responseParameters {
-                try responseParametersContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseParameters {
+                try responseParametersContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseTemplates = responseTemplates {
             var responseTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseTemplates)
-            for (dictKey0, mapofstringtostring0) in responseTemplates {
-                try responseTemplatesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseTemplates {
+                try responseTemplatesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let selectionPattern = self.selectionPattern {
@@ -16955,8 +16958,8 @@ extension APIGatewayClientTypes.Method: Swift.Codable {
         }
         if let authorizationScopes = authorizationScopes {
             var authorizationScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizationScopes)
-            for listofstring0 in authorizationScopes {
-                try authorizationScopesContainer.encode(listofstring0)
+            for string0 in authorizationScopes {
+                try authorizationScopesContainer.encode(string0)
             }
         }
         if let authorizationType = self.authorizationType {
@@ -16973,8 +16976,8 @@ extension APIGatewayClientTypes.Method: Swift.Codable {
         }
         if let methodResponses = methodResponses {
             var methodResponsesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .methodResponses)
-            for (dictKey0, mapofmethodresponse0) in methodResponses {
-                try methodResponsesContainer.encode(mapofmethodresponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfMethodResponse0) in methodResponses {
+                try methodResponsesContainer.encode(mapOfMethodResponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let operationName = self.operationName {
@@ -16982,14 +16985,14 @@ extension APIGatewayClientTypes.Method: Swift.Codable {
         }
         if let requestModels = requestModels {
             var requestModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestModels)
-            for (dictKey0, mapofstringtostring0) in requestModels {
-                try requestModelsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in requestModels {
+                try requestModelsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, mapofstringtoboolean0) in requestParameters {
-                try requestParametersContainer.encode(mapofstringtoboolean0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToBoolean0) in requestParameters {
+                try requestParametersContainer.encode(mapOfStringToBoolean0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestValidatorId = self.requestValidatorId {
@@ -17127,14 +17130,14 @@ extension APIGatewayClientTypes.MethodResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let responseModels = responseModels {
             var responseModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseModels)
-            for (dictKey0, mapofstringtostring0) in responseModels {
-                try responseModelsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseModels {
+                try responseModelsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, mapofstringtoboolean0) in responseParameters {
-                try responseParametersContainer.encode(mapofstringtoboolean0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToBoolean0) in responseParameters {
+                try responseParametersContainer.encode(mapOfStringToBoolean0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let statusCode = self.statusCode {
@@ -17457,8 +17460,8 @@ extension APIGatewayClientTypes.MutualTlsAuthentication: Swift.Codable {
         }
         if let truststoreWarnings = truststoreWarnings {
             var truststoreWarningsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .truststoreWarnings)
-            for listofstring0 in truststoreWarnings {
-                try truststoreWarningsContainer.encode(listofstring0)
+            for string0 in truststoreWarnings {
+                try truststoreWarningsContainer.encode(string0)
             }
         }
     }
@@ -17724,14 +17727,14 @@ extension PutGatewayResponseInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, mapofstringtostring0) in responseParameters {
-                try responseParametersContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseParameters {
+                try responseParametersContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseTemplates = responseTemplates {
             var responseTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseTemplates)
-            for (dictKey0, mapofstringtostring0) in responseTemplates {
-                try responseTemplatesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseTemplates {
+                try responseTemplatesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let statusCode = self.statusCode {
@@ -17979,8 +17982,8 @@ extension PutIntegrationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cacheKeyParameters = cacheKeyParameters {
             var cacheKeyParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cacheKeyParameters)
-            for listofstring0 in cacheKeyParameters {
-                try cacheKeyParametersContainer.encode(listofstring0)
+            for string0 in cacheKeyParameters {
+                try cacheKeyParametersContainer.encode(string0)
             }
         }
         if let cacheNamespace = self.cacheNamespace {
@@ -18006,14 +18009,14 @@ extension PutIntegrationInput: Swift.Encodable {
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, mapofstringtostring0) in requestParameters {
-                try requestParametersContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in requestParameters {
+                try requestParametersContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestTemplates = requestTemplates {
             var requestTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestTemplates)
-            for (dictKey0, mapofstringtostring0) in requestTemplates {
-                try requestTemplatesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in requestTemplates {
+                try requestTemplatesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeoutInMillis = self.timeoutInMillis {
@@ -18487,14 +18490,14 @@ extension PutIntegrationResponseInput: Swift.Encodable {
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, mapofstringtostring0) in responseParameters {
-                try responseParametersContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseParameters {
+                try responseParametersContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseTemplates = responseTemplates {
             var responseTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseTemplates)
-            for (dictKey0, mapofstringtostring0) in responseTemplates {
-                try responseTemplatesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseTemplates {
+                try responseTemplatesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let selectionPattern = self.selectionPattern {
@@ -18763,8 +18766,8 @@ extension PutMethodInput: Swift.Encodable {
         }
         if let authorizationScopes = authorizationScopes {
             var authorizationScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizationScopes)
-            for listofstring0 in authorizationScopes {
-                try authorizationScopesContainer.encode(listofstring0)
+            for string0 in authorizationScopes {
+                try authorizationScopesContainer.encode(string0)
             }
         }
         if let authorizationType = self.authorizationType {
@@ -18778,14 +18781,14 @@ extension PutMethodInput: Swift.Encodable {
         }
         if let requestModels = requestModels {
             var requestModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestModels)
-            for (dictKey0, mapofstringtostring0) in requestModels {
-                try requestModelsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in requestModels {
+                try requestModelsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, mapofstringtoboolean0) in requestParameters {
-                try requestParametersContainer.encode(mapofstringtoboolean0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToBoolean0) in requestParameters {
+                try requestParametersContainer.encode(mapOfStringToBoolean0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestValidatorId = self.requestValidatorId {
@@ -19157,14 +19160,14 @@ extension PutMethodResponseInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let responseModels = responseModels {
             var responseModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseModels)
-            for (dictKey0, mapofstringtostring0) in responseModels {
-                try responseModelsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in responseModels {
+                try responseModelsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, mapofstringtoboolean0) in responseParameters {
-                try responseParametersContainer.encode(mapofstringtoboolean0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToBoolean0) in responseParameters {
+                try responseParametersContainer.encode(mapOfStringToBoolean0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -19929,8 +19932,8 @@ extension APIGatewayClientTypes.Resource: Swift.Codable {
         }
         if let resourceMethods = resourceMethods {
             var resourceMethodsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceMethods)
-            for (dictKey0, mapofmethod0) in resourceMethods {
-                try resourceMethodsContainer.encode(mapofmethod0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfMethod0) in resourceMethods {
+                try resourceMethodsContainer.encode(mapOfMethod0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -20015,8 +20018,8 @@ extension APIGatewayClientTypes.RestApi: Swift.Codable {
         }
         if let binaryMediaTypes = binaryMediaTypes {
             var binaryMediaTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .binaryMediaTypes)
-            for listofstring0 in binaryMediaTypes {
-                try binaryMediaTypesContainer.encode(listofstring0)
+            for string0 in binaryMediaTypes {
+                try binaryMediaTypesContainer.encode(string0)
             }
         }
         if let createdDate = self.createdDate {
@@ -20045,8 +20048,8 @@ extension APIGatewayClientTypes.RestApi: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let version = self.version {
@@ -20054,8 +20057,8 @@ extension APIGatewayClientTypes.RestApi: Swift.Codable {
         }
         if let warnings = warnings {
             var warningsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .warnings)
-            for listofstring0 in warnings {
-                try warningsContainer.encode(listofstring0)
+            for string0 in warnings {
+                try warningsContainer.encode(string0)
             }
         }
     }
@@ -20269,8 +20272,8 @@ extension APIGatewayClientTypes.SdkType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configurationProperties = configurationProperties {
             var configurationPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationProperties)
-            for listofsdkconfigurationproperty0 in configurationProperties {
-                try configurationPropertiesContainer.encode(listofsdkconfigurationproperty0)
+            for sdkconfigurationproperty0 in configurationProperties {
+                try configurationPropertiesContainer.encode(sdkconfigurationproperty0)
             }
         }
         if let description = self.description {
@@ -20484,8 +20487,8 @@ extension APIGatewayClientTypes.Stage: Swift.Codable {
         }
         if let methodSettings = methodSettings {
             var methodSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .methodSettings)
-            for (dictKey0, mapofmethodsettings0) in methodSettings {
-                try methodSettingsContainer.encode(mapofmethodsettings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfMethodSettings0) in methodSettings {
+                try methodSettingsContainer.encode(mapOfMethodSettings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let stageName = self.stageName {
@@ -20493,8 +20496,8 @@ extension APIGatewayClientTypes.Stage: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if tracingEnabled != false {
@@ -20502,8 +20505,8 @@ extension APIGatewayClientTypes.Stage: Swift.Codable {
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variables)
-            for (dictKey0, mapofstringtostring0) in variables {
-                try variablesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in variables {
+                try variablesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let webAclArn = self.webAclArn {
@@ -20584,7 +20587,7 @@ extension APIGatewayClientTypes {
         public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
         /// Specifies whether a cache cluster is enabled for the stage.
         public var cacheClusterEnabled: Swift.Bool
-        /// The size of the cache cluster for the stage, if enabled.
+        /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
         public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?
         /// The status of the cache cluster for the stage, if enabled.
         public var cacheClusterStatus: APIGatewayClientTypes.CacheClusterStatus?
@@ -20711,8 +20714,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -20827,8 +20830,8 @@ extension TestInvokeAuthorizerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalContext = additionalContext {
             var additionalContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalContext)
-            for (dictKey0, mapofstringtostring0) in additionalContext {
-                try additionalContextContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in additionalContext {
+                try additionalContextContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let body = self.body {
@@ -20836,14 +20839,17 @@ extension TestInvokeAuthorizerInput: Swift.Encodable {
         }
         if let headers = headers {
             var headersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .headers)
-            for (dictKey0, mapofstringtostring0) in headers {
-                try headersContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in headers {
+                try headersContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let multiValueHeaders = multiValueHeaders {
             var multiValueHeadersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .multiValueHeaders)
-            for (dictKey0, mapofstringtolist0) in multiValueHeaders {
-                try multiValueHeadersContainer.encode(mapofstringtolist0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToList0) in multiValueHeaders {
+                var mapOfStringToList0Container = multiValueHeadersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in mapOfStringToList0 {
+                    try mapOfStringToList0Container.encode(string1)
+                }
             }
         }
         if let pathWithQueryString = self.pathWithQueryString {
@@ -20851,8 +20857,8 @@ extension TestInvokeAuthorizerInput: Swift.Encodable {
         }
         if let stageVariables = stageVariables {
             var stageVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stageVariables)
-            for (dictKey0, mapofstringtostring0) in stageVariables {
-                try stageVariablesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in stageVariables {
+                try stageVariablesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -21167,14 +21173,17 @@ extension TestInvokeMethodInput: Swift.Encodable {
         }
         if let headers = headers {
             var headersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .headers)
-            for (dictKey0, mapofstringtostring0) in headers {
-                try headersContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in headers {
+                try headersContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let multiValueHeaders = multiValueHeaders {
             var multiValueHeadersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .multiValueHeaders)
-            for (dictKey0, mapofstringtolist0) in multiValueHeaders {
-                try multiValueHeadersContainer.encode(mapofstringtolist0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToList0) in multiValueHeaders {
+                var mapOfStringToList0Container = multiValueHeadersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in mapOfStringToList0 {
+                    try mapOfStringToList0Container.encode(string1)
+                }
             }
         }
         if let pathWithQueryString = self.pathWithQueryString {
@@ -21182,8 +21191,8 @@ extension TestInvokeMethodInput: Swift.Encodable {
         }
         if let stageVariables = stageVariables {
             var stageVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stageVariables)
-            for (dictKey0, mapofstringtostring0) in stageVariables {
-                try stageVariablesContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in stageVariables {
+                try stageVariablesContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -21799,8 +21808,8 @@ extension UpdateAccountInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -21972,8 +21981,8 @@ extension UpdateApiKeyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -22222,8 +22231,8 @@ extension UpdateAuthorizerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -22471,8 +22480,8 @@ extension UpdateBasePathMappingInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -22641,8 +22650,8 @@ extension UpdateClientCertificateInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -22842,8 +22851,8 @@ extension UpdateDeploymentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -23040,8 +23049,8 @@ extension UpdateDocumentationPartInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -23210,8 +23219,8 @@ extension UpdateDocumentationVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -23380,8 +23389,8 @@ extension UpdateDomainNameInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -23691,8 +23700,8 @@ extension UpdateGatewayResponseInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -23899,8 +23908,8 @@ extension UpdateIntegrationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -24233,8 +24242,8 @@ extension UpdateIntegrationResponseInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -24457,8 +24466,8 @@ extension UpdateMethodInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -24749,8 +24758,8 @@ extension UpdateMethodResponseInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -24953,8 +24962,8 @@ extension UpdateModelInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -25143,8 +25152,8 @@ extension UpdateRequestValidatorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -25323,8 +25332,8 @@ extension UpdateResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -25520,8 +25529,8 @@ extension UpdateRestApiInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -25809,8 +25818,8 @@ extension UpdateStageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -25959,7 +25968,7 @@ public struct UpdateStageOutputResponse: Swift.Equatable {
     public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
     /// Specifies whether a cache cluster is enabled for the stage.
     public var cacheClusterEnabled: Swift.Bool
-    /// The size of the cache cluster for the stage, if enabled.
+    /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
     public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?
     /// The status of the cache cluster for the stage, if enabled.
     public var cacheClusterStatus: APIGatewayClientTypes.CacheClusterStatus?
@@ -26146,8 +26155,8 @@ extension UpdateUsageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -26356,8 +26365,8 @@ extension UpdateUsagePlanInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -26586,8 +26595,8 @@ extension UpdateVpcLinkInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let patchOperations = patchOperations {
             var patchOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patchOperations)
-            for listofpatchoperation0 in patchOperations {
-                try patchOperationsContainer.encode(listofpatchoperation0)
+            for patchoperation0 in patchOperations {
+                try patchOperationsContainer.encode(patchoperation0)
             }
         }
     }
@@ -26813,8 +26822,8 @@ extension APIGatewayClientTypes.UsagePlan: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let apiStages = apiStages {
             var apiStagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .apiStages)
-            for listofapistage0 in apiStages {
-                try apiStagesContainer.encode(listofapistage0)
+            for apistage0 in apiStages {
+                try apiStagesContainer.encode(apistage0)
             }
         }
         if let description = self.description {
@@ -26834,8 +26843,8 @@ extension APIGatewayClientTypes.UsagePlan: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let throttle = self.throttle {
@@ -27021,14 +27030,14 @@ extension APIGatewayClientTypes.VpcLink: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapofstringtostring0) in tags {
-                try tagsContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in tags {
+                try tagsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetArns = targetArns {
             var targetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetArns)
-            for listofstring0 in targetArns {
-                try targetArnsContainer.encode(listofstring0)
+            for string0 in targetArns {
+                try targetArnsContainer.encode(string0)
             }
         }
     }

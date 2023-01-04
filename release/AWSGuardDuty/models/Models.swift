@@ -683,8 +683,8 @@ extension ArchiveFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let findingIds = findingIds {
             var findingIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingIds)
-            for findingids0 in findingIds {
-                try findingIdsContainer.encode(findingids0)
+            for findingid0 in findingIds {
+                try findingIdsContainer.encode(findingid0)
             }
         }
     }
@@ -793,8 +793,8 @@ extension GuardDutyClientTypes.AwsApiCallAction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let affectedResources = affectedResources {
             var affectedResourcesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .affectedResources)
-            for (dictKey0, affectedresources0) in affectedResources {
-                try affectedResourcesContainer.encode(affectedresources0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, affectedResources0) in affectedResources {
+                try affectedResourcesContainer.encode(affectedResources0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let api = self.api {
@@ -1222,14 +1222,14 @@ extension GuardDutyClientTypes.Condition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eq = eq {
             var eqContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eq)
-            for eq0 in eq {
-                try eqContainer.encode(eq0)
+            for string0 in eq {
+                try eqContainer.encode(string0)
             }
         }
         if let equals = equals {
             var equalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .equals)
-            for equals0 in equals {
-                try equalsContainer.encode(equals0)
+            for string0 in equals {
+                try equalsContainer.encode(string0)
             }
         }
         if greaterThan != 0 {
@@ -1258,14 +1258,14 @@ extension GuardDutyClientTypes.Condition: Swift.Codable {
         }
         if let neq = neq {
             var neqContainer = encodeContainer.nestedUnkeyedContainer(forKey: .neq)
-            for neq0 in neq {
-                try neqContainer.encode(neq0)
+            for string0 in neq {
+                try neqContainer.encode(string0)
             }
         }
         if let notEquals = notEquals {
             var notEqualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notEquals)
-            for notequals0 in notEquals {
-                try notEqualsContainer.encode(notequals0)
+            for string0 in notEquals {
+                try notEqualsContainer.encode(string0)
             }
         }
     }
@@ -1434,8 +1434,8 @@ extension GuardDutyClientTypes.Container: Swift.Codable {
         }
         if let volumeMounts = volumeMounts {
             var volumeMountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeMounts)
-            for volumemounts0 in volumeMounts {
-                try volumeMountsContainer.encode(volumemounts0)
+            for volumemount0 in volumeMounts {
+                try volumeMountsContainer.encode(volumemount0)
             }
         }
     }
@@ -1578,8 +1578,8 @@ extension CreateDetectorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1769,8 +1769,8 @@ extension CreateFilterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2086,8 +2086,8 @@ extension CreateIPSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2263,8 +2263,8 @@ extension CreateMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountDetails = accountDetails {
             var accountDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountDetails)
-            for accountdetails0 in accountDetails {
-                try accountDetailsContainer.encode(accountdetails0)
+            for accountdetail0 in accountDetails {
+                try accountDetailsContainer.encode(accountdetail0)
             }
         }
     }
@@ -2553,8 +2553,8 @@ extension CreateSampleFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let findingTypes = findingTypes {
             var findingTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingTypes)
-            for findingtypes0 in findingTypes {
-                try findingTypesContainer.encode(findingtypes0)
+            for findingtype0 in findingTypes {
+                try findingTypesContainer.encode(findingtype0)
             }
         }
     }
@@ -2674,8 +2674,8 @@ extension CreateThreatIntelSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3271,8 +3271,8 @@ extension DeclineInvitationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -3662,8 +3662,8 @@ extension DeleteInvitationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -3797,8 +3797,8 @@ extension DeleteMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -4907,8 +4907,8 @@ extension DisassociateMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -5173,14 +5173,14 @@ extension GuardDutyClientTypes.EbsVolumeDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let scannedVolumeDetails = scannedVolumeDetails {
             var scannedVolumeDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scannedVolumeDetails)
-            for volumedetails0 in scannedVolumeDetails {
-                try scannedVolumeDetailsContainer.encode(volumedetails0)
+            for volumedetail0 in scannedVolumeDetails {
+                try scannedVolumeDetailsContainer.encode(volumedetail0)
             }
         }
         if let skippedVolumeDetails = skippedVolumeDetails {
             var skippedVolumeDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .skippedVolumeDetails)
-            for volumedetails0 in skippedVolumeDetails {
-                try skippedVolumeDetailsContainer.encode(volumedetails0)
+            for volumedetail0 in skippedVolumeDetails {
+                try skippedVolumeDetailsContainer.encode(volumedetail0)
             }
         }
     }
@@ -5258,8 +5258,8 @@ extension GuardDutyClientTypes.EbsVolumeScanDetails: Swift.Codable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for sources0 in sources {
-                try sourcesContainer.encode(sources0)
+            for string0 in sources {
+                try sourcesContainer.encode(string0)
             }
         }
         if let triggerFindingId = self.triggerFindingId {
@@ -5408,8 +5408,8 @@ extension GuardDutyClientTypes.EcsClusterDetails: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskDetails = self.taskDetails {
@@ -5512,8 +5512,8 @@ extension GuardDutyClientTypes.EcsTaskDetails: Swift.Codable {
         }
         if let containers = containers {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
-            for containers0 in containers {
-                try containersContainer.encode(containers0)
+            for container0 in containers {
+                try containersContainer.encode(container0)
             }
         }
         if let definitionArn = self.definitionArn {
@@ -5530,8 +5530,8 @@ extension GuardDutyClientTypes.EcsTaskDetails: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskCreatedAt = self.taskCreatedAt {
@@ -5542,8 +5542,8 @@ extension GuardDutyClientTypes.EcsTaskDetails: Swift.Codable {
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
-            for volumes0 in volumes {
-                try volumesContainer.encode(volumes0)
+            for volume0 in volumes {
+                try volumesContainer.encode(volume0)
             }
         }
     }
@@ -5678,8 +5678,8 @@ extension GuardDutyClientTypes.EksClusterDetails: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcId = self.vpcId {
@@ -5840,8 +5840,8 @@ extension GuardDutyClientTypes.Evidence: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let threatIntelligenceDetails = threatIntelligenceDetails {
             var threatIntelligenceDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .threatIntelligenceDetails)
-            for threatintelligencedetails0 in threatIntelligenceDetails {
-                try threatIntelligenceDetailsContainer.encode(threatintelligencedetails0)
+            for threatintelligencedetail0 in threatIntelligenceDetails {
+                try threatIntelligenceDetailsContainer.encode(threatintelligencedetail0)
             }
         }
     }
@@ -6006,8 +6006,8 @@ extension GuardDutyClientTypes.FilterCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filterCriterion = filterCriterion {
             var filterCriterionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterCriterion)
-            for filtercriterionlist0 in filterCriterion {
-                try filterCriterionContainer.encode(filtercriterionlist0)
+            for filtercriterion0 in filterCriterion {
+                try filterCriterionContainer.encode(filtercriterion0)
             }
         }
     }
@@ -6394,8 +6394,8 @@ extension GuardDutyClientTypes.FindingStatistics: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let countBySeverity = countBySeverity {
             var countBySeverityContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .countBySeverity)
-            for (dictKey0, countbyseverity0) in countBySeverity {
-                try countBySeverityContainer.encode(countbyseverity0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, countBySeverity0) in countBySeverity {
+                try countBySeverityContainer.encode(countBySeverity0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6953,8 +6953,8 @@ extension GetFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let findingIds = findingIds {
             var findingIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingIds)
-            for findingids0 in findingIds {
-                try findingIdsContainer.encode(findingids0)
+            for findingid0 in findingIds {
+                try findingIdsContainer.encode(findingid0)
             }
         }
         if let sortCriteria = self.sortCriteria {
@@ -7111,8 +7111,8 @@ extension GetFindingsStatisticsInput: Swift.Encodable {
         }
         if let findingStatisticTypes = findingStatisticTypes {
             var findingStatisticTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingStatisticTypes)
-            for findingstatistictypes0 in findingStatisticTypes {
-                try findingStatisticTypesContainer.encode(findingstatistictypes0.rawValue)
+            for findingstatistictype0 in findingStatisticTypes {
+                try findingStatisticTypesContainer.encode(findingstatistictype0.rawValue)
             }
         }
     }
@@ -7700,8 +7700,8 @@ extension GetMemberDetectorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -7863,8 +7863,8 @@ extension GetMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -8026,8 +8026,8 @@ extension GetRemainingFreeTrialDaysInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -8694,8 +8694,8 @@ extension GuardDutyClientTypes.InstanceDetails: Swift.Codable {
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfaces0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let outpostArn = self.outpostArn {
@@ -8706,14 +8706,14 @@ extension GuardDutyClientTypes.InstanceDetails: Swift.Codable {
         }
         if let productCodes = productCodes {
             var productCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productCodes)
-            for productcodes0 in productCodes {
-                try productCodesContainer.encode(productcodes0)
+            for productcode0 in productCodes {
+                try productCodesContainer.encode(productcode0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8979,8 +8979,8 @@ extension InviteMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if disableEmailNotification != false {
@@ -9250,8 +9250,8 @@ extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
         }
         if let sourceIps = sourceIps {
             var sourceIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceIps)
-            for sourceips0 in sourceIps {
-                try sourceIpsContainer.encode(sourceips0)
+            for string0 in sourceIps {
+                try sourceIpsContainer.encode(string0)
             }
         }
         if statusCode != 0 {
@@ -9568,8 +9568,8 @@ extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for groups0 in groups {
-                try groupsContainer.encode(groups0)
+            for string0 in groups {
+                try groupsContainer.encode(string0)
             }
         }
         if let uid = self.uid {
@@ -9639,8 +9639,8 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containers = containers {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
-            for containers0 in containers {
-                try containersContainer.encode(containers0)
+            for container0 in containers {
+                try containersContainer.encode(container0)
             }
         }
         if hostNetwork != false {
@@ -9660,8 +9660,8 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
-            for volumes0 in volumes {
-                try volumesContainer.encode(volumes0)
+            for volume0 in volumes {
+                try volumesContainer.encode(volume0)
             }
         }
     }
@@ -11759,8 +11759,8 @@ extension GuardDutyClientTypes.NetworkInterface: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ipv6Addresses = ipv6Addresses {
             var ipv6AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv6Addresses)
-            for ipv6addresses0 in ipv6Addresses {
-                try ipv6AddressesContainer.encode(ipv6addresses0)
+            for string0 in ipv6Addresses {
+                try ipv6AddressesContainer.encode(string0)
             }
         }
         if let networkInterfaceId = self.networkInterfaceId {
@@ -11774,8 +11774,8 @@ extension GuardDutyClientTypes.NetworkInterface: Swift.Codable {
         }
         if let privateIpAddresses = privateIpAddresses {
             var privateIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .privateIpAddresses)
-            for privateipaddresses0 in privateIpAddresses {
-                try privateIpAddressesContainer.encode(privateipaddresses0)
+            for privateipaddressdetails0 in privateIpAddresses {
+                try privateIpAddressesContainer.encode(privateipaddressdetails0)
             }
         }
         if let publicDnsName = self.publicDnsName {
@@ -11786,8 +11786,8 @@ extension GuardDutyClientTypes.NetworkInterface: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroups0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroups0)
+            for securitygroup0 in securityGroups {
+                try securityGroupsContainer.encode(securitygroup0)
             }
         }
         if let subnetId = self.subnetId {
@@ -12629,8 +12629,8 @@ extension GuardDutyClientTypes.PortProbeAction: Swift.Codable {
         }
         if let portProbeDetails = portProbeDetails {
             var portProbeDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portProbeDetails)
-            for portprobedetails0 in portProbeDetails {
-                try portProbeDetailsContainer.encode(portprobedetails0)
+            for portprobedetail0 in portProbeDetails {
+                try portProbeDetailsContainer.encode(portprobedetail0)
             }
         }
     }
@@ -13107,8 +13107,8 @@ extension GuardDutyClientTypes.Resource: Swift.Codable {
         }
         if let s3BucketDetails = s3BucketDetails {
             var s3BucketDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3BucketDetails)
-            for s3bucketdetails0 in s3BucketDetails {
-                try s3BucketDetailsContainer.encode(s3bucketdetails0)
+            for s3bucketdetail0 in s3BucketDetails {
+                try s3BucketDetailsContainer.encode(s3bucketdetail0)
             }
         }
     }
@@ -13262,8 +13262,8 @@ extension GuardDutyClientTypes.S3BucketDetail: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -13445,8 +13445,8 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
         }
         if let attachedVolumes = attachedVolumes {
             var attachedVolumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachedVolumes)
-            for volumedetails0 in attachedVolumes {
-                try attachedVolumesContainer.encode(volumedetails0)
+            for volumedetail0 in attachedVolumes {
+                try attachedVolumesContainer.encode(volumedetail0)
             }
         }
         if let detectorId = self.detectorId {
@@ -13603,8 +13603,8 @@ extension GuardDutyClientTypes.ScanCondition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let mapEquals = mapEquals {
             var mapEqualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mapEquals)
-            for mapequals0 in mapEquals {
-                try mapEqualsContainer.encode(mapequals0)
+            for scanconditionpair0 in mapEquals {
+                try mapEqualsContainer.encode(scanconditionpair0)
             }
         }
     }
@@ -13928,14 +13928,14 @@ extension GuardDutyClientTypes.ScanResourceCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let exclude = exclude {
             var excludeContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .exclude)
-            for (dictKey0, scancriterion0) in exclude {
-                try excludeContainer.encode(scancriterion0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, scanCriterion0) in exclude {
+                try excludeContainer.encode(scanCriterion0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let include = include {
             var includeContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .include)
-            for (dictKey0, scancriterion0) in include {
-                try includeContainer.encode(scancriterion0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, scanCriterion0) in include {
+                try includeContainer.encode(scanCriterion0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14101,8 +14101,8 @@ extension GuardDutyClientTypes.ScanThreatName: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filePaths = filePaths {
             var filePathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filePaths)
-            for filepaths0 in filePaths {
-                try filePathsContainer.encode(filepaths0)
+            for scanfilepath0 in filePaths {
+                try filePathsContainer.encode(scanfilepath0)
             }
         }
         if itemCount != 0 {
@@ -14555,8 +14555,8 @@ extension StartMonitoringMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -14698,8 +14698,8 @@ extension StopMonitoringMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -14886,8 +14886,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14997,8 +14997,8 @@ extension GuardDutyClientTypes.ThreatDetectedByName: Swift.Codable {
         }
         if let threatNames = threatNames {
             var threatNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .threatNames)
-            for scanthreatnames0 in threatNames {
-                try threatNamesContainer.encode(scanthreatnames0)
+            for scanthreatname0 in threatNames {
+                try threatNamesContainer.encode(scanthreatname0)
             }
         }
         if uniqueThreatNameCount != 0 {
@@ -15160,8 +15160,8 @@ extension GuardDutyClientTypes.ThreatIntelligenceDetail: Swift.Codable {
         }
         if let threatNames = threatNames {
             var threatNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .threatNames)
-            for threatnames0 in threatNames {
-                try threatNamesContainer.encode(threatnames0)
+            for string0 in threatNames {
+                try threatNamesContainer.encode(string0)
             }
         }
     }
@@ -15338,8 +15338,8 @@ extension UnarchiveFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let findingIds = findingIds {
             var findingIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingIds)
-            for findingids0 in findingIds {
-                try findingIdsContainer.encode(findingids0)
+            for findingid0 in findingIds {
+                try findingIdsContainer.encode(findingid0)
             }
         }
     }
@@ -15895,8 +15895,8 @@ extension UpdateFindingsFeedbackInput: Swift.Encodable {
         }
         if let findingIds = findingIds {
             var findingIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingIds)
-            for findingids0 in findingIds {
-                try findingIdsContainer.encode(findingids0)
+            for findingid0 in findingIds {
+                try findingIdsContainer.encode(findingid0)
             }
         }
     }
@@ -16237,8 +16237,8 @@ extension UpdateMemberDetectorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let dataSources = self.dataSources {
@@ -16758,20 +16758,20 @@ extension GuardDutyClientTypes.UsageCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let dataSources = dataSources {
             var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
-            for datasourcelist0 in dataSources {
-                try dataSourcesContainer.encode(datasourcelist0.rawValue)
+            for datasource0 in dataSources {
+                try dataSourcesContainer.encode(datasource0.rawValue)
             }
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for resourcelist0 in resources {
-                try resourcesContainer.encode(resourcelist0)
+            for string0 in resources {
+                try resourcesContainer.encode(string0)
             }
         }
     }
@@ -16979,26 +16979,26 @@ extension GuardDutyClientTypes.UsageStatistics: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let sumByAccount = sumByAccount {
             var sumByAccountContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sumByAccount)
-            for usageaccountresultlist0 in sumByAccount {
-                try sumByAccountContainer.encode(usageaccountresultlist0)
+            for usageaccountresult0 in sumByAccount {
+                try sumByAccountContainer.encode(usageaccountresult0)
             }
         }
         if let sumByDataSource = sumByDataSource {
             var sumByDataSourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sumByDataSource)
-            for usagedatasourceresultlist0 in sumByDataSource {
-                try sumByDataSourceContainer.encode(usagedatasourceresultlist0)
+            for usagedatasourceresult0 in sumByDataSource {
+                try sumByDataSourceContainer.encode(usagedatasourceresult0)
             }
         }
         if let sumByResource = sumByResource {
             var sumByResourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sumByResource)
-            for usageresourceresultlist0 in sumByResource {
-                try sumByResourceContainer.encode(usageresourceresultlist0)
+            for usageresourceresult0 in sumByResource {
+                try sumByResourceContainer.encode(usageresourceresult0)
             }
         }
         if let topResources = topResources {
             var topResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topResources)
-            for usageresourceresultlist0 in topResources {
-                try topResourcesContainer.encode(usageresourceresultlist0)
+            for usageresourceresult0 in topResources {
+                try topResourcesContainer.encode(usageresourceresult0)
             }
         }
     }

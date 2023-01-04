@@ -58,8 +58,8 @@ extension SSOAdminClientTypes.AccessControlAttributeValue: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let source = source {
             var sourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .source)
-            for accesscontrolattributevaluesourcelist0 in source {
-                try sourceContainer.encode(accesscontrolattributevaluesourcelist0)
+            for accesscontrolattributevaluesource0 in source {
+                try sourceContainer.encode(accesscontrolattributevaluesource0)
             }
         }
     }
@@ -1037,8 +1037,8 @@ extension CreatePermissionSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3005,8 +3005,8 @@ extension SSOAdminClientTypes.InstanceAccessControlAttributeConfiguration: Swift
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessControlAttributes = accessControlAttributes {
             var accessControlAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessControlAttributes)
-            for accesscontrolattributelist0 in accessControlAttributes {
-                try accessControlAttributesContainer.encode(accesscontrolattributelist0)
+            for accesscontrolattribute0 in accessControlAttributes {
+                try accessControlAttributesContainer.encode(accesscontrolattribute0)
             }
         }
     }
@@ -6079,8 +6079,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6290,8 +6290,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

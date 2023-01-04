@@ -353,8 +353,8 @@ extension CreateModelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1984,8 +1984,8 @@ extension LookoutVisionClientTypes.DetectAnomalyResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let anomalies = anomalies {
             var anomaliesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .anomalies)
-            for anomalylist0 in anomalies {
-                try anomaliesContainer.encode(anomalylist0)
+            for anomaly0 in anomalies {
+                try anomaliesContainer.encode(anomaly0)
             }
         }
         if let anomalyMask = self.anomalyMask {
@@ -2089,8 +2089,8 @@ extension LookoutVisionClientTypes.GreengrassConfiguration: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let targetDevice = self.targetDevice {
@@ -4040,8 +4040,8 @@ extension LookoutVisionClientTypes.ProjectDescription: Swift.Codable {
         }
         if let datasets = datasets {
             var datasetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasets)
-            for datasetmetadatalist0 in datasets {
-                try datasetsContainer.encode(datasetmetadatalist0)
+            for datasetmetadata0 in datasets {
+                try datasetsContainer.encode(datasetmetadata0)
             }
         }
         if let projectArn = self.projectArn {
@@ -4946,8 +4946,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }

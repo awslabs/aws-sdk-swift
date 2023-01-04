@@ -381,8 +381,8 @@ extension SageMakerGeospatialClientTypes.BandMathConfigInput: Swift.Codable {
         }
         if let predefinedIndices = predefinedIndices {
             var predefinedIndicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .predefinedIndices)
-            for stringlistinput0 in predefinedIndices {
-                try predefinedIndicesContainer.encode(stringlistinput0)
+            for string0 in predefinedIndices {
+                try predefinedIndicesContainer.encode(string0)
             }
         }
     }
@@ -462,8 +462,8 @@ extension SageMakerGeospatialClientTypes.CloudRemovalConfigInput: Swift.Codable 
         }
         if let targetBands = targetBands {
             var targetBandsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetBands)
-            for stringlistinput0 in targetBands {
-                try targetBandsContainer.encode(stringlistinput0)
+            for string0 in targetBands {
+                try targetBandsContainer.encode(string0)
             }
         }
     }
@@ -623,8 +623,8 @@ extension SageMakerGeospatialClientTypes.CustomIndicesInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for operationslistinput0 in operations {
-                try operationsContainer.encode(operationslistinput0)
+            for operation0 in operations {
+                try operationsContainer.encode(operation0)
             }
         }
     }
@@ -1800,8 +1800,8 @@ extension SageMakerGeospatialClientTypes.GeoMosaicConfigInput: Swift.Codable {
         }
         if let targetBands = targetBands {
             var targetBandsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetBands)
-            for stringlistinput0 in targetBands {
-                try targetBandsContainer.encode(stringlistinput0)
+            for string0 in targetBands {
+                try targetBandsContainer.encode(string0)
             }
         }
     }
@@ -1854,12 +1854,12 @@ extension SageMakerGeospatialClientTypes.Geometry: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let coordinates = coordinates {
             var coordinatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .coordinates)
-            for linearrings0 in coordinates {
-                var linearrings0Container = coordinatesContainer.nestedUnkeyedContainer()
-                for linearring1 in linearrings0 {
-                    var linearring1Container = linearrings0Container.nestedUnkeyedContainer()
-                    for position2 in linearring1 {
-                        try linearring1Container.encode(position2)
+            for linearring0 in coordinates {
+                var linearring0Container = coordinatesContainer.nestedUnkeyedContainer()
+                for position1 in linearring0 {
+                    var position1Container = linearring0Container.nestedUnkeyedContainer()
+                    for double2 in position1 {
+                        try position1Container.encode(double2)
                     }
                 }
             }
@@ -3061,8 +3061,8 @@ extension SageMakerGeospatialClientTypes.ItemSource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assets = assets {
             var assetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .assets)
-            for (dictKey0, assetsmap0) in assets {
-                try assetsContainer.encode(assetsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, assetsMap0) in assets {
+                try assetsContainer.encode(assetsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let dateTime = self.dateTime {
@@ -4338,14 +4338,14 @@ extension SageMakerGeospatialClientTypes.MultiPolygonGeometryInput: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let coordinates = coordinates {
             var coordinatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .coordinates)
-            for linearringslist0 in coordinates {
-                var linearringslist0Container = coordinatesContainer.nestedUnkeyedContainer()
-                for linearrings1 in linearringslist0 {
-                    var linearrings1Container = linearringslist0Container.nestedUnkeyedContainer()
-                    for linearring2 in linearrings1 {
-                        var linearring2Container = linearrings1Container.nestedUnkeyedContainer()
-                        for position3 in linearring2 {
-                            try linearring2Container.encode(position3)
+            for linearrings0 in coordinates {
+                var linearrings0Container = coordinatesContainer.nestedUnkeyedContainer()
+                for linearring1 in linearrings0 {
+                    var linearring1Container = linearrings0Container.nestedUnkeyedContainer()
+                    for position2 in linearring1 {
+                        var position2Container = linearring1Container.nestedUnkeyedContainer()
+                        for double3 in position2 {
+                            try position2Container.encode(double3)
                         }
                     }
                 }
@@ -4735,12 +4735,12 @@ extension SageMakerGeospatialClientTypes.PolygonGeometryInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let coordinates = coordinates {
             var coordinatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .coordinates)
-            for linearrings0 in coordinates {
-                var linearrings0Container = coordinatesContainer.nestedUnkeyedContainer()
-                for linearring1 in linearrings0 {
-                    var linearring1Container = linearrings0Container.nestedUnkeyedContainer()
-                    for position2 in linearring1 {
-                        try linearring1Container.encode(position2)
+            for linearring0 in coordinates {
+                var linearring0Container = coordinatesContainer.nestedUnkeyedContainer()
+                for position1 in linearring0 {
+                    var position1Container = linearring0Container.nestedUnkeyedContainer()
+                    for double2 in position1 {
+                        try position1Container.encode(double2)
                     }
                 }
             }
@@ -5057,8 +5057,8 @@ extension SageMakerGeospatialClientTypes.PropertyFilters: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for propertyfilterslist0 in properties {
-                try propertiesContainer.encode(propertyfilterslist0)
+            for propertyfilter0 in properties {
+                try propertiesContainer.encode(propertyfilter0)
             }
         }
     }
@@ -5128,8 +5128,8 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionMetadata: Swift.Cod
         }
         if let supportedFilters = supportedFilters {
             var supportedFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedFilters)
-            for filterlist0 in supportedFilters {
-                try supportedFiltersContainer.encode(filterlist0)
+            for filter0 in supportedFilters {
+                try supportedFiltersContainer.encode(filter0)
             }
         }
         if let tags = tags {
@@ -5395,8 +5395,8 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilter
         }
         if let bandFilter = bandFilter {
             var bandFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bandFilter)
-            for stringlistinput0 in bandFilter {
-                try bandFilterContainer.encode(stringlistinput0)
+            for string0 in bandFilter {
+                try bandFilterContainer.encode(string0)
             }
         }
         if let propertyFilters = self.propertyFilters {
@@ -5480,8 +5480,8 @@ extension SageMakerGeospatialClientTypes.ResamplingConfigInput: Swift.Codable {
         }
         if let targetBands = targetBands {
             var targetBandsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetBands)
-            for stringlistinput0 in targetBands {
-                try targetBandsContainer.encode(stringlistinput0)
+            for string0 in targetBands {
+                try targetBandsContainer.encode(string0)
             }
         }
     }
@@ -5994,8 +5994,8 @@ extension SageMakerGeospatialClientTypes.StackConfigInput: Swift.Codable {
         }
         if let targetBands = targetBands {
             var targetBandsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetBands)
-            for stringlistinput0 in targetBands {
-                try targetBandsContainer.encode(stringlistinput0)
+            for string0 in targetBands {
+                try targetBandsContainer.encode(string0)
             }
         }
     }
@@ -7054,14 +7054,14 @@ extension SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput: Swift.Co
         }
         if let statistics = statistics {
             var statisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statistics)
-            for temporalstatisticslistinput0 in statistics {
-                try statisticsContainer.encode(temporalstatisticslistinput0.rawValue)
+            for temporalstatistics0 in statistics {
+                try statisticsContainer.encode(temporalstatistics0.rawValue)
             }
         }
         if let targetBands = targetBands {
             var targetBandsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetBands)
-            for stringlistinput0 in targetBands {
-                try targetBandsContainer.encode(stringlistinput0)
+            for string0 in targetBands {
+                try targetBandsContainer.encode(string0)
             }
         }
     }
@@ -8152,14 +8152,14 @@ extension SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statistics = statistics {
             var statisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statistics)
-            for zonalstatisticslistinput0 in statistics {
-                try statisticsContainer.encode(zonalstatisticslistinput0.rawValue)
+            for zonalstatistics0 in statistics {
+                try statisticsContainer.encode(zonalstatistics0.rawValue)
             }
         }
         if let targetBands = targetBands {
             var targetBandsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetBands)
-            for stringlistinput0 in targetBands {
-                try targetBandsContainer.encode(stringlistinput0)
+            for string0 in targetBands {
+                try targetBandsContainer.encode(string0)
             }
         }
         if let zoneS3Path = self.zoneS3Path {

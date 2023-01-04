@@ -416,8 +416,8 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         }
         if let listAntipatternSeveritySummary = listAntipatternSeveritySummary {
             var listAntipatternSeveritySummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listAntipatternSeveritySummary)
-            for listantipatternseveritysummary0 in listAntipatternSeveritySummary {
-                try listAntipatternSeveritySummaryContainer.encode(listantipatternseveritysummary0)
+            for antipatternseveritysummary0 in listAntipatternSeveritySummary {
+                try listAntipatternSeveritySummaryContainer.encode(antipatternseveritysummary0)
             }
         }
         if let moreServerAssociationExists = self.moreServerAssociationExists {
@@ -446,8 +446,8 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail: Swift.Coda
         }
         if let sourceCodeRepositories = sourceCodeRepositories {
             var sourceCodeRepositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceCodeRepositories)
-            for sourcecoderepositories0 in sourceCodeRepositories {
-                try sourceCodeRepositoriesContainer.encode(sourcecoderepositories0)
+            for sourcecoderepository0 in sourceCodeRepositories {
+                try sourceCodeRepositoriesContainer.encode(sourcecoderepository0)
             }
         }
         if let statusMessage = self.statusMessage {
@@ -906,44 +906,44 @@ extension MigrationHubStrategyClientTypes.AssessmentSummary: Swift.Codable {
         }
         if let listAntipatternSeveritySummary = listAntipatternSeveritySummary {
             var listAntipatternSeveritySummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listAntipatternSeveritySummary)
-            for listantipatternseveritysummary0 in listAntipatternSeveritySummary {
-                try listAntipatternSeveritySummaryContainer.encode(listantipatternseveritysummary0)
+            for antipatternseveritysummary0 in listAntipatternSeveritySummary {
+                try listAntipatternSeveritySummaryContainer.encode(antipatternseveritysummary0)
             }
         }
         if let listApplicationComponentStatusSummary = listApplicationComponentStatusSummary {
             var listApplicationComponentStatusSummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listApplicationComponentStatusSummary)
-            for listapplicationcomponentstatussummary0 in listApplicationComponentStatusSummary {
-                try listApplicationComponentStatusSummaryContainer.encode(listapplicationcomponentstatussummary0)
+            for applicationcomponentstatussummary0 in listApplicationComponentStatusSummary {
+                try listApplicationComponentStatusSummaryContainer.encode(applicationcomponentstatussummary0)
             }
         }
         if let listApplicationComponentStrategySummary = listApplicationComponentStrategySummary {
             var listApplicationComponentStrategySummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listApplicationComponentStrategySummary)
-            for liststrategysummary0 in listApplicationComponentStrategySummary {
-                try listApplicationComponentStrategySummaryContainer.encode(liststrategysummary0)
+            for strategysummary0 in listApplicationComponentStrategySummary {
+                try listApplicationComponentStrategySummaryContainer.encode(strategysummary0)
             }
         }
         if let listApplicationComponentSummary = listApplicationComponentSummary {
             var listApplicationComponentSummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listApplicationComponentSummary)
-            for listapplicationcomponentsummary0 in listApplicationComponentSummary {
-                try listApplicationComponentSummaryContainer.encode(listapplicationcomponentsummary0)
+            for applicationcomponentsummary0 in listApplicationComponentSummary {
+                try listApplicationComponentSummaryContainer.encode(applicationcomponentsummary0)
             }
         }
         if let listServerStatusSummary = listServerStatusSummary {
             var listServerStatusSummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listServerStatusSummary)
-            for listserverstatussummary0 in listServerStatusSummary {
-                try listServerStatusSummaryContainer.encode(listserverstatussummary0)
+            for serverstatussummary0 in listServerStatusSummary {
+                try listServerStatusSummaryContainer.encode(serverstatussummary0)
             }
         }
         if let listServerStrategySummary = listServerStrategySummary {
             var listServerStrategySummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listServerStrategySummary)
-            for liststrategysummary0 in listServerStrategySummary {
-                try listServerStrategySummaryContainer.encode(liststrategysummary0)
+            for strategysummary0 in listServerStrategySummary {
+                try listServerStrategySummaryContainer.encode(strategysummary0)
             }
         }
         if let listServerSummary = listServerSummary {
             var listServerSummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listServerSummary)
-            for listserversummary0 in listServerSummary {
-                try listServerSummaryContainer.encode(listserversummary0)
+            for serversummary0 in listServerSummary {
+                try listServerSummaryContainer.encode(serversummary0)
             }
         }
     }
@@ -1111,8 +1111,8 @@ extension MigrationHubStrategyClientTypes.AssessmentTarget: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for assessmenttargetvalues0 in values {
-                try valuesContainer.encode(assessmenttargetvalues0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -1253,8 +1253,8 @@ extension MigrationHubStrategyClientTypes.AwsManagedResources: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetDestination = targetDestination {
             var targetDestinationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetDestination)
-            for awsmanagedtargetdestinations0 in targetDestination {
-                try targetDestinationContainer.encode(awsmanagedtargetdestinations0.rawValue)
+            for awsmanagedtargetdestination0 in targetDestination {
+                try targetDestinationContainer.encode(awsmanagedtargetdestination0.rawValue)
             }
         }
     }
@@ -1580,14 +1580,14 @@ extension MigrationHubStrategyClientTypes.ConfigurationSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ipAddressBasedRemoteInfoList = ipAddressBasedRemoteInfoList {
             var ipAddressBasedRemoteInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddressBasedRemoteInfoList)
-            for ipaddressbasedremoteinfolist0 in ipAddressBasedRemoteInfoList {
-                try ipAddressBasedRemoteInfoListContainer.encode(ipaddressbasedremoteinfolist0)
+            for ipaddressbasedremoteinfo0 in ipAddressBasedRemoteInfoList {
+                try ipAddressBasedRemoteInfoListContainer.encode(ipaddressbasedremoteinfo0)
             }
         }
         if let pipelineInfoList = pipelineInfoList {
             var pipelineInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineInfoList)
-            for pipelineinfolist0 in pipelineInfoList {
-                try pipelineInfoListContainer.encode(pipelineinfolist0)
+            for pipelineinfo0 in pipelineInfoList {
+                try pipelineInfoListContainer.encode(pipelineinfo0)
             }
         }
         if let remoteSourceCodeAnalysisServerInfo = self.remoteSourceCodeAnalysisServerInfo {
@@ -1595,14 +1595,14 @@ extension MigrationHubStrategyClientTypes.ConfigurationSummary: Swift.Codable {
         }
         if let vcenterBasedRemoteInfoList = vcenterBasedRemoteInfoList {
             var vcenterBasedRemoteInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vcenterBasedRemoteInfoList)
-            for vcenterbasedremoteinfolist0 in vcenterBasedRemoteInfoList {
-                try vcenterBasedRemoteInfoListContainer.encode(vcenterbasedremoteinfolist0)
+            for vcenterbasedremoteinfo0 in vcenterBasedRemoteInfoList {
+                try vcenterBasedRemoteInfoListContainer.encode(vcenterbasedremoteinfo0)
             }
         }
         if let versionControlInfoList = versionControlInfoList {
             var versionControlInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versionControlInfoList)
-            for versioncontrolinfolist0 in versionControlInfoList {
-                try versionControlInfoListContainer.encode(versioncontrolinfolist0)
+            for versioncontrolinfo0 in versionControlInfoList {
+                try versionControlInfoListContainer.encode(versioncontrolinfo0)
             }
         }
     }
@@ -3445,8 +3445,8 @@ extension MigrationHubStrategyClientTypes.Heterogeneous: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetDatabaseEngine = targetDatabaseEngine {
             var targetDatabaseEngineContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetDatabaseEngine)
-            for heterogeneoustargetdatabaseengines0 in targetDatabaseEngine {
-                try targetDatabaseEngineContainer.encode(heterogeneoustargetdatabaseengines0.rawValue)
+            for heterogeneoustargetdatabaseengine0 in targetDatabaseEngine {
+                try targetDatabaseEngineContainer.encode(heterogeneoustargetdatabaseengine0.rawValue)
             }
         }
     }
@@ -3549,8 +3549,8 @@ extension MigrationHubStrategyClientTypes.Homogeneous: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetDatabaseEngine = targetDatabaseEngine {
             var targetDatabaseEngineContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetDatabaseEngine)
-            for homogeneoustargetdatabaseengines0 in targetDatabaseEngine {
-                try targetDatabaseEngineContainer.encode(homogeneoustargetdatabaseengines0.rawValue)
+            for homogeneoustargetdatabaseengine0 in targetDatabaseEngine {
+                try targetDatabaseEngineContainer.encode(homogeneoustargetdatabaseengine0.rawValue)
             }
         }
     }
@@ -3960,8 +3960,8 @@ extension ListApplicationComponentsInput: Swift.Encodable {
         }
         if let groupIdFilter = groupIdFilter {
             var groupIdFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupIdFilter)
-            for groupids0 in groupIdFilter {
-                try groupIdFilterContainer.encode(groupids0)
+            for group0 in groupIdFilter {
+                try groupIdFilterContainer.encode(group0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4436,8 +4436,8 @@ extension ListServersInput: Swift.Encodable {
         }
         if let groupIdFilter = groupIdFilter {
             var groupIdFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupIdFilter)
-            for groupids0 in groupIdFilter {
-                try groupIdFilterContainer.encode(groupids0)
+            for group0 in groupIdFilter {
+                try groupIdFilterContainer.encode(group0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4761,8 +4761,8 @@ extension MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetDatabaseEngine = targetDatabaseEngine {
             var targetDatabaseEngineContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetDatabaseEngine)
-            for targetdatabaseengines0 in targetDatabaseEngine {
-                try targetDatabaseEngineContainer.encode(targetdatabaseengines0.rawValue)
+            for targetdatabaseengine0 in targetDatabaseEngine {
+                try targetDatabaseEngineContainer.encode(targetdatabaseengine0.rawValue)
             }
         }
     }
@@ -4809,8 +4809,8 @@ extension MigrationHubStrategyClientTypes.NoManagementPreference: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetDestination = targetDestination {
             var targetDestinationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetDestination)
-            for nopreferencetargetdestinations0 in targetDestination {
-                try targetDestinationContainer.encode(nopreferencetargetdestinations0.rawValue)
+            for nopreferencetargetdestination0 in targetDestination {
+                try targetDestinationContainer.encode(nopreferencetargetdestination0.rawValue)
             }
         }
     }
@@ -5253,8 +5253,8 @@ extension MigrationHubStrategyClientTypes.RecommendationReportDetails: Swift.Cod
         }
         if let s3Keys = s3Keys {
             var s3KeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Keys)
-            for s3keys0 in s3Keys {
-                try s3KeysContainer.encode(s3keys0)
+            for string0 in s3Keys {
+                try s3KeysContainer.encode(string0)
             }
         }
         if let startTime = self.startTime {
@@ -5681,8 +5681,8 @@ extension MigrationHubStrategyClientTypes.SelfManageResources: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetDestination = targetDestination {
             var targetDestinationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetDestination)
-            for selfmanagetargetdestinations0 in targetDestination {
-                try targetDestinationContainer.encode(selfmanagetargetdestinations0.rawValue)
+            for selfmanagetargetdestination0 in targetDestination {
+                try targetDestinationContainer.encode(selfmanagetargetdestination0.rawValue)
             }
         }
     }
@@ -5836,8 +5836,8 @@ extension MigrationHubStrategyClientTypes.ServerDetail: Swift.Codable {
         }
         if let applicationComponentStrategySummary = applicationComponentStrategySummary {
             var applicationComponentStrategySummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationComponentStrategySummary)
-            for liststrategysummary0 in applicationComponentStrategySummary {
-                try applicationComponentStrategySummaryContainer.encode(liststrategysummary0)
+            for strategysummary0 in applicationComponentStrategySummary {
+                try applicationComponentStrategySummaryContainer.encode(strategysummary0)
             }
         }
         if let dataCollectionStatus = self.dataCollectionStatus {
@@ -5851,8 +5851,8 @@ extension MigrationHubStrategyClientTypes.ServerDetail: Swift.Codable {
         }
         if let listAntipatternSeveritySummary = listAntipatternSeveritySummary {
             var listAntipatternSeveritySummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listAntipatternSeveritySummary)
-            for listantipatternseveritysummary0 in listAntipatternSeveritySummary {
-                try listAntipatternSeveritySummaryContainer.encode(listantipatternseveritysummary0)
+            for antipatternseveritysummary0 in listAntipatternSeveritySummary {
+                try listAntipatternSeveritySummaryContainer.encode(antipatternseveritysummary0)
             }
         }
         if let name = self.name {
@@ -6626,8 +6626,8 @@ extension StartAssessmentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assessmentTargets = assessmentTargets {
             var assessmentTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentTargets)
-            for assessmenttargets0 in assessmentTargets {
-                try assessmentTargetsContainer.encode(assessmenttargets0)
+            for assessmenttarget0 in assessmentTargets {
+                try assessmentTargetsContainer.encode(assessmenttarget0)
             }
         }
         if let s3bucketForAnalysisData = self.s3bucketForAnalysisData {
@@ -6787,8 +6787,8 @@ extension StartImportFileTaskInput: Swift.Encodable {
         }
         if let groupId = groupId {
             var groupIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupId)
-            for groupids0 in groupId {
-                try groupIdContainer.encode(groupids0)
+            for group0 in groupId {
+                try groupIdContainer.encode(group0)
             }
         }
         if let name = self.name {
@@ -6970,8 +6970,8 @@ extension StartRecommendationReportGenerationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupIdFilter = groupIdFilter {
             var groupIdFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupIdFilter)
-            for groupids0 in groupIdFilter {
-                try groupIdFilterContainer.encode(groupids0)
+            for group0 in groupIdFilter {
+                try groupIdFilterContainer.encode(group0)
             }
         }
         if let outputFormat = self.outputFormat {
@@ -7401,8 +7401,8 @@ extension MigrationHubStrategyClientTypes.SystemInfo: Swift.Codable {
         }
         if let networkInfoList = networkInfoList {
             var networkInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInfoList)
-            for networkinfolist0 in networkInfoList {
-                try networkInfoListContainer.encode(networkinfolist0)
+            for networkinfo0 in networkInfoList {
+                try networkInfoListContainer.encode(networkinfo0)
             }
         }
         if let osInfo = self.osInfo {
@@ -7782,8 +7782,8 @@ extension UpdateApplicationComponentConfigInput: Swift.Encodable {
         }
         if let sourceCodeList = sourceCodeList {
             var sourceCodeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceCodeList)
-            for sourcecodelist0 in sourceCodeList {
-                try sourceCodeListContainer.encode(sourcecodelist0)
+            for sourcecode0 in sourceCodeList {
+                try sourceCodeListContainer.encode(sourcecode0)
             }
         }
         if let strategyOption = self.strategyOption {

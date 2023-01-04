@@ -28,8 +28,8 @@ extension PersonalizeEventsClientTypes.Event: Swift.Codable {
         }
         if let impression = impression {
             var impressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .impression)
-            for impression0 in impression {
-                try impressionContainer.encode(impression0)
+            for itemid0 in impression {
+                try impressionContainer.encode(itemid0)
             }
         }
         if let itemId = self.itemId {
@@ -293,8 +293,8 @@ extension PutEventsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventList = eventList {
             var eventListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventList)
-            for eventlist0 in eventList {
-                try eventListContainer.encode(eventlist0)
+            for event0 in eventList {
+                try eventListContainer.encode(event0)
             }
         }
         if let sessionId = self.sessionId {
@@ -424,8 +424,8 @@ extension PutItemsInput: Swift.Encodable {
         }
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for itemlist0 in items {
-                try itemsContainer.encode(itemlist0)
+            for item0 in items {
+                try itemsContainer.encode(item0)
             }
         }
     }
@@ -533,8 +533,8 @@ extension PutUsersInput: Swift.Encodable {
         }
         if let users = users {
             var usersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .users)
-            for userlist0 in users {
-                try usersContainer.encode(userlist0)
+            for user0 in users {
+                try usersContainer.encode(user0)
             }
         }
     }

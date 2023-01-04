@@ -238,8 +238,8 @@ extension KinesisVideoSignalingClientTypes.IceServer: Swift.Codable {
         }
         if let uris = uris {
             var urisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .uris)
-            for uris0 in uris {
-                try urisContainer.encode(uris0)
+            for uri0 in uris {
+                try urisContainer.encode(uri0)
             }
         }
         if let username = self.username {

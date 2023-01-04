@@ -7163,7 +7163,7 @@ extension CreateResponseHeadersPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateResponseHeadersPolicyInput: Swift.Equatable {
-    /// Contains metadata about the response headers policy, and a set of configurations that specify the response headers.
+    /// Contains metadata about the response headers policy, and a set of configurations that specify the HTTP headers.
     /// This member is required.
     public var responseHeadersPolicyConfig: CloudFrontClientTypes.ResponseHeadersPolicyConfig?
 
@@ -7207,6 +7207,7 @@ extension CreateResponseHeadersPolicyOutputError {
         case "ResponseHeadersPolicyAlreadyExists" : self = .responseHeadersPolicyAlreadyExists(try ResponseHeadersPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooLongCSPInResponseHeadersPolicy" : self = .tooLongCSPInResponseHeadersPolicy(try TooLongCSPInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyCustomHeadersInResponseHeadersPolicy" : self = .tooManyCustomHeadersInResponseHeadersPolicy(try TooManyCustomHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRemoveHeadersInResponseHeadersPolicy" : self = .tooManyRemoveHeadersInResponseHeadersPolicy(try TooManyRemoveHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyResponseHeadersPolicies" : self = .tooManyResponseHeadersPolicies(try TooManyResponseHeadersPolicies(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -7220,6 +7221,7 @@ public enum CreateResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable
     case responseHeadersPolicyAlreadyExists(ResponseHeadersPolicyAlreadyExists)
     case tooLongCSPInResponseHeadersPolicy(TooLongCSPInResponseHeadersPolicy)
     case tooManyCustomHeadersInResponseHeadersPolicy(TooManyCustomHeadersInResponseHeadersPolicy)
+    case tooManyRemoveHeadersInResponseHeadersPolicy(TooManyRemoveHeadersInResponseHeadersPolicy)
     case tooManyResponseHeadersPolicies(TooManyResponseHeadersPolicies)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -27439,7 +27441,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicy: ClientRuntime.DynamicNode
 }
 
 extension CloudFrontClientTypes {
-    /// A response headers policy. A response headers policy contains information about a set of HTTP response headers and their values. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match the cache behavior. For more information, see [Adding HTTP headers to CloudFront responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/adding-response-headers.html) in the Amazon CloudFront Developer Guide.
+    /// A response headers policy. A response headers policy contains information about a set of HTTP response headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy affects the HTTP headers that CloudFront includes in HTTP responses to requests that match the cache behavior. CloudFront adds or removes response headers according to the configuration of the response headers policy. For more information, see [Adding or removing HTTP headers in CloudFront responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/modifying-response-headers.html) in the Amazon CloudFront Developer Guide.
     public struct ResponseHeadersPolicy: Swift.Equatable {
         /// The identifier for the response headers policy.
         /// This member is required.
@@ -27447,7 +27449,7 @@ extension CloudFrontClientTypes {
         /// The date and time when the response headers policy was last modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
-        /// A response headers policy configuration. A response headers policy contains information about a set of HTTP response headers and their values. CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match a cache behavior that's associated with the policy.
+        /// A response headers policy configuration.
         /// This member is required.
         public var responseHeadersPolicyConfig: CloudFrontClientTypes.ResponseHeadersPolicyConfig?
 
@@ -27927,6 +27929,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyConfig: Swift.Codable {
         case corsConfig = "CorsConfig"
         case customHeadersConfig = "CustomHeadersConfig"
         case name = "Name"
+        case removeHeadersConfig = "RemoveHeadersConfig"
         case securityHeadersConfig = "SecurityHeadersConfig"
         case serverTimingHeadersConfig = "ServerTimingHeadersConfig"
     }
@@ -27947,6 +27950,9 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyConfig: Swift.Codable {
         }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
+        }
+        if let removeHeadersConfig = removeHeadersConfig {
+            try container.encode(removeHeadersConfig, forKey: ClientRuntime.Key("RemoveHeadersConfig"))
         }
         if let securityHeadersConfig = securityHeadersConfig {
             try container.encode(securityHeadersConfig, forKey: ClientRuntime.Key("SecurityHeadersConfig"))
@@ -27970,6 +27976,8 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyConfig: Swift.Codable {
         serverTimingHeadersConfig = serverTimingHeadersConfigDecoded
         let customHeadersConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig.self, forKey: .customHeadersConfig)
         customHeadersConfig = customHeadersConfigDecoded
+        let removeHeadersConfigDecoded = try containerValues.decodeIfPresent(CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig.self, forKey: .removeHeadersConfig)
+        removeHeadersConfig = removeHeadersConfigDecoded
     }
 }
 
@@ -27988,7 +27996,7 @@ extension CloudFrontClientTypes.ResponseHeadersPolicyConfig: ClientRuntime.Dynam
 }
 
 extension CloudFrontClientTypes {
-    /// A response headers policy configuration. A response headers policy configuration contains metadata about the response headers policy, and configurations for sets of HTTP response headers and their values. CloudFront adds the headers in the policy to HTTP responses that it sends for requests that match a cache behavior associated with the policy.
+    /// A response headers policy configuration. A response headers policy configuration contains metadata about the response headers policy, and configurations for sets of HTTP response headers.
     public struct ResponseHeadersPolicyConfig: Swift.Equatable {
         /// A comment to describe the response headers policy. The comment cannot be longer than 128 characters.
         public var comment: Swift.String?
@@ -27999,6 +28007,8 @@ extension CloudFrontClientTypes {
         /// A name to identify the response headers policy. The name must be unique for response headers policies in this Amazon Web Services account.
         /// This member is required.
         public var name: Swift.String?
+        /// A configuration for a set of HTTP headers to remove from the HTTP response.
+        public var removeHeadersConfig: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig?
         /// A configuration for a set of security-related HTTP response headers.
         public var securityHeadersConfig: CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig?
         /// A configuration for enabling the Server-Timing header in HTTP responses sent from CloudFront.
@@ -28009,6 +28019,7 @@ extension CloudFrontClientTypes {
             corsConfig: CloudFrontClientTypes.ResponseHeadersPolicyCorsConfig? = nil,
             customHeadersConfig: CloudFrontClientTypes.ResponseHeadersPolicyCustomHeadersConfig? = nil,
             name: Swift.String? = nil,
+            removeHeadersConfig: CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig? = nil,
             securityHeadersConfig: CloudFrontClientTypes.ResponseHeadersPolicySecurityHeadersConfig? = nil,
             serverTimingHeadersConfig: CloudFrontClientTypes.ResponseHeadersPolicyServerTimingHeadersConfig? = nil
         )
@@ -28017,6 +28028,7 @@ extension CloudFrontClientTypes {
             self.corsConfig = corsConfig
             self.customHeadersConfig = customHeadersConfig
             self.name = name
+            self.removeHeadersConfig = removeHeadersConfig
             self.securityHeadersConfig = securityHeadersConfig
             self.serverTimingHeadersConfig = serverTimingHeadersConfig
         }
@@ -28714,6 +28726,142 @@ extension CloudFrontClientTypes {
         {
             self.`override` = `override`
             self.referrerPolicy = referrerPolicy
+        }
+    }
+
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case header = "Header"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let header = header {
+            try container.encode(header, forKey: ClientRuntime.Key("Header"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let headerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .header)
+        header = headerDecoded
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// The name of an HTTP header that CloudFront removes from HTTP responses to requests that match the cache behavior that this response headers policy is attached to.
+    public struct ResponseHeadersPolicyRemoveHeader: Swift.Equatable {
+        /// The HTTP header name.
+        /// This member is required.
+        public var header: Swift.String?
+
+        public init (
+            header: Swift.String? = nil
+        )
+        {
+            self.header = header
+        }
+    }
+
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items = "Items"
+        case quantity = "Quantity"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if encoder.codingPath.isEmpty {
+            try container.encode("http://cloudfront.amazonaws.com/doc/2020-05-31/", forKey: ClientRuntime.Key("xmlns"))
+        }
+        if let items = items {
+            var itemsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Items"))
+            for responseheaderspolicyremoveheader0 in items {
+                try itemsContainer.encode(responseheaderspolicyremoveheader0, forKey: ClientRuntime.Key("ResponseHeadersPolicyRemoveHeader"))
+            }
+        }
+        if let quantity = quantity {
+            try container.encode(quantity, forKey: ClientRuntime.Key("Quantity"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let quantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quantity)
+        quantity = quantityDecoded
+        if containerValues.contains(.items) {
+            struct KeyVal0{struct ResponseHeadersPolicyRemoveHeader{}}
+            let itemsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.ResponseHeadersPolicyRemoveHeader>.CodingKeys.self, forKey: .items)
+            if let itemsWrappedContainer = itemsWrappedContainer {
+                let itemsContainer = try itemsWrappedContainer.decodeIfPresent([CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader].self, forKey: .member)
+                var itemsBuffer:[CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader]? = nil
+                if let itemsContainer = itemsContainer {
+                    itemsBuffer = [CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader]()
+                    for structureContainer0 in itemsContainer {
+                        itemsBuffer?.append(structureContainer0)
+                    }
+                }
+                items = itemsBuffer
+            } else {
+                items = []
+            }
+        } else {
+            items = nil
+        }
+    }
+}
+
+extension CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeadersConfig: ClientRuntime.DynamicNodeEncoding {
+    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
+        let xmlNamespaceValues = [
+            "xmlns"
+        ]
+        if let key = key as? ClientRuntime.Key {
+            if xmlNamespaceValues.contains(key.stringValue) {
+                return .attribute
+            }
+        }
+        return .element
+    }
+}
+
+extension CloudFrontClientTypes {
+    /// A list of HTTP header names that CloudFront removes from HTTP responses to requests that match the cache behavior that this response headers policy is attached to.
+    public struct ResponseHeadersPolicyRemoveHeadersConfig: Swift.Equatable {
+        /// The list of HTTP header names.
+        public var items: [CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader]?
+        /// The number of HTTP header names in the list.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init (
+            items: [CloudFrontClientTypes.ResponseHeadersPolicyRemoveHeader]? = nil,
+            quantity: Swift.Int? = nil
+        )
+        {
+            self.items = items
+            self.quantity = quantity
         }
     }
 
@@ -33682,6 +33830,58 @@ extension TooManyRealtimeLogConfigsBody: Swift.Decodable {
     }
 }
 
+extension TooManyRemoveHeadersInResponseHeadersPolicy {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<TooManyRemoveHeadersInResponseHeadersPolicyBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
+public struct TooManyRemoveHeadersInResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct TooManyRemoveHeadersInResponseHeadersPolicyBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TooManyRemoveHeadersInResponseHeadersPolicyBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension TooManyResponseHeadersPolicies {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -37560,6 +37760,7 @@ extension UpdateResponseHeadersPolicyOutputError {
         case "ResponseHeadersPolicyAlreadyExists" : self = .responseHeadersPolicyAlreadyExists(try ResponseHeadersPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooLongCSPInResponseHeadersPolicy" : self = .tooLongCSPInResponseHeadersPolicy(try TooLongCSPInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyCustomHeadersInResponseHeadersPolicy" : self = .tooManyCustomHeadersInResponseHeadersPolicy(try TooManyCustomHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRemoveHeadersInResponseHeadersPolicy" : self = .tooManyRemoveHeadersInResponseHeadersPolicy(try TooManyRemoveHeadersInResponseHeadersPolicy(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -37576,6 +37777,7 @@ public enum UpdateResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable
     case responseHeadersPolicyAlreadyExists(ResponseHeadersPolicyAlreadyExists)
     case tooLongCSPInResponseHeadersPolicy(TooLongCSPInResponseHeadersPolicy)
     case tooManyCustomHeadersInResponseHeadersPolicy(TooManyCustomHeadersInResponseHeadersPolicy)
+    case tooManyRemoveHeadersInResponseHeadersPolicy(TooManyRemoveHeadersInResponseHeadersPolicy)
     case unknown(UnknownAWSHttpServiceError)
 }
 

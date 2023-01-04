@@ -229,8 +229,8 @@ extension BatchGetViewInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let viewArns = viewArns {
             var viewArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .viewArns)
-            for viewarnlist0 in viewArns {
-                try viewArnsContainer.encode(viewarnlist0)
+            for string0 in viewArns {
+                try viewArnsContainer.encode(string0)
             }
         }
     }
@@ -444,8 +444,8 @@ extension CreateIndexInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -617,14 +617,14 @@ extension CreateViewInput: Swift.Encodable {
         }
         if let includedProperties = includedProperties {
             var includedPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includedProperties)
-            for includedpropertylist0 in includedProperties {
-                try includedPropertiesContainer.encode(includedpropertylist0)
+            for includedproperty0 in includedProperties {
+                try includedPropertiesContainer.encode(includedproperty0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let viewName = self.viewName {
@@ -1777,8 +1777,8 @@ extension ListIndexesInput: Swift.Encodable {
         }
         if let regions = regions {
             var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
-            for regionlist0 in regions {
-                try regionsContainer.encode(regionlist0)
+            for string0 in regions {
+                try regionsContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -2373,8 +2373,8 @@ extension ResourceExplorer2ClientTypes.Resource: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for resourcepropertylist0 in properties {
-                try propertiesContainer.encode(resourcepropertylist0)
+            for resourceproperty0 in properties {
+                try propertiesContainer.encode(resourceproperty0)
             }
         }
         if let region = self.region {
@@ -2984,8 +2984,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3468,8 +3468,8 @@ extension UpdateViewInput: Swift.Encodable {
         }
         if let includedProperties = includedProperties {
             var includedPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includedProperties)
-            for includedpropertylist0 in includedProperties {
-                try includedPropertiesContainer.encode(includedpropertylist0)
+            for includedproperty0 in includedProperties {
+                try includedPropertiesContainer.encode(includedproperty0)
             }
         }
         if let viewArn = self.viewArn {
@@ -3747,8 +3747,8 @@ extension ResourceExplorer2ClientTypes.View: Swift.Codable {
         }
         if let includedProperties = includedProperties {
             var includedPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includedProperties)
-            for includedpropertylist0 in includedProperties {
-                try includedPropertiesContainer.encode(includedpropertylist0)
+            for includedproperty0 in includedProperties {
+                try includedPropertiesContainer.encode(includedproperty0)
             }
         }
         if let lastUpdatedAt = self.lastUpdatedAt {

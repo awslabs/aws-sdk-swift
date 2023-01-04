@@ -323,26 +323,26 @@ extension MediaStoreClientTypes.CorsRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedHeaders = allowedHeaders {
             var allowedHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedHeaders)
-            for allowedheaders0 in allowedHeaders {
-                try allowedHeadersContainer.encode(allowedheaders0)
+            for header0 in allowedHeaders {
+                try allowedHeadersContainer.encode(header0)
             }
         }
         if let allowedMethods = allowedMethods {
             var allowedMethodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedMethods)
-            for allowedmethods0 in allowedMethods {
-                try allowedMethodsContainer.encode(allowedmethods0.rawValue)
+            for methodname0 in allowedMethods {
+                try allowedMethodsContainer.encode(methodname0.rawValue)
             }
         }
         if let allowedOrigins = allowedOrigins {
             var allowedOriginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOrigins)
-            for allowedorigins0 in allowedOrigins {
-                try allowedOriginsContainer.encode(allowedorigins0)
+            for origin0 in allowedOrigins {
+                try allowedOriginsContainer.encode(origin0)
             }
         }
         if let exposeHeaders = exposeHeaders {
             var exposeHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exposeHeaders)
-            for exposeheaders0 in exposeHeaders {
-                try exposeHeadersContainer.encode(exposeheaders0)
+            for header0 in exposeHeaders {
+                try exposeHeadersContainer.encode(header0)
             }
         }
         if maxAgeSeconds != 0 {
@@ -448,8 +448,8 @@ extension CreateContainerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2017,8 +2017,8 @@ extension MediaStoreClientTypes.MetricPolicy: Swift.Codable {
         }
         if let metricPolicyRules = metricPolicyRules {
             var metricPolicyRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricPolicyRules)
-            for metricpolicyrules0 in metricPolicyRules {
-                try metricPolicyRulesContainer.encode(metricpolicyrules0)
+            for metricpolicyrule0 in metricPolicyRules {
+                try metricPolicyRulesContainer.encode(metricpolicyrule0)
             }
         }
     }
@@ -2275,8 +2275,8 @@ extension PutCorsPolicyInput: Swift.Encodable {
         }
         if let corsPolicy = corsPolicy {
             var corsPolicyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .corsPolicy)
-            for corspolicy0 in corsPolicy {
-                try corsPolicyContainer.encode(corspolicy0)
+            for corsrule0 in corsPolicy {
+                try corsPolicyContainer.encode(corsrule0)
             }
         }
     }
@@ -2796,8 +2796,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2905,8 +2905,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

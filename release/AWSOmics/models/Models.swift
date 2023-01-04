@@ -660,8 +660,8 @@ extension BatchDeleteReadSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for readsetidlist0 in ids {
-                try idsContainer.encode(readsetidlist0)
+            for readsetid0 in ids {
+                try idsContainer.encode(readsetid0)
             }
         }
     }
@@ -1106,8 +1106,8 @@ extension CreateAnnotationStoreInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1369,8 +1369,8 @@ extension CreateReferenceStoreInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1607,8 +1607,8 @@ extension CreateRunGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1829,8 +1829,8 @@ extension CreateSequenceStoreInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2063,8 +2063,8 @@ extension CreateVariantStoreInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2301,8 +2301,8 @@ extension CreateWorkflowInput: Swift.Encodable {
         }
         if let parameterTemplate = parameterTemplate {
             var parameterTemplateContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameterTemplate)
-            for (dictKey0, workflowparametertemplate0) in parameterTemplate {
-                try parameterTemplateContainer.encode(workflowparametertemplate0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, workflowParameterTemplate0) in parameterTemplate {
+                try parameterTemplateContainer.encode(workflowParameterTemplate0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestId = self.requestId {
@@ -2313,8 +2313,8 @@ extension CreateWorkflowInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7712,8 +7712,8 @@ extension OmicsClientTypes.ImportReadSetSourceItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7989,8 +7989,8 @@ extension OmicsClientTypes.ImportReferenceSourceItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8215,8 +8215,8 @@ extension ListAnnotationImportJobsInput: Swift.Encodable {
         }
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for idlist0 in ids {
-                try idsContainer.encode(idlist0)
+            for resourceidentifier0 in ids {
+                try idsContainer.encode(resourceidentifier0)
             }
         }
     }
@@ -8436,8 +8436,8 @@ extension ListAnnotationStoresInput: Swift.Encodable {
         }
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for idlist0 in ids {
-                try idsContainer.encode(idlist0)
+            for resourceidentifier0 in ids {
+                try idsContainer.encode(resourceidentifier0)
             }
         }
     }
@@ -10617,8 +10617,8 @@ extension ListVariantImportJobsInput: Swift.Encodable {
         }
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for idlist0 in ids {
-                try idsContainer.encode(idlist0)
+            for resourceidentifier0 in ids {
+                try idsContainer.encode(resourceidentifier0)
             }
         }
     }
@@ -10838,8 +10838,8 @@ extension ListVariantStoresInput: Swift.Encodable {
         }
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for idlist0 in ids {
-                try idsContainer.encode(idlist0)
+            for resourceidentifier0 in ids {
+                try idsContainer.encode(resourceidentifier0)
             }
         }
     }
@@ -13437,8 +13437,8 @@ extension StartAnnotationImportJobInput: Swift.Encodable {
         }
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for annotationimportitemsources0 in items {
-                try itemsContainer.encode(annotationimportitemsources0)
+            for annotationimportitemsource0 in items {
+                try itemsContainer.encode(annotationimportitemsource0)
             }
         }
         if let roleArn = self.roleArn {
@@ -13615,8 +13615,8 @@ extension StartReadSetActivationJobInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for startreadsetactivationjobsourcelist0 in sources {
-                try sourcesContainer.encode(startreadsetactivationjobsourcelist0)
+            for startreadsetactivationjobsourceitem0 in sources {
+                try sourcesContainer.encode(startreadsetactivationjobsourceitem0)
             }
         }
     }
@@ -13848,8 +13848,8 @@ extension StartReadSetExportJobInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for exportreadsetlist0 in sources {
-                try sourcesContainer.encode(exportreadsetlist0)
+            for exportreadset0 in sources {
+                try sourcesContainer.encode(exportreadset0)
             }
         }
     }
@@ -14070,8 +14070,8 @@ extension StartReadSetImportJobInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for startreadsetimportjobsourcelist0 in sources {
-                try sourcesContainer.encode(startreadsetimportjobsourcelist0)
+            for startreadsetimportjobsourceitem0 in sources {
+                try sourcesContainer.encode(startreadsetimportjobsourceitem0)
             }
         }
     }
@@ -14307,8 +14307,8 @@ extension OmicsClientTypes.StartReadSetImportJobSourceItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14415,8 +14415,8 @@ extension StartReferenceImportJobInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for startreferenceimportjobsourcelist0 in sources {
-                try sourcesContainer.encode(startreferenceimportjobsourcelist0)
+            for startreferenceimportjobsourceitem0 in sources {
+                try sourcesContainer.encode(startreferenceimportjobsourceitem0)
             }
         }
     }
@@ -14632,8 +14632,8 @@ extension OmicsClientTypes.StartReferenceImportJobSourceItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14741,8 +14741,8 @@ extension StartRunInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let workflowId = self.workflowId {
@@ -15026,8 +15026,8 @@ extension StartVariantImportJobInput: Swift.Encodable {
         }
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for variantimportitemsources0 in items {
-                try itemsContainer.encode(variantimportitemsources0)
+            for variantimportitemsource0 in items {
+                try itemsContainer.encode(variantimportitemsource0)
             }
         }
         if let roleArn = self.roleArn {
@@ -15313,8 +15313,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -15672,16 +15672,16 @@ extension OmicsClientTypes.TsvStoreOptions: Swift.Codable {
         }
         if let formatToHeader = formatToHeader {
             var formatToHeaderContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .formatToHeader)
-            for (dictKey0, formattoheader0) in formatToHeader {
-                try formatToHeaderContainer.encode(formattoheader0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, formatToHeader0) in formatToHeader {
+                try formatToHeaderContainer.encode(formatToHeader0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let schema = schema {
             var schemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schema)
-            for schema0 in schema {
-                var schema0Container = schemaContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
-                for (dictKey1, schemaitem1) in schema0 {
-                    try schema0Container.encode(schemaitem1.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey1))
+            for schemaitem0 in schema {
+                var schemaitem0Container = schemaContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, schemaItem1) in schemaitem0 {
+                    try schemaitem0Container.encode(schemaItem1.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey1))
                 }
             }
         }

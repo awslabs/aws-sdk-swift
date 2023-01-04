@@ -134,8 +134,8 @@ extension BillingconductorClientTypes.AccountGrouping: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let linkedAccountIds = linkedAccountIds {
             var linkedAccountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .linkedAccountIds)
-            for accountidlist0 in linkedAccountIds {
-                try linkedAccountIdsContainer.encode(accountidlist0)
+            for accountid0 in linkedAccountIds {
+                try linkedAccountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -183,8 +183,8 @@ extension AssociateAccountsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidlist0 in accountIds {
-                try accountIdsContainer.encode(accountidlist0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let arn = self.arn {
@@ -334,8 +334,8 @@ extension AssociatePricingRulesInput: Swift.Encodable {
         }
         if let pricingRuleArns = pricingRuleArns {
             var pricingRuleArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pricingRuleArns)
-            for pricingrulearnsnonemptyinput0 in pricingRuleArns {
-                try pricingRuleArnsContainer.encode(pricingrulearnsnonemptyinput0)
+            for pricingrulearn0 in pricingRuleArns {
+                try pricingRuleArnsContainer.encode(pricingrulearn0)
             }
         }
     }
@@ -614,8 +614,8 @@ extension BatchAssociateResourcesToCustomLineItemInput: Swift.Encodable {
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for customlineitembatchassociationslist0 in resourceArns {
-                try resourceArnsContainer.encode(customlineitembatchassociationslist0)
+            for customlineitemassociationelement0 in resourceArns {
+                try resourceArnsContainer.encode(customlineitemassociationelement0)
             }
         }
         if let targetArn = self.targetArn {
@@ -802,8 +802,8 @@ extension BatchDisassociateResourcesFromCustomLineItemInput: Swift.Encodable {
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for customlineitembatchdisassociationslist0 in resourceArns {
-                try resourceArnsContainer.encode(customlineitembatchdisassociationslist0)
+            for customlineitemassociationelement0 in resourceArns {
+                try resourceArnsContainer.encode(customlineitemassociationelement0)
             }
         }
         if let targetArn = self.targetArn {
@@ -1417,8 +1417,8 @@ extension CreateBillingGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1631,8 +1631,8 @@ extension CreateCustomLineItemInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1871,14 +1871,14 @@ extension CreatePricingPlanInput: Swift.Encodable {
         }
         if let pricingRuleArns = pricingRuleArns {
             var pricingRuleArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pricingRuleArns)
-            for pricingrulearnsinput0 in pricingRuleArns {
-                try pricingRuleArnsContainer.encode(pricingrulearnsinput0)
+            for pricingrulearn0 in pricingRuleArns {
+                try pricingRuleArnsContainer.encode(pricingrulearn0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2090,8 +2090,8 @@ extension CreatePricingRuleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tiering = self.tiering {
@@ -2646,8 +2646,8 @@ extension BillingconductorClientTypes.CustomLineItemPercentageChargeDetails: Swi
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associatedValues = associatedValues {
             var associatedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedValues)
-            for customlineitemassociationslist0 in associatedValues {
-                try associatedValuesContainer.encode(customlineitemassociationslist0)
+            for customlineitemassociationelement0 in associatedValues {
+                try associatedValuesContainer.encode(customlineitemassociationelement0)
             }
         }
         if let percentageValue = self.percentageValue {
@@ -3394,8 +3394,8 @@ extension DisassociateAccountsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidlist0 in accountIds {
-                try accountIdsContainer.encode(accountidlist0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let arn = self.arn {
@@ -3543,8 +3543,8 @@ extension DisassociatePricingRulesInput: Swift.Encodable {
         }
         if let pricingRuleArns = pricingRuleArns {
             var pricingRuleArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pricingRuleArns)
-            for pricingrulearnsnonemptyinput0 in pricingRuleArns {
-                try pricingRuleArnsContainer.encode(pricingrulearnsnonemptyinput0)
+            for pricingrulearn0 in pricingRuleArns {
+                try pricingRuleArnsContainer.encode(pricingrulearn0)
             }
         }
     }
@@ -4034,8 +4034,8 @@ extension BillingconductorClientTypes.ListBillingGroupCostReportsFilter: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let billingGroupArns = billingGroupArns {
             var billingGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .billingGroupArns)
-            for billinggrouparnlist0 in billingGroupArns {
-                try billingGroupArnsContainer.encode(billinggrouparnlist0)
+            for billinggrouparn0 in billingGroupArns {
+                try billingGroupArnsContainer.encode(billinggrouparn0)
             }
         }
     }
@@ -4255,8 +4255,8 @@ extension BillingconductorClientTypes.ListBillingGroupsFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for billinggrouparnlist0 in arns {
-                try arnsContainer.encode(billinggrouparnlist0)
+            for billinggrouparn0 in arns {
+                try arnsContainer.encode(billinggrouparn0)
             }
         }
         if let pricingPlan = self.pricingPlan {
@@ -4866,20 +4866,20 @@ extension BillingconductorClientTypes.ListCustomLineItemsFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for customlineitemarns0 in arns {
-                try arnsContainer.encode(customlineitemarns0)
+            for customlineitemarn0 in arns {
+                try arnsContainer.encode(customlineitemarn0)
             }
         }
         if let billingGroups = billingGroups {
             var billingGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .billingGroups)
-            for billinggrouparnlist0 in billingGroups {
-                try billingGroupsContainer.encode(billinggrouparnlist0)
+            for billinggrouparn0 in billingGroups {
+                try billingGroupsContainer.encode(billinggrouparn0)
             }
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for customlineitemnamelist0 in names {
-                try namesContainer.encode(customlineitemnamelist0)
+            for customlineitemname0 in names {
+                try namesContainer.encode(customlineitemname0)
             }
         }
     }
@@ -5322,8 +5322,8 @@ extension BillingconductorClientTypes.ListPricingPlansFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for pricingplanarns0 in arns {
-                try arnsContainer.encode(pricingplanarns0)
+            for pricingplanarn0 in arns {
+                try arnsContainer.encode(pricingplanarn0)
             }
         }
     }
@@ -5744,8 +5744,8 @@ extension BillingconductorClientTypes.ListPricingRulesFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for pricingrulearns0 in arns {
-                try arnsContainer.encode(pricingrulearns0)
+            for pricingrulearn0 in arns {
+                try arnsContainer.encode(pricingrulearn0)
             }
         }
     }
@@ -6849,8 +6849,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

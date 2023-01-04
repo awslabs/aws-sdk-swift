@@ -1091,8 +1091,8 @@ extension AppSyncClientTypes.BadRequestDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let codeErrors = codeErrors {
             var codeErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .codeErrors)
-            for codeerrors0 in codeErrors {
-                try codeErrorsContainer.encode(codeerrors0)
+            for codeerror0 in codeErrors {
+                try codeErrorsContainer.encode(codeerror0)
             }
         }
     }
@@ -1241,8 +1241,8 @@ extension AppSyncClientTypes.CachingConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cachingKeys = cachingKeys {
             var cachingKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cachingKeys)
-            for cachingkeys0 in cachingKeys {
-                try cachingKeysContainer.encode(cachingkeys0)
+            for string0 in cachingKeys {
+                try cachingKeysContainer.encode(string0)
             }
         }
         if ttl != 0 {
@@ -2563,8 +2563,8 @@ extension CreateGraphqlApiInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalAuthenticationProviders = additionalAuthenticationProviders {
             var additionalAuthenticationProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalAuthenticationProviders)
-            for additionalauthenticationproviders0 in additionalAuthenticationProviders {
-                try additionalAuthenticationProvidersContainer.encode(additionalauthenticationproviders0)
+            for additionalauthenticationprovider0 in additionalAuthenticationProviders {
+                try additionalAuthenticationProvidersContainer.encode(additionalauthenticationprovider0)
             }
         }
         if let authenticationType = self.authenticationType {
@@ -2584,8 +2584,8 @@ extension CreateGraphqlApiInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let userPoolConfig = self.userPoolConfig {
@@ -4401,8 +4401,8 @@ extension AppSyncClientTypes.EvaluateCodeErrorDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let codeErrors = codeErrors {
             var codeErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .codeErrors)
-            for codeerrors0 in codeErrors {
-                try codeErrorsContainer.encode(codeerrors0)
+            for codeerror0 in codeErrors {
+                try codeErrorsContainer.encode(codeerror0)
             }
         }
         if let message = self.message {
@@ -6215,8 +6215,8 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalAuthenticationProviders = additionalAuthenticationProviders {
             var additionalAuthenticationProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalAuthenticationProviders)
-            for additionalauthenticationproviders0 in additionalAuthenticationProviders {
-                try additionalAuthenticationProvidersContainer.encode(additionalauthenticationproviders0)
+            for additionalauthenticationprovider0 in additionalAuthenticationProviders {
+                try additionalAuthenticationProvidersContainer.encode(additionalauthenticationprovider0)
             }
         }
         if let apiId = self.apiId {
@@ -6242,14 +6242,14 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let uris = uris {
             var urisContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .uris)
-            for (dictKey0, mapofstringtostring0) in uris {
-                try urisContainer.encode(mapofstringtostring0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfStringToString0) in uris {
+                try urisContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let userPoolConfig = self.userPoolConfig {
@@ -8260,8 +8260,8 @@ extension AppSyncClientTypes.PipelineConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let functions = functions {
             var functionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functions)
-            for functionsids0 in functions {
-                try functionsContainer.encode(functionsids0)
+            for string0 in functions {
+                try functionsContainer.encode(string0)
             }
         }
     }
@@ -8914,8 +8914,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -10181,8 +10181,8 @@ extension UpdateGraphqlApiInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalAuthenticationProviders = additionalAuthenticationProviders {
             var additionalAuthenticationProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalAuthenticationProviders)
-            for additionalauthenticationproviders0 in additionalAuthenticationProviders {
-                try additionalAuthenticationProvidersContainer.encode(additionalauthenticationproviders0)
+            for additionalauthenticationprovider0 in additionalAuthenticationProviders {
+                try additionalAuthenticationProvidersContainer.encode(additionalauthenticationprovider0)
             }
         }
         if let authenticationType = self.authenticationType {

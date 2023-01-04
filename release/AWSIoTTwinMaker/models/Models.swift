@@ -121,8 +121,8 @@ extension IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for errors0 in errors {
-                try errorsContainer.encode(errors0)
+            for batchputpropertyerror0 in errors {
+                try errorsContainer.encode(batchputpropertyerror0)
             }
         }
     }
@@ -169,8 +169,8 @@ extension BatchPutPropertyValuesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for entries0 in entries {
-                try entriesContainer.encode(entries0)
+            for propertyvalueentry0 in entries {
+                try entriesContainer.encode(propertyvalueentry0)
             }
         }
     }
@@ -317,8 +317,8 @@ extension IoTTwinMakerClientTypes.BundleInformation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bundleNames = bundleNames {
             var bundleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bundleNames)
-            for pricingbundles0 in bundleNames {
-                try bundleNamesContainer.encode(pricingbundles0)
+            for bundlename0 in bundleNames {
+                try bundleNamesContainer.encode(bundlename0)
             }
         }
         if let pricingTier = self.pricingTier {
@@ -459,8 +459,8 @@ extension IoTTwinMakerClientTypes.ComponentPropertyGroupRequest: Swift.Codable {
         }
         if let propertyNames = propertyNames {
             var propertyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyNames)
-            for propertynames0 in propertyNames {
-                try propertyNamesContainer.encode(propertynames0)
+            for name0 in propertyNames {
+                try propertyNamesContainer.encode(name0)
             }
         }
         if let updateType = self.updateType {
@@ -529,8 +529,8 @@ extension IoTTwinMakerClientTypes.ComponentPropertyGroupResponse: Swift.Codable 
         }
         if let propertyNames = propertyNames {
             var propertyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyNames)
-            for propertynames0 in propertyNames {
-                try propertyNamesContainer.encode(propertynames0)
+            for name0 in propertyNames {
+                try propertyNamesContainer.encode(name0)
             }
         }
     }
@@ -600,14 +600,14 @@ extension IoTTwinMakerClientTypes.ComponentRequest: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, propertyrequests0) in properties {
-                try propertiesContainer.encode(propertyrequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyRequests0) in properties {
+                try propertiesContainer.encode(propertyRequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let propertyGroups = propertyGroups {
             var propertyGroupsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroups)
-            for (dictKey0, componentpropertygrouprequests0) in propertyGroups {
-                try propertyGroupsContainer.encode(componentpropertygrouprequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentPropertyGroupRequests0) in propertyGroups {
+                try propertyGroupsContainer.encode(componentPropertyGroupRequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -699,14 +699,14 @@ extension IoTTwinMakerClientTypes.ComponentResponse: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, propertyresponses0) in properties {
-                try propertiesContainer.encode(propertyresponses0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyResponses0) in properties {
+                try propertiesContainer.encode(propertyResponses0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let propertyGroups = propertyGroups {
             var propertyGroupsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroups)
-            for (dictKey0, componentpropertygroupresponses0) in propertyGroups {
-                try propertyGroupsContainer.encode(componentpropertygroupresponses0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentPropertyGroupResponses0) in propertyGroups {
+                try propertyGroupsContainer.encode(componentPropertyGroupResponses0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let status = self.status {
@@ -918,14 +918,14 @@ extension IoTTwinMakerClientTypes.ComponentUpdateRequest: Swift.Codable {
         }
         if let propertyGroupUpdates = propertyGroupUpdates {
             var propertyGroupUpdatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroupUpdates)
-            for (dictKey0, componentpropertygrouprequests0) in propertyGroupUpdates {
-                try propertyGroupUpdatesContainer.encode(componentpropertygrouprequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentPropertyGroupRequests0) in propertyGroupUpdates {
+                try propertyGroupUpdatesContainer.encode(componentPropertyGroupRequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let propertyUpdates = propertyUpdates {
             var propertyUpdatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyUpdates)
-            for (dictKey0, propertyrequests0) in propertyUpdates {
-                try propertyUpdatesContainer.encode(propertyrequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyRequests0) in propertyUpdates {
+                try propertyUpdatesContainer.encode(propertyRequests0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updateType = self.updateType {
@@ -1211,14 +1211,14 @@ extension CreateComponentTypeInput: Swift.Encodable {
         }
         if let extendsFrom = extendsFrom {
             var extendsFromContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extendsFrom)
-            for extendsfrom0 in extendsFrom {
-                try extendsFromContainer.encode(extendsfrom0)
+            for componenttypeid0 in extendsFrom {
+                try extendsFromContainer.encode(componenttypeid0)
             }
         }
         if let functions = functions {
             var functionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .functions)
-            for (dictKey0, functionsrequest0) in functions {
-                try functionsContainer.encode(functionsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, functionsRequest0) in functions {
+                try functionsContainer.encode(functionsRequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let isSingleton = self.isSingleton {
@@ -1226,20 +1226,20 @@ extension CreateComponentTypeInput: Swift.Encodable {
         }
         if let propertyDefinitions = propertyDefinitions {
             var propertyDefinitionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyDefinitions)
-            for (dictKey0, propertydefinitionsrequest0) in propertyDefinitions {
-                try propertyDefinitionsContainer.encode(propertydefinitionsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyDefinitionsRequest0) in propertyDefinitions {
+                try propertyDefinitionsContainer.encode(propertyDefinitionsRequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let propertyGroups = propertyGroups {
             var propertyGroupsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroups)
-            for (dictKey0, propertygroupsrequest0) in propertyGroups {
-                try propertyGroupsContainer.encode(propertygroupsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyGroupsRequest0) in propertyGroups {
+                try propertyGroupsContainer.encode(propertyGroupsRequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1506,8 +1506,8 @@ extension CreateEntityInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let components = components {
             var componentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .components)
-            for (dictKey0, componentsmaprequest0) in components {
-                try componentsContainer.encode(componentsmaprequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentsMapRequest0) in components {
+                try componentsContainer.encode(componentsMapRequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -1524,8 +1524,8 @@ extension CreateEntityInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1752,8 +1752,8 @@ extension CreateSceneInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capabilities = capabilities {
             var capabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capabilities)
-            for scenecapabilities0 in capabilities {
-                try capabilitiesContainer.encode(scenecapabilities0)
+            for scenecapability0 in capabilities {
+                try capabilitiesContainer.encode(scenecapability0)
             }
         }
         if let contentLocation = self.contentLocation {
@@ -1767,8 +1767,8 @@ extension CreateSceneInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1966,8 +1966,8 @@ extension CreateSyncJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2158,8 +2158,8 @@ extension CreateWorkspaceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2385,8 +2385,8 @@ extension IoTTwinMakerClientTypes.DataType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedValues = allowedValues {
             var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
-            for datavaluelist0 in allowedValues {
-                try allowedValuesContainer.encode(datavaluelist0)
+            for datavalue0 in allowedValues {
+                try allowedValuesContainer.encode(datavalue0)
             }
         }
         if let nestedType = self.nestedType {
@@ -2489,8 +2489,8 @@ extension IoTTwinMakerClientTypes.DataValue: Swift.Codable {
         }
         if let listValue = listValue {
             var listValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listValue)
-            for datavaluelist0 in listValue {
-                try listValueContainer.encode(datavaluelist0)
+            for datavalue0 in listValue {
+                try listValueContainer.encode(datavalue0)
             }
         }
         if let longValue = self.longValue {
@@ -2498,8 +2498,8 @@ extension IoTTwinMakerClientTypes.DataValue: Swift.Codable {
         }
         if let mapValue = mapValue {
             var mapValueContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .mapValue)
-            for (dictKey0, datavaluemap0) in mapValue {
-                try mapValueContainer.encode(datavaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dataValueMap0) in mapValue {
+                try mapValueContainer.encode(dataValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let relationshipValue = self.relationshipValue {
@@ -3119,8 +3119,8 @@ extension IoTTwinMakerClientTypes.EntityPropertyReference: Swift.Codable {
         }
         if let externalIdProperty = externalIdProperty {
             var externalIdPropertyContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .externalIdProperty)
-            for (dictKey0, externalidproperty0) in externalIdProperty {
-                try externalIdPropertyContainer.encode(externalidproperty0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, externalIdProperty0) in externalIdProperty {
+                try externalIdPropertyContainer.encode(externalIdProperty0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let propertyName = self.propertyName {
@@ -3596,8 +3596,8 @@ extension IoTTwinMakerClientTypes.FunctionRequest: Swift.Codable {
         }
         if let requiredProperties = requiredProperties {
             var requiredPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiredProperties)
-            for requiredproperties0 in requiredProperties {
-                try requiredPropertiesContainer.encode(requiredproperties0)
+            for name0 in requiredProperties {
+                try requiredPropertiesContainer.encode(name0)
             }
         }
         if let scope = self.scope {
@@ -3667,8 +3667,8 @@ extension IoTTwinMakerClientTypes.FunctionResponse: Swift.Codable {
         }
         if let requiredProperties = requiredProperties {
             var requiredPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiredProperties)
-            for requiredproperties0 in requiredProperties {
-                try requiredPropertiesContainer.encode(requiredproperties0)
+            for name0 in requiredProperties {
+                try requiredPropertiesContainer.encode(name0)
             }
         }
         if let scope = self.scope {
@@ -4413,14 +4413,14 @@ extension GetPropertyValueHistoryInput: Swift.Encodable {
         }
         if let propertyFilters = propertyFilters {
             var propertyFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyFilters)
-            for propertyfilters0 in propertyFilters {
-                try propertyFiltersContainer.encode(propertyfilters0)
+            for propertyfilter0 in propertyFilters {
+                try propertyFiltersContainer.encode(propertyfilter0)
             }
         }
         if let selectedProperties = selectedProperties {
             var selectedPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedProperties)
-            for selectedpropertylist0 in selectedProperties {
-                try selectedPropertiesContainer.encode(selectedpropertylist0)
+            for string0 in selectedProperties {
+                try selectedPropertiesContainer.encode(string0)
             }
         }
         if let startDateTime = self.startDateTime {
@@ -4720,8 +4720,8 @@ extension GetPropertyValueInput: Swift.Encodable {
         }
         if let selectedProperties = selectedProperties {
             var selectedPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedProperties)
-            for selectedpropertylist0 in selectedProperties {
-                try selectedPropertiesContainer.encode(selectedpropertylist0)
+            for string0 in selectedProperties {
+                try selectedPropertiesContainer.encode(string0)
             }
         }
         if let tabularConditions = self.tabularConditions {
@@ -5779,8 +5779,8 @@ extension ListComponentTypesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for listcomponenttypesfilters0 in filters {
-                try filtersContainer.encode(listcomponenttypesfilters0)
+            for listcomponenttypesfilter0 in filters {
+                try filtersContainer.encode(listcomponenttypesfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -6037,8 +6037,8 @@ extension ListEntitiesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for listentitiesfilters0 in filters {
-                try filtersContainer.encode(listentitiesfilters0)
+            for listentitiesfilter0 in filters {
+                try filtersContainer.encode(listentitiesfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -6528,8 +6528,8 @@ extension ListSyncResourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for syncresourcefilters0 in filters {
-                try filtersContainer.encode(syncresourcefilters0)
+            for syncresourcefilter0 in filters {
+                try filtersContainer.encode(syncresourcefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -7699,8 +7699,8 @@ extension IoTTwinMakerClientTypes.PropertyGroupRequest: Swift.Codable {
         }
         if let propertyNames = propertyNames {
             var propertyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyNames)
-            for propertynames0 in propertyNames {
-                try propertyNamesContainer.encode(propertynames0)
+            for name0 in propertyNames {
+                try propertyNamesContainer.encode(name0)
             }
         }
     }
@@ -7760,8 +7760,8 @@ extension IoTTwinMakerClientTypes.PropertyGroupResponse: Swift.Codable {
         }
         if let propertyNames = propertyNames {
             var propertyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyNames)
-            for propertynames0 in propertyNames {
-                try propertyNamesContainer.encode(propertynames0)
+            for name0 in propertyNames {
+                try propertyNamesContainer.encode(name0)
             }
         }
     }
@@ -8120,8 +8120,8 @@ extension IoTTwinMakerClientTypes.PropertyValueEntry: Swift.Codable {
         }
         if let propertyValues = propertyValues {
             var propertyValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyValues)
-            for propertyvalues0 in propertyValues {
-                try propertyValuesContainer.encode(propertyvalues0)
+            for propertyvalue0 in propertyValues {
+                try propertyValuesContainer.encode(propertyvalue0)
             }
         }
     }
@@ -8178,8 +8178,8 @@ extension IoTTwinMakerClientTypes.PropertyValueHistory: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for values0 in values {
-                try valuesContainer.encode(values0)
+            for propertyvalue0 in values {
+                try valuesContainer.encode(propertyvalue0)
             }
         }
     }
@@ -8426,8 +8426,8 @@ extension IoTTwinMakerClientTypes.Row: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rowData = rowData {
             var rowDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowData)
-            for rowdata0 in rowData {
-                try rowDataContainer.encode(rowdata0)
+            for queryresultvalue0 in rowData {
+                try rowDataContainer.encode(queryresultvalue0)
             }
         }
     }
@@ -9165,14 +9165,14 @@ extension IoTTwinMakerClientTypes.TabularConditions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let orderBy = orderBy {
             var orderByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orderBy)
-            for orderbylist0 in orderBy {
-                try orderByContainer.encode(orderbylist0)
+            for orderby0 in orderBy {
+                try orderByContainer.encode(orderby0)
             }
         }
         if let propertyFilters = propertyFilters {
             var propertyFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyFilters)
-            for propertyfilters0 in propertyFilters {
-                try propertyFiltersContainer.encode(propertyfilters0)
+            for propertyfilter0 in propertyFilters {
+                try propertyFiltersContainer.encode(propertyfilter0)
             }
         }
     }
@@ -9237,8 +9237,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9598,14 +9598,14 @@ extension UpdateComponentTypeInput: Swift.Encodable {
         }
         if let extendsFrom = extendsFrom {
             var extendsFromContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extendsFrom)
-            for extendsfrom0 in extendsFrom {
-                try extendsFromContainer.encode(extendsfrom0)
+            for componenttypeid0 in extendsFrom {
+                try extendsFromContainer.encode(componenttypeid0)
             }
         }
         if let functions = functions {
             var functionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .functions)
-            for (dictKey0, functionsrequest0) in functions {
-                try functionsContainer.encode(functionsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, functionsRequest0) in functions {
+                try functionsContainer.encode(functionsRequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let isSingleton = self.isSingleton {
@@ -9613,14 +9613,14 @@ extension UpdateComponentTypeInput: Swift.Encodable {
         }
         if let propertyDefinitions = propertyDefinitions {
             var propertyDefinitionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyDefinitions)
-            for (dictKey0, propertydefinitionsrequest0) in propertyDefinitions {
-                try propertyDefinitionsContainer.encode(propertydefinitionsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyDefinitionsRequest0) in propertyDefinitions {
+                try propertyDefinitionsContainer.encode(propertyDefinitionsRequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let propertyGroups = propertyGroups {
             var propertyGroupsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyGroups)
-            for (dictKey0, propertygroupsrequest0) in propertyGroups {
-                try propertyGroupsContainer.encode(propertygroupsrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyGroupsRequest0) in propertyGroups {
+                try propertyGroupsContainer.encode(propertyGroupsRequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9879,8 +9879,8 @@ extension UpdateEntityInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let componentUpdates = componentUpdates {
             var componentUpdatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .componentUpdates)
-            for (dictKey0, componentupdatesmaprequest0) in componentUpdates {
-                try componentUpdatesContainer.encode(componentupdatesmaprequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentUpdatesMapRequest0) in componentUpdates {
+                try componentUpdatesContainer.encode(componentUpdatesMapRequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -10075,8 +10075,8 @@ extension UpdatePricingPlanInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bundleNames = bundleNames {
             var bundleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bundleNames)
-            for pricingbundles0 in bundleNames {
-                try bundleNamesContainer.encode(pricingbundles0)
+            for bundlename0 in bundleNames {
+                try bundleNamesContainer.encode(bundlename0)
             }
         }
         if let pricingMode = self.pricingMode {
@@ -10269,8 +10269,8 @@ extension UpdateSceneInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capabilities = capabilities {
             var capabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capabilities)
-            for scenecapabilities0 in capabilities {
-                try capabilitiesContainer.encode(scenecapabilities0)
+            for scenecapability0 in capabilities {
+                try capabilitiesContainer.encode(scenecapability0)
             }
         }
         if let contentLocation = self.contentLocation {

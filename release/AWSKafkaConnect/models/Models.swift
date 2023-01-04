@@ -757,8 +757,8 @@ extension KafkaConnectClientTypes.ConnectorSummary: Swift.Codable {
         }
         if let plugins = plugins {
             var pluginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .plugins)
-            for __listofplugindescription0 in plugins {
-                try pluginsContainer.encode(__listofplugindescription0)
+            for plugindescription0 in plugins {
+                try pluginsContainer.encode(plugindescription0)
             }
         }
         if let serviceExecutionRoleArn = self.serviceExecutionRoleArn {
@@ -913,8 +913,8 @@ extension CreateConnectorInput: Swift.Encodable {
         }
         if let connectorConfiguration = connectorConfiguration {
             var connectorConfigurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .connectorConfiguration)
-            for (dictKey0, __sensitive__mapof__string0) in connectorConfiguration {
-                try connectorConfigurationContainer.encode(__sensitive__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __sensitive__mapOf__string0) in connectorConfiguration {
+                try connectorConfigurationContainer.encode(__sensitive__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let connectorDescription = self.connectorDescription {
@@ -940,8 +940,8 @@ extension CreateConnectorInput: Swift.Encodable {
         }
         if let plugins = plugins {
             var pluginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .plugins)
-            for __listofplugin0 in plugins {
-                try pluginsContainer.encode(__listofplugin0)
+            for plugin0 in plugins {
+                try pluginsContainer.encode(plugin0)
             }
         }
         if let serviceExecutionRoleArn = self.serviceExecutionRoleArn {
@@ -4929,14 +4929,14 @@ extension KafkaConnectClientTypes.Vpc: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for __listof__string0 in securityGroups {
-                try securityGroupsContainer.encode(__listof__string0)
+            for __string0 in securityGroups {
+                try securityGroupsContainer.encode(__string0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for __listof__string0 in subnets {
-                try subnetsContainer.encode(__listof__string0)
+            for __string0 in subnets {
+                try subnetsContainer.encode(__string0)
             }
         }
     }
@@ -4999,14 +4999,14 @@ extension KafkaConnectClientTypes.VpcDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for __listof__string0 in securityGroups {
-                try securityGroupsContainer.encode(__listof__string0)
+            for __string0 in securityGroups {
+                try securityGroupsContainer.encode(__string0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for __listof__string0 in subnets {
-                try subnetsContainer.encode(__listof__string0)
+            for __string0 in subnets {
+                try subnetsContainer.encode(__string0)
             }
         }
     }

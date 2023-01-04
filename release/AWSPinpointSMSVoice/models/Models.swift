@@ -557,8 +557,8 @@ extension PinpointSMSVoiceClientTypes.EventDestination: Swift.Codable {
         }
         if let matchingEventTypes = matchingEventTypes {
             var matchingEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingEventTypes)
-            for eventtypes0 in matchingEventTypes {
-                try matchingEventTypesContainer.encode(eventtypes0.rawValue)
+            for eventtype0 in matchingEventTypes {
+                try matchingEventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let name = self.name {
@@ -653,8 +653,8 @@ extension PinpointSMSVoiceClientTypes.EventDestinationDefinition: Swift.Codable 
         }
         if let matchingEventTypes = matchingEventTypes {
             var matchingEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingEventTypes)
-            for eventtypes0 in matchingEventTypes {
-                try matchingEventTypesContainer.encode(eventtypes0.rawValue)
+            for eventtype0 in matchingEventTypes {
+                try matchingEventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let snsDestination = self.snsDestination {

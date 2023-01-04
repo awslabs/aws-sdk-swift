@@ -39,8 +39,8 @@ extension HealthClientTypes.AffectedEntity: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagset0) in tags {
-                try tagsContainer.encode(tagset0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagSet0) in tags {
+                try tagsContainer.encode(tagSet0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -407,8 +407,8 @@ extension DescribeAffectedEntitiesForOrganizationInput: Swift.Encodable {
         }
         if let organizationEntityFilters = organizationEntityFilters {
             var organizationEntityFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationEntityFilters)
-            for organizationentityfilterslist0 in organizationEntityFilters {
-                try organizationEntityFiltersContainer.encode(organizationentityfilterslist0)
+            for eventaccountfilter0 in organizationEntityFilters {
+                try organizationEntityFiltersContainer.encode(eventaccountfilter0)
             }
         }
     }
@@ -762,8 +762,8 @@ extension DescribeEntityAggregatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventArns = eventArns {
             var eventArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventArns)
-            for eventarnslist0 in eventArns {
-                try eventArnsContainer.encode(eventarnslist0)
+            for eventarn0 in eventArns {
+                try eventArnsContainer.encode(eventarn0)
             }
         }
     }
@@ -1061,8 +1061,8 @@ extension DescribeEventDetailsForOrganizationInput: Swift.Encodable {
         }
         if let organizationEventDetailFilters = organizationEventDetailFilters {
             var organizationEventDetailFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationEventDetailFilters)
-            for organizationeventdetailfilterslist0 in organizationEventDetailFilters {
-                try organizationEventDetailFiltersContainer.encode(organizationeventdetailfilterslist0)
+            for eventaccountfilter0 in organizationEventDetailFilters {
+                try organizationEventDetailFiltersContainer.encode(eventaccountfilter0)
             }
         }
     }
@@ -1221,8 +1221,8 @@ extension DescribeEventDetailsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventArns = eventArns {
             var eventArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventArns)
-            for eventarnlist0 in eventArns {
-                try eventArnsContainer.encode(eventarnlist0)
+            for eventarn0 in eventArns {
+                try eventArnsContainer.encode(eventarn0)
             }
         }
         if let locale = self.locale {
@@ -2143,40 +2143,40 @@ extension HealthClientTypes.EntityFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entityArns = entityArns {
             var entityArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityArns)
-            for entityarnlist0 in entityArns {
-                try entityArnsContainer.encode(entityarnlist0)
+            for entityarn0 in entityArns {
+                try entityArnsContainer.encode(entityarn0)
             }
         }
         if let entityValues = entityValues {
             var entityValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityValues)
-            for entityvaluelist0 in entityValues {
-                try entityValuesContainer.encode(entityvaluelist0)
+            for entityvalue0 in entityValues {
+                try entityValuesContainer.encode(entityvalue0)
             }
         }
         if let eventArns = eventArns {
             var eventArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventArns)
-            for eventarnlist0 in eventArns {
-                try eventArnsContainer.encode(eventarnlist0)
+            for eventarn0 in eventArns {
+                try eventArnsContainer.encode(eventarn0)
             }
         }
         if let lastUpdatedTimes = lastUpdatedTimes {
             var lastUpdatedTimesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastUpdatedTimes)
-            for datetimerangelist0 in lastUpdatedTimes {
-                try lastUpdatedTimesContainer.encode(datetimerangelist0)
+            for datetimerange0 in lastUpdatedTimes {
+                try lastUpdatedTimesContainer.encode(datetimerange0)
             }
         }
         if let statusCodes = statusCodes {
             var statusCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statusCodes)
-            for entitystatuscodelist0 in statusCodes {
-                try statusCodesContainer.encode(entitystatuscodelist0.rawValue)
+            for entitystatuscode0 in statusCodes {
+                try statusCodesContainer.encode(entitystatuscode0.rawValue)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagfilter0 in tags {
-                var tagfilter0Container = tagsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
-                for (dictKey1, tagset1) in tagfilter0 {
-                    try tagfilter0Container.encode(tagset1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+            for tagset0 in tags {
+                var tagset0Container = tagsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, tagSet1) in tagset0 {
+                    try tagset0Container.encode(tagSet1, forKey: ClientRuntime.Key(stringValue: dictKey1))
                 }
             }
         }
@@ -2654,8 +2654,8 @@ extension HealthClientTypes.EventDetails: Swift.Codable {
         }
         if let eventMetadata = eventMetadata {
             var eventMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .eventMetadata)
-            for (dictKey0, eventmetadata0) in eventMetadata {
-                try eventMetadataContainer.encode(eventmetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, eventMetadata0) in eventMetadata {
+                try eventMetadataContainer.encode(eventMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2780,82 +2780,82 @@ extension HealthClientTypes.EventFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzones0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzones0)
+            for availabilityzone0 in availabilityZones {
+                try availabilityZonesContainer.encode(availabilityzone0)
             }
         }
         if let endTimes = endTimes {
             var endTimesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endTimes)
-            for datetimerangelist0 in endTimes {
-                try endTimesContainer.encode(datetimerangelist0)
+            for datetimerange0 in endTimes {
+                try endTimesContainer.encode(datetimerange0)
             }
         }
         if let entityArns = entityArns {
             var entityArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityArns)
-            for entityarnlist0 in entityArns {
-                try entityArnsContainer.encode(entityarnlist0)
+            for entityarn0 in entityArns {
+                try entityArnsContainer.encode(entityarn0)
             }
         }
         if let entityValues = entityValues {
             var entityValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityValues)
-            for entityvaluelist0 in entityValues {
-                try entityValuesContainer.encode(entityvaluelist0)
+            for entityvalue0 in entityValues {
+                try entityValuesContainer.encode(entityvalue0)
             }
         }
         if let eventArns = eventArns {
             var eventArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventArns)
-            for eventarnlist0 in eventArns {
-                try eventArnsContainer.encode(eventarnlist0)
+            for eventarn0 in eventArns {
+                try eventArnsContainer.encode(eventarn0)
             }
         }
         if let eventStatusCodes = eventStatusCodes {
             var eventStatusCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventStatusCodes)
-            for eventstatuscodelist0 in eventStatusCodes {
-                try eventStatusCodesContainer.encode(eventstatuscodelist0.rawValue)
+            for eventstatuscode0 in eventStatusCodes {
+                try eventStatusCodesContainer.encode(eventstatuscode0.rawValue)
             }
         }
         if let eventTypeCategories = eventTypeCategories {
             var eventTypeCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTypeCategories)
-            for eventtypecategorylist20 in eventTypeCategories {
-                try eventTypeCategoriesContainer.encode(eventtypecategorylist20.rawValue)
+            for eventtypecategory0 in eventTypeCategories {
+                try eventTypeCategoriesContainer.encode(eventtypecategory0.rawValue)
             }
         }
         if let eventTypeCodes = eventTypeCodes {
             var eventTypeCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTypeCodes)
-            for eventtypelist20 in eventTypeCodes {
-                try eventTypeCodesContainer.encode(eventtypelist20)
+            for eventtype20 in eventTypeCodes {
+                try eventTypeCodesContainer.encode(eventtype20)
             }
         }
         if let lastUpdatedTimes = lastUpdatedTimes {
             var lastUpdatedTimesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastUpdatedTimes)
-            for datetimerangelist0 in lastUpdatedTimes {
-                try lastUpdatedTimesContainer.encode(datetimerangelist0)
+            for datetimerange0 in lastUpdatedTimes {
+                try lastUpdatedTimesContainer.encode(datetimerange0)
             }
         }
         if let regions = regions {
             var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
-            for regionlist0 in regions {
-                try regionsContainer.encode(regionlist0)
+            for region0 in regions {
+                try regionsContainer.encode(region0)
             }
         }
         if let services = services {
             var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
-            for servicelist0 in services {
-                try servicesContainer.encode(servicelist0)
+            for service0 in services {
+                try servicesContainer.encode(service0)
             }
         }
         if let startTimes = startTimes {
             var startTimesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .startTimes)
-            for datetimerangelist0 in startTimes {
-                try startTimesContainer.encode(datetimerangelist0)
+            for datetimerange0 in startTimes {
+                try startTimesContainer.encode(datetimerange0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagfilter0 in tags {
-                var tagfilter0Container = tagsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
-                for (dictKey1, tagset1) in tagfilter0 {
-                    try tagfilter0Container.encode(tagset1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+            for tagset0 in tags {
+                var tagset0Container = tagsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, tagSet1) in tagset0 {
+                    try tagset0Container.encode(tagSet1, forKey: ClientRuntime.Key(stringValue: dictKey1))
                 }
             }
         }
@@ -3256,20 +3256,20 @@ extension HealthClientTypes.EventTypeFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventTypeCategories = eventTypeCategories {
             var eventTypeCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTypeCategories)
-            for eventtypecategorylist0 in eventTypeCategories {
-                try eventTypeCategoriesContainer.encode(eventtypecategorylist0.rawValue)
+            for eventtypecategory0 in eventTypeCategories {
+                try eventTypeCategoriesContainer.encode(eventtypecategory0.rawValue)
             }
         }
         if let eventTypeCodes = eventTypeCodes {
             var eventTypeCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTypeCodes)
-            for eventtypecodelist0 in eventTypeCodes {
-                try eventTypeCodesContainer.encode(eventtypecodelist0)
+            for eventtypecode0 in eventTypeCodes {
+                try eventTypeCodesContainer.encode(eventtypecode0)
             }
         }
         if let services = services {
             var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
-            for servicelist0 in services {
-                try servicesContainer.encode(servicelist0)
+            for service0 in services {
+                try servicesContainer.encode(service0)
             }
         }
     }
@@ -3605,8 +3605,8 @@ extension HealthClientTypes.OrganizationEventDetails: Swift.Codable {
         }
         if let eventMetadata = eventMetadata {
             var eventMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .eventMetadata)
-            for (dictKey0, eventmetadata0) in eventMetadata {
-                try eventMetadataContainer.encode(eventmetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, eventMetadata0) in eventMetadata {
+                try eventMetadataContainer.encode(eventMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3758,8 +3758,8 @@ extension HealthClientTypes.OrganizationEventFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let awsAccountIds = awsAccountIds {
             var awsAccountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountIds)
-            for awsaccountidslist0 in awsAccountIds {
-                try awsAccountIdsContainer.encode(awsaccountidslist0)
+            for accountid0 in awsAccountIds {
+                try awsAccountIdsContainer.encode(accountid0)
             }
         }
         if let endTime = self.endTime {
@@ -3767,32 +3767,32 @@ extension HealthClientTypes.OrganizationEventFilter: Swift.Codable {
         }
         if let entityArns = entityArns {
             var entityArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityArns)
-            for entityarnlist0 in entityArns {
-                try entityArnsContainer.encode(entityarnlist0)
+            for entityarn0 in entityArns {
+                try entityArnsContainer.encode(entityarn0)
             }
         }
         if let entityValues = entityValues {
             var entityValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityValues)
-            for entityvaluelist0 in entityValues {
-                try entityValuesContainer.encode(entityvaluelist0)
+            for entityvalue0 in entityValues {
+                try entityValuesContainer.encode(entityvalue0)
             }
         }
         if let eventStatusCodes = eventStatusCodes {
             var eventStatusCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventStatusCodes)
-            for eventstatuscodelist0 in eventStatusCodes {
-                try eventStatusCodesContainer.encode(eventstatuscodelist0.rawValue)
+            for eventstatuscode0 in eventStatusCodes {
+                try eventStatusCodesContainer.encode(eventstatuscode0.rawValue)
             }
         }
         if let eventTypeCategories = eventTypeCategories {
             var eventTypeCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTypeCategories)
-            for eventtypecategorylist20 in eventTypeCategories {
-                try eventTypeCategoriesContainer.encode(eventtypecategorylist20.rawValue)
+            for eventtypecategory0 in eventTypeCategories {
+                try eventTypeCategoriesContainer.encode(eventtypecategory0.rawValue)
             }
         }
         if let eventTypeCodes = eventTypeCodes {
             var eventTypeCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTypeCodes)
-            for eventtypelist20 in eventTypeCodes {
-                try eventTypeCodesContainer.encode(eventtypelist20)
+            for eventtype20 in eventTypeCodes {
+                try eventTypeCodesContainer.encode(eventtype20)
             }
         }
         if let lastUpdatedTime = self.lastUpdatedTime {
@@ -3800,14 +3800,14 @@ extension HealthClientTypes.OrganizationEventFilter: Swift.Codable {
         }
         if let regions = regions {
             var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
-            for regionlist0 in regions {
-                try regionsContainer.encode(regionlist0)
+            for region0 in regions {
+                try regionsContainer.encode(region0)
             }
         }
         if let services = services {
             var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
-            for servicelist0 in services {
-                try servicesContainer.encode(servicelist0)
+            for service0 in services {
+                try servicesContainer.encode(service0)
             }
         }
         if let startTime = self.startTime {

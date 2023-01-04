@@ -45,6 +45,10 @@ public protocol MemoryDBClientProtocol {
     func describeParameterGroups(input: DescribeParameterGroupsInput) async throws -> DescribeParameterGroupsOutputResponse
     /// Returns the detailed parameter list for a particular parameter group.
     func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutputResponse
+    /// Returns information about reserved nodes for this account, or about a specified reserved node.
+    func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutputResponse
+    /// Lists available reserved node offerings.
+    func describeReservedNodesOfferings(input: DescribeReservedNodesOfferingsInput) async throws -> DescribeReservedNodesOfferingsOutputResponse
     /// Returns details of the service updates
     func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutputResponse
     /// Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cluster.
@@ -59,6 +63,8 @@ public protocol MemoryDBClientProtocol {
     func listAllowedNodeTypeUpdates(input: ListAllowedNodeTypeUpdatesInput) async throws -> ListAllowedNodeTypeUpdatesOutputResponse
     /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html)
     func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
+    /// Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
+    func purchaseReservedNodesOffering(input: PurchaseReservedNodesOfferingInput) async throws -> PurchaseReservedNodesOfferingOutputResponse
     /// Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
     func resetParameterGroup(input: ResetParameterGroupInput) async throws -> ResetParameterGroupOutputResponse
     /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. For more information, see [Resource-level permissions](https://docs.aws.amazon.com/MemoryDB/latest/devguide/iam.resourcelevelpermissions.html). For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).

@@ -1298,8 +1298,8 @@ extension GetImagesInput: Swift.Encodable {
         }
         if let formatConfig = formatConfig {
             var formatConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .formatConfig)
-            for (dictKey0, formatconfig0) in formatConfig {
-                try formatConfigContainer.encode(formatconfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, formatConfig0) in formatConfig {
+                try formatConfigContainer.encode(formatConfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let heightPixels = self.heightPixels {
@@ -1567,8 +1567,8 @@ extension GetMediaForFragmentListInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fragments = fragments {
             var fragmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fragments)
-            for fragmentnumberlist0 in fragments {
-                try fragmentsContainer.encode(fragmentnumberlist0)
+            for fragmentnumberstring0 in fragments {
+                try fragmentsContainer.encode(fragmentnumberstring0)
             }
         }
         if let streamARN = self.streamARN {

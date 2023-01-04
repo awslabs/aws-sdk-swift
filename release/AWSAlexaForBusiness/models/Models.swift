@@ -1652,14 +1652,14 @@ extension AlexaForBusinessClientTypes.Contact: Swift.Codable {
         }
         if let phoneNumbers = phoneNumbers {
             var phoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumbers)
-            for phonenumberlist0 in phoneNumbers {
-                try phoneNumbersContainer.encode(phonenumberlist0)
+            for phonenumber0 in phoneNumbers {
+                try phoneNumbersContainer.encode(phonenumber0)
             }
         }
         if let sipAddresses = sipAddresses {
             var sipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sipAddresses)
-            for sipaddresslist0 in sipAddresses {
-                try sipAddressesContainer.encode(sipaddresslist0)
+            for sipaddress0 in sipAddresses {
+                try sipAddressesContainer.encode(sipaddress0)
             }
         }
     }
@@ -1776,14 +1776,14 @@ extension AlexaForBusinessClientTypes.ContactData: Swift.Codable {
         }
         if let phoneNumbers = phoneNumbers {
             var phoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumbers)
-            for phonenumberlist0 in phoneNumbers {
-                try phoneNumbersContainer.encode(phonenumberlist0)
+            for phonenumber0 in phoneNumbers {
+                try phoneNumbersContainer.encode(phonenumber0)
             }
         }
         if let sipAddresses = sipAddresses {
             var sipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sipAddresses)
-            for sipaddresslist0 in sipAddresses {
-                try sipAddressesContainer.encode(sipaddresslist0)
+            for sipaddress0 in sipAddresses {
+                try sipAddressesContainer.encode(sipaddress0)
             }
         }
     }
@@ -1881,20 +1881,20 @@ extension AlexaForBusinessClientTypes.Content: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let audioList = audioList {
             var audioListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audioList)
-            for audiolist0 in audioList {
-                try audioListContainer.encode(audiolist0)
+            for audio0 in audioList {
+                try audioListContainer.encode(audio0)
             }
         }
         if let ssmlList = ssmlList {
             var ssmlListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ssmlList)
-            for ssmllist0 in ssmlList {
-                try ssmlListContainer.encode(ssmllist0)
+            for ssml0 in ssmlList {
+                try ssmlListContainer.encode(ssml0)
             }
         }
         if let textList = textList {
             var textListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textList)
-            for textlist0 in textList {
-                try textListContainer.encode(textlist0)
+            for text0 in textList {
+                try textListContainer.encode(text0)
             }
         }
     }
@@ -1982,8 +1982,8 @@ extension CreateAddressBookInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2159,8 +2159,8 @@ extension CreateBusinessReportScheduleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2363,8 +2363,8 @@ extension CreateConferenceProviderInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2563,20 +2563,20 @@ extension CreateContactInput: Swift.Encodable {
         }
         if let phoneNumbers = phoneNumbers {
             var phoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumbers)
-            for phonenumberlist0 in phoneNumbers {
-                try phoneNumbersContainer.encode(phonenumberlist0)
+            for phonenumber0 in phoneNumbers {
+                try phoneNumbersContainer.encode(phonenumber0)
             }
         }
         if let sipAddresses = sipAddresses {
             var sipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sipAddresses)
-            for sipaddresslist0 in sipAddresses {
-                try sipAddressesContainer.encode(sipaddresslist0)
+            for sipaddress0 in sipAddresses {
+                try sipAddressesContainer.encode(sipaddress0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2779,8 +2779,8 @@ extension AlexaForBusinessClientTypes.CreateEndOfMeetingReminder: Swift.Codable 
         }
         if let reminderAtMinutes = reminderAtMinutes {
             var reminderAtMinutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reminderAtMinutes)
-            for endofmeetingreminderminuteslist0 in reminderAtMinutes {
-                try reminderAtMinutesContainer.encode(endofmeetingreminderminuteslist0)
+            for minutes0 in reminderAtMinutes {
+                try reminderAtMinutesContainer.encode(minutes0)
             }
         }
         if let reminderType = self.reminderType {
@@ -2856,8 +2856,8 @@ extension CreateGatewayGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3160,14 +3160,14 @@ extension CreateNetworkProfileInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let trustAnchors = trustAnchors {
             var trustAnchorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trustAnchors)
-            for trustanchorlist0 in trustAnchors {
-                try trustAnchorsContainer.encode(trustanchorlist0)
+            for trustanchor0 in trustAnchors {
+                try trustAnchorsContainer.encode(trustanchor0)
             }
         }
     }
@@ -3432,8 +3432,8 @@ extension CreateProfileInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let temperatureUnit = self.temperatureUnit {
@@ -3744,8 +3744,8 @@ extension CreateRoomInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3921,8 +3921,8 @@ extension CreateSkillGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4089,8 +4089,8 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userId = self.userId {
@@ -6176,8 +6176,8 @@ extension AlexaForBusinessClientTypes.DeviceStatusInfo: Swift.Codable {
         }
         if let deviceStatusDetails = deviceStatusDetails {
             var deviceStatusDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceStatusDetails)
-            for devicestatusdetails0 in deviceStatusDetails {
-                try deviceStatusDetailsContainer.encode(devicestatusdetails0)
+            for devicestatusdetail0 in deviceStatusDetails {
+                try deviceStatusDetailsContainer.encode(devicestatusdetail0)
             }
         }
     }
@@ -6804,8 +6804,8 @@ extension AlexaForBusinessClientTypes.EndOfMeetingReminder: Swift.Codable {
         }
         if let reminderAtMinutes = reminderAtMinutes {
             var reminderAtMinutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reminderAtMinutes)
-            for endofmeetingreminderminuteslist0 in reminderAtMinutes {
-                try reminderAtMinutesContainer.encode(endofmeetingreminderminuteslist0)
+            for minutes0 in reminderAtMinutes {
+                try reminderAtMinutesContainer.encode(minutes0)
             }
         }
         if let reminderType = self.reminderType {
@@ -6999,8 +6999,8 @@ extension AlexaForBusinessClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -11014,8 +11014,8 @@ extension AlexaForBusinessClientTypes.NetworkProfile: Swift.Codable {
         }
         if let trustAnchors = trustAnchors {
             var trustAnchorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trustAnchors)
-            for trustanchorlist0 in trustAnchors {
-                try trustAnchorsContainer.encode(trustanchorlist0)
+            for trustanchor0 in trustAnchors {
+                try trustAnchorsContainer.encode(trustanchor0)
             }
         }
     }
@@ -11842,8 +11842,8 @@ extension PutInvitationConfigurationInput: Swift.Encodable {
         }
         if let privateSkillIds = privateSkillIds {
             var privateSkillIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .privateSkillIds)
-            for shortskillidlist0 in privateSkillIds {
-                try privateSkillIdsContainer.encode(shortskillidlist0)
+            for skillid0 in privateSkillIds {
+                try privateSkillIdsContainer.encode(skillid0)
             }
         }
     }
@@ -12064,8 +12064,8 @@ extension PutSkillAuthorizationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let authorizationResult = authorizationResult {
             var authorizationResultContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .authorizationResult)
-            for (dictKey0, authorizationresult0) in authorizationResult {
-                try authorizationResultContainer.encode(authorizationresult0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, authorizationResult0) in authorizationResult {
+                try authorizationResultContainer.encode(authorizationResult0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let roomArn = self.roomArn {
@@ -12202,8 +12202,8 @@ extension RegisterAVSDeviceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userCode = self.userCode {
@@ -13117,8 +13117,8 @@ extension SearchAddressBooksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -13129,8 +13129,8 @@ extension SearchAddressBooksInput: Swift.Encodable {
         }
         if let sortCriteria = sortCriteria {
             var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
-            for sortlist0 in sortCriteria {
-                try sortCriteriaContainer.encode(sortlist0)
+            for sort0 in sortCriteria {
+                try sortCriteriaContainer.encode(sort0)
             }
         }
     }
@@ -13314,8 +13314,8 @@ extension SearchContactsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -13326,8 +13326,8 @@ extension SearchContactsInput: Swift.Encodable {
         }
         if let sortCriteria = sortCriteria {
             var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
-            for sortlist0 in sortCriteria {
-                try sortCriteriaContainer.encode(sortlist0)
+            for sort0 in sortCriteria {
+                try sortCriteriaContainer.encode(sort0)
             }
         }
     }
@@ -13511,8 +13511,8 @@ extension SearchDevicesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -13523,8 +13523,8 @@ extension SearchDevicesInput: Swift.Encodable {
         }
         if let sortCriteria = sortCriteria {
             var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
-            for sortlist0 in sortCriteria {
-                try sortCriteriaContainer.encode(sortlist0)
+            for sort0 in sortCriteria {
+                try sortCriteriaContainer.encode(sort0)
             }
         }
     }
@@ -13708,8 +13708,8 @@ extension SearchNetworkProfilesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -13720,8 +13720,8 @@ extension SearchNetworkProfilesInput: Swift.Encodable {
         }
         if let sortCriteria = sortCriteria {
             var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
-            for sortlist0 in sortCriteria {
-                try sortCriteriaContainer.encode(sortlist0)
+            for sort0 in sortCriteria {
+                try sortCriteriaContainer.encode(sort0)
             }
         }
     }
@@ -13905,8 +13905,8 @@ extension SearchProfilesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -13917,8 +13917,8 @@ extension SearchProfilesInput: Swift.Encodable {
         }
         if let sortCriteria = sortCriteria {
             var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
-            for sortlist0 in sortCriteria {
-                try sortCriteriaContainer.encode(sortlist0)
+            for sort0 in sortCriteria {
+                try sortCriteriaContainer.encode(sort0)
             }
         }
     }
@@ -14102,8 +14102,8 @@ extension SearchRoomsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -14114,8 +14114,8 @@ extension SearchRoomsInput: Swift.Encodable {
         }
         if let sortCriteria = sortCriteria {
             var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
-            for sortlist0 in sortCriteria {
-                try sortCriteriaContainer.encode(sortlist0)
+            for sort0 in sortCriteria {
+                try sortCriteriaContainer.encode(sort0)
             }
         }
     }
@@ -14299,8 +14299,8 @@ extension SearchSkillGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -14311,8 +14311,8 @@ extension SearchSkillGroupsInput: Swift.Encodable {
         }
         if let sortCriteria = sortCriteria {
             var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
-            for sortlist0 in sortCriteria {
-                try sortCriteriaContainer.encode(sortlist0)
+            for sort0 in sortCriteria {
+                try sortCriteriaContainer.encode(sort0)
             }
         }
     }
@@ -14496,8 +14496,8 @@ extension SearchUsersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -14508,8 +14508,8 @@ extension SearchUsersInput: Swift.Encodable {
         }
         if let sortCriteria = sortCriteria {
             var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
-            for sortlist0 in sortCriteria {
-                try sortCriteriaContainer.encode(sortlist0)
+            for sort0 in sortCriteria {
+                try sortCriteriaContainer.encode(sort0)
             }
         }
     }
@@ -14699,8 +14699,8 @@ extension SendAnnouncementInput: Swift.Encodable {
         }
         if let roomFilters = roomFilters {
             var roomFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roomFilters)
-            for filterlist0 in roomFilters {
-                try roomFiltersContainer.encode(filterlist0)
+            for filter0 in roomFilters {
+                try roomFiltersContainer.encode(filter0)
             }
         }
         if let timeToLiveInSeconds = self.timeToLiveInSeconds {
@@ -15026,8 +15026,8 @@ extension AlexaForBusinessClientTypes.SkillDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bulletPoints = bulletPoints {
             var bulletPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bulletPoints)
-            for bulletpoints0 in bulletPoints {
-                try bulletPointsContainer.encode(bulletpoints0)
+            for bulletpoint0 in bulletPoints {
+                try bulletPointsContainer.encode(bulletpoint0)
             }
         }
         if let developerInfo = self.developerInfo {
@@ -15038,8 +15038,8 @@ extension AlexaForBusinessClientTypes.SkillDetails: Swift.Codable {
         }
         if let genericKeywords = genericKeywords {
             var genericKeywordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .genericKeywords)
-            for generickeywords0 in genericKeywords {
-                try genericKeywordsContainer.encode(generickeywords0)
+            for generickeyword0 in genericKeywords {
+                try genericKeywordsContainer.encode(generickeyword0)
             }
         }
         if let invocationPhrase = self.invocationPhrase {
@@ -15047,8 +15047,8 @@ extension AlexaForBusinessClientTypes.SkillDetails: Swift.Codable {
         }
         if let newInThisVersionBulletPoints = newInThisVersionBulletPoints {
             var newInThisVersionBulletPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .newInThisVersionBulletPoints)
-            for newinthisversionbulletpoints0 in newInThisVersionBulletPoints {
-                try newInThisVersionBulletPointsContainer.encode(newinthisversionbulletpoints0)
+            for bulletpoint0 in newInThisVersionBulletPoints {
+                try newInThisVersionBulletPointsContainer.encode(bulletpoint0)
             }
         }
         if let productDescription = self.productDescription {
@@ -15065,8 +15065,8 @@ extension AlexaForBusinessClientTypes.SkillDetails: Swift.Codable {
         }
         if let skillTypes = skillTypes {
             var skillTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .skillTypes)
-            for skilltypes0 in skillTypes {
-                try skillTypesContainer.encode(skilltypes0)
+            for skillstoretype0 in skillTypes {
+                try skillTypesContainer.encode(skillstoretype0)
             }
         }
     }
@@ -15515,8 +15515,8 @@ extension AlexaForBusinessClientTypes.SkillsStoreSkill: Swift.Codable {
         }
         if let sampleUtterances = sampleUtterances {
             var sampleUtterancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sampleUtterances)
-            for sampleutterances0 in sampleUtterances {
-                try sampleUtterancesContainer.encode(sampleutterances0)
+            for utterance0 in sampleUtterances {
+                try sampleUtterancesContainer.encode(utterance0)
             }
         }
         if let shortDescription = self.shortDescription {
@@ -15799,8 +15799,8 @@ extension StartDeviceSyncInput: Swift.Encodable {
         }
         if let features = features {
             var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
-            for features0 in features {
-                try featuresContainer.encode(features0.rawValue)
+            for feature0 in features {
+                try featuresContainer.encode(feature0.rawValue)
             }
         }
         if let roomArn = self.roomArn {
@@ -16041,8 +16041,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -16277,8 +16277,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -16784,14 +16784,14 @@ extension UpdateContactInput: Swift.Encodable {
         }
         if let phoneNumbers = phoneNumbers {
             var phoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumbers)
-            for phonenumberlist0 in phoneNumbers {
-                try phoneNumbersContainer.encode(phonenumberlist0)
+            for phonenumber0 in phoneNumbers {
+                try phoneNumbersContainer.encode(phonenumber0)
             }
         }
         if let sipAddresses = sipAddresses {
             var sipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sipAddresses)
-            for sipaddresslist0 in sipAddresses {
-                try sipAddressesContainer.encode(sipaddresslist0)
+            for sipaddress0 in sipAddresses {
+                try sipAddressesContainer.encode(sipaddress0)
             }
         }
     }
@@ -17041,8 +17041,8 @@ extension AlexaForBusinessClientTypes.UpdateEndOfMeetingReminder: Swift.Codable 
         }
         if let reminderAtMinutes = reminderAtMinutes {
             var reminderAtMinutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reminderAtMinutes)
-            for endofmeetingreminderminuteslist0 in reminderAtMinutes {
-                try reminderAtMinutesContainer.encode(endofmeetingreminderminuteslist0)
+            for minutes0 in reminderAtMinutes {
+                try reminderAtMinutesContainer.encode(minutes0)
             }
         }
         if let reminderType = self.reminderType {
@@ -17466,8 +17466,8 @@ extension UpdateNetworkProfileInput: Swift.Encodable {
         }
         if let trustAnchors = trustAnchors {
             var trustAnchorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trustAnchors)
-            for trustanchorlist0 in trustAnchors {
-                try trustAnchorsContainer.encode(trustanchorlist0)
+            for trustanchor0 in trustAnchors {
+                try trustAnchorsContainer.encode(trustanchor0)
             }
         }
     }

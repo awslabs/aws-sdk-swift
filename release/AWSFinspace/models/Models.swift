@@ -40,8 +40,8 @@ extension CreateEnvironmentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataBundles = dataBundles {
             var dataBundlesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataBundles)
-            for databundlearns0 in dataBundles {
-                try dataBundlesContainer.encode(databundlearns0)
+            for databundlearn0 in dataBundles {
+                try dataBundlesContainer.encode(databundlearn0)
             }
         }
         if let description = self.description {
@@ -64,8 +64,8 @@ extension CreateEnvironmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -602,8 +602,8 @@ extension FinspaceClientTypes.FederationParameters: Swift.Codable {
         }
         if let attributeMap = attributeMap {
             var attributeMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributeMap)
-            for (dictKey0, attributemap0) in attributeMap {
-                try attributeMapContainer.encode(attributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMap0) in attributeMap {
+                try attributeMapContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let federationProviderName = self.federationProviderName {
@@ -1353,8 +1353,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

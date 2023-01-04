@@ -98,8 +98,8 @@ extension AppMeshClientTypes.AwsCloudMapServiceDiscovery: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for awscloudmapinstanceattributes0 in attributes {
-                try attributesContainer.encode(awscloudmapinstanceattributes0)
+            for awscloudmapinstanceattribute0 in attributes {
+                try attributesContainer.encode(awscloudmapinstanceattribute0)
             }
         }
         if let ipPreference = self.ipPreference {
@@ -342,8 +342,8 @@ extension AppMeshClientTypes.ClientPolicyTls: Swift.Codable {
         }
         if let ports = ports {
             var portsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ports)
-            for portset0 in ports {
-                try portsContainer.encode(portset0)
+            for portnumber0 in ports {
+                try portsContainer.encode(portnumber0)
             }
         }
         if let validation = self.validation {
@@ -522,8 +522,8 @@ extension CreateGatewayRouteInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tagref0 in tags {
+                try tagsContainer.encode(tagref0)
             }
         }
     }
@@ -733,8 +733,8 @@ extension CreateMeshInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tagref0 in tags {
+                try tagsContainer.encode(tagref0)
             }
         }
     }
@@ -912,8 +912,8 @@ extension CreateRouteInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tagref0 in tags {
+                try tagsContainer.encode(tagref0)
             }
         }
     }
@@ -1122,8 +1122,8 @@ extension CreateVirtualGatewayInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tagref0 in tags {
+                try tagsContainer.encode(tagref0)
             }
         }
         if let virtualGatewayName = self.virtualGatewayName {
@@ -1325,8 +1325,8 @@ extension CreateVirtualNodeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tagref0 in tags {
+                try tagsContainer.encode(tagref0)
             }
         }
         if let virtualNodeName = self.virtualNodeName {
@@ -1530,8 +1530,8 @@ extension CreateVirtualRouterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tagref0 in tags {
+                try tagsContainer.encode(tagref0)
             }
         }
         if let virtualRouterName = self.virtualRouterName {
@@ -1735,8 +1735,8 @@ extension CreateVirtualServiceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tagref0 in tags {
+                try tagsContainer.encode(tagref0)
             }
         }
         if let virtualServiceName = self.virtualServiceName {
@@ -4801,8 +4801,8 @@ extension AppMeshClientTypes.GrpcGatewayRouteMatch: Swift.Codable {
         }
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadata)
-            for grpcgatewayroutemetadatalist0 in metadata {
-                try metadataContainer.encode(grpcgatewayroutemetadatalist0)
+            for grpcgatewayroutemetadata0 in metadata {
+                try metadataContainer.encode(grpcgatewayroutemetadata0)
             }
         }
         if let port = self.port {
@@ -5044,14 +5044,14 @@ extension AppMeshClientTypes.GrpcRetryPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grpcRetryEvents = grpcRetryEvents {
             var grpcRetryEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grpcRetryEvents)
-            for grpcretrypolicyevents0 in grpcRetryEvents {
-                try grpcRetryEventsContainer.encode(grpcretrypolicyevents0.rawValue)
+            for grpcretrypolicyevent0 in grpcRetryEvents {
+                try grpcRetryEventsContainer.encode(grpcretrypolicyevent0.rawValue)
             }
         }
         if let httpRetryEvents = httpRetryEvents {
             var httpRetryEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .httpRetryEvents)
-            for httpretrypolicyevents0 in httpRetryEvents {
-                try httpRetryEventsContainer.encode(httpretrypolicyevents0)
+            for httpretrypolicyevent0 in httpRetryEvents {
+                try httpRetryEventsContainer.encode(httpretrypolicyevent0)
             }
         }
         if let maxRetries = self.maxRetries {
@@ -5062,8 +5062,8 @@ extension AppMeshClientTypes.GrpcRetryPolicy: Swift.Codable {
         }
         if let tcpRetryEvents = tcpRetryEvents {
             var tcpRetryEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tcpRetryEvents)
-            for tcpretrypolicyevents0 in tcpRetryEvents {
-                try tcpRetryEventsContainer.encode(tcpretrypolicyevents0.rawValue)
+            for tcpretrypolicyevent0 in tcpRetryEvents {
+                try tcpRetryEventsContainer.encode(tcpretrypolicyevent0.rawValue)
             }
         }
     }
@@ -5269,8 +5269,8 @@ extension AppMeshClientTypes.GrpcRouteAction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let weightedTargets = weightedTargets {
             var weightedTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .weightedTargets)
-            for weightedtargets0 in weightedTargets {
-                try weightedTargetsContainer.encode(weightedtargets0)
+            for weightedtarget0 in weightedTargets {
+                try weightedTargetsContainer.encode(weightedtarget0)
             }
         }
     }
@@ -5320,8 +5320,8 @@ extension AppMeshClientTypes.GrpcRouteMatch: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadata)
-            for grpcroutemetadatalist0 in metadata {
-                try metadataContainer.encode(grpcroutemetadatalist0)
+            for grpcroutemetadata0 in metadata {
+                try metadataContainer.encode(grpcroutemetadata0)
             }
         }
         if let methodName = self.methodName {
@@ -5904,8 +5904,8 @@ extension AppMeshClientTypes.HttpGatewayRouteMatch: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let headers = headers {
             var headersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headers)
-            for httpgatewayrouteheaders0 in headers {
-                try headersContainer.encode(httpgatewayrouteheaders0)
+            for httpgatewayrouteheader0 in headers {
+                try headersContainer.encode(httpgatewayrouteheader0)
             }
         }
         if let hostname = self.hostname {
@@ -5925,8 +5925,8 @@ extension AppMeshClientTypes.HttpGatewayRouteMatch: Swift.Codable {
         }
         if let queryParameters = queryParameters {
             var queryParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryParameters)
-            for httpqueryparameters0 in queryParameters {
-                try queryParametersContainer.encode(httpqueryparameters0)
+            for httpqueryparameter0 in queryParameters {
+                try queryParametersContainer.encode(httpqueryparameter0)
             }
         }
     }
@@ -6299,8 +6299,8 @@ extension AppMeshClientTypes.HttpRetryPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let httpRetryEvents = httpRetryEvents {
             var httpRetryEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .httpRetryEvents)
-            for httpretrypolicyevents0 in httpRetryEvents {
-                try httpRetryEventsContainer.encode(httpretrypolicyevents0)
+            for httpretrypolicyevent0 in httpRetryEvents {
+                try httpRetryEventsContainer.encode(httpretrypolicyevent0)
             }
         }
         if let maxRetries = self.maxRetries {
@@ -6311,8 +6311,8 @@ extension AppMeshClientTypes.HttpRetryPolicy: Swift.Codable {
         }
         if let tcpRetryEvents = tcpRetryEvents {
             var tcpRetryEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tcpRetryEvents)
-            for tcpretrypolicyevents0 in tcpRetryEvents {
-                try tcpRetryEventsContainer.encode(tcpretrypolicyevents0.rawValue)
+            for tcpretrypolicyevent0 in tcpRetryEvents {
+                try tcpRetryEventsContainer.encode(tcpretrypolicyevent0.rawValue)
             }
         }
     }
@@ -6462,8 +6462,8 @@ extension AppMeshClientTypes.HttpRouteAction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let weightedTargets = weightedTargets {
             var weightedTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .weightedTargets)
-            for weightedtargets0 in weightedTargets {
-                try weightedTargetsContainer.encode(weightedtargets0)
+            for weightedtarget0 in weightedTargets {
+                try weightedTargetsContainer.encode(weightedtarget0)
             }
         }
     }
@@ -6572,8 +6572,8 @@ extension AppMeshClientTypes.HttpRouteMatch: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let headers = headers {
             var headersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headers)
-            for httprouteheaders0 in headers {
-                try headersContainer.encode(httprouteheaders0)
+            for httprouteheader0 in headers {
+                try headersContainer.encode(httprouteheader0)
             }
         }
         if let method = self.method {
@@ -6590,8 +6590,8 @@ extension AppMeshClientTypes.HttpRouteMatch: Swift.Codable {
         }
         if let queryParameters = queryParameters {
             var queryParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryParameters)
-            for httpqueryparameters0 in queryParameters {
-                try queryParametersContainer.encode(httpqueryparameters0)
+            for httpqueryparameter0 in queryParameters {
+                try queryParametersContainer.encode(httpqueryparameter0)
             }
         }
         if let scheme = self.scheme {
@@ -8772,8 +8772,8 @@ extension AppMeshClientTypes.LoggingFormat: Swift.Codable {
         switch self {
             case let .json(json):
                 var jsonContainer = container.nestedUnkeyedContainer(forKey: .json)
-                for jsonformat0 in json {
-                    try jsonContainer.encode(jsonformat0)
+                for jsonformatref0 in json {
+                    try jsonContainer.encode(jsonformatref0)
                 }
             case let .text(text):
                 try container.encode(text, forKey: .text)
@@ -10051,8 +10051,8 @@ extension AppMeshClientTypes.SubjectAlternativeNameMatchers: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let exact = exact {
             var exactContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exact)
-            for subjectalternativenamelist0 in exact {
-                try exactContainer.encode(subjectalternativenamelist0)
+            for subjectalternativename0 in exact {
+                try exactContainer.encode(subjectalternativename0)
             }
         }
     }
@@ -10182,8 +10182,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tagref0 in tags {
+                try tagsContainer.encode(tagref0)
             }
         }
     }
@@ -10393,8 +10393,8 @@ extension AppMeshClientTypes.TcpRouteAction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let weightedTargets = weightedTargets {
             var weightedTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .weightedTargets)
-            for weightedtargets0 in weightedTargets {
-                try weightedTargetsContainer.encode(weightedtargets0)
+            for weightedtarget0 in weightedTargets {
+                try weightedTargetsContainer.encode(weightedtarget0)
             }
         }
     }
@@ -10557,8 +10557,8 @@ extension AppMeshClientTypes.TlsValidationContextAcmTrust: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateAuthorityArns = certificateAuthorityArns {
             var certificateAuthorityArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateAuthorityArns)
-            for certificateauthorityarns0 in certificateAuthorityArns {
-                try certificateAuthorityArnsContainer.encode(certificateauthorityarns0)
+            for arn0 in certificateAuthorityArns {
+                try certificateAuthorityArnsContainer.encode(arn0)
             }
         }
     }
@@ -10838,8 +10838,8 @@ extension UntagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -12294,8 +12294,8 @@ extension AppMeshClientTypes.VirtualGatewayClientPolicyTls: Swift.Codable {
         }
         if let ports = ports {
             var portsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ports)
-            for portset0 in ports {
-                try portsContainer.encode(portset0)
+            for portnumber0 in ports {
+                try portsContainer.encode(portnumber0)
             }
         }
         if let validation = self.validation {
@@ -13479,8 +13479,8 @@ extension AppMeshClientTypes.VirtualGatewaySpec: Swift.Codable {
         }
         if let listeners = listeners {
             var listenersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listeners)
-            for virtualgatewaylisteners0 in listeners {
-                try listenersContainer.encode(virtualgatewaylisteners0)
+            for virtualgatewaylistener0 in listeners {
+                try listenersContainer.encode(virtualgatewaylistener0)
             }
         }
         if let logging = self.logging {
@@ -13659,8 +13659,8 @@ extension AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateAuthorityArns = certificateAuthorityArns {
             var certificateAuthorityArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateAuthorityArns)
-            for virtualgatewaycertificateauthorityarns0 in certificateAuthorityArns {
-                try certificateAuthorityArnsContainer.encode(virtualgatewaycertificateauthorityarns0)
+            for arn0 in certificateAuthorityArns {
+                try certificateAuthorityArnsContainer.encode(arn0)
             }
         }
     }
@@ -14257,14 +14257,14 @@ extension AppMeshClientTypes.VirtualNodeSpec: Swift.Codable {
         }
         if let backends = backends {
             var backendsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .backends)
-            for backends0 in backends {
-                try backendsContainer.encode(backends0)
+            for backend0 in backends {
+                try backendsContainer.encode(backend0)
             }
         }
         if let listeners = listeners {
             var listenersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listeners)
-            for listeners0 in listeners {
-                try listenersContainer.encode(listeners0)
+            for listener0 in listeners {
+                try listenersContainer.encode(listener0)
             }
         }
         if let logging = self.logging {
@@ -14721,8 +14721,8 @@ extension AppMeshClientTypes.VirtualRouterSpec: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let listeners = listeners {
             var listenersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listeners)
-            for virtualrouterlisteners0 in listeners {
-                try listenersContainer.encode(virtualrouterlisteners0)
+            for virtualrouterlistener0 in listeners {
+                try listenersContainer.encode(virtualrouterlistener0)
             }
         }
     }

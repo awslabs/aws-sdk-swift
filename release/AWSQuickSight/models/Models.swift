@@ -587,14 +587,14 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
         }
         if let dataSetArns = dataSetArns {
             var dataSetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetArns)
-            for datasetarnslist0 in dataSetArns {
-                try dataSetArnsContainer.encode(datasetarnslist0)
+            for arn0 in dataSetArns {
+                try dataSetArnsContainer.encode(arn0)
             }
         }
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for analysiserrorlist0 in errors {
-                try errorsContainer.encode(analysiserrorlist0)
+            for analysiserror0 in errors {
+                try errorsContainer.encode(analysiserror0)
             }
         }
         if let lastUpdatedTime = self.lastUpdatedTime {
@@ -605,8 +605,8 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
-            for sheetlist0 in sheets {
-                try sheetsContainer.encode(sheetlist0)
+            for sheet0 in sheets {
+                try sheetsContainer.encode(sheet0)
             }
         }
         if let status = self.status {
@@ -775,38 +775,38 @@ extension QuickSightClientTypes.AnalysisDefinition: Swift.Codable {
         }
         if let calculatedFields = calculatedFields {
             var calculatedFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .calculatedFields)
-            for calculatedfields0 in calculatedFields {
-                try calculatedFieldsContainer.encode(calculatedfields0)
+            for calculatedfield0 in calculatedFields {
+                try calculatedFieldsContainer.encode(calculatedfield0)
             }
         }
         if let columnConfigurations = columnConfigurations {
             var columnConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnConfigurations)
-            for columnconfigurationlist0 in columnConfigurations {
-                try columnConfigurationsContainer.encode(columnconfigurationlist0)
+            for columnconfiguration0 in columnConfigurations {
+                try columnConfigurationsContainer.encode(columnconfiguration0)
             }
         }
         if let dataSetIdentifierDeclarations = dataSetIdentifierDeclarations {
             var dataSetIdentifierDeclarationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetIdentifierDeclarations)
-            for datasetidentifierdeclarationlist0 in dataSetIdentifierDeclarations {
-                try dataSetIdentifierDeclarationsContainer.encode(datasetidentifierdeclarationlist0)
+            for datasetidentifierdeclaration0 in dataSetIdentifierDeclarations {
+                try dataSetIdentifierDeclarationsContainer.encode(datasetidentifierdeclaration0)
             }
         }
         if let filterGroups = filterGroups {
             var filterGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterGroups)
-            for filtergrouplist0 in filterGroups {
-                try filterGroupsContainer.encode(filtergrouplist0)
+            for filtergroup0 in filterGroups {
+                try filterGroupsContainer.encode(filtergroup0)
             }
         }
         if let parameterDeclarations = parameterDeclarations {
             var parameterDeclarationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterDeclarations)
-            for parameterdeclarationlist0 in parameterDeclarations {
-                try parameterDeclarationsContainer.encode(parameterdeclarationlist0)
+            for parameterdeclaration0 in parameterDeclarations {
+                try parameterDeclarationsContainer.encode(parameterdeclaration0)
             }
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
-            for sheetdefinitionlist0 in sheets {
-                try sheetsContainer.encode(sheetdefinitionlist0)
+            for sheetdefinition0 in sheets {
+                try sheetsContainer.encode(sheetdefinition0)
             }
         }
     }
@@ -942,8 +942,8 @@ extension QuickSightClientTypes.AnalysisError: Swift.Codable {
         }
         if let violatedEntities = violatedEntities {
             var violatedEntitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violatedEntities)
-            for entitylist0 in violatedEntities {
-                try violatedEntitiesContainer.encode(entitylist0)
+            for entity0 in violatedEntities {
+                try violatedEntitiesContainer.encode(entity0)
             }
         }
     }
@@ -1210,8 +1210,8 @@ extension QuickSightClientTypes.AnalysisSourceTemplate: Swift.Codable {
         }
         if let dataSetReferences = dataSetReferences {
             var dataSetReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetReferences)
-            for datasetreferencelist0 in dataSetReferences {
-                try dataSetReferencesContainer.encode(datasetreferencelist0)
+            for datasetreference0 in dataSetReferences {
+                try dataSetReferencesContainer.encode(datasetreference0)
             }
         }
     }
@@ -2646,26 +2646,26 @@ extension QuickSightClientTypes.BarChartAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let category = category {
             var categoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .category)
-            for dimensionfieldlist0 in category {
-                try categoryContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in category {
+                try categoryContainer.encode(dimensionfield0)
             }
         }
         if let colors = colors {
             var colorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colors)
-            for dimensionfieldlist0 in colors {
-                try colorsContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in colors {
+                try colorsContainer.encode(dimensionfield0)
             }
         }
         if let smallMultiples = smallMultiples {
             var smallMultiplesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .smallMultiples)
-            for smallmultiplesdimensionfieldlist0 in smallMultiples {
-                try smallMultiplesContainer.encode(smallmultiplesdimensionfieldlist0)
+            for dimensionfield0 in smallMultiples {
+                try smallMultiplesContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for measurefieldlist0 in values {
-                try valuesContainer.encode(measurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -2783,8 +2783,8 @@ extension QuickSightClientTypes.BarChartConfiguration: Swift.Codable {
         }
         if let contributionAnalysisDefaults = contributionAnalysisDefaults {
             var contributionAnalysisDefaultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contributionAnalysisDefaults)
-            for contributionanalysisdefaultlist0 in contributionAnalysisDefaults {
-                try contributionAnalysisDefaultsContainer.encode(contributionanalysisdefaultlist0)
+            for contributionanalysisdefault0 in contributionAnalysisDefaults {
+                try contributionAnalysisDefaultsContainer.encode(contributionanalysisdefault0)
             }
         }
         if let dataLabels = self.dataLabels {
@@ -2801,8 +2801,8 @@ extension QuickSightClientTypes.BarChartConfiguration: Swift.Codable {
         }
         if let referenceLines = referenceLines {
             var referenceLinesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceLines)
-            for referencelinelist0 in referenceLines {
-                try referenceLinesContainer.encode(referencelinelist0)
+            for referenceline0 in referenceLines {
+                try referenceLinesContainer.encode(referenceline0)
             }
         }
         if let smallMultiplesOptions = self.smallMultiplesOptions {
@@ -3044,8 +3044,8 @@ extension QuickSightClientTypes.BarChartSortConfiguration: Swift.Codable {
         }
         if let categorySort = categorySort {
             var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
-            for fieldsortoptionslist0 in categorySort {
-                try categorySortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
             }
         }
         if let colorItemsLimit = self.colorItemsLimit {
@@ -3053,8 +3053,8 @@ extension QuickSightClientTypes.BarChartSortConfiguration: Swift.Codable {
         }
         if let colorSort = colorSort {
             var colorSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colorSort)
-            for fieldsortoptionslist0 in colorSort {
-                try colorSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in colorSort {
+                try colorSortContainer.encode(fieldsortoptions0)
             }
         }
         if let smallMultiplesLimitConfiguration = self.smallMultiplesLimitConfiguration {
@@ -3062,8 +3062,8 @@ extension QuickSightClientTypes.BarChartSortConfiguration: Swift.Codable {
         }
         if let smallMultiplesSort = smallMultiplesSort {
             var smallMultiplesSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .smallMultiplesSort)
-            for fieldsortoptionslist0 in smallMultiplesSort {
-                try smallMultiplesSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in smallMultiplesSort {
+                try smallMultiplesSortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -3162,8 +3162,8 @@ extension QuickSightClientTypes.BarChartVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -3171,8 +3171,8 @@ extension QuickSightClientTypes.BarChartVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -3573,14 +3573,14 @@ extension QuickSightClientTypes.BoxPlotAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupBy = groupBy {
             var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
-            for boxplotdimensionfieldlist0 in groupBy {
-                try groupByContainer.encode(boxplotdimensionfieldlist0)
+            for dimensionfield0 in groupBy {
+                try groupByContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for boxplotmeasurefieldlist0 in values {
-                try valuesContainer.encode(boxplotmeasurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -3672,8 +3672,8 @@ extension QuickSightClientTypes.BoxPlotChartConfiguration: Swift.Codable {
         }
         if let referenceLines = referenceLines {
             var referenceLinesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceLines)
-            for referencelinelist0 in referenceLines {
-                try referenceLinesContainer.encode(referencelinelist0)
+            for referenceline0 in referenceLines {
+                try referenceLinesContainer.encode(referenceline0)
             }
         }
         if let sortConfiguration = self.sortConfiguration {
@@ -3911,8 +3911,8 @@ extension QuickSightClientTypes.BoxPlotSortConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categorySort = categorySort {
             var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
-            for fieldsortoptionslist0 in categorySort {
-                try categorySortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
             }
         }
         if let paginationConfiguration = self.paginationConfiguration {
@@ -4007,8 +4007,8 @@ extension QuickSightClientTypes.BoxPlotVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -4016,8 +4016,8 @@ extension QuickSightClientTypes.BoxPlotVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -4439,8 +4439,8 @@ extension QuickSightClientTypes.CascadingControlConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let sourceControls = sourceControls {
             var sourceControlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceControls)
-            for cascadingcontrolsourcelist0 in sourceControls {
-                try sourceControlsContainer.encode(cascadingcontrolsourcelist0)
+            for cascadingcontrolsource0 in sourceControls {
+                try sourceControlsContainer.encode(cascadingcontrolsource0)
             }
         }
     }
@@ -4755,8 +4755,8 @@ extension QuickSightClientTypes.CategoryDrillDownFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categoryValues = categoryValues {
             var categoryValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categoryValues)
-            for categoryvaluelist0 in categoryValues {
-                try categoryValuesContainer.encode(categoryvaluelist0)
+            for categoryvalue0 in categoryValues {
+                try categoryValuesContainer.encode(categoryvalue0)
             }
         }
         if let column = self.column {
@@ -5000,8 +5000,8 @@ extension QuickSightClientTypes.ChartAxisLabelOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let axisLabelOptions = axisLabelOptions {
             var axisLabelOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .axisLabelOptions)
-            for axislabeloptionslist0 in axisLabelOptions {
-                try axisLabelOptionsContainer.encode(axislabeloptionslist0)
+            for axislabeloptions0 in axisLabelOptions {
+                try axisLabelOptionsContainer.encode(axislabeloptions0)
             }
         }
         if let sortIconVisibility = self.sortIconVisibility {
@@ -5176,8 +5176,8 @@ extension QuickSightClientTypes.ColorScale: Swift.Codable {
         }
         if let colors = colors {
             var colorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colors)
-            for colorscalecolorlist0 in colors {
-                try colorsContainer.encode(colorscalecolorlist0)
+            for datacolor0 in colors {
+                try colorsContainer.encode(datacolor0)
             }
         }
         if let nullValueColor = self.nullValueColor {
@@ -5440,8 +5440,8 @@ extension QuickSightClientTypes.ColumnGroupSchema: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnGroupColumnSchemaList = columnGroupColumnSchemaList {
             var columnGroupColumnSchemaListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnGroupColumnSchemaList)
-            for columngroupcolumnschemalist0 in columnGroupColumnSchemaList {
-                try columnGroupColumnSchemaListContainer.encode(columngroupcolumnschemalist0)
+            for columngroupcolumnschema0 in columnGroupColumnSchemaList {
+                try columnGroupColumnSchemaListContainer.encode(columngroupcolumnschema0)
             }
         }
         if let name = self.name {
@@ -5599,14 +5599,14 @@ extension QuickSightClientTypes.ColumnLevelPermissionRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnNames = columnNames {
             var columnNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnNames)
-            for columnnamelist0 in columnNames {
-                try columnNamesContainer.encode(columnnamelist0)
+            for string0 in columnNames {
+                try columnNamesContainer.encode(string0)
             }
         }
         if let principals = principals {
             var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
-            for principallist0 in principals {
-                try principalsContainer.encode(principallist0)
+            for string0 in principals {
+                try principalsContainer.encode(string0)
             }
         }
     }
@@ -5957,26 +5957,26 @@ extension QuickSightClientTypes.ComboChartAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let barValues = barValues {
             var barValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .barValues)
-            for measurefieldlist0 in barValues {
-                try barValuesContainer.encode(measurefieldlist0)
+            for measurefield0 in barValues {
+                try barValuesContainer.encode(measurefield0)
             }
         }
         if let category = category {
             var categoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .category)
-            for dimensionfieldlist0 in category {
-                try categoryContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in category {
+                try categoryContainer.encode(dimensionfield0)
             }
         }
         if let colors = colors {
             var colorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colors)
-            for dimensionfieldlist0 in colors {
-                try colorsContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in colors {
+                try colorsContainer.encode(dimensionfield0)
             }
         }
         if let lineValues = lineValues {
             var lineValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lineValues)
-            for measurefieldlist0 in lineValues {
-                try lineValuesContainer.encode(measurefieldlist0)
+            for measurefield0 in lineValues {
+                try lineValuesContainer.encode(measurefield0)
             }
         }
     }
@@ -6112,8 +6112,8 @@ extension QuickSightClientTypes.ComboChartConfiguration: Swift.Codable {
         }
         if let referenceLines = referenceLines {
             var referenceLinesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceLines)
-            for referencelinelist0 in referenceLines {
-                try referenceLinesContainer.encode(referencelinelist0)
+            for referenceline0 in referenceLines {
+                try referenceLinesContainer.encode(referenceline0)
             }
         }
         if let secondaryYAxisDisplayOptions = self.secondaryYAxisDisplayOptions {
@@ -6311,8 +6311,8 @@ extension QuickSightClientTypes.ComboChartSortConfiguration: Swift.Codable {
         }
         if let categorySort = categorySort {
             var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
-            for fieldsortoptionslist0 in categorySort {
-                try categorySortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
             }
         }
         if let colorItemsLimit = self.colorItemsLimit {
@@ -6320,8 +6320,8 @@ extension QuickSightClientTypes.ComboChartSortConfiguration: Swift.Codable {
         }
         if let colorSort = colorSort {
             var colorSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colorSort)
-            for fieldsortoptionslist0 in colorSort {
-                try colorSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in colorSort {
+                try colorSortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -6399,8 +6399,8 @@ extension QuickSightClientTypes.ComboChartVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -6408,8 +6408,8 @@ extension QuickSightClientTypes.ComboChartVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -7368,8 +7368,8 @@ extension QuickSightClientTypes.ContributionAnalysisDefault: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contributorDimensions = contributorDimensions {
             var contributorDimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contributorDimensions)
-            for contributordimensionlist0 in contributorDimensions {
-                try contributorDimensionsContainer.encode(contributordimensionlist0)
+            for columnidentifier0 in contributorDimensions {
+                try contributorDimensionsContainer.encode(columnidentifier0)
             }
         }
         if let measureFieldId = self.measureFieldId {
@@ -7430,8 +7430,8 @@ extension CreateAccountCustomizationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7668,8 +7668,8 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
         }
         if let adminGroup = adminGroup {
             var adminGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adminGroup)
-            for groupslist0 in adminGroup {
-                try adminGroupContainer.encode(groupslist0)
+            for string0 in adminGroup {
+                try adminGroupContainer.encode(string0)
             }
         }
         if let authenticationMethod = self.authenticationMethod {
@@ -7677,8 +7677,8 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
         }
         if let authorGroup = authorGroup {
             var authorGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorGroup)
-            for groupslist0 in authorGroup {
-                try authorGroupContainer.encode(groupslist0)
+            for string0 in authorGroup {
+                try authorGroupContainer.encode(string0)
             }
         }
         if let contactNumber = self.contactNumber {
@@ -7704,8 +7704,8 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
         }
         if let readerGroup = readerGroup {
             var readerGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readerGroup)
-            for groupslist0 in readerGroup {
-                try readerGroupContainer.encode(groupslist0)
+            for string0 in readerGroup {
+                try readerGroupContainer.encode(string0)
             }
         }
         if let realm = self.realm {
@@ -8021,8 +8021,8 @@ extension CreateAnalysisInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for resourcepermissionlist0 in permissions {
-                try permissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in permissions {
+                try permissionsContainer.encode(resourcepermission0)
             }
         }
         if let sourceEntity = self.sourceEntity {
@@ -8030,8 +8030,8 @@ extension CreateAnalysisInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let themeArn = self.themeArn {
@@ -8282,8 +8282,8 @@ extension QuickSightClientTypes.CreateColumnsOperation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for calculatedcolumnlist0 in columns {
-                try columnsContainer.encode(calculatedcolumnlist0)
+            for calculatedcolumn0 in columns {
+                try columnsContainer.encode(calculatedcolumn0)
             }
         }
     }
@@ -8350,8 +8350,8 @@ extension CreateDashboardInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for resourcepermissionlist0 in permissions {
-                try permissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in permissions {
+                try permissionsContainer.encode(resourcepermission0)
             }
         }
         if let sourceEntity = self.sourceEntity {
@@ -8359,8 +8359,8 @@ extension CreateDashboardInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let themeArn = self.themeArn {
@@ -8658,14 +8658,14 @@ extension CreateDataSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnGroups = columnGroups {
             var columnGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnGroups)
-            for columngrouplist0 in columnGroups {
-                try columnGroupsContainer.encode(columngrouplist0)
+            for columngroup0 in columnGroups {
+                try columnGroupsContainer.encode(columngroup0)
             }
         }
         if let columnLevelPermissionRules = columnLevelPermissionRules {
             var columnLevelPermissionRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnLevelPermissionRules)
-            for columnlevelpermissionrulelist0 in columnLevelPermissionRules {
-                try columnLevelPermissionRulesContainer.encode(columnlevelpermissionrulelist0)
+            for columnlevelpermissionrule0 in columnLevelPermissionRules {
+                try columnLevelPermissionRulesContainer.encode(columnlevelpermissionrule0)
             }
         }
         if let dataSetId = self.dataSetId {
@@ -8676,8 +8676,8 @@ extension CreateDataSetInput: Swift.Encodable {
         }
         if let fieldFolders = fieldFolders {
             var fieldFoldersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fieldFolders)
-            for (dictKey0, fieldfoldermap0) in fieldFolders {
-                try fieldFoldersContainer.encode(fieldfoldermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, fieldFolderMap0) in fieldFolders {
+                try fieldFoldersContainer.encode(fieldFolderMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let importMode = self.importMode {
@@ -8685,8 +8685,8 @@ extension CreateDataSetInput: Swift.Encodable {
         }
         if let logicalTableMap = logicalTableMap {
             var logicalTableMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logicalTableMap)
-            for (dictKey0, logicaltablemap0) in logicalTableMap {
-                try logicalTableMapContainer.encode(logicaltablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logicalTableMap0) in logicalTableMap {
+                try logicalTableMapContainer.encode(logicalTableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -8694,14 +8694,14 @@ extension CreateDataSetInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for resourcepermissionlist0 in permissions {
-                try permissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in permissions {
+                try permissionsContainer.encode(resourcepermission0)
             }
         }
         if let physicalTableMap = physicalTableMap {
             var physicalTableMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .physicalTableMap)
-            for (dictKey0, physicaltablemap0) in physicalTableMap {
-                try physicalTableMapContainer.encode(physicaltablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, physicalTableMap0) in physicalTableMap {
+                try physicalTableMapContainer.encode(physicalTableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let rowLevelPermissionDataSet = self.rowLevelPermissionDataSet {
@@ -8712,8 +8712,8 @@ extension CreateDataSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -9086,8 +9086,8 @@ extension CreateDataSourceInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for resourcepermissionlist0 in permissions {
-                try permissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in permissions {
+                try permissionsContainer.encode(resourcepermission0)
             }
         }
         if let sslProperties = self.sslProperties {
@@ -9095,8 +9095,8 @@ extension CreateDataSourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -9373,14 +9373,14 @@ extension CreateFolderInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for resourcepermissionlist0 in permissions {
-                try permissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in permissions {
+                try permissionsContainer.encode(resourcepermission0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -10089,8 +10089,11 @@ extension CreateIAMPolicyAssignmentInput: Swift.Encodable {
         }
         if let identities = identities {
             var identitiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .identities)
-            for (dictKey0, identitymap0) in identities {
-                try identitiesContainer.encode(identitymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityMap0) in identities {
+                var identityMap0Container = identitiesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for identityname1 in identityMap0 {
+                    try identityMap0Container.encode(identityname1)
+                }
             }
         }
         if let policyArn = self.policyArn {
@@ -10555,8 +10558,8 @@ extension CreateNamespaceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -10957,8 +10960,8 @@ extension CreateTemplateInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for resourcepermissionlist0 in permissions {
-                try permissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in permissions {
+                try permissionsContainer.encode(resourcepermission0)
             }
         }
         if let sourceEntity = self.sourceEntity {
@@ -10966,8 +10969,8 @@ extension CreateTemplateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let versionDescription = self.versionDescription {
@@ -11403,14 +11406,14 @@ extension CreateThemeInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for resourcepermissionlist0 in permissions {
-                try permissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in permissions {
+                try permissionsContainer.encode(resourcepermission0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let versionDescription = self.versionDescription {
@@ -11667,8 +11670,8 @@ extension QuickSightClientTypes.CredentialPair: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alternateDataSourceParameters = alternateDataSourceParameters {
             var alternateDataSourceParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alternateDataSourceParameters)
-            for datasourceparameterslist0 in alternateDataSourceParameters {
-                try alternateDataSourceParametersContainer.encode(datasourceparameterslist0)
+            for datasourceparameters0 in alternateDataSourceParameters {
+                try alternateDataSourceParametersContainer.encode(datasourceparameters0)
             }
         }
         if let password = self.password {
@@ -11958,8 +11961,8 @@ extension QuickSightClientTypes.CustomActionSetParametersOperation: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameterValueConfigurations = parameterValueConfigurations {
             var parameterValueConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterValueConfigurations)
-            for setparametervalueconfigurationlist0 in parameterValueConfigurations {
-                try parameterValueConfigurationsContainer.encode(setparametervalueconfigurationlist0)
+            for setparametervalueconfiguration0 in parameterValueConfigurations {
+                try parameterValueConfigurationsContainer.encode(setparametervalueconfiguration0)
             }
         }
     }
@@ -12189,8 +12192,8 @@ extension QuickSightClientTypes.CustomContentVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -12371,8 +12374,8 @@ extension QuickSightClientTypes.CustomFilterListConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categoryValues = categoryValues {
             var categoryValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categoryValues)
-            for categoryvaluelist0 in categoryValues {
-                try categoryValuesContainer.encode(categoryvaluelist0)
+            for categoryvalue0 in categoryValues {
+                try categoryValuesContainer.encode(categoryvalue0)
             }
         }
         if let matchOperator = self.matchOperator {
@@ -12494,26 +12497,26 @@ extension QuickSightClientTypes.CustomParameterValues: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dateTimeValues = dateTimeValues {
             var dateTimeValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dateTimeValues)
-            for datetimedefaultvaluelist0 in dateTimeValues {
-                try dateTimeValuesContainer.encodeTimestamp(datetimedefaultvaluelist0, format: .epochSeconds)
+            for sensitivetimestamp0 in dateTimeValues {
+                try dateTimeValuesContainer.encodeTimestamp(sensitivetimestamp0, format: .epochSeconds)
             }
         }
         if let decimalValues = decimalValues {
             var decimalValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .decimalValues)
-            for decimaldefaultvaluelist0 in decimalValues {
-                try decimalValuesContainer.encode(decimaldefaultvaluelist0)
+            for sensitivedoubleobject0 in decimalValues {
+                try decimalValuesContainer.encode(sensitivedoubleobject0)
             }
         }
         if let integerValues = integerValues {
             var integerValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integerValues)
-            for integerdefaultvaluelist0 in integerValues {
-                try integerValuesContainer.encode(integerdefaultvaluelist0)
+            for sensitivelongobject0 in integerValues {
+                try integerValuesContainer.encode(sensitivelongobject0)
             }
         }
         if let stringValues = stringValues {
             var stringValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringValues)
-            for stringdefaultvaluelist0 in stringValues {
-                try stringValuesContainer.encode(stringdefaultvaluelist0)
+            for sensitivestringobject0 in stringValues {
+                try stringValuesContainer.encode(sensitivestringobject0)
             }
         }
     }
@@ -12607,8 +12610,8 @@ extension QuickSightClientTypes.CustomSql: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for inputcolumnlist0 in columns {
-                try columnsContainer.encode(inputcolumnlist0)
+            for inputcolumn0 in columns {
+                try columnsContainer.encode(inputcolumn0)
             }
         }
         if let dataSourceArn = self.dataSourceArn {
@@ -12865,8 +12868,8 @@ extension QuickSightClientTypes.DashboardError: Swift.Codable {
         }
         if let violatedEntities = violatedEntities {
             var violatedEntitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violatedEntities)
-            for entitylist0 in violatedEntities {
-                try violatedEntitiesContainer.encode(entitylist0)
+            for entity0 in violatedEntities {
+                try violatedEntitiesContainer.encode(entity0)
             }
         }
     }
@@ -13199,8 +13202,8 @@ extension QuickSightClientTypes.DashboardSourceTemplate: Swift.Codable {
         }
         if let dataSetReferences = dataSetReferences {
             var dataSetReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetReferences)
-            for datasetreferencelist0 in dataSetReferences {
-                try dataSetReferencesContainer.encode(datasetreferencelist0)
+            for datasetreference0 in dataSetReferences {
+                try dataSetReferencesContainer.encode(datasetreference0)
             }
         }
     }
@@ -13396,8 +13399,8 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
         }
         if let dataSetArns = dataSetArns {
             var dataSetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetArns)
-            for datasetarnslist0 in dataSetArns {
-                try dataSetArnsContainer.encode(datasetarnslist0)
+            for arn0 in dataSetArns {
+                try dataSetArnsContainer.encode(arn0)
             }
         }
         if let description = self.description {
@@ -13405,14 +13408,14 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
         }
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for dashboarderrorlist0 in errors {
-                try errorsContainer.encode(dashboarderrorlist0)
+            for dashboarderror0 in errors {
+                try errorsContainer.encode(dashboarderror0)
             }
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
-            for sheetlist0 in sheets {
-                try sheetsContainer.encode(sheetlist0)
+            for sheet0 in sheets {
+                try sheetsContainer.encode(sheet0)
             }
         }
         if let sourceEntityArn = self.sourceEntityArn {
@@ -13551,38 +13554,38 @@ extension QuickSightClientTypes.DashboardVersionDefinition: Swift.Codable {
         }
         if let calculatedFields = calculatedFields {
             var calculatedFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .calculatedFields)
-            for calculatedfields0 in calculatedFields {
-                try calculatedFieldsContainer.encode(calculatedfields0)
+            for calculatedfield0 in calculatedFields {
+                try calculatedFieldsContainer.encode(calculatedfield0)
             }
         }
         if let columnConfigurations = columnConfigurations {
             var columnConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnConfigurations)
-            for columnconfigurationlist0 in columnConfigurations {
-                try columnConfigurationsContainer.encode(columnconfigurationlist0)
+            for columnconfiguration0 in columnConfigurations {
+                try columnConfigurationsContainer.encode(columnconfiguration0)
             }
         }
         if let dataSetIdentifierDeclarations = dataSetIdentifierDeclarations {
             var dataSetIdentifierDeclarationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetIdentifierDeclarations)
-            for datasetidentifierdeclarationlist0 in dataSetIdentifierDeclarations {
-                try dataSetIdentifierDeclarationsContainer.encode(datasetidentifierdeclarationlist0)
+            for datasetidentifierdeclaration0 in dataSetIdentifierDeclarations {
+                try dataSetIdentifierDeclarationsContainer.encode(datasetidentifierdeclaration0)
             }
         }
         if let filterGroups = filterGroups {
             var filterGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterGroups)
-            for filtergrouplist0 in filterGroups {
-                try filterGroupsContainer.encode(filtergrouplist0)
+            for filtergroup0 in filterGroups {
+                try filterGroupsContainer.encode(filtergroup0)
             }
         }
         if let parameterDeclarations = parameterDeclarations {
             var parameterDeclarationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterDeclarations)
-            for parameterdeclarationlist0 in parameterDeclarations {
-                try parameterDeclarationsContainer.encode(parameterdeclarationlist0)
+            for parameterdeclaration0 in parameterDeclarations {
+                try parameterDeclarationsContainer.encode(parameterdeclaration0)
             }
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
-            for sheetdefinitionlist0 in sheets {
-                try sheetsContainer.encode(sheetdefinitionlist0)
+            for sheetdefinition0 in sheets {
+                try sheetsContainer.encode(sheetdefinition0)
             }
         }
     }
@@ -13944,8 +13947,8 @@ extension QuickSightClientTypes.DataColorPalette: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let colors = colors {
             var colorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colors)
-            for colorlist0 in colors {
-                try colorsContainer.encode(colorlist0)
+            for hexcolor0 in colors {
+                try colorsContainer.encode(hexcolor0)
             }
         }
         if let emptyFillColor = self.emptyFillColor {
@@ -13953,8 +13956,8 @@ extension QuickSightClientTypes.DataColorPalette: Swift.Codable {
         }
         if let minMaxGradient = minMaxGradient {
             var minMaxGradientContainer = encodeContainer.nestedUnkeyedContainer(forKey: .minMaxGradient)
-            for colorlist0 in minMaxGradient {
-                try minMaxGradientContainer.encode(colorlist0)
+            for hexcolor0 in minMaxGradient {
+                try minMaxGradientContainer.encode(hexcolor0)
             }
         }
     }
@@ -14139,8 +14142,8 @@ extension QuickSightClientTypes.DataLabelOptions: Swift.Codable {
         }
         if let dataLabelTypes = dataLabelTypes {
             var dataLabelTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataLabelTypes)
-            for datalabeltypes0 in dataLabelTypes {
-                try dataLabelTypesContainer.encode(datalabeltypes0)
+            for datalabeltype0 in dataLabelTypes {
+                try dataLabelTypesContainer.encode(datalabeltype0)
             }
         }
         if let labelColor = self.labelColor {
@@ -14527,8 +14530,8 @@ extension QuickSightClientTypes.DataPathSort: Swift.Codable {
         }
         if let sortPaths = sortPaths {
             var sortPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortPaths)
-            for datapathvaluelist0 in sortPaths {
-                try sortPathsContainer.encode(datapathvaluelist0)
+            for datapathvalue0 in sortPaths {
+                try sortPathsContainer.encode(datapathvalue0)
             }
         }
     }
@@ -14652,14 +14655,14 @@ extension QuickSightClientTypes.DataSet: Swift.Codable {
         }
         if let columnGroups = columnGroups {
             var columnGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnGroups)
-            for columngrouplist0 in columnGroups {
-                try columnGroupsContainer.encode(columngrouplist0)
+            for columngroup0 in columnGroups {
+                try columnGroupsContainer.encode(columngroup0)
             }
         }
         if let columnLevelPermissionRules = columnLevelPermissionRules {
             var columnLevelPermissionRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnLevelPermissionRules)
-            for columnlevelpermissionrulelist0 in columnLevelPermissionRules {
-                try columnLevelPermissionRulesContainer.encode(columnlevelpermissionrulelist0)
+            for columnlevelpermissionrule0 in columnLevelPermissionRules {
+                try columnLevelPermissionRulesContainer.encode(columnlevelpermissionrule0)
             }
         }
         if consumedSpiceCapacityInBytes != 0 {
@@ -14676,8 +14679,8 @@ extension QuickSightClientTypes.DataSet: Swift.Codable {
         }
         if let fieldFolders = fieldFolders {
             var fieldFoldersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fieldFolders)
-            for (dictKey0, fieldfoldermap0) in fieldFolders {
-                try fieldFoldersContainer.encode(fieldfoldermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, fieldFolderMap0) in fieldFolders {
+                try fieldFoldersContainer.encode(fieldFolderMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let importMode = self.importMode {
@@ -14688,8 +14691,8 @@ extension QuickSightClientTypes.DataSet: Swift.Codable {
         }
         if let logicalTableMap = logicalTableMap {
             var logicalTableMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logicalTableMap)
-            for (dictKey0, logicaltablemap0) in logicalTableMap {
-                try logicalTableMapContainer.encode(logicaltablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logicalTableMap0) in logicalTableMap {
+                try logicalTableMapContainer.encode(logicalTableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -14697,14 +14700,14 @@ extension QuickSightClientTypes.DataSet: Swift.Codable {
         }
         if let outputColumns = outputColumns {
             var outputColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputColumns)
-            for outputcolumnlist0 in outputColumns {
-                try outputColumnsContainer.encode(outputcolumnlist0)
+            for outputcolumn0 in outputColumns {
+                try outputColumnsContainer.encode(outputcolumn0)
             }
         }
         if let physicalTableMap = physicalTableMap {
             var physicalTableMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .physicalTableMap)
-            for (dictKey0, physicaltablemap0) in physicalTableMap {
-                try physicalTableMapContainer.encode(physicaltablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, physicalTableMap0) in physicalTableMap {
+                try physicalTableMapContainer.encode(physicalTableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let rowLevelPermissionDataSet = self.rowLevelPermissionDataSet {
@@ -14893,8 +14896,8 @@ extension QuickSightClientTypes.DataSetConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnGroupSchemaList = columnGroupSchemaList {
             var columnGroupSchemaListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnGroupSchemaList)
-            for columngroupschemalist0 in columnGroupSchemaList {
-                try columnGroupSchemaListContainer.encode(columngroupschemalist0)
+            for columngroupschema0 in columnGroupSchemaList {
+                try columnGroupSchemaListContainer.encode(columngroupschema0)
             }
         }
         if let dataSetSchema = self.dataSetSchema {
@@ -15128,8 +15131,8 @@ extension QuickSightClientTypes.DataSetSchema: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnSchemaList = columnSchemaList {
             var columnSchemaListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnSchemaList)
-            for columnschemalist0 in columnSchemaList {
-                try columnSchemaListContainer.encode(columnschemalist0)
+            for columnschema0 in columnSchemaList {
+                try columnSchemaListContainer.encode(columnschema0)
             }
         }
     }
@@ -15417,8 +15420,8 @@ extension QuickSightClientTypes.DataSource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alternateDataSourceParameters = alternateDataSourceParameters {
             var alternateDataSourceParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alternateDataSourceParameters)
-            for datasourceparameterslist0 in alternateDataSourceParameters {
-                try alternateDataSourceParametersContainer.encode(datasourceparameterslist0)
+            for datasourceparameters0 in alternateDataSourceParameters {
+                try alternateDataSourceParametersContainer.encode(datasourceparameters0)
             }
         }
         if let arn = self.arn {
@@ -16579,8 +16582,8 @@ extension QuickSightClientTypes.DateTimeDefaultValues: Swift.Codable {
         }
         if let staticValues = staticValues {
             var staticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .staticValues)
-            for datetimedefaultvaluelist0 in staticValues {
-                try staticValuesContainer.encodeTimestamp(datetimedefaultvaluelist0, format: .epochSeconds)
+            for sensitivetimestamp0 in staticValues {
+                try staticValuesContainer.encodeTimestamp(sensitivetimestamp0, format: .epochSeconds)
             }
         }
     }
@@ -16694,8 +16697,8 @@ extension QuickSightClientTypes.DateTimeHierarchy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let drillDownFilters = drillDownFilters {
             var drillDownFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .drillDownFilters)
-            for drilldownfilterlist0 in drillDownFilters {
-                try drillDownFiltersContainer.encode(drilldownfilterlist0)
+            for drilldownfilter0 in drillDownFilters {
+                try drillDownFiltersContainer.encode(drilldownfilter0)
             }
         }
         if let hierarchyId = self.hierarchyId {
@@ -16755,8 +16758,8 @@ extension QuickSightClientTypes.DateTimeParameter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for sensitivetimestamplist0 in values {
-                try valuesContainer.encodeTimestamp(sensitivetimestamplist0, format: .epochSeconds)
+            for sensitivetimestamp0 in values {
+                try valuesContainer.encodeTimestamp(sensitivetimestamp0, format: .epochSeconds)
             }
         }
     }
@@ -16979,8 +16982,8 @@ extension QuickSightClientTypes.DecimalDefaultValues: Swift.Codable {
         }
         if let staticValues = staticValues {
             var staticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .staticValues)
-            for decimaldefaultvaluelist0 in staticValues {
-                try staticValuesContainer.encode(decimaldefaultvaluelist0)
+            for sensitivedoubleobject0 in staticValues {
+                try staticValuesContainer.encode(sensitivedoubleobject0)
             }
         }
     }
@@ -17036,8 +17039,8 @@ extension QuickSightClientTypes.DecimalParameter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for sensitivedoublelist0 in values {
-                try valuesContainer.encode(sensitivedoublelist0)
+            for sensitivedouble0 in values {
+                try valuesContainer.encode(sensitivedouble0)
             }
         }
     }
@@ -25212,8 +25215,8 @@ extension QuickSightClientTypes.EmptyVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let dataSetIdentifier = self.dataSetIdentifier {
@@ -25522,14 +25525,14 @@ extension QuickSightClientTypes.ExplicitHierarchy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for explicithierarchycolumnlist0 in columns {
-                try columnsContainer.encode(explicithierarchycolumnlist0)
+            for columnidentifier0 in columns {
+                try columnsContainer.encode(columnidentifier0)
             }
         }
         if let drillDownFilters = drillDownFilters {
             var drillDownFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .drillDownFilters)
-            for drilldownfilterlist0 in drillDownFilters {
-                try drillDownFiltersContainer.encode(drilldownfilterlist0)
+            for drilldownfilter0 in drillDownFilters {
+                try drillDownFiltersContainer.encode(drilldownfilter0)
             }
         }
         if let hierarchyId = self.hierarchyId {
@@ -25676,8 +25679,8 @@ extension QuickSightClientTypes.FieldBasedTooltip: Swift.Codable {
         }
         if let tooltipFields = tooltipFields {
             var tooltipFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tooltipFields)
-            for tooltipitemlist0 in tooltipFields {
-                try tooltipFieldsContainer.encode(tooltipitemlist0)
+            for tooltipitem0 in tooltipFields {
+                try tooltipFieldsContainer.encode(tooltipitem0)
             }
         }
         if let tooltipTitleType = self.tooltipTitleType {
@@ -25743,8 +25746,8 @@ extension QuickSightClientTypes.FieldFolder: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for foldercolumnlist0 in columns {
-                try columnsContainer.encode(foldercolumnlist0)
+            for string0 in columns {
+                try columnsContainer.encode(string0)
             }
         }
         if let description = self.description {
@@ -26098,14 +26101,14 @@ extension QuickSightClientTypes.FilledMapAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let geospatial = geospatial {
             var geospatialContainer = encodeContainer.nestedUnkeyedContainer(forKey: .geospatial)
-            for filledmapdimensionfieldlist0 in geospatial {
-                try geospatialContainer.encode(filledmapdimensionfieldlist0)
+            for dimensionfield0 in geospatial {
+                try geospatialContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filledmapmeasurefieldlist0 in values {
-                try valuesContainer.encode(filledmapmeasurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -26166,8 +26169,8 @@ extension QuickSightClientTypes.FilledMapConditionalFormatting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conditionalFormattingOptions = conditionalFormattingOptions {
             var conditionalFormattingOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditionalFormattingOptions)
-            for filledmapconditionalformattingoptionlist0 in conditionalFormattingOptions {
-                try conditionalFormattingOptionsContainer.encode(filledmapconditionalformattingoptionlist0)
+            for filledmapconditionalformattingoption0 in conditionalFormattingOptions {
+                try conditionalFormattingOptionsContainer.encode(filledmapconditionalformattingoption0)
             }
         }
     }
@@ -26416,8 +26419,8 @@ extension QuickSightClientTypes.FilledMapSortConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categorySort = categorySort {
             var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
-            for fieldsortoptionslist0 in categorySort {
-                try categorySortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -26469,8 +26472,8 @@ extension QuickSightClientTypes.FilledMapVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -26478,8 +26481,8 @@ extension QuickSightClientTypes.FilledMapVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let conditionalFormatting = self.conditionalFormatting {
@@ -26967,8 +26970,8 @@ extension QuickSightClientTypes.FilterGroup: Swift.Codable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let scopeConfiguration = self.scopeConfiguration {
@@ -27054,8 +27057,8 @@ extension QuickSightClientTypes.FilterListConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categoryValues = categoryValues {
             var categoryValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categoryValues)
-            for categoryvaluelist0 in categoryValues {
-                try categoryValuesContainer.encode(categoryvaluelist0)
+            for categoryvalue0 in categoryValues {
+                try categoryValuesContainer.encode(categoryvalue0)
             }
         }
         if let matchOperator = self.matchOperator {
@@ -27304,8 +27307,8 @@ extension QuickSightClientTypes.FilterOperationSelectedFieldsConfiguration: Swif
         }
         if let selectedFields = selectedFields {
             var selectedFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedFields)
-            for selectedfieldlist0 in selectedFields {
-                try selectedFieldsContainer.encode(selectedfieldlist0)
+            for fieldid0 in selectedFields {
+                try selectedFieldsContainer.encode(fieldid0)
             }
         }
     }
@@ -27529,8 +27532,8 @@ extension QuickSightClientTypes.FilterSelectableValues: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for parameterselectablevaluelist0 in values {
-                try valuesContainer.encode(parameterselectablevaluelist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -27884,8 +27887,8 @@ extension QuickSightClientTypes.Folder: Swift.Codable {
         }
         if let folderPath = folderPath {
             var folderPathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folderPath)
-            for path0 in folderPath {
-                try folderPathContainer.encode(path0)
+            for arn0 in folderPath {
+                try folderPathContainer.encode(arn0)
             }
         }
         if let folderType = self.folderType {
@@ -28884,8 +28887,8 @@ extension QuickSightClientTypes.FreeFormLayoutConfiguration: Swift.Codable {
         }
         if let elements = elements {
             var elementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .elements)
-            for freefromlayoutelementlist0 in elements {
-                try elementsContainer.encode(freefromlayoutelementlist0)
+            for freeformlayoutelement0 in elements {
+                try elementsContainer.encode(freeformlayoutelement0)
             }
         }
     }
@@ -28967,8 +28970,8 @@ extension QuickSightClientTypes.FreeFormLayoutElement: Swift.Codable {
         }
         if let renderingRules = renderingRules {
             var renderingRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .renderingRules)
-            for sheetelementrenderingrulelist0 in renderingRules {
-                try renderingRulesContainer.encode(sheetelementrenderingrulelist0)
+            for sheetelementrenderingrule0 in renderingRules {
+                try renderingRulesContainer.encode(sheetelementrenderingrule0)
             }
         }
         if let selectedBorderStyle = self.selectedBorderStyle {
@@ -29227,8 +29230,8 @@ extension QuickSightClientTypes.FreeFormSectionLayoutConfiguration: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let elements = elements {
             var elementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .elements)
-            for freefromlayoutelementlist0 in elements {
-                try elementsContainer.encode(freefromlayoutelementlist0)
+            for freeformlayoutelement0 in elements {
+                try elementsContainer.encode(freeformlayoutelement0)
             }
         }
     }
@@ -29276,14 +29279,14 @@ extension QuickSightClientTypes.FunnelChartAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let category = category {
             var categoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .category)
-            for funnelchartdimensionfieldlist0 in category {
-                try categoryContainer.encode(funnelchartdimensionfieldlist0)
+            for dimensionfield0 in category {
+                try categoryContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for funnelchartmeasurefieldlist0 in values {
-                try valuesContainer.encode(funnelchartmeasurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -29614,8 +29617,8 @@ extension QuickSightClientTypes.FunnelChartSortConfiguration: Swift.Codable {
         }
         if let categorySort = categorySort {
             var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
-            for fieldsortoptionslist0 in categorySort {
-                try categorySortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -29672,8 +29675,8 @@ extension QuickSightClientTypes.FunnelChartVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -29681,8 +29684,8 @@ extension QuickSightClientTypes.FunnelChartVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -29812,8 +29815,8 @@ extension QuickSightClientTypes.GaugeChartConditionalFormatting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conditionalFormattingOptions = conditionalFormattingOptions {
             var conditionalFormattingOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditionalFormattingOptions)
-            for gaugechartconditionalformattingoptionlist0 in conditionalFormattingOptions {
-                try conditionalFormattingOptionsContainer.encode(gaugechartconditionalformattingoptionlist0)
+            for gaugechartconditionalformattingoption0 in conditionalFormattingOptions {
+                try conditionalFormattingOptionsContainer.encode(gaugechartconditionalformattingoption0)
             }
         }
     }
@@ -29980,14 +29983,14 @@ extension QuickSightClientTypes.GaugeChartFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetValues = targetValues {
             var targetValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetValues)
-            for measurefieldlist0 in targetValues {
-                try targetValuesContainer.encode(measurefieldlist0)
+            for measurefield0 in targetValues {
+                try targetValuesContainer.encode(measurefield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for measurefieldlist0 in values {
-                try valuesContainer.encode(measurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -30173,8 +30176,8 @@ extension QuickSightClientTypes.GaugeChartVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -30271,14 +30274,14 @@ extension GenerateEmbedUrlForAnonymousUserInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedDomains = allowedDomains {
             var allowedDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedDomains)
-            for stringlist0 in allowedDomains {
-                try allowedDomainsContainer.encode(stringlist0)
+            for string0 in allowedDomains {
+                try allowedDomainsContainer.encode(string0)
             }
         }
         if let authorizedResourceArns = authorizedResourceArns {
             var authorizedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedResourceArns)
-            for arnlist0 in authorizedResourceArns {
-                try authorizedResourceArnsContainer.encode(arnlist0)
+            for arn0 in authorizedResourceArns {
+                try authorizedResourceArnsContainer.encode(arn0)
             }
         }
         if let experienceConfiguration = self.experienceConfiguration {
@@ -30292,8 +30295,8 @@ extension GenerateEmbedUrlForAnonymousUserInput: Swift.Encodable {
         }
         if let sessionTags = sessionTags {
             var sessionTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sessionTags)
-            for sessiontaglist0 in sessionTags {
-                try sessionTagsContainer.encode(sessiontaglist0)
+            for sessiontag0 in sessionTags {
+                try sessionTagsContainer.encode(sessiontag0)
             }
         }
     }
@@ -30538,8 +30541,8 @@ extension GenerateEmbedUrlForRegisteredUserInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedDomains = allowedDomains {
             var allowedDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedDomains)
-            for stringlist0 in allowedDomains {
-                try allowedDomainsContainer.encode(stringlist0)
+            for string0 in allowedDomains {
+                try allowedDomainsContainer.encode(string0)
             }
         }
         if let experienceConfiguration = self.experienceConfiguration {
@@ -30748,8 +30751,8 @@ extension QuickSightClientTypes.GeoSpatialColumnGroup: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for columnlist0 in columns {
-                try columnsContainer.encode(columnlist0)
+            for columnname0 in columns {
+                try columnsContainer.encode(columnname0)
             }
         }
         if let countryCode = self.countryCode {
@@ -30962,20 +30965,20 @@ extension QuickSightClientTypes.GeospatialMapAggregatedFieldWells: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let colors = colors {
             var colorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colors)
-            for dimensionfieldlist0 in colors {
-                try colorsContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in colors {
+                try colorsContainer.encode(dimensionfield0)
             }
         }
         if let geospatial = geospatial {
             var geospatialContainer = encodeContainer.nestedUnkeyedContainer(forKey: .geospatial)
-            for dimensionfieldlist0 in geospatial {
-                try geospatialContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in geospatial {
+                try geospatialContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for measurefieldlist0 in values {
-                try valuesContainer.encode(measurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -31221,8 +31224,8 @@ extension QuickSightClientTypes.GeospatialMapVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -31230,8 +31233,8 @@ extension QuickSightClientTypes.GeospatialMapVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -31917,8 +31920,8 @@ extension QuickSightClientTypes.GradientColor: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stops = stops {
             var stopsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stops)
-            for gradientstoplist0 in stops {
-                try stopsContainer.encode(gradientstoplist0)
+            for gradientstop0 in stops {
+                try stopsContainer.encode(gradientstop0)
             }
         }
     }
@@ -32059,8 +32062,8 @@ extension QuickSightClientTypes.GridLayoutConfiguration: Swift.Codable {
         }
         if let elements = elements {
             var elementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .elements)
-            for gridlayoutelementlist0 in elements {
-                try elementsContainer.encode(gridlayoutelementlist0)
+            for gridlayoutelement0 in elements {
+                try elementsContainer.encode(gridlayoutelement0)
             }
         }
     }
@@ -32649,20 +32652,20 @@ extension QuickSightClientTypes.HeatMapAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for heatmapdimensionfieldlist0 in columns {
-                try columnsContainer.encode(heatmapdimensionfieldlist0)
+            for dimensionfield0 in columns {
+                try columnsContainer.encode(dimensionfield0)
             }
         }
         if let rows = rows {
             var rowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rows)
-            for heatmapdimensionfieldlist0 in rows {
-                try rowsContainer.encode(heatmapdimensionfieldlist0)
+            for dimensionfield0 in rows {
+                try rowsContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for heatmapmeasurefieldlist0 in values {
-                try valuesContainer.encode(heatmapmeasurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -32884,8 +32887,8 @@ extension QuickSightClientTypes.HeatMapSortConfiguration: Swift.Codable {
         }
         if let heatMapColumnSort = heatMapColumnSort {
             var heatMapColumnSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .heatMapColumnSort)
-            for fieldsortoptionslist0 in heatMapColumnSort {
-                try heatMapColumnSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in heatMapColumnSort {
+                try heatMapColumnSortContainer.encode(fieldsortoptions0)
             }
         }
         if let heatMapRowItemsLimitConfiguration = self.heatMapRowItemsLimitConfiguration {
@@ -32893,8 +32896,8 @@ extension QuickSightClientTypes.HeatMapSortConfiguration: Swift.Codable {
         }
         if let heatMapRowSort = heatMapRowSort {
             var heatMapRowSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .heatMapRowSort)
-            for fieldsortoptionslist0 in heatMapRowSort {
-                try heatMapRowSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in heatMapRowSort {
+                try heatMapRowSortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -32972,8 +32975,8 @@ extension QuickSightClientTypes.HeatMapVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -32981,8 +32984,8 @@ extension QuickSightClientTypes.HeatMapVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -33077,8 +33080,8 @@ extension QuickSightClientTypes.HistogramAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for histogrammeasurefieldlist0 in values {
-                try valuesContainer.encode(histogrammeasurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -33365,8 +33368,8 @@ extension QuickSightClientTypes.HistogramVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -33504,8 +33507,11 @@ extension QuickSightClientTypes.IAMPolicyAssignment: Swift.Codable {
         }
         if let identities = identities {
             var identitiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .identities)
-            for (dictKey0, identitymap0) in identities {
-                try identitiesContainer.encode(identitymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityMap0) in identities {
+                var identityMap0Container = identitiesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for identityname1 in identityMap0 {
+                    try identityMap0Container.encode(identityname1)
+                }
             }
         }
         if let policyArn = self.policyArn {
@@ -34402,8 +34408,8 @@ extension QuickSightClientTypes.InsightConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computations = computations {
             var computationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computations)
-            for computationlist0 in computations {
-                try computationsContainer.encode(computationlist0)
+            for computation0 in computations {
+                try computationsContainer.encode(computation0)
             }
         }
         if let customNarrative = self.customNarrative {
@@ -34463,8 +34469,8 @@ extension QuickSightClientTypes.InsightVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let dataSetIdentifier = self.dataSetIdentifier {
@@ -34561,8 +34567,8 @@ extension QuickSightClientTypes.IntegerDefaultValues: Swift.Codable {
         }
         if let staticValues = staticValues {
             var staticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .staticValues)
-            for integerdefaultvaluelist0 in staticValues {
-                try staticValuesContainer.encode(integerdefaultvaluelist0)
+            for sensitivelongobject0 in staticValues {
+                try staticValuesContainer.encode(sensitivelongobject0)
             }
         }
     }
@@ -34618,8 +34624,8 @@ extension QuickSightClientTypes.IntegerParameter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for sensitivelonglist0 in values {
-                try valuesContainer.encode(sensitivelonglist0)
+            for sensitivelong0 in values {
+                try valuesContainer.encode(sensitivelong0)
             }
         }
     }
@@ -35289,8 +35295,8 @@ extension QuickSightClientTypes.KPIConditionalFormatting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conditionalFormattingOptions = conditionalFormattingOptions {
             var conditionalFormattingOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditionalFormattingOptions)
-            for kpiconditionalformattingoptionlist0 in conditionalFormattingOptions {
-                try conditionalFormattingOptionsContainer.encode(kpiconditionalformattingoptionlist0)
+            for kpiconditionalformattingoption0 in conditionalFormattingOptions {
+                try conditionalFormattingOptionsContainer.encode(kpiconditionalformattingoption0)
             }
         }
     }
@@ -35438,20 +35444,20 @@ extension QuickSightClientTypes.KPIFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetValues = targetValues {
             var targetValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetValues)
-            for measurefieldlist0 in targetValues {
-                try targetValuesContainer.encode(measurefieldlist0)
+            for measurefield0 in targetValues {
+                try targetValuesContainer.encode(measurefield0)
             }
         }
         if let trendGroups = trendGroups {
             var trendGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trendGroups)
-            for dimensionfieldlist0 in trendGroups {
-                try trendGroupsContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in trendGroups {
+                try trendGroupsContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for measurefieldlist0 in values {
-                try valuesContainer.encode(measurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -35702,8 +35708,8 @@ extension QuickSightClientTypes.KPISortConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let trendGroupSort = trendGroupSort {
             var trendGroupSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trendGroupSort)
-            for fieldsortoptionslist0 in trendGroupSort {
-                try trendGroupSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in trendGroupSort {
+                try trendGroupSortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -35755,8 +35761,8 @@ extension QuickSightClientTypes.KPIVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -35764,8 +35770,8 @@ extension QuickSightClientTypes.KPIVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let conditionalFormatting = self.conditionalFormatting {
@@ -36249,26 +36255,26 @@ extension QuickSightClientTypes.LineChartAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let category = category {
             var categoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .category)
-            for dimensionfieldlist0 in category {
-                try categoryContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in category {
+                try categoryContainer.encode(dimensionfield0)
             }
         }
         if let colors = colors {
             var colorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colors)
-            for dimensionfieldlist0 in colors {
-                try colorsContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in colors {
+                try colorsContainer.encode(dimensionfield0)
             }
         }
         if let smallMultiples = smallMultiples {
             var smallMultiplesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .smallMultiples)
-            for smallmultiplesdimensionfieldlist0 in smallMultiples {
-                try smallMultiplesContainer.encode(smallmultiplesdimensionfieldlist0)
+            for dimensionfield0 in smallMultiples {
+                try smallMultiplesContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for measurefieldlist0 in values {
-                try valuesContainer.encode(measurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -36377,8 +36383,8 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contributionAnalysisDefaults = contributionAnalysisDefaults {
             var contributionAnalysisDefaultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contributionAnalysisDefaults)
-            for contributionanalysisdefaultlist0 in contributionAnalysisDefaults {
-                try contributionAnalysisDefaultsContainer.encode(contributionanalysisdefaultlist0)
+            for contributionanalysisdefault0 in contributionAnalysisDefaults {
+                try contributionAnalysisDefaultsContainer.encode(contributionanalysisdefault0)
             }
         }
         if let dataLabels = self.dataLabels {
@@ -36392,8 +36398,8 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
         }
         if let forecastConfigurations = forecastConfigurations {
             var forecastConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .forecastConfigurations)
-            for forecastconfigurationlist0 in forecastConfigurations {
-                try forecastConfigurationsContainer.encode(forecastconfigurationlist0)
+            for forecastconfiguration0 in forecastConfigurations {
+                try forecastConfigurationsContainer.encode(forecastconfiguration0)
             }
         }
         if let legend = self.legend {
@@ -36407,8 +36413,8 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
         }
         if let referenceLines = referenceLines {
             var referenceLinesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceLines)
-            for referencelinelist0 in referenceLines {
-                try referenceLinesContainer.encode(referencelinelist0)
+            for referenceline0 in referenceLines {
+                try referenceLinesContainer.encode(referenceline0)
             }
         }
         if let secondaryYAxisDisplayOptions = self.secondaryYAxisDisplayOptions {
@@ -36419,8 +36425,8 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
         }
         if let series = series {
             var seriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .series)
-            for seriesitemlist0 in series {
-                try seriesContainer.encode(seriesitemlist0)
+            for seriesitem0 in series {
+                try seriesContainer.encode(seriesitem0)
             }
         }
         if let smallMultiplesOptions = self.smallMultiplesOptions {
@@ -36992,8 +36998,8 @@ extension QuickSightClientTypes.LineChartSortConfiguration: Swift.Codable {
         }
         if let categorySort = categorySort {
             var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
-            for fieldsortoptionslist0 in categorySort {
-                try categorySortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
             }
         }
         if let colorItemsLimitConfiguration = self.colorItemsLimitConfiguration {
@@ -37004,8 +37010,8 @@ extension QuickSightClientTypes.LineChartSortConfiguration: Swift.Codable {
         }
         if let smallMultiplesSort = smallMultiplesSort {
             var smallMultiplesSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .smallMultiplesSort)
-            for fieldsortoptionslist0 in smallMultiplesSort {
-                try smallMultiplesSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in smallMultiplesSort {
+                try smallMultiplesSortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -37124,8 +37130,8 @@ extension QuickSightClientTypes.LineChartVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -37133,8 +37139,8 @@ extension QuickSightClientTypes.LineChartVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -37268,8 +37274,8 @@ extension QuickSightClientTypes.LineSeriesAxisDisplayOptions: Swift.Codable {
         }
         if let missingDataConfigurations = missingDataConfigurations {
             var missingDataConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .missingDataConfigurations)
-            for missingdataconfigurationlist0 in missingDataConfigurations {
-                try missingDataConfigurationsContainer.encode(missingdataconfigurationlist0)
+            for missingdataconfiguration0 in missingDataConfigurations {
+                try missingDataConfigurationsContainer.encode(missingdataconfiguration0)
             }
         }
     }
@@ -37321,8 +37327,8 @@ extension QuickSightClientTypes.LinkSharingConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for resourcepermissionlist0 in permissions {
-                try permissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in permissions {
+                try permissionsContainer.encode(resourcepermission0)
             }
         }
     }
@@ -41390,8 +41396,8 @@ extension QuickSightClientTypes.LogicalTable: Swift.Codable {
         }
         if let dataTransforms = dataTransforms {
             var dataTransformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataTransforms)
-            for transformoperationlist0 in dataTransforms {
-                try dataTransformsContainer.encode(transformoperationlist0)
+            for transformoperation0 in dataTransforms {
+                try dataTransformsContainer.encode(transformoperation0)
             }
         }
         if let source = self.source {
@@ -44442,8 +44448,8 @@ extension QuickSightClientTypes.ParameterSelectableValues: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for parameterselectablevaluelist0 in values {
-                try valuesContainer.encode(parameterselectablevaluelist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -44777,26 +44783,26 @@ extension QuickSightClientTypes.Parameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dateTimeParameters = dateTimeParameters {
             var dateTimeParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dateTimeParameters)
-            for datetimeparameterlist0 in dateTimeParameters {
-                try dateTimeParametersContainer.encode(datetimeparameterlist0)
+            for datetimeparameter0 in dateTimeParameters {
+                try dateTimeParametersContainer.encode(datetimeparameter0)
             }
         }
         if let decimalParameters = decimalParameters {
             var decimalParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .decimalParameters)
-            for decimalparameterlist0 in decimalParameters {
-                try decimalParametersContainer.encode(decimalparameterlist0)
+            for decimalparameter0 in decimalParameters {
+                try decimalParametersContainer.encode(decimalparameter0)
             }
         }
         if let integerParameters = integerParameters {
             var integerParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integerParameters)
-            for integerparameterlist0 in integerParameters {
-                try integerParametersContainer.encode(integerparameterlist0)
+            for integerparameter0 in integerParameters {
+                try integerParametersContainer.encode(integerparameter0)
             }
         }
         if let stringParameters = stringParameters {
             var stringParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringParameters)
-            for stringparameterlist0 in stringParameters {
-                try stringParametersContainer.encode(stringparameterlist0)
+            for stringparameter0 in stringParameters {
+                try stringParametersContainer.encode(stringparameter0)
             }
         }
     }
@@ -45264,20 +45270,20 @@ extension QuickSightClientTypes.PieChartAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let category = category {
             var categoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .category)
-            for dimensionfieldlist0 in category {
-                try categoryContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in category {
+                try categoryContainer.encode(dimensionfield0)
             }
         }
         if let smallMultiples = smallMultiples {
             var smallMultiplesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .smallMultiples)
-            for smallmultiplesdimensionfieldlist0 in smallMultiples {
-                try smallMultiplesContainer.encode(smallmultiplesdimensionfieldlist0)
+            for dimensionfield0 in smallMultiples {
+                try smallMultiplesContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for measurefieldlist0 in values {
-                try valuesContainer.encode(measurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -45366,8 +45372,8 @@ extension QuickSightClientTypes.PieChartConfiguration: Swift.Codable {
         }
         if let contributionAnalysisDefaults = contributionAnalysisDefaults {
             var contributionAnalysisDefaultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contributionAnalysisDefaults)
-            for contributionanalysisdefaultlist0 in contributionAnalysisDefaults {
-                try contributionAnalysisDefaultsContainer.encode(contributionanalysisdefaultlist0)
+            for contributionanalysisdefault0 in contributionAnalysisDefaults {
+                try contributionAnalysisDefaultsContainer.encode(contributionanalysisdefault0)
             }
         }
         if let dataLabels = self.dataLabels {
@@ -45541,8 +45547,8 @@ extension QuickSightClientTypes.PieChartSortConfiguration: Swift.Codable {
         }
         if let categorySort = categorySort {
             var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
-            for fieldsortoptionslist0 in categorySort {
-                try categorySortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
             }
         }
         if let smallMultiplesLimitConfiguration = self.smallMultiplesLimitConfiguration {
@@ -45550,8 +45556,8 @@ extension QuickSightClientTypes.PieChartSortConfiguration: Swift.Codable {
         }
         if let smallMultiplesSort = smallMultiplesSort {
             var smallMultiplesSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .smallMultiplesSort)
-            for fieldsortoptionslist0 in smallMultiplesSort {
-                try smallMultiplesSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in smallMultiplesSort {
+                try smallMultiplesSortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -45629,8 +45635,8 @@ extension QuickSightClientTypes.PieChartVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -45638,8 +45644,8 @@ extension QuickSightClientTypes.PieChartVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -45790,20 +45796,20 @@ extension QuickSightClientTypes.PivotTableAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for pivottabledimensionlist0 in columns {
-                try columnsContainer.encode(pivottabledimensionlist0)
+            for dimensionfield0 in columns {
+                try columnsContainer.encode(dimensionfield0)
             }
         }
         if let rows = rows {
             var rowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rows)
-            for pivottabledimensionlist0 in rows {
-                try rowsContainer.encode(pivottabledimensionlist0)
+            for dimensionfield0 in rows {
+                try rowsContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for pivotmeasurefieldlist0 in values {
-                try valuesContainer.encode(pivotmeasurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -45935,8 +45941,8 @@ extension QuickSightClientTypes.PivotTableConditionalFormatting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conditionalFormattingOptions = conditionalFormattingOptions {
             var conditionalFormattingOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditionalFormattingOptions)
-            for pivottableconditionalformattingoptionlist0 in conditionalFormattingOptions {
-                try conditionalFormattingOptionsContainer.encode(pivottableconditionalformattingoptionlist0)
+            for pivottableconditionalformattingoption0 in conditionalFormattingOptions {
+                try conditionalFormattingOptionsContainer.encode(pivottableconditionalformattingoption0)
             }
         }
     }
@@ -46173,8 +46179,8 @@ extension QuickSightClientTypes.PivotTableDataPathOption: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataPathList = dataPathList {
             var dataPathListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataPathList)
-            for datapathvaluelist0 in dataPathList {
-                try dataPathListContainer.encode(datapathvaluelist0)
+            for datapathvalue0 in dataPathList {
+                try dataPathListContainer.encode(datapathvalue0)
             }
         }
         if let width = self.width {
@@ -46287,14 +46293,14 @@ extension QuickSightClientTypes.PivotTableFieldOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataPathOptions = dataPathOptions {
             var dataPathOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataPathOptions)
-            for pivottabledatapathoptionlist0 in dataPathOptions {
-                try dataPathOptionsContainer.encode(pivottabledatapathoptionlist0)
+            for pivottabledatapathoption0 in dataPathOptions {
+                try dataPathOptionsContainer.encode(pivottabledatapathoption0)
             }
         }
         if let selectedFieldOptions = selectedFieldOptions {
             var selectedFieldOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedFieldOptions)
-            for pivottablefieldoptionlist0 in selectedFieldOptions {
-                try selectedFieldOptionsContainer.encode(pivottablefieldoptionlist0)
+            for pivottablefieldoption0 in selectedFieldOptions {
+                try selectedFieldOptionsContainer.encode(pivottablefieldoption0)
             }
         }
     }
@@ -46672,8 +46678,8 @@ extension QuickSightClientTypes.PivotTableSortConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fieldSortOptions = fieldSortOptions {
             var fieldSortOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldSortOptions)
-            for pivotfieldsortoptionslist0 in fieldSortOptions {
-                try fieldSortOptionsContainer.encode(pivotfieldsortoptionslist0)
+            for pivotfieldsortoptions0 in fieldSortOptions {
+                try fieldSortOptionsContainer.encode(pivotfieldsortoptions0)
             }
         }
     }
@@ -46824,8 +46830,8 @@ extension QuickSightClientTypes.PivotTableVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -47134,14 +47140,14 @@ extension QuickSightClientTypes.PredefinedHierarchy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for predefinedhierarchycolumnlist0 in columns {
-                try columnsContainer.encode(predefinedhierarchycolumnlist0)
+            for columnidentifier0 in columns {
+                try columnsContainer.encode(columnidentifier0)
             }
         }
         if let drillDownFilters = drillDownFilters {
             var drillDownFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .drillDownFilters)
-            for drilldownfilterlist0 in drillDownFilters {
-                try drillDownFiltersContainer.encode(drilldownfilterlist0)
+            for drilldownfilter0 in drillDownFilters {
+                try drillDownFiltersContainer.encode(drilldownfilter0)
             }
         }
         if let hierarchyId = self.hierarchyId {
@@ -47341,8 +47347,8 @@ extension QuickSightClientTypes.ProjectOperation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let projectedColumns = projectedColumns {
             var projectedColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .projectedColumns)
-            for projectedcolumnlist0 in projectedColumns {
-                try projectedColumnsContainer.encode(projectedcolumnlist0)
+            for string0 in projectedColumns {
+                try projectedColumnsContainer.encode(string0)
             }
         }
     }
@@ -48786,8 +48792,8 @@ extension QuickSightClientTypes.RelationalTable: Swift.Codable {
         }
         if let inputColumns = inputColumns {
             var inputColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputColumns)
-            for inputcolumnlist0 in inputColumns {
-                try inputColumnsContainer.encode(inputcolumnlist0)
+            for inputcolumn0 in inputColumns {
+                try inputColumnsContainer.encode(inputcolumn0)
             }
         }
         if let name = self.name {
@@ -49364,8 +49370,8 @@ extension QuickSightClientTypes.ResourcePermission: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionlist0 in actions {
-                try actionsContainer.encode(actionlist0)
+            for string0 in actions {
+                try actionsContainer.encode(string0)
             }
         }
         if let principal = self.principal {
@@ -49740,8 +49746,8 @@ extension QuickSightClientTypes.RowAlternateColorOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rowAlternateColors = rowAlternateColors {
             var rowAlternateColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowAlternateColors)
-            for rowalternatecolorlist0 in rowAlternateColors {
-                try rowAlternateColorsContainer.encode(rowalternatecolorlist0)
+            for hexcolor0 in rowAlternateColors {
+                try rowAlternateColorsContainer.encode(hexcolor0)
             }
         }
         if let status = self.status {
@@ -49996,8 +50002,8 @@ extension QuickSightClientTypes.RowLevelPermissionTagConfiguration: Swift.Codabl
         }
         if let tagRules = tagRules {
             var tagRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagRules)
-            for rowlevelpermissiontagrulelist0 in tagRules {
-                try tagRulesContainer.encode(rowlevelpermissiontagrulelist0)
+            for rowlevelpermissiontagrule0 in tagRules {
+                try tagRulesContainer.encode(rowlevelpermissiontagrule0)
             }
         }
     }
@@ -50163,8 +50169,8 @@ extension QuickSightClientTypes.S3Source: Swift.Codable {
         }
         if let inputColumns = inputColumns {
             var inputColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputColumns)
-            for inputcolumnlist0 in inputColumns {
-                try inputColumnsContainer.encode(inputcolumnlist0)
+            for inputcolumn0 in inputColumns {
+                try inputColumnsContainer.encode(inputcolumn0)
             }
         }
         if let uploadSettings = self.uploadSettings {
@@ -50231,8 +50237,8 @@ extension QuickSightClientTypes.SameSheetTargetVisualConfiguration: Swift.Codabl
         }
         if let targetVisuals = targetVisuals {
             var targetVisualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetVisuals)
-            for targetvisuallist0 in targetVisuals {
-                try targetVisualsContainer.encode(targetvisuallist0)
+            for shortrestrictiveresourceid0 in targetVisuals {
+                try targetVisualsContainer.encode(shortrestrictiveresourceid0)
             }
         }
     }
@@ -50288,20 +50294,20 @@ extension QuickSightClientTypes.SankeyDiagramAggregatedFieldWells: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destination = destination {
             var destinationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destination)
-            for dimensionfieldlist0 in destination {
-                try destinationContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in destination {
+                try destinationContainer.encode(dimensionfield0)
             }
         }
         if let source = source {
             var sourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .source)
-            for dimensionfieldlist0 in source {
-                try sourceContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in source {
+                try sourceContainer.encode(dimensionfield0)
             }
         }
         if let weight = weight {
             var weightContainer = encodeContainer.nestedUnkeyedContainer(forKey: .weight)
-            for measurefieldlist0 in weight {
-                try weightContainer.encode(measurefieldlist0)
+            for measurefield0 in weight {
+                try weightContainer.encode(measurefield0)
             }
         }
     }
@@ -50475,8 +50481,8 @@ extension QuickSightClientTypes.SankeyDiagramSortConfiguration: Swift.Codable {
         }
         if let weightSort = weightSort {
             var weightSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .weightSort)
-            for fieldsortoptionslist0 in weightSort {
-                try weightSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in weightSort {
+                try weightSortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -50538,8 +50544,8 @@ extension QuickSightClientTypes.SankeyDiagramVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -50625,26 +50631,26 @@ extension QuickSightClientTypes.ScatterPlotCategoricallyAggregatedFieldWells: Sw
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let category = category {
             var categoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .category)
-            for dimensionfieldlist0 in category {
-                try categoryContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in category {
+                try categoryContainer.encode(dimensionfield0)
             }
         }
         if let size = size {
             var sizeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .size)
-            for measurefieldlist0 in size {
-                try sizeContainer.encode(measurefieldlist0)
+            for measurefield0 in size {
+                try sizeContainer.encode(measurefield0)
             }
         }
         if let xAxis = xAxis {
             var xAxisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .xAxis)
-            for measurefieldlist0 in xAxis {
-                try xAxisContainer.encode(measurefieldlist0)
+            for measurefield0 in xAxis {
+                try xAxisContainer.encode(measurefield0)
             }
         }
         if let yAxis = yAxis {
             var yAxisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .yAxis)
-            for measurefieldlist0 in yAxis {
-                try yAxisContainer.encode(measurefieldlist0)
+            for measurefield0 in yAxis {
+                try yAxisContainer.encode(measurefield0)
             }
         }
     }
@@ -50897,20 +50903,20 @@ extension QuickSightClientTypes.ScatterPlotUnaggregatedFieldWells: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let size = size {
             var sizeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .size)
-            for measurefieldlist0 in size {
-                try sizeContainer.encode(measurefieldlist0)
+            for measurefield0 in size {
+                try sizeContainer.encode(measurefield0)
             }
         }
         if let xAxis = xAxis {
             var xAxisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .xAxis)
-            for dimensionfieldlist0 in xAxis {
-                try xAxisContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in xAxis {
+                try xAxisContainer.encode(dimensionfield0)
             }
         }
         if let yAxis = yAxis {
             var yAxisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .yAxis)
-            for dimensionfieldlist0 in yAxis {
-                try yAxisContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in yAxis {
+                try yAxisContainer.encode(dimensionfield0)
             }
         }
     }
@@ -50991,8 +50997,8 @@ extension QuickSightClientTypes.ScatterPlotVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -51000,8 +51006,8 @@ extension QuickSightClientTypes.ScatterPlotVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -51143,8 +51149,8 @@ extension SearchAnalysesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for analysissearchfilterlist0 in filters {
-                try filtersContainer.encode(analysissearchfilterlist0)
+            for analysissearchfilter0 in filters {
+                try filtersContainer.encode(analysissearchfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -51346,8 +51352,8 @@ extension SearchDashboardsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for dashboardsearchfilterlist0 in filters {
-                try filtersContainer.encode(dashboardsearchfilterlist0)
+            for dashboardsearchfilter0 in filters {
+                try filtersContainer.encode(dashboardsearchfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -51549,8 +51555,8 @@ extension SearchDataSetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for datasetsearchfilterlist0 in filters {
-                try filtersContainer.encode(datasetsearchfilterlist0)
+            for datasetsearchfilter0 in filters {
+                try filtersContainer.encode(datasetsearchfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -51752,8 +51758,8 @@ extension SearchDataSourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for datasourcesearchfilterlist0 in filters {
-                try filtersContainer.encode(datasourcesearchfilterlist0)
+            for datasourcesearchfilter0 in filters {
+                try filtersContainer.encode(datasourcesearchfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -51955,8 +51961,8 @@ extension SearchFoldersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for foldersearchfilterlist0 in filters {
-                try filtersContainer.encode(foldersearchfilterlist0)
+            for foldersearchfilter0 in filters {
+                try filtersContainer.encode(foldersearchfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -52160,8 +52166,8 @@ extension SearchGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for groupsearchfilterlist0 in filters {
-                try filtersContainer.encode(groupsearchfilterlist0)
+            for groupsearchfilter0 in filters {
+                try filtersContainer.encode(groupsearchfilter0)
             }
         }
     }
@@ -52484,8 +52490,8 @@ extension QuickSightClientTypes.SectionBasedLayoutConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bodySections = bodySections {
             var bodySectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bodySections)
-            for bodysectionconfigurationlist0 in bodySections {
-                try bodySectionsContainer.encode(bodysectionconfigurationlist0)
+            for bodysectionconfiguration0 in bodySections {
+                try bodySectionsContainer.encode(bodysectionconfiguration0)
             }
         }
         if let canvasSizeOptions = self.canvasSizeOptions {
@@ -52493,14 +52499,14 @@ extension QuickSightClientTypes.SectionBasedLayoutConfiguration: Swift.Codable {
         }
         if let footerSections = footerSections {
             var footerSectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .footerSections)
-            for headerfootersectionconfigurationlist0 in footerSections {
-                try footerSectionsContainer.encode(headerfootersectionconfigurationlist0)
+            for headerfootersectionconfiguration0 in footerSections {
+                try footerSectionsContainer.encode(headerfootersectionconfiguration0)
             }
         }
         if let headerSections = headerSections {
             var headerSectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headerSections)
-            for headerfootersectionconfigurationlist0 in headerSections {
-                try headerSectionsContainer.encode(headerfootersectionconfigurationlist0)
+            for headerfootersectionconfiguration0 in headerSections {
+                try headerSectionsContainer.encode(headerfootersectionconfiguration0)
             }
         }
     }
@@ -52851,8 +52857,8 @@ extension QuickSightClientTypes.SelectedSheetsFilterScopeConfiguration: Swift.Co
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let sheetVisualScopingConfigurations = sheetVisualScopingConfigurations {
             var sheetVisualScopingConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheetVisualScopingConfigurations)
-            for sheetvisualscopingconfigurations0 in sheetVisualScopingConfigurations {
-                try sheetVisualScopingConfigurationsContainer.encode(sheetvisualscopingconfigurations0)
+            for sheetvisualscopingconfiguration0 in sheetVisualScopingConfigurations {
+                try sheetVisualScopingConfigurationsContainer.encode(sheetvisualscopingconfiguration0)
             }
         }
     }
@@ -53503,14 +53509,14 @@ extension QuickSightClientTypes.SheetDefinition: Swift.Codable {
         }
         if let filterControls = filterControls {
             var filterControlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterControls)
-            for filtercontrollist0 in filterControls {
-                try filterControlsContainer.encode(filtercontrollist0)
+            for filtercontrol0 in filterControls {
+                try filterControlsContainer.encode(filtercontrol0)
             }
         }
         if let layouts = layouts {
             var layoutsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layouts)
-            for layoutlist0 in layouts {
-                try layoutsContainer.encode(layoutlist0)
+            for layout0 in layouts {
+                try layoutsContainer.encode(layout0)
             }
         }
         if let name = self.name {
@@ -53518,14 +53524,14 @@ extension QuickSightClientTypes.SheetDefinition: Swift.Codable {
         }
         if let parameterControls = parameterControls {
             var parameterControlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterControls)
-            for parametercontrollist0 in parameterControls {
-                try parameterControlsContainer.encode(parametercontrollist0)
+            for parametercontrol0 in parameterControls {
+                try parameterControlsContainer.encode(parametercontrol0)
             }
         }
         if let sheetControlLayouts = sheetControlLayouts {
             var sheetControlLayoutsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheetControlLayouts)
-            for sheetcontrollayoutlist0 in sheetControlLayouts {
-                try sheetControlLayoutsContainer.encode(sheetcontrollayoutlist0)
+            for sheetcontrollayout0 in sheetControlLayouts {
+                try sheetControlLayoutsContainer.encode(sheetcontrollayout0)
             }
         }
         if let sheetId = self.sheetId {
@@ -53533,8 +53539,8 @@ extension QuickSightClientTypes.SheetDefinition: Swift.Codable {
         }
         if let textBoxes = textBoxes {
             var textBoxesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textBoxes)
-            for sheettextboxlist0 in textBoxes {
-                try textBoxesContainer.encode(sheettextboxlist0)
+            for sheettextbox0 in textBoxes {
+                try textBoxesContainer.encode(sheettextbox0)
             }
         }
         if let title = self.title {
@@ -53542,8 +53548,8 @@ extension QuickSightClientTypes.SheetDefinition: Swift.Codable {
         }
         if let visuals = visuals {
             var visualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .visuals)
-            for visuallist0 in visuals {
-                try visualsContainer.encode(visuallist0)
+            for visual0 in visuals {
+                try visualsContainer.encode(visual0)
             }
         }
     }
@@ -53889,8 +53895,8 @@ extension QuickSightClientTypes.SheetVisualScopingConfiguration: Swift.Codable {
         }
         if let visualIds = visualIds {
             var visualIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .visualIds)
-            for filteredvisualslist0 in visualIds {
-                try visualIdsContainer.encode(filteredvisualslist0)
+            for shortrestrictiveresourceid0 in visualIds {
+                try visualIdsContainer.encode(shortrestrictiveresourceid0)
             }
         }
     }
@@ -54579,8 +54585,8 @@ extension QuickSightClientTypes.StringDefaultValues: Swift.Codable {
         }
         if let staticValues = staticValues {
             var staticValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .staticValues)
-            for stringdefaultvaluelist0 in staticValues {
-                try staticValuesContainer.encode(stringdefaultvaluelist0)
+            for sensitivestringobject0 in staticValues {
+                try staticValuesContainer.encode(sensitivestringobject0)
             }
         }
     }
@@ -54681,8 +54687,8 @@ extension QuickSightClientTypes.StringParameter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for sensitivestringlist0 in values {
-                try valuesContainer.encode(sensitivestringlist0)
+            for sensitivestring0 in values {
+                try valuesContainer.encode(sensitivestring0)
             }
         }
     }
@@ -54869,8 +54875,8 @@ extension QuickSightClientTypes.SubtotalOptions: Swift.Codable {
         }
         if let fieldLevelOptions = fieldLevelOptions {
             var fieldLevelOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldLevelOptions)
-            for pivottablefieldsubtotaloptionslist0 in fieldLevelOptions {
-                try fieldLevelOptionsContainer.encode(pivottablefieldsubtotaloptionslist0)
+            for pivottablefieldsubtotaloptions0 in fieldLevelOptions {
+                try fieldLevelOptionsContainer.encode(pivottablefieldsubtotaloptions0)
             }
         }
         if let metricHeaderCellStyle = self.metricHeaderCellStyle {
@@ -54965,14 +54971,14 @@ extension QuickSightClientTypes.TableAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupBy = groupBy {
             var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
-            for dimensionfieldlist0 in groupBy {
-                try groupByContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in groupBy {
+                try groupByContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for measurefieldlist0 in values {
-                try valuesContainer.encode(measurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -55341,8 +55347,8 @@ extension QuickSightClientTypes.TableConditionalFormatting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conditionalFormattingOptions = conditionalFormattingOptions {
             var conditionalFormattingOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditionalFormattingOptions)
-            for tableconditionalformattingoptionlist0 in conditionalFormattingOptions {
-                try conditionalFormattingOptionsContainer.encode(tableconditionalformattingoptionlist0)
+            for tableconditionalformattingoption0 in conditionalFormattingOptions {
+                try conditionalFormattingOptionsContainer.encode(tableconditionalformattingoption0)
             }
         }
     }
@@ -55832,14 +55838,14 @@ extension QuickSightClientTypes.TableFieldOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let order = order {
             var orderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .order)
-            for fieldorderlist0 in order {
-                try orderContainer.encode(fieldorderlist0)
+            for fieldid0 in order {
+                try orderContainer.encode(fieldid0)
             }
         }
         if let selectedFieldOptions = selectedFieldOptions {
             var selectedFieldOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedFieldOptions)
-            for tablefieldoptionlist0 in selectedFieldOptions {
-                try selectedFieldOptionsContainer.encode(tablefieldoptionlist0)
+            for tablefieldoption0 in selectedFieldOptions {
+                try selectedFieldOptionsContainer.encode(tablefieldoption0)
             }
         }
     }
@@ -56266,8 +56272,8 @@ extension QuickSightClientTypes.TableSortConfiguration: Swift.Codable {
         }
         if let rowSort = rowSort {
             var rowSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowSort)
-            for rowsortlist0 in rowSort {
-                try rowSortContainer.encode(rowsortlist0)
+            for fieldsortoptions0 in rowSort {
+                try rowSortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -56383,8 +56389,8 @@ extension QuickSightClientTypes.TableUnaggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for unaggregatedfieldlist0 in values {
-                try valuesContainer.encode(unaggregatedfieldlist0)
+            for unaggregatedfield0 in values {
+                try valuesContainer.encode(unaggregatedfield0)
             }
         }
     }
@@ -56435,8 +56441,8 @@ extension QuickSightClientTypes.TableVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -56579,8 +56585,8 @@ extension QuickSightClientTypes.TagColumnOperation: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for columntaglist0 in tags {
-                try tagsContainer.encode(columntaglist0)
+            for columntag0 in tags {
+                try tagsContainer.encode(columntag0)
             }
         }
     }
@@ -56634,8 +56640,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -56961,8 +56967,8 @@ extension QuickSightClientTypes.TemplateError: Swift.Codable {
         }
         if let violatedEntities = violatedEntities {
             var violatedEntitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violatedEntities)
-            for entitylist0 in violatedEntities {
-                try violatedEntitiesContainer.encode(entitylist0)
+            for entity0 in violatedEntities {
+                try violatedEntitiesContainer.encode(entity0)
             }
         }
     }
@@ -57062,8 +57068,8 @@ extension QuickSightClientTypes.TemplateSourceAnalysis: Swift.Codable {
         }
         if let dataSetReferences = dataSetReferences {
             var dataSetReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetReferences)
-            for datasetreferencelist0 in dataSetReferences {
-                try dataSetReferencesContainer.encode(datasetreferencelist0)
+            for datasetreference0 in dataSetReferences {
+                try dataSetReferencesContainer.encode(datasetreference0)
             }
         }
     }
@@ -57294,8 +57300,8 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
         }
         if let dataSetConfigurations = dataSetConfigurations {
             var dataSetConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetConfigurations)
-            for datasetconfigurationlist0 in dataSetConfigurations {
-                try dataSetConfigurationsContainer.encode(datasetconfigurationlist0)
+            for datasetconfiguration0 in dataSetConfigurations {
+                try dataSetConfigurationsContainer.encode(datasetconfiguration0)
             }
         }
         if let description = self.description {
@@ -57303,14 +57309,14 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
         }
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for templateerrorlist0 in errors {
-                try errorsContainer.encode(templateerrorlist0)
+            for templateerror0 in errors {
+                try errorsContainer.encode(templateerror0)
             }
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
-            for sheetlist0 in sheets {
-                try sheetsContainer.encode(sheetlist0)
+            for sheet0 in sheets {
+                try sheetsContainer.encode(sheet0)
             }
         }
         if let sourceEntityArn = self.sourceEntityArn {
@@ -57443,38 +57449,38 @@ extension QuickSightClientTypes.TemplateVersionDefinition: Swift.Codable {
         }
         if let calculatedFields = calculatedFields {
             var calculatedFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .calculatedFields)
-            for calculatedfields0 in calculatedFields {
-                try calculatedFieldsContainer.encode(calculatedfields0)
+            for calculatedfield0 in calculatedFields {
+                try calculatedFieldsContainer.encode(calculatedfield0)
             }
         }
         if let columnConfigurations = columnConfigurations {
             var columnConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnConfigurations)
-            for columnconfigurationlist0 in columnConfigurations {
-                try columnConfigurationsContainer.encode(columnconfigurationlist0)
+            for columnconfiguration0 in columnConfigurations {
+                try columnConfigurationsContainer.encode(columnconfiguration0)
             }
         }
         if let dataSetConfigurations = dataSetConfigurations {
             var dataSetConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetConfigurations)
-            for datasetconfigurationlist0 in dataSetConfigurations {
-                try dataSetConfigurationsContainer.encode(datasetconfigurationlist0)
+            for datasetconfiguration0 in dataSetConfigurations {
+                try dataSetConfigurationsContainer.encode(datasetconfiguration0)
             }
         }
         if let filterGroups = filterGroups {
             var filterGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterGroups)
-            for filtergrouplist0 in filterGroups {
-                try filterGroupsContainer.encode(filtergrouplist0)
+            for filtergroup0 in filterGroups {
+                try filterGroupsContainer.encode(filtergroup0)
             }
         }
         if let parameterDeclarations = parameterDeclarations {
             var parameterDeclarationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterDeclarations)
-            for parameterdeclarationlist0 in parameterDeclarations {
-                try parameterDeclarationsContainer.encode(parameterdeclarationlist0)
+            for parameterdeclaration0 in parameterDeclarations {
+                try parameterDeclarationsContainer.encode(parameterdeclaration0)
             }
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
-            for sheetdefinitionlist0 in sheets {
-                try sheetsContainer.encode(sheetdefinitionlist0)
+            for sheetdefinition0 in sheets {
+                try sheetsContainer.encode(sheetdefinition0)
             }
         }
     }
@@ -58410,8 +58416,8 @@ extension QuickSightClientTypes.ThemeVersion: Swift.Codable {
         }
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for themeerrorlist0 in errors {
-                try errorsContainer.encode(themeerrorlist0)
+            for themeerror0 in errors {
+                try errorsContainer.encode(themeerror0)
             }
         }
         if let status = self.status {
@@ -59407,8 +59413,8 @@ extension QuickSightClientTypes.TopBottomFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aggregationSortConfigurations = aggregationSortConfigurations {
             var aggregationSortConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregationSortConfigurations)
-            for aggregationsortconfigurationlist0 in aggregationSortConfigurations {
-                try aggregationSortConfigurationsContainer.encode(aggregationsortconfigurationlist0)
+            for aggregationsortconfiguration0 in aggregationSortConfigurations {
+                try aggregationSortConfigurationsContainer.encode(aggregationsortconfiguration0)
             }
         }
         if let column = self.column {
@@ -59970,20 +59976,20 @@ extension QuickSightClientTypes.TreeMapAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let colors = colors {
             var colorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colors)
-            for treemapmeasurefieldlist0 in colors {
-                try colorsContainer.encode(treemapmeasurefieldlist0)
+            for measurefield0 in colors {
+                try colorsContainer.encode(measurefield0)
             }
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for treemapdimensionfieldlist0 in groups {
-                try groupsContainer.encode(treemapdimensionfieldlist0)
+            for dimensionfield0 in groups {
+                try groupsContainer.encode(dimensionfield0)
             }
         }
         if let sizes = sizes {
             var sizesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sizes)
-            for treemapmeasurefieldlist0 in sizes {
-                try sizesContainer.encode(treemapmeasurefieldlist0)
+            for measurefield0 in sizes {
+                try sizesContainer.encode(measurefield0)
             }
         }
     }
@@ -60213,8 +60219,8 @@ extension QuickSightClientTypes.TreeMapSortConfiguration: Swift.Codable {
         }
         if let treeMapSort = treeMapSort {
             var treeMapSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .treeMapSort)
-            for fieldsortoptionslist0 in treeMapSort {
-                try treeMapSortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in treeMapSort {
+                try treeMapSortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -60271,8 +60277,8 @@ extension QuickSightClientTypes.TreeMapVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -60280,8 +60286,8 @@ extension QuickSightClientTypes.TreeMapVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -60458,8 +60464,8 @@ extension QuickSightClientTypes.Typography: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fontFamilies = fontFamilies {
             var fontFamiliesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fontFamilies)
-            for fontlist0 in fontFamilies {
-                try fontFamiliesContainer.encode(fontlist0)
+            for font0 in fontFamilies {
+                try fontFamiliesContainer.encode(font0)
             }
         }
     }
@@ -60967,8 +60973,8 @@ extension QuickSightClientTypes.UntagColumnOperation: Swift.Codable {
         }
         if let tagNames = tagNames {
             var tagNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagNames)
-            for columntagnames0 in tagNames {
-                try tagNamesContainer.encode(columntagnames0.rawValue)
+            for columntagname0 in tagNames {
+                try tagNamesContainer.encode(columntagname0.rawValue)
             }
         }
     }
@@ -61741,14 +61747,14 @@ extension UpdateAnalysisPermissionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantPermissions = grantPermissions {
             var grantPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantPermissions)
-            for updateresourcepermissionlist0 in grantPermissions {
-                try grantPermissionsContainer.encode(updateresourcepermissionlist0)
+            for resourcepermission0 in grantPermissions {
+                try grantPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let revokePermissions = revokePermissions {
             var revokePermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revokePermissions)
-            for updateresourcepermissionlist0 in revokePermissions {
-                try revokePermissionsContainer.encode(updateresourcepermissionlist0)
+            for resourcepermission0 in revokePermissions {
+                try revokePermissionsContainer.encode(resourcepermission0)
             }
         }
     }
@@ -62232,26 +62238,26 @@ extension UpdateDashboardPermissionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantLinkPermissions = grantLinkPermissions {
             var grantLinkPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantLinkPermissions)
-            for updatelinkpermissionlist0 in grantLinkPermissions {
-                try grantLinkPermissionsContainer.encode(updatelinkpermissionlist0)
+            for resourcepermission0 in grantLinkPermissions {
+                try grantLinkPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let grantPermissions = grantPermissions {
             var grantPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantPermissions)
-            for updateresourcepermissionlist0 in grantPermissions {
-                try grantPermissionsContainer.encode(updateresourcepermissionlist0)
+            for resourcepermission0 in grantPermissions {
+                try grantPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let revokeLinkPermissions = revokeLinkPermissions {
             var revokeLinkPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revokeLinkPermissions)
-            for updatelinkpermissionlist0 in revokeLinkPermissions {
-                try revokeLinkPermissionsContainer.encode(updatelinkpermissionlist0)
+            for resourcepermission0 in revokeLinkPermissions {
+                try revokeLinkPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let revokePermissions = revokePermissions {
             var revokePermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revokePermissions)
-            for updateresourcepermissionlist0 in revokePermissions {
-                try revokePermissionsContainer.encode(updateresourcepermissionlist0)
+            for resourcepermission0 in revokePermissions {
+                try revokePermissionsContainer.encode(resourcepermission0)
             }
         }
     }
@@ -62667,14 +62673,14 @@ extension UpdateDataSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnGroups = columnGroups {
             var columnGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnGroups)
-            for columngrouplist0 in columnGroups {
-                try columnGroupsContainer.encode(columngrouplist0)
+            for columngroup0 in columnGroups {
+                try columnGroupsContainer.encode(columngroup0)
             }
         }
         if let columnLevelPermissionRules = columnLevelPermissionRules {
             var columnLevelPermissionRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnLevelPermissionRules)
-            for columnlevelpermissionrulelist0 in columnLevelPermissionRules {
-                try columnLevelPermissionRulesContainer.encode(columnlevelpermissionrulelist0)
+            for columnlevelpermissionrule0 in columnLevelPermissionRules {
+                try columnLevelPermissionRulesContainer.encode(columnlevelpermissionrule0)
             }
         }
         if let dataSetUsageConfiguration = self.dataSetUsageConfiguration {
@@ -62682,8 +62688,8 @@ extension UpdateDataSetInput: Swift.Encodable {
         }
         if let fieldFolders = fieldFolders {
             var fieldFoldersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fieldFolders)
-            for (dictKey0, fieldfoldermap0) in fieldFolders {
-                try fieldFoldersContainer.encode(fieldfoldermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, fieldFolderMap0) in fieldFolders {
+                try fieldFoldersContainer.encode(fieldFolderMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let importMode = self.importMode {
@@ -62691,8 +62697,8 @@ extension UpdateDataSetInput: Swift.Encodable {
         }
         if let logicalTableMap = logicalTableMap {
             var logicalTableMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logicalTableMap)
-            for (dictKey0, logicaltablemap0) in logicalTableMap {
-                try logicalTableMapContainer.encode(logicaltablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logicalTableMap0) in logicalTableMap {
+                try logicalTableMapContainer.encode(logicalTableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -62700,8 +62706,8 @@ extension UpdateDataSetInput: Swift.Encodable {
         }
         if let physicalTableMap = physicalTableMap {
             var physicalTableMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .physicalTableMap)
-            for (dictKey0, physicaltablemap0) in physicalTableMap {
-                try physicalTableMapContainer.encode(physicaltablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, physicalTableMap0) in physicalTableMap {
+                try physicalTableMapContainer.encode(physicalTableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let rowLevelPermissionDataSet = self.rowLevelPermissionDataSet {
@@ -63019,14 +63025,14 @@ extension UpdateDataSetPermissionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantPermissions = grantPermissions {
             var grantPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantPermissions)
-            for resourcepermissionlist0 in grantPermissions {
-                try grantPermissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in grantPermissions {
+                try grantPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let revokePermissions = revokePermissions {
             var revokePermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revokePermissions)
-            for resourcepermissionlist0 in revokePermissions {
-                try revokePermissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in revokePermissions {
+                try revokePermissionsContainer.encode(resourcepermission0)
             }
         }
     }
@@ -63449,14 +63455,14 @@ extension UpdateDataSourcePermissionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantPermissions = grantPermissions {
             var grantPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantPermissions)
-            for resourcepermissionlist0 in grantPermissions {
-                try grantPermissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in grantPermissions {
+                try grantPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let revokePermissions = revokePermissions {
             var revokePermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revokePermissions)
-            for resourcepermissionlist0 in revokePermissions {
-                try revokePermissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in revokePermissions {
+                try revokePermissionsContainer.encode(resourcepermission0)
             }
         }
     }
@@ -63820,14 +63826,14 @@ extension UpdateFolderPermissionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantPermissions = grantPermissions {
             var grantPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantPermissions)
-            for resourcepermissionlist0 in grantPermissions {
-                try grantPermissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in grantPermissions {
+                try grantPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let revokePermissions = revokePermissions {
             var revokePermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revokePermissions)
-            for resourcepermissionlist0 in revokePermissions {
-                try revokePermissionsContainer.encode(resourcepermissionlist0)
+            for resourcepermission0 in revokePermissions {
+                try revokePermissionsContainer.encode(resourcepermission0)
             }
         }
     }
@@ -64212,8 +64218,11 @@ extension UpdateIAMPolicyAssignmentInput: Swift.Encodable {
         }
         if let identities = identities {
             var identitiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .identities)
-            for (dictKey0, identitymap0) in identities {
-                try identitiesContainer.encode(identitymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityMap0) in identities {
+                var identityMap0Container = identitiesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for identityname1 in identityMap0 {
+                    try identityMap0Container.encode(identityname1)
+                }
             }
         }
         if let policyArn = self.policyArn {
@@ -64487,8 +64496,8 @@ extension UpdateIpRestrictionInput: Swift.Encodable {
         }
         if let ipRestrictionRuleMap = ipRestrictionRuleMap {
             var ipRestrictionRuleMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .ipRestrictionRuleMap)
-            for (dictKey0, iprestrictionrulemap0) in ipRestrictionRuleMap {
-                try ipRestrictionRuleMapContainer.encode(iprestrictionrulemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ipRestrictionRuleMap0) in ipRestrictionRuleMap {
+                try ipRestrictionRuleMapContainer.encode(ipRestrictionRuleMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -65179,14 +65188,14 @@ extension UpdateTemplatePermissionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantPermissions = grantPermissions {
             var grantPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantPermissions)
-            for updateresourcepermissionlist0 in grantPermissions {
-                try grantPermissionsContainer.encode(updateresourcepermissionlist0)
+            for resourcepermission0 in grantPermissions {
+                try grantPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let revokePermissions = revokePermissions {
             var revokePermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revokePermissions)
-            for updateresourcepermissionlist0 in revokePermissions {
-                try revokePermissionsContainer.encode(updateresourcepermissionlist0)
+            for resourcepermission0 in revokePermissions {
+                try revokePermissionsContainer.encode(resourcepermission0)
             }
         }
     }
@@ -65793,14 +65802,14 @@ extension UpdateThemePermissionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantPermissions = grantPermissions {
             var grantPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantPermissions)
-            for updateresourcepermissionlist0 in grantPermissions {
-                try grantPermissionsContainer.encode(updateresourcepermissionlist0)
+            for resourcepermission0 in grantPermissions {
+                try grantPermissionsContainer.encode(resourcepermission0)
             }
         }
         if let revokePermissions = revokePermissions {
             var revokePermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revokePermissions)
-            for updateresourcepermissionlist0 in revokePermissions {
-                try revokePermissionsContainer.encode(updateresourcepermissionlist0)
+            for resourcepermission0 in revokePermissions {
+                try revokePermissionsContainer.encode(resourcepermission0)
             }
         }
     }
@@ -66927,8 +66936,8 @@ extension QuickSightClientTypes.VisualCustomAction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actionOperations = actionOperations {
             var actionOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionOperations)
-            for visualcustomactionoperationlist0 in actionOperations {
-                try actionOperationsContainer.encode(visualcustomactionoperationlist0)
+            for visualcustomactionoperation0 in actionOperations {
+                try actionOperationsContainer.encode(visualcustomactionoperation0)
             }
         }
         if let customActionId = self.customActionId {
@@ -67119,8 +67128,8 @@ extension QuickSightClientTypes.VisualPalette: Swift.Codable {
         }
         if let colorMap = colorMap {
             var colorMapContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colorMap)
-            for datapathcolorlist0 in colorMap {
-                try colorMapContainer.encode(datapathcolorlist0)
+            for datapathcolor0 in colorMap {
+                try colorMapContainer.encode(datapathcolor0)
             }
         }
     }
@@ -67300,20 +67309,20 @@ extension QuickSightClientTypes.WaterfallChartAggregatedFieldWells: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let breakdowns = breakdowns {
             var breakdownsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .breakdowns)
-            for dimensionfieldlist0 in breakdowns {
-                try breakdownsContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in breakdowns {
+                try breakdownsContainer.encode(dimensionfield0)
             }
         }
         if let categories = categories {
             var categoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categories)
-            for dimensionfieldlist0 in categories {
-                try categoriesContainer.encode(dimensionfieldlist0)
+            for dimensionfield0 in categories {
+                try categoriesContainer.encode(dimensionfield0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for measurefieldlist0 in values {
-                try valuesContainer.encode(measurefieldlist0)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
             }
         }
     }
@@ -67588,8 +67597,8 @@ extension QuickSightClientTypes.WaterfallChartSortConfiguration: Swift.Codable {
         }
         if let categorySort = categorySort {
             var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
-            for fieldsortoptionslist0 in categorySort {
-                try categorySortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -67646,8 +67655,8 @@ extension QuickSightClientTypes.WaterfallVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -67655,8 +67664,8 @@ extension QuickSightClientTypes.WaterfallVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {
@@ -67889,14 +67898,14 @@ extension QuickSightClientTypes.WordCloudAggregatedFieldWells: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupBy = groupBy {
             var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
-            for wordclouddimensionfieldlist0 in groupBy {
-                try groupByContainer.encode(wordclouddimensionfieldlist0)
+            for dimensionfield0 in groupBy {
+                try groupByContainer.encode(dimensionfield0)
             }
         }
         if let size = size {
             var sizeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .size)
-            for wordcloudmeasurefieldlist0 in size {
-                try sizeContainer.encode(wordcloudmeasurefieldlist0)
+            for measurefield0 in size {
+                try sizeContainer.encode(measurefield0)
             }
         }
     }
@@ -68178,8 +68187,8 @@ extension QuickSightClientTypes.WordCloudSortConfiguration: Swift.Codable {
         }
         if let categorySort = categorySort {
             var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
-            for fieldsortoptionslist0 in categorySort {
-                try categorySortContainer.encode(fieldsortoptionslist0)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
             }
         }
     }
@@ -68236,8 +68245,8 @@ extension QuickSightClientTypes.WordCloudVisual: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for visualcustomactionlist0 in actions {
-                try actionsContainer.encode(visualcustomactionlist0)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
             }
         }
         if let chartConfiguration = self.chartConfiguration {
@@ -68245,8 +68254,8 @@ extension QuickSightClientTypes.WordCloudVisual: Swift.Codable {
         }
         if let columnHierarchies = columnHierarchies {
             var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
-            for columnhierarchylist0 in columnHierarchies {
-                try columnHierarchiesContainer.encode(columnhierarchylist0)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
             }
         }
         if let subtitle = self.subtitle {

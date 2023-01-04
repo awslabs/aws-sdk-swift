@@ -69,8 +69,8 @@ extension GlueClientTypes.Action: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arguments = arguments {
             var argumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .arguments)
-            for (dictKey0, genericmap0) in arguments {
-                try argumentsContainer.encode(genericmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, genericMap0) in arguments {
+                try argumentsContainer.encode(genericMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let crawlerName = self.crawlerName {
@@ -235,23 +235,23 @@ extension GlueClientTypes.Aggregate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aggs = aggs {
             var aggsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggs)
-            for aggregateoperations0 in aggs {
-                try aggsContainer.encode(aggregateoperations0)
+            for aggregateoperation0 in aggs {
+                try aggsContainer.encode(aggregateoperation0)
             }
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for gluestudiopathlist0 in groups {
-                var gluestudiopathlist0Container = groupsContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in groups {
+                var enclosedinstringproperties0Container = groupsContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -353,8 +353,8 @@ extension GlueClientTypes.AggregateOperation: Swift.Codable {
         }
         if let column = column {
             var columnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .column)
-            for enclosedinstringproperties0 in column {
-                try columnContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in column {
+                try columnContainer.encode(enclosedinstringproperty0)
             }
         }
     }
@@ -463,14 +463,14 @@ extension GlueClientTypes.ApplyMapping: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let mapping = mapping {
             var mappingContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mapping)
-            for mappings0 in mapping {
-                try mappingContainer.encode(mappings0)
+            for mapping0 in mapping {
+                try mappingContainer.encode(mapping0)
             }
         }
         if let name = self.name {
@@ -564,8 +564,8 @@ extension GlueClientTypes.AthenaConnectorSource: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
         if let schemaName = self.schemaName {
@@ -663,8 +663,8 @@ extension GlueClientTypes.AuditContext: Swift.Codable {
         }
         if let requestedColumns = requestedColumns {
             var requestedColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestedColumns)
-            for auditcolumnnameslist0 in requestedColumns {
-                try requestedColumnsContainer.encode(auditcolumnnameslist0)
+            for columnnamestring0 in requestedColumns {
+                try requestedColumnsContainer.encode(columnnamestring0)
             }
         }
     }
@@ -726,8 +726,8 @@ extension GlueClientTypes.BackfillError: Swift.Codable {
         }
         if let partitions = partitions {
             var partitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitions)
-            for backfillerroredpartitionslist0 in partitions {
-                try partitionsContainer.encode(backfillerroredpartitionslist0)
+            for partitionvaluelist0 in partitions {
+                try partitionsContainer.encode(partitionvaluelist0)
             }
         }
     }
@@ -836,8 +836,8 @@ extension GlueClientTypes.BasicCatalogTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -920,8 +920,8 @@ extension BatchCreatePartitionInput: Swift.Encodable {
         }
         if let partitionInputList = partitionInputList {
             var partitionInputListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionInputList)
-            for partitioninputlist0 in partitionInputList {
-                try partitionInputListContainer.encode(partitioninputlist0)
+            for partitioninput0 in partitionInputList {
+                try partitionInputListContainer.encode(partitioninput0)
             }
         }
         if let tableName = self.tableName {
@@ -1097,8 +1097,8 @@ extension BatchDeleteConnectionInput: Swift.Encodable {
         }
         if let connectionNameList = connectionNameList {
             var connectionNameListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectionNameList)
-            for deleteconnectionnamelist0 in connectionNameList {
-                try connectionNameListContainer.encode(deleteconnectionnamelist0)
+            for namestring0 in connectionNameList {
+                try connectionNameListContainer.encode(namestring0)
             }
         }
     }
@@ -1267,8 +1267,8 @@ extension BatchDeletePartitionInput: Swift.Encodable {
         }
         if let partitionsToDelete = partitionsToDelete {
             var partitionsToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionsToDelete)
-            for batchdeletepartitionvaluelist0 in partitionsToDelete {
-                try partitionsToDeleteContainer.encode(batchdeletepartitionvaluelist0)
+            for partitionvaluelist0 in partitionsToDelete {
+                try partitionsToDeleteContainer.encode(partitionvaluelist0)
             }
         }
         if let tableName = self.tableName {
@@ -1443,8 +1443,8 @@ extension BatchDeleteTableInput: Swift.Encodable {
         }
         if let tablesToDelete = tablesToDelete {
             var tablesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tablesToDelete)
-            for batchdeletetablenamelist0 in tablesToDelete {
-                try tablesToDeleteContainer.encode(batchdeletetablenamelist0)
+            for namestring0 in tablesToDelete {
+                try tablesToDeleteContainer.encode(namestring0)
             }
         }
         if let transactionId = self.transactionId {
@@ -1625,8 +1625,8 @@ extension BatchDeleteTableVersionInput: Swift.Encodable {
         }
         if let versionIds = versionIds {
             var versionIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versionIds)
-            for batchdeletetableversionlist0 in versionIds {
-                try versionIdsContainer.encode(batchdeletetableversionlist0)
+            for versionstring0 in versionIds {
+                try versionIdsContainer.encode(versionstring0)
             }
         }
     }
@@ -1797,8 +1797,8 @@ extension BatchGetBlueprintsInput: Swift.Encodable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for batchgetblueprintnames0 in names {
-                try namesContainer.encode(batchgetblueprintnames0)
+            for orchestrationnamestring0 in names {
+                try namesContainer.encode(orchestrationnamestring0)
             }
         }
     }
@@ -1968,8 +1968,8 @@ extension BatchGetCrawlersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let crawlerNames = crawlerNames {
             var crawlerNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .crawlerNames)
-            for crawlernamelist0 in crawlerNames {
-                try crawlerNamesContainer.encode(crawlernamelist0)
+            for namestring0 in crawlerNames {
+                try crawlerNamesContainer.encode(namestring0)
             }
         }
     }
@@ -2121,8 +2121,8 @@ extension BatchGetCustomEntityTypesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for customentitytypenames0 in names {
-                try namesContainer.encode(customentitytypenames0)
+            for namestring0 in names {
+                try namesContainer.encode(namestring0)
             }
         }
     }
@@ -2276,8 +2276,8 @@ extension BatchGetDataQualityResultInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resultIds = resultIds {
             var resultIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resultIds)
-            for dataqualityresultids0 in resultIds {
-                try resultIdsContainer.encode(dataqualityresultids0)
+            for hashstring0 in resultIds {
+                try resultIdsContainer.encode(hashstring0)
             }
         }
     }
@@ -2432,8 +2432,8 @@ extension BatchGetDevEndpointsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let devEndpointNames = devEndpointNames {
             var devEndpointNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .devEndpointNames)
-            for devendpointnames0 in devEndpointNames {
-                try devEndpointNamesContainer.encode(devendpointnames0)
+            for genericstring0 in devEndpointNames {
+                try devEndpointNamesContainer.encode(genericstring0)
             }
         }
     }
@@ -2589,8 +2589,8 @@ extension BatchGetJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobNames = jobNames {
             var jobNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobNames)
-            for jobnamelist0 in jobNames {
-                try jobNamesContainer.encode(jobnamelist0)
+            for namestring0 in jobNames {
+                try jobNamesContainer.encode(namestring0)
             }
         }
     }
@@ -2753,8 +2753,8 @@ extension BatchGetPartitionInput: Swift.Encodable {
         }
         if let partitionsToGet = partitionsToGet {
             var partitionsToGetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionsToGet)
-            for batchgetpartitionvaluelist0 in partitionsToGet {
-                try partitionsToGetContainer.encode(batchgetpartitionvaluelist0)
+            for partitionvaluelist0 in partitionsToGet {
+                try partitionsToGetContainer.encode(partitionvaluelist0)
             }
         }
         if let tableName = self.tableName {
@@ -2943,8 +2943,8 @@ extension BatchGetTriggersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let triggerNames = triggerNames {
             var triggerNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerNames)
-            for triggernamelist0 in triggerNames {
-                try triggerNamesContainer.encode(triggernamelist0)
+            for namestring0 in triggerNames {
+                try triggerNamesContainer.encode(namestring0)
             }
         }
     }
@@ -3102,8 +3102,8 @@ extension BatchGetWorkflowsInput: Swift.Encodable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for workflownames0 in names {
-                try namesContainer.encode(workflownames0)
+            for namestring0 in names {
+                try namesContainer.encode(namestring0)
             }
         }
     }
@@ -3324,8 +3324,8 @@ extension BatchStopJobRunInput: Swift.Encodable {
         }
         if let jobRunIds = jobRunIds {
             var jobRunIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobRunIds)
-            for batchstopjobrunjobrunidlist0 in jobRunIds {
-                try jobRunIdsContainer.encode(batchstopjobrunjobrunidlist0)
+            for idstring0 in jobRunIds {
+                try jobRunIdsContainer.encode(idstring0)
             }
         }
     }
@@ -3537,8 +3537,8 @@ extension GlueClientTypes.BatchUpdatePartitionFailureEntry: Swift.Codable {
         }
         if let partitionValueList = partitionValueList {
             var partitionValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValueList)
-            for boundedpartitionvaluelist0 in partitionValueList {
-                try partitionValueListContainer.encode(boundedpartitionvaluelist0)
+            for valuestring0 in partitionValueList {
+                try partitionValueListContainer.encode(valuestring0)
             }
         }
     }
@@ -3599,8 +3599,8 @@ extension BatchUpdatePartitionInput: Swift.Encodable {
         }
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for batchupdatepartitionrequestentrylist0 in entries {
-                try entriesContainer.encode(batchupdatepartitionrequestentrylist0)
+            for batchupdatepartitionrequestentry0 in entries {
+                try entriesContainer.encode(batchupdatepartitionrequestentry0)
             }
         }
         if let tableName = self.tableName {
@@ -3772,8 +3772,8 @@ extension GlueClientTypes.BatchUpdatePartitionRequestEntry: Swift.Codable {
         }
         if let partitionValueList = partitionValueList {
             var partitionValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValueList)
-            for boundedpartitionvaluelist0 in partitionValueList {
-                try partitionValueListContainer.encode(boundedpartitionvaluelist0)
+            for valuestring0 in partitionValueList {
+                try partitionValueListContainer.encode(valuestring0)
             }
         }
     }
@@ -5216,8 +5216,8 @@ extension GlueClientTypes.CatalogTarget: Swift.Codable {
         }
         if let tables = tables {
             var tablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tables)
-            for catalogtableslist0 in tables {
-                try tablesContainer.encode(catalogtableslist0)
+            for namestring0 in tables {
+                try tablesContainer.encode(namestring0)
             }
         }
     }
@@ -6174,8 +6174,8 @@ extension GlueClientTypes.CodeGenNode: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for codegennodeargs0 in args {
-                try argsContainer.encode(codegennodeargs0)
+            for codegennodearg0 in args {
+                try argsContainer.encode(codegennodearg0)
             }
         }
         if let id = self.id {
@@ -6317,8 +6317,8 @@ extension GlueClientTypes.Column: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -7268,8 +7268,8 @@ extension GlueClientTypes.Connection: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectionProperties = connectionProperties {
             var connectionPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .connectionProperties)
-            for (dictKey0, connectionproperties0) in connectionProperties {
-                try connectionPropertiesContainer.encode(connectionproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, connectionProperties0) in connectionProperties {
+                try connectionPropertiesContainer.encode(connectionProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let connectionType = self.connectionType {
@@ -7289,8 +7289,8 @@ extension GlueClientTypes.Connection: Swift.Codable {
         }
         if let matchCriteria = matchCriteria {
             var matchCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchCriteria)
-            for matchcriteria0 in matchCriteria {
-                try matchCriteriaContainer.encode(matchcriteria0)
+            for namestring0 in matchCriteria {
+                try matchCriteriaContainer.encode(namestring0)
             }
         }
         if let name = self.name {
@@ -7480,8 +7480,8 @@ extension GlueClientTypes.ConnectionInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectionProperties = connectionProperties {
             var connectionPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .connectionProperties)
-            for (dictKey0, connectionproperties0) in connectionProperties {
-                try connectionPropertiesContainer.encode(connectionproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, connectionProperties0) in connectionProperties {
+                try connectionPropertiesContainer.encode(connectionProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let connectionType = self.connectionType {
@@ -7492,8 +7492,8 @@ extension GlueClientTypes.ConnectionInput: Swift.Codable {
         }
         if let matchCriteria = matchCriteria {
             var matchCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchCriteria)
-            for matchcriteria0 in matchCriteria {
-                try matchCriteriaContainer.encode(matchcriteria0)
+            for namestring0 in matchCriteria {
+                try matchCriteriaContainer.encode(namestring0)
             }
         }
         if let name = self.name {
@@ -7811,8 +7811,8 @@ extension GlueClientTypes.ConnectionsList: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connections = connections {
             var connectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connections)
-            for orchestrationstringlist0 in connections {
-                try connectionsContainer.encode(orchestrationstringlist0)
+            for genericstring0 in connections {
+                try connectionsContainer.encode(genericstring0)
             }
         }
     }
@@ -8006,8 +8006,8 @@ extension GlueClientTypes.Crawler: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let classifiers = classifiers {
             var classifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .classifiers)
-            for classifiernamelist0 in classifiers {
-                try classifiersContainer.encode(classifiernamelist0)
+            for namestring0 in classifiers {
+                try classifiersContainer.encode(namestring0)
             }
         }
         if let configuration = self.configuration {
@@ -8524,8 +8524,8 @@ extension GlueClientTypes.CrawlerNodeDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let crawls = crawls {
             var crawlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .crawls)
-            for crawllist0 in crawls {
-                try crawlsContainer.encode(crawllist0)
+            for crawl0 in crawls {
+                try crawlsContainer.encode(crawl0)
             }
         }
     }
@@ -8770,38 +8770,38 @@ extension GlueClientTypes.CrawlerTargets: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let catalogTargets = catalogTargets {
             var catalogTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .catalogTargets)
-            for catalogtargetlist0 in catalogTargets {
-                try catalogTargetsContainer.encode(catalogtargetlist0)
+            for catalogtarget0 in catalogTargets {
+                try catalogTargetsContainer.encode(catalogtarget0)
             }
         }
         if let deltaTargets = deltaTargets {
             var deltaTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deltaTargets)
-            for deltatargetlist0 in deltaTargets {
-                try deltaTargetsContainer.encode(deltatargetlist0)
+            for deltatarget0 in deltaTargets {
+                try deltaTargetsContainer.encode(deltatarget0)
             }
         }
         if let dynamoDBTargets = dynamoDBTargets {
             var dynamoDBTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dynamoDBTargets)
-            for dynamodbtargetlist0 in dynamoDBTargets {
-                try dynamoDBTargetsContainer.encode(dynamodbtargetlist0)
+            for dynamodbtarget0 in dynamoDBTargets {
+                try dynamoDBTargetsContainer.encode(dynamodbtarget0)
             }
         }
         if let jdbcTargets = jdbcTargets {
             var jdbcTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jdbcTargets)
-            for jdbctargetlist0 in jdbcTargets {
-                try jdbcTargetsContainer.encode(jdbctargetlist0)
+            for jdbctarget0 in jdbcTargets {
+                try jdbcTargetsContainer.encode(jdbctarget0)
             }
         }
         if let mongoDBTargets = mongoDBTargets {
             var mongoDBTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mongoDBTargets)
-            for mongodbtargetlist0 in mongoDBTargets {
-                try mongoDBTargetsContainer.encode(mongodbtargetlist0)
+            for mongodbtarget0 in mongoDBTargets {
+                try mongoDBTargetsContainer.encode(mongodbtarget0)
             }
         }
         if let s3Targets = s3Targets {
             var s3TargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Targets)
-            for s3targetlist0 in s3Targets {
-                try s3TargetsContainer.encode(s3targetlist0)
+            for s3target0 in s3Targets {
+                try s3TargetsContainer.encode(s3target0)
             }
         }
     }
@@ -9009,8 +9009,8 @@ extension CreateBlueprintInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9292,8 +9292,8 @@ extension CreateConnectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9422,8 +9422,8 @@ extension CreateCrawlerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let classifiers = classifiers {
             var classifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .classifiers)
-            for classifiernamelist0 in classifiers {
-                try classifiersContainer.encode(classifiernamelist0)
+            for namestring0 in classifiers {
+                try classifiersContainer.encode(namestring0)
             }
         }
         if let configuration = self.configuration {
@@ -9464,8 +9464,8 @@ extension CreateCrawlerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targets = self.targets {
@@ -9705,8 +9705,8 @@ extension GlueClientTypes.CreateCsvClassifierRequest: Swift.Codable {
         }
         if let customDatatypes = customDatatypes {
             var customDatatypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customDatatypes)
-            for customdatatypes0 in customDatatypes {
-                try customDatatypesContainer.encode(customdatatypes0)
+            for namestring0 in customDatatypes {
+                try customDatatypesContainer.encode(namestring0)
             }
         }
         if let delimiter = self.delimiter {
@@ -9717,8 +9717,8 @@ extension GlueClientTypes.CreateCsvClassifierRequest: Swift.Codable {
         }
         if let header = header {
             var headerContainer = encodeContainer.nestedUnkeyedContainer(forKey: .header)
-            for csvheader0 in header {
-                try headerContainer.encode(csvheader0)
+            for namestring0 in header {
+                try headerContainer.encode(namestring0)
             }
         }
         if let name = self.name {
@@ -9830,8 +9830,8 @@ extension CreateCustomEntityTypeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contextWords = contextWords {
             var contextWordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contextWords)
-            for contextwords0 in contextWords {
-                try contextWordsContainer.encode(contextwords0)
+            for namestring0 in contextWords {
+                try contextWordsContainer.encode(namestring0)
             }
         }
         if let name = self.name {
@@ -10005,8 +10005,8 @@ extension CreateDataQualityRulesetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetTable = self.targetTable {
@@ -10188,8 +10188,8 @@ extension CreateDatabaseInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -10322,8 +10322,8 @@ extension CreateDevEndpointInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arguments = arguments {
             var argumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .arguments)
-            for (dictKey0, mapvalue0) in arguments {
-                try argumentsContainer.encode(mapvalue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapValue0) in arguments {
+                try argumentsContainer.encode(mapValue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let endpointName = self.endpointName {
@@ -10349,8 +10349,8 @@ extension CreateDevEndpointInput: Swift.Encodable {
         }
         if let publicKeys = publicKeys {
             var publicKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publicKeys)
-            for publickeyslist0 in publicKeys {
-                try publicKeysContainer.encode(publickeyslist0)
+            for genericstring0 in publicKeys {
+                try publicKeysContainer.encode(genericstring0)
             }
         }
         if let roleArn = self.roleArn {
@@ -10361,8 +10361,8 @@ extension CreateDevEndpointInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for stringlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(stringlist0)
+            for genericstring0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(genericstring0)
             }
         }
         if let subnetId = self.subnetId {
@@ -10370,8 +10370,8 @@ extension CreateDevEndpointInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let workerType = self.workerType {
@@ -10959,8 +10959,8 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let codeGenConfigurationNodes = codeGenConfigurationNodes {
             var codeGenConfigurationNodesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .codeGenConfigurationNodes)
-            for (dictKey0, codegenconfigurationnodes0) in codeGenConfigurationNodes {
-                try codeGenConfigurationNodesContainer.encode(codegenconfigurationnodes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, codeGenConfigurationNodes0) in codeGenConfigurationNodes {
+                try codeGenConfigurationNodesContainer.encode(codeGenConfigurationNodes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let command = self.command {
@@ -10971,8 +10971,8 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let defaultArguments = defaultArguments {
             var defaultArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultArguments)
-            for (dictKey0, genericmap0) in defaultArguments {
-                try defaultArgumentsContainer.encode(genericmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, genericMap0) in defaultArguments {
+                try defaultArgumentsContainer.encode(genericMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -11001,8 +11001,8 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let nonOverridableArguments = nonOverridableArguments {
             var nonOverridableArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .nonOverridableArguments)
-            for (dictKey0, genericmap0) in nonOverridableArguments {
-                try nonOverridableArgumentsContainer.encode(genericmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, genericMap0) in nonOverridableArguments {
+                try nonOverridableArgumentsContainer.encode(genericMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let notificationProperty = self.notificationProperty {
@@ -11022,8 +11022,8 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeout = self.timeout {
@@ -11441,8 +11441,8 @@ extension CreateMLTransformInput: Swift.Encodable {
         }
         if let inputRecordTables = inputRecordTables {
             var inputRecordTablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputRecordTables)
-            for gluetables0 in inputRecordTables {
-                try inputRecordTablesContainer.encode(gluetables0)
+            for gluetable0 in inputRecordTables {
+                try inputRecordTablesContainer.encode(gluetable0)
             }
         }
         if let maxCapacity = self.maxCapacity {
@@ -11465,8 +11465,8 @@ extension CreateMLTransformInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeout = self.timeout {
@@ -12017,8 +12017,8 @@ extension CreateRegistryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -12229,8 +12229,8 @@ extension CreateSchemaInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -12570,14 +12570,14 @@ extension CreateScriptInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dagEdges = dagEdges {
             var dagEdgesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dagEdges)
-            for dagedges0 in dagEdges {
-                try dagEdgesContainer.encode(dagedges0)
+            for codegenedge0 in dagEdges {
+                try dagEdgesContainer.encode(codegenedge0)
             }
         }
         if let dagNodes = dagNodes {
             var dagNodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dagNodes)
-            for dagnodes0 in dagNodes {
-                try dagNodesContainer.encode(dagnodes0)
+            for codegennode0 in dagNodes {
+                try dagNodesContainer.encode(codegennode0)
             }
         }
         if let language = self.language {
@@ -12902,8 +12902,8 @@ extension CreateSessionInput: Swift.Encodable {
         }
         if let defaultArguments = defaultArguments {
             var defaultArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultArguments)
-            for (dictKey0, orchestrationargumentsmap0) in defaultArguments {
-                try defaultArgumentsContainer.encode(orchestrationargumentsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, orchestrationArgumentsMap0) in defaultArguments {
+                try defaultArgumentsContainer.encode(orchestrationArgumentsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -12935,8 +12935,8 @@ extension CreateSessionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeout = self.timeout {
@@ -13220,8 +13220,8 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let partitionIndexes = partitionIndexes {
             var partitionIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionIndexes)
-            for partitionindexlist0 in partitionIndexes {
-                try partitionIndexesContainer.encode(partitionindexlist0)
+            for partitionindex0 in partitionIndexes {
+                try partitionIndexesContainer.encode(partitionindex0)
             }
         }
         if let tableInput = self.tableInput {
@@ -13376,8 +13376,8 @@ extension CreateTriggerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionlist0 in actions {
-                try actionsContainer.encode(actionlist0)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
             }
         }
         if let description = self.description {
@@ -13400,8 +13400,8 @@ extension CreateTriggerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -13747,8 +13747,8 @@ extension CreateWorkflowInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultRunProperties = defaultRunProperties {
             var defaultRunPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultRunProperties)
-            for (dictKey0, workflowrunproperties0) in defaultRunProperties {
-                try defaultRunPropertiesContainer.encode(workflowrunproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, workflowRunProperties0) in defaultRunProperties {
+                try defaultRunPropertiesContainer.encode(workflowRunProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -13762,8 +13762,8 @@ extension CreateWorkflowInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14016,8 +14016,8 @@ extension GlueClientTypes.CsvClassifier: Swift.Codable {
         }
         if let customDatatypes = customDatatypes {
             var customDatatypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customDatatypes)
-            for customdatatypes0 in customDatatypes {
-                try customDatatypesContainer.encode(customdatatypes0)
+            for namestring0 in customDatatypes {
+                try customDatatypesContainer.encode(namestring0)
             }
         }
         if let delimiter = self.delimiter {
@@ -14028,8 +14028,8 @@ extension GlueClientTypes.CsvClassifier: Swift.Codable {
         }
         if let header = header {
             var headerContainer = encodeContainer.nestedUnkeyedContainer(forKey: .header)
-            for csvheader0 in header {
-                try headerContainer.encode(csvheader0)
+            for namestring0 in header {
+                try headerContainer.encode(namestring0)
             }
         }
         if let lastUpdated = self.lastUpdated {
@@ -14208,8 +14208,8 @@ extension GlueClientTypes.CustomCode: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for manyinputs0 in inputs {
-                try inputsContainer.encode(manyinputs0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -14217,8 +14217,8 @@ extension GlueClientTypes.CustomCode: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
     }
@@ -14303,8 +14303,8 @@ extension GlueClientTypes.CustomEntityType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contextWords = contextWords {
             var contextWordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contextWords)
-            for contextwords0 in contextWords {
-                try contextWordsContainer.encode(contextwords0)
+            for namestring0 in contextWords {
+                try contextWordsContainer.encode(namestring0)
             }
         }
         if let name = self.name {
@@ -14722,8 +14722,8 @@ extension GlueClientTypes.DataQualityResult: Swift.Codable {
         }
         if let ruleResults = ruleResults {
             var ruleResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ruleResults)
-            for dataqualityruleresults0 in ruleResults {
-                try ruleResultsContainer.encode(dataqualityruleresults0)
+            for dataqualityruleresult0 in ruleResults {
+                try ruleResultsContainer.encode(dataqualityruleresult0)
             }
         }
         if let rulesetEvaluationRunId = self.rulesetEvaluationRunId {
@@ -15616,8 +15616,8 @@ extension GlueClientTypes.Database: Swift.Codable {
         }
         if let createTableDefaultPermissions = createTableDefaultPermissions {
             var createTableDefaultPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .createTableDefaultPermissions)
-            for principalpermissionslist0 in createTableDefaultPermissions {
-                try createTableDefaultPermissionsContainer.encode(principalpermissionslist0)
+            for principalpermissions0 in createTableDefaultPermissions {
+                try createTableDefaultPermissionsContainer.encode(principalpermissions0)
             }
         }
         if let createTime = self.createTime {
@@ -15634,8 +15634,8 @@ extension GlueClientTypes.Database: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetDatabase = self.targetDatabase {
@@ -15786,8 +15786,8 @@ extension GlueClientTypes.DatabaseInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let createTableDefaultPermissions = createTableDefaultPermissions {
             var createTableDefaultPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .createTableDefaultPermissions)
-            for principalpermissionslist0 in createTableDefaultPermissions {
-                try createTableDefaultPermissionsContainer.encode(principalpermissionslist0)
+            for principalpermissions0 in createTableDefaultPermissions {
+                try createTableDefaultPermissionsContainer.encode(principalpermissions0)
             }
         }
         if let description = self.description {
@@ -15801,8 +15801,8 @@ extension GlueClientTypes.DatabaseInput: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetDatabase = self.targetDatabase {
@@ -16364,8 +16364,8 @@ extension DeleteColumnStatisticsForPartitionInput: Swift.Encodable {
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for valuestringlist0 in partitionValues {
-                try partitionValuesContainer.encode(valuestringlist0)
+            for valuestring0 in partitionValues {
+                try partitionValuesContainer.encode(valuestring0)
             }
         }
         if let tableName = self.tableName {
@@ -17568,8 +17568,8 @@ extension DeletePartitionInput: Swift.Encodable {
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for valuestringlist0 in partitionValues {
-                try partitionValuesContainer.encode(valuestringlist0)
+            for valuestring0 in partitionValues {
+                try partitionValuesContainer.encode(valuestring0)
             }
         }
         if let tableName = self.tableName {
@@ -19035,8 +19035,8 @@ extension GlueClientTypes.DeltaTarget: Swift.Codable {
         }
         if let deltaTables = deltaTables {
             var deltaTablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deltaTables)
-            for pathlist0 in deltaTables {
-                try deltaTablesContainer.encode(pathlist0)
+            for path0 in deltaTables {
+                try deltaTablesContainer.encode(path0)
             }
         }
         if let writeManifest = self.writeManifest {
@@ -19127,8 +19127,8 @@ extension GlueClientTypes.DevEndpoint: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arguments = arguments {
             var argumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .arguments)
-            for (dictKey0, mapvalue0) in arguments {
-                try argumentsContainer.encode(mapvalue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapValue0) in arguments {
+                try argumentsContainer.encode(mapValue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let availabilityZone = self.availabilityZone {
@@ -19175,8 +19175,8 @@ extension GlueClientTypes.DevEndpoint: Swift.Codable {
         }
         if let publicKeys = publicKeys {
             var publicKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publicKeys)
-            for publickeyslist0 in publicKeys {
-                try publicKeysContainer.encode(publickeyslist0)
+            for genericstring0 in publicKeys {
+                try publicKeysContainer.encode(genericstring0)
             }
         }
         if let roleArn = self.roleArn {
@@ -19187,8 +19187,8 @@ extension GlueClientTypes.DevEndpoint: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for stringlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(stringlist0)
+            for genericstring0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(genericstring0)
             }
         }
         if let status = self.status {
@@ -19759,17 +19759,17 @@ extension GlueClientTypes.DropDuplicates: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for limitedpathlist0 in columns {
-                var limitedpathlist0Container = columnsContainer.nestedUnkeyedContainer()
-                for limitedstringlist1 in limitedpathlist0 {
-                    try limitedpathlist0Container.encode(limitedstringlist1)
+            for limitedstringlist0 in columns {
+                var limitedstringlist0Container = columnsContainer.nestedUnkeyedContainer()
+                for genericlimitedstring1 in limitedstringlist0 {
+                    try limitedstringlist0Container.encode(genericlimitedstring1)
                 }
             }
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -19852,8 +19852,8 @@ extension GlueClientTypes.DropFields: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -19861,10 +19861,10 @@ extension GlueClientTypes.DropFields: Swift.Codable {
         }
         if let paths = paths {
             var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
-            for gluestudiopathlist0 in paths {
-                var gluestudiopathlist0Container = pathsContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in paths {
+                var enclosedinstringproperties0Container = pathsContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
@@ -19947,8 +19947,8 @@ extension GlueClientTypes.DropNullFields: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -19959,8 +19959,8 @@ extension GlueClientTypes.DropNullFields: Swift.Codable {
         }
         if let nullTextList = nullTextList {
             var nullTextListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nullTextList)
-            for nullvaluefields0 in nullTextList {
-                try nullTextListContainer.encode(nullvaluefields0)
+            for nullvaluefield0 in nullTextList {
+                try nullTextListContainer.encode(nullvaluefield0)
             }
         }
     }
@@ -20044,8 +20044,8 @@ extension GlueClientTypes.DynamicTransform: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -20053,8 +20053,8 @@ extension GlueClientTypes.DynamicTransform: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for transformconfigparameterlist0 in parameters {
-                try parametersContainer.encode(transformconfigparameterlist0)
+            for transformconfigparameter0 in parameters {
+                try parametersContainer.encode(transformconfigparameter0)
             }
         }
         if let path = self.path {
@@ -20403,8 +20403,8 @@ extension GlueClientTypes.EncryptionConfiguration: Swift.Codable {
         }
         if let s3Encryption = s3Encryption {
             var s3EncryptionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Encryption)
-            for s3encryptionlist0 in s3Encryption {
-                try s3EncryptionContainer.encode(s3encryptionlist0)
+            for s3encryption0 in s3Encryption {
+                try s3EncryptionContainer.encode(s3encryption0)
             }
         }
     }
@@ -20610,8 +20610,8 @@ extension GlueClientTypes.EvaluateDataQuality: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -20984,8 +20984,8 @@ extension GlueClientTypes.FillMissingValues: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -21058,14 +21058,14 @@ extension GlueClientTypes.Filter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterexpressions0 in filters {
-                try filtersContainer.encode(filterexpressions0)
+            for filterexpression0 in filters {
+                try filtersContainer.encode(filterexpression0)
             }
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let logicalOperator = self.logicalOperator {
@@ -21156,8 +21156,8 @@ extension GlueClientTypes.FilterExpression: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -21344,8 +21344,8 @@ extension GlueClientTypes.FilterValue: Swift.Codable {
         }
         if let value = value {
             var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
-            for enclosedinstringproperties0 in value {
-                try valueContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in value {
+                try valueContainer.encode(enclosedinstringproperty0)
             }
         }
     }
@@ -21439,8 +21439,8 @@ extension GlueClientTypes.FindMatchesMetrics: Swift.Codable {
         }
         if let columnImportances = columnImportances {
             var columnImportancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnImportances)
-            for columnimportancelist0 in columnImportances {
-                try columnImportancesContainer.encode(columnimportancelist0)
+            for columnimportance0 in columnImportances {
+                try columnImportancesContainer.encode(columnimportance0)
             }
         }
         if let confusionMatrix = self.confusionMatrix {
@@ -22450,8 +22450,8 @@ extension GetColumnStatisticsForPartitionInput: Swift.Encodable {
         }
         if let columnNames = columnNames {
             var columnNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnNames)
-            for getcolumnnameslist0 in columnNames {
-                try columnNamesContainer.encode(getcolumnnameslist0)
+            for namestring0 in columnNames {
+                try columnNamesContainer.encode(namestring0)
             }
         }
         if let databaseName = self.databaseName {
@@ -22459,8 +22459,8 @@ extension GetColumnStatisticsForPartitionInput: Swift.Encodable {
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for valuestringlist0 in partitionValues {
-                try partitionValuesContainer.encode(valuestringlist0)
+            for valuestring0 in partitionValues {
+                try partitionValuesContainer.encode(valuestring0)
             }
         }
         if let tableName = self.tableName {
@@ -22671,8 +22671,8 @@ extension GetColumnStatisticsForTableInput: Swift.Encodable {
         }
         if let columnNames = columnNames {
             var columnNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnNames)
-            for getcolumnnameslist0 in columnNames {
-                try columnNamesContainer.encode(getcolumnnameslist0)
+            for namestring0 in columnNames {
+                try columnNamesContainer.encode(namestring0)
             }
         }
         if let databaseName = self.databaseName {
@@ -23007,8 +23007,8 @@ extension GlueClientTypes.GetConnectionsFilter: Swift.Codable {
         }
         if let matchCriteria = matchCriteria {
             var matchCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchCriteria)
-            for matchcriteria0 in matchCriteria {
-                try matchCriteriaContainer.encode(matchcriteria0)
+            for namestring0 in matchCriteria {
+                try matchCriteriaContainer.encode(namestring0)
             }
         }
     }
@@ -23293,8 +23293,8 @@ extension GetCrawlerMetricsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let crawlerNameList = crawlerNameList {
             var crawlerNameListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .crawlerNameList)
-            for crawlernamelist0 in crawlerNameList {
-                try crawlerNameListContainer.encode(crawlernamelist0)
+            for namestring0 in crawlerNameList {
+                try crawlerNameListContainer.encode(namestring0)
             }
         }
         if let maxResults = self.maxResults {
@@ -27141,8 +27141,8 @@ extension GetMappingInput: Swift.Encodable {
         }
         if let sinks = sinks {
             var sinksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sinks)
-            for catalogentries0 in sinks {
-                try sinksContainer.encode(catalogentries0)
+            for catalogentry0 in sinks {
+                try sinksContainer.encode(catalogentry0)
             }
         }
         if let source = self.source {
@@ -27483,8 +27483,8 @@ extension GetPartitionInput: Swift.Encodable {
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for valuestringlist0 in partitionValues {
-                try partitionValuesContainer.encode(valuestringlist0)
+            for valuestring0 in partitionValues {
+                try partitionValuesContainer.encode(valuestring0)
             }
         }
         if let tableName = self.tableName {
@@ -27920,8 +27920,8 @@ extension GetPlanInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalPlanOptionsMap = additionalPlanOptionsMap {
             var additionalPlanOptionsMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalPlanOptionsMap)
-            for (dictKey0, additionalplanoptionsmap0) in additionalPlanOptionsMap {
-                try additionalPlanOptionsMapContainer.encode(additionalplanoptionsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, additionalPlanOptionsMap0) in additionalPlanOptionsMap {
+                try additionalPlanOptionsMapContainer.encode(additionalPlanOptionsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let language = self.language {
@@ -27932,14 +27932,14 @@ extension GetPlanInput: Swift.Encodable {
         }
         if let mapping = mapping {
             var mappingContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mapping)
-            for mappinglist0 in mapping {
-                try mappingContainer.encode(mappinglist0)
+            for mappingentry0 in mapping {
+                try mappingContainer.encode(mappingentry0)
             }
         }
         if let sinks = sinks {
             var sinksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sinks)
-            for catalogentries0 in sinks {
-                try sinksContainer.encode(catalogentries0)
+            for catalogentry0 in sinks {
+                try sinksContainer.encode(catalogentry0)
             }
         }
         if let source = self.source {
@@ -31058,14 +31058,14 @@ extension GetUnfilteredPartitionMetadataInput: Swift.Encodable {
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for valuestringlist0 in partitionValues {
-                try partitionValuesContainer.encode(valuestringlist0)
+            for valuestring0 in partitionValues {
+                try partitionValuesContainer.encode(valuestring0)
             }
         }
         if let supportedPermissionTypes = supportedPermissionTypes {
             var supportedPermissionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPermissionTypes)
-            for permissiontypelist0 in supportedPermissionTypes {
-                try supportedPermissionTypesContainer.encode(permissiontypelist0.rawValue)
+            for permissiontype0 in supportedPermissionTypes {
+                try supportedPermissionTypesContainer.encode(permissiontype0.rawValue)
             }
         }
         if let tableName = self.tableName {
@@ -31304,8 +31304,8 @@ extension GetUnfilteredPartitionsMetadataInput: Swift.Encodable {
         }
         if let supportedPermissionTypes = supportedPermissionTypes {
             var supportedPermissionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPermissionTypes)
-            for permissiontypelist0 in supportedPermissionTypes {
-                try supportedPermissionTypesContainer.encode(permissiontypelist0.rawValue)
+            for permissiontype0 in supportedPermissionTypes {
+                try supportedPermissionTypesContainer.encode(permissiontype0.rawValue)
             }
         }
         if let tableName = self.tableName {
@@ -31533,8 +31533,8 @@ extension GetUnfilteredTableMetadataInput: Swift.Encodable {
         }
         if let supportedPermissionTypes = supportedPermissionTypes {
             var supportedPermissionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPermissionTypes)
-            for permissiontypelist0 in supportedPermissionTypes {
-                try supportedPermissionTypesContainer.encode(permissiontypelist0.rawValue)
+            for permissiontype0 in supportedPermissionTypes {
+                try supportedPermissionTypesContainer.encode(permissiontype0.rawValue)
             }
         }
     }
@@ -32828,8 +32828,8 @@ extension GlueClientTypes.GlueSchema: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for gluestudioschemacolumnlist0 in columns {
-                try columnsContainer.encode(gluestudioschemacolumnlist0)
+            for gluestudioschemacolumn0 in columns {
+                try columnsContainer.encode(gluestudioschemacolumn0)
             }
         }
     }
@@ -32925,8 +32925,8 @@ extension GlueClientTypes.GlueTable: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalOptions = additionalOptions {
             var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
-            for (dictKey0, gluetableadditionaloptions0) in additionalOptions {
-                try additionalOptionsContainer.encode(gluetableadditionaloptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, glueTableAdditionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(glueTableAdditionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let catalogId = self.catalogId {
@@ -33100,8 +33100,8 @@ extension GlueClientTypes.GovernedCatalogTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -33109,10 +33109,10 @@ extension GlueClientTypes.GovernedCatalogTarget: Swift.Codable {
         }
         if let partitionKeys = partitionKeys {
             var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
-            for gluestudiopathlist0 in partitionKeys {
-                var gluestudiopathlist0Container = partitionKeysContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in partitionKeys {
+                var enclosedinstringproperties0Container = partitionKeysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
@@ -33819,8 +33819,8 @@ extension GlueClientTypes.JDBCConnectorOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataTypeMapping = dataTypeMapping {
             var dataTypeMappingContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dataTypeMapping)
-            for (dictKey0, jdbcdatatypemapping0) in dataTypeMapping {
-                try dataTypeMappingContainer.encode(jdbcdatatypemapping0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, jdbcDataTypeMapping0) in dataTypeMapping {
+                try dataTypeMappingContainer.encode(jdbcDataTypeMapping0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let filterPredicate = self.filterPredicate {
@@ -33828,8 +33828,8 @@ extension GlueClientTypes.JDBCConnectorOptions: Swift.Codable {
         }
         if let jobBookmarkKeys = jobBookmarkKeys {
             var jobBookmarkKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobBookmarkKeys)
-            for enclosedinstringproperties0 in jobBookmarkKeys {
-                try jobBookmarkKeysContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in jobBookmarkKeys {
+                try jobBookmarkKeysContainer.encode(enclosedinstringproperty0)
             }
         }
         if let jobBookmarkKeysSortOrder = self.jobBookmarkKeysSortOrder {
@@ -33966,8 +33966,8 @@ extension GlueClientTypes.JDBCConnectorSource: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
         if let query = self.query {
@@ -34069,8 +34069,8 @@ extension GlueClientTypes.JDBCConnectorTarget: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalOptions = additionalOptions {
             var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
-            for (dictKey0, additionaloptions0) in additionalOptions {
-                try additionalOptionsContainer.encode(additionaloptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, additionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let connectionName = self.connectionName {
@@ -34087,8 +34087,8 @@ extension GlueClientTypes.JDBCConnectorTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -34096,8 +34096,8 @@ extension GlueClientTypes.JDBCConnectorTarget: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
     }
@@ -34390,14 +34390,14 @@ extension GlueClientTypes.JdbcTarget: Swift.Codable {
         }
         if let enableAdditionalMetadata = enableAdditionalMetadata {
             var enableAdditionalMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enableAdditionalMetadata)
-            for enableadditionalmetadata0 in enableAdditionalMetadata {
-                try enableAdditionalMetadataContainer.encode(enableadditionalmetadata0.rawValue)
+            for jdbcmetadataentry0 in enableAdditionalMetadata {
+                try enableAdditionalMetadataContainer.encode(jdbcmetadataentry0.rawValue)
             }
         }
         if let exclusions = exclusions {
             var exclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusions)
-            for pathlist0 in exclusions {
-                try exclusionsContainer.encode(pathlist0)
+            for path0 in exclusions {
+                try exclusionsContainer.encode(path0)
             }
         }
         if let path = self.path {
@@ -34498,8 +34498,8 @@ extension GlueClientTypes.Job: Swift.Codable {
         }
         if let codeGenConfigurationNodes = codeGenConfigurationNodes {
             var codeGenConfigurationNodesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .codeGenConfigurationNodes)
-            for (dictKey0, codegenconfigurationnodes0) in codeGenConfigurationNodes {
-                try codeGenConfigurationNodesContainer.encode(codegenconfigurationnodes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, codeGenConfigurationNodes0) in codeGenConfigurationNodes {
+                try codeGenConfigurationNodesContainer.encode(codeGenConfigurationNodes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let command = self.command {
@@ -34513,8 +34513,8 @@ extension GlueClientTypes.Job: Swift.Codable {
         }
         if let defaultArguments = defaultArguments {
             var defaultArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultArguments)
-            for (dictKey0, genericmap0) in defaultArguments {
-                try defaultArgumentsContainer.encode(genericmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, genericMap0) in defaultArguments {
+                try defaultArgumentsContainer.encode(genericMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -34546,8 +34546,8 @@ extension GlueClientTypes.Job: Swift.Codable {
         }
         if let nonOverridableArguments = nonOverridableArguments {
             var nonOverridableArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .nonOverridableArguments)
-            for (dictKey0, genericmap0) in nonOverridableArguments {
-                try nonOverridableArgumentsContainer.encode(genericmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, genericMap0) in nonOverridableArguments {
+                try nonOverridableArgumentsContainer.encode(genericMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let notificationProperty = self.notificationProperty {
@@ -35012,8 +35012,8 @@ extension GlueClientTypes.JobNodeDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobRuns = jobRuns {
             var jobRunsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobRuns)
-            for jobrunlist0 in jobRuns {
-                try jobRunsContainer.encode(jobrunlist0)
+            for jobrun0 in jobRuns {
+                try jobRunsContainer.encode(jobrun0)
             }
         }
     }
@@ -35085,8 +35085,8 @@ extension GlueClientTypes.JobRun: Swift.Codable {
         }
         if let arguments = arguments {
             var argumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .arguments)
-            for (dictKey0, genericmap0) in arguments {
-                try argumentsContainer.encode(genericmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, genericMap0) in arguments {
+                try argumentsContainer.encode(genericMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if attempt != 0 {
@@ -35136,8 +35136,8 @@ extension GlueClientTypes.JobRun: Swift.Codable {
         }
         if let predecessorRuns = predecessorRuns {
             var predecessorRunsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .predecessorRuns)
-            for predecessorlist0 in predecessorRuns {
-                try predecessorRunsContainer.encode(predecessorlist0)
+            for predecessor0 in predecessorRuns {
+                try predecessorRunsContainer.encode(predecessor0)
             }
         }
         if let previousRunId = self.previousRunId {
@@ -35436,8 +35436,8 @@ extension GlueClientTypes.JobUpdate: Swift.Codable {
         }
         if let codeGenConfigurationNodes = codeGenConfigurationNodes {
             var codeGenConfigurationNodesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .codeGenConfigurationNodes)
-            for (dictKey0, codegenconfigurationnodes0) in codeGenConfigurationNodes {
-                try codeGenConfigurationNodesContainer.encode(codegenconfigurationnodes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, codeGenConfigurationNodes0) in codeGenConfigurationNodes {
+                try codeGenConfigurationNodesContainer.encode(codeGenConfigurationNodes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let command = self.command {
@@ -35448,8 +35448,8 @@ extension GlueClientTypes.JobUpdate: Swift.Codable {
         }
         if let defaultArguments = defaultArguments {
             var defaultArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultArguments)
-            for (dictKey0, genericmap0) in defaultArguments {
-                try defaultArgumentsContainer.encode(genericmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, genericMap0) in defaultArguments {
+                try defaultArgumentsContainer.encode(genericMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -35475,8 +35475,8 @@ extension GlueClientTypes.JobUpdate: Swift.Codable {
         }
         if let nonOverridableArguments = nonOverridableArguments {
             var nonOverridableArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .nonOverridableArguments)
-            for (dictKey0, genericmap0) in nonOverridableArguments {
-                try nonOverridableArgumentsContainer.encode(genericmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, genericMap0) in nonOverridableArguments {
+                try nonOverridableArgumentsContainer.encode(genericMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let notificationProperty = self.notificationProperty {
@@ -35699,14 +35699,14 @@ extension GlueClientTypes.Join: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for joincolumns0 in columns {
-                try columnsContainer.encode(joincolumns0)
+            for joincolumn0 in columns {
+                try columnsContainer.encode(joincolumn0)
             }
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for twoinputs0 in inputs {
-                try inputsContainer.encode(twoinputs0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let joinType = self.joinType {
@@ -35793,10 +35793,10 @@ extension GlueClientTypes.JoinColumn: Swift.Codable {
         }
         if let keys = keys {
             var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
-            for gluestudiopathlist0 in keys {
-                var gluestudiopathlist0Container = keysContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in keys {
+                var enclosedinstringproperties0Container = keysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
@@ -36762,8 +36762,8 @@ extension ListBlueprintsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -36931,8 +36931,8 @@ extension ListCrawlersInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -37094,8 +37094,8 @@ extension ListCrawlsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for crawlsfilterlist0 in filters {
-                try filtersContainer.encode(crawlsfilterlist0)
+            for crawlsfilter0 in filters {
+                try filtersContainer.encode(crawlsfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -37899,8 +37899,8 @@ extension ListDataQualityRulesetsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -38078,8 +38078,8 @@ extension ListDevEndpointsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -38249,8 +38249,8 @@ extension ListJobsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -38428,8 +38428,8 @@ extension ListMLTransformsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -39088,8 +39088,8 @@ extension ListSessionsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -39454,8 +39454,8 @@ extension ListTriggersInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -39772,20 +39772,20 @@ extension GlueClientTypes.Location: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dynamoDB = dynamoDB {
             var dynamoDBContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dynamoDB)
-            for codegennodeargs0 in dynamoDB {
-                try dynamoDBContainer.encode(codegennodeargs0)
+            for codegennodearg0 in dynamoDB {
+                try dynamoDBContainer.encode(codegennodearg0)
             }
         }
         if let jdbc = jdbc {
             var jdbcContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jdbc)
-            for codegennodeargs0 in jdbc {
-                try jdbcContainer.encode(codegennodeargs0)
+            for codegennodearg0 in jdbc {
+                try jdbcContainer.encode(codegennodearg0)
             }
         }
         if let s3 = s3 {
             var s3Container = encodeContainer.nestedUnkeyedContainer(forKey: .s3)
-            for codegennodeargs0 in s3 {
-                try s3Container.encode(codegennodeargs0)
+            for codegennodearg0 in s3 {
+                try s3Container.encode(codegennodearg0)
             }
         }
     }
@@ -40019,8 +40019,8 @@ extension GlueClientTypes.MLTransform: Swift.Codable {
         }
         if let inputRecordTables = inputRecordTables {
             var inputRecordTablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputRecordTables)
-            for gluetables0 in inputRecordTables {
-                try inputRecordTablesContainer.encode(gluetables0)
+            for gluetable0 in inputRecordTables {
+                try inputRecordTablesContainer.encode(gluetable0)
             }
         }
         if labelCount != 0 {
@@ -40049,8 +40049,8 @@ extension GlueClientTypes.MLTransform: Swift.Codable {
         }
         if let schema = schema {
             var schemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schema)
-            for transformschema0 in schema {
-                try schemaContainer.encode(transformschema0)
+            for schemacolumn0 in schema {
+                try schemaContainer.encode(schemacolumn0)
             }
         }
         if let status = self.status {
@@ -40400,8 +40400,8 @@ extension GlueClientTypes.Mapping: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let children = children {
             var childrenContainer = encodeContainer.nestedUnkeyedContainer(forKey: .children)
-            for mappings0 in children {
-                try childrenContainer.encode(mappings0)
+            for mapping0 in children {
+                try childrenContainer.encode(mapping0)
             }
         }
         if let dropped = self.dropped {
@@ -40409,8 +40409,8 @@ extension GlueClientTypes.Mapping: Swift.Codable {
         }
         if let fromPath = fromPath {
             var fromPathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fromPath)
-            for enclosedinstringproperties0 in fromPath {
-                try fromPathContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in fromPath {
+                try fromPathContainer.encode(enclosedinstringproperty0)
             }
         }
         if let fromType = self.fromType {
@@ -40592,8 +40592,8 @@ extension GlueClientTypes.Merge: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for twoinputs0 in inputs {
-                try inputsContainer.encode(twoinputs0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -40601,10 +40601,10 @@ extension GlueClientTypes.Merge: Swift.Codable {
         }
         if let primaryKeys = primaryKeys {
             var primaryKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .primaryKeys)
-            for gluestudiopathlist0 in primaryKeys {
-                var gluestudiopathlist0Container = primaryKeysContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in primaryKeys {
+                var enclosedinstringproperties0Container = primaryKeysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
@@ -40702,8 +40702,8 @@ extension GlueClientTypes.MetadataInfo: Swift.Codable {
         }
         if let otherMetadataValueList = otherMetadataValueList {
             var otherMetadataValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .otherMetadataValueList)
-            for othermetadatavaluelist0 in otherMetadataValueList {
-                try otherMetadataValueListContainer.encode(othermetadatavaluelist0)
+            for othermetadatavaluelistitem0 in otherMetadataValueList {
+                try otherMetadataValueListContainer.encode(othermetadatavaluelistitem0)
             }
         }
     }
@@ -40870,8 +40870,8 @@ extension GlueClientTypes.MicrosoftSQLServerCatalogTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -41064,8 +41064,8 @@ extension GlueClientTypes.MySQLCatalogTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -41566,8 +41566,8 @@ extension GlueClientTypes.OracleSQLCatalogTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -41740,14 +41740,14 @@ extension GlueClientTypes.PIIDetection: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entityTypesToDetect = entityTypesToDetect {
             var entityTypesToDetectContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTypesToDetect)
-            for enclosedinstringproperties0 in entityTypesToDetect {
-                try entityTypesToDetectContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in entityTypesToDetect {
+                try entityTypesToDetectContainer.encode(enclosedinstringproperty0)
             }
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let maskValue = self.maskValue {
@@ -41977,8 +41977,8 @@ extension GlueClientTypes.Partition: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let storageDescriptor = self.storageDescriptor {
@@ -41989,8 +41989,8 @@ extension GlueClientTypes.Partition: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for valuestringlist0 in values {
-                try valuesContainer.encode(valuestringlist0)
+            for valuestring0 in values {
+                try valuesContainer.encode(valuestring0)
             }
         }
     }
@@ -42097,8 +42097,8 @@ extension GlueClientTypes.PartitionError: Swift.Codable {
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for valuestringlist0 in partitionValues {
-                try partitionValuesContainer.encode(valuestringlist0)
+            for valuestring0 in partitionValues {
+                try partitionValuesContainer.encode(valuestring0)
             }
         }
     }
@@ -42154,8 +42154,8 @@ extension GlueClientTypes.PartitionIndex: Swift.Codable {
         }
         if let keys = keys {
             var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
-            for keylist0 in keys {
-                try keysContainer.encode(keylist0)
+            for namestring0 in keys {
+                try keysContainer.encode(namestring0)
             }
         }
     }
@@ -42212,8 +42212,8 @@ extension GlueClientTypes.PartitionIndexDescriptor: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let backfillErrors = backfillErrors {
             var backfillErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .backfillErrors)
-            for backfillerrors0 in backfillErrors {
-                try backfillErrorsContainer.encode(backfillerrors0)
+            for backfillerror0 in backfillErrors {
+                try backfillErrorsContainer.encode(backfillerror0)
             }
         }
         if let indexName = self.indexName {
@@ -42224,8 +42224,8 @@ extension GlueClientTypes.PartitionIndexDescriptor: Swift.Codable {
         }
         if let keys = keys {
             var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
-            for keyschemaelementlist0 in keys {
-                try keysContainer.encode(keyschemaelementlist0)
+            for keyschemaelement0 in keys {
+                try keysContainer.encode(keyschemaelement0)
             }
         }
     }
@@ -42357,8 +42357,8 @@ extension GlueClientTypes.PartitionInput: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let storageDescriptor = self.storageDescriptor {
@@ -42366,8 +42366,8 @@ extension GlueClientTypes.PartitionInput: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for valuestringlist0 in values {
-                try valuesContainer.encode(valuestringlist0)
+            for valuestring0 in values {
+                try valuesContainer.encode(valuestring0)
             }
         }
     }
@@ -42446,8 +42446,8 @@ extension GlueClientTypes.PartitionValueList: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for valuestringlist0 in values {
-                try valuesContainer.encode(valuestringlist0)
+            for valuestring0 in values {
+                try valuesContainer.encode(valuestring0)
             }
         }
     }
@@ -42635,8 +42635,8 @@ extension GlueClientTypes.PhysicalConnectionRequirements: Swift.Codable {
         }
         if let securityGroupIdList = securityGroupIdList {
             var securityGroupIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIdList)
-            for securitygroupidlist0 in securityGroupIdList {
-                try securityGroupIdListContainer.encode(securitygroupidlist0)
+            for namestring0 in securityGroupIdList {
+                try securityGroupIdListContainer.encode(namestring0)
             }
         }
         if let subnetId = self.subnetId {
@@ -42799,8 +42799,8 @@ extension GlueClientTypes.PostgreSQLCatalogTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -42920,8 +42920,8 @@ extension GlueClientTypes.Predicate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conditions = conditions {
             var conditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditions)
-            for conditionlist0 in conditions {
-                try conditionsContainer.encode(conditionlist0)
+            for condition0 in conditions {
+                try conditionsContainer.encode(condition0)
             }
         }
         if let logical = self.logical {
@@ -42977,8 +42977,8 @@ extension GlueClientTypes.PrincipalPermissions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionlist0 in permissions {
-                try permissionsContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0.rawValue)
             }
         }
         if let principal = self.principal {
@@ -43626,8 +43626,8 @@ extension PutWorkflowRunPropertiesInput: Swift.Encodable {
         }
         if let runProperties = runProperties {
             var runPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .runProperties)
-            for (dictKey0, workflowrunproperties0) in runProperties {
-                try runPropertiesContainer.encode(workflowrunproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, workflowRunProperties0) in runProperties {
+                try runPropertiesContainer.encode(workflowRunProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -43756,8 +43756,8 @@ extension QuerySchemaVersionMetadataInput: Swift.Encodable {
         }
         if let metadataList = metadataList {
             var metadataListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadataList)
-            for metadatalist0 in metadataList {
-                try metadataListContainer.encode(metadatalist0)
+            for metadatakeyvaluepair0 in metadataList {
+                try metadataListContainer.encode(metadatakeyvaluepair0)
             }
         }
         if let nextToken = self.nextToken {
@@ -44158,8 +44158,8 @@ extension GlueClientTypes.RedshiftTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -44862,8 +44862,8 @@ extension GlueClientTypes.RenameField: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -44871,14 +44871,14 @@ extension GlueClientTypes.RenameField: Swift.Codable {
         }
         if let sourcePath = sourcePath {
             var sourcePathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourcePath)
-            for enclosedinstringproperties0 in sourcePath {
-                try sourcePathContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in sourcePath {
+                try sourcePathContainer.encode(enclosedinstringproperty0)
             }
         }
         if let targetPath = targetPath {
             var targetPathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetPath)
-            for enclosedinstringproperties0 in targetPath {
-                try targetPathContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in targetPath {
+                try targetPathContainer.encode(enclosedinstringproperty0)
             }
         }
     }
@@ -45316,8 +45316,8 @@ extension ResumeWorkflowRunInput: Swift.Encodable {
         }
         if let nodeIds = nodeIds {
             var nodeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeIds)
-            for nodeidlist0 in nodeIds {
-                try nodeIdsContainer.encode(nodeidlist0)
+            for namestring0 in nodeIds {
+                try nodeIdsContainer.encode(namestring0)
             }
         }
         if let runId = self.runId {
@@ -45725,8 +45725,8 @@ extension GlueClientTypes.S3CatalogTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -45734,10 +45734,10 @@ extension GlueClientTypes.S3CatalogTarget: Swift.Codable {
         }
         if let partitionKeys = partitionKeys {
             var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
-            for gluestudiopathlist0 in partitionKeys {
-                var gluestudiopathlist0Container = partitionKeysContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in partitionKeys {
+                var enclosedinstringproperties0Container = partitionKeysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
@@ -45869,8 +45869,8 @@ extension GlueClientTypes.S3CsvSource: Swift.Codable {
         }
         if let exclusions = exclusions {
             var exclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusions)
-            for enclosedinstringproperties0 in exclusions {
-                try exclusionsContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in exclusions {
+                try exclusionsContainer.encode(enclosedinstringproperty0)
             }
         }
         if let groupFiles = self.groupFiles {
@@ -45896,14 +45896,14 @@ extension GlueClientTypes.S3CsvSource: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
         if let paths = paths {
             var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
-            for enclosedinstringproperties0 in paths {
-                try pathsContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in paths {
+                try pathsContainer.encode(enclosedinstringproperty0)
             }
         }
         if let quoteChar = self.quoteChar {
@@ -46174,8 +46174,8 @@ extension GlueClientTypes.S3DirectTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -46183,10 +46183,10 @@ extension GlueClientTypes.S3DirectTarget: Swift.Codable {
         }
         if let partitionKeys = partitionKeys {
             var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
-            for gluestudiopathlist0 in partitionKeys {
-                var gluestudiopathlist0Container = partitionKeysContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in partitionKeys {
+                var enclosedinstringproperties0Container = partitionKeysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
@@ -46385,8 +46385,8 @@ extension GlueClientTypes.S3GlueParquetTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -46394,10 +46394,10 @@ extension GlueClientTypes.S3GlueParquetTarget: Swift.Codable {
         }
         if let partitionKeys = partitionKeys {
             var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
-            for gluestudiopathlist0 in partitionKeys {
-                var gluestudiopathlist0Container = partitionKeysContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in partitionKeys {
+                var enclosedinstringproperties0Container = partitionKeysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
@@ -46519,8 +46519,8 @@ extension GlueClientTypes.S3JsonSource: Swift.Codable {
         }
         if let exclusions = exclusions {
             var exclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusions)
-            for enclosedinstringproperties0 in exclusions {
-                try exclusionsContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in exclusions {
+                try exclusionsContainer.encode(enclosedinstringproperty0)
             }
         }
         if let groupFiles = self.groupFiles {
@@ -46546,14 +46546,14 @@ extension GlueClientTypes.S3JsonSource: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
         if let paths = paths {
             var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
-            for enclosedinstringproperties0 in paths {
-                try pathsContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in paths {
+                try pathsContainer.encode(enclosedinstringproperty0)
             }
         }
         if let recurse = self.recurse {
@@ -46710,8 +46710,8 @@ extension GlueClientTypes.S3ParquetSource: Swift.Codable {
         }
         if let exclusions = exclusions {
             var exclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusions)
-            for enclosedinstringproperties0 in exclusions {
-                try exclusionsContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in exclusions {
+                try exclusionsContainer.encode(enclosedinstringproperty0)
             }
         }
         if let groupFiles = self.groupFiles {
@@ -46731,14 +46731,14 @@ extension GlueClientTypes.S3ParquetSource: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
         if let paths = paths {
             var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
-            for enclosedinstringproperties0 in paths {
-                try pathsContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in paths {
+                try pathsContainer.encode(enclosedinstringproperty0)
             }
         }
         if let recurse = self.recurse {
@@ -46926,8 +46926,8 @@ extension GlueClientTypes.S3Target: Swift.Codable {
         }
         if let exclusions = exclusions {
             var exclusionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusions)
-            for pathlist0 in exclusions {
-                try exclusionsContainer.encode(pathlist0)
+            for path0 in exclusions {
+                try exclusionsContainer.encode(path0)
             }
         }
         if let path = self.path {
@@ -47819,8 +47819,8 @@ extension SearchTablesInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for searchpropertypredicates0 in filters {
-                try filtersContainer.encode(searchpropertypredicates0)
+            for propertypredicate0 in filters {
+                try filtersContainer.encode(propertypredicate0)
             }
         }
         if let maxResults = self.maxResults {
@@ -47837,8 +47837,8 @@ extension SearchTablesInput: Swift.Encodable {
         }
         if let sortCriteria = sortCriteria {
             var sortCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortCriteria)
-            for sortcriteria0 in sortCriteria {
-                try sortCriteriaContainer.encode(sortcriteria0)
+            for sortcriterion0 in sortCriteria {
+                try sortCriteriaContainer.encode(sortcriterion0)
             }
         }
     }
@@ -48147,8 +48147,8 @@ extension GlueClientTypes.SelectFields: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -48156,10 +48156,10 @@ extension GlueClientTypes.SelectFields: Swift.Codable {
         }
         if let paths = paths {
             var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
-            for gluestudiopathlist0 in paths {
-                var gluestudiopathlist0Container = pathsContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in paths {
+                var enclosedinstringproperties0Container = pathsContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
@@ -48244,8 +48244,8 @@ extension GlueClientTypes.SelectFromCollection: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -48355,8 +48355,8 @@ extension GlueClientTypes.SerDeInfo: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let serializationLibrary = self.serializationLibrary {
@@ -48438,8 +48438,8 @@ extension GlueClientTypes.Session: Swift.Codable {
         }
         if let defaultArguments = defaultArguments {
             var defaultArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultArguments)
-            for (dictKey0, orchestrationargumentsmap0) in defaultArguments {
-                try defaultArgumentsContainer.encode(orchestrationargumentsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, orchestrationArgumentsMap0) in defaultArguments {
+                try defaultArgumentsContainer.encode(orchestrationArgumentsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -48675,20 +48675,20 @@ extension GlueClientTypes.SkewedInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let skewedColumnNames = skewedColumnNames {
             var skewedColumnNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .skewedColumnNames)
-            for namestringlist0 in skewedColumnNames {
-                try skewedColumnNamesContainer.encode(namestringlist0)
+            for namestring0 in skewedColumnNames {
+                try skewedColumnNamesContainer.encode(namestring0)
             }
         }
         if let skewedColumnValueLocationMaps = skewedColumnValueLocationMaps {
             var skewedColumnValueLocationMapsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .skewedColumnValueLocationMaps)
-            for (dictKey0, locationmap0) in skewedColumnValueLocationMaps {
-                try skewedColumnValueLocationMapsContainer.encode(locationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, locationMap0) in skewedColumnValueLocationMaps {
+                try skewedColumnValueLocationMapsContainer.encode(locationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let skewedColumnValues = skewedColumnValues {
             var skewedColumnValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .skewedColumnValues)
-            for columnvaluestringlist0 in skewedColumnValues {
-                try skewedColumnValuesContainer.encode(columnvaluestringlist0)
+            for columnvaluesstring0 in skewedColumnValues {
+                try skewedColumnValuesContainer.encode(columnvaluesstring0)
             }
         }
     }
@@ -49047,8 +49047,8 @@ extension GlueClientTypes.SparkConnectorSource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalOptions = additionalOptions {
             var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
-            for (dictKey0, additionaloptions0) in additionalOptions {
-                try additionalOptionsContainer.encode(additionaloptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, additionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let connectionName = self.connectionName {
@@ -49065,8 +49065,8 @@ extension GlueClientTypes.SparkConnectorSource: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
     }
@@ -49161,8 +49161,8 @@ extension GlueClientTypes.SparkConnectorTarget: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalOptions = additionalOptions {
             var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
-            for (dictKey0, additionaloptions0) in additionalOptions {
-                try additionalOptionsContainer.encode(additionaloptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, additionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let connectionName = self.connectionName {
@@ -49176,8 +49176,8 @@ extension GlueClientTypes.SparkConnectorTarget: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -49185,8 +49185,8 @@ extension GlueClientTypes.SparkConnectorTarget: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
     }
@@ -49295,8 +49295,8 @@ extension GlueClientTypes.SparkSQL: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for manyinputs0 in inputs {
-                try inputsContainer.encode(manyinputs0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -49304,14 +49304,14 @@ extension GlueClientTypes.SparkSQL: Swift.Codable {
         }
         if let outputSchemas = outputSchemas {
             var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
-            for glueschemas0 in outputSchemas {
-                try outputSchemasContainer.encode(glueschemas0)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
             }
         }
         if let sqlAliases = sqlAliases {
             var sqlAliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sqlAliases)
-            for sqlaliases0 in sqlAliases {
-                try sqlAliasesContainer.encode(sqlaliases0)
+            for sqlalias0 in sqlAliases {
+                try sqlAliasesContainer.encode(sqlalias0)
             }
         }
         if let sqlQuery = self.sqlQuery {
@@ -49410,8 +49410,8 @@ extension GlueClientTypes.Spigot: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -49498,8 +49498,8 @@ extension GlueClientTypes.SplitFields: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for oneinput0 in inputs {
-                try inputsContainer.encode(oneinput0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -49507,10 +49507,10 @@ extension GlueClientTypes.SplitFields: Swift.Codable {
         }
         if let paths = paths {
             var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
-            for gluestudiopathlist0 in paths {
-                var gluestudiopathlist0Container = pathsContainer.nestedUnkeyedContainer()
-                for enclosedinstringproperties1 in gluestudiopathlist0 {
-                    try gluestudiopathlist0Container.encode(enclosedinstringproperties1)
+            for enclosedinstringproperties0 in paths {
+                var enclosedinstringproperties0Container = pathsContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
                 }
             }
         }
@@ -50154,8 +50154,8 @@ extension StartDataQualityRulesetEvaluationRunInput: Swift.Encodable {
         }
         if let rulesetNames = rulesetNames {
             var rulesetNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rulesetNames)
-            for rulesetnames0 in rulesetNames {
-                try rulesetNamesContainer.encode(rulesetnames0)
+            for namestring0 in rulesetNames {
+                try rulesetNamesContainer.encode(namestring0)
             }
         }
         if let timeout = self.timeout {
@@ -50625,8 +50625,8 @@ extension StartJobRunInput: Swift.Encodable {
         }
         if let arguments = arguments {
             var argumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .arguments)
-            for (dictKey0, genericmap0) in arguments {
-                try argumentsContainer.encode(genericmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, genericMap0) in arguments {
+                try argumentsContainer.encode(genericMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let executionClass = self.executionClass {
@@ -51256,8 +51256,8 @@ extension StartWorkflowRunInput: Swift.Encodable {
         }
         if let runProperties = runProperties {
             var runPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .runProperties)
-            for (dictKey0, workflowrunproperties0) in runProperties {
-                try runPropertiesContainer.encode(workflowrunproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, workflowRunProperties0) in runProperties {
+                try runPropertiesContainer.encode(workflowRunProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -51592,8 +51592,8 @@ extension GlueClientTypes.StatementOutput: Swift.Codable {
         }
         if let traceback = traceback {
             var tracebackContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traceback)
-            for orchestrationstringlist0 in traceback {
-                try tracebackContainer.encode(orchestrationstringlist0)
+            for genericstring0 in traceback {
+                try tracebackContainer.encode(genericstring0)
             }
         }
     }
@@ -52286,20 +52286,20 @@ extension GlueClientTypes.StorageDescriptor: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalLocations = additionalLocations {
             var additionalLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalLocations)
-            for locationstringlist0 in additionalLocations {
-                try additionalLocationsContainer.encode(locationstringlist0)
+            for locationstring0 in additionalLocations {
+                try additionalLocationsContainer.encode(locationstring0)
             }
         }
         if let bucketColumns = bucketColumns {
             var bucketColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bucketColumns)
-            for namestringlist0 in bucketColumns {
-                try bucketColumnsContainer.encode(namestringlist0)
+            for namestring0 in bucketColumns {
+                try bucketColumnsContainer.encode(namestring0)
             }
         }
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for columnlist0 in columns {
-                try columnsContainer.encode(columnlist0)
+            for column0 in columns {
+                try columnsContainer.encode(column0)
             }
         }
         if compressed != false {
@@ -52319,8 +52319,8 @@ extension GlueClientTypes.StorageDescriptor: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let schemaReference = self.schemaReference {
@@ -52334,8 +52334,8 @@ extension GlueClientTypes.StorageDescriptor: Swift.Codable {
         }
         if let sortColumns = sortColumns {
             var sortColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortColumns)
-            for orderlist0 in sortColumns {
-                try sortColumnsContainer.encode(orderlist0)
+            for order0 in sortColumns {
+                try sortColumnsContainer.encode(order0)
             }
         }
         if storedAsSubDirectories != false {
@@ -52661,14 +52661,14 @@ extension GlueClientTypes.Table: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let partitionKeys = partitionKeys {
             var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
-            for columnlist0 in partitionKeys {
-                try partitionKeysContainer.encode(columnlist0)
+            for column0 in partitionKeys {
+                try partitionKeysContainer.encode(column0)
             }
         }
         if retention != 0 {
@@ -52989,14 +52989,14 @@ extension GlueClientTypes.TableInput: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let partitionKeys = partitionKeys {
             var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
-            for columnlist0 in partitionKeys {
-                try partitionKeysContainer.encode(columnlist0)
+            for column0 in partitionKeys {
+                try partitionKeysContainer.encode(column0)
             }
         }
         if retention != 0 {
@@ -53246,8 +53246,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tagsToAdd = tagsToAdd {
             var tagsToAddContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tagsToAdd)
-            for (dictKey0, tagsmap0) in tagsToAdd {
-                try tagsToAddContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tagsToAdd {
+                try tagsToAddContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -53853,8 +53853,8 @@ extension GlueClientTypes.TransformConfigParameter: Swift.Codable {
         }
         if let value = value {
             var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
-            for enclosedinstringproperties0 in value {
-                try valueContainer.encode(enclosedinstringproperties0)
+            for enclosedinstringproperty0 in value {
+                try valueContainer.encode(enclosedinstringproperty0)
             }
         }
     }
@@ -54009,8 +54009,8 @@ extension GlueClientTypes.TransformFilterCriteria: Swift.Codable {
         }
         if let schema = schema {
             var schemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schema)
-            for transformschema0 in schema {
-                try schemaContainer.encode(transformschema0)
+            for schemacolumn0 in schema {
+                try schemaContainer.encode(schemacolumn0)
             }
         }
         if let status = self.status {
@@ -54317,8 +54317,8 @@ extension GlueClientTypes.Trigger: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionlist0 in actions {
-                try actionsContainer.encode(actionlist0)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
             }
         }
         if let description = self.description {
@@ -54573,8 +54573,8 @@ extension GlueClientTypes.TriggerUpdate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionlist0 in actions {
-                try actionsContainer.encode(actionlist0)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
             }
         }
         if let description = self.description {
@@ -54667,8 +54667,8 @@ extension GlueClientTypes.UnfilteredPartition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let authorizedColumns = authorizedColumns {
             var authorizedColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedColumns)
-            for namestringlist0 in authorizedColumns {
-                try authorizedColumnsContainer.encode(namestringlist0)
+            for namestring0 in authorizedColumns {
+                try authorizedColumnsContainer.encode(namestring0)
             }
         }
         if isRegisteredWithLakeFormation != false {
@@ -54731,8 +54731,8 @@ extension GlueClientTypes.Union: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for twoinputs0 in inputs {
-                try inputsContainer.encode(twoinputs0)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
             }
         }
         if let name = self.name {
@@ -54835,8 +54835,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagsToRemove = tagsToRemove {
             var tagsToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsToRemove)
-            for tagkeyslist0 in tagsToRemove {
-                try tagsToRemoveContainer.encode(tagkeyslist0)
+            for tagkey0 in tagsToRemove {
+                try tagsToRemoveContainer.encode(tagkey0)
             }
         }
     }
@@ -55280,8 +55280,8 @@ extension UpdateColumnStatisticsForPartitionInput: Swift.Encodable {
         }
         if let columnStatisticsList = columnStatisticsList {
             var columnStatisticsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnStatisticsList)
-            for updatecolumnstatisticslist0 in columnStatisticsList {
-                try columnStatisticsListContainer.encode(updatecolumnstatisticslist0)
+            for columnstatistics0 in columnStatisticsList {
+                try columnStatisticsListContainer.encode(columnstatistics0)
             }
         }
         if let databaseName = self.databaseName {
@@ -55289,8 +55289,8 @@ extension UpdateColumnStatisticsForPartitionInput: Swift.Encodable {
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for valuestringlist0 in partitionValues {
-                try partitionValuesContainer.encode(valuestringlist0)
+            for valuestring0 in partitionValues {
+                try partitionValuesContainer.encode(valuestring0)
             }
         }
         if let tableName = self.tableName {
@@ -55482,8 +55482,8 @@ extension UpdateColumnStatisticsForTableInput: Swift.Encodable {
         }
         if let columnStatisticsList = columnStatisticsList {
             var columnStatisticsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnStatisticsList)
-            for updatecolumnstatisticslist0 in columnStatisticsList {
-                try columnStatisticsListContainer.encode(updatecolumnstatisticslist0)
+            for columnstatistics0 in columnStatisticsList {
+                try columnStatisticsListContainer.encode(columnstatistics0)
             }
         }
         if let databaseName = self.databaseName {
@@ -55778,8 +55778,8 @@ extension UpdateCrawlerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let classifiers = classifiers {
             var classifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .classifiers)
-            for classifiernamelist0 in classifiers {
-                try classifiersContainer.encode(classifiernamelist0)
+            for namestring0 in classifiers {
+                try classifiersContainer.encode(namestring0)
             }
         }
         if let configuration = self.configuration {
@@ -56138,8 +56138,8 @@ extension GlueClientTypes.UpdateCsvClassifierRequest: Swift.Codable {
         }
         if let customDatatypes = customDatatypes {
             var customDatatypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customDatatypes)
-            for customdatatypes0 in customDatatypes {
-                try customDatatypesContainer.encode(customdatatypes0)
+            for namestring0 in customDatatypes {
+                try customDatatypesContainer.encode(namestring0)
             }
         }
         if let delimiter = self.delimiter {
@@ -56150,8 +56150,8 @@ extension GlueClientTypes.UpdateCsvClassifierRequest: Swift.Codable {
         }
         if let header = header {
             var headerContainer = encodeContainer.nestedUnkeyedContainer(forKey: .header)
-            for csvheader0 in header {
-                try headerContainer.encode(csvheader0)
+            for namestring0 in header {
+                try headerContainer.encode(namestring0)
             }
         }
         if let name = self.name {
@@ -56562,14 +56562,14 @@ extension UpdateDevEndpointInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addArguments = addArguments {
             var addArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .addArguments)
-            for (dictKey0, mapvalue0) in addArguments {
-                try addArgumentsContainer.encode(mapvalue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapValue0) in addArguments {
+                try addArgumentsContainer.encode(mapValue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let addPublicKeys = addPublicKeys {
             var addPublicKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addPublicKeys)
-            for publickeyslist0 in addPublicKeys {
-                try addPublicKeysContainer.encode(publickeyslist0)
+            for genericstring0 in addPublicKeys {
+                try addPublicKeysContainer.encode(genericstring0)
             }
         }
         if let customLibraries = self.customLibraries {
@@ -56577,14 +56577,14 @@ extension UpdateDevEndpointInput: Swift.Encodable {
         }
         if let deleteArguments = deleteArguments {
             var deleteArgumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deleteArguments)
-            for stringlist0 in deleteArguments {
-                try deleteArgumentsContainer.encode(stringlist0)
+            for genericstring0 in deleteArguments {
+                try deleteArgumentsContainer.encode(genericstring0)
             }
         }
         if let deletePublicKeys = deletePublicKeys {
             var deletePublicKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deletePublicKeys)
-            for publickeyslist0 in deletePublicKeys {
-                try deletePublicKeysContainer.encode(publickeyslist0)
+            for genericstring0 in deletePublicKeys {
+                try deletePublicKeysContainer.encode(genericstring0)
             }
         }
         if let endpointName = self.endpointName {
@@ -57500,8 +57500,8 @@ extension UpdatePartitionInput: Swift.Encodable {
         }
         if let partitionValueList = partitionValueList {
             var partitionValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValueList)
-            for boundedpartitionvaluelist0 in partitionValueList {
-                try partitionValueListContainer.encode(boundedpartitionvaluelist0)
+            for valuestring0 in partitionValueList {
+                try partitionValueListContainer.encode(valuestring0)
             }
         }
         if let tableName = self.tableName {
@@ -58593,8 +58593,8 @@ extension UpdateWorkflowInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultRunProperties = defaultRunProperties {
             var defaultRunPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultRunProperties)
-            for (dictKey0, workflowrunproperties0) in defaultRunProperties {
-                try defaultRunPropertiesContainer.encode(workflowrunproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, workflowRunProperties0) in defaultRunProperties {
+                try defaultRunPropertiesContainer.encode(workflowRunProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -58821,8 +58821,8 @@ extension GlueClientTypes.UpsertRedshiftTargetOptions: Swift.Codable {
         }
         if let upsertKeys = upsertKeys {
             var upsertKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .upsertKeys)
-            for enclosedinstringpropertiesminone0 in upsertKeys {
-                try upsertKeysContainer.encode(enclosedinstringpropertiesminone0)
+            for enclosedinstringproperty0 in upsertKeys {
+                try upsertKeysContainer.encode(enclosedinstringproperty0)
             }
         }
     }
@@ -58908,8 +58908,8 @@ extension GlueClientTypes.UserDefinedFunction: Swift.Codable {
         }
         if let resourceUris = resourceUris {
             var resourceUrisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceUris)
-            for resourceurilist0 in resourceUris {
-                try resourceUrisContainer.encode(resourceurilist0)
+            for resourceuri0 in resourceUris {
+                try resourceUrisContainer.encode(resourceuri0)
             }
         }
     }
@@ -59013,8 +59013,8 @@ extension GlueClientTypes.UserDefinedFunctionInput: Swift.Codable {
         }
         if let resourceUris = resourceUris {
             var resourceUrisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceUris)
-            for resourceurilist0 in resourceUris {
-                try resourceUrisContainer.encode(resourceurilist0)
+            for resourceuri0 in resourceUris {
+                try resourceUrisContainer.encode(resourceuri0)
             }
         }
     }
@@ -59242,8 +59242,8 @@ extension GlueClientTypes.Workflow: Swift.Codable {
         }
         if let defaultRunProperties = defaultRunProperties {
             var defaultRunPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultRunProperties)
-            for (dictKey0, workflowrunproperties0) in defaultRunProperties {
-                try defaultRunPropertiesContainer.encode(workflowrunproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, workflowRunProperties0) in defaultRunProperties {
+                try defaultRunPropertiesContainer.encode(workflowRunProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -59356,14 +59356,14 @@ extension GlueClientTypes.WorkflowGraph: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let edges = edges {
             var edgesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edges)
-            for edgelist0 in edges {
-                try edgesContainer.encode(edgelist0)
+            for edge0 in edges {
+                try edgesContainer.encode(edge0)
             }
         }
         if let nodes = nodes {
             var nodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodes)
-            for nodelist0 in nodes {
-                try nodesContainer.encode(nodelist0)
+            for node0 in nodes {
+                try nodesContainer.encode(node0)
             }
         }
     }
@@ -59464,8 +59464,8 @@ extension GlueClientTypes.WorkflowRun: Swift.Codable {
         }
         if let workflowRunProperties = workflowRunProperties {
             var workflowRunPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .workflowRunProperties)
-            for (dictKey0, workflowrunproperties0) in workflowRunProperties {
-                try workflowRunPropertiesContainer.encode(workflowrunproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, workflowRunProperties0) in workflowRunProperties {
+                try workflowRunPropertiesContainer.encode(workflowRunProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

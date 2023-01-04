@@ -43,8 +43,8 @@ extension AmplifyClientTypes.App: Swift.Codable {
         }
         if let autoBranchCreationPatterns = autoBranchCreationPatterns {
             var autoBranchCreationPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoBranchCreationPatterns)
-            for autobranchcreationpatterns0 in autoBranchCreationPatterns {
-                try autoBranchCreationPatternsContainer.encode(autobranchcreationpatterns0)
+            for autobranchcreationpattern0 in autoBranchCreationPatterns {
+                try autoBranchCreationPatternsContainer.encode(autobranchcreationpattern0)
             }
         }
         if let basicAuthCredentials = self.basicAuthCredentials {
@@ -61,8 +61,8 @@ extension AmplifyClientTypes.App: Swift.Codable {
         }
         if let customRules = customRules {
             var customRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customRules)
-            for customrules0 in customRules {
-                try customRulesContainer.encode(customrules0)
+            for customrule0 in customRules {
+                try customRulesContainer.encode(customrule0)
             }
         }
         if let defaultDomain = self.defaultDomain {
@@ -85,8 +85,8 @@ extension AmplifyClientTypes.App: Swift.Codable {
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariables0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariables0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let iamServiceRoleArn = self.iamServiceRoleArn {
@@ -109,8 +109,8 @@ extension AmplifyClientTypes.App: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updateTime = self.updateTime {
@@ -415,8 +415,8 @@ extension AmplifyClientTypes.AutoBranchCreationConfig: Swift.Codable {
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariables0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariables0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let framework = self.framework {
@@ -700,8 +700,8 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
         }
         if let associatedResources = associatedResources {
             var associatedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedResources)
-            for associatedresources0 in associatedResources {
-                try associatedResourcesContainer.encode(associatedresources0)
+            for associatedresource0 in associatedResources {
+                try associatedResourcesContainer.encode(associatedresource0)
             }
         }
         if let backendEnvironmentArn = self.backendEnvironmentArn {
@@ -724,8 +724,8 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
         }
         if let customDomains = customDomains {
             var customDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customDomains)
-            for customdomains0 in customDomains {
-                try customDomainsContainer.encode(customdomains0)
+            for customdomain0 in customDomains {
+                try customDomainsContainer.encode(customdomain0)
             }
         }
         if let description = self.description {
@@ -754,8 +754,8 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariables0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariables0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let framework = self.framework {
@@ -772,8 +772,8 @@ extension AmplifyClientTypes.Branch: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let thumbnailUrl = self.thumbnailUrl {
@@ -1065,8 +1065,8 @@ extension CreateAppInput: Swift.Encodable {
         }
         if let autoBranchCreationPatterns = autoBranchCreationPatterns {
             var autoBranchCreationPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoBranchCreationPatterns)
-            for autobranchcreationpatterns0 in autoBranchCreationPatterns {
-                try autoBranchCreationPatternsContainer.encode(autobranchcreationpatterns0)
+            for autobranchcreationpattern0 in autoBranchCreationPatterns {
+                try autoBranchCreationPatternsContainer.encode(autobranchcreationpattern0)
             }
         }
         if let basicAuthCredentials = self.basicAuthCredentials {
@@ -1080,8 +1080,8 @@ extension CreateAppInput: Swift.Encodable {
         }
         if let customRules = customRules {
             var customRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customRules)
-            for customrules0 in customRules {
-                try customRulesContainer.encode(customrules0)
+            for customrule0 in customRules {
+                try customRulesContainer.encode(customrule0)
             }
         }
         if let description = self.description {
@@ -1101,8 +1101,8 @@ extension CreateAppInput: Swift.Encodable {
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariables0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariables0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let iamServiceRoleArn = self.iamServiceRoleArn {
@@ -1122,8 +1122,8 @@ extension CreateAppInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1634,8 +1634,8 @@ extension CreateBranchInput: Swift.Encodable {
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariables0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariables0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let framework = self.framework {
@@ -1649,8 +1649,8 @@ extension CreateBranchInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let ttl = self.ttl {
@@ -1933,8 +1933,8 @@ extension CreateDeploymentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fileMap = fileMap {
             var fileMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fileMap)
-            for (dictKey0, filemap0) in fileMap {
-                try fileMapContainer.encode(filemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, fileMap0) in fileMap {
+                try fileMapContainer.encode(fileMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2114,8 +2114,8 @@ extension CreateDomainAssociationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let autoSubDomainCreationPatterns = autoSubDomainCreationPatterns {
             var autoSubDomainCreationPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoSubDomainCreationPatterns)
-            for autosubdomaincreationpatterns0 in autoSubDomainCreationPatterns {
-                try autoSubDomainCreationPatternsContainer.encode(autosubdomaincreationpatterns0)
+            for autosubdomaincreationpattern0 in autoSubDomainCreationPatterns {
+                try autoSubDomainCreationPatternsContainer.encode(autosubdomaincreationpattern0)
             }
         }
         if let autoSubDomainIAMRole = self.autoSubDomainIAMRole {
@@ -2129,8 +2129,8 @@ extension CreateDomainAssociationInput: Swift.Encodable {
         }
         if let subDomainSettings = subDomainSettings {
             var subDomainSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subDomainSettings)
-            for subdomainsettings0 in subDomainSettings {
-                try subDomainSettingsContainer.encode(subdomainsettings0)
+            for subdomainsetting0 in subDomainSettings {
+                try subDomainSettingsContainer.encode(subdomainsetting0)
             }
         }
     }
@@ -3255,8 +3255,8 @@ extension AmplifyClientTypes.DomainAssociation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let autoSubDomainCreationPatterns = autoSubDomainCreationPatterns {
             var autoSubDomainCreationPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoSubDomainCreationPatterns)
-            for autosubdomaincreationpatterns0 in autoSubDomainCreationPatterns {
-                try autoSubDomainCreationPatternsContainer.encode(autosubdomaincreationpatterns0)
+            for autosubdomaincreationpattern0 in autoSubDomainCreationPatterns {
+                try autoSubDomainCreationPatternsContainer.encode(autosubdomaincreationpattern0)
             }
         }
         if let autoSubDomainIAMRole = self.autoSubDomainIAMRole {
@@ -3282,8 +3282,8 @@ extension AmplifyClientTypes.DomainAssociation: Swift.Codable {
         }
         if let subDomains = subDomains {
             var subDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subDomains)
-            for subdomains0 in subDomains {
-                try subDomainsContainer.encode(subdomains0)
+            for subdomain0 in subDomains {
+                try subDomainsContainer.encode(subdomain0)
             }
         }
     }
@@ -4421,8 +4421,8 @@ extension AmplifyClientTypes.Job: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for steps0 in steps {
-                try stepsContainer.encode(steps0)
+            for step0 in steps {
+                try stepsContainer.encode(step0)
             }
         }
         if let summary = self.summary {
@@ -6908,8 +6908,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7185,8 +7185,8 @@ extension UpdateAppInput: Swift.Encodable {
         }
         if let autoBranchCreationPatterns = autoBranchCreationPatterns {
             var autoBranchCreationPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoBranchCreationPatterns)
-            for autobranchcreationpatterns0 in autoBranchCreationPatterns {
-                try autoBranchCreationPatternsContainer.encode(autobranchcreationpatterns0)
+            for autobranchcreationpattern0 in autoBranchCreationPatterns {
+                try autoBranchCreationPatternsContainer.encode(autobranchcreationpattern0)
             }
         }
         if let basicAuthCredentials = self.basicAuthCredentials {
@@ -7200,8 +7200,8 @@ extension UpdateAppInput: Swift.Encodable {
         }
         if let customRules = customRules {
             var customRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customRules)
-            for customrules0 in customRules {
-                try customRulesContainer.encode(customrules0)
+            for customrule0 in customRules {
+                try customRulesContainer.encode(customrule0)
             }
         }
         if let description = self.description {
@@ -7221,8 +7221,8 @@ extension UpdateAppInput: Swift.Encodable {
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariables0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariables0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let iamServiceRoleArn = self.iamServiceRoleArn {
@@ -7578,8 +7578,8 @@ extension UpdateBranchInput: Swift.Encodable {
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariables0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariables0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let framework = self.framework {
@@ -7854,8 +7854,8 @@ extension UpdateDomainAssociationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let autoSubDomainCreationPatterns = autoSubDomainCreationPatterns {
             var autoSubDomainCreationPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoSubDomainCreationPatterns)
-            for autosubdomaincreationpatterns0 in autoSubDomainCreationPatterns {
-                try autoSubDomainCreationPatternsContainer.encode(autosubdomaincreationpatterns0)
+            for autosubdomaincreationpattern0 in autoSubDomainCreationPatterns {
+                try autoSubDomainCreationPatternsContainer.encode(autosubdomaincreationpattern0)
             }
         }
         if let autoSubDomainIAMRole = self.autoSubDomainIAMRole {
@@ -7866,8 +7866,8 @@ extension UpdateDomainAssociationInput: Swift.Encodable {
         }
         if let subDomainSettings = subDomainSettings {
             var subDomainSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subDomainSettings)
-            for subdomainsettings0 in subDomainSettings {
-                try subDomainSettingsContainer.encode(subdomainsettings0)
+            for subdomainsetting0 in subDomainSettings {
+                try subDomainSettingsContainer.encode(subdomainsetting0)
             }
         }
     }

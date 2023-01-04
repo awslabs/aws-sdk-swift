@@ -150,8 +150,8 @@ extension BatchExecuteStatementInput: Swift.Encodable {
         }
         if let sqls = sqls {
             var sqlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sqls)
-            for sqllist0 in sqls {
-                try sqlsContainer.encode(sqllist0)
+            for statementstring0 in sqls {
+                try sqlsContainer.encode(statementstring0)
             }
         }
         if let statementName = self.statementName {
@@ -1402,8 +1402,8 @@ extension ExecuteStatementInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for sqlparameterslist0 in parameters {
-                try parametersContainer.encode(sqlparameterslist0)
+            for sqlparameter0 in parameters {
+                try parametersContainer.encode(sqlparameter0)
             }
         }
         if let secretArn = self.secretArn {
@@ -3005,8 +3005,8 @@ extension RedshiftDataClientTypes.StatementData: Swift.Codable {
         }
         if let queryParameters = queryParameters {
             var queryParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryParameters)
-            for sqlparameterslist0 in queryParameters {
-                try queryParametersContainer.encode(sqlparameterslist0)
+            for sqlparameter0 in queryParameters {
+                try queryParametersContainer.encode(sqlparameter0)
             }
         }
         if let queryString = self.queryString {
@@ -3014,8 +3014,8 @@ extension RedshiftDataClientTypes.StatementData: Swift.Codable {
         }
         if let queryStrings = queryStrings {
             var queryStringsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryStrings)
-            for statementstringlist0 in queryStrings {
-                try queryStringsContainer.encode(statementstringlist0)
+            for statementstring0 in queryStrings {
+                try queryStringsContainer.encode(statementstring0)
             }
         }
         if let secretArn = self.secretArn {

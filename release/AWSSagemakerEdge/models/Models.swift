@@ -263,8 +263,8 @@ extension SagemakerEdgeClientTypes.DeploymentResult: Swift.Codable {
         }
         if let deploymentModels = deploymentModels {
             var deploymentModelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deploymentModels)
-            for deploymentmodels0 in deploymentModels {
-                try deploymentModelsContainer.encode(deploymentmodels0)
+            for deploymentmodel0 in deploymentModels {
+                try deploymentModelsContainer.encode(deploymentmodel0)
             }
         }
         if let deploymentName = self.deploymentName {
@@ -416,8 +416,8 @@ extension SagemakerEdgeClientTypes.EdgeDeployment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let definitions = definitions {
             var definitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .definitions)
-            for definitions0 in definitions {
-                try definitionsContainer.encode(definitions0)
+            for definition0 in definitions {
+                try definitionsContainer.encode(definition0)
             }
         }
         if let deploymentName = self.deploymentName {
@@ -916,8 +916,8 @@ extension SagemakerEdgeClientTypes.Model: Swift.Codable {
         }
         if let modelMetrics = modelMetrics {
             var modelMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modelMetrics)
-            for edgemetrics0 in modelMetrics {
-                try modelMetricsContainer.encode(edgemetrics0)
+            for edgemetric0 in modelMetrics {
+                try modelMetricsContainer.encode(edgemetric0)
             }
         }
         if let modelName = self.modelName {
@@ -1030,8 +1030,8 @@ extension SendHeartbeatInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentMetrics = agentMetrics {
             var agentMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentMetrics)
-            for edgemetrics0 in agentMetrics {
-                try agentMetricsContainer.encode(edgemetrics0)
+            for edgemetric0 in agentMetrics {
+                try agentMetricsContainer.encode(edgemetric0)
             }
         }
         if let agentVersion = self.agentVersion {
@@ -1048,8 +1048,8 @@ extension SendHeartbeatInput: Swift.Encodable {
         }
         if let models = models {
             var modelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .models)
-            for models0 in models {
-                try modelsContainer.encode(models0)
+            for model0 in models {
+                try modelsContainer.encode(model0)
             }
         }
     }

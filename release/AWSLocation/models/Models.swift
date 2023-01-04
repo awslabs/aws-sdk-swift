@@ -213,8 +213,8 @@ extension BatchDeleteDevicePositionHistoryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deviceIds = deviceIds {
             var deviceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceIds)
-            for deviceidslist0 in deviceIds {
-                try deviceIdsContainer.encode(deviceidslist0)
+            for id0 in deviceIds {
+                try deviceIdsContainer.encode(id0)
             }
         }
     }
@@ -411,8 +411,8 @@ extension BatchDeleteGeofenceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let geofenceIds = geofenceIds {
             var geofenceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .geofenceIds)
-            for idlist0 in geofenceIds {
-                try geofenceIdsContainer.encode(idlist0)
+            for id0 in geofenceIds {
+                try geofenceIdsContainer.encode(id0)
             }
         }
     }
@@ -618,8 +618,8 @@ extension BatchEvaluateGeofencesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let devicePositionUpdates = devicePositionUpdates {
             var devicePositionUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .devicePositionUpdates)
-            for devicepositionupdatelist0 in devicePositionUpdates {
-                try devicePositionUpdatesContainer.encode(devicepositionupdatelist0)
+            for devicepositionupdate0 in devicePositionUpdates {
+                try devicePositionUpdatesContainer.encode(devicepositionupdate0)
             }
         }
     }
@@ -814,8 +814,8 @@ extension BatchGetDevicePositionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deviceIds = deviceIds {
             var deviceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceIds)
-            for idlist0 in deviceIds {
-                try deviceIdsContainer.encode(idlist0)
+            for id0 in deviceIds {
+                try deviceIdsContainer.encode(id0)
             }
         }
     }
@@ -1127,8 +1127,8 @@ extension BatchPutGeofenceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for batchputgeofencerequestentrylist0 in entries {
-                try entriesContainer.encode(batchputgeofencerequestentrylist0)
+            for batchputgeofencerequestentry0 in entries {
+                try entriesContainer.encode(batchputgeofencerequestentry0)
             }
         }
     }
@@ -1459,8 +1459,8 @@ extension BatchUpdateDevicePositionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let updates = updates {
             var updatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updates)
-            for devicepositionupdatelist0 in updates {
-                try updatesContainer.encode(devicepositionupdatelist0)
+            for devicepositionupdate0 in updates {
+                try updatesContainer.encode(devicepositionupdate0)
             }
         }
     }
@@ -1673,8 +1673,8 @@ extension CalculateRouteInput: Swift.Encodable {
         }
         if let departurePosition = departurePosition {
             var departurePositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .departurePosition)
-            for position0 in departurePosition {
-                try departurePositionContainer.encode(position0)
+            for double0 in departurePosition {
+                try departurePositionContainer.encode(double0)
             }
         }
         if let departureTime = self.departureTime {
@@ -1682,8 +1682,8 @@ extension CalculateRouteInput: Swift.Encodable {
         }
         if let destinationPosition = destinationPosition {
             var destinationPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPosition)
-            for position0 in destinationPosition {
-                try destinationPositionContainer.encode(position0)
+            for double0 in destinationPosition {
+                try destinationPositionContainer.encode(double0)
             }
         }
         if let distanceUnit = self.distanceUnit {
@@ -1700,10 +1700,10 @@ extension CalculateRouteInput: Swift.Encodable {
         }
         if let waypointPositions = waypointPositions {
             var waypointPositionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .waypointPositions)
-            for waypointpositionlist0 in waypointPositions {
-                var waypointpositionlist0Container = waypointPositionsContainer.nestedUnkeyedContainer()
-                for position1 in waypointpositionlist0 {
-                    try waypointpositionlist0Container.encode(position1)
+            for position0 in waypointPositions {
+                var position0Container = waypointPositionsContainer.nestedUnkeyedContainer()
+                for double1 in position0 {
+                    try position0Container.encode(double1)
                 }
             }
         }
@@ -1908,10 +1908,10 @@ extension CalculateRouteMatrixInput: Swift.Encodable {
         }
         if let departurePositions = departurePositions {
             var departurePositionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .departurePositions)
-            for positionlist0 in departurePositions {
-                var positionlist0Container = departurePositionsContainer.nestedUnkeyedContainer()
-                for position1 in positionlist0 {
-                    try positionlist0Container.encode(position1)
+            for position0 in departurePositions {
+                var position0Container = departurePositionsContainer.nestedUnkeyedContainer()
+                for double1 in position0 {
+                    try position0Container.encode(double1)
                 }
             }
         }
@@ -1920,10 +1920,10 @@ extension CalculateRouteMatrixInput: Swift.Encodable {
         }
         if let destinationPositions = destinationPositions {
             var destinationPositionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPositions)
-            for positionlist0 in destinationPositions {
-                var positionlist0Container = destinationPositionsContainer.nestedUnkeyedContainer()
-                for position1 in positionlist0 {
-                    try positionlist0Container.encode(position1)
+            for position0 in destinationPositions {
+                var position0Container = destinationPositionsContainer.nestedUnkeyedContainer()
+                for double1 in position0 {
+                    try position0Container.encode(double1)
                 }
             }
         }
@@ -2447,8 +2447,8 @@ extension LocationClientTypes.CalculateRouteSummary: Swift.Codable {
         }
         if let routeBBox = routeBBox {
             var routeBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routeBBox)
-            for boundingbox0 in routeBBox {
-                try routeBBoxContainer.encode(boundingbox0)
+            for double0 in routeBBox {
+                try routeBBoxContainer.encode(double0)
             }
         }
     }
@@ -2612,8 +2612,8 @@ extension LocationClientTypes.Circle: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let center = center {
             var centerContainer = encodeContainer.nestedUnkeyedContainer(forKey: .center)
-            for position0 in center {
-                try centerContainer.encode(position0)
+            for double0 in center {
+                try centerContainer.encode(double0)
             }
         }
         if let radius = self.radius {
@@ -2749,8 +2749,8 @@ extension CreateGeofenceCollectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2981,8 +2981,8 @@ extension CreateMapInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3209,8 +3209,8 @@ extension CreatePlaceIndexInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3448,8 +3448,8 @@ extension CreateRouteCalculatorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3693,8 +3693,8 @@ extension CreateTrackerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let trackerName = self.trackerName {
@@ -5364,14 +5364,14 @@ extension LocationClientTypes.DevicePosition: Swift.Codable {
         }
         if let position = position {
             var positionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .position)
-            for position0 in position {
-                try positionContainer.encode(position0)
+            for double0 in position {
+                try positionContainer.encode(double0)
             }
         }
         if let positionProperties = positionProperties {
             var positionPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .positionProperties)
-            for (dictKey0, propertymap0) in positionProperties {
-                try positionPropertiesContainer.encode(propertymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyMap0) in positionProperties {
+                try positionPropertiesContainer.encode(propertyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let receivedTime = self.receivedTime {
@@ -5480,14 +5480,14 @@ extension LocationClientTypes.DevicePositionUpdate: Swift.Codable {
         }
         if let position = position {
             var positionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .position)
-            for position0 in position {
-                try positionContainer.encode(position0)
+            for double0 in position {
+                try positionContainer.encode(double0)
             }
         }
         if let positionProperties = positionProperties {
             var positionPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .positionProperties)
-            for (dictKey0, propertymap0) in positionProperties {
-                try positionPropertiesContainer.encode(propertymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyMap0) in positionProperties {
+                try positionPropertiesContainer.encode(propertyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sampleTime = self.sampleTime {
@@ -5726,12 +5726,12 @@ extension LocationClientTypes.GeofenceGeometry: Swift.Codable {
         }
         if let polygon = polygon {
             var polygonContainer = encodeContainer.nestedUnkeyedContainer(forKey: .polygon)
-            for linearrings0 in polygon {
-                var linearrings0Container = polygonContainer.nestedUnkeyedContainer()
-                for linearring1 in linearrings0 {
-                    var linearring1Container = linearrings0Container.nestedUnkeyedContainer()
-                    for position2 in linearring1 {
-                        try linearring1Container.encode(position2)
+            for linearring0 in polygon {
+                var linearring0Container = polygonContainer.nestedUnkeyedContainer()
+                for position1 in linearring0 {
+                    var position1Container = linearring0Container.nestedUnkeyedContainer()
+                    for double2 in position1 {
+                        try position1Container.encode(double2)
                     }
                 }
             }
@@ -7099,8 +7099,8 @@ extension LocationClientTypes.Leg: Swift.Codable {
         }
         if let endPosition = endPosition {
             var endPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endPosition)
-            for position0 in endPosition {
-                try endPositionContainer.encode(position0)
+            for double0 in endPosition {
+                try endPositionContainer.encode(double0)
             }
         }
         if let geometry = self.geometry {
@@ -7108,14 +7108,14 @@ extension LocationClientTypes.Leg: Swift.Codable {
         }
         if let startPosition = startPosition {
             var startPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .startPosition)
-            for position0 in startPosition {
-                try startPositionContainer.encode(position0)
+            for double0 in startPosition {
+                try startPositionContainer.encode(double0)
             }
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for steplist0 in steps {
-                try stepsContainer.encode(steplist0)
+            for step0 in steps {
+                try stepsContainer.encode(step0)
             }
         }
     }
@@ -7232,10 +7232,10 @@ extension LocationClientTypes.LegGeometry: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lineString = lineString {
             var lineStringContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lineString)
-            for linestring0 in lineString {
-                var linestring0Container = lineStringContainer.nestedUnkeyedContainer()
-                for position1 in linestring0 {
-                    try linestring0Container.encode(position1)
+            for position0 in lineString {
+                var position0Container = lineStringContainer.nestedUnkeyedContainer()
+                for double1 in position0 {
+                    try position0Container.encode(double1)
                 }
             }
         }
@@ -7459,14 +7459,14 @@ extension LocationClientTypes.ListDevicePositionsResponseEntry: Swift.Codable {
         }
         if let position = position {
             var positionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .position)
-            for position0 in position {
-                try positionContainer.encode(position0)
+            for double0 in position {
+                try positionContainer.encode(double0)
             }
         }
         if let positionProperties = positionProperties {
             var positionPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .positionProperties)
-            for (dictKey0, propertymap0) in positionProperties {
-                try positionPropertiesContainer.encode(propertymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyMap0) in positionProperties {
+                try positionPropertiesContainer.encode(propertyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sampleTime = self.sampleTime {
@@ -9522,8 +9522,8 @@ extension LocationClientTypes.PlaceGeometry: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let point = point {
             var pointContainer = encodeContainer.nestedUnkeyedContainer(forKey: .point)
-            for position0 in point {
-                try pointContainer.encode(position0)
+            for double0 in point {
+                try pointContainer.encode(double0)
             }
         }
     }
@@ -10257,8 +10257,8 @@ extension SearchPlaceIndexForPositionInput: Swift.Encodable {
         }
         if let position = position {
             var positionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .position)
-            for position0 in position {
-                try positionContainer.encode(position0)
+            for double0 in position {
+                try positionContainer.encode(double0)
             }
         }
     }
@@ -10445,8 +10445,8 @@ extension LocationClientTypes.SearchPlaceIndexForPositionSummary: Swift.Codable 
         }
         if let position = position {
             var positionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .position)
-            for position0 in position {
-                try positionContainer.encode(position0)
+            for double0 in position {
+                try positionContainer.encode(double0)
             }
         }
     }
@@ -10534,20 +10534,20 @@ extension SearchPlaceIndexForSuggestionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let biasPosition = biasPosition {
             var biasPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .biasPosition)
-            for position0 in biasPosition {
-                try biasPositionContainer.encode(position0)
+            for double0 in biasPosition {
+                try biasPositionContainer.encode(double0)
             }
         }
         if let filterBBox = filterBBox {
             var filterBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterBBox)
-            for boundingbox0 in filterBBox {
-                try filterBBoxContainer.encode(boundingbox0)
+            for double0 in filterBBox {
+                try filterBBoxContainer.encode(double0)
             }
         }
         if let filterCountries = filterCountries {
             var filterCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterCountries)
-            for countrycodelist0 in filterCountries {
-                try filterCountriesContainer.encode(countrycodelist0)
+            for countrycode0 in filterCountries {
+                try filterCountriesContainer.encode(countrycode0)
             }
         }
         if let language = self.language {
@@ -10781,8 +10781,8 @@ extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let biasPosition = biasPosition {
             var biasPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .biasPosition)
-            for position0 in biasPosition {
-                try biasPositionContainer.encode(position0)
+            for double0 in biasPosition {
+                try biasPositionContainer.encode(double0)
             }
         }
         if let dataSource = self.dataSource {
@@ -10790,14 +10790,14 @@ extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary: Swift.Codab
         }
         if let filterBBox = filterBBox {
             var filterBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterBBox)
-            for boundingbox0 in filterBBox {
-                try filterBBoxContainer.encode(boundingbox0)
+            for double0 in filterBBox {
+                try filterBBoxContainer.encode(double0)
             }
         }
         if let filterCountries = filterCountries {
             var filterCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterCountries)
-            for countrycodelist0 in filterCountries {
-                try filterCountriesContainer.encode(countrycodelist0)
+            for countrycode0 in filterCountries {
+                try filterCountriesContainer.encode(countrycode0)
             }
         }
         if let language = self.language {
@@ -10930,20 +10930,20 @@ extension SearchPlaceIndexForTextInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let biasPosition = biasPosition {
             var biasPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .biasPosition)
-            for position0 in biasPosition {
-                try biasPositionContainer.encode(position0)
+            for double0 in biasPosition {
+                try biasPositionContainer.encode(double0)
             }
         }
         if let filterBBox = filterBBox {
             var filterBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterBBox)
-            for boundingbox0 in filterBBox {
-                try filterBBoxContainer.encode(boundingbox0)
+            for double0 in filterBBox {
+                try filterBBoxContainer.encode(double0)
             }
         }
         if let filterCountries = filterCountries {
             var filterCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterCountries)
-            for countrycodelist0 in filterCountries {
-                try filterCountriesContainer.encode(countrycodelist0)
+            for countrycode0 in filterCountries {
+                try filterCountriesContainer.encode(countrycode0)
             }
         }
         if let language = self.language {
@@ -11178,8 +11178,8 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let biasPosition = biasPosition {
             var biasPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .biasPosition)
-            for position0 in biasPosition {
-                try biasPositionContainer.encode(position0)
+            for double0 in biasPosition {
+                try biasPositionContainer.encode(double0)
             }
         }
         if let dataSource = self.dataSource {
@@ -11187,14 +11187,14 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.Codable {
         }
         if let filterBBox = filterBBox {
             var filterBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterBBox)
-            for boundingbox0 in filterBBox {
-                try filterBBoxContainer.encode(boundingbox0)
+            for double0 in filterBBox {
+                try filterBBoxContainer.encode(double0)
             }
         }
         if let filterCountries = filterCountries {
             var filterCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterCountries)
-            for countrycodelist0 in filterCountries {
-                try filterCountriesContainer.encode(countrycodelist0)
+            for countrycode0 in filterCountries {
+                try filterCountriesContainer.encode(countrycode0)
             }
         }
         if let language = self.language {
@@ -11205,8 +11205,8 @@ extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.Codable {
         }
         if let resultBBox = resultBBox {
             var resultBBoxContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resultBBox)
-            for boundingbox0 in resultBBox {
-                try resultBBoxContainer.encode(boundingbox0)
+            for double0 in resultBBox {
+                try resultBBoxContainer.encode(double0)
             }
         }
         if let text = self.text {
@@ -11402,8 +11402,8 @@ extension LocationClientTypes.Step: Swift.Codable {
         }
         if let endPosition = endPosition {
             var endPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endPosition)
-            for position0 in endPosition {
-                try endPositionContainer.encode(position0)
+            for double0 in endPosition {
+                try endPositionContainer.encode(double0)
             }
         }
         if let geometryOffset = self.geometryOffset {
@@ -11411,8 +11411,8 @@ extension LocationClientTypes.Step: Swift.Codable {
         }
         if let startPosition = startPosition {
             var startPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .startPosition)
-            for position0 in startPosition {
-                try startPositionContainer.encode(position0)
+            for double0 in startPosition {
+                try startPositionContainer.encode(double0)
             }
         }
     }
@@ -11500,8 +11500,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

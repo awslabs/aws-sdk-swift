@@ -371,8 +371,8 @@ extension CreateKeyspaceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -544,8 +544,8 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let ttl = self.ttl {
@@ -2213,8 +2213,8 @@ extension RestoreTableInput: Swift.Encodable {
         }
         if let tagsOverride = tagsOverride {
             var tagsOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsOverride)
-            for taglist0 in tagsOverride {
-                try tagsOverrideContainer.encode(taglist0)
+            for tag0 in tagsOverride {
+                try tagsOverrideContainer.encode(tag0)
             }
         }
         if let targetKeyspaceName = self.targetKeyspaceName {
@@ -2423,26 +2423,26 @@ extension KeyspacesClientTypes.SchemaDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allColumns = allColumns {
             var allColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allColumns)
-            for columndefinitionlist0 in allColumns {
-                try allColumnsContainer.encode(columndefinitionlist0)
+            for columndefinition0 in allColumns {
+                try allColumnsContainer.encode(columndefinition0)
             }
         }
         if let clusteringKeys = clusteringKeys {
             var clusteringKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clusteringKeys)
-            for clusteringkeylist0 in clusteringKeys {
-                try clusteringKeysContainer.encode(clusteringkeylist0)
+            for clusteringkey0 in clusteringKeys {
+                try clusteringKeysContainer.encode(clusteringkey0)
             }
         }
         if let partitionKeys = partitionKeys {
             var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
-            for partitionkeylist0 in partitionKeys {
-                try partitionKeysContainer.encode(partitionkeylist0)
+            for partitionkey0 in partitionKeys {
+                try partitionKeysContainer.encode(partitionkey0)
             }
         }
         if let staticColumns = staticColumns {
             var staticColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .staticColumns)
-            for staticcolumnlist0 in staticColumns {
-                try staticColumnsContainer.encode(staticcolumnlist0)
+            for staticcolumn0 in staticColumns {
+                try staticColumnsContainer.encode(staticcolumn0)
             }
         }
     }
@@ -2811,8 +2811,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3021,8 +3021,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3139,8 +3139,8 @@ extension UpdateTableInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addColumns = addColumns {
             var addColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addColumns)
-            for columndefinitionlist0 in addColumns {
-                try addColumnsContainer.encode(columndefinitionlist0)
+            for columndefinition0 in addColumns {
+                try addColumnsContainer.encode(columndefinition0)
             }
         }
         if let capacitySpecification = self.capacitySpecification {

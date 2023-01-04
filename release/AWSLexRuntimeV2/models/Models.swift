@@ -85,8 +85,8 @@ extension LexRuntimeV2ClientTypes.ActiveContext: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contextAttributes = contextAttributes {
             var contextAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .contextAttributes)
-            for (dictKey0, activecontextparametersmap0) in contextAttributes {
-                try contextAttributesContainer.encode(activecontextparametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, activeContextParametersMap0) in contextAttributes {
+                try contextAttributesContainer.encode(activeContextParametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -490,8 +490,8 @@ extension LexRuntimeV2ClientTypes.ConfigurationEvent: Swift.Codable {
         }
         if let requestAttributes = requestAttributes {
             var requestAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestAttributes)
-            for (dictKey0, stringmap0) in requestAttributes {
-                try requestAttributesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in requestAttributes {
+                try requestAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseContentType = self.responseContentType {
@@ -502,8 +502,8 @@ extension LexRuntimeV2ClientTypes.ConfigurationEvent: Swift.Codable {
         }
         if let welcomeMessages = welcomeMessages {
             var welcomeMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .welcomeMessages)
-            for messages0 in welcomeMessages {
-                try welcomeMessagesContainer.encode(messages0)
+            for message0 in welcomeMessages {
+                try welcomeMessagesContainer.encode(message0)
             }
         }
     }
@@ -1473,8 +1473,8 @@ extension LexRuntimeV2ClientTypes.ImageResponseCard: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let buttons = buttons {
             var buttonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .buttons)
-            for buttonslist0 in buttons {
-                try buttonsContainer.encode(buttonslist0)
+            for button0 in buttons {
+                try buttonsContainer.encode(button0)
             }
         }
         if let imageUrl = self.imageUrl {
@@ -1672,14 +1672,14 @@ extension LexRuntimeV2ClientTypes.IntentResultEvent: Swift.Codable {
         }
         if let interpretations = interpretations {
             var interpretationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .interpretations)
-            for interpretations0 in interpretations {
-                try interpretationsContainer.encode(interpretations0)
+            for interpretation0 in interpretations {
+                try interpretationsContainer.encode(interpretation0)
             }
         }
         if let requestAttributes = requestAttributes {
             var requestAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestAttributes)
-            for (dictKey0, stringmap0) in requestAttributes {
-                try requestAttributesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in requestAttributes {
+                try requestAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sessionId = self.sessionId {
@@ -2177,14 +2177,14 @@ extension PutSessionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let messages = messages {
             var messagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messages)
-            for messages0 in messages {
-                try messagesContainer.encode(messages0)
+            for message0 in messages {
+                try messagesContainer.encode(message0)
             }
         }
         if let requestAttributes = requestAttributes {
             var requestAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestAttributes)
-            for (dictKey0, stringmap0) in requestAttributes {
-                try requestAttributesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in requestAttributes {
+                try requestAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sessionState = self.sessionState {
@@ -2446,8 +2446,8 @@ extension RecognizeTextInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let requestAttributes = requestAttributes {
             var requestAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestAttributes)
-            for (dictKey0, stringmap0) in requestAttributes {
-                try requestAttributesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in requestAttributes {
+                try requestAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sessionState = self.sessionState {
@@ -3110,14 +3110,14 @@ extension LexRuntimeV2ClientTypes.RuntimeHintDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let runtimeHintValues = runtimeHintValues {
             var runtimeHintValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runtimeHintValues)
-            for runtimehintvalueslist0 in runtimeHintValues {
-                try runtimeHintValuesContainer.encode(runtimehintvalueslist0)
+            for runtimehintvalue0 in runtimeHintValues {
+                try runtimeHintValuesContainer.encode(runtimehintvalue0)
             }
         }
         if let subSlotHints = subSlotHints {
             var subSlotHintsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .subSlotHints)
-            for (dictKey0, slothintsslotmap0) in subSlotHints {
-                try subSlotHintsContainer.encode(slothintsslotmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, slotHintsSlotMap0) in subSlotHints {
+                try subSlotHintsContainer.encode(slotHintsSlotMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3214,8 +3214,11 @@ extension LexRuntimeV2ClientTypes.RuntimeHints: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let slotHints = slotHints {
             var slotHintsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .slotHints)
-            for (dictKey0, slothintsintentmap0) in slotHints {
-                try slotHintsContainer.encode(slothintsintentmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, slotHintsIntentMap0) in slotHints {
+                var slotHintsIntentMap0Container = slotHintsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, slotHintsSlotMap1) in slotHintsIntentMap0 {
+                    try slotHintsIntentMap0Container.encode(slotHintsSlotMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
     }
@@ -3421,8 +3424,8 @@ extension LexRuntimeV2ClientTypes.SessionState: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activeContexts = activeContexts {
             var activeContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .activeContexts)
-            for activecontextslist0 in activeContexts {
-                try activeContextsContainer.encode(activecontextslist0)
+            for activecontext0 in activeContexts {
+                try activeContextsContainer.encode(activecontext0)
             }
         }
         if let dialogAction = self.dialogAction {
@@ -3439,8 +3442,8 @@ extension LexRuntimeV2ClientTypes.SessionState: Swift.Codable {
         }
         if let sessionAttributes = sessionAttributes {
             var sessionAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sessionAttributes)
-            for (dictKey0, stringmap0) in sessionAttributes {
-                try sessionAttributesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in sessionAttributes {
+                try sessionAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3575,8 +3578,8 @@ extension LexRuntimeV2ClientTypes.Slot: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for values0 in values {
-                try valuesContainer.encode(values0)
+            for slot0 in values {
+                try valuesContainer.encode(slot0)
             }
         }
     }
@@ -4213,8 +4216,8 @@ extension LexRuntimeV2ClientTypes.TextResponseEvent: Swift.Codable {
         }
         if let messages = messages {
             var messagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messages)
-            for messages0 in messages {
-                try messagesContainer.encode(messages0)
+            for message0 in messages {
+                try messagesContainer.encode(message0)
             }
         }
     }
@@ -4463,8 +4466,8 @@ extension LexRuntimeV2ClientTypes.Value: Swift.Codable {
         }
         if let resolvedValues = resolvedValues {
             var resolvedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resolvedValues)
-            for stringlist0 in resolvedValues {
-                try resolvedValuesContainer.encode(stringlist0)
+            for nonemptystring0 in resolvedValues {
+                try resolvedValuesContainer.encode(nonemptystring0)
             }
         }
     }

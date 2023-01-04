@@ -81,8 +81,8 @@ extension DAXClientTypes.Cluster: Swift.Codable {
         }
         if let nodeIdsToRemove = nodeIdsToRemove {
             var nodeIdsToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeIdsToRemove)
-            for nodeidentifierlist0 in nodeIdsToRemove {
-                try nodeIdsToRemoveContainer.encode(nodeidentifierlist0)
+            for string0 in nodeIdsToRemove {
+                try nodeIdsToRemoveContainer.encode(string0)
             }
         }
         if let nodeType = self.nodeType {
@@ -90,8 +90,8 @@ extension DAXClientTypes.Cluster: Swift.Codable {
         }
         if let nodes = nodes {
             var nodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodes)
-            for nodelist0 in nodes {
-                try nodesContainer.encode(nodelist0)
+            for node0 in nodes {
+                try nodesContainer.encode(node0)
             }
         }
         if let notificationConfiguration = self.notificationConfiguration {
@@ -108,8 +108,8 @@ extension DAXClientTypes.Cluster: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroupmembershiplist0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroupmembershiplist0)
+            for securitygroupmembership0 in securityGroups {
+                try securityGroupsContainer.encode(securitygroupmembership0)
             }
         }
         if let status = self.status {
@@ -487,8 +487,8 @@ extension CreateClusterInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzonelist0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzonelist0)
+            for string0 in availabilityZones {
+                try availabilityZonesContainer.encode(string0)
             }
         }
         if let clusterEndpointEncryptionType = self.clusterEndpointEncryptionType {
@@ -523,8 +523,8 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidentifierlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidentifierlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let subnetGroupName = self.subnetGroupName {
@@ -532,8 +532,8 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -976,8 +976,8 @@ extension CreateSubnetGroupInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidentifierlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidentifierlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }
@@ -1127,8 +1127,8 @@ extension DecreaseReplicationFactorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzonelist0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzonelist0)
+            for string0 in availabilityZones {
+                try availabilityZonesContainer.encode(string0)
             }
         }
         if let clusterName = self.clusterName {
@@ -1139,8 +1139,8 @@ extension DecreaseReplicationFactorInput: Swift.Encodable {
         }
         if let nodeIdsToRemove = nodeIdsToRemove {
             var nodeIdsToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeIdsToRemove)
-            for nodeidentifierlist0 in nodeIdsToRemove {
-                try nodeIdsToRemoveContainer.encode(nodeidentifierlist0)
+            for string0 in nodeIdsToRemove {
+                try nodeIdsToRemoveContainer.encode(string0)
             }
         }
     }
@@ -1661,8 +1661,8 @@ extension DescribeClustersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clusterNames = clusterNames {
             var clusterNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clusterNames)
-            for clusternamelist0 in clusterNames {
-                try clusterNamesContainer.encode(clusternamelist0)
+            for string0 in clusterNames {
+                try clusterNamesContainer.encode(string0)
             }
         }
         if let maxResults = self.maxResults {
@@ -2188,8 +2188,8 @@ extension DescribeParameterGroupsInput: Swift.Encodable {
         }
         if let parameterGroupNames = parameterGroupNames {
             var parameterGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterGroupNames)
-            for parametergroupnamelist0 in parameterGroupNames {
-                try parameterGroupNamesContainer.encode(parametergroupnamelist0)
+            for string0 in parameterGroupNames {
+                try parameterGroupNamesContainer.encode(string0)
             }
         }
     }
@@ -2531,8 +2531,8 @@ extension DescribeSubnetGroupsInput: Swift.Encodable {
         }
         if let subnetGroupNames = subnetGroupNames {
             var subnetGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetGroupNames)
-            for subnetgroupnamelist0 in subnetGroupNames {
-                try subnetGroupNamesContainer.encode(subnetgroupnamelist0)
+            for string0 in subnetGroupNames {
+                try subnetGroupNamesContainer.encode(string0)
             }
         }
     }
@@ -2812,8 +2812,8 @@ extension IncreaseReplicationFactorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzonelist0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzonelist0)
+            for string0 in availabilityZones {
+                try availabilityZonesContainer.encode(string0)
             }
         }
         if let clusterName = self.clusterName {
@@ -3932,8 +3932,8 @@ extension DAXClientTypes.Parameter: Swift.Codable {
         }
         if let nodeTypeSpecificValues = nodeTypeSpecificValues {
             var nodeTypeSpecificValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeTypeSpecificValues)
-            for nodetypespecificvaluelist0 in nodeTypeSpecificValues {
-                try nodeTypeSpecificValuesContainer.encode(nodetypespecificvaluelist0)
+            for nodetypespecificvalue0 in nodeTypeSpecificValues {
+                try nodeTypeSpecificValuesContainer.encode(nodetypespecificvalue0)
             }
         }
         if let parameterName = self.parameterName {
@@ -4248,8 +4248,8 @@ extension DAXClientTypes.ParameterGroupStatus: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let nodeIdsToReboot = nodeIdsToReboot {
             var nodeIdsToRebootContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeIdsToReboot)
-            for nodeidentifierlist0 in nodeIdsToReboot {
-                try nodeIdsToRebootContainer.encode(nodeidentifierlist0)
+            for string0 in nodeIdsToReboot {
+                try nodeIdsToRebootContainer.encode(string0)
             }
         }
         if let parameterApplyStatus = self.parameterApplyStatus {
@@ -4849,8 +4849,8 @@ extension DAXClientTypes.SubnetGroup: Swift.Codable {
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for subnetlist0 in subnets {
-                try subnetsContainer.encode(subnetlist0)
+            for subnet0 in subnets {
+                try subnetsContainer.encode(subnet0)
             }
         }
         if let vpcId = self.vpcId {
@@ -5386,8 +5386,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5543,8 +5543,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for keylist0 in tagKeys {
-                try tagKeysContainer.encode(keylist0)
+            for string0 in tagKeys {
+                try tagKeysContainer.encode(string0)
             }
         }
     }
@@ -5720,8 +5720,8 @@ extension UpdateClusterInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidentifierlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidentifierlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
     }
@@ -5907,8 +5907,8 @@ extension UpdateParameterGroupInput: Swift.Encodable {
         }
         if let parameterNameValues = parameterNameValues {
             var parameterNameValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterNameValues)
-            for parameternamevaluelist0 in parameterNameValues {
-                try parameterNameValuesContainer.encode(parameternamevaluelist0)
+            for parameternamevalue0 in parameterNameValues {
+                try parameterNameValuesContainer.encode(parameternamevalue0)
             }
         }
     }
@@ -6055,8 +6055,8 @@ extension UpdateSubnetGroupInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidentifierlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidentifierlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }

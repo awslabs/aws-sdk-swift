@@ -67,8 +67,8 @@ extension CreateGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configuration = configuration {
             var configurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configuration)
-            for groupconfigurationlist0 in configuration {
-                try configurationContainer.encode(groupconfigurationlist0)
+            for groupconfigurationitem0 in configuration {
+                try configurationContainer.encode(groupconfigurationitem0)
             }
         }
         if let description = self.description {
@@ -1106,8 +1106,8 @@ extension ResourceGroupsClientTypes.GroupConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configuration = configuration {
             var configurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configuration)
-            for groupconfigurationlist0 in configuration {
-                try configurationContainer.encode(groupconfigurationlist0)
+            for groupconfigurationitem0 in configuration {
+                try configurationContainer.encode(groupconfigurationitem0)
             }
         }
         if let failureReason = self.failureReason {
@@ -1115,8 +1115,8 @@ extension ResourceGroupsClientTypes.GroupConfiguration: Swift.Codable {
         }
         if let proposedConfiguration = proposedConfiguration {
             var proposedConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .proposedConfiguration)
-            for groupconfigurationlist0 in proposedConfiguration {
-                try proposedConfigurationContainer.encode(groupconfigurationlist0)
+            for groupconfigurationitem0 in proposedConfiguration {
+                try proposedConfigurationContainer.encode(groupconfigurationitem0)
             }
         }
         if let status = self.status {
@@ -1193,8 +1193,8 @@ extension ResourceGroupsClientTypes.GroupConfigurationItem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for groupparameterlist0 in parameters {
-                try parametersContainer.encode(groupparameterlist0)
+            for groupconfigurationparameter0 in parameters {
+                try parametersContainer.encode(groupconfigurationparameter0)
             }
         }
         if let type = self.type {
@@ -1254,8 +1254,8 @@ extension ResourceGroupsClientTypes.GroupConfigurationParameter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for groupconfigurationparametervaluelist0 in values {
-                try valuesContainer.encode(groupconfigurationparametervaluelist0)
+            for groupconfigurationparametervalue0 in values {
+                try valuesContainer.encode(groupconfigurationparametervalue0)
             }
         }
     }
@@ -1347,8 +1347,8 @@ extension ResourceGroupsClientTypes.GroupFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for groupfiltervalues0 in values {
-                try valuesContainer.encode(groupfiltervalues0)
+            for groupfiltervalue0 in values {
+                try valuesContainer.encode(groupfiltervalue0)
             }
         }
     }
@@ -1530,8 +1530,8 @@ extension GroupResourcesInput: Swift.Encodable {
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
             }
         }
     }
@@ -1775,8 +1775,8 @@ extension ListGroupResourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for resourcefilterlist0 in filters {
-                try filtersContainer.encode(resourcefilterlist0)
+            for resourcefilter0 in filters {
+                try filtersContainer.encode(resourcefilter0)
             }
         }
         if let group = self.group {
@@ -2062,8 +2062,8 @@ extension ListGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for groupfilterlist0 in filters {
-                try filtersContainer.encode(groupfilterlist0)
+            for groupfilter0 in filters {
+                try filtersContainer.encode(groupfilter0)
             }
         }
     }
@@ -2404,8 +2404,8 @@ extension PutGroupConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configuration = configuration {
             var configurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configuration)
-            for groupconfigurationlist0 in configuration {
-                try configurationContainer.encode(groupconfigurationlist0)
+            for groupconfigurationitem0 in configuration {
+                try configurationContainer.encode(groupconfigurationitem0)
             }
         }
         if let group = self.group {
@@ -2629,8 +2629,8 @@ extension ResourceGroupsClientTypes.ResourceFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for resourcefiltervalues0 in values {
-                try valuesContainer.encode(resourcefiltervalues0)
+            for resourcefiltervalue0 in values {
+                try valuesContainer.encode(resourcefiltervalue0)
             }
         }
     }
@@ -3344,8 +3344,8 @@ extension UngroupResourcesInput: Swift.Encodable {
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
             }
         }
     }
@@ -3533,8 +3533,8 @@ extension UntagInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let keys = keys {
             var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
-            for tagkeylist0 in keys {
-                try keysContainer.encode(tagkeylist0)
+            for tagkey0 in keys {
+                try keysContainer.encode(tagkey0)
             }
         }
     }

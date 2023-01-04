@@ -12,8 +12,8 @@ extension BackupClientTypes.AdvancedBackupSetting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let backupOptions = backupOptions {
             var backupOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .backupOptions)
-            for (dictKey0, backupoptions0) in backupOptions {
-                try backupOptionsContainer.encode(backupoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, backupOptions0) in backupOptions {
+                try backupOptionsContainer.encode(backupOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceType = self.resourceType {
@@ -196,8 +196,8 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         }
         if let backupOptions = backupOptions {
             var backupOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .backupOptions)
-            for (dictKey0, backupoptions0) in backupOptions {
-                try backupOptionsContainer.encode(backupoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, backupOptions0) in backupOptions {
+                try backupOptionsContainer.encode(backupOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let backupSizeInBytes = self.backupSizeInBytes {
@@ -481,8 +481,8 @@ extension BackupClientTypes.BackupPlan: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let advancedBackupSettings = advancedBackupSettings {
             var advancedBackupSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .advancedBackupSettings)
-            for advancedbackupsettings0 in advancedBackupSettings {
-                try advancedBackupSettingsContainer.encode(advancedbackupsettings0)
+            for advancedbackupsetting0 in advancedBackupSettings {
+                try advancedBackupSettingsContainer.encode(advancedbackupsetting0)
             }
         }
         if let backupPlanName = self.backupPlanName {
@@ -490,8 +490,8 @@ extension BackupClientTypes.BackupPlan: Swift.Codable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for backuprules0 in rules {
-                try rulesContainer.encode(backuprules0)
+            for backuprule0 in rules {
+                try rulesContainer.encode(backuprule0)
             }
         }
     }
@@ -562,8 +562,8 @@ extension BackupClientTypes.BackupPlanInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let advancedBackupSettings = advancedBackupSettings {
             var advancedBackupSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .advancedBackupSettings)
-            for advancedbackupsettings0 in advancedBackupSettings {
-                try advancedBackupSettingsContainer.encode(advancedbackupsettings0)
+            for advancedbackupsetting0 in advancedBackupSettings {
+                try advancedBackupSettingsContainer.encode(advancedbackupsetting0)
             }
         }
         if let backupPlanName = self.backupPlanName {
@@ -571,8 +571,8 @@ extension BackupClientTypes.BackupPlanInput: Swift.Codable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for backuprulesinput0 in rules {
-                try rulesContainer.encode(backuprulesinput0)
+            for backupruleinput0 in rules {
+                try rulesContainer.encode(backupruleinput0)
             }
         }
     }
@@ -694,8 +694,8 @@ extension BackupClientTypes.BackupPlansListMember: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let advancedBackupSettings = advancedBackupSettings {
             var advancedBackupSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .advancedBackupSettings)
-            for advancedbackupsettings0 in advancedBackupSettings {
-                try advancedBackupSettingsContainer.encode(advancedbackupsettings0)
+            for advancedbackupsetting0 in advancedBackupSettings {
+                try advancedBackupSettingsContainer.encode(advancedbackupsetting0)
             }
         }
         if let backupPlanArn = self.backupPlanArn {
@@ -825,8 +825,8 @@ extension BackupClientTypes.BackupRule: Swift.Codable {
         }
         if let copyActions = copyActions {
             var copyActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .copyActions)
-            for copyactions0 in copyActions {
-                try copyActionsContainer.encode(copyactions0)
+            for copyaction0 in copyActions {
+                try copyActionsContainer.encode(copyaction0)
             }
         }
         if let enableContinuousBackup = self.enableContinuousBackup {
@@ -980,8 +980,8 @@ extension BackupClientTypes.BackupRuleInput: Swift.Codable {
         }
         if let copyActions = copyActions {
             var copyActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .copyActions)
-            for copyactions0 in copyActions {
-                try copyActionsContainer.encode(copyactions0)
+            for copyaction0 in copyActions {
+                try copyActionsContainer.encode(copyaction0)
             }
         }
         if let enableContinuousBackup = self.enableContinuousBackup {
@@ -1126,20 +1126,20 @@ extension BackupClientTypes.BackupSelection: Swift.Codable {
         }
         if let listOfTags = listOfTags {
             var listOfTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listOfTags)
-            for listoftags0 in listOfTags {
-                try listOfTagsContainer.encode(listoftags0)
+            for condition0 in listOfTags {
+                try listOfTagsContainer.encode(condition0)
             }
         }
         if let notResources = notResources {
             var notResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notResources)
-            for resourcearns0 in notResources {
-                try notResourcesContainer.encode(resourcearns0)
+            for arn0 in notResources {
+                try notResourcesContainer.encode(arn0)
             }
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for resourcearns0 in resources {
-                try resourcesContainer.encode(resourcearns0)
+            for arn0 in resources {
+                try resourcesContainer.encode(arn0)
             }
         }
         if let selectionName = self.selectionName {
@@ -1812,26 +1812,26 @@ extension BackupClientTypes.Conditions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stringEquals = stringEquals {
             var stringEqualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringEquals)
-            for conditionparameters0 in stringEquals {
-                try stringEqualsContainer.encode(conditionparameters0)
+            for conditionparameter0 in stringEquals {
+                try stringEqualsContainer.encode(conditionparameter0)
             }
         }
         if let stringLike = stringLike {
             var stringLikeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringLike)
-            for conditionparameters0 in stringLike {
-                try stringLikeContainer.encode(conditionparameters0)
+            for conditionparameter0 in stringLike {
+                try stringLikeContainer.encode(conditionparameter0)
             }
         }
         if let stringNotEquals = stringNotEquals {
             var stringNotEqualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringNotEquals)
-            for conditionparameters0 in stringNotEquals {
-                try stringNotEqualsContainer.encode(conditionparameters0)
+            for conditionparameter0 in stringNotEquals {
+                try stringNotEqualsContainer.encode(conditionparameter0)
             }
         }
         if let stringNotLike = stringNotLike {
             var stringNotLikeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringNotLike)
-            for conditionparameters0 in stringNotLike {
-                try stringNotLikeContainer.encode(conditionparameters0)
+            for conditionparameter0 in stringNotLike {
+                try stringNotLikeContainer.encode(conditionparameter0)
             }
         }
     }
@@ -2050,20 +2050,20 @@ extension BackupClientTypes.ControlScope: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let complianceResourceIds = complianceResourceIds {
             var complianceResourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceResourceIds)
-            for complianceresourceidlist0 in complianceResourceIds {
-                try complianceResourceIdsContainer.encode(complianceresourceidlist0)
+            for string0 in complianceResourceIds {
+                try complianceResourceIdsContainer.encode(string0)
             }
         }
         if let complianceResourceTypes = complianceResourceTypes {
             var complianceResourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceResourceTypes)
-            for resourcetypelist0 in complianceResourceTypes {
-                try complianceResourceTypesContainer.encode(resourcetypelist0)
+            for arn0 in complianceResourceTypes {
+                try complianceResourceTypesContainer.encode(arn0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, stringmap0) in tags {
-                try tagsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in tags {
+                try tagsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2210,8 +2210,8 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         }
         if let childJobsInState = childJobsInState {
             var childJobsInStateContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .childJobsInState)
-            for (dictKey0, copyjobchildjobsinstate0) in childJobsInState {
-                try childJobsInStateContainer.encode(copyjobchildjobsinstate0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, copyJobChildJobsInState0) in childJobsInState {
+                try childJobsInStateContainer.encode(copyJobChildJobsInState0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let completionDate = self.completionDate {
@@ -3022,8 +3022,8 @@ extension CreateFrameworkInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let frameworkControls = frameworkControls {
             var frameworkControlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .frameworkControls)
-            for frameworkcontrols0 in frameworkControls {
-                try frameworkControlsContainer.encode(frameworkcontrols0)
+            for frameworkcontrol0 in frameworkControls {
+                try frameworkControlsContainer.encode(frameworkcontrol0)
             }
         }
         if let frameworkDescription = self.frameworkDescription {
@@ -3034,8 +3034,8 @@ extension CreateFrameworkInput: Swift.Encodable {
         }
         if let frameworkTags = frameworkTags {
             var frameworkTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .frameworkTags)
-            for (dictKey0, stringmap0) in frameworkTags {
-                try frameworkTagsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in frameworkTags {
+                try frameworkTagsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let idempotencyToken = self.idempotencyToken {
@@ -3480,8 +3480,8 @@ extension CreateReportPlanInput: Swift.Encodable {
         }
         if let reportPlanTags = reportPlanTags {
             var reportPlanTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .reportPlanTags)
-            for (dictKey0, stringmap0) in reportPlanTags {
-                try reportPlanTagsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in reportPlanTags {
+                try reportPlanTagsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let reportSetting = self.reportSetting {
@@ -6763,8 +6763,8 @@ extension BackupClientTypes.FrameworkControl: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let controlInputParameters = controlInputParameters {
             var controlInputParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controlInputParameters)
-            for controlinputparameters0 in controlInputParameters {
-                try controlInputParametersContainer.encode(controlinputparameters0)
+            for controlinputparameter0 in controlInputParameters {
+                try controlInputParametersContainer.encode(controlinputparameter0)
             }
         }
         if let controlName = self.controlName {
@@ -11637,8 +11637,8 @@ extension PutBackupVaultNotificationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let backupVaultEvents = backupVaultEvents {
             var backupVaultEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .backupVaultEvents)
-            for backupvaultevents0 in backupVaultEvents {
-                try backupVaultEventsContainer.encode(backupvaultevents0.rawValue)
+            for backupvaultevent0 in backupVaultEvents {
+                try backupVaultEventsContainer.encode(backupvaultevent0.rawValue)
             }
         }
         if let snsTopicArn = self.snsTopicArn {
@@ -12221,14 +12221,14 @@ extension BackupClientTypes.RecoveryPointSelection: Swift.Codable {
         }
         if let resourceIdentifiers = resourceIdentifiers {
             var resourceIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIdentifiers)
-            for resourceidentifiers0 in resourceIdentifiers {
-                try resourceIdentifiersContainer.encode(resourceidentifiers0)
+            for string0 in resourceIdentifiers {
+                try resourceIdentifiersContainer.encode(string0)
             }
         }
         if let vaultNames = vaultNames {
             var vaultNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vaultNames)
-            for vaultnames0 in vaultNames {
-                try vaultNamesContainer.encode(vaultnames0)
+            for string0 in vaultNames {
+                try vaultNamesContainer.encode(string0)
             }
         }
     }
@@ -12335,8 +12335,8 @@ extension BackupClientTypes.ReportDeliveryChannel: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let formats = formats {
             var formatsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .formats)
-            for formatlist0 in formats {
-                try formatsContainer.encode(formatlist0)
+            for string0 in formats {
+                try formatsContainer.encode(string0)
             }
         }
         if let s3BucketName = self.s3BucketName {
@@ -12405,8 +12405,8 @@ extension BackupClientTypes.ReportDestination: Swift.Codable {
         }
         if let s3Keys = s3Keys {
             var s3KeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Keys)
-            for stringlist0 in s3Keys {
-                try s3KeysContainer.encode(stringlist0)
+            for string0 in s3Keys {
+                try s3KeysContainer.encode(string0)
             }
         }
     }
@@ -12683,14 +12683,14 @@ extension BackupClientTypes.ReportSetting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accounts = accounts {
             var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
-            for stringlist0 in accounts {
-                try accountsContainer.encode(stringlist0)
+            for string0 in accounts {
+                try accountsContainer.encode(string0)
             }
         }
         if let frameworkArns = frameworkArns {
             var frameworkArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .frameworkArns)
-            for stringlist0 in frameworkArns {
-                try frameworkArnsContainer.encode(stringlist0)
+            for string0 in frameworkArns {
+                try frameworkArnsContainer.encode(string0)
             }
         }
         if numberOfFrameworks != 0 {
@@ -12698,14 +12698,14 @@ extension BackupClientTypes.ReportSetting: Swift.Codable {
         }
         if let organizationUnits = organizationUnits {
             var organizationUnitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationUnits)
-            for stringlist0 in organizationUnits {
-                try organizationUnitsContainer.encode(stringlist0)
+            for string0 in organizationUnits {
+                try organizationUnitsContainer.encode(string0)
             }
         }
         if let regions = regions {
             var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
-            for stringlist0 in regions {
-                try regionsContainer.encode(stringlist0)
+            for string0 in regions {
+                try regionsContainer.encode(string0)
             }
         }
         if let reportTemplate = self.reportTemplate {
@@ -13183,8 +13183,8 @@ extension StartBackupJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let backupOptions = backupOptions {
             var backupOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .backupOptions)
-            for (dictKey0, backupoptions0) in backupOptions {
-                try backupOptionsContainer.encode(backupoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, backupOptions0) in backupOptions {
+                try backupOptionsContainer.encode(backupOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let backupVaultName = self.backupVaultName {
@@ -14221,8 +14221,8 @@ extension UntagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tagKeyList = tagKeyList {
             var tagKeyListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeyList)
-            for tagkeylist0 in tagKeyList {
-                try tagKeyListContainer.encode(tagkeylist0)
+            for string0 in tagKeyList {
+                try tagKeyListContainer.encode(string0)
             }
         }
     }
@@ -14503,8 +14503,8 @@ extension UpdateFrameworkInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let frameworkControls = frameworkControls {
             var frameworkControlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .frameworkControls)
-            for frameworkcontrols0 in frameworkControls {
-                try frameworkControlsContainer.encode(frameworkcontrols0)
+            for frameworkcontrol0 in frameworkControls {
+                try frameworkControlsContainer.encode(frameworkcontrol0)
             }
         }
         if let frameworkDescription = self.frameworkDescription {
@@ -14687,8 +14687,8 @@ extension UpdateGlobalSettingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let globalSettings = globalSettings {
             var globalSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .globalSettings)
-            for (dictKey0, globalsettings0) in globalSettings {
-                try globalSettingsContainer.encode(globalsettings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, globalSettings0) in globalSettings {
+                try globalSettingsContainer.encode(globalSettings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14949,14 +14949,14 @@ extension UpdateRegionSettingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceTypeManagementPreference = resourceTypeManagementPreference {
             var resourceTypeManagementPreferenceContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTypeManagementPreference)
-            for (dictKey0, resourcetypemanagementpreference0) in resourceTypeManagementPreference {
-                try resourceTypeManagementPreferenceContainer.encode(resourcetypemanagementpreference0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resourceTypeManagementPreference0) in resourceTypeManagementPreference {
+                try resourceTypeManagementPreferenceContainer.encode(resourceTypeManagementPreference0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceTypeOptInPreference = resourceTypeOptInPreference {
             var resourceTypeOptInPreferenceContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTypeOptInPreference)
-            for (dictKey0, resourcetypeoptinpreference0) in resourceTypeOptInPreference {
-                try resourceTypeOptInPreferenceContainer.encode(resourcetypeoptinpreference0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resourceTypeOptInPreference0) in resourceTypeOptInPreference {
+                try resourceTypeOptInPreferenceContainer.encode(resourceTypeOptInPreference0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

@@ -149,8 +149,8 @@ extension ApiGatewayV2ClientTypes.Api: Swift.Codable {
         }
         if let importInfo = importInfo {
             var importInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .importInfo)
-            for __listof__string0 in importInfo {
-                try importInfoContainer.encode(__listof__string0)
+            for __string0 in importInfo {
+                try importInfoContainer.encode(__string0)
             }
         }
         if let name = self.name {
@@ -173,8 +173,8 @@ extension ApiGatewayV2ClientTypes.Api: Swift.Codable {
         }
         if let warnings = warnings {
             var warningsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .warnings)
-            for __listof__string0 in warnings {
-                try warningsContainer.encode(__listof__string0)
+            for __string0 in warnings {
+                try warningsContainer.encode(__string0)
             }
         }
     }
@@ -468,8 +468,8 @@ extension ApiGatewayV2ClientTypes.Authorizer: Swift.Codable {
         }
         if let identitySource = identitySource {
             var identitySourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identitySource)
-            for identitysourcelist0 in identitySource {
-                try identitySourceContainer.encode(identitysourcelist0)
+            for __string0 in identitySource {
+                try identitySourceContainer.encode(__string0)
             }
         }
         if let identityValidationExpression = self.identityValidationExpression {
@@ -798,26 +798,26 @@ extension ApiGatewayV2ClientTypes.Cors: Swift.Codable {
         }
         if let allowHeaders = allowHeaders {
             var allowHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowHeaders)
-            for corsheaderlist0 in allowHeaders {
-                try allowHeadersContainer.encode(corsheaderlist0)
+            for __string0 in allowHeaders {
+                try allowHeadersContainer.encode(__string0)
             }
         }
         if let allowMethods = allowMethods {
             var allowMethodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowMethods)
-            for corsmethodlist0 in allowMethods {
-                try allowMethodsContainer.encode(corsmethodlist0)
+            for stringwithlengthbetween1and640 in allowMethods {
+                try allowMethodsContainer.encode(stringwithlengthbetween1and640)
             }
         }
         if let allowOrigins = allowOrigins {
             var allowOriginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowOrigins)
-            for corsoriginlist0 in allowOrigins {
-                try allowOriginsContainer.encode(corsoriginlist0)
+            for __string0 in allowOrigins {
+                try allowOriginsContainer.encode(__string0)
             }
         }
         if let exposeHeaders = exposeHeaders {
             var exposeHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exposeHeaders)
-            for corsheaderlist0 in exposeHeaders {
-                try exposeHeadersContainer.encode(corsheaderlist0)
+            for __string0 in exposeHeaders {
+                try exposeHeadersContainer.encode(__string0)
             }
         }
         if let maxAge = self.maxAge {
@@ -1583,8 +1583,8 @@ extension CreateAuthorizerInput: Swift.Encodable {
         }
         if let identitySource = identitySource {
             var identitySourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identitySource)
-            for identitysourcelist0 in identitySource {
-                try identitySourceContainer.encode(identitysourcelist0)
+            for __string0 in identitySource {
+                try identitySourceContainer.encode(__string0)
             }
         }
         if let identityValidationExpression = self.identityValidationExpression {
@@ -2106,8 +2106,8 @@ extension CreateDomainNameInput: Swift.Encodable {
         }
         if let domainNameConfigurations = domainNameConfigurations {
             var domainNameConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainNameConfigurations)
-            for domainnameconfigurations0 in domainNameConfigurations {
-                try domainNameConfigurationsContainer.encode(domainnameconfigurations0)
+            for domainnameconfiguration0 in domainNameConfigurations {
+                try domainNameConfigurationsContainer.encode(domainnameconfiguration0)
             }
         }
         if let mutualTlsAuthentication = self.mutualTlsAuthentication {
@@ -2387,20 +2387,23 @@ extension CreateIntegrationInput: Swift.Encodable {
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, integrationparameters0) in requestParameters {
-                try requestParametersContainer.encode(integrationparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, integrationParameters0) in requestParameters {
+                try requestParametersContainer.encode(integrationParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestTemplates = requestTemplates {
             var requestTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestTemplates)
-            for (dictKey0, templatemap0) in requestTemplates {
-                try requestTemplatesContainer.encode(templatemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateMap0) in requestTemplates {
+                try requestTemplatesContainer.encode(templateMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, responseparameters0) in responseParameters {
-                try responseParametersContainer.encode(responseparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, responseParameters0) in responseParameters {
+                var responseParameters0Container = responseParametersContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, integrationParameters1) in responseParameters0 {
+                    try responseParameters0Container.encode(integrationParameters1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let templateSelectionExpression = self.templateSelectionExpression {
@@ -2933,14 +2936,14 @@ extension CreateIntegrationResponseInput: Swift.Encodable {
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, integrationparameters0) in responseParameters {
-                try responseParametersContainer.encode(integrationparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, integrationParameters0) in responseParameters {
+                try responseParametersContainer.encode(integrationParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseTemplates = responseTemplates {
             var responseTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseTemplates)
-            for (dictKey0, templatemap0) in responseTemplates {
-                try responseTemplatesContainer.encode(templatemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateMap0) in responseTemplates {
+                try responseTemplatesContainer.encode(templateMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let templateSelectionExpression = self.templateSelectionExpression {
@@ -3413,8 +3416,8 @@ extension CreateRouteInput: Swift.Encodable {
         }
         if let authorizationScopes = authorizationScopes {
             var authorizationScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizationScopes)
-            for authorizationscopes0 in authorizationScopes {
-                try authorizationScopesContainer.encode(authorizationscopes0)
+            for stringwithlengthbetween1and640 in authorizationScopes {
+                try authorizationScopesContainer.encode(stringwithlengthbetween1and640)
             }
         }
         if let authorizationType = self.authorizationType {
@@ -3431,14 +3434,14 @@ extension CreateRouteInput: Swift.Encodable {
         }
         if let requestModels = requestModels {
             var requestModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestModels)
-            for (dictKey0, routemodels0) in requestModels {
-                try requestModelsContainer.encode(routemodels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeModels0) in requestModels {
+                try requestModelsContainer.encode(routeModels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, routeparameters0) in requestParameters {
-                try requestParametersContainer.encode(routeparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeParameters0) in requestParameters {
+                try requestParametersContainer.encode(routeParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let routeKey = self.routeKey {
@@ -3835,14 +3838,14 @@ extension CreateRouteResponseInput: Swift.Encodable {
         }
         if let responseModels = responseModels {
             var responseModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseModels)
-            for (dictKey0, routemodels0) in responseModels {
-                try responseModelsContainer.encode(routemodels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeModels0) in responseModels {
+                try responseModelsContainer.encode(routeModels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, routeparameters0) in responseParameters {
-                try responseParametersContainer.encode(routeparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeParameters0) in responseParameters {
+                try responseParametersContainer.encode(routeParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let routeResponseKey = self.routeResponseKey {
@@ -4108,8 +4111,8 @@ extension CreateStageInput: Swift.Encodable {
         }
         if let routeSettings = routeSettings {
             var routeSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .routeSettings)
-            for (dictKey0, routesettingsmap0) in routeSettings {
-                try routeSettingsContainer.encode(routesettingsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeSettingsMap0) in routeSettings {
+                try routeSettingsContainer.encode(routeSettingsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let stageName = self.stageName {
@@ -4117,8 +4120,8 @@ extension CreateStageInput: Swift.Encodable {
         }
         if let stageVariables = stageVariables {
             var stageVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stageVariables)
-            for (dictKey0, stagevariablesmap0) in stageVariables {
-                try stageVariablesContainer.encode(stagevariablesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stageVariablesMap0) in stageVariables {
+                try stageVariablesContainer.encode(stageVariablesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
@@ -4514,14 +4517,14 @@ extension CreateVpcLinkInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for __string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(__string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for __string0 in subnetIds {
+                try subnetIdsContainer.encode(__string0)
             }
         }
         if let tags = tags {
@@ -6103,8 +6106,8 @@ extension ApiGatewayV2ClientTypes.DomainName: Swift.Codable {
         }
         if let domainNameConfigurations = domainNameConfigurations {
             var domainNameConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainNameConfigurations)
-            for domainnameconfigurations0 in domainNameConfigurations {
-                try domainNameConfigurationsContainer.encode(domainnameconfigurations0)
+            for domainnameconfiguration0 in domainNameConfigurations {
+                try domainNameConfigurationsContainer.encode(domainnameconfiguration0)
             }
         }
         if let mutualTlsAuthentication = self.mutualTlsAuthentication {
@@ -11293,20 +11296,23 @@ extension ApiGatewayV2ClientTypes.Integration: Swift.Codable {
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, integrationparameters0) in requestParameters {
-                try requestParametersContainer.encode(integrationparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, integrationParameters0) in requestParameters {
+                try requestParametersContainer.encode(integrationParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestTemplates = requestTemplates {
             var requestTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestTemplates)
-            for (dictKey0, templatemap0) in requestTemplates {
-                try requestTemplatesContainer.encode(templatemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateMap0) in requestTemplates {
+                try requestTemplatesContainer.encode(templateMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, responseparameters0) in responseParameters {
-                try responseParametersContainer.encode(responseparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, responseParameters0) in responseParameters {
+                var responseParameters0Container = responseParametersContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, integrationParameters1) in responseParameters0 {
+                    try responseParameters0Container.encode(integrationParameters1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let templateSelectionExpression = self.templateSelectionExpression {
@@ -11514,14 +11520,14 @@ extension ApiGatewayV2ClientTypes.IntegrationResponse: Swift.Codable {
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, integrationparameters0) in responseParameters {
-                try responseParametersContainer.encode(integrationparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, integrationParameters0) in responseParameters {
+                try responseParametersContainer.encode(integrationParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseTemplates = responseTemplates {
             var responseTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseTemplates)
-            for (dictKey0, templatemap0) in responseTemplates {
-                try responseTemplatesContainer.encode(templatemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateMap0) in responseTemplates {
+                try responseTemplatesContainer.encode(templateMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let templateSelectionExpression = self.templateSelectionExpression {
@@ -11653,8 +11659,8 @@ extension ApiGatewayV2ClientTypes.JWTConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let audience = audience {
             var audienceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audience)
-            for __listof__string0 in audience {
-                try audienceContainer.encode(__listof__string0)
+            for __string0 in audience {
+                try audienceContainer.encode(__string0)
             }
         }
         if let issuer = self.issuer {
@@ -11829,8 +11835,8 @@ extension ApiGatewayV2ClientTypes.MutualTlsAuthentication: Swift.Codable {
         }
         if let truststoreWarnings = truststoreWarnings {
             var truststoreWarningsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .truststoreWarnings)
-            for __listof__string0 in truststoreWarnings {
-                try truststoreWarningsContainer.encode(__listof__string0)
+            for __string0 in truststoreWarnings {
+                try truststoreWarningsContainer.encode(__string0)
             }
         }
     }
@@ -12517,8 +12523,8 @@ extension ApiGatewayV2ClientTypes.Route: Swift.Codable {
         }
         if let authorizationScopes = authorizationScopes {
             var authorizationScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizationScopes)
-            for authorizationscopes0 in authorizationScopes {
-                try authorizationScopesContainer.encode(authorizationscopes0)
+            for stringwithlengthbetween1and640 in authorizationScopes {
+                try authorizationScopesContainer.encode(stringwithlengthbetween1and640)
             }
         }
         if let authorizationType = self.authorizationType {
@@ -12535,14 +12541,14 @@ extension ApiGatewayV2ClientTypes.Route: Swift.Codable {
         }
         if let requestModels = requestModels {
             var requestModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestModels)
-            for (dictKey0, routemodels0) in requestModels {
-                try requestModelsContainer.encode(routemodels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeModels0) in requestModels {
+                try requestModelsContainer.encode(routeModels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, routeparameters0) in requestParameters {
-                try requestParametersContainer.encode(routeparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeParameters0) in requestParameters {
+                try requestParametersContainer.encode(routeParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let routeId = self.routeId {
@@ -12698,14 +12704,14 @@ extension ApiGatewayV2ClientTypes.RouteResponse: Swift.Codable {
         }
         if let responseModels = responseModels {
             var responseModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseModels)
-            for (dictKey0, routemodels0) in responseModels {
-                try responseModelsContainer.encode(routemodels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeModels0) in responseModels {
+                try responseModelsContainer.encode(routeModels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, routeparameters0) in responseParameters {
-                try responseParametersContainer.encode(routeparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeParameters0) in responseParameters {
+                try responseParametersContainer.encode(routeParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let routeResponseId = self.routeResponseId {
@@ -12942,8 +12948,8 @@ extension ApiGatewayV2ClientTypes.Stage: Swift.Codable {
         }
         if let routeSettings = routeSettings {
             var routeSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .routeSettings)
-            for (dictKey0, routesettingsmap0) in routeSettings {
-                try routeSettingsContainer.encode(routesettingsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeSettingsMap0) in routeSettings {
+                try routeSettingsContainer.encode(routeSettingsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let stageName = self.stageName {
@@ -12951,8 +12957,8 @@ extension ApiGatewayV2ClientTypes.Stage: Swift.Codable {
         }
         if let stageVariables = stageVariables {
             var stageVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stageVariables)
-            for (dictKey0, stagevariablesmap0) in stageVariables {
-                try stageVariablesContainer.encode(stagevariablesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stageVariablesMap0) in stageVariables {
+                try stageVariablesContainer.encode(stageVariablesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
@@ -14068,8 +14074,8 @@ extension UpdateAuthorizerInput: Swift.Encodable {
         }
         if let identitySource = identitySource {
             var identitySourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identitySource)
-            for identitysourcelist0 in identitySource {
-                try identitySourceContainer.encode(identitysourcelist0)
+            for __string0 in identitySource {
+                try identitySourceContainer.encode(__string0)
             }
         }
         if let identityValidationExpression = self.identityValidationExpression {
@@ -14587,8 +14593,8 @@ extension UpdateDomainNameInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainNameConfigurations = domainNameConfigurations {
             var domainNameConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainNameConfigurations)
-            for domainnameconfigurations0 in domainNameConfigurations {
-                try domainNameConfigurationsContainer.encode(domainnameconfigurations0)
+            for domainnameconfiguration0 in domainNameConfigurations {
+                try domainNameConfigurationsContainer.encode(domainnameconfiguration0)
             }
         }
         if let mutualTlsAuthentication = self.mutualTlsAuthentication {
@@ -14842,20 +14848,23 @@ extension UpdateIntegrationInput: Swift.Encodable {
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, integrationparameters0) in requestParameters {
-                try requestParametersContainer.encode(integrationparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, integrationParameters0) in requestParameters {
+                try requestParametersContainer.encode(integrationParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestTemplates = requestTemplates {
             var requestTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestTemplates)
-            for (dictKey0, templatemap0) in requestTemplates {
-                try requestTemplatesContainer.encode(templatemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateMap0) in requestTemplates {
+                try requestTemplatesContainer.encode(templateMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, responseparameters0) in responseParameters {
-                try responseParametersContainer.encode(responseparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, responseParameters0) in responseParameters {
+                var responseParameters0Container = responseParametersContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, integrationParameters1) in responseParameters0 {
+                    try responseParameters0Container.encode(integrationParameters1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let templateSelectionExpression = self.templateSelectionExpression {
@@ -15395,14 +15404,14 @@ extension UpdateIntegrationResponseInput: Swift.Encodable {
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, integrationparameters0) in responseParameters {
-                try responseParametersContainer.encode(integrationparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, integrationParameters0) in responseParameters {
+                try responseParametersContainer.encode(integrationParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseTemplates = responseTemplates {
             var responseTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseTemplates)
-            for (dictKey0, templatemap0) in responseTemplates {
-                try responseTemplatesContainer.encode(templatemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateMap0) in responseTemplates {
+                try responseTemplatesContainer.encode(templateMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let templateSelectionExpression = self.templateSelectionExpression {
@@ -15888,8 +15897,8 @@ extension UpdateRouteInput: Swift.Encodable {
         }
         if let authorizationScopes = authorizationScopes {
             var authorizationScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizationScopes)
-            for authorizationscopes0 in authorizationScopes {
-                try authorizationScopesContainer.encode(authorizationscopes0)
+            for stringwithlengthbetween1and640 in authorizationScopes {
+                try authorizationScopesContainer.encode(stringwithlengthbetween1and640)
             }
         }
         if let authorizationType = self.authorizationType {
@@ -15906,14 +15915,14 @@ extension UpdateRouteInput: Swift.Encodable {
         }
         if let requestModels = requestModels {
             var requestModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestModels)
-            for (dictKey0, routemodels0) in requestModels {
-                try requestModelsContainer.encode(routemodels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeModels0) in requestModels {
+                try requestModelsContainer.encode(routeModels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestParameters = requestParameters {
             var requestParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestParameters)
-            for (dictKey0, routeparameters0) in requestParameters {
-                try requestParametersContainer.encode(routeparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeParameters0) in requestParameters {
+                try requestParametersContainer.encode(routeParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let routeKey = self.routeKey {
@@ -16317,14 +16326,14 @@ extension UpdateRouteResponseInput: Swift.Encodable {
         }
         if let responseModels = responseModels {
             var responseModelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseModels)
-            for (dictKey0, routemodels0) in responseModels {
-                try responseModelsContainer.encode(routemodels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeModels0) in responseModels {
+                try responseModelsContainer.encode(routeModels0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let responseParameters = responseParameters {
             var responseParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseParameters)
-            for (dictKey0, routeparameters0) in responseParameters {
-                try responseParametersContainer.encode(routeparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeParameters0) in responseParameters {
+                try responseParametersContainer.encode(routeParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let routeResponseKey = self.routeResponseKey {
@@ -16595,14 +16604,14 @@ extension UpdateStageInput: Swift.Encodable {
         }
         if let routeSettings = routeSettings {
             var routeSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .routeSettings)
-            for (dictKey0, routesettingsmap0) in routeSettings {
-                try routeSettingsContainer.encode(routesettingsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, routeSettingsMap0) in routeSettings {
+                try routeSettingsContainer.encode(routeSettingsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let stageVariables = stageVariables {
             var stageVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stageVariables)
-            for (dictKey0, stagevariablesmap0) in stageVariables {
-                try stageVariablesContainer.encode(stagevariablesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stageVariablesMap0) in stageVariables {
+                try stageVariablesContainer.encode(stageVariablesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -17212,14 +17221,14 @@ extension ApiGatewayV2ClientTypes.VpcLink: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for __string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(__string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for __string0 in subnetIds {
+                try subnetIdsContainer.encode(__string0)
             }
         }
         if let tags = tags {

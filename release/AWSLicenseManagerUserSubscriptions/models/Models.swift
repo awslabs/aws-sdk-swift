@@ -792,8 +792,8 @@ extension LicenseManagerUserSubscriptionsClientTypes.InstanceSummary: Swift.Coda
         }
         if let products = products {
             var productsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .products)
-            for stringlist0 in products {
-                try productsContainer.encode(stringlist0)
+            for string0 in products {
+                try productsContainer.encode(string0)
             }
         }
         if let status = self.status {
@@ -1189,8 +1189,8 @@ extension ListInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -1368,8 +1368,8 @@ extension ListProductSubscriptionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let identityProvider = self.identityProvider {
@@ -1571,8 +1571,8 @@ extension ListUserAssociationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let identityProvider = self.identityProvider {
@@ -2136,8 +2136,8 @@ extension LicenseManagerUserSubscriptionsClientTypes.Settings: Swift.Codable {
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for subnets0 in subnets {
-                try subnetsContainer.encode(subnets0)
+            for subnet0 in subnets {
+                try subnetsContainer.encode(subnet0)
             }
         }
     }
@@ -2719,14 +2719,14 @@ extension LicenseManagerUserSubscriptionsClientTypes.UpdateSettings: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addSubnets = addSubnets {
             var addSubnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addSubnets)
-            for subnets0 in addSubnets {
-                try addSubnetsContainer.encode(subnets0)
+            for subnet0 in addSubnets {
+                try addSubnetsContainer.encode(subnet0)
             }
         }
         if let removeSubnets = removeSubnets {
             var removeSubnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeSubnets)
-            for subnets0 in removeSubnets {
-                try removeSubnetsContainer.encode(subnets0)
+            for subnet0 in removeSubnets {
+                try removeSubnetsContainer.encode(subnet0)
             }
         }
         if let securityGroupId = self.securityGroupId {

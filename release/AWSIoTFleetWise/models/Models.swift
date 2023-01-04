@@ -71,8 +71,8 @@ extension IoTFleetWiseClientTypes.Actuator: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedValues = allowedValues {
             var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
-            for listofstrings0 in allowedValues {
-                try allowedValuesContainer.encode(listofstrings0)
+            for string0 in allowedValues {
+                try allowedValuesContainer.encode(string0)
             }
         }
         if let assignedValue = self.assignedValue {
@@ -285,8 +285,8 @@ extension IoTFleetWiseClientTypes.Attribute: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedValues = allowedValues {
             var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
-            for listofstrings0 in allowedValues {
-                try allowedValuesContainer.encode(listofstrings0)
+            for string0 in allowedValues {
+                try allowedValuesContainer.encode(string0)
             }
         }
         if let assignedValue = self.assignedValue {
@@ -407,8 +407,8 @@ extension BatchCreateVehicleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let vehicles = vehicles {
             var vehiclesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vehicles)
-            for createvehiclerequestitems0 in vehicles {
-                try vehiclesContainer.encode(createvehiclerequestitems0)
+            for createvehiclerequestitem0 in vehicles {
+                try vehiclesContainer.encode(createvehiclerequestitem0)
             }
         }
     }
@@ -566,8 +566,8 @@ extension BatchUpdateVehicleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let vehicles = vehicles {
             var vehiclesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vehicles)
-            for updatevehiclerequestitems0 in vehicles {
-                try vehiclesContainer.encode(updatevehiclerequestitems0)
+            for updatevehiclerequestitem0 in vehicles {
+                try vehiclesContainer.encode(updatevehiclerequestitem0)
             }
         }
     }
@@ -924,8 +924,8 @@ extension IoTFleetWiseClientTypes.CanDbcDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let canDbcFiles = canDbcFiles {
             var canDbcFilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .canDbcFiles)
-            for networkfileslist0 in canDbcFiles {
-                try canDbcFilesContainer.encode(networkfileslist0.base64EncodedString())
+            for networkfileblob0 in canDbcFiles {
+                try canDbcFilesContainer.encode(networkfileblob0.base64EncodedString())
             }
         }
         if let networkInterface = self.networkInterface {
@@ -933,8 +933,8 @@ extension IoTFleetWiseClientTypes.CanDbcDefinition: Swift.Codable {
         }
         if let signalsMap = signalsMap {
             var signalsMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .signalsMap)
-            for (dictKey0, modelsignalsmap0) in signalsMap {
-                try signalsMapContainer.encode(modelsignalsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, modelSignalsMap0) in signalsMap {
+                try signalsMapContainer.encode(modelSignalsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1456,8 +1456,8 @@ extension CreateCampaignInput: Swift.Encodable {
         }
         if let dataExtraDimensions = dataExtraDimensions {
             var dataExtraDimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataExtraDimensions)
-            for dataextradimensionnodepathlist0 in dataExtraDimensions {
-                try dataExtraDimensionsContainer.encode(dataextradimensionnodepathlist0)
+            for nodepath0 in dataExtraDimensions {
+                try dataExtraDimensionsContainer.encode(nodepath0)
             }
         }
         if let description = self.description {
@@ -1480,8 +1480,8 @@ extension CreateCampaignInput: Swift.Encodable {
         }
         if let signalsToCollect = signalsToCollect {
             var signalsToCollectContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signalsToCollect)
-            for signalinformationlist0 in signalsToCollect {
-                try signalsToCollectContainer.encode(signalinformationlist0)
+            for signalinformation0 in signalsToCollect {
+                try signalsToCollectContainer.encode(signalinformation0)
             }
         }
         if let spoolingMode = self.spoolingMode {
@@ -1492,8 +1492,8 @@ extension CreateCampaignInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let targetArn = self.targetArn {
@@ -1520,7 +1520,7 @@ public struct CreateCampaignInput: Swift.Equatable {
     public var description: Swift.String?
     /// (Optional) Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
     public var diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode?
-    /// (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data won't be collected after the campaign expires. Default: 253402243200 (December 31, 9999, 00:00:00 UTC)
+    /// (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data won't be collected after the campaign expires. Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
     public var expiryTime: ClientRuntime.Date?
     /// The name of the campaign to create.
     /// This member is required.
@@ -1777,20 +1777,20 @@ extension CreateDecoderManifestInput: Swift.Encodable {
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfaces0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let signalDecoders = signalDecoders {
             var signalDecodersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signalDecoders)
-            for signaldecoders0 in signalDecoders {
-                try signalDecodersContainer.encode(signaldecoders0)
+            for signaldecoder0 in signalDecoders {
+                try signalDecodersContainer.encode(signaldecoder0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1999,8 +1999,8 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2173,8 +2173,8 @@ extension CreateModelManifestInput: Swift.Encodable {
         }
         if let nodes = nodes {
             var nodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodes)
-            for listofstrings0 in nodes {
-                try nodesContainer.encode(listofstrings0)
+            for string0 in nodes {
+                try nodesContainer.encode(string0)
             }
         }
         if let signalCatalogArn = self.signalCatalogArn {
@@ -2182,8 +2182,8 @@ extension CreateModelManifestInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2373,14 +2373,14 @@ extension CreateSignalCatalogInput: Swift.Encodable {
         }
         if let nodes = nodes {
             var nodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodes)
-            for nodes0 in nodes {
-                try nodesContainer.encode(nodes0)
+            for node0 in nodes {
+                try nodesContainer.encode(node0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2617,8 +2617,8 @@ extension CreateVehicleInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, attributesmap0) in attributes {
-                try attributesContainer.encode(attributesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributesMap0) in attributes {
+                try attributesContainer.encode(attributesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let decoderManifestArn = self.decoderManifestArn {
@@ -2629,8 +2629,8 @@ extension CreateVehicleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2839,8 +2839,8 @@ extension IoTFleetWiseClientTypes.CreateVehicleRequestItem: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, attributesmap0) in attributes {
-                try attributesContainer.encode(attributesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributesMap0) in attributes {
+                try attributesContainer.encode(attributesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let decoderManifestArn = self.decoderManifestArn {
@@ -2851,8 +2851,8 @@ extension IoTFleetWiseClientTypes.CreateVehicleRequestItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vehicleName = self.vehicleName {
@@ -5757,8 +5757,8 @@ extension ImportDecoderManifestInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let networkFileDefinitions = networkFileDefinitions {
             var networkFileDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkFileDefinitions)
-            for networkfiledefinitions0 in networkFileDefinitions {
-                try networkFileDefinitionsContainer.encode(networkfiledefinitions0)
+            for networkfiledefinition0 in networkFileDefinitions {
+                try networkFileDefinitionsContainer.encode(networkfiledefinition0)
             }
         }
     }
@@ -5914,8 +5914,8 @@ extension ImportSignalCatalogInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vss = self.vss {
@@ -9521,8 +9521,8 @@ extension IoTFleetWiseClientTypes.Sensor: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedValues = allowedValues {
             var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
-            for listofstrings0 in allowedValues {
-                try allowedValuesContainer.encode(listofstrings0)
+            for string0 in allowedValues {
+                try allowedValuesContainer.encode(string0)
             }
         }
         if let dataType = self.dataType {
@@ -9987,8 +9987,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -10519,8 +10519,8 @@ extension UpdateCampaignInput: Swift.Encodable {
         }
         if let dataExtraDimensions = dataExtraDimensions {
             var dataExtraDimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataExtraDimensions)
-            for dataextradimensionnodepathlist0 in dataExtraDimensions {
-                try dataExtraDimensionsContainer.encode(dataextradimensionnodepathlist0)
+            for nodepath0 in dataExtraDimensions {
+                try dataExtraDimensionsContainer.encode(nodepath0)
             }
         }
         if let description = self.description {
@@ -10720,38 +10720,38 @@ extension UpdateDecoderManifestInput: Swift.Encodable {
         }
         if let networkInterfacesToAdd = networkInterfacesToAdd {
             var networkInterfacesToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfacesToAdd)
-            for networkinterfaces0 in networkInterfacesToAdd {
-                try networkInterfacesToAddContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfacesToAdd {
+                try networkInterfacesToAddContainer.encode(networkinterface0)
             }
         }
         if let networkInterfacesToRemove = networkInterfacesToRemove {
             var networkInterfacesToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfacesToRemove)
-            for interfaceids0 in networkInterfacesToRemove {
-                try networkInterfacesToRemoveContainer.encode(interfaceids0)
+            for interfaceid0 in networkInterfacesToRemove {
+                try networkInterfacesToRemoveContainer.encode(interfaceid0)
             }
         }
         if let networkInterfacesToUpdate = networkInterfacesToUpdate {
             var networkInterfacesToUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfacesToUpdate)
-            for networkinterfaces0 in networkInterfacesToUpdate {
-                try networkInterfacesToUpdateContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfacesToUpdate {
+                try networkInterfacesToUpdateContainer.encode(networkinterface0)
             }
         }
         if let signalDecodersToAdd = signalDecodersToAdd {
             var signalDecodersToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signalDecodersToAdd)
-            for signaldecoders0 in signalDecodersToAdd {
-                try signalDecodersToAddContainer.encode(signaldecoders0)
+            for signaldecoder0 in signalDecodersToAdd {
+                try signalDecodersToAddContainer.encode(signaldecoder0)
             }
         }
         if let signalDecodersToRemove = signalDecodersToRemove {
             var signalDecodersToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signalDecodersToRemove)
-            for fqns0 in signalDecodersToRemove {
-                try signalDecodersToRemoveContainer.encode(fqns0)
+            for fullyqualifiedname0 in signalDecodersToRemove {
+                try signalDecodersToRemoveContainer.encode(fullyqualifiedname0)
             }
         }
         if let signalDecodersToUpdate = signalDecodersToUpdate {
             var signalDecodersToUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signalDecodersToUpdate)
-            for signaldecoders0 in signalDecodersToUpdate {
-                try signalDecodersToUpdateContainer.encode(signaldecoders0)
+            for signaldecoder0 in signalDecodersToUpdate {
+                try signalDecodersToUpdateContainer.encode(signaldecoder0)
             }
         }
         if let status = self.status {
@@ -11178,14 +11178,14 @@ extension UpdateModelManifestInput: Swift.Encodable {
         }
         if let nodesToAdd = nodesToAdd {
             var nodesToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodesToAdd)
-            for nodepaths0 in nodesToAdd {
-                try nodesToAddContainer.encode(nodepaths0)
+            for nodepath0 in nodesToAdd {
+                try nodesToAddContainer.encode(nodepath0)
             }
         }
         if let nodesToRemove = nodesToRemove {
             var nodesToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodesToRemove)
-            for nodepaths0 in nodesToRemove {
-                try nodesToRemoveContainer.encode(nodepaths0)
+            for nodepath0 in nodesToRemove {
+                try nodesToRemoveContainer.encode(nodepath0)
             }
         }
         if let status = self.status {
@@ -11377,20 +11377,20 @@ extension UpdateSignalCatalogInput: Swift.Encodable {
         }
         if let nodesToAdd = nodesToAdd {
             var nodesToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodesToAdd)
-            for nodes0 in nodesToAdd {
-                try nodesToAddContainer.encode(nodes0)
+            for node0 in nodesToAdd {
+                try nodesToAddContainer.encode(node0)
             }
         }
         if let nodesToRemove = nodesToRemove {
             var nodesToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodesToRemove)
-            for nodepaths0 in nodesToRemove {
-                try nodesToRemoveContainer.encode(nodepaths0)
+            for nodepath0 in nodesToRemove {
+                try nodesToRemoveContainer.encode(nodepath0)
             }
         }
         if let nodesToUpdate = nodesToUpdate {
             var nodesToUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodesToUpdate)
-            for nodes0 in nodesToUpdate {
-                try nodesToUpdateContainer.encode(nodes0)
+            for node0 in nodesToUpdate {
+                try nodesToUpdateContainer.encode(node0)
             }
         }
     }
@@ -11647,8 +11647,8 @@ extension UpdateVehicleInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, attributesmap0) in attributes {
-                try attributesContainer.encode(attributesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributesMap0) in attributes {
+                try attributesContainer.encode(attributesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let decoderManifestArn = self.decoderManifestArn {
@@ -11831,8 +11831,8 @@ extension IoTFleetWiseClientTypes.UpdateVehicleRequestItem: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, attributesmap0) in attributes {
-                try attributesContainer.encode(attributesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributesMap0) in attributes {
+                try attributesContainer.encode(attributesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let decoderManifestArn = self.decoderManifestArn {

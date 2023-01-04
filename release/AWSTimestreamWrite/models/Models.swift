@@ -125,8 +125,8 @@ extension CreateDatabaseInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -292,8 +292,8 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1966,8 +1966,8 @@ extension TimestreamWriteClientTypes.Record: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for dimensions0 in dimensions {
-                try dimensionsContainer.encode(dimensions0)
+            for dimension0 in dimensions {
+                try dimensionsContainer.encode(dimension0)
             }
         }
         if let measureName = self.measureName {
@@ -1981,8 +1981,8 @@ extension TimestreamWriteClientTypes.Record: Swift.Codable {
         }
         if let measureValues = measureValues {
             var measureValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .measureValues)
-            for measurevalues0 in measureValues {
-                try measureValuesContainer.encode(measurevalues0)
+            for measurevalue0 in measureValues {
+                try measureValuesContainer.encode(measurevalue0)
             }
         }
         if let time = self.time {
@@ -2740,8 +2740,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2944,8 +2944,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -3417,8 +3417,8 @@ extension WriteRecordsInput: Swift.Encodable {
         }
         if let records = records {
             var recordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .records)
-            for records0 in records {
-                try recordsContainer.encode(records0)
+            for record0 in records {
+                try recordsContainer.encode(record0)
             }
         }
         if let tableName = self.tableName {

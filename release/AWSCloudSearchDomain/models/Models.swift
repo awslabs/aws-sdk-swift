@@ -56,8 +56,8 @@ extension CloudSearchDomainClientTypes.BucketInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let buckets = buckets {
             var bucketsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .buckets)
-            for bucketlist0 in buckets {
-                try bucketsContainer.encode(bucketlist0)
+            for bucket0 in buckets {
+                try bucketsContainer.encode(bucket0)
             }
         }
     }
@@ -348,7 +348,10 @@ extension CloudSearchDomainClientTypes.Hit: Swift.Codable {
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fields)
             for (dictKey0, fields0) in fields {
-                try fieldsContainer.encode(fields0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                var fields0Container = fieldsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in fields0 {
+                    try fields0Container.encode(string1)
+                }
             }
         }
         if let highlights = highlights {
@@ -455,8 +458,8 @@ extension CloudSearchDomainClientTypes.Hits: Swift.Codable {
         }
         if let hit = hit {
             var hitContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hit)
-            for hitlist0 in hit {
-                try hitContainer.encode(hitlist0)
+            for hit0 in hit {
+                try hitContainer.encode(hit0)
             }
         }
         if start != 0 {
@@ -1036,8 +1039,8 @@ extension CloudSearchDomainClientTypes.SuggestModel: Swift.Codable {
         }
         if let suggestions = suggestions {
             var suggestionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestions)
-            for suggestions0 in suggestions {
-                try suggestionsContainer.encode(suggestions0)
+            for suggestionmatch0 in suggestions {
+                try suggestionsContainer.encode(suggestionmatch0)
             }
         }
     }

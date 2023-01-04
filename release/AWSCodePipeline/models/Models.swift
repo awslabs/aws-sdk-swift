@@ -394,8 +394,8 @@ extension CodePipelineClientTypes.ActionConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configuration = configuration {
             var configurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configuration)
-            for (dictKey0, actionconfigurationmap0) in configuration {
-                try configurationContainer.encode(actionconfigurationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, actionConfigurationMap0) in configuration {
+                try configurationContainer.encode(actionConfigurationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -631,14 +631,14 @@ extension CodePipelineClientTypes.ActionDeclaration: Swift.Codable {
         }
         if let configuration = configuration {
             var configurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configuration)
-            for (dictKey0, actionconfigurationmap0) in configuration {
-                try configurationContainer.encode(actionconfigurationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, actionConfigurationMap0) in configuration {
+                try configurationContainer.encode(actionConfigurationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let inputArtifacts = inputArtifacts {
             var inputArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputArtifacts)
-            for inputartifactlist0 in inputArtifacts {
-                try inputArtifactsContainer.encode(inputartifactlist0)
+            for inputartifact0 in inputArtifacts {
+                try inputArtifactsContainer.encode(inputartifact0)
             }
         }
         if let name = self.name {
@@ -649,8 +649,8 @@ extension CodePipelineClientTypes.ActionDeclaration: Swift.Codable {
         }
         if let outputArtifacts = outputArtifacts {
             var outputArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputArtifacts)
-            for outputartifactlist0 in outputArtifacts {
-                try outputArtifactsContainer.encode(outputartifactlist0)
+            for outputartifact0 in outputArtifacts {
+                try outputArtifactsContainer.encode(outputartifact0)
             }
         }
         if let region = self.region {
@@ -1067,14 +1067,14 @@ extension CodePipelineClientTypes.ActionExecutionInput: Swift.Codable {
         }
         if let configuration = configuration {
             var configurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configuration)
-            for (dictKey0, actionconfigurationmap0) in configuration {
-                try configurationContainer.encode(actionconfigurationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, actionConfigurationMap0) in configuration {
+                try configurationContainer.encode(actionConfigurationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let inputArtifacts = inputArtifacts {
             var inputArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputArtifacts)
-            for artifactdetaillist0 in inputArtifacts {
-                try inputArtifactsContainer.encode(artifactdetaillist0)
+            for artifactdetail0 in inputArtifacts {
+                try inputArtifactsContainer.encode(artifactdetail0)
             }
         }
         if let namespace = self.namespace {
@@ -1085,8 +1085,8 @@ extension CodePipelineClientTypes.ActionExecutionInput: Swift.Codable {
         }
         if let resolvedConfiguration = resolvedConfiguration {
             var resolvedConfigurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resolvedConfiguration)
-            for (dictKey0, resolvedactionconfigurationmap0) in resolvedConfiguration {
-                try resolvedConfigurationContainer.encode(resolvedactionconfigurationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resolvedActionConfigurationMap0) in resolvedConfiguration {
+                try resolvedConfigurationContainer.encode(resolvedActionConfigurationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let roleArn = self.roleArn {
@@ -1194,14 +1194,14 @@ extension CodePipelineClientTypes.ActionExecutionOutput: Swift.Codable {
         }
         if let outputArtifacts = outputArtifacts {
             var outputArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputArtifacts)
-            for artifactdetaillist0 in outputArtifacts {
-                try outputArtifactsContainer.encode(artifactdetaillist0)
+            for artifactdetail0 in outputArtifacts {
+                try outputArtifactsContainer.encode(artifactdetail0)
             }
         }
         if let outputVariables = outputVariables {
             var outputVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .outputVariables)
-            for (dictKey0, outputvariablesmap0) in outputVariables {
-                try outputVariablesContainer.encode(outputvariablesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, outputVariablesMap0) in outputVariables {
+                try outputVariablesContainer.encode(outputVariablesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1586,8 +1586,8 @@ extension CodePipelineClientTypes.ActionType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actionConfigurationProperties = actionConfigurationProperties {
             var actionConfigurationPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionConfigurationProperties)
-            for actionconfigurationpropertylist0 in actionConfigurationProperties {
-                try actionConfigurationPropertiesContainer.encode(actionconfigurationpropertylist0)
+            for actionconfigurationproperty0 in actionConfigurationProperties {
+                try actionConfigurationPropertiesContainer.encode(actionconfigurationproperty0)
             }
         }
         if let id = self.id {
@@ -1744,8 +1744,8 @@ extension CodePipelineClientTypes.ActionTypeDeclaration: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for actiontypeproperties0 in properties {
-                try propertiesContainer.encode(actiontypeproperties0)
+            for actiontypeproperty0 in properties {
+                try propertiesContainer.encode(actiontypeproperty0)
             }
         }
         if let urls = self.urls {
@@ -2122,8 +2122,8 @@ extension CodePipelineClientTypes.ActionTypePermissions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedAccounts = allowedAccounts {
             var allowedAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedAccounts)
-            for allowedaccounts0 in allowedAccounts {
-                try allowedAccountsContainer.encode(allowedaccounts0)
+            for allowedaccount0 in allowedAccounts {
+                try allowedAccountsContainer.encode(allowedaccount0)
             }
         }
     }
@@ -3103,8 +3103,8 @@ extension CreateCustomActionTypeInput: Swift.Encodable {
         }
         if let configurationProperties = configurationProperties {
             var configurationPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationProperties)
-            for actionconfigurationpropertylist0 in configurationProperties {
-                try configurationPropertiesContainer.encode(actionconfigurationpropertylist0)
+            for actionconfigurationproperty0 in configurationProperties {
+                try configurationPropertiesContainer.encode(actionconfigurationproperty0)
             }
         }
         if let inputArtifactDetails = self.inputArtifactDetails {
@@ -3121,8 +3121,8 @@ extension CreateCustomActionTypeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let version = self.version {
@@ -3350,8 +3350,8 @@ extension CreatePipelineInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6335,14 +6335,14 @@ extension CodePipelineClientTypes.JobData: Swift.Codable {
         }
         if let inputArtifacts = inputArtifacts {
             var inputArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputArtifacts)
-            for artifactlist0 in inputArtifacts {
-                try inputArtifactsContainer.encode(artifactlist0)
+            for artifact0 in inputArtifacts {
+                try inputArtifactsContainer.encode(artifact0)
             }
         }
         if let outputArtifacts = outputArtifacts {
             var outputArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputArtifacts)
-            for artifactlist0 in outputArtifacts {
-                try outputArtifactsContainer.encode(artifactlist0)
+            for artifact0 in outputArtifacts {
+                try outputArtifactsContainer.encode(artifact0)
             }
         }
         if let pipelineContext = self.pipelineContext {
@@ -6603,14 +6603,14 @@ extension CodePipelineClientTypes.JobWorkerExecutorConfiguration: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pollingAccounts = pollingAccounts {
             var pollingAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pollingAccounts)
-            for pollingaccountlist0 in pollingAccounts {
-                try pollingAccountsContainer.encode(pollingaccountlist0)
+            for accountid0 in pollingAccounts {
+                try pollingAccountsContainer.encode(accountid0)
             }
         }
         if let pollingServicePrincipals = pollingServicePrincipals {
             var pollingServicePrincipalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pollingServicePrincipals)
-            for pollingserviceprincipallist0 in pollingServicePrincipals {
-                try pollingServicePrincipalsContainer.encode(pollingserviceprincipallist0)
+            for serviceprincipal0 in pollingServicePrincipals {
+                try pollingServicePrincipalsContainer.encode(serviceprincipal0)
             }
         }
     }
@@ -7576,8 +7576,8 @@ extension CodePipelineClientTypes.ListWebhookItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let url = self.url {
@@ -8031,8 +8031,8 @@ extension CodePipelineClientTypes.PipelineDeclaration: Swift.Codable {
         }
         if let artifactStores = artifactStores {
             var artifactStoresContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .artifactStores)
-            for (dictKey0, artifactstoremap0) in artifactStores {
-                try artifactStoresContainer.encode(artifactstoremap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, artifactStoreMap0) in artifactStores {
+                try artifactStoresContainer.encode(artifactStoreMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -8043,8 +8043,8 @@ extension CodePipelineClientTypes.PipelineDeclaration: Swift.Codable {
         }
         if let stages = stages {
             var stagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stages)
-            for pipelinestagedeclarationlist0 in stages {
-                try stagesContainer.encode(pipelinestagedeclarationlist0)
+            for stagedeclaration0 in stages {
+                try stagesContainer.encode(stagedeclaration0)
             }
         }
         if let version = self.version {
@@ -8140,8 +8140,8 @@ extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let artifactRevisions = artifactRevisions {
             var artifactRevisionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .artifactRevisions)
-            for artifactrevisionlist0 in artifactRevisions {
-                try artifactRevisionsContainer.encode(artifactrevisionlist0)
+            for artifactrevision0 in artifactRevisions {
+                try artifactRevisionsContainer.encode(artifactrevision0)
             }
         }
         if let pipelineExecutionId = self.pipelineExecutionId {
@@ -8410,8 +8410,8 @@ extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
         }
         if let sourceRevisions = sourceRevisions {
             var sourceRevisionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceRevisions)
-            for sourcerevisionlist0 in sourceRevisions {
-                try sourceRevisionsContainer.encode(sourcerevisionlist0)
+            for sourcerevision0 in sourceRevisions {
+                try sourceRevisionsContainer.encode(sourcerevision0)
             }
         }
         if let startTime = self.startTime {
@@ -8804,8 +8804,8 @@ extension PollForJobsInput: Swift.Encodable {
         }
         if let queryParam = queryParam {
             var queryParamContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .queryParam)
-            for (dictKey0, queryparammap0) in queryParam {
-                try queryParamContainer.encode(queryparammap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, queryParamMap0) in queryParam {
+                try queryParamContainer.encode(queryParamMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9549,8 +9549,8 @@ extension PutJobSuccessResultInput: Swift.Encodable {
         }
         if let outputVariables = outputVariables {
             var outputVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .outputVariables)
-            for (dictKey0, outputvariablesmap0) in outputVariables {
-                try outputVariablesContainer.encode(outputvariablesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, outputVariablesMap0) in outputVariables {
+                try outputVariablesContainer.encode(outputVariablesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9930,8 +9930,8 @@ extension PutWebhookInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let webhook = self.webhook {
@@ -10621,14 +10621,14 @@ extension CodePipelineClientTypes.StageDeclaration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for stageactiondeclarationlist0 in actions {
-                try actionsContainer.encode(stageactiondeclarationlist0)
+            for actiondeclaration0 in actions {
+                try actionsContainer.encode(actiondeclaration0)
             }
         }
         if let blockers = blockers {
             var blockersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockers)
-            for stageblockerdeclarationlist0 in blockers {
-                try blockersContainer.encode(stageblockerdeclarationlist0)
+            for blockerdeclaration0 in blockers {
+                try blockersContainer.encode(blockerdeclaration0)
             }
         }
         if let name = self.name {
@@ -10930,8 +10930,8 @@ extension CodePipelineClientTypes.StageState: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actionStates = actionStates {
             var actionStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionStates)
-            for actionstatelist0 in actionStates {
-                try actionStatesContainer.encode(actionstatelist0)
+            for actionstate0 in actionStates {
+                try actionStatesContainer.encode(actionstate0)
             }
         }
         if let inboundExecution = self.inboundExecution {
@@ -11416,8 +11416,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -11594,14 +11594,14 @@ extension CodePipelineClientTypes.ThirdPartyJobData: Swift.Codable {
         }
         if let inputArtifacts = inputArtifacts {
             var inputArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputArtifacts)
-            for artifactlist0 in inputArtifacts {
-                try inputArtifactsContainer.encode(artifactlist0)
+            for artifact0 in inputArtifacts {
+                try inputArtifactsContainer.encode(artifact0)
             }
         }
         if let outputArtifacts = outputArtifacts {
             var outputArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputArtifacts)
-            for artifactlist0 in outputArtifacts {
-                try outputArtifactsContainer.encode(artifactlist0)
+            for artifact0 in outputArtifacts {
+                try outputArtifactsContainer.encode(artifact0)
             }
         }
         if let pipelineContext = self.pipelineContext {
@@ -11926,8 +11926,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -12386,8 +12386,8 @@ extension CodePipelineClientTypes.WebhookDefinition: Swift.Codable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for webhookfilters0 in filters {
-                try filtersContainer.encode(webhookfilters0)
+            for webhookfilterrule0 in filters {
+                try filtersContainer.encode(webhookfilterrule0)
             }
         }
         if let name = self.name {

@@ -44,8 +44,8 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         }
         if let initialCapacity = initialCapacity {
             var initialCapacityContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .initialCapacity)
-            for (dictKey0, initialcapacityconfigmap0) in initialCapacity {
-                try initialCapacityContainer.encode(initialcapacityconfigmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, initialCapacityConfigMap0) in initialCapacity {
+                try initialCapacityContainer.encode(initialCapacityConfigMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let maximumCapacity = self.maximumCapacity {
@@ -68,8 +68,8 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -641,14 +641,14 @@ extension EMRServerlessClientTypes.Configuration: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, sensitivepropertiesmap0) in properties {
-                try propertiesContainer.encode(sensitivepropertiesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, sensitivePropertiesMap0) in properties {
+                try propertiesContainer.encode(sensitivePropertiesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -722,8 +722,8 @@ extension EMRServerlessClientTypes.ConfigurationOverrides: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationConfiguration = applicationConfiguration {
             var applicationConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationConfiguration)
-            for configurationlist0 in applicationConfiguration {
-                try applicationConfigurationContainer.encode(configurationlist0)
+            for configuration0 in applicationConfiguration {
+                try applicationConfigurationContainer.encode(configuration0)
             }
         }
         if let monitoringConfiguration = self.monitoringConfiguration {
@@ -853,8 +853,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let initialCapacity = initialCapacity {
             var initialCapacityContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .initialCapacity)
-            for (dictKey0, initialcapacityconfigmap0) in initialCapacity {
-                try initialCapacityContainer.encode(initialcapacityconfigmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, initialCapacityConfigMap0) in initialCapacity {
+                try initialCapacityContainer.encode(initialCapacityConfigMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let maximumCapacity = self.maximumCapacity {
@@ -871,8 +871,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -1755,8 +1755,8 @@ extension EMRServerlessClientTypes.JobRun: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let totalExecutionDurationSeconds = self.totalExecutionDurationSeconds {
@@ -2688,14 +2688,14 @@ extension EMRServerlessClientTypes.NetworkConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupstring0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupstring0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetstring0 in subnetIds {
+                try subnetIdsContainer.encode(subnetstring0)
             }
         }
     }
@@ -2912,8 +2912,8 @@ extension EMRServerlessClientTypes.SparkSubmit: Swift.Codable {
         }
         if let entryPointArguments = entryPointArguments {
             var entryPointArgumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entryPointArguments)
-            for entrypointarguments0 in entryPointArguments {
-                try entryPointArgumentsContainer.encode(entrypointarguments0)
+            for entrypointargument0 in entryPointArguments {
+                try entryPointArgumentsContainer.encode(entrypointargument0)
             }
         }
         if let sparkSubmitParameters = self.sparkSubmitParameters {
@@ -3073,8 +3073,8 @@ extension StartJobRunInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3349,8 +3349,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3615,8 +3615,8 @@ extension UpdateApplicationInput: Swift.Encodable {
         }
         if let initialCapacity = initialCapacity {
             var initialCapacityContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .initialCapacity)
-            for (dictKey0, initialcapacityconfigmap0) in initialCapacity {
-                try initialCapacityContainer.encode(initialcapacityconfigmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, initialCapacityConfigMap0) in initialCapacity {
+                try initialCapacityContainer.encode(initialCapacityConfigMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let maximumCapacity = self.maximumCapacity {

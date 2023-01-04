@@ -206,8 +206,8 @@ extension BackupGatewayClientTypes.BandwidthRateLimitInterval: Swift.Codable {
         }
         if let daysOfWeek = daysOfWeek {
             var daysOfWeekContainer = encodeContainer.nestedUnkeyedContainer(forKey: .daysOfWeek)
-            for daysofweek0 in daysOfWeek {
-                try daysOfWeekContainer.encode(daysofweek0)
+            for dayofweek0 in daysOfWeek {
+                try daysOfWeekContainer.encode(dayofweek0)
             }
         }
         if let endHourOfDay = self.endHourOfDay {
@@ -375,8 +375,8 @@ extension CreateGatewayInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1923,8 +1923,8 @@ extension ImportHypervisorConfigurationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let username = self.username {
@@ -2742,8 +2742,8 @@ extension PutBandwidthRateLimitScheduleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bandwidthRateLimitIntervals = bandwidthRateLimitIntervals {
             var bandwidthRateLimitIntervalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bandwidthRateLimitIntervals)
-            for bandwidthratelimitintervals0 in bandwidthRateLimitIntervals {
-                try bandwidthRateLimitIntervalsContainer.encode(bandwidthratelimitintervals0)
+            for bandwidthratelimitinterval0 in bandwidthRateLimitIntervals {
+                try bandwidthRateLimitIntervalsContainer.encode(bandwidthratelimitinterval0)
             }
         }
         if let gatewayArn = self.gatewayArn {
@@ -2885,8 +2885,8 @@ extension PutHypervisorPropertyMappingsInput: Swift.Encodable {
         }
         if let vmwareToAwsTagMappings = vmwareToAwsTagMappings {
             var vmwareToAwsTagMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vmwareToAwsTagMappings)
-            for vmwaretoawstagmappings0 in vmwareToAwsTagMappings {
-                try vmwareToAwsTagMappingsContainer.encode(vmwaretoawstagmappings0)
+            for vmwaretoawstagmapping0 in vmwareToAwsTagMappings {
+                try vmwareToAwsTagMappingsContainer.encode(vmwaretoawstagmapping0)
             }
         }
     }
@@ -3460,8 +3460,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3744,8 +3744,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -4424,8 +4424,8 @@ extension BackupGatewayClientTypes.VirtualMachineDetails: Swift.Codable {
         }
         if let vmwareTags = vmwareTags {
             var vmwareTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vmwareTags)
-            for vmwaretags0 in vmwareTags {
-                try vmwareTagsContainer.encode(vmwaretags0)
+            for vmwaretag0 in vmwareTags {
+                try vmwareTagsContainer.encode(vmwaretag0)
             }
         }
     }

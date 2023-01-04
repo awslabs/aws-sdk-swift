@@ -2483,8 +2483,8 @@ extension GetDiscoveredSchemaInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for __listofgetdiscoveredschemaversioniteminput0 in events {
-                try eventsContainer.encode(__listofgetdiscoveredschemaversioniteminput0)
+            for getdiscoveredschemaversioniteminput0 in events {
+                try eventsContainer.encode(getdiscoveredschemaversioniteminput0)
             }
         }
         if let type = self.type {
@@ -4289,8 +4289,8 @@ extension SchemasClientTypes.SearchSchemaSummary: Swift.Codable {
         }
         if let schemaVersions = schemaVersions {
             var schemaVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schemaVersions)
-            for __listofsearchschemaversionsummary0 in schemaVersions {
-                try schemaVersionsContainer.encode(__listofsearchschemaversionsummary0)
+            for searchschemaversionsummary0 in schemaVersions {
+                try schemaVersionsContainer.encode(searchschemaversionsummary0)
             }
         }
     }

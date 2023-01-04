@@ -16,8 +16,8 @@ extension XRayClientTypes.Alias: Swift.Codable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for aliasnames0 in names {
-                try namesContainer.encode(aliasnames0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -294,8 +294,8 @@ extension BatchGetTracesInput: Swift.Encodable {
         }
         if let traceIds = traceIds {
             var traceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traceIds)
-            for traceidlist0 in traceIds {
-                try traceIdsContainer.encode(traceidlist0)
+            for traceid0 in traceIds {
+                try traceIdsContainer.encode(traceid0)
             }
         }
     }
@@ -477,8 +477,8 @@ extension CreateGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -646,8 +646,8 @@ extension CreateSamplingRuleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1113,8 +1113,8 @@ extension XRayClientTypes.Edge: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aliases = aliases {
             var aliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliases)
-            for aliaslist0 in aliases {
-                try aliasesContainer.encode(aliaslist0)
+            for alias0 in aliases {
+                try aliasesContainer.encode(alias0)
             }
         }
         if let edgeType = self.edgeType {
@@ -1125,8 +1125,8 @@ extension XRayClientTypes.Edge: Swift.Codable {
         }
         if let receivedEventAgeHistogram = receivedEventAgeHistogram {
             var receivedEventAgeHistogramContainer = encodeContainer.nestedUnkeyedContainer(forKey: .receivedEventAgeHistogram)
-            for histogram0 in receivedEventAgeHistogram {
-                try receivedEventAgeHistogramContainer.encode(histogram0)
+            for histogramentry0 in receivedEventAgeHistogram {
+                try receivedEventAgeHistogramContainer.encode(histogramentry0)
             }
         }
         if let referenceId = self.referenceId {
@@ -1134,8 +1134,8 @@ extension XRayClientTypes.Edge: Swift.Codable {
         }
         if let responseTimeHistogram = responseTimeHistogram {
             var responseTimeHistogramContainer = encodeContainer.nestedUnkeyedContainer(forKey: .responseTimeHistogram)
-            for histogram0 in responseTimeHistogram {
-                try responseTimeHistogramContainer.encode(histogram0)
+            for histogramentry0 in responseTimeHistogram {
+                try responseTimeHistogramContainer.encode(histogramentry0)
             }
         }
         if let startTime = self.startTime {
@@ -1445,8 +1445,8 @@ extension XRayClientTypes.ErrorRootCause: Swift.Codable {
         }
         if let services = services {
             var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
-            for errorrootcauseservices0 in services {
-                try servicesContainer.encode(errorrootcauseservices0)
+            for errorrootcauseservice0 in services {
+                try servicesContainer.encode(errorrootcauseservice0)
             }
         }
     }
@@ -1500,8 +1500,8 @@ extension XRayClientTypes.ErrorRootCauseEntity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let exceptions = exceptions {
             var exceptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exceptions)
-            for rootcauseexceptions0 in exceptions {
-                try exceptionsContainer.encode(rootcauseexceptions0)
+            for rootcauseexception0 in exceptions {
+                try exceptionsContainer.encode(rootcauseexception0)
             }
         }
         if let name = self.name {
@@ -1573,8 +1573,8 @@ extension XRayClientTypes.ErrorRootCauseService: Swift.Codable {
         }
         if let entityPath = entityPath {
             var entityPathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityPath)
-            for errorrootcauseentitypath0 in entityPath {
-                try entityPathContainer.encode(errorrootcauseentitypath0)
+            for errorrootcauseentity0 in entityPath {
+                try entityPathContainer.encode(errorrootcauseentity0)
             }
         }
         if let inferred = self.inferred {
@@ -1585,8 +1585,8 @@ extension XRayClientTypes.ErrorRootCauseService: Swift.Codable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for servicenames0 in names {
-                try namesContainer.encode(servicenames0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -1733,8 +1733,8 @@ extension XRayClientTypes.FaultRootCause: Swift.Codable {
         }
         if let services = services {
             var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
-            for faultrootcauseservices0 in services {
-                try servicesContainer.encode(faultrootcauseservices0)
+            for faultrootcauseservice0 in services {
+                try servicesContainer.encode(faultrootcauseservice0)
             }
         }
     }
@@ -1788,8 +1788,8 @@ extension XRayClientTypes.FaultRootCauseEntity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let exceptions = exceptions {
             var exceptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exceptions)
-            for rootcauseexceptions0 in exceptions {
-                try exceptionsContainer.encode(rootcauseexceptions0)
+            for rootcauseexception0 in exceptions {
+                try exceptionsContainer.encode(rootcauseexception0)
             }
         }
         if let name = self.name {
@@ -1861,8 +1861,8 @@ extension XRayClientTypes.FaultRootCauseService: Swift.Codable {
         }
         if let entityPath = entityPath {
             var entityPathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityPath)
-            for faultrootcauseentitypath0 in entityPath {
-                try entityPathContainer.encode(faultrootcauseentitypath0)
+            for faultrootcauseentity0 in entityPath {
+                try entityPathContainer.encode(faultrootcauseentity0)
             }
         }
         if let inferred = self.inferred {
@@ -1873,8 +1873,8 @@ extension XRayClientTypes.FaultRootCauseService: Swift.Codable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for servicenames0 in names {
-                try namesContainer.encode(servicenames0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -2905,8 +2905,8 @@ extension GetInsightSummariesInput: Swift.Encodable {
         }
         if let states = states {
             var statesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .states)
-            for insightstatelist0 in states {
-                try statesContainer.encode(insightstatelist0.rawValue)
+            for insightstate0 in states {
+                try statesContainer.encode(insightstate0.rawValue)
             }
         }
     }
@@ -3360,8 +3360,8 @@ extension GetSamplingTargetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let samplingStatisticsDocuments = samplingStatisticsDocuments {
             var samplingStatisticsDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .samplingStatisticsDocuments)
-            for samplingstatisticsdocumentlist0 in samplingStatisticsDocuments {
-                try samplingStatisticsDocumentsContainer.encode(samplingstatisticsdocumentlist0)
+            for samplingstatisticsdocument0 in samplingStatisticsDocuments {
+                try samplingStatisticsDocumentsContainer.encode(samplingstatisticsdocument0)
             }
         }
     }
@@ -3965,8 +3965,8 @@ extension GetTraceGraphInput: Swift.Encodable {
         }
         if let traceIds = traceIds {
             var traceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traceIds)
-            for traceidlist0 in traceIds {
-                try traceIdsContainer.encode(traceidlist0)
+            for traceid0 in traceIds {
+                try traceIdsContainer.encode(traceid0)
             }
         }
     }
@@ -4611,8 +4611,8 @@ extension XRayClientTypes.Insight: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categories = categories {
             var categoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categories)
-            for insightcategorylist0 in categories {
-                try categoriesContainer.encode(insightcategorylist0.rawValue)
+            for insightcategory0 in categories {
+                try categoriesContainer.encode(insightcategory0.rawValue)
             }
         }
         if let clientRequestImpactStatistics = self.clientRequestImpactStatistics {
@@ -4647,8 +4647,8 @@ extension XRayClientTypes.Insight: Swift.Codable {
         }
         if let topAnomalousServices = topAnomalousServices {
             var topAnomalousServicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topAnomalousServices)
-            for anomalousservicelist0 in topAnomalousServices {
-                try topAnomalousServicesContainer.encode(anomalousservicelist0)
+            for anomalousservice0 in topAnomalousServices {
+                try topAnomalousServicesContainer.encode(anomalousservice0)
             }
         }
     }
@@ -4814,8 +4814,8 @@ extension XRayClientTypes.InsightEvent: Swift.Codable {
         }
         if let topAnomalousServices = topAnomalousServices {
             var topAnomalousServicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topAnomalousServices)
-            for anomalousservicelist0 in topAnomalousServices {
-                try topAnomalousServicesContainer.encode(anomalousservicelist0)
+            for anomalousservice0 in topAnomalousServices {
+                try topAnomalousServicesContainer.encode(anomalousservice0)
             }
         }
     }
@@ -4928,8 +4928,8 @@ extension XRayClientTypes.InsightImpactGraphService: Swift.Codable {
         }
         if let edges = edges {
             var edgesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edges)
-            for insightimpactgraphedgelist0 in edges {
-                try edgesContainer.encode(insightimpactgraphedgelist0)
+            for insightimpactgraphedge0 in edges {
+                try edgesContainer.encode(insightimpactgraphedge0)
             }
         }
         if let name = self.name {
@@ -4937,8 +4937,8 @@ extension XRayClientTypes.InsightImpactGraphService: Swift.Codable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for servicenames0 in names {
-                try namesContainer.encode(servicenames0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let referenceId = self.referenceId {
@@ -5081,8 +5081,8 @@ extension XRayClientTypes.InsightSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categories = categories {
             var categoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categories)
-            for insightcategorylist0 in categories {
-                try categoriesContainer.encode(insightcategorylist0.rawValue)
+            for insightcategory0 in categories {
+                try categoriesContainer.encode(insightcategory0.rawValue)
             }
         }
         if let clientRequestImpactStatistics = self.clientRequestImpactStatistics {
@@ -5120,8 +5120,8 @@ extension XRayClientTypes.InsightSummary: Swift.Codable {
         }
         if let topAnomalousServices = topAnomalousServices {
             var topAnomalousServicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topAnomalousServices)
-            for anomalousservicelist0 in topAnomalousServices {
-                try topAnomalousServicesContainer.encode(anomalousservicelist0)
+            for anomalousservice0 in topAnomalousServices {
+                try topAnomalousServicesContainer.encode(anomalousservice0)
             }
         }
     }
@@ -6221,8 +6221,8 @@ extension PutTelemetryRecordsInput: Swift.Encodable {
         }
         if let telemetryRecords = telemetryRecords {
             var telemetryRecordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .telemetryRecords)
-            for telemetryrecordlist0 in telemetryRecords {
-                try telemetryRecordsContainer.encode(telemetryrecordlist0)
+            for telemetryrecord0 in telemetryRecords {
+                try telemetryRecordsContainer.encode(telemetryrecord0)
             }
         }
     }
@@ -6339,8 +6339,8 @@ extension PutTraceSegmentsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let traceSegmentDocuments = traceSegmentDocuments {
             var traceSegmentDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traceSegmentDocuments)
-            for tracesegmentdocumentlist0 in traceSegmentDocuments {
-                try traceSegmentDocumentsContainer.encode(tracesegmentdocumentlist0)
+            for tracesegmentdocument0 in traceSegmentDocuments {
+                try traceSegmentDocumentsContainer.encode(tracesegmentdocument0)
             }
         }
     }
@@ -6693,8 +6693,8 @@ extension XRayClientTypes.ResponseTimeRootCause: Swift.Codable {
         }
         if let services = services {
             var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
-            for responsetimerootcauseservices0 in services {
-                try servicesContainer.encode(responsetimerootcauseservices0)
+            for responsetimerootcauseservice0 in services {
+                try servicesContainer.encode(responsetimerootcauseservice0)
             }
         }
     }
@@ -6809,8 +6809,8 @@ extension XRayClientTypes.ResponseTimeRootCauseService: Swift.Codable {
         }
         if let entityPath = entityPath {
             var entityPathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityPath)
-            for responsetimerootcauseentitypath0 in entityPath {
-                try entityPathContainer.encode(responsetimerootcauseentitypath0)
+            for responsetimerootcauseentity0 in entityPath {
+                try entityPathContainer.encode(responsetimerootcauseentity0)
             }
         }
         if let inferred = self.inferred {
@@ -6821,8 +6821,8 @@ extension XRayClientTypes.ResponseTimeRootCauseService: Swift.Codable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for servicenames0 in names {
-                try namesContainer.encode(servicenames0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -7019,8 +7019,8 @@ extension XRayClientTypes.SamplingRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, attributemap0) in attributes {
-                try attributesContainer.encode(attributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMap0) in attributes {
+                try attributesContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if fixedRate != 0.0 {
@@ -7250,8 +7250,8 @@ extension XRayClientTypes.SamplingRuleUpdate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, attributemap0) in attributes {
-                try attributesContainer.encode(attributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMap0) in attributes {
+                try attributesContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let fixedRate = self.fixedRate {
@@ -7773,14 +7773,14 @@ extension XRayClientTypes.Service: Swift.Codable {
         }
         if let durationHistogram = durationHistogram {
             var durationHistogramContainer = encodeContainer.nestedUnkeyedContainer(forKey: .durationHistogram)
-            for histogram0 in durationHistogram {
-                try durationHistogramContainer.encode(histogram0)
+            for histogramentry0 in durationHistogram {
+                try durationHistogramContainer.encode(histogramentry0)
             }
         }
         if let edges = edges {
             var edgesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edges)
-            for edgelist0 in edges {
-                try edgesContainer.encode(edgelist0)
+            for edge0 in edges {
+                try edgesContainer.encode(edge0)
             }
         }
         if let endTime = self.endTime {
@@ -7791,8 +7791,8 @@ extension XRayClientTypes.Service: Swift.Codable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for servicenames0 in names {
-                try namesContainer.encode(servicenames0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let referenceId = self.referenceId {
@@ -7800,8 +7800,8 @@ extension XRayClientTypes.Service: Swift.Codable {
         }
         if let responseTimeHistogram = responseTimeHistogram {
             var responseTimeHistogramContainer = encodeContainer.nestedUnkeyedContainer(forKey: .responseTimeHistogram)
-            for histogram0 in responseTimeHistogram {
-                try responseTimeHistogramContainer.encode(histogram0)
+            for histogramentry0 in responseTimeHistogram {
+                try responseTimeHistogramContainer.encode(histogramentry0)
             }
         }
         if let root = self.root {
@@ -7978,8 +7978,8 @@ extension XRayClientTypes.ServiceId: Swift.Codable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for servicenames0 in names {
-                try namesContainer.encode(servicenames0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -8178,8 +8178,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8474,8 +8474,8 @@ extension XRayClientTypes.TimeSeriesServiceStatistics: Swift.Codable {
         }
         if let responseTimeHistogram = responseTimeHistogram {
             var responseTimeHistogramContainer = encodeContainer.nestedUnkeyedContainer(forKey: .responseTimeHistogram)
-            for histogram0 in responseTimeHistogram {
-                try responseTimeHistogramContainer.encode(histogram0)
+            for histogramentry0 in responseTimeHistogram {
+                try responseTimeHistogramContainer.encode(histogramentry0)
             }
         }
         if let serviceForecastStatistics = self.serviceForecastStatistics {
@@ -8627,8 +8627,8 @@ extension XRayClientTypes.Trace: Swift.Codable {
         }
         if let segments = segments {
             var segmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segments)
-            for segmentlist0 in segments {
-                try segmentsContainer.encode(segmentlist0)
+            for segment0 in segments {
+                try segmentsContainer.encode(segment0)
             }
         }
     }
@@ -8712,13 +8712,16 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
         if let annotations = annotations {
             var annotationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .annotations)
             for (dictKey0, annotations0) in annotations {
-                try annotationsContainer.encode(annotations0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                var annotations0Container = annotationsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for valuewithserviceids1 in annotations0 {
+                    try annotations0Container.encode(valuewithserviceids1)
+                }
             }
         }
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for traceavailabilityzones0 in availabilityZones {
-                try availabilityZonesContainer.encode(traceavailabilityzones0)
+            for availabilityzonedetail0 in availabilityZones {
+                try availabilityZonesContainer.encode(availabilityzonedetail0)
             }
         }
         if let duration = self.duration {
@@ -8729,14 +8732,14 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
         }
         if let errorRootCauses = errorRootCauses {
             var errorRootCausesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorRootCauses)
-            for errorrootcauses0 in errorRootCauses {
-                try errorRootCausesContainer.encode(errorrootcauses0)
+            for errorrootcause0 in errorRootCauses {
+                try errorRootCausesContainer.encode(errorrootcause0)
             }
         }
         if let faultRootCauses = faultRootCauses {
             var faultRootCausesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .faultRootCauses)
-            for faultrootcauses0 in faultRootCauses {
-                try faultRootCausesContainer.encode(faultrootcauses0)
+            for faultrootcause0 in faultRootCauses {
+                try faultRootCausesContainer.encode(faultrootcause0)
             }
         }
         if let hasError = self.hasError {
@@ -8756,8 +8759,8 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
         }
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for traceinstanceids0 in instanceIds {
-                try instanceIdsContainer.encode(traceinstanceids0)
+            for instanceiddetail0 in instanceIds {
+                try instanceIdsContainer.encode(instanceiddetail0)
             }
         }
         if let isPartial = self.isPartial {
@@ -8768,8 +8771,8 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
         }
         if let resourceARNs = resourceARNs {
             var resourceARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceARNs)
-            for traceresourcearns0 in resourceARNs {
-                try resourceARNsContainer.encode(traceresourcearns0)
+            for resourcearndetail0 in resourceARNs {
+                try resourceARNsContainer.encode(resourcearndetail0)
             }
         }
         if let responseTime = self.responseTime {
@@ -8777,8 +8780,8 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
         }
         if let responseTimeRootCauses = responseTimeRootCauses {
             var responseTimeRootCausesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .responseTimeRootCauses)
-            for responsetimerootcauses0 in responseTimeRootCauses {
-                try responseTimeRootCausesContainer.encode(responsetimerootcauses0)
+            for responsetimerootcause0 in responseTimeRootCauses {
+                try responseTimeRootCausesContainer.encode(responsetimerootcause0)
             }
         }
         if revision != 0 {
@@ -8786,14 +8789,14 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
         }
         if let serviceIds = serviceIds {
             var serviceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceIds)
-            for serviceids0 in serviceIds {
-                try serviceIdsContainer.encode(serviceids0)
+            for serviceid0 in serviceIds {
+                try serviceIdsContainer.encode(serviceid0)
             }
         }
         if let users = users {
             var usersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .users)
-            for traceusers0 in users {
-                try usersContainer.encode(traceusers0)
+            for traceuser0 in users {
+                try usersContainer.encode(traceuser0)
             }
         }
     }
@@ -9033,8 +9036,8 @@ extension XRayClientTypes.TraceUser: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let serviceIds = serviceIds {
             var serviceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceIds)
-            for serviceids0 in serviceIds {
-                try serviceIdsContainer.encode(serviceids0)
+            for serviceid0 in serviceIds {
+                try serviceIdsContainer.encode(serviceid0)
             }
         }
         if let userName = self.userName {
@@ -9203,8 +9206,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -9577,8 +9580,8 @@ extension XRayClientTypes.ValueWithServiceIds: Swift.Codable {
         }
         if let serviceIds = serviceIds {
             var serviceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceIds)
-            for serviceids0 in serviceIds {
-                try serviceIdsContainer.encode(serviceids0)
+            for serviceid0 in serviceIds {
+                try serviceIdsContainer.encode(serviceid0)
             }
         }
     }

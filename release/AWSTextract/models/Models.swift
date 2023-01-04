@@ -78,8 +78,8 @@ extension AnalyzeDocumentInput: Swift.Encodable {
         }
         if let featureTypes = featureTypes {
             var featureTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featureTypes)
-            for featuretypes0 in featureTypes {
-                try featureTypesContainer.encode(featuretypes0.rawValue)
+            for featuretype0 in featureTypes {
+                try featureTypesContainer.encode(featuretype0.rawValue)
             }
         }
         if let humanLoopConfig = self.humanLoopConfig {
@@ -491,8 +491,8 @@ extension AnalyzeIDInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let documentPages = documentPages {
             var documentPagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentPages)
-            for documentpages0 in documentPages {
-                try documentPagesContainer.encode(documentpages0)
+            for document0 in documentPages {
+                try documentPagesContainer.encode(document0)
             }
         }
     }
@@ -746,8 +746,8 @@ extension TextractClientTypes.Block: Swift.Codable {
         }
         if let entityTypes = entityTypes {
             var entityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTypes)
-            for entitytypes0 in entityTypes {
-                try entityTypesContainer.encode(entitytypes0.rawValue)
+            for entitytype0 in entityTypes {
+                try entityTypesContainer.encode(entitytype0.rawValue)
             }
         }
         if let geometry = self.geometry {
@@ -764,8 +764,8 @@ extension TextractClientTypes.Block: Swift.Codable {
         }
         if let relationships = relationships {
             var relationshipsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relationships)
-            for relationshiplist0 in relationships {
-                try relationshipsContainer.encode(relationshiplist0)
+            for relationship0 in relationships {
+                try relationshipsContainer.encode(relationship0)
             }
         }
         if let rowIndex = self.rowIndex {
@@ -1357,14 +1357,14 @@ extension TextractClientTypes.DocumentGroup: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let detectedSignatures = detectedSignatures {
             var detectedSignaturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detectedSignatures)
-            for detectedsignaturelist0 in detectedSignatures {
-                try detectedSignaturesContainer.encode(detectedsignaturelist0)
+            for detectedsignature0 in detectedSignatures {
+                try detectedSignaturesContainer.encode(detectedsignature0)
             }
         }
         if let splitDocuments = splitDocuments {
             var splitDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .splitDocuments)
-            for splitdocumentlist0 in splitDocuments {
-                try splitDocumentsContainer.encode(splitdocumentlist0)
+            for splitdocument0 in splitDocuments {
+                try splitDocumentsContainer.encode(splitdocument0)
             }
         }
         if let type = self.type {
@@ -1372,8 +1372,8 @@ extension TextractClientTypes.DocumentGroup: Swift.Codable {
         }
         if let undetectedSignatures = undetectedSignatures {
             var undetectedSignaturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .undetectedSignatures)
-            for undetectedsignaturelist0 in undetectedSignatures {
-                try undetectedSignaturesContainer.encode(undetectedsignaturelist0)
+            for undetectedsignature0 in undetectedSignatures {
+                try undetectedSignaturesContainer.encode(undetectedsignature0)
             }
         }
     }
@@ -1748,8 +1748,8 @@ extension TextractClientTypes.ExpenseDocument: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let blocks = blocks {
             var blocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blocks)
-            for blocklist0 in blocks {
-                try blocksContainer.encode(blocklist0)
+            for block0 in blocks {
+                try blocksContainer.encode(block0)
             }
         }
         if let expenseIndex = self.expenseIndex {
@@ -1757,14 +1757,14 @@ extension TextractClientTypes.ExpenseDocument: Swift.Codable {
         }
         if let lineItemGroups = lineItemGroups {
             var lineItemGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lineItemGroups)
-            for lineitemgrouplist0 in lineItemGroups {
-                try lineItemGroupsContainer.encode(lineitemgrouplist0)
+            for lineitemgroup0 in lineItemGroups {
+                try lineItemGroupsContainer.encode(lineitemgroup0)
             }
         }
         if let summaryFields = summaryFields {
             var summaryFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .summaryFields)
-            for expensefieldlist0 in summaryFields {
-                try summaryFieldsContainer.encode(expensefieldlist0)
+            for expensefield0 in summaryFields {
+                try summaryFieldsContainer.encode(expensefield0)
             }
         }
     }
@@ -1854,8 +1854,8 @@ extension TextractClientTypes.ExpenseField: Swift.Codable {
         }
         if let groupProperties = groupProperties {
             var groupPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupProperties)
-            for expensegrouppropertylist0 in groupProperties {
-                try groupPropertiesContainer.encode(expensegrouppropertylist0)
+            for expensegroupproperty0 in groupProperties {
+                try groupPropertiesContainer.encode(expensegroupproperty0)
             }
         }
         if let labelDetection = self.labelDetection {
@@ -1947,8 +1947,8 @@ extension TextractClientTypes.ExpenseGroupProperty: Swift.Codable {
         }
         if let types = types {
             var typesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .types)
-            for stringlist0 in types {
-                try typesContainer.encode(stringlist0)
+            for string0 in types {
+                try typesContainer.encode(string0)
             }
         }
     }
@@ -2142,8 +2142,8 @@ extension TextractClientTypes.Geometry: Swift.Codable {
         }
         if let polygon = polygon {
             var polygonContainer = encodeContainer.nestedUnkeyedContainer(forKey: .polygon)
-            for polygon0 in polygon {
-                try polygonContainer.encode(polygon0)
+            for point0 in polygon {
+                try polygonContainer.encode(point0)
             }
         }
     }
@@ -3292,8 +3292,8 @@ extension TextractClientTypes.HumanLoopActivationOutput: Swift.Codable {
         }
         if let humanLoopActivationReasons = humanLoopActivationReasons {
             var humanLoopActivationReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .humanLoopActivationReasons)
-            for humanloopactivationreasons0 in humanLoopActivationReasons {
-                try humanLoopActivationReasonsContainer.encode(humanloopactivationreasons0)
+            for humanloopactivationreason0 in humanLoopActivationReasons {
+                try humanLoopActivationReasonsContainer.encode(humanloopactivationreason0)
             }
         }
         if let humanLoopArn = self.humanLoopArn {
@@ -3411,8 +3411,8 @@ extension TextractClientTypes.HumanLoopDataAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contentClassifiers = contentClassifiers {
             var contentClassifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contentClassifiers)
-            for contentclassifiers0 in contentClassifiers {
-                try contentClassifiersContainer.encode(contentclassifiers0.rawValue)
+            for contentclassifier0 in contentClassifiers {
+                try contentClassifiersContainer.encode(contentclassifier0.rawValue)
             }
         }
     }
@@ -3612,8 +3612,8 @@ extension TextractClientTypes.IdentityDocument: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let blocks = blocks {
             var blocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blocks)
-            for blocklist0 in blocks {
-                try blocksContainer.encode(blocklist0)
+            for block0 in blocks {
+                try blocksContainer.encode(block0)
             }
         }
         if let documentIndex = self.documentIndex {
@@ -3621,8 +3621,8 @@ extension TextractClientTypes.IdentityDocument: Swift.Codable {
         }
         if let identityDocumentFields = identityDocumentFields {
             var identityDocumentFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identityDocumentFields)
-            for identitydocumentfieldlist0 in identityDocumentFields {
-                try identityDocumentFieldsContainer.encode(identitydocumentfieldlist0)
+            for identitydocumentfield0 in identityDocumentFields {
+                try identityDocumentFieldsContainer.encode(identitydocumentfield0)
             }
         }
     }
@@ -4143,14 +4143,14 @@ extension TextractClientTypes.LendingDocument: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lendingFields = lendingFields {
             var lendingFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lendingFields)
-            for lendingfieldlist0 in lendingFields {
-                try lendingFieldsContainer.encode(lendingfieldlist0)
+            for lendingfield0 in lendingFields {
+                try lendingFieldsContainer.encode(lendingfield0)
             }
         }
         if let signatureDetections = signatureDetections {
             var signatureDetectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signatureDetections)
-            for signaturedetectionlist0 in signatureDetections {
-                try signatureDetectionsContainer.encode(signaturedetectionlist0)
+            for signaturedetection0 in signatureDetections {
+                try signatureDetectionsContainer.encode(signaturedetection0)
             }
         }
     }
@@ -4219,8 +4219,8 @@ extension TextractClientTypes.LendingField: Swift.Codable {
         }
         if let valueDetections = valueDetections {
             var valueDetectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .valueDetections)
-            for lendingdetectionlist0 in valueDetections {
-                try valueDetectionsContainer.encode(lendingdetectionlist0)
+            for lendingdetection0 in valueDetections {
+                try valueDetectionsContainer.encode(lendingdetection0)
             }
         }
     }
@@ -4280,8 +4280,8 @@ extension TextractClientTypes.LendingResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let extractions = extractions {
             var extractionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extractions)
-            for extractionlist0 in extractions {
-                try extractionsContainer.encode(extractionlist0)
+            for extraction0 in extractions {
+                try extractionsContainer.encode(extraction0)
             }
         }
         if let page = self.page {
@@ -4346,14 +4346,14 @@ extension TextractClientTypes.LendingSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let documentGroups = documentGroups {
             var documentGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentGroups)
-            for documentgrouplist0 in documentGroups {
-                try documentGroupsContainer.encode(documentgrouplist0)
+            for documentgroup0 in documentGroups {
+                try documentGroupsContainer.encode(documentgroup0)
             }
         }
         if let undetectedDocumentTypes = undetectedDocumentTypes {
             var undetectedDocumentTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .undetectedDocumentTypes)
-            for undetecteddocumenttypelist0 in undetectedDocumentTypes {
-                try undetectedDocumentTypesContainer.encode(undetecteddocumenttypelist0)
+            for nonemptystring0 in undetectedDocumentTypes {
+                try undetectedDocumentTypesContainer.encode(nonemptystring0)
             }
         }
     }
@@ -4475,8 +4475,8 @@ extension TextractClientTypes.LineItemFields: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lineItemExpenseFields = lineItemExpenseFields {
             var lineItemExpenseFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lineItemExpenseFields)
-            for expensefieldlist0 in lineItemExpenseFields {
-                try lineItemExpenseFieldsContainer.encode(expensefieldlist0)
+            for expensefield0 in lineItemExpenseFields {
+                try lineItemExpenseFieldsContainer.encode(expensefield0)
             }
         }
     }
@@ -4526,8 +4526,8 @@ extension TextractClientTypes.LineItemGroup: Swift.Codable {
         }
         if let lineItems = lineItems {
             var lineItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lineItems)
-            for lineitemlist0 in lineItems {
-                try lineItemsContainer.encode(lineitemlist0)
+            for lineitemfields0 in lineItems {
+                try lineItemsContainer.encode(lineitemfields0)
             }
         }
     }
@@ -4718,14 +4718,14 @@ extension TextractClientTypes.PageClassification: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pageNumber = pageNumber {
             var pageNumberContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pageNumber)
-            for predictionlist0 in pageNumber {
-                try pageNumberContainer.encode(predictionlist0)
+            for prediction0 in pageNumber {
+                try pageNumberContainer.encode(prediction0)
             }
         }
         if let pageType = pageType {
             var pageTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pageType)
-            for predictionlist0 in pageType {
-                try pageTypeContainer.encode(predictionlist0)
+            for prediction0 in pageType {
+                try pageTypeContainer.encode(prediction0)
             }
         }
     }
@@ -4939,8 +4939,8 @@ extension TextractClientTypes.QueriesConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let queries = queries {
             var queriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queries)
-            for queries0 in queries {
-                try queriesContainer.encode(queries0)
+            for query0 in queries {
+                try queriesContainer.encode(query0)
             }
         }
     }
@@ -4992,8 +4992,8 @@ extension TextractClientTypes.Query: Swift.Codable {
         }
         if let pages = pages {
             var pagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pages)
-            for querypages0 in pages {
-                try pagesContainer.encode(querypages0)
+            for querypage0 in pages {
+                try pagesContainer.encode(querypage0)
             }
         }
         if let text = self.text {
@@ -5066,8 +5066,8 @@ extension TextractClientTypes.Relationship: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for idlist0 in ids {
-                try idsContainer.encode(idlist0)
+            for nonemptystring0 in ids {
+                try idsContainer.encode(nonemptystring0)
             }
         }
         if let type = self.type {
@@ -5302,8 +5302,8 @@ extension TextractClientTypes.SplitDocument: Swift.Codable {
         }
         if let pages = pages {
             var pagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pages)
-            for pagelist0 in pages {
-                try pagesContainer.encode(pagelist0)
+            for uinteger0 in pages {
+                try pagesContainer.encode(uinteger0)
             }
         }
     }
@@ -5368,8 +5368,8 @@ extension StartDocumentAnalysisInput: Swift.Encodable {
         }
         if let featureTypes = featureTypes {
             var featureTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featureTypes)
-            for featuretypes0 in featureTypes {
-                try featureTypesContainer.encode(featuretypes0.rawValue)
+            for featuretype0 in featureTypes {
+                try featureTypesContainer.encode(featuretype0.rawValue)
             }
         }
         if let jobTag = self.jobTag {
@@ -6386,8 +6386,8 @@ extension TextractClientTypes.Warning: Swift.Codable {
         }
         if let pages = pages {
             var pagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pages)
-            for pages0 in pages {
-                try pagesContainer.encode(pages0)
+            for uinteger0 in pages {
+                try pagesContainer.encode(uinteger0)
             }
         }
     }

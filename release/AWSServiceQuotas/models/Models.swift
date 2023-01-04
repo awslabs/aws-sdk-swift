@@ -2476,8 +2476,8 @@ extension ServiceQuotasClientTypes.MetricInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metricDimensions = metricDimensions {
             var metricDimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metricDimensions)
-            for (dictKey0, metricdimensionsmapdefinition0) in metricDimensions {
-                try metricDimensionsContainer.encode(metricdimensionsmapdefinition0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, metricDimensionsMapDefinition0) in metricDimensions {
+                try metricDimensionsContainer.encode(metricDimensionsMapDefinition0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let metricName = self.metricName {
@@ -3963,8 +3963,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtags0 in tags {
-                try tagsContainer.encode(inputtags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4236,8 +4236,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for inputtagkeys0 in tagKeys {
-                try tagKeysContainer.encode(inputtagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

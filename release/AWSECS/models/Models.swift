@@ -177,8 +177,8 @@ extension ECSClientTypes.Attachment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let details = details {
             var detailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .details)
-            for attachmentdetails0 in details {
-                try detailsContainer.encode(attachmentdetails0)
+            for keyvaluepair0 in details {
+                try detailsContainer.encode(keyvaluepair0)
             }
         }
         if let id = self.id {
@@ -522,14 +522,14 @@ extension ECSClientTypes.AwsVpcConfiguration: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for stringlist0 in securityGroups {
-                try securityGroupsContainer.encode(stringlist0)
+            for string0 in securityGroups {
+                try securityGroupsContainer.encode(string0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
     }
@@ -699,8 +699,8 @@ extension ECSClientTypes.CapacityProvider: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let updateStatus = self.updateStatus {
@@ -1033,8 +1033,8 @@ extension ECSClientTypes.Cluster: Swift.Codable {
         }
         if let attachments = attachments {
             var attachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachments)
-            for attachments0 in attachments {
-                try attachmentsContainer.encode(attachments0)
+            for attachment0 in attachments {
+                try attachmentsContainer.encode(attachment0)
             }
         }
         if let attachmentsStatus = self.attachmentsStatus {
@@ -1042,8 +1042,8 @@ extension ECSClientTypes.Cluster: Swift.Codable {
         }
         if let capacityProviders = capacityProviders {
             var capacityProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviders)
-            for stringlist0 in capacityProviders {
-                try capacityProvidersContainer.encode(stringlist0)
+            for string0 in capacityProviders {
+                try capacityProvidersContainer.encode(string0)
             }
         }
         if let clusterArn = self.clusterArn {
@@ -1057,8 +1057,8 @@ extension ECSClientTypes.Cluster: Swift.Codable {
         }
         if let defaultCapacityProviderStrategy = defaultCapacityProviderStrategy {
             var defaultCapacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultCapacityProviderStrategy)
-            for capacityproviderstrategy0 in defaultCapacityProviderStrategy {
-                try defaultCapacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in defaultCapacityProviderStrategy {
+                try defaultCapacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if pendingTasksCount != 0 {
@@ -1075,14 +1075,14 @@ extension ECSClientTypes.Cluster: Swift.Codable {
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
-            for clustersettings0 in settings {
-                try settingsContainer.encode(clustersettings0)
+            for clustersetting0 in settings {
+                try settingsContainer.encode(clustersetting0)
             }
         }
         if let statistics = statistics {
             var statisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statistics)
-            for statistics0 in statistics {
-                try statisticsContainer.encode(statistics0)
+            for keyvaluepair0 in statistics {
+                try statisticsContainer.encode(keyvaluepair0)
             }
         }
         if let status = self.status {
@@ -1090,8 +1090,8 @@ extension ECSClientTypes.Cluster: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1823,8 +1823,8 @@ extension ECSClientTypes.Container: Swift.Codable {
         }
         if let gpuIds = gpuIds {
             var gpuIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gpuIds)
-            for gpuids0 in gpuIds {
-                try gpuIdsContainer.encode(gpuids0)
+            for string0 in gpuIds {
+                try gpuIdsContainer.encode(string0)
             }
         }
         if let healthStatus = self.healthStatus {
@@ -1841,8 +1841,8 @@ extension ECSClientTypes.Container: Swift.Codable {
         }
         if let managedAgents = managedAgents {
             var managedAgentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedAgents)
-            for managedagents0 in managedAgents {
-                try managedAgentsContainer.encode(managedagents0)
+            for managedagent0 in managedAgents {
+                try managedAgentsContainer.encode(managedagent0)
             }
         }
         if let memory = self.memory {
@@ -1856,14 +1856,14 @@ extension ECSClientTypes.Container: Swift.Codable {
         }
         if let networkBindings = networkBindings {
             var networkBindingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkBindings)
-            for networkbindings0 in networkBindings {
-                try networkBindingsContainer.encode(networkbindings0)
+            for networkbinding0 in networkBindings {
+                try networkBindingsContainer.encode(networkbinding0)
             }
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfaces0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let reason = self.reason {
@@ -2117,8 +2117,8 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if cpu != 0 {
@@ -2126,8 +2126,8 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if let dependsOn = dependsOn {
             var dependsOnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOn)
-            for containerdependencies0 in dependsOn {
-                try dependsOnContainer.encode(containerdependencies0)
+            for containerdependency0 in dependsOn {
+                try dependsOnContainer.encode(containerdependency0)
             }
         }
         if let disableNetworking = self.disableNetworking {
@@ -2135,44 +2135,44 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if let dnsSearchDomains = dnsSearchDomains {
             var dnsSearchDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsSearchDomains)
-            for stringlist0 in dnsSearchDomains {
-                try dnsSearchDomainsContainer.encode(stringlist0)
+            for string0 in dnsSearchDomains {
+                try dnsSearchDomainsContainer.encode(string0)
             }
         }
         if let dnsServers = dnsServers {
             var dnsServersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsServers)
-            for stringlist0 in dnsServers {
-                try dnsServersContainer.encode(stringlist0)
+            for string0 in dnsServers {
+                try dnsServersContainer.encode(string0)
             }
         }
         if let dockerLabels = dockerLabels {
             var dockerLabelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dockerLabels)
-            for (dictKey0, dockerlabelsmap0) in dockerLabels {
-                try dockerLabelsContainer.encode(dockerlabelsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dockerLabelsMap0) in dockerLabels {
+                try dockerLabelsContainer.encode(dockerLabelsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let dockerSecurityOptions = dockerSecurityOptions {
             var dockerSecurityOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dockerSecurityOptions)
-            for stringlist0 in dockerSecurityOptions {
-                try dockerSecurityOptionsContainer.encode(stringlist0)
+            for string0 in dockerSecurityOptions {
+                try dockerSecurityOptionsContainer.encode(string0)
             }
         }
         if let entryPoint = entryPoint {
             var entryPointContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entryPoint)
-            for stringlist0 in entryPoint {
-                try entryPointContainer.encode(stringlist0)
+            for string0 in entryPoint {
+                try entryPointContainer.encode(string0)
             }
         }
         if let environment = environment {
             var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
-            for environmentvariables0 in environment {
-                try environmentContainer.encode(environmentvariables0)
+            for keyvaluepair0 in environment {
+                try environmentContainer.encode(keyvaluepair0)
             }
         }
         if let environmentFiles = environmentFiles {
             var environmentFilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environmentFiles)
-            for environmentfiles0 in environmentFiles {
-                try environmentFilesContainer.encode(environmentfiles0)
+            for environmentfile0 in environmentFiles {
+                try environmentFilesContainer.encode(environmentfile0)
             }
         }
         if let essential = self.essential {
@@ -2180,8 +2180,8 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if let extraHosts = extraHosts {
             var extraHostsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extraHosts)
-            for hostentrylist0 in extraHosts {
-                try extraHostsContainer.encode(hostentrylist0)
+            for hostentry0 in extraHosts {
+                try extraHostsContainer.encode(hostentry0)
             }
         }
         if let firelensConfiguration = self.firelensConfiguration {
@@ -2201,8 +2201,8 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if let links = links {
             var linksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .links)
-            for stringlist0 in links {
-                try linksContainer.encode(stringlist0)
+            for string0 in links {
+                try linksContainer.encode(string0)
             }
         }
         if let linuxParameters = self.linuxParameters {
@@ -2219,8 +2219,8 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if let mountPoints = mountPoints {
             var mountPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mountPoints)
-            for mountpointlist0 in mountPoints {
-                try mountPointsContainer.encode(mountpointlist0)
+            for mountpoint0 in mountPoints {
+                try mountPointsContainer.encode(mountpoint0)
             }
         }
         if let name = self.name {
@@ -2228,8 +2228,8 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if let portMappings = portMappings {
             var portMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portMappings)
-            for portmappinglist0 in portMappings {
-                try portMappingsContainer.encode(portmappinglist0)
+            for portmapping0 in portMappings {
+                try portMappingsContainer.encode(portmapping0)
             }
         }
         if let privileged = self.privileged {
@@ -2246,14 +2246,14 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if let resourceRequirements = resourceRequirements {
             var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
-            for resourcerequirements0 in resourceRequirements {
-                try resourceRequirementsContainer.encode(resourcerequirements0)
+            for resourcerequirement0 in resourceRequirements {
+                try resourceRequirementsContainer.encode(resourcerequirement0)
             }
         }
         if let secrets = secrets {
             var secretsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secrets)
-            for secretlist0 in secrets {
-                try secretsContainer.encode(secretlist0)
+            for secret0 in secrets {
+                try secretsContainer.encode(secret0)
             }
         }
         if let startTimeout = self.startTimeout {
@@ -2264,14 +2264,14 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if let systemControls = systemControls {
             var systemControlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .systemControls)
-            for systemcontrols0 in systemControls {
-                try systemControlsContainer.encode(systemcontrols0)
+            for systemcontrol0 in systemControls {
+                try systemControlsContainer.encode(systemcontrol0)
             }
         }
         if let ulimits = ulimits {
             var ulimitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ulimits)
-            for ulimitlist0 in ulimits {
-                try ulimitsContainer.encode(ulimitlist0)
+            for ulimit0 in ulimits {
+                try ulimitsContainer.encode(ulimit0)
             }
         }
         if let user = self.user {
@@ -2279,8 +2279,8 @@ extension ECSClientTypes.ContainerDefinition: Swift.Codable {
         }
         if let volumesFrom = volumesFrom {
             var volumesFromContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumesFrom)
-            for volumefromlist0 in volumesFrom {
-                try volumesFromContainer.encode(volumefromlist0)
+            for volumefrom0 in volumesFrom {
+                try volumesFromContainer.encode(volumefrom0)
             }
         }
         if let workingDirectory = self.workingDirectory {
@@ -2842,14 +2842,14 @@ extension ECSClientTypes.ContainerInstance: Swift.Codable {
         }
         if let attachments = attachments {
             var attachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachments)
-            for attachments0 in attachments {
-                try attachmentsContainer.encode(attachments0)
+            for attachment0 in attachments {
+                try attachmentsContainer.encode(attachment0)
             }
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributes0 in attributes {
-                try attributesContainer.encode(attributes0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let capacityProviderName = self.capacityProviderName {
@@ -2872,14 +2872,14 @@ extension ECSClientTypes.ContainerInstance: Swift.Codable {
         }
         if let registeredResources = registeredResources {
             var registeredResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .registeredResources)
-            for resources0 in registeredResources {
-                try registeredResourcesContainer.encode(resources0)
+            for resource0 in registeredResources {
+                try registeredResourcesContainer.encode(resource0)
             }
         }
         if let remainingResources = remainingResources {
             var remainingResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .remainingResources)
-            for resources0 in remainingResources {
-                try remainingResourcesContainer.encode(resources0)
+            for resource0 in remainingResources {
+                try remainingResourcesContainer.encode(resource0)
             }
         }
         if runningTasksCount != 0 {
@@ -2893,8 +2893,8 @@ extension ECSClientTypes.ContainerInstance: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if version != 0 {
@@ -3131,8 +3131,8 @@ extension ECSClientTypes.ContainerInstanceHealthStatus: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let details = details {
             var detailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .details)
-            for instancehealthcheckresultlist0 in details {
-                try detailsContainer.encode(instancehealthcheckresultlist0)
+            for instancehealthcheckresult0 in details {
+                try detailsContainer.encode(instancehealthcheckresult0)
             }
         }
         if let overallStatus = self.overallStatus {
@@ -3235,8 +3235,8 @@ extension ECSClientTypes.ContainerOverride: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let cpu = self.cpu {
@@ -3244,14 +3244,14 @@ extension ECSClientTypes.ContainerOverride: Swift.Codable {
         }
         if let environment = environment {
             var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
-            for environmentvariables0 in environment {
-                try environmentContainer.encode(environmentvariables0)
+            for keyvaluepair0 in environment {
+                try environmentContainer.encode(keyvaluepair0)
             }
         }
         if let environmentFiles = environmentFiles {
             var environmentFilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environmentFiles)
-            for environmentfiles0 in environmentFiles {
-                try environmentFilesContainer.encode(environmentfiles0)
+            for environmentfile0 in environmentFiles {
+                try environmentFilesContainer.encode(environmentfile0)
             }
         }
         if let memory = self.memory {
@@ -3265,8 +3265,8 @@ extension ECSClientTypes.ContainerOverride: Swift.Codable {
         }
         if let resourceRequirements = resourceRequirements {
             var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
-            for resourcerequirements0 in resourceRequirements {
-                try resourceRequirementsContainer.encode(resourcerequirements0)
+            for resourcerequirement0 in resourceRequirements {
+                try resourceRequirementsContainer.encode(resourcerequirement0)
             }
         }
     }
@@ -3396,8 +3396,8 @@ extension ECSClientTypes.ContainerStateChange: Swift.Codable {
         }
         if let networkBindings = networkBindings {
             var networkBindingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkBindings)
-            for networkbindings0 in networkBindings {
-                try networkBindingsContainer.encode(networkbindings0)
+            for networkbinding0 in networkBindings {
+                try networkBindingsContainer.encode(networkbinding0)
             }
         }
         if let reason = self.reason {
@@ -3496,8 +3496,8 @@ extension CreateCapacityProviderInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3664,8 +3664,8 @@ extension CreateClusterInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviders = capacityProviders {
             var capacityProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviders)
-            for stringlist0 in capacityProviders {
-                try capacityProvidersContainer.encode(stringlist0)
+            for string0 in capacityProviders {
+                try capacityProvidersContainer.encode(string0)
             }
         }
         if let clusterName = self.clusterName {
@@ -3676,8 +3676,8 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let defaultCapacityProviderStrategy = defaultCapacityProviderStrategy {
             var defaultCapacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultCapacityProviderStrategy)
-            for capacityproviderstrategy0 in defaultCapacityProviderStrategy {
-                try defaultCapacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in defaultCapacityProviderStrategy {
+                try defaultCapacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if let serviceConnectDefaults = self.serviceConnectDefaults {
@@ -3685,14 +3685,14 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
-            for clustersettings0 in settings {
-                try settingsContainer.encode(clustersettings0)
+            for clustersetting0 in settings {
+                try settingsContainer.encode(clustersetting0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3928,8 +3928,8 @@ extension CreateServiceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviderStrategy = capacityProviderStrategy {
             var capacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviderStrategy)
-            for capacityproviderstrategy0 in capacityProviderStrategy {
-                try capacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in capacityProviderStrategy {
+                try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if let clientToken = self.clientToken {
@@ -3961,8 +3961,8 @@ extension CreateServiceInput: Swift.Encodable {
         }
         if let loadBalancers = loadBalancers {
             var loadBalancersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loadBalancers)
-            for loadbalancers0 in loadBalancers {
-                try loadBalancersContainer.encode(loadbalancers0)
+            for loadbalancer0 in loadBalancers {
+                try loadBalancersContainer.encode(loadbalancer0)
             }
         }
         if let networkConfiguration = self.networkConfiguration {
@@ -3970,14 +3970,14 @@ extension CreateServiceInput: Swift.Encodable {
         }
         if let placementConstraints = placementConstraints {
             var placementConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementConstraints)
-            for placementconstraints0 in placementConstraints {
-                try placementConstraintsContainer.encode(placementconstraints0)
+            for placementconstraint0 in placementConstraints {
+                try placementConstraintsContainer.encode(placementconstraint0)
             }
         }
         if let placementStrategy = placementStrategy {
             var placementStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementStrategy)
-            for placementstrategies0 in placementStrategy {
-                try placementStrategyContainer.encode(placementstrategies0)
+            for placementstrategy0 in placementStrategy {
+                try placementStrategyContainer.encode(placementstrategy0)
             }
         }
         if let platformVersion = self.platformVersion {
@@ -4000,14 +4000,14 @@ extension CreateServiceInput: Swift.Encodable {
         }
         if let serviceRegistries = serviceRegistries {
             var serviceRegistriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceRegistries)
-            for serviceregistries0 in serviceRegistries {
-                try serviceRegistriesContainer.encode(serviceregistries0)
+            for serviceregistry0 in serviceRegistries {
+                try serviceRegistriesContainer.encode(serviceregistry0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskDefinition = self.taskDefinition {
@@ -4399,8 +4399,8 @@ extension CreateTaskSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviderStrategy = capacityProviderStrategy {
             var capacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviderStrategy)
-            for capacityproviderstrategy0 in capacityProviderStrategy {
-                try capacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in capacityProviderStrategy {
+                try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if let clientToken = self.clientToken {
@@ -4417,8 +4417,8 @@ extension CreateTaskSetInput: Swift.Encodable {
         }
         if let loadBalancers = loadBalancers {
             var loadBalancersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loadBalancers)
-            for loadbalancers0 in loadBalancers {
-                try loadBalancersContainer.encode(loadbalancers0)
+            for loadbalancer0 in loadBalancers {
+                try loadBalancersContainer.encode(loadbalancer0)
             }
         }
         if let networkConfiguration = self.networkConfiguration {
@@ -4435,14 +4435,14 @@ extension CreateTaskSetInput: Swift.Encodable {
         }
         if let serviceRegistries = serviceRegistries {
             var serviceRegistriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceRegistries)
-            for serviceregistries0 in serviceRegistries {
-                try serviceRegistriesContainer.encode(serviceregistries0)
+            for serviceregistry0 in serviceRegistries {
+                try serviceRegistriesContainer.encode(serviceregistry0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskDefinition = self.taskDefinition {
@@ -4854,8 +4854,8 @@ extension DeleteAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributes0 in attributes {
-                try attributesContainer.encode(attributes0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let cluster = self.cluster {
@@ -5566,8 +5566,8 @@ extension ECSClientTypes.Deployment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviderStrategy = capacityProviderStrategy {
             var capacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviderStrategy)
-            for capacityproviderstrategy0 in capacityProviderStrategy {
-                try capacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in capacityProviderStrategy {
+                try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if let createdAt = self.createdAt {
@@ -5611,8 +5611,8 @@ extension ECSClientTypes.Deployment: Swift.Codable {
         }
         if let serviceConnectResources = serviceConnectResources {
             var serviceConnectResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceConnectResources)
-            for serviceconnectserviceresourcelist0 in serviceConnectResources {
-                try serviceConnectResourcesContainer.encode(serviceconnectserviceresourcelist0)
+            for serviceconnectserviceresource0 in serviceConnectResources {
+                try serviceConnectResourcesContainer.encode(serviceconnectserviceresource0)
             }
         }
         if let status = self.status {
@@ -5780,8 +5780,8 @@ extension ECSClientTypes.DeploymentAlarms: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alarmNames = alarmNames {
             var alarmNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alarmNames)
-            for stringlist0 in alarmNames {
-                try alarmNamesContainer.encode(stringlist0)
+            for string0 in alarmNames {
+                try alarmNamesContainer.encode(string0)
             }
         }
         if enable != false {
@@ -6341,14 +6341,14 @@ extension DescribeCapacityProvidersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviders = capacityProviders {
             var capacityProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviders)
-            for stringlist0 in capacityProviders {
-                try capacityProvidersContainer.encode(stringlist0)
+            for string0 in capacityProviders {
+                try capacityProvidersContainer.encode(string0)
             }
         }
         if let include = include {
             var includeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .include)
-            for capacityproviderfieldlist0 in include {
-                try includeContainer.encode(capacityproviderfieldlist0.rawValue)
+            for capacityproviderfield0 in include {
+                try includeContainer.encode(capacityproviderfield0.rawValue)
             }
         }
         if let maxResults = self.maxResults {
@@ -6551,14 +6551,14 @@ extension DescribeClustersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clusters = clusters {
             var clustersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clusters)
-            for stringlist0 in clusters {
-                try clustersContainer.encode(stringlist0)
+            for string0 in clusters {
+                try clustersContainer.encode(string0)
             }
         }
         if let include = include {
             var includeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .include)
-            for clusterfieldlist0 in include {
-                try includeContainer.encode(clusterfieldlist0.rawValue)
+            for clusterfield0 in include {
+                try includeContainer.encode(clusterfield0.rawValue)
             }
         }
     }
@@ -6733,14 +6733,14 @@ extension DescribeContainerInstancesInput: Swift.Encodable {
         }
         if let containerInstances = containerInstances {
             var containerInstancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerInstances)
-            for stringlist0 in containerInstances {
-                try containerInstancesContainer.encode(stringlist0)
+            for string0 in containerInstances {
+                try containerInstancesContainer.encode(string0)
             }
         }
         if let include = include {
             var includeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .include)
-            for containerinstancefieldlist0 in include {
-                try includeContainer.encode(containerinstancefieldlist0.rawValue)
+            for containerinstancefield0 in include {
+                try includeContainer.encode(containerinstancefield0.rawValue)
             }
         }
     }
@@ -6926,14 +6926,14 @@ extension DescribeServicesInput: Swift.Encodable {
         }
         if let include = include {
             var includeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .include)
-            for servicefieldlist0 in include {
-                try includeContainer.encode(servicefieldlist0.rawValue)
+            for servicefield0 in include {
+                try includeContainer.encode(servicefield0.rawValue)
             }
         }
         if let services = services {
             var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
-            for stringlist0 in services {
-                try servicesContainer.encode(stringlist0)
+            for string0 in services {
+                try servicesContainer.encode(string0)
             }
         }
     }
@@ -7115,8 +7115,8 @@ extension DescribeTaskDefinitionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let include = include {
             var includeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .include)
-            for taskdefinitionfieldlist0 in include {
-                try includeContainer.encode(taskdefinitionfieldlist0.rawValue)
+            for taskdefinitionfield0 in include {
+                try includeContainer.encode(taskdefinitionfield0.rawValue)
             }
         }
         if let taskDefinition = self.taskDefinition {
@@ -7292,8 +7292,8 @@ extension DescribeTaskSetsInput: Swift.Encodable {
         }
         if let include = include {
             var includeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .include)
-            for tasksetfieldlist0 in include {
-                try includeContainer.encode(tasksetfieldlist0.rawValue)
+            for tasksetfield0 in include {
+                try includeContainer.encode(tasksetfield0.rawValue)
             }
         }
         if let service = self.service {
@@ -7301,8 +7301,8 @@ extension DescribeTaskSetsInput: Swift.Encodable {
         }
         if let taskSets = taskSets {
             var taskSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taskSets)
-            for stringlist0 in taskSets {
-                try taskSetsContainer.encode(stringlist0)
+            for string0 in taskSets {
+                try taskSetsContainer.encode(string0)
             }
         }
     }
@@ -7505,14 +7505,14 @@ extension DescribeTasksInput: Swift.Encodable {
         }
         if let include = include {
             var includeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .include)
-            for taskfieldlist0 in include {
-                try includeContainer.encode(taskfieldlist0.rawValue)
+            for taskfield0 in include {
+                try includeContainer.encode(taskfield0.rawValue)
             }
         }
         if let tasks = tasks {
             var tasksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tasks)
-            for stringlist0 in tasks {
-                try tasksContainer.encode(stringlist0)
+            for string0 in tasks {
+                try tasksContainer.encode(string0)
             }
         }
     }
@@ -7736,8 +7736,8 @@ extension ECSClientTypes.Device: Swift.Codable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for devicecgrouppermissions0 in permissions {
-                try permissionsContainer.encode(devicecgrouppermissions0.rawValue)
+            for devicecgrouppermission0 in permissions {
+                try permissionsContainer.encode(devicecgrouppermission0.rawValue)
             }
         }
     }
@@ -7985,14 +7985,14 @@ extension ECSClientTypes.DockerVolumeConfiguration: Swift.Codable {
         }
         if let driverOpts = driverOpts {
             var driverOptsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .driverOpts)
-            for (dictKey0, stringmap0) in driverOpts {
-                try driverOptsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in driverOpts {
+                try driverOptsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .labels)
-            for (dictKey0, stringmap0) in labels {
-                try labelsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in labels {
+                try labelsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let scope = self.scope {
@@ -8928,8 +8928,8 @@ extension ECSClientTypes.FirelensConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let options = options {
             var optionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .options)
-            for (dictKey0, firelensconfigurationoptionsmap0) in options {
-                try optionsContainer.encode(firelensconfigurationoptionsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, firelensConfigurationOptionsMap0) in options {
+                try optionsContainer.encode(firelensConfigurationOptionsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -9021,8 +9021,8 @@ extension GetTaskProtectionInput: Swift.Encodable {
         }
         if let tasks = tasks {
             var tasksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tasks)
-            for stringlist0 in tasks {
-                try tasksContainer.encode(stringlist0)
+            for string0 in tasks {
+                try tasksContainer.encode(string0)
             }
         }
     }
@@ -9202,8 +9202,8 @@ extension ECSClientTypes.HealthCheck: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let interval = self.interval {
@@ -9739,14 +9739,14 @@ extension ECSClientTypes.KernelCapabilities: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let add = add {
             var addContainer = encodeContainer.nestedUnkeyedContainer(forKey: .add)
-            for stringlist0 in add {
-                try addContainer.encode(stringlist0)
+            for string0 in add {
+                try addContainer.encode(string0)
             }
         }
         if let drop = drop {
             var dropContainer = encodeContainer.nestedUnkeyedContainer(forKey: .drop)
-            for stringlist0 in drop {
-                try dropContainer.encode(stringlist0)
+            for string0 in drop {
+                try dropContainer.encode(string0)
             }
         }
     }
@@ -9948,8 +9948,8 @@ extension ECSClientTypes.LinuxParameters: Swift.Codable {
         }
         if let devices = devices {
             var devicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .devices)
-            for deviceslist0 in devices {
-                try devicesContainer.encode(deviceslist0)
+            for device0 in devices {
+                try devicesContainer.encode(device0)
             }
         }
         if let initProcessEnabled = self.initProcessEnabled {
@@ -9966,8 +9966,8 @@ extension ECSClientTypes.LinuxParameters: Swift.Codable {
         }
         if let tmpfs = tmpfs {
             var tmpfsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tmpfs)
-            for tmpfslist0 in tmpfs {
-                try tmpfsContainer.encode(tmpfslist0)
+            for tmpfs0 in tmpfs {
+                try tmpfsContainer.encode(tmpfs0)
             }
         }
     }
@@ -11893,14 +11893,14 @@ extension ECSClientTypes.LogConfiguration: Swift.Codable {
         }
         if let options = options {
             var optionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .options)
-            for (dictKey0, logconfigurationoptionsmap0) in options {
-                try optionsContainer.encode(logconfigurationoptionsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logConfigurationOptionsMap0) in options {
+                try optionsContainer.encode(logConfigurationOptionsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let secretOptions = secretOptions {
             var secretOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secretOptions)
-            for secretlist0 in secretOptions {
-                try secretOptionsContainer.encode(secretlist0)
+            for secret0 in secretOptions {
+                try secretOptionsContainer.encode(secret0)
             }
         }
     }
@@ -13421,8 +13421,8 @@ extension ECSClientTypes.ProxyConfiguration: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for proxyconfigurationproperties0 in properties {
-                try propertiesContainer.encode(proxyconfigurationproperties0)
+            for keyvaluepair0 in properties {
+                try propertiesContainer.encode(keyvaluepair0)
             }
         }
         if let type = self.type {
@@ -13796,8 +13796,8 @@ extension PutAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributes0 in attributes {
-                try attributesContainer.encode(attributes0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let cluster = self.cluster {
@@ -13947,8 +13947,8 @@ extension PutClusterCapacityProvidersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviders = capacityProviders {
             var capacityProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviders)
-            for stringlist0 in capacityProviders {
-                try capacityProvidersContainer.encode(stringlist0)
+            for string0 in capacityProviders {
+                try capacityProvidersContainer.encode(string0)
             }
         }
         if let cluster = self.cluster {
@@ -13956,8 +13956,8 @@ extension PutClusterCapacityProvidersInput: Swift.Encodable {
         }
         if let defaultCapacityProviderStrategy = defaultCapacityProviderStrategy {
             var defaultCapacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultCapacityProviderStrategy)
-            for capacityproviderstrategy0 in defaultCapacityProviderStrategy {
-                try defaultCapacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in defaultCapacityProviderStrategy {
+                try defaultCapacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
     }
@@ -14124,8 +14124,8 @@ extension RegisterContainerInstanceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributes0 in attributes {
-                try attributesContainer.encode(attributes0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let cluster = self.cluster {
@@ -14142,20 +14142,20 @@ extension RegisterContainerInstanceInput: Swift.Encodable {
         }
         if let platformDevices = platformDevices {
             var platformDevicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platformDevices)
-            for platformdevices0 in platformDevices {
-                try platformDevicesContainer.encode(platformdevices0)
+            for platformdevice0 in platformDevices {
+                try platformDevicesContainer.encode(platformdevice0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let totalResources = totalResources {
             var totalResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .totalResources)
-            for resources0 in totalResources {
-                try totalResourcesContainer.encode(resources0)
+            for resource0 in totalResources {
+                try totalResourcesContainer.encode(resource0)
             }
         }
         if let versionInfo = self.versionInfo {
@@ -14404,8 +14404,8 @@ extension RegisterTaskDefinitionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containerDefinitions = containerDefinitions {
             var containerDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerDefinitions)
-            for containerdefinitions0 in containerDefinitions {
-                try containerDefinitionsContainer.encode(containerdefinitions0)
+            for containerdefinition0 in containerDefinitions {
+                try containerDefinitionsContainer.encode(containerdefinition0)
             }
         }
         if let cpu = self.cpu {
@@ -14422,8 +14422,8 @@ extension RegisterTaskDefinitionInput: Swift.Encodable {
         }
         if let inferenceAccelerators = inferenceAccelerators {
             var inferenceAcceleratorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferenceAccelerators)
-            for inferenceaccelerators0 in inferenceAccelerators {
-                try inferenceAcceleratorsContainer.encode(inferenceaccelerators0)
+            for inferenceaccelerator0 in inferenceAccelerators {
+                try inferenceAcceleratorsContainer.encode(inferenceaccelerator0)
             }
         }
         if let ipcMode = self.ipcMode {
@@ -14440,8 +14440,8 @@ extension RegisterTaskDefinitionInput: Swift.Encodable {
         }
         if let placementConstraints = placementConstraints {
             var placementConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementConstraints)
-            for taskdefinitionplacementconstraints0 in placementConstraints {
-                try placementConstraintsContainer.encode(taskdefinitionplacementconstraints0)
+            for taskdefinitionplacementconstraint0 in placementConstraints {
+                try placementConstraintsContainer.encode(taskdefinitionplacementconstraint0)
             }
         }
         if let proxyConfiguration = self.proxyConfiguration {
@@ -14449,8 +14449,8 @@ extension RegisterTaskDefinitionInput: Swift.Encodable {
         }
         if let requiresCompatibilities = requiresCompatibilities {
             var requiresCompatibilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiresCompatibilities)
-            for compatibilitylist0 in requiresCompatibilities {
-                try requiresCompatibilitiesContainer.encode(compatibilitylist0.rawValue)
+            for compatibility0 in requiresCompatibilities {
+                try requiresCompatibilitiesContainer.encode(compatibility0.rawValue)
             }
         }
         if let runtimePlatform = self.runtimePlatform {
@@ -14458,8 +14458,8 @@ extension RegisterTaskDefinitionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskRoleArn = self.taskRoleArn {
@@ -14467,8 +14467,8 @@ extension RegisterTaskDefinitionInput: Swift.Encodable {
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
-            for volumelist0 in volumes {
-                try volumesContainer.encode(volumelist0)
+            for volume0 in volumes {
+                try volumesContainer.encode(volume0)
             }
         }
     }
@@ -14891,8 +14891,8 @@ extension ECSClientTypes.Resource: Swift.Codable {
         }
         if let stringSetValue = stringSetValue {
             var stringSetValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringSetValue)
-            for stringlist0 in stringSetValue {
-                try stringSetValueContainer.encode(stringlist0)
+            for string0 in stringSetValue {
+                try stringSetValueContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -15170,8 +15170,8 @@ extension RunTaskInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviderStrategy = capacityProviderStrategy {
             var capacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviderStrategy)
-            for capacityproviderstrategy0 in capacityProviderStrategy {
-                try capacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in capacityProviderStrategy {
+                try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if let cluster = self.cluster {
@@ -15200,14 +15200,14 @@ extension RunTaskInput: Swift.Encodable {
         }
         if let placementConstraints = placementConstraints {
             var placementConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementConstraints)
-            for placementconstraints0 in placementConstraints {
-                try placementConstraintsContainer.encode(placementconstraints0)
+            for placementconstraint0 in placementConstraints {
+                try placementConstraintsContainer.encode(placementconstraint0)
             }
         }
         if let placementStrategy = placementStrategy {
             var placementStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementStrategy)
-            for placementstrategies0 in placementStrategy {
-                try placementStrategyContainer.encode(placementstrategies0)
+            for placementstrategy0 in placementStrategy {
+                try placementStrategyContainer.encode(placementstrategy0)
             }
         }
         if let platformVersion = self.platformVersion {
@@ -15224,8 +15224,8 @@ extension RunTaskInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskDefinition = self.taskDefinition {
@@ -15882,8 +15882,8 @@ extension ECSClientTypes.Service: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviderStrategy = capacityProviderStrategy {
             var capacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviderStrategy)
-            for capacityproviderstrategy0 in capacityProviderStrategy {
-                try capacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in capacityProviderStrategy {
+                try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if let clusterArn = self.clusterArn {
@@ -15903,8 +15903,8 @@ extension ECSClientTypes.Service: Swift.Codable {
         }
         if let deployments = deployments {
             var deploymentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deployments)
-            for deployments0 in deployments {
-                try deploymentsContainer.encode(deployments0)
+            for deployment0 in deployments {
+                try deploymentsContainer.encode(deployment0)
             }
         }
         if desiredCount != 0 {
@@ -15918,8 +15918,8 @@ extension ECSClientTypes.Service: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for serviceevents0 in events {
-                try eventsContainer.encode(serviceevents0)
+            for serviceevent0 in events {
+                try eventsContainer.encode(serviceevent0)
             }
         }
         if let healthCheckGracePeriodSeconds = self.healthCheckGracePeriodSeconds {
@@ -15930,8 +15930,8 @@ extension ECSClientTypes.Service: Swift.Codable {
         }
         if let loadBalancers = loadBalancers {
             var loadBalancersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loadBalancers)
-            for loadbalancers0 in loadBalancers {
-                try loadBalancersContainer.encode(loadbalancers0)
+            for loadbalancer0 in loadBalancers {
+                try loadBalancersContainer.encode(loadbalancer0)
             }
         }
         if let networkConfiguration = self.networkConfiguration {
@@ -15942,14 +15942,14 @@ extension ECSClientTypes.Service: Swift.Codable {
         }
         if let placementConstraints = placementConstraints {
             var placementConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementConstraints)
-            for placementconstraints0 in placementConstraints {
-                try placementConstraintsContainer.encode(placementconstraints0)
+            for placementconstraint0 in placementConstraints {
+                try placementConstraintsContainer.encode(placementconstraint0)
             }
         }
         if let placementStrategy = placementStrategy {
             var placementStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementStrategy)
-            for placementstrategies0 in placementStrategy {
-                try placementStrategyContainer.encode(placementstrategies0)
+            for placementstrategy0 in placementStrategy {
+                try placementStrategyContainer.encode(placementstrategy0)
             }
         }
         if let platformFamily = self.platformFamily {
@@ -15978,8 +15978,8 @@ extension ECSClientTypes.Service: Swift.Codable {
         }
         if let serviceRegistries = serviceRegistries {
             var serviceRegistriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceRegistries)
-            for serviceregistries0 in serviceRegistries {
-                try serviceRegistriesContainer.encode(serviceregistries0)
+            for serviceregistry0 in serviceRegistries {
+                try serviceRegistriesContainer.encode(serviceregistry0)
             }
         }
         if let status = self.status {
@@ -15987,8 +15987,8 @@ extension ECSClientTypes.Service: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskDefinition = self.taskDefinition {
@@ -15996,8 +15996,8 @@ extension ECSClientTypes.Service: Swift.Codable {
         }
         if let taskSets = taskSets {
             var taskSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taskSets)
-            for tasksets0 in taskSets {
-                try taskSetsContainer.encode(tasksets0)
+            for taskset0 in taskSets {
+                try taskSetsContainer.encode(taskset0)
             }
         }
     }
@@ -16371,8 +16371,8 @@ extension ECSClientTypes.ServiceConnectConfiguration: Swift.Codable {
         }
         if let services = services {
             var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
-            for serviceconnectservicelist0 in services {
-                try servicesContainer.encode(serviceconnectservicelist0)
+            for serviceconnectservice0 in services {
+                try servicesContainer.encode(serviceconnectservice0)
             }
         }
     }
@@ -16448,8 +16448,8 @@ extension ECSClientTypes.ServiceConnectService: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientAliases = clientAliases {
             var clientAliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientAliases)
-            for serviceconnectclientaliaslist0 in clientAliases {
-                try clientAliasesContainer.encode(serviceconnectclientaliaslist0)
+            for serviceconnectclientalias0 in clientAliases {
+                try clientAliasesContainer.encode(serviceconnectclientalias0)
             }
         }
         if let discoveryName = self.discoveryName {
@@ -17055,8 +17055,8 @@ extension StartTaskInput: Swift.Encodable {
         }
         if let containerInstances = containerInstances {
             var containerInstancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerInstances)
-            for stringlist0 in containerInstances {
-                try containerInstancesContainer.encode(stringlist0)
+            for string0 in containerInstances {
+                try containerInstancesContainer.encode(string0)
             }
         }
         if enableECSManagedTags != false {
@@ -17085,8 +17085,8 @@ extension StartTaskInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskDefinition = self.taskDefinition {
@@ -17499,8 +17499,8 @@ extension SubmitAttachmentStateChangesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachments = attachments {
             var attachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachments)
-            for attachmentstatechanges0 in attachments {
-                try attachmentsContainer.encode(attachmentstatechanges0)
+            for attachmentstatechange0 in attachments {
+                try attachmentsContainer.encode(attachmentstatechange0)
             }
         }
         if let cluster = self.cluster {
@@ -17655,8 +17655,8 @@ extension SubmitContainerStateChangeInput: Swift.Encodable {
         }
         if let networkBindings = networkBindings {
             var networkBindingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkBindings)
-            for networkbindings0 in networkBindings {
-                try networkBindingsContainer.encode(networkbindings0)
+            for networkbinding0 in networkBindings {
+                try networkBindingsContainer.encode(networkbinding0)
             }
         }
         if let reason = self.reason {
@@ -17858,8 +17858,8 @@ extension SubmitTaskStateChangeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachments = attachments {
             var attachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachments)
-            for attachmentstatechanges0 in attachments {
-                try attachmentsContainer.encode(attachmentstatechanges0)
+            for attachmentstatechange0 in attachments {
+                try attachmentsContainer.encode(attachmentstatechange0)
             }
         }
         if let cluster = self.cluster {
@@ -17867,8 +17867,8 @@ extension SubmitTaskStateChangeInput: Swift.Encodable {
         }
         if let containers = containers {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
-            for containerstatechanges0 in containers {
-                try containersContainer.encode(containerstatechanges0)
+            for containerstatechange0 in containers {
+                try containersContainer.encode(containerstatechange0)
             }
         }
         if let executionStoppedAt = self.executionStoppedAt {
@@ -17876,8 +17876,8 @@ extension SubmitTaskStateChangeInput: Swift.Encodable {
         }
         if let managedAgents = managedAgents {
             var managedAgentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedAgents)
-            for managedagentstatechanges0 in managedAgents {
-                try managedAgentsContainer.encode(managedagentstatechanges0)
+            for managedagentstatechange0 in managedAgents {
+                try managedAgentsContainer.encode(managedagentstatechange0)
             }
         }
         if let pullStartedAt = self.pullStartedAt {
@@ -18221,8 +18221,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -18521,14 +18521,14 @@ extension ECSClientTypes.Task: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachments = attachments {
             var attachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachments)
-            for attachments0 in attachments {
-                try attachmentsContainer.encode(attachments0)
+            for attachment0 in attachments {
+                try attachmentsContainer.encode(attachment0)
             }
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributes0 in attributes {
-                try attributesContainer.encode(attributes0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let availabilityZone = self.availabilityZone {
@@ -18551,8 +18551,8 @@ extension ECSClientTypes.Task: Swift.Codable {
         }
         if let containers = containers {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
-            for containers0 in containers {
-                try containersContainer.encode(containers0)
+            for container0 in containers {
+                try containersContainer.encode(container0)
             }
         }
         if let cpu = self.cpu {
@@ -18581,8 +18581,8 @@ extension ECSClientTypes.Task: Swift.Codable {
         }
         if let inferenceAccelerators = inferenceAccelerators {
             var inferenceAcceleratorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferenceAccelerators)
-            for inferenceaccelerators0 in inferenceAccelerators {
-                try inferenceAcceleratorsContainer.encode(inferenceaccelerators0)
+            for inferenceaccelerator0 in inferenceAccelerators {
+                try inferenceAcceleratorsContainer.encode(inferenceaccelerator0)
             }
         }
         if let lastStatus = self.lastStatus {
@@ -18629,8 +18629,8 @@ extension ECSClientTypes.Task: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskArn = self.taskArn {
@@ -19008,14 +19008,14 @@ extension ECSClientTypes.TaskDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let compatibilities = compatibilities {
             var compatibilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compatibilities)
-            for compatibilitylist0 in compatibilities {
-                try compatibilitiesContainer.encode(compatibilitylist0.rawValue)
+            for compatibility0 in compatibilities {
+                try compatibilitiesContainer.encode(compatibility0.rawValue)
             }
         }
         if let containerDefinitions = containerDefinitions {
             var containerDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerDefinitions)
-            for containerdefinitions0 in containerDefinitions {
-                try containerDefinitionsContainer.encode(containerdefinitions0)
+            for containerdefinition0 in containerDefinitions {
+                try containerDefinitionsContainer.encode(containerdefinition0)
             }
         }
         if let cpu = self.cpu {
@@ -19035,8 +19035,8 @@ extension ECSClientTypes.TaskDefinition: Swift.Codable {
         }
         if let inferenceAccelerators = inferenceAccelerators {
             var inferenceAcceleratorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferenceAccelerators)
-            for inferenceaccelerators0 in inferenceAccelerators {
-                try inferenceAcceleratorsContainer.encode(inferenceaccelerators0)
+            for inferenceaccelerator0 in inferenceAccelerators {
+                try inferenceAcceleratorsContainer.encode(inferenceaccelerator0)
             }
         }
         if let ipcMode = self.ipcMode {
@@ -19053,8 +19053,8 @@ extension ECSClientTypes.TaskDefinition: Swift.Codable {
         }
         if let placementConstraints = placementConstraints {
             var placementConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementConstraints)
-            for taskdefinitionplacementconstraints0 in placementConstraints {
-                try placementConstraintsContainer.encode(taskdefinitionplacementconstraints0)
+            for taskdefinitionplacementconstraint0 in placementConstraints {
+                try placementConstraintsContainer.encode(taskdefinitionplacementconstraint0)
             }
         }
         if let proxyConfiguration = self.proxyConfiguration {
@@ -19068,14 +19068,14 @@ extension ECSClientTypes.TaskDefinition: Swift.Codable {
         }
         if let requiresAttributes = requiresAttributes {
             var requiresAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiresAttributes)
-            for requiresattributes0 in requiresAttributes {
-                try requiresAttributesContainer.encode(requiresattributes0)
+            for attribute0 in requiresAttributes {
+                try requiresAttributesContainer.encode(attribute0)
             }
         }
         if let requiresCompatibilities = requiresCompatibilities {
             var requiresCompatibilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiresCompatibilities)
-            for compatibilitylist0 in requiresCompatibilities {
-                try requiresCompatibilitiesContainer.encode(compatibilitylist0.rawValue)
+            for compatibility0 in requiresCompatibilities {
+                try requiresCompatibilitiesContainer.encode(compatibility0.rawValue)
             }
         }
         if revision != 0 {
@@ -19095,8 +19095,8 @@ extension ECSClientTypes.TaskDefinition: Swift.Codable {
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
-            for volumelist0 in volumes {
-                try volumesContainer.encode(volumelist0)
+            for volume0 in volumes {
+                try volumesContainer.encode(volume0)
             }
         }
     }
@@ -19574,8 +19574,8 @@ extension ECSClientTypes.TaskOverride: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containerOverrides = containerOverrides {
             var containerOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerOverrides)
-            for containeroverrides0 in containerOverrides {
-                try containerOverridesContainer.encode(containeroverrides0)
+            for containeroverride0 in containerOverrides {
+                try containerOverridesContainer.encode(containeroverride0)
             }
         }
         if let cpu = self.cpu {
@@ -19589,8 +19589,8 @@ extension ECSClientTypes.TaskOverride: Swift.Codable {
         }
         if let inferenceAcceleratorOverrides = inferenceAcceleratorOverrides {
             var inferenceAcceleratorOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferenceAcceleratorOverrides)
-            for inferenceacceleratoroverrides0 in inferenceAcceleratorOverrides {
-                try inferenceAcceleratorOverridesContainer.encode(inferenceacceleratoroverrides0)
+            for inferenceacceleratoroverride0 in inferenceAcceleratorOverrides {
+                try inferenceAcceleratorOverridesContainer.encode(inferenceacceleratoroverride0)
             }
         }
         if let memory = self.memory {
@@ -19714,8 +19714,8 @@ extension ECSClientTypes.TaskSet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviderStrategy = capacityProviderStrategy {
             var capacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviderStrategy)
-            for capacityproviderstrategy0 in capacityProviderStrategy {
-                try capacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in capacityProviderStrategy {
+                try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if let clusterArn = self.clusterArn {
@@ -19738,8 +19738,8 @@ extension ECSClientTypes.TaskSet: Swift.Codable {
         }
         if let loadBalancers = loadBalancers {
             var loadBalancersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loadBalancers)
-            for loadbalancers0 in loadBalancers {
-                try loadBalancersContainer.encode(loadbalancers0)
+            for loadbalancer0 in loadBalancers {
+                try loadBalancersContainer.encode(loadbalancer0)
             }
         }
         if let networkConfiguration = self.networkConfiguration {
@@ -19765,8 +19765,8 @@ extension ECSClientTypes.TaskSet: Swift.Codable {
         }
         if let serviceRegistries = serviceRegistries {
             var serviceRegistriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceRegistries)
-            for serviceregistries0 in serviceRegistries {
-                try serviceRegistriesContainer.encode(serviceregistries0)
+            for serviceregistry0 in serviceRegistries {
+                try serviceRegistriesContainer.encode(serviceregistry0)
             }
         }
         if let stabilityStatus = self.stabilityStatus {
@@ -19783,8 +19783,8 @@ extension ECSClientTypes.TaskSet: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskDefinition = self.taskDefinition {
@@ -20159,8 +20159,8 @@ extension ECSClientTypes.Tmpfs: Swift.Codable {
         }
         if let mountOptions = mountOptions {
             var mountOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mountOptions)
-            for stringlist0 in mountOptions {
-                try mountOptionsContainer.encode(stringlist0)
+            for string0 in mountOptions {
+                try mountOptionsContainer.encode(string0)
             }
         }
         if size != 0 {
@@ -20440,8 +20440,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -20689,8 +20689,8 @@ extension UpdateClusterInput: Swift.Encodable {
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
-            for clustersettings0 in settings {
-                try settingsContainer.encode(clustersettings0)
+            for clustersetting0 in settings {
+                try settingsContainer.encode(clustersetting0)
             }
         }
     }
@@ -20846,8 +20846,8 @@ extension UpdateClusterSettingsInput: Swift.Encodable {
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
-            for clustersettings0 in settings {
-                try settingsContainer.encode(clustersettings0)
+            for clustersetting0 in settings {
+                try settingsContainer.encode(clustersetting0)
             }
         }
     }
@@ -21124,8 +21124,8 @@ extension UpdateContainerInstancesStateInput: Swift.Encodable {
         }
         if let containerInstances = containerInstances {
             var containerInstancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerInstances)
-            for stringlist0 in containerInstances {
-                try containerInstancesContainer.encode(stringlist0)
+            for string0 in containerInstances {
+                try containerInstancesContainer.encode(string0)
             }
         }
         if let status = self.status {
@@ -21370,8 +21370,8 @@ extension UpdateServiceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviderStrategy = capacityProviderStrategy {
             var capacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviderStrategy)
-            for capacityproviderstrategy0 in capacityProviderStrategy {
-                try capacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in capacityProviderStrategy {
+                try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if let cluster = self.cluster {
@@ -21397,8 +21397,8 @@ extension UpdateServiceInput: Swift.Encodable {
         }
         if let loadBalancers = loadBalancers {
             var loadBalancersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loadBalancers)
-            for loadbalancers0 in loadBalancers {
-                try loadBalancersContainer.encode(loadbalancers0)
+            for loadbalancer0 in loadBalancers {
+                try loadBalancersContainer.encode(loadbalancer0)
             }
         }
         if let networkConfiguration = self.networkConfiguration {
@@ -21406,14 +21406,14 @@ extension UpdateServiceInput: Swift.Encodable {
         }
         if let placementConstraints = placementConstraints {
             var placementConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementConstraints)
-            for placementconstraints0 in placementConstraints {
-                try placementConstraintsContainer.encode(placementconstraints0)
+            for placementconstraint0 in placementConstraints {
+                try placementConstraintsContainer.encode(placementconstraint0)
             }
         }
         if let placementStrategy = placementStrategy {
             var placementStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementStrategy)
-            for placementstrategies0 in placementStrategy {
-                try placementStrategyContainer.encode(placementstrategies0)
+            for placementstrategy0 in placementStrategy {
+                try placementStrategyContainer.encode(placementstrategy0)
             }
         }
         if let platformVersion = self.platformVersion {
@@ -21430,8 +21430,8 @@ extension UpdateServiceInput: Swift.Encodable {
         }
         if let serviceRegistries = serviceRegistries {
             var serviceRegistriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceRegistries)
-            for serviceregistries0 in serviceRegistries {
-                try serviceRegistriesContainer.encode(serviceregistries0)
+            for serviceregistry0 in serviceRegistries {
+                try serviceRegistriesContainer.encode(serviceregistry0)
             }
         }
         if let taskDefinition = self.taskDefinition {
@@ -21911,8 +21911,8 @@ extension UpdateTaskProtectionInput: Swift.Encodable {
         }
         if let tasks = tasks {
             var tasksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tasks)
-            for stringlist0 in tasks {
-                try tasksContainer.encode(stringlist0)
+            for string0 in tasks {
+                try tasksContainer.encode(string0)
             }
         }
     }

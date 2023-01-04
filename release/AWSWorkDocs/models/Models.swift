@@ -483,8 +483,8 @@ extension AddResourcePermissionsInput: Swift.Encodable {
         }
         if let principals = principals {
             var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
-            for shareprincipallist0 in principals {
-                try principalsContainer.encode(shareprincipallist0)
+            for shareprincipal0 in principals {
+                try principalsContainer.encode(shareprincipal0)
             }
         }
     }
@@ -1265,8 +1265,8 @@ extension CreateCustomMetadataInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customMetadata = customMetadata {
             var customMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customMetadata)
-            for (dictKey0, custommetadatamap0) in customMetadata {
-                try customMetadataContainer.encode(custommetadatamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customMetadataMap0) in customMetadata {
+                try customMetadataContainer.encode(customMetadataMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1573,8 +1573,8 @@ extension CreateLabelsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for sharedlabels0 in labels {
-                try labelsContainer.encode(sharedlabels0)
+            for sharedlabel0 in labels {
+                try labelsContainer.encode(sharedlabel0)
             }
         }
     }
@@ -4953,8 +4953,8 @@ extension WorkDocsClientTypes.DocumentMetadata: Swift.Codable {
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for sharedlabels0 in labels {
-                try labelsContainer.encode(sharedlabels0)
+            for sharedlabel0 in labels {
+                try labelsContainer.encode(sharedlabel0)
             }
         }
         if let latestVersionMetadata = self.latestVersionMetadata {
@@ -5195,8 +5195,8 @@ extension WorkDocsClientTypes.DocumentVersionMetadata: Swift.Codable {
         }
         if let source = source {
             var sourceContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .source)
-            for (dictKey0, documentsourceurlmap0) in source {
-                try sourceContainer.encode(documentsourceurlmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, documentSourceUrlMap0) in source {
+                try sourceContainer.encode(documentSourceUrlMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let status = self.status {
@@ -5204,8 +5204,8 @@ extension WorkDocsClientTypes.DocumentVersionMetadata: Swift.Codable {
         }
         if let thumbnail = thumbnail {
             var thumbnailContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .thumbnail)
-            for (dictKey0, documentthumbnailurlmap0) in thumbnail {
-                try thumbnailContainer.encode(documentthumbnailurlmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, documentThumbnailUrlMap0) in thumbnail {
+                try thumbnailContainer.encode(documentThumbnailUrlMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5642,8 +5642,8 @@ extension WorkDocsClientTypes.FolderMetadata: Swift.Codable {
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for sharedlabels0 in labels {
-                try labelsContainer.encode(sharedlabels0)
+            for sharedlabel0 in labels {
+                try labelsContainer.encode(sharedlabel0)
             }
         }
         if let latestVersionSize = self.latestVersionSize {
@@ -7617,14 +7617,14 @@ extension WorkDocsClientTypes.Participants: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for groupmetadatalist0 in groups {
-                try groupsContainer.encode(groupmetadatalist0)
+            for groupmetadata0 in groups {
+                try groupsContainer.encode(groupmetadata0)
             }
         }
         if let users = users {
             var usersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .users)
-            for usermetadatalist0 in users {
-                try usersContainer.encode(usermetadatalist0)
+            for usermetadata0 in users {
+                try usersContainer.encode(usermetadata0)
             }
         }
     }
@@ -7735,8 +7735,8 @@ extension WorkDocsClientTypes.Principal: Swift.Codable {
         }
         if let roles = roles {
             var rolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roles)
-            for permissioninfolist0 in roles {
-                try rolesContainer.encode(permissioninfolist0)
+            for permissioninfo0 in roles {
+                try rolesContainer.encode(permissioninfo0)
             }
         }
         if let type = self.type {
@@ -8319,8 +8319,8 @@ extension WorkDocsClientTypes.ResourcePath: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let components = components {
             var componentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .components)
-            for resourcepathcomponentlist0 in components {
-                try componentsContainer.encode(resourcepathcomponentlist0)
+            for resourcepathcomponent0 in components {
+                try componentsContainer.encode(resourcepathcomponent0)
             }
         }
     }
@@ -10075,8 +10075,8 @@ extension WorkDocsClientTypes.UploadMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let signedHeaders = signedHeaders {
             var signedHeadersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .signedHeaders)
-            for (dictKey0, signedheadermap0) in signedHeaders {
-                try signedHeadersContainer.encode(signedheadermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, signedHeaderMap0) in signedHeaders {
+                try signedHeadersContainer.encode(signedHeaderMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let uploadUrl = self.uploadUrl {

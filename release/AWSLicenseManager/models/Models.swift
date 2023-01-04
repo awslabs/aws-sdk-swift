@@ -498,8 +498,8 @@ extension CheckoutBorrowLicenseInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let checkoutMetadata = checkoutMetadata {
             var checkoutMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkoutMetadata)
-            for metadatalist0 in checkoutMetadata {
-                try checkoutMetadataContainer.encode(metadatalist0)
+            for metadata0 in checkoutMetadata {
+                try checkoutMetadataContainer.encode(metadata0)
             }
         }
         if let clientToken = self.clientToken {
@@ -510,8 +510,8 @@ extension CheckoutBorrowLicenseInput: Swift.Encodable {
         }
         if let entitlements = entitlements {
             var entitlementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlements)
-            for entitlementdatalist0 in entitlements {
-                try entitlementsContainer.encode(entitlementdatalist0)
+            for entitlementdata0 in entitlements {
+                try entitlementsContainer.encode(entitlementdata0)
             }
         }
         if let licenseArn = self.licenseArn {
@@ -814,8 +814,8 @@ extension CheckoutLicenseInput: Swift.Encodable {
         }
         if let entitlements = entitlements {
             var entitlementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlements)
-            for entitlementdatalist0 in entitlements {
-                try entitlementsContainer.encode(entitlementdatalist0)
+            for entitlementdata0 in entitlements {
+                try entitlementsContainer.encode(entitlementdata0)
             }
         }
         if let keyFingerprint = self.keyFingerprint {
@@ -1284,8 +1284,8 @@ extension CreateGrantInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedOperations = allowedOperations {
             var allowedOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOperations)
-            for allowedoperationlist0 in allowedOperations {
-                try allowedOperationsContainer.encode(allowedoperationlist0.rawValue)
+            for allowedoperation0 in allowedOperations {
+                try allowedOperationsContainer.encode(allowedoperation0.rawValue)
             }
         }
         if let clientToken = self.clientToken {
@@ -1302,8 +1302,8 @@ extension CreateGrantInput: Swift.Encodable {
         }
         if let principals = principals {
             var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
-            for principalarnlist0 in principals {
-                try principalsContainer.encode(principalarnlist0)
+            for arn0 in principals {
+                try principalsContainer.encode(arn0)
             }
         }
     }
@@ -1517,8 +1517,8 @@ extension CreateGrantVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedOperations = allowedOperations {
             var allowedOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOperations)
-            for allowedoperationlist0 in allowedOperations {
-                try allowedOperationsContainer.encode(allowedoperationlist0.rawValue)
+            for allowedoperation0 in allowedOperations {
+                try allowedOperationsContainer.encode(allowedoperation0.rawValue)
             }
         }
         if let clientToken = self.clientToken {
@@ -1762,8 +1762,8 @@ extension CreateLicenseConfigurationInput: Swift.Encodable {
         }
         if let licenseRules = licenseRules {
             var licenseRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseRules)
-            for stringlist0 in licenseRules {
-                try licenseRulesContainer.encode(stringlist0)
+            for string0 in licenseRules {
+                try licenseRulesContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -1771,14 +1771,14 @@ extension CreateLicenseConfigurationInput: Swift.Encodable {
         }
         if let productInformationList = productInformationList {
             var productInformationListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productInformationList)
-            for productinformationlist0 in productInformationList {
-                try productInformationListContainer.encode(productinformationlist0)
+            for productinformation0 in productInformationList {
+                try productInformationListContainer.encode(productinformation0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2170,8 +2170,8 @@ extension CreateLicenseInput: Swift.Encodable {
         }
         if let entitlements = entitlements {
             var entitlementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlements)
-            for entitlementlist0 in entitlements {
-                try entitlementsContainer.encode(entitlementlist0)
+            for entitlement0 in entitlements {
+                try entitlementsContainer.encode(entitlement0)
             }
         }
         if let homeRegion = self.homeRegion {
@@ -2182,8 +2182,8 @@ extension CreateLicenseInput: Swift.Encodable {
         }
         if let licenseMetadata = licenseMetadata {
             var licenseMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseMetadata)
-            for metadatalist0 in licenseMetadata {
-                try licenseMetadataContainer.encode(metadatalist0)
+            for metadata0 in licenseMetadata {
+                try licenseMetadataContainer.encode(metadata0)
             }
         }
         if let licenseName = self.licenseName {
@@ -2373,14 +2373,14 @@ extension CreateLicenseManagerReportGeneratorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = type {
             var typeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .type)
-            for reporttypelist0 in type {
-                try typeContainer.encode(reporttypelist0.rawValue)
+            for reporttype0 in type {
+                try typeContainer.encode(reporttype0.rawValue)
             }
         }
     }
@@ -2693,8 +2693,8 @@ extension CreateLicenseVersionInput: Swift.Encodable {
         }
         if let entitlements = entitlements {
             var entitlementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlements)
-            for entitlementlist0 in entitlements {
-                try entitlementsContainer.encode(entitlementlist0)
+            for entitlement0 in entitlements {
+                try entitlementsContainer.encode(entitlement0)
             }
         }
         if let homeRegion = self.homeRegion {
@@ -2708,8 +2708,8 @@ extension CreateLicenseVersionInput: Swift.Encodable {
         }
         if let licenseMetadata = licenseMetadata {
             var licenseMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseMetadata)
-            for metadatalist0 in licenseMetadata {
-                try licenseMetadataContainer.encode(metadatalist0)
+            for metadata0 in licenseMetadata {
+                try licenseMetadataContainer.encode(metadata0)
             }
         }
         if let licenseName = self.licenseName {
@@ -2999,14 +2999,14 @@ extension CreateTokenInput: Swift.Encodable {
         }
         if let roleArns = roleArns {
             var roleArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roleArns)
-            for arnlist0 in roleArns {
-                try roleArnsContainer.encode(arnlist0)
+            for arn0 in roleArns {
+                try roleArnsContainer.encode(arn0)
             }
         }
         if let tokenProperties = tokenProperties {
             var tokenPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenProperties)
-            for maxsize3stringlist0 in tokenProperties {
-                try tokenPropertiesContainer.encode(maxsize3stringlist0)
+            for string0 in tokenProperties {
+                try tokenPropertiesContainer.encode(string0)
             }
         }
     }
@@ -4557,8 +4557,8 @@ extension LicenseManagerClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -4666,8 +4666,8 @@ extension GetAccessTokenInput: Swift.Encodable {
         }
         if let tokenProperties = tokenProperties {
             var tokenPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenProperties)
-            for maxsize3stringlist0 in tokenProperties {
-                try tokenPropertiesContainer.encode(maxsize3stringlist0)
+            for string0 in tokenProperties {
+                try tokenPropertiesContainer.encode(string0)
             }
         }
     }
@@ -5997,8 +5997,8 @@ extension LicenseManagerClientTypes.Grant: Swift.Codable {
         }
         if let grantedOperations = grantedOperations {
             var grantedOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantedOperations)
-            for allowedoperationlist0 in grantedOperations {
-                try grantedOperationsContainer.encode(allowedoperationlist0.rawValue)
+            for allowedoperation0 in grantedOperations {
+                try grantedOperationsContainer.encode(allowedoperation0.rawValue)
             }
         }
         if let granteePrincipalArn = self.granteePrincipalArn {
@@ -6201,8 +6201,8 @@ extension LicenseManagerClientTypes.GrantedLicense: Swift.Codable {
         }
         if let entitlements = entitlements {
             var entitlementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlements)
-            for entitlementlist0 in entitlements {
-                try entitlementsContainer.encode(entitlementlist0)
+            for entitlement0 in entitlements {
+                try entitlementsContainer.encode(entitlement0)
             }
         }
         if let homeRegion = self.homeRegion {
@@ -6216,8 +6216,8 @@ extension LicenseManagerClientTypes.GrantedLicense: Swift.Codable {
         }
         if let licenseMetadata = licenseMetadata {
             var licenseMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseMetadata)
-            for metadatalist0 in licenseMetadata {
-                try licenseMetadataContainer.encode(metadatalist0)
+            for metadata0 in licenseMetadata {
+                try licenseMetadataContainer.encode(metadata0)
             }
         }
         if let licenseName = self.licenseName {
@@ -6699,8 +6699,8 @@ extension LicenseManagerClientTypes.License: Swift.Codable {
         }
         if let entitlements = entitlements {
             var entitlementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlements)
-            for entitlementlist0 in entitlements {
-                try entitlementsContainer.encode(entitlementlist0)
+            for entitlement0 in entitlements {
+                try entitlementsContainer.encode(entitlement0)
             }
         }
         if let homeRegion = self.homeRegion {
@@ -6714,8 +6714,8 @@ extension LicenseManagerClientTypes.License: Swift.Codable {
         }
         if let licenseMetadata = licenseMetadata {
             var licenseMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseMetadata)
-            for metadatalist0 in licenseMetadata {
-                try licenseMetadataContainer.encode(metadatalist0)
+            for metadata0 in licenseMetadata {
+                try licenseMetadataContainer.encode(metadata0)
             }
         }
         if let licenseName = self.licenseName {
@@ -6884,8 +6884,8 @@ extension LicenseManagerClientTypes.LicenseConfiguration: Swift.Codable {
         }
         if let consumedLicenseSummaryList = consumedLicenseSummaryList {
             var consumedLicenseSummaryListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .consumedLicenseSummaryList)
-            for consumedlicensesummarylist0 in consumedLicenseSummaryList {
-                try consumedLicenseSummaryListContainer.encode(consumedlicensesummarylist0)
+            for consumedlicensesummary0 in consumedLicenseSummaryList {
+                try consumedLicenseSummaryListContainer.encode(consumedlicensesummary0)
             }
         }
         if let consumedLicenses = self.consumedLicenses {
@@ -6914,14 +6914,14 @@ extension LicenseManagerClientTypes.LicenseConfiguration: Swift.Codable {
         }
         if let licenseRules = licenseRules {
             var licenseRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseRules)
-            for stringlist0 in licenseRules {
-                try licenseRulesContainer.encode(stringlist0)
+            for string0 in licenseRules {
+                try licenseRulesContainer.encode(string0)
             }
         }
         if let managedResourceSummaryList = managedResourceSummaryList {
             var managedResourceSummaryListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedResourceSummaryList)
-            for managedresourcesummarylist0 in managedResourceSummaryList {
-                try managedResourceSummaryListContainer.encode(managedresourcesummarylist0)
+            for managedresourcesummary0 in managedResourceSummaryList {
+                try managedResourceSummaryListContainer.encode(managedresourcesummary0)
             }
         }
         if let name = self.name {
@@ -6932,8 +6932,8 @@ extension LicenseManagerClientTypes.LicenseConfiguration: Swift.Codable {
         }
         if let productInformationList = productInformationList {
             var productInformationListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productInformationList)
-            for productinformationlist0 in productInformationList {
-                try productInformationListContainer.encode(productinformationlist0)
+            for productinformation0 in productInformationList {
+                try productInformationListContainer.encode(productinformation0)
             }
         }
         if let status = self.status {
@@ -7559,8 +7559,8 @@ extension LicenseManagerClientTypes.LicenseOperationFailure: Swift.Codable {
         }
         if let metadataList = metadataList {
             var metadataListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadataList)
-            for metadatalist0 in metadataList {
-                try metadataListContainer.encode(metadatalist0)
+            for metadata0 in metadataList {
+                try metadataListContainer.encode(metadata0)
             }
         }
         if let operationName = self.operationName {
@@ -7756,8 +7756,8 @@ extension LicenseManagerClientTypes.LicenseUsage: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entitlementUsages = entitlementUsages {
             var entitlementUsagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlementUsages)
-            for entitlementusagelist0 in entitlementUsages {
-                try entitlementUsagesContainer.encode(entitlementusagelist0)
+            for entitlementusage0 in entitlementUsages {
+                try entitlementUsagesContainer.encode(entitlementusage0)
             }
         }
     }
@@ -8022,14 +8022,14 @@ extension ListDistributedGrantsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let grantArns = grantArns {
             var grantArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantArns)
-            for arnlist0 in grantArns {
-                try grantArnsContainer.encode(arnlist0)
+            for arn0 in grantArns {
+                try grantArnsContainer.encode(arn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8395,14 +8395,14 @@ extension ListLicenseConfigurationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let licenseConfigurationArns = licenseConfigurationArns {
             var licenseConfigurationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseConfigurationArns)
-            for stringlist0 in licenseConfigurationArns {
-                try licenseConfigurationArnsContainer.encode(stringlist0)
+            for string0 in licenseConfigurationArns {
+                try licenseConfigurationArnsContainer.encode(string0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8599,8 +8599,8 @@ extension ListLicenseConversionTasksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8772,8 +8772,8 @@ extension ListLicenseManagerReportGeneratorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9278,14 +9278,14 @@ extension ListLicensesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let licenseArns = licenseArns {
             var licenseArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseArns)
-            for arnlist0 in licenseArns {
-                try licenseArnsContainer.encode(arnlist0)
+            for arn0 in licenseArns {
+                try licenseArnsContainer.encode(arn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9485,8 +9485,8 @@ extension ListReceivedGrantsForOrganizationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let licenseArn = self.licenseArn {
@@ -9679,14 +9679,14 @@ extension ListReceivedGrantsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let grantArns = grantArns {
             var grantArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantArns)
-            for arnlist0 in grantArns {
-                try grantArnsContainer.encode(arnlist0)
+            for arn0 in grantArns {
+                try grantArnsContainer.encode(arn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9889,8 +9889,8 @@ extension ListReceivedLicensesForOrganizationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10071,14 +10071,14 @@ extension ListReceivedLicensesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let licenseArns = licenseArns {
             var licenseArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseArns)
-            for arnlist0 in licenseArns {
-                try licenseArnsContainer.encode(arnlist0)
+            for arn0 in licenseArns {
+                try licenseArnsContainer.encode(arn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10281,8 +10281,8 @@ extension ListResourceInventoryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for inventoryfilterlist0 in filters {
-                try filtersContainer.encode(inventoryfilterlist0)
+            for inventoryfilter0 in filters {
+                try filtersContainer.encode(inventoryfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10599,8 +10599,8 @@ extension ListTokensInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10611,8 +10611,8 @@ extension ListTokensInput: Swift.Encodable {
         }
         if let tokenIds = tokenIds {
             var tokenIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenIds)
-            for stringlist0 in tokenIds {
-                try tokenIdsContainer.encode(stringlist0)
+            for string0 in tokenIds {
+                try tokenIdsContainer.encode(string0)
             }
         }
     }
@@ -10798,8 +10798,8 @@ extension ListUsageForLicenseConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let licenseConfigurationArn = self.licenseConfigurationArn {
@@ -11168,8 +11168,8 @@ extension LicenseManagerClientTypes.ProductInformation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let productInformationFilterList = productInformationFilterList {
             var productInformationFilterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productInformationFilterList)
-            for productinformationfilterlist0 in productInformationFilterList {
-                try productInformationFilterListContainer.encode(productinformationfilterlist0)
+            for productinformationfilter0 in productInformationFilterList {
+                try productInformationFilterListContainer.encode(productinformationfilter0)
             }
         }
         if let resourceType = self.resourceType {
@@ -11257,8 +11257,8 @@ extension LicenseManagerClientTypes.ProductInformationFilter: Swift.Codable {
         }
         if let productInformationFilterValue = productInformationFilterValue {
             var productInformationFilterValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productInformationFilterValue)
-            for stringlist0 in productInformationFilterValue {
-                try productInformationFilterValueContainer.encode(stringlist0)
+            for string0 in productInformationFilterValue {
+                try productInformationFilterValueContainer.encode(string0)
             }
         }
     }
@@ -11408,8 +11408,8 @@ extension LicenseManagerClientTypes.ReceivedMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedOperations = allowedOperations {
             var allowedOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOperations)
-            for allowedoperationlist0 in allowedOperations {
-                try allowedOperationsContainer.encode(allowedoperationlist0.rawValue)
+            for allowedoperation0 in allowedOperations {
+                try allowedOperationsContainer.encode(allowedoperation0.rawValue)
             }
         }
         if let receivedStatus = self.receivedStatus {
@@ -11761,8 +11761,8 @@ extension LicenseManagerClientTypes.ReportContext: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let licenseConfigurationArns = licenseConfigurationArns {
             var licenseConfigurationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseConfigurationArns)
-            for arnlist0 in licenseConfigurationArns {
-                try licenseConfigurationArnsContainer.encode(arnlist0)
+            for arn0 in licenseConfigurationArns {
+                try licenseConfigurationArnsContainer.encode(arn0)
             }
         }
     }
@@ -11931,8 +11931,8 @@ extension LicenseManagerClientTypes.ReportGenerator: Swift.Codable {
         }
         if let reportType = reportType {
             var reportTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reportType)
-            for reporttypelist0 in reportType {
-                try reportTypeContainer.encode(reporttypelist0.rawValue)
+            for reporttype0 in reportType {
+                try reportTypeContainer.encode(reporttype0.rawValue)
             }
         }
         if let s3Location = self.s3Location {
@@ -11940,8 +11940,8 @@ extension LicenseManagerClientTypes.ReportGenerator: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12476,8 +12476,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12597,8 +12597,8 @@ extension LicenseManagerClientTypes.TokenData: Swift.Codable {
         }
         if let roleArns = roleArns {
             var roleArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roleArns)
-            for arnlist0 in roleArns {
-                try roleArnsContainer.encode(arnlist0)
+            for arn0 in roleArns {
+                try roleArnsContainer.encode(arn0)
             }
         }
         if let status = self.status {
@@ -12609,8 +12609,8 @@ extension LicenseManagerClientTypes.TokenData: Swift.Codable {
         }
         if let tokenProperties = tokenProperties {
             var tokenPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenProperties)
-            for maxsize3stringlist0 in tokenProperties {
-                try tokenPropertiesContainer.encode(maxsize3stringlist0)
+            for string0 in tokenProperties {
+                try tokenPropertiesContainer.encode(string0)
             }
         }
         if let tokenType = self.tokenType {
@@ -12789,8 +12789,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for string0 in tagKeys {
+                try tagKeysContainer.encode(string0)
             }
         }
     }
@@ -12924,8 +12924,8 @@ extension UpdateLicenseConfigurationInput: Swift.Encodable {
         }
         if let licenseRules = licenseRules {
             var licenseRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseRules)
-            for stringlist0 in licenseRules {
-                try licenseRulesContainer.encode(stringlist0)
+            for string0 in licenseRules {
+                try licenseRulesContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -12933,8 +12933,8 @@ extension UpdateLicenseConfigurationInput: Swift.Encodable {
         }
         if let productInformationList = productInformationList {
             var productInformationListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productInformationList)
-            for productinformationlist0 in productInformationList {
-                try productInformationListContainer.encode(productinformationlist0)
+            for productinformation0 in productInformationList {
+                try productInformationListContainer.encode(productinformation0)
             }
         }
     }
@@ -13132,8 +13132,8 @@ extension UpdateLicenseManagerReportGeneratorInput: Swift.Encodable {
         }
         if let type = type {
             var typeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .type)
-            for reporttypelist0 in type {
-                try typeContainer.encode(reporttypelist0.rawValue)
+            for reporttype0 in type {
+                try typeContainer.encode(reporttype0.rawValue)
             }
         }
     }
@@ -13297,14 +13297,14 @@ extension UpdateLicenseSpecificationsForResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addLicenseSpecifications = addLicenseSpecifications {
             var addLicenseSpecificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addLicenseSpecifications)
-            for licensespecifications0 in addLicenseSpecifications {
-                try addLicenseSpecificationsContainer.encode(licensespecifications0)
+            for licensespecification0 in addLicenseSpecifications {
+                try addLicenseSpecificationsContainer.encode(licensespecification0)
             }
         }
         if let removeLicenseSpecifications = removeLicenseSpecifications {
             var removeLicenseSpecificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeLicenseSpecifications)
-            for licensespecifications0 in removeLicenseSpecifications {
-                try removeLicenseSpecificationsContainer.encode(licensespecifications0)
+            for licensespecification0 in removeLicenseSpecifications {
+                try removeLicenseSpecificationsContainer.encode(licensespecification0)
             }
         }
         if let resourceArn = self.resourceArn {

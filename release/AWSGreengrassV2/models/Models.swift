@@ -313,8 +313,8 @@ extension BatchAssociateClientDeviceWithCoreDeviceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for associateclientdevicewithcoredeviceentrylist0 in entries {
-                try entriesContainer.encode(associateclientdevicewithcoredeviceentrylist0)
+            for associateclientdevicewithcoredeviceentry0 in entries {
+                try entriesContainer.encode(associateclientdevicewithcoredeviceentry0)
             }
         }
     }
@@ -460,8 +460,8 @@ extension BatchDisassociateClientDeviceFromCoreDeviceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for disassociateclientdevicefromcoredeviceentrylist0 in entries {
-                try entriesContainer.encode(disassociateclientdevicefromcoredeviceentrylist0)
+            for disassociateclientdevicefromcoredeviceentry0 in entries {
+                try entriesContainer.encode(disassociateclientdevicefromcoredeviceentry0)
             }
         }
     }
@@ -759,8 +759,8 @@ extension GreengrassV2ClientTypes.CloudComponentStatus: Swift.Codable {
         }
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .errors)
-            for (dictKey0, stringmap0) in errors {
-                try errorsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in errors {
+                try errorsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let message = self.message {
@@ -908,8 +908,8 @@ extension GreengrassV2ClientTypes.ComponentCandidate: Swift.Codable {
         }
         if let versionRequirements = versionRequirements {
             var versionRequirementsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .versionRequirements)
-            for (dictKey0, componentversionrequirementmap0) in versionRequirements {
-                try versionRequirementsContainer.encode(componentversionrequirementmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentVersionRequirementMap0) in versionRequirements {
+                try versionRequirementsContainer.encode(componentVersionRequirementMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -971,8 +971,8 @@ extension GreengrassV2ClientTypes.ComponentConfigurationUpdate: Swift.Codable {
         }
         if let reset = reset {
             var resetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reset)
-            for componentconfigurationpathlist0 in reset {
-                try resetContainer.encode(componentconfigurationpathlist0)
+            for componentconfigurationpath0 in reset {
+                try resetContainer.encode(componentconfigurationpath0)
             }
         }
     }
@@ -1180,8 +1180,8 @@ extension GreengrassV2ClientTypes.ComponentLatestVersion: Swift.Codable {
         }
         if let platforms = platforms {
             var platformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platforms)
-            for componentplatformlist0 in platforms {
-                try platformsContainer.encode(componentplatformlist0)
+            for componentplatform0 in platforms {
+                try platformsContainer.encode(componentplatform0)
             }
         }
         if let publisher = self.publisher {
@@ -1261,8 +1261,8 @@ extension GreengrassV2ClientTypes.ComponentPlatform: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, platformattributesmap0) in attributes {
-                try attributesContainer.encode(platformattributesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, platformAttributesMap0) in attributes {
+                try attributesContainer.encode(platformAttributesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -1702,8 +1702,8 @@ extension CreateComponentVersionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1914,8 +1914,8 @@ extension CreateDeploymentInput: Swift.Encodable {
         }
         if let components = components {
             var componentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .components)
-            for (dictKey0, componentdeploymentspecifications0) in components {
-                try componentsContainer.encode(componentdeploymentspecifications0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentDeploymentSpecifications0) in components {
+                try componentsContainer.encode(componentDeploymentSpecifications0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let deploymentName = self.deploymentName {
@@ -1932,8 +1932,8 @@ extension CreateDeploymentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetArn = self.targetArn {
@@ -3376,14 +3376,14 @@ extension GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let errorStack = errorStack {
             var errorStackContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorStack)
-            for effectivedeploymenterrorstack0 in errorStack {
-                try errorStackContainer.encode(effectivedeploymenterrorstack0)
+            for effectivedeploymenterrorcode0 in errorStack {
+                try errorStackContainer.encode(effectivedeploymenterrorcode0)
             }
         }
         if let errorTypes = errorTypes {
             var errorTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorTypes)
-            for effectivedeploymenterrortypelist0 in errorTypes {
-                try errorTypesContainer.encode(effectivedeploymenterrortypelist0)
+            for effectivedeploymenterrortype0 in errorTypes {
+                try errorTypesContainer.encode(effectivedeploymenterrortype0)
             }
         }
     }
@@ -4370,8 +4370,8 @@ extension GreengrassV2ClientTypes.InstalledComponent: Swift.Codable {
         }
         if let lifecycleStatusCodes = lifecycleStatusCodes {
             var lifecycleStatusCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lifecycleStatusCodes)
-            for installedcomponentlifecyclestatuscodelist0 in lifecycleStatusCodes {
-                try lifecycleStatusCodesContainer.encode(installedcomponentlifecyclestatuscodelist0)
+            for installedcomponentlifecyclestatuscode0 in lifecycleStatusCodes {
+                try lifecycleStatusCodesContainer.encode(installedcomponentlifecyclestatuscode0)
             }
         }
     }
@@ -4638,8 +4638,8 @@ extension GreengrassV2ClientTypes.IoTJobAbortConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let criteriaList = criteriaList {
             var criteriaListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .criteriaList)
-            for iotjobabortcriterialist0 in criteriaList {
-                try criteriaListContainer.encode(iotjobabortcriterialist0)
+            for iotjobabortcriteria0 in criteriaList {
+                try criteriaListContainer.encode(iotjobabortcriteria0)
             }
         }
     }
@@ -4983,8 +4983,8 @@ extension GreengrassV2ClientTypes.LambdaContainerParams: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let devices = devices {
             var devicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .devices)
-            for lambdadevicelist0 in devices {
-                try devicesContainer.encode(lambdadevicelist0)
+            for lambdadevicemount0 in devices {
+                try devicesContainer.encode(lambdadevicemount0)
             }
         }
         if let memorySizeInKB = self.memorySizeInKB {
@@ -4995,8 +4995,8 @@ extension GreengrassV2ClientTypes.LambdaContainerParams: Swift.Codable {
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
-            for lambdavolumelist0 in volumes {
-                try volumesContainer.encode(lambdavolumelist0)
+            for lambdavolumemount0 in volumes {
+                try volumesContainer.encode(lambdavolumemount0)
             }
         }
     }
@@ -5218,20 +5218,20 @@ extension GreengrassV2ClientTypes.LambdaExecutionParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, lambdaenvironmentvariables0) in environmentVariables {
-                try environmentVariablesContainer.encode(lambdaenvironmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, lambdaEnvironmentVariables0) in environmentVariables {
+                try environmentVariablesContainer.encode(lambdaEnvironmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let eventSources = eventSources {
             var eventSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventSources)
-            for lambdaeventsourcelist0 in eventSources {
-                try eventSourcesContainer.encode(lambdaeventsourcelist0)
+            for lambdaeventsource0 in eventSources {
+                try eventSourcesContainer.encode(lambdaeventsource0)
             }
         }
         if let execArgs = execArgs {
             var execArgsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .execArgs)
-            for lambdaexecargslist0 in execArgs {
-                try execArgsContainer.encode(lambdaexecargslist0)
+            for lambdaexecarg0 in execArgs {
+                try execArgsContainer.encode(lambdaexecarg0)
             }
         }
         if let inputPayloadEncodingType = self.inputPayloadEncodingType {
@@ -5423,8 +5423,8 @@ extension GreengrassV2ClientTypes.LambdaFunctionRecipeSource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let componentDependencies = componentDependencies {
             var componentDependenciesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .componentDependencies)
-            for (dictKey0, componentdependencymap0) in componentDependencies {
-                try componentDependenciesContainer.encode(componentdependencymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentDependencyMap0) in componentDependencies {
+                try componentDependenciesContainer.encode(componentDependencyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let componentLambdaParameters = self.componentLambdaParameters {
@@ -5435,8 +5435,8 @@ extension GreengrassV2ClientTypes.LambdaFunctionRecipeSource: Swift.Codable {
         }
         if let componentPlatforms = componentPlatforms {
             var componentPlatformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .componentPlatforms)
-            for componentplatformlist0 in componentPlatforms {
-                try componentPlatformsContainer.encode(componentplatformlist0)
+            for componentplatform0 in componentPlatforms {
+                try componentPlatformsContainer.encode(componentplatform0)
             }
         }
         if let componentVersion = self.componentVersion {
@@ -6965,8 +6965,8 @@ extension ResolveComponentCandidatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let componentCandidates = componentCandidates {
             var componentCandidatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .componentCandidates)
-            for componentcandidatelist0 in componentCandidates {
-                try componentCandidatesContainer.encode(componentcandidatelist0)
+            for componentcandidate0 in componentCandidates {
+                try componentCandidatesContainer.encode(componentcandidate0)
             }
         }
         if let platform = self.platform {
@@ -7423,8 +7423,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7698,8 +7698,8 @@ extension UpdateConnectivityInfoInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectivityInfo = connectivityInfo {
             var connectivityInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectivityInfo)
-            for connectivityinfolist0 in connectivityInfo {
-                try connectivityInfoContainer.encode(connectivityinfolist0)
+            for connectivityinfo0 in connectivityInfo {
+                try connectivityInfoContainer.encode(connectivityinfo0)
             }
         }
     }

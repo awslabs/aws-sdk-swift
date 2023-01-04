@@ -23,8 +23,8 @@ extension WorkMailClientTypes.AccessControlRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionslist0 in actions {
-                try actionsContainer.encode(actionslist0)
+            for accesscontrolruleaction0 in actions {
+                try actionsContainer.encode(accesscontrolruleaction0)
             }
         }
         if let dateCreated = self.dateCreated {
@@ -41,14 +41,14 @@ extension WorkMailClientTypes.AccessControlRule: Swift.Codable {
         }
         if let impersonationRoleIds = impersonationRoleIds {
             var impersonationRoleIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .impersonationRoleIds)
-            for impersonationroleidlist0 in impersonationRoleIds {
-                try impersonationRoleIdsContainer.encode(impersonationroleidlist0)
+            for impersonationroleid0 in impersonationRoleIds {
+                try impersonationRoleIdsContainer.encode(impersonationroleid0)
             }
         }
         if let ipRanges = ipRanges {
             var ipRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipRanges)
-            for iprangelist0 in ipRanges {
-                try ipRangesContainer.encode(iprangelist0)
+            for iprange0 in ipRanges {
+                try ipRangesContainer.encode(iprange0)
             }
         }
         if let name = self.name {
@@ -56,32 +56,32 @@ extension WorkMailClientTypes.AccessControlRule: Swift.Codable {
         }
         if let notActions = notActions {
             var notActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notActions)
-            for actionslist0 in notActions {
-                try notActionsContainer.encode(actionslist0)
+            for accesscontrolruleaction0 in notActions {
+                try notActionsContainer.encode(accesscontrolruleaction0)
             }
         }
         if let notImpersonationRoleIds = notImpersonationRoleIds {
             var notImpersonationRoleIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notImpersonationRoleIds)
-            for impersonationroleidlist0 in notImpersonationRoleIds {
-                try notImpersonationRoleIdsContainer.encode(impersonationroleidlist0)
+            for impersonationroleid0 in notImpersonationRoleIds {
+                try notImpersonationRoleIdsContainer.encode(impersonationroleid0)
             }
         }
         if let notIpRanges = notIpRanges {
             var notIpRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notIpRanges)
-            for iprangelist0 in notIpRanges {
-                try notIpRangesContainer.encode(iprangelist0)
+            for iprange0 in notIpRanges {
+                try notIpRangesContainer.encode(iprange0)
             }
         }
         if let notUserIds = notUserIds {
             var notUserIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notUserIds)
-            for useridlist0 in notUserIds {
-                try notUserIdsContainer.encode(useridlist0)
+            for workmailidentifier0 in notUserIds {
+                try notUserIdsContainer.encode(workmailidentifier0)
             }
         }
         if let userIds = userIds {
             var userIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userIds)
-            for useridlist0 in userIds {
-                try userIdsContainer.encode(useridlist0)
+            for workmailidentifier0 in userIds {
+                try userIdsContainer.encode(workmailidentifier0)
             }
         }
     }
@@ -1398,8 +1398,8 @@ extension CreateImpersonationRoleInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for impersonationrulelist0 in rules {
-                try rulesContainer.encode(impersonationrulelist0)
+            for impersonationrule0 in rules {
+                try rulesContainer.encode(impersonationrule0)
             }
         }
         if let type = self.type {
@@ -1595,26 +1595,26 @@ extension CreateMobileDeviceAccessRuleInput: Swift.Encodable {
         }
         if let deviceModels = deviceModels {
             var deviceModelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceModels)
-            for devicemodellist0 in deviceModels {
-                try deviceModelsContainer.encode(devicemodellist0)
+            for devicemodel0 in deviceModels {
+                try deviceModelsContainer.encode(devicemodel0)
             }
         }
         if let deviceOperatingSystems = deviceOperatingSystems {
             var deviceOperatingSystemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceOperatingSystems)
-            for deviceoperatingsystemlist0 in deviceOperatingSystems {
-                try deviceOperatingSystemsContainer.encode(deviceoperatingsystemlist0)
+            for deviceoperatingsystem0 in deviceOperatingSystems {
+                try deviceOperatingSystemsContainer.encode(deviceoperatingsystem0)
             }
         }
         if let deviceTypes = deviceTypes {
             var deviceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceTypes)
-            for devicetypelist0 in deviceTypes {
-                try deviceTypesContainer.encode(devicetypelist0)
+            for devicetype0 in deviceTypes {
+                try deviceTypesContainer.encode(devicetype0)
             }
         }
         if let deviceUserAgents = deviceUserAgents {
             var deviceUserAgentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceUserAgents)
-            for deviceuseragentlist0 in deviceUserAgents {
-                try deviceUserAgentsContainer.encode(deviceuseragentlist0)
+            for deviceuseragent0 in deviceUserAgents {
+                try deviceUserAgentsContainer.encode(deviceuseragent0)
             }
         }
         if let effect = self.effect {
@@ -1625,26 +1625,26 @@ extension CreateMobileDeviceAccessRuleInput: Swift.Encodable {
         }
         if let notDeviceModels = notDeviceModels {
             var notDeviceModelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceModels)
-            for devicemodellist0 in notDeviceModels {
-                try notDeviceModelsContainer.encode(devicemodellist0)
+            for devicemodel0 in notDeviceModels {
+                try notDeviceModelsContainer.encode(devicemodel0)
             }
         }
         if let notDeviceOperatingSystems = notDeviceOperatingSystems {
             var notDeviceOperatingSystemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceOperatingSystems)
-            for deviceoperatingsystemlist0 in notDeviceOperatingSystems {
-                try notDeviceOperatingSystemsContainer.encode(deviceoperatingsystemlist0)
+            for deviceoperatingsystem0 in notDeviceOperatingSystems {
+                try notDeviceOperatingSystemsContainer.encode(deviceoperatingsystem0)
             }
         }
         if let notDeviceTypes = notDeviceTypes {
             var notDeviceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceTypes)
-            for devicetypelist0 in notDeviceTypes {
-                try notDeviceTypesContainer.encode(devicetypelist0)
+            for devicetype0 in notDeviceTypes {
+                try notDeviceTypesContainer.encode(devicetype0)
             }
         }
         if let notDeviceUserAgents = notDeviceUserAgents {
             var notDeviceUserAgentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceUserAgents)
-            for deviceuseragentlist0 in notDeviceUserAgents {
-                try notDeviceUserAgentsContainer.encode(deviceuseragentlist0)
+            for deviceuseragent0 in notDeviceUserAgents {
+                try notDeviceUserAgentsContainer.encode(deviceuseragent0)
             }
         }
         if let organizationId = self.organizationId {
@@ -1950,8 +1950,8 @@ extension CreateOrganizationInput: Swift.Encodable {
         }
         if let domains = domains {
             var domainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domains)
-            for domains0 in domains {
-                try domainsContainer.encode(domains0)
+            for domain0 in domains {
+                try domainsContainer.encode(domain0)
             }
         }
         if enableInteroperability != false {
@@ -7927,14 +7927,14 @@ extension WorkMailClientTypes.ImpersonationRule: Swift.Codable {
         }
         if let notTargetUsers = notTargetUsers {
             var notTargetUsersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notTargetUsers)
-            for targetusers0 in notTargetUsers {
-                try notTargetUsersContainer.encode(targetusers0)
+            for entityidentifier0 in notTargetUsers {
+                try notTargetUsersContainer.encode(entityidentifier0)
             }
         }
         if let targetUsers = targetUsers {
             var targetUsersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetUsers)
-            for targetusers0 in targetUsers {
-                try targetUsersContainer.encode(targetusers0)
+            for entityidentifier0 in targetUsers {
+                try targetUsersContainer.encode(entityidentifier0)
             }
         }
     }
@@ -11441,26 +11441,26 @@ extension WorkMailClientTypes.MobileDeviceAccessRule: Swift.Codable {
         }
         if let deviceModels = deviceModels {
             var deviceModelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceModels)
-            for devicemodellist0 in deviceModels {
-                try deviceModelsContainer.encode(devicemodellist0)
+            for devicemodel0 in deviceModels {
+                try deviceModelsContainer.encode(devicemodel0)
             }
         }
         if let deviceOperatingSystems = deviceOperatingSystems {
             var deviceOperatingSystemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceOperatingSystems)
-            for deviceoperatingsystemlist0 in deviceOperatingSystems {
-                try deviceOperatingSystemsContainer.encode(deviceoperatingsystemlist0)
+            for deviceoperatingsystem0 in deviceOperatingSystems {
+                try deviceOperatingSystemsContainer.encode(deviceoperatingsystem0)
             }
         }
         if let deviceTypes = deviceTypes {
             var deviceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceTypes)
-            for devicetypelist0 in deviceTypes {
-                try deviceTypesContainer.encode(devicetypelist0)
+            for devicetype0 in deviceTypes {
+                try deviceTypesContainer.encode(devicetype0)
             }
         }
         if let deviceUserAgents = deviceUserAgents {
             var deviceUserAgentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceUserAgents)
-            for deviceuseragentlist0 in deviceUserAgents {
-                try deviceUserAgentsContainer.encode(deviceuseragentlist0)
+            for deviceuseragent0 in deviceUserAgents {
+                try deviceUserAgentsContainer.encode(deviceuseragent0)
             }
         }
         if let effect = self.effect {
@@ -11474,26 +11474,26 @@ extension WorkMailClientTypes.MobileDeviceAccessRule: Swift.Codable {
         }
         if let notDeviceModels = notDeviceModels {
             var notDeviceModelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceModels)
-            for devicemodellist0 in notDeviceModels {
-                try notDeviceModelsContainer.encode(devicemodellist0)
+            for devicemodel0 in notDeviceModels {
+                try notDeviceModelsContainer.encode(devicemodel0)
             }
         }
         if let notDeviceOperatingSystems = notDeviceOperatingSystems {
             var notDeviceOperatingSystemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceOperatingSystems)
-            for deviceoperatingsystemlist0 in notDeviceOperatingSystems {
-                try notDeviceOperatingSystemsContainer.encode(deviceoperatingsystemlist0)
+            for deviceoperatingsystem0 in notDeviceOperatingSystems {
+                try notDeviceOperatingSystemsContainer.encode(deviceoperatingsystem0)
             }
         }
         if let notDeviceTypes = notDeviceTypes {
             var notDeviceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceTypes)
-            for devicetypelist0 in notDeviceTypes {
-                try notDeviceTypesContainer.encode(devicetypelist0)
+            for devicetype0 in notDeviceTypes {
+                try notDeviceTypesContainer.encode(devicetype0)
             }
         }
         if let notDeviceUserAgents = notDeviceUserAgents {
             var notDeviceUserAgentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceUserAgents)
-            for deviceuseragentlist0 in notDeviceUserAgents {
-                try notDeviceUserAgentsContainer.encode(deviceuseragentlist0)
+            for deviceuseragent0 in notDeviceUserAgents {
+                try notDeviceUserAgentsContainer.encode(deviceuseragent0)
             }
         }
     }
@@ -11951,8 +11951,8 @@ extension WorkMailClientTypes.Permission: Swift.Codable {
         }
         if let permissionValues = permissionValues {
             var permissionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissionValues)
-            for permissionvalues0 in permissionValues {
-                try permissionValuesContainer.encode(permissionvalues0.rawValue)
+            for permissiontype0 in permissionValues {
+                try permissionValuesContainer.encode(permissiontype0.rawValue)
             }
         }
     }
@@ -12059,8 +12059,8 @@ extension PutAccessControlRuleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionslist0 in actions {
-                try actionsContainer.encode(actionslist0)
+            for accesscontrolruleaction0 in actions {
+                try actionsContainer.encode(accesscontrolruleaction0)
             }
         }
         if let description = self.description {
@@ -12071,14 +12071,14 @@ extension PutAccessControlRuleInput: Swift.Encodable {
         }
         if let impersonationRoleIds = impersonationRoleIds {
             var impersonationRoleIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .impersonationRoleIds)
-            for impersonationroleidlist0 in impersonationRoleIds {
-                try impersonationRoleIdsContainer.encode(impersonationroleidlist0)
+            for impersonationroleid0 in impersonationRoleIds {
+                try impersonationRoleIdsContainer.encode(impersonationroleid0)
             }
         }
         if let ipRanges = ipRanges {
             var ipRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipRanges)
-            for iprangelist0 in ipRanges {
-                try ipRangesContainer.encode(iprangelist0)
+            for iprange0 in ipRanges {
+                try ipRangesContainer.encode(iprange0)
             }
         }
         if let name = self.name {
@@ -12086,26 +12086,26 @@ extension PutAccessControlRuleInput: Swift.Encodable {
         }
         if let notActions = notActions {
             var notActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notActions)
-            for actionslist0 in notActions {
-                try notActionsContainer.encode(actionslist0)
+            for accesscontrolruleaction0 in notActions {
+                try notActionsContainer.encode(accesscontrolruleaction0)
             }
         }
         if let notImpersonationRoleIds = notImpersonationRoleIds {
             var notImpersonationRoleIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notImpersonationRoleIds)
-            for impersonationroleidlist0 in notImpersonationRoleIds {
-                try notImpersonationRoleIdsContainer.encode(impersonationroleidlist0)
+            for impersonationroleid0 in notImpersonationRoleIds {
+                try notImpersonationRoleIdsContainer.encode(impersonationroleid0)
             }
         }
         if let notIpRanges = notIpRanges {
             var notIpRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notIpRanges)
-            for iprangelist0 in notIpRanges {
-                try notIpRangesContainer.encode(iprangelist0)
+            for iprange0 in notIpRanges {
+                try notIpRangesContainer.encode(iprange0)
             }
         }
         if let notUserIds = notUserIds {
             var notUserIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notUserIds)
-            for useridlist0 in notUserIds {
-                try notUserIdsContainer.encode(useridlist0)
+            for workmailidentifier0 in notUserIds {
+                try notUserIdsContainer.encode(workmailidentifier0)
             }
         }
         if let organizationId = self.organizationId {
@@ -12113,8 +12113,8 @@ extension PutAccessControlRuleInput: Swift.Encodable {
         }
         if let userIds = userIds {
             var userIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userIds)
-            for useridlist0 in userIds {
-                try userIdsContainer.encode(useridlist0)
+            for workmailidentifier0 in userIds {
+                try userIdsContainer.encode(workmailidentifier0)
             }
         }
     }
@@ -12588,8 +12588,8 @@ extension PutMailboxPermissionsInput: Swift.Encodable {
         }
         if let permissionValues = permissionValues {
             var permissionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissionValues)
-            for permissionvalues0 in permissionValues {
-                try permissionValuesContainer.encode(permissionvalues0.rawValue)
+            for permissiontype0 in permissionValues {
+                try permissionValuesContainer.encode(permissiontype0.rawValue)
             }
         }
     }
@@ -12872,8 +12872,8 @@ extension PutRetentionPolicyInput: Swift.Encodable {
         }
         if let folderConfigurations = folderConfigurations {
             var folderConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folderConfigurations)
-            for folderconfigurations0 in folderConfigurations {
-                try folderConfigurationsContainer.encode(folderconfigurations0)
+            for folderconfiguration0 in folderConfigurations {
+                try folderConfigurationsContainer.encode(folderconfiguration0)
             }
         }
         if let id = self.id {
@@ -13950,8 +13950,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -14326,8 +14326,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -14668,8 +14668,8 @@ extension UpdateImpersonationRoleInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for impersonationrulelist0 in rules {
-                try rulesContainer.encode(impersonationrulelist0)
+            for impersonationrule0 in rules {
+                try rulesContainer.encode(impersonationrule0)
             }
         }
         if let type = self.type {
@@ -14948,26 +14948,26 @@ extension UpdateMobileDeviceAccessRuleInput: Swift.Encodable {
         }
         if let deviceModels = deviceModels {
             var deviceModelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceModels)
-            for devicemodellist0 in deviceModels {
-                try deviceModelsContainer.encode(devicemodellist0)
+            for devicemodel0 in deviceModels {
+                try deviceModelsContainer.encode(devicemodel0)
             }
         }
         if let deviceOperatingSystems = deviceOperatingSystems {
             var deviceOperatingSystemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceOperatingSystems)
-            for deviceoperatingsystemlist0 in deviceOperatingSystems {
-                try deviceOperatingSystemsContainer.encode(deviceoperatingsystemlist0)
+            for deviceoperatingsystem0 in deviceOperatingSystems {
+                try deviceOperatingSystemsContainer.encode(deviceoperatingsystem0)
             }
         }
         if let deviceTypes = deviceTypes {
             var deviceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceTypes)
-            for devicetypelist0 in deviceTypes {
-                try deviceTypesContainer.encode(devicetypelist0)
+            for devicetype0 in deviceTypes {
+                try deviceTypesContainer.encode(devicetype0)
             }
         }
         if let deviceUserAgents = deviceUserAgents {
             var deviceUserAgentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceUserAgents)
-            for deviceuseragentlist0 in deviceUserAgents {
-                try deviceUserAgentsContainer.encode(deviceuseragentlist0)
+            for deviceuseragent0 in deviceUserAgents {
+                try deviceUserAgentsContainer.encode(deviceuseragent0)
             }
         }
         if let effect = self.effect {
@@ -14981,26 +14981,26 @@ extension UpdateMobileDeviceAccessRuleInput: Swift.Encodable {
         }
         if let notDeviceModels = notDeviceModels {
             var notDeviceModelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceModels)
-            for devicemodellist0 in notDeviceModels {
-                try notDeviceModelsContainer.encode(devicemodellist0)
+            for devicemodel0 in notDeviceModels {
+                try notDeviceModelsContainer.encode(devicemodel0)
             }
         }
         if let notDeviceOperatingSystems = notDeviceOperatingSystems {
             var notDeviceOperatingSystemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceOperatingSystems)
-            for deviceoperatingsystemlist0 in notDeviceOperatingSystems {
-                try notDeviceOperatingSystemsContainer.encode(deviceoperatingsystemlist0)
+            for deviceoperatingsystem0 in notDeviceOperatingSystems {
+                try notDeviceOperatingSystemsContainer.encode(deviceoperatingsystem0)
             }
         }
         if let notDeviceTypes = notDeviceTypes {
             var notDeviceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceTypes)
-            for devicetypelist0 in notDeviceTypes {
-                try notDeviceTypesContainer.encode(devicetypelist0)
+            for devicetype0 in notDeviceTypes {
+                try notDeviceTypesContainer.encode(devicetype0)
             }
         }
         if let notDeviceUserAgents = notDeviceUserAgents {
             var notDeviceUserAgentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notDeviceUserAgents)
-            for deviceuseragentlist0 in notDeviceUserAgents {
-                try notDeviceUserAgentsContainer.encode(deviceuseragentlist0)
+            for deviceuseragent0 in notDeviceUserAgents {
+                try notDeviceUserAgentsContainer.encode(deviceuseragent0)
             }
         }
         if let organizationId = self.organizationId {

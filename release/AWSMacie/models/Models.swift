@@ -161,8 +161,8 @@ extension AssociateS3ResourcesInput: Swift.Encodable {
         }
         if let s3Resources = s3Resources {
             var s3ResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Resources)
-            for s3resourcesclassification0 in s3Resources {
-                try s3ResourcesContainer.encode(s3resourcesclassification0)
+            for s3resourceclassification0 in s3Resources {
+                try s3ResourcesContainer.encode(s3resourceclassification0)
             }
         }
     }
@@ -482,8 +482,8 @@ extension DisassociateS3ResourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associatedS3Resources = associatedS3Resources {
             var associatedS3ResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedS3Resources)
-            for s3resources0 in associatedS3Resources {
-                try associatedS3ResourcesContainer.encode(s3resources0)
+            for s3resource0 in associatedS3Resources {
+                try associatedS3ResourcesContainer.encode(s3resource0)
             }
         }
         if let memberAccountId = self.memberAccountId {
@@ -1450,8 +1450,8 @@ extension UpdateS3ResourcesInput: Swift.Encodable {
         }
         if let s3ResourcesUpdate = s3ResourcesUpdate {
             var s3ResourcesUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3ResourcesUpdate)
-            for s3resourcesclassificationupdate0 in s3ResourcesUpdate {
-                try s3ResourcesUpdateContainer.encode(s3resourcesclassificationupdate0)
+            for s3resourceclassificationupdate0 in s3ResourcesUpdate {
+                try s3ResourcesUpdateContainer.encode(s3resourceclassificationupdate0)
             }
         }
     }
