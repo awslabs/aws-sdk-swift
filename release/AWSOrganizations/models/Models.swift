@@ -1780,8 +1780,8 @@ extension CreateAccountInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2224,8 +2224,8 @@ extension CreateGovCloudAccountInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2551,8 +2551,8 @@ extension CreateOrganizationalUnitInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2724,8 +2724,8 @@ extension CreatePolicyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -5894,8 +5894,8 @@ extension OrganizationsClientTypes.Handshake: Swift.Codable {
         }
         if let parties = parties {
             var partiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parties)
-            for handshakeparties0 in parties {
-                try partiesContainer.encode(handshakeparties0)
+            for handshakeparty0 in parties {
+                try partiesContainer.encode(handshakeparty0)
             }
         }
         if let requestedTimestamp = self.requestedTimestamp {
@@ -5903,8 +5903,8 @@ extension OrganizationsClientTypes.Handshake: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for handshakeresources0 in resources {
-                try resourcesContainer.encode(handshakeresources0)
+            for handshakeresource0 in resources {
+                try resourcesContainer.encode(handshakeresource0)
             }
         }
         if let state = self.state {
@@ -6395,8 +6395,8 @@ extension OrganizationsClientTypes.HandshakeResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for handshakeresources0 in resources {
-                try resourcesContainer.encode(handshakeresources0)
+            for handshakeresource0 in resources {
+                try resourcesContainer.encode(handshakeresource0)
             }
         }
         if let type = self.type {
@@ -6884,8 +6884,8 @@ extension InviteAccountToOrganizationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let target = self.target {
@@ -7777,8 +7777,8 @@ extension ListCreateAccountStatusInput: Swift.Encodable {
         }
         if let states = states {
             var statesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .states)
-            for createaccountstates0 in states {
-                try statesContainer.encode(createaccountstates0.rawValue)
+            for createaccountstate0 in states {
+                try statesContainer.encode(createaccountstate0.rawValue)
             }
         }
     }
@@ -10024,8 +10024,8 @@ extension OrganizationsClientTypes.Organization: Swift.Codable {
         }
         if let availablePolicyTypes = availablePolicyTypes {
             var availablePolicyTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availablePolicyTypes)
-            for policytypes0 in availablePolicyTypes {
-                try availablePolicyTypesContainer.encode(policytypes0)
+            for policytypesummary0 in availablePolicyTypes {
+                try availablePolicyTypesContainer.encode(policytypesummary0)
             }
         }
         if let featureSet = self.featureSet {
@@ -11190,8 +11190,8 @@ extension PutResourcePolicyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -11696,8 +11696,8 @@ extension OrganizationsClientTypes.Root: Swift.Codable {
         }
         if let policyTypes = policyTypes {
             var policyTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .policyTypes)
-            for policytypes0 in policyTypes {
-                try policyTypesContainer.encode(policytypes0)
+            for policytypesummary0 in policyTypes {
+                try policyTypesContainer.encode(policytypesummary0)
             }
         }
     }
@@ -11976,8 +11976,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12303,8 +12303,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

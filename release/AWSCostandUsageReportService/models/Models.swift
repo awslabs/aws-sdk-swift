@@ -745,14 +745,14 @@ extension CostandUsageReportClientTypes.ReportDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalArtifacts = additionalArtifacts {
             var additionalArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalArtifacts)
-            for additionalartifactlist0 in additionalArtifacts {
-                try additionalArtifactsContainer.encode(additionalartifactlist0.rawValue)
+            for additionalartifact0 in additionalArtifacts {
+                try additionalArtifactsContainer.encode(additionalartifact0.rawValue)
             }
         }
         if let additionalSchemaElements = additionalSchemaElements {
             var additionalSchemaElementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalSchemaElements)
-            for schemaelementlist0 in additionalSchemaElements {
-                try additionalSchemaElementsContainer.encode(schemaelementlist0.rawValue)
+            for schemaelement0 in additionalSchemaElements {
+                try additionalSchemaElementsContainer.encode(schemaelement0.rawValue)
             }
         }
         if let billingViewArn = self.billingViewArn {

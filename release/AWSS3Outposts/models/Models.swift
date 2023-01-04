@@ -401,8 +401,8 @@ extension S3OutpostsClientTypes.Endpoint: Swift.Codable {
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfaces0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let outpostsId = self.outpostsId {

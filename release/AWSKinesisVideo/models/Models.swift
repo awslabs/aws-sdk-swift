@@ -581,8 +581,8 @@ extension CreateSignalingChannelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagoncreatelist0 in tags {
-                try tagsContainer.encode(tagoncreatelist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -758,8 +758,8 @@ extension CreateStreamInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, resourcetags0) in tags {
-                try tagsContainer.encode(resourcetags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resourceTags0) in tags {
+                try tagsContainer.encode(resourceTags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2667,8 +2667,8 @@ extension KinesisVideoClientTypes.ImageGenerationConfiguration: Swift.Codable {
         }
         if let formatConfig = formatConfig {
             var formatConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .formatConfig)
-            for (dictKey0, formatconfig0) in formatConfig {
-                try formatConfigContainer.encode(formatconfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, formatConfig0) in formatConfig {
+                try formatConfigContainer.encode(formatConfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let heightPixels = self.heightPixels {
@@ -4320,8 +4320,8 @@ extension KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration: Swif
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for listofprotocols0 in protocols {
-                try protocolsContainer.encode(listofprotocols0.rawValue)
+            for channelprotocol0 in protocols {
+                try protocolsContainer.encode(channelprotocol0.rawValue)
             }
         }
         if let role = self.role {
@@ -4993,8 +4993,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5110,8 +5110,8 @@ extension TagStreamInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, resourcetags0) in tags {
-                try tagsContainer.encode(resourcetags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resourceTags0) in tags {
+                try tagsContainer.encode(resourceTags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5284,8 +5284,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeyList = tagKeyList {
             var tagKeyListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeyList)
-            for tagkeylist0 in tagKeyList {
-                try tagKeyListContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeyList {
+                try tagKeyListContainer.encode(tagkey0)
             }
         }
     }
@@ -5399,8 +5399,8 @@ extension UntagStreamInput: Swift.Encodable {
         }
         if let tagKeyList = tagKeyList {
             var tagKeyListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeyList)
-            for tagkeylist0 in tagKeyList {
-                try tagKeyListContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeyList {
+                try tagKeyListContainer.encode(tagkey0)
             }
         }
     }

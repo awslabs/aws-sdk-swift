@@ -195,8 +195,8 @@ extension CreateEnvironmentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let airflowConfigurationOptions = airflowConfigurationOptions {
             var airflowConfigurationOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .airflowConfigurationOptions)
-            for (dictKey0, airflowconfigurationoptions0) in airflowConfigurationOptions {
-                try airflowConfigurationOptionsContainer.encode(airflowconfigurationoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, airflowConfigurationOptions0) in airflowConfigurationOptions {
+                try airflowConfigurationOptionsContainer.encode(airflowConfigurationOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let airflowVersion = self.airflowVersion {
@@ -246,8 +246,8 @@ extension CreateEnvironmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let webserverAccessMode = self.webserverAccessMode {
@@ -800,8 +800,8 @@ extension MWAAClientTypes.Environment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let airflowConfigurationOptions = airflowConfigurationOptions {
             var airflowConfigurationOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .airflowConfigurationOptions)
-            for (dictKey0, airflowconfigurationoptions0) in airflowConfigurationOptions {
-                try airflowConfigurationOptionsContainer.encode(airflowconfigurationoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, airflowConfigurationOptions0) in airflowConfigurationOptions {
+                try airflowConfigurationOptionsContainer.encode(airflowConfigurationOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let airflowVersion = self.airflowVersion {
@@ -869,8 +869,8 @@ extension MWAAClientTypes.Environment: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let webserverAccessMode = self.webserverAccessMode {
@@ -1809,8 +1809,8 @@ extension MWAAClientTypes.MetricDatum: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for dimensions0 in dimensions {
-                try dimensionsContainer.encode(dimensions0)
+            for dimension0 in dimensions {
+                try dimensionsContainer.encode(dimension0)
             }
         }
         if let metricName = self.metricName {
@@ -2006,14 +2006,14 @@ extension MWAAClientTypes.NetworkConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygrouplist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygrouplist0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
     }
@@ -2074,8 +2074,8 @@ extension PublishMetricsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metricData = metricData {
             var metricDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricData)
-            for metricdata0 in metricData {
-                try metricDataContainer.encode(metricdata0)
+            for metricdatum0 in metricData {
+                try metricDataContainer.encode(metricdatum0)
             }
         }
     }
@@ -2293,8 +2293,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2614,8 +2614,8 @@ extension UpdateEnvironmentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let airflowConfigurationOptions = airflowConfigurationOptions {
             var airflowConfigurationOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .airflowConfigurationOptions)
-            for (dictKey0, airflowconfigurationoptions0) in airflowConfigurationOptions {
-                try airflowConfigurationOptionsContainer.encode(airflowconfigurationoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, airflowConfigurationOptions0) in airflowConfigurationOptions {
+                try airflowConfigurationOptionsContainer.encode(airflowConfigurationOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let airflowVersion = self.airflowVersion {
@@ -2969,8 +2969,8 @@ extension MWAAClientTypes.UpdateNetworkConfigurationInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygrouplist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygrouplist0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
     }

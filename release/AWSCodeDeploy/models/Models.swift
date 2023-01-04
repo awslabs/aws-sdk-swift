@@ -12,14 +12,14 @@ extension AddTagsToOnPremisesInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceNames = instanceNames {
             var instanceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceNames)
-            for instancenamelist0 in instanceNames {
-                try instanceNamesContainer.encode(instancenamelist0)
+            for instancename0 in instanceNames {
+                try instanceNamesContainer.encode(instancename0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -178,8 +178,8 @@ extension CodeDeployClientTypes.AlarmConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alarms = alarms {
             var alarmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alarms)
-            for alarmlist0 in alarms {
-                try alarmsContainer.encode(alarmlist0)
+            for alarm0 in alarms {
+                try alarmsContainer.encode(alarm0)
             }
         }
         if enabled != false {
@@ -734,8 +734,8 @@ extension CodeDeployClientTypes.AutoRollbackConfiguration: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for autorollbackeventslist0 in events {
-                try eventsContainer.encode(autorollbackeventslist0.rawValue)
+            for autorollbackevent0 in events {
+                try eventsContainer.encode(autorollbackevent0.rawValue)
             }
         }
     }
@@ -871,8 +871,8 @@ extension BatchGetApplicationRevisionsInput: Swift.Encodable {
         }
         if let revisions = revisions {
             var revisionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revisions)
-            for revisionlocationlist0 in revisions {
-                try revisionsContainer.encode(revisionlocationlist0)
+            for revisionlocation0 in revisions {
+                try revisionsContainer.encode(revisionlocation0)
             }
         }
     }
@@ -1044,8 +1044,8 @@ extension BatchGetApplicationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationNames = applicationNames {
             var applicationNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationNames)
-            for applicationslist0 in applicationNames {
-                try applicationNamesContainer.encode(applicationslist0)
+            for applicationname0 in applicationNames {
+                try applicationNamesContainer.encode(applicationname0)
             }
         }
     }
@@ -1188,8 +1188,8 @@ extension BatchGetDeploymentGroupsInput: Swift.Encodable {
         }
         if let deploymentGroupNames = deploymentGroupNames {
             var deploymentGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deploymentGroupNames)
-            for deploymentgroupslist0 in deploymentGroupNames {
-                try deploymentGroupNamesContainer.encode(deploymentgroupslist0)
+            for deploymentgroupname0 in deploymentGroupNames {
+                try deploymentGroupNamesContainer.encode(deploymentgroupname0)
             }
         }
     }
@@ -1357,8 +1357,8 @@ extension BatchGetDeploymentInstancesInput: Swift.Encodable {
         }
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for instanceslist0 in instanceIds {
-                try instanceIdsContainer.encode(instanceslist0)
+            for instanceid0 in instanceIds {
+                try instanceIdsContainer.encode(instanceid0)
             }
         }
     }
@@ -1526,8 +1526,8 @@ extension BatchGetDeploymentTargetsInput: Swift.Encodable {
         }
         if let targetIds = targetIds {
             var targetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetIds)
-            for targetidlist0 in targetIds {
-                try targetIdsContainer.encode(targetidlist0)
+            for targetid0 in targetIds {
+                try targetIdsContainer.encode(targetid0)
             }
         }
     }
@@ -1697,8 +1697,8 @@ extension BatchGetDeploymentsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deploymentIds = deploymentIds {
             var deploymentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deploymentIds)
-            for deploymentslist0 in deploymentIds {
-                try deploymentIdsContainer.encode(deploymentslist0)
+            for deploymentid0 in deploymentIds {
+                try deploymentIdsContainer.encode(deploymentid0)
             }
         }
     }
@@ -1835,8 +1835,8 @@ extension BatchGetOnPremisesInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceNames = instanceNames {
             var instanceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceNames)
-            for instancenamelist0 in instanceNames {
-                try instanceNamesContainer.encode(instancenamelist0)
+            for instancename0 in instanceNames {
+                try instanceNamesContainer.encode(instancename0)
             }
         }
     }
@@ -2236,8 +2236,8 @@ extension CodeDeployClientTypes.CloudFormationTarget: Swift.Codable {
         }
         if let lifecycleEvents = lifecycleEvents {
             var lifecycleEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lifecycleEvents)
-            for lifecycleeventlist0 in lifecycleEvents {
-                try lifecycleEventsContainer.encode(lifecycleeventlist0)
+            for lifecycleevent0 in lifecycleEvents {
+                try lifecycleEventsContainer.encode(lifecycleevent0)
             }
         }
         if let resourceType = self.resourceType {
@@ -2479,8 +2479,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2824,8 +2824,8 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
         }
         if let autoScalingGroups = autoScalingGroups {
             var autoScalingGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoScalingGroups)
-            for autoscalinggroupnamelist0 in autoScalingGroups {
-                try autoScalingGroupsContainer.encode(autoscalinggroupnamelist0)
+            for autoscalinggroupname0 in autoScalingGroups {
+                try autoScalingGroupsContainer.encode(autoscalinggroupname0)
             }
         }
         if let blueGreenDeploymentConfiguration = self.blueGreenDeploymentConfiguration {
@@ -2842,8 +2842,8 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
         }
         if let ec2TagFilters = ec2TagFilters {
             var ec2TagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2TagFilters)
-            for ec2tagfilterlist0 in ec2TagFilters {
-                try ec2TagFiltersContainer.encode(ec2tagfilterlist0)
+            for ec2tagfilter0 in ec2TagFilters {
+                try ec2TagFiltersContainer.encode(ec2tagfilter0)
             }
         }
         if let ec2TagSet = self.ec2TagSet {
@@ -2851,8 +2851,8 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
         }
         if let ecsServices = ecsServices {
             var ecsServicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecsServices)
-            for ecsservicelist0 in ecsServices {
-                try ecsServicesContainer.encode(ecsservicelist0)
+            for ecsservice0 in ecsServices {
+                try ecsServicesContainer.encode(ecsservice0)
             }
         }
         if let loadBalancerInfo = self.loadBalancerInfo {
@@ -2860,8 +2860,8 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
         }
         if let onPremisesInstanceTagFilters = onPremisesInstanceTagFilters {
             var onPremisesInstanceTagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .onPremisesInstanceTagFilters)
-            for tagfilterlist0 in onPremisesInstanceTagFilters {
-                try onPremisesInstanceTagFiltersContainer.encode(tagfilterlist0)
+            for tagfilter0 in onPremisesInstanceTagFilters {
+                try onPremisesInstanceTagFiltersContainer.encode(tagfilter0)
             }
         }
         if let onPremisesTagSet = self.onPremisesTagSet {
@@ -2875,14 +2875,14 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let triggerConfigurations = triggerConfigurations {
             var triggerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerConfigurations)
-            for triggerconfiglist0 in triggerConfigurations {
-                try triggerConfigurationsContainer.encode(triggerconfiglist0)
+            for triggerconfig0 in triggerConfigurations {
+                try triggerConfigurationsContainer.encode(triggerconfig0)
             }
         }
     }
@@ -4693,8 +4693,8 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         }
         if let autoScalingGroups = autoScalingGroups {
             var autoScalingGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoScalingGroups)
-            for autoscalinggrouplist0 in autoScalingGroups {
-                try autoScalingGroupsContainer.encode(autoscalinggrouplist0)
+            for autoscalinggroup0 in autoScalingGroups {
+                try autoScalingGroupsContainer.encode(autoscalinggroup0)
             }
         }
         if let blueGreenDeploymentConfiguration = self.blueGreenDeploymentConfiguration {
@@ -4717,8 +4717,8 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         }
         if let ec2TagFilters = ec2TagFilters {
             var ec2TagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2TagFilters)
-            for ec2tagfilterlist0 in ec2TagFilters {
-                try ec2TagFiltersContainer.encode(ec2tagfilterlist0)
+            for ec2tagfilter0 in ec2TagFilters {
+                try ec2TagFiltersContainer.encode(ec2tagfilter0)
             }
         }
         if let ec2TagSet = self.ec2TagSet {
@@ -4726,8 +4726,8 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         }
         if let ecsServices = ecsServices {
             var ecsServicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecsServices)
-            for ecsservicelist0 in ecsServices {
-                try ecsServicesContainer.encode(ecsservicelist0)
+            for ecsservice0 in ecsServices {
+                try ecsServicesContainer.encode(ecsservice0)
             }
         }
         if let lastAttemptedDeployment = self.lastAttemptedDeployment {
@@ -4741,8 +4741,8 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         }
         if let onPremisesInstanceTagFilters = onPremisesInstanceTagFilters {
             var onPremisesInstanceTagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .onPremisesInstanceTagFilters)
-            for tagfilterlist0 in onPremisesInstanceTagFilters {
-                try onPremisesInstanceTagFiltersContainer.encode(tagfilterlist0)
+            for tagfilter0 in onPremisesInstanceTagFilters {
+                try onPremisesInstanceTagFiltersContainer.encode(tagfilter0)
             }
         }
         if let onPremisesTagSet = self.onPremisesTagSet {
@@ -4759,8 +4759,8 @@ extension CodeDeployClientTypes.DeploymentGroupInfo: Swift.Codable {
         }
         if let triggerConfigurations = triggerConfigurations {
             var triggerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerConfigurations)
-            for triggerconfiglist0 in triggerConfigurations {
-                try triggerConfigurationsContainer.encode(triggerconfiglist0)
+            for triggerconfig0 in triggerConfigurations {
+                try triggerConfigurationsContainer.encode(triggerconfig0)
             }
         }
     }
@@ -5192,8 +5192,8 @@ extension CodeDeployClientTypes.DeploymentInfo: Swift.Codable {
         }
         if let deploymentStatusMessages = deploymentStatusMessages {
             var deploymentStatusMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deploymentStatusMessages)
-            for deploymentstatusmessagelist0 in deploymentStatusMessages {
-                try deploymentStatusMessagesContainer.encode(deploymentstatusmessagelist0)
+            for errormessage0 in deploymentStatusMessages {
+                try deploymentStatusMessagesContainer.encode(errormessage0)
             }
         }
         if let deploymentStyle = self.deploymentStyle {
@@ -6576,10 +6576,10 @@ extension CodeDeployClientTypes.EC2TagSet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ec2TagSetList = ec2TagSetList {
             var ec2TagSetListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2TagSetList)
-            for ec2tagsetlist0 in ec2TagSetList {
-                var ec2tagsetlist0Container = ec2TagSetListContainer.nestedUnkeyedContainer()
-                for ec2tagfilterlist1 in ec2tagsetlist0 {
-                    try ec2tagsetlist0Container.encode(ec2tagfilterlist1)
+            for ec2tagfilterlist0 in ec2TagSetList {
+                var ec2tagfilterlist0Container = ec2TagSetListContainer.nestedUnkeyedContainer()
+                for ec2tagfilter1 in ec2tagfilterlist0 {
+                    try ec2tagfilterlist0Container.encode(ec2tagfilter1)
                 }
             }
         }
@@ -6745,8 +6745,8 @@ extension CodeDeployClientTypes.ECSTarget: Swift.Codable {
         }
         if let lifecycleEvents = lifecycleEvents {
             var lifecycleEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lifecycleEvents)
-            for lifecycleeventlist0 in lifecycleEvents {
-                try lifecycleEventsContainer.encode(lifecycleeventlist0)
+            for lifecycleevent0 in lifecycleEvents {
+                try lifecycleEventsContainer.encode(lifecycleevent0)
             }
         }
         if let status = self.status {
@@ -6760,8 +6760,8 @@ extension CodeDeployClientTypes.ECSTarget: Swift.Codable {
         }
         if let taskSetsInfo = taskSetsInfo {
             var taskSetsInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taskSetsInfo)
-            for ecstasksetlist0 in taskSetsInfo {
-                try taskSetsInfoContainer.encode(ecstasksetlist0)
+            for ecstaskset0 in taskSetsInfo {
+                try taskSetsInfoContainer.encode(ecstaskset0)
             }
         }
     }
@@ -7236,8 +7236,8 @@ extension CodeDeployClientTypes.GenericRevisionInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deploymentGroups = deploymentGroups {
             var deploymentGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deploymentGroups)
-            for deploymentgroupslist0 in deploymentGroups {
-                try deploymentGroupsContainer.encode(deploymentgroupslist0)
+            for deploymentgroupname0 in deploymentGroups {
+                try deploymentGroupsContainer.encode(deploymentgroupname0)
             }
         }
         if let description = self.description {
@@ -8956,8 +8956,8 @@ extension CodeDeployClientTypes.InstanceInfo: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -9316,8 +9316,8 @@ extension CodeDeployClientTypes.InstanceSummary: Swift.Codable {
         }
         if let lifecycleEvents = lifecycleEvents {
             var lifecycleEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lifecycleEvents)
-            for lifecycleeventlist0 in lifecycleEvents {
-                try lifecycleEventsContainer.encode(lifecycleeventlist0)
+            for lifecycleevent0 in lifecycleEvents {
+                try lifecycleEventsContainer.encode(lifecycleevent0)
             }
         }
         if let status = self.status {
@@ -9429,8 +9429,8 @@ extension CodeDeployClientTypes.InstanceTarget: Swift.Codable {
         }
         if let lifecycleEvents = lifecycleEvents {
             var lifecycleEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lifecycleEvents)
-            for lifecycleeventlist0 in lifecycleEvents {
-                try lifecycleEventsContainer.encode(lifecycleeventlist0)
+            for lifecycleevent0 in lifecycleEvents {
+                try lifecycleEventsContainer.encode(lifecycleevent0)
             }
         }
         if let status = self.status {
@@ -12523,8 +12523,8 @@ extension CodeDeployClientTypes.LambdaTarget: Swift.Codable {
         }
         if let lifecycleEvents = lifecycleEvents {
             var lifecycleEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lifecycleEvents)
-            for lifecycleeventlist0 in lifecycleEvents {
-                try lifecycleEventsContainer.encode(lifecycleeventlist0)
+            for lifecycleevent0 in lifecycleEvents {
+                try lifecycleEventsContainer.encode(lifecycleevent0)
             }
         }
         if let status = self.status {
@@ -13633,14 +13633,14 @@ extension ListDeploymentInstancesInput: Swift.Encodable {
         }
         if let instanceStatusFilter = instanceStatusFilter {
             var instanceStatusFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceStatusFilter)
-            for instancestatuslist0 in instanceStatusFilter {
-                try instanceStatusFilterContainer.encode(instancestatuslist0.rawValue)
+            for instancestatus0 in instanceStatusFilter {
+                try instanceStatusFilterContainer.encode(instancestatus0.rawValue)
             }
         }
         if let instanceTypeFilter = instanceTypeFilter {
             var instanceTypeFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypeFilter)
-            for instancetypelist0 in instanceTypeFilter {
-                try instanceTypeFilterContainer.encode(instancetypelist0.rawValue)
+            for instancetype0 in instanceTypeFilter {
+                try instanceTypeFilterContainer.encode(instancetype0.rawValue)
             }
         }
         if let nextToken = self.nextToken {
@@ -13857,8 +13857,11 @@ extension ListDeploymentTargetsInput: Swift.Encodable {
         }
         if let targetFilters = targetFilters {
             var targetFiltersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targetFilters)
-            for (dictKey0, targetfilters0) in targetFilters {
-                try targetFiltersContainer.encode(targetfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, targetFilters0) in targetFilters {
+                var targetFilters0Container = targetFiltersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for filtervalue1 in targetFilters0 {
+                    try targetFilters0Container.encode(filtervalue1)
+                }
             }
         }
     }
@@ -14056,8 +14059,8 @@ extension ListDeploymentsInput: Swift.Encodable {
         }
         if let includeOnlyStatuses = includeOnlyStatuses {
             var includeOnlyStatusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeOnlyStatuses)
-            for deploymentstatuslist0 in includeOnlyStatuses {
-                try includeOnlyStatusesContainer.encode(deploymentstatuslist0.rawValue)
+            for deploymentstatus0 in includeOnlyStatuses {
+                try includeOnlyStatusesContainer.encode(deploymentstatus0.rawValue)
             }
         }
         if let nextToken = self.nextToken {
@@ -14417,8 +14420,8 @@ extension ListOnPremisesInstancesInput: Swift.Encodable {
         }
         if let tagFilters = tagFilters {
             var tagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagFilters)
-            for tagfilterlist0 in tagFilters {
-                try tagFiltersContainer.encode(tagfilterlist0)
+            for tagfilter0 in tagFilters {
+                try tagFiltersContainer.encode(tagfilter0)
             }
         }
     }
@@ -14767,20 +14770,20 @@ extension CodeDeployClientTypes.LoadBalancerInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let elbInfoList = elbInfoList {
             var elbInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .elbInfoList)
-            for elbinfolist0 in elbInfoList {
-                try elbInfoListContainer.encode(elbinfolist0)
+            for elbinfo0 in elbInfoList {
+                try elbInfoListContainer.encode(elbinfo0)
             }
         }
         if let targetGroupInfoList = targetGroupInfoList {
             var targetGroupInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetGroupInfoList)
-            for targetgroupinfolist0 in targetGroupInfoList {
-                try targetGroupInfoListContainer.encode(targetgroupinfolist0)
+            for targetgroupinfo0 in targetGroupInfoList {
+                try targetGroupInfoListContainer.encode(targetgroupinfo0)
             }
         }
         if let targetGroupPairInfoList = targetGroupPairInfoList {
             var targetGroupPairInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetGroupPairInfoList)
-            for targetgrouppairinfolist0 in targetGroupPairInfoList {
-                try targetGroupPairInfoListContainer.encode(targetgrouppairinfolist0)
+            for targetgrouppairinfo0 in targetGroupPairInfoList {
+                try targetGroupPairInfoListContainer.encode(targetgrouppairinfo0)
             }
         }
     }
@@ -14993,10 +14996,10 @@ extension CodeDeployClientTypes.OnPremisesTagSet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let onPremisesTagSetList = onPremisesTagSetList {
             var onPremisesTagSetListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .onPremisesTagSetList)
-            for onpremisestagsetlist0 in onPremisesTagSetList {
-                var onpremisestagsetlist0Container = onPremisesTagSetListContainer.nestedUnkeyedContainer()
-                for tagfilterlist1 in onpremisestagsetlist0 {
-                    try onpremisestagsetlist0Container.encode(tagfilterlist1)
+            for tagfilterlist0 in onPremisesTagSetList {
+                var tagfilterlist0Container = onPremisesTagSetListContainer.nestedUnkeyedContainer()
+                for tagfilter1 in tagfilterlist0 {
+                    try tagfilterlist0Container.encode(tagfilter1)
                 }
             }
         }
@@ -15601,8 +15604,8 @@ extension CodeDeployClientTypes.RelatedDeployments: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let autoUpdateOutdatedInstancesDeploymentIds = autoUpdateOutdatedInstancesDeploymentIds {
             var autoUpdateOutdatedInstancesDeploymentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoUpdateOutdatedInstancesDeploymentIds)
-            for deploymentslist0 in autoUpdateOutdatedInstancesDeploymentIds {
-                try autoUpdateOutdatedInstancesDeploymentIdsContainer.encode(deploymentslist0)
+            for deploymentid0 in autoUpdateOutdatedInstancesDeploymentIds {
+                try autoUpdateOutdatedInstancesDeploymentIdsContainer.encode(deploymentid0)
             }
         }
         if let autoUpdateOutdatedInstancesRootDeploymentId = self.autoUpdateOutdatedInstancesRootDeploymentId {
@@ -15658,14 +15661,14 @@ extension RemoveTagsFromOnPremisesInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceNames = instanceNames {
             var instanceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceNames)
-            for instancenamelist0 in instanceNames {
-                try instanceNamesContainer.encode(instancenamelist0)
+            for instancename0 in instanceNames {
+                try instanceNamesContainer.encode(instancename0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -16908,8 +16911,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -17148,8 +17151,8 @@ extension CodeDeployClientTypes.TargetGroupPairInfo: Swift.Codable {
         }
         if let targetGroups = targetGroups {
             var targetGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetGroups)
-            for targetgroupinfolist0 in targetGroups {
-                try targetGroupsContainer.encode(targetgroupinfolist0)
+            for targetgroupinfo0 in targetGroups {
+                try targetGroupsContainer.encode(targetgroupinfo0)
             }
         }
         if let testTrafficRoute = self.testTrafficRoute {
@@ -17212,8 +17215,8 @@ extension CodeDeployClientTypes.TargetInstances: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let autoScalingGroups = autoScalingGroups {
             var autoScalingGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoScalingGroups)
-            for autoscalinggroupnamelist0 in autoScalingGroups {
-                try autoScalingGroupsContainer.encode(autoscalinggroupnamelist0)
+            for autoscalinggroupname0 in autoScalingGroups {
+                try autoScalingGroupsContainer.encode(autoscalinggroupname0)
             }
         }
         if let ec2TagSet = self.ec2TagSet {
@@ -17221,8 +17224,8 @@ extension CodeDeployClientTypes.TargetInstances: Swift.Codable {
         }
         if let tagFilters = tagFilters {
             var tagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagFilters)
-            for ec2tagfilterlist0 in tagFilters {
-                try tagFiltersContainer.encode(ec2tagfilterlist0)
+            for ec2tagfilter0 in tagFilters {
+                try tagFiltersContainer.encode(ec2tagfilter0)
             }
         }
     }
@@ -17556,8 +17559,8 @@ extension CodeDeployClientTypes.TrafficRoute: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let listenerArns = listenerArns {
             var listenerArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .listenerArns)
-            for listenerarnlist0 in listenerArns {
-                try listenerArnsContainer.encode(listenerarnlist0)
+            for listenerarn0 in listenerArns {
+                try listenerArnsContainer.encode(listenerarn0)
             }
         }
     }
@@ -17695,8 +17698,8 @@ extension CodeDeployClientTypes.TriggerConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let triggerEvents = triggerEvents {
             var triggerEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerEvents)
-            for triggereventtypelist0 in triggerEvents {
-                try triggerEventsContainer.encode(triggereventtypelist0.rawValue)
+            for triggereventtype0 in triggerEvents {
+                try triggerEventsContainer.encode(triggereventtype0.rawValue)
             }
         }
         if let triggerName = self.triggerName {
@@ -17926,8 +17929,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for key0 in tagKeys {
+                try tagKeysContainer.encode(key0)
             }
         }
     }
@@ -18165,8 +18168,8 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
         }
         if let autoScalingGroups = autoScalingGroups {
             var autoScalingGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoScalingGroups)
-            for autoscalinggroupnamelist0 in autoScalingGroups {
-                try autoScalingGroupsContainer.encode(autoscalinggroupnamelist0)
+            for autoscalinggroupname0 in autoScalingGroups {
+                try autoScalingGroupsContainer.encode(autoscalinggroupname0)
             }
         }
         if let blueGreenDeploymentConfiguration = self.blueGreenDeploymentConfiguration {
@@ -18183,8 +18186,8 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
         }
         if let ec2TagFilters = ec2TagFilters {
             var ec2TagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2TagFilters)
-            for ec2tagfilterlist0 in ec2TagFilters {
-                try ec2TagFiltersContainer.encode(ec2tagfilterlist0)
+            for ec2tagfilter0 in ec2TagFilters {
+                try ec2TagFiltersContainer.encode(ec2tagfilter0)
             }
         }
         if let ec2TagSet = self.ec2TagSet {
@@ -18192,8 +18195,8 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
         }
         if let ecsServices = ecsServices {
             var ecsServicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecsServices)
-            for ecsservicelist0 in ecsServices {
-                try ecsServicesContainer.encode(ecsservicelist0)
+            for ecsservice0 in ecsServices {
+                try ecsServicesContainer.encode(ecsservice0)
             }
         }
         if let loadBalancerInfo = self.loadBalancerInfo {
@@ -18204,8 +18207,8 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
         }
         if let onPremisesInstanceTagFilters = onPremisesInstanceTagFilters {
             var onPremisesInstanceTagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .onPremisesInstanceTagFilters)
-            for tagfilterlist0 in onPremisesInstanceTagFilters {
-                try onPremisesInstanceTagFiltersContainer.encode(tagfilterlist0)
+            for tagfilter0 in onPremisesInstanceTagFilters {
+                try onPremisesInstanceTagFiltersContainer.encode(tagfilter0)
             }
         }
         if let onPremisesTagSet = self.onPremisesTagSet {
@@ -18219,8 +18222,8 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
         }
         if let triggerConfigurations = triggerConfigurations {
             var triggerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggerConfigurations)
-            for triggerconfiglist0 in triggerConfigurations {
-                try triggerConfigurationsContainer.encode(triggerconfiglist0)
+            for triggerconfig0 in triggerConfigurations {
+                try triggerConfigurationsContainer.encode(triggerconfig0)
             }
         }
     }

@@ -865,8 +865,8 @@ extension CreateDataSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1530,8 +1530,8 @@ extension CreateRevisionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2044,8 +2044,8 @@ extension DataExchangeClientTypes.DatabaseLFTagPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let expression = expression {
             var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
-            for listoflftags0 in expression {
-                try expressionContainer.encode(listoflftags0)
+            for lftag0 in expression {
+                try expressionContainer.encode(lftag0)
             }
         }
     }
@@ -2093,14 +2093,14 @@ extension DataExchangeClientTypes.DatabaseLFTagPolicyAndPermissions: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let expression = expression {
             var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
-            for listoflftags0 in expression {
-                try expressionContainer.encode(listoflftags0)
+            for lftag0 in expression {
+                try expressionContainer.encode(lftag0)
             }
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for listofdatabaselftagpolicypermissions0 in permissions {
-                try permissionsContainer.encode(listofdatabaselftagpolicypermissions0.rawValue)
+            for databaselftagpolicypermission0 in permissions {
+                try permissionsContainer.encode(databaselftagpolicypermission0.rawValue)
             }
         }
     }
@@ -2508,8 +2508,8 @@ extension DataExchangeClientTypes.Details: Swift.Codable {
         }
         if let importAssetsFromS3JobErrorDetails = importAssetsFromS3JobErrorDetails {
             var importAssetsFromS3JobErrorDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .importAssetsFromS3JobErrorDetails)
-            for listofassetsourceentry0 in importAssetsFromS3JobErrorDetails {
-                try importAssetsFromS3JobErrorDetailsContainer.encode(listofassetsourceentry0)
+            for assetsourceentry0 in importAssetsFromS3JobErrorDetails {
+                try importAssetsFromS3JobErrorDetailsContainer.encode(assetsourceentry0)
             }
         }
     }
@@ -2858,8 +2858,8 @@ extension DataExchangeClientTypes.ExportAssetsToS3RequestDetails: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetDestinations = assetDestinations {
             var assetDestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetDestinations)
-            for listofassetdestinationentry0 in assetDestinations {
-                try assetDestinationsContainer.encode(listofassetdestinationentry0)
+            for assetdestinationentry0 in assetDestinations {
+                try assetDestinationsContainer.encode(assetdestinationentry0)
             }
         }
         if let dataSetId = self.dataSetId {
@@ -2938,8 +2938,8 @@ extension DataExchangeClientTypes.ExportAssetsToS3ResponseDetails: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetDestinations = assetDestinations {
             var assetDestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetDestinations)
-            for listofassetdestinationentry0 in assetDestinations {
-                try assetDestinationsContainer.encode(listofassetdestinationentry0)
+            for assetdestinationentry0 in assetDestinations {
+                try assetDestinationsContainer.encode(assetdestinationentry0)
             }
         }
         if let dataSetId = self.dataSetId {
@@ -3023,8 +3023,8 @@ extension DataExchangeClientTypes.ExportRevisionsToS3RequestDetails: Swift.Codab
         }
         if let revisionDestinations = revisionDestinations {
             var revisionDestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revisionDestinations)
-            for listofrevisiondestinationentry0 in revisionDestinations {
-                try revisionDestinationsContainer.encode(listofrevisiondestinationentry0)
+            for revisiondestinationentry0 in revisionDestinations {
+                try revisionDestinationsContainer.encode(revisiondestinationentry0)
             }
         }
     }
@@ -3096,8 +3096,8 @@ extension DataExchangeClientTypes.ExportRevisionsToS3ResponseDetails: Swift.Coda
         }
         if let revisionDestinations = revisionDestinations {
             var revisionDestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revisionDestinations)
-            for listofrevisiondestinationentry0 in revisionDestinations {
-                try revisionDestinationsContainer.encode(listofrevisiondestinationentry0)
+            for revisiondestinationentry0 in revisionDestinations {
+                try revisionDestinationsContainer.encode(revisiondestinationentry0)
             }
         }
     }
@@ -4819,8 +4819,8 @@ extension DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesRequestDetai
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetSources = assetSources {
             var assetSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetSources)
-            for listofredshiftdatashareassetsourceentry0 in assetSources {
-                try assetSourcesContainer.encode(listofredshiftdatashareassetsourceentry0)
+            for redshiftdatashareassetsourceentry0 in assetSources {
+                try assetSourcesContainer.encode(redshiftdatashareassetsourceentry0)
             }
         }
         if let dataSetId = self.dataSetId {
@@ -4889,8 +4889,8 @@ extension DataExchangeClientTypes.ImportAssetsFromRedshiftDataSharesResponseDeta
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetSources = assetSources {
             var assetSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetSources)
-            for listofredshiftdatashareassetsourceentry0 in assetSources {
-                try assetSourcesContainer.encode(listofredshiftdatashareassetsourceentry0)
+            for redshiftdatashareassetsourceentry0 in assetSources {
+                try assetSourcesContainer.encode(redshiftdatashareassetsourceentry0)
             }
         }
         if let dataSetId = self.dataSetId {
@@ -4959,8 +4959,8 @@ extension DataExchangeClientTypes.ImportAssetsFromS3RequestDetails: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetSources = assetSources {
             var assetSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetSources)
-            for listofassetsourceentry0 in assetSources {
-                try assetSourcesContainer.encode(listofassetsourceentry0)
+            for assetsourceentry0 in assetSources {
+                try assetSourcesContainer.encode(assetsourceentry0)
             }
         }
         if let dataSetId = self.dataSetId {
@@ -5029,8 +5029,8 @@ extension DataExchangeClientTypes.ImportAssetsFromS3ResponseDetails: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetSources = assetSources {
             var assetSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetSources)
-            for listofassetsourceentry0 in assetSources {
-                try assetSourcesContainer.encode(listofassetsourceentry0)
+            for assetsourceentry0 in assetSources {
+                try assetSourcesContainer.encode(assetsourceentry0)
             }
         }
         if let dataSetId = self.dataSetId {
@@ -5167,8 +5167,8 @@ extension DataExchangeClientTypes.JobEntry: Swift.Codable {
         }
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for listofjoberror0 in errors {
-                try errorsContainer.encode(listofjoberror0)
+            for joberror0 in errors {
+                try errorsContainer.encode(joberror0)
             }
         }
         if let id = self.id {
@@ -5561,8 +5561,8 @@ extension DataExchangeClientTypes.LFTag: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for listoflftagvalues0 in tagValues {
-                try tagValuesContainer.encode(listoflftagvalues0)
+            for string0 in tagValues {
+                try tagValuesContainer.encode(string0)
             }
         }
     }
@@ -5683,8 +5683,8 @@ extension DataExchangeClientTypes.LakeFormationDataPermissionAsset: Swift.Codabl
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for listoflfpermissions0 in permissions {
-                try permissionsContainer.encode(listoflfpermissions0.rawValue)
+            for lfpermission0 in permissions {
+                try permissionsContainer.encode(lfpermission0.rawValue)
             }
         }
         if let roleArn = self.roleArn {
@@ -7756,14 +7756,14 @@ extension DataExchangeClientTypes.S3DataAccessAsset: Swift.Codable {
         }
         if let keyPrefixes = keyPrefixes {
             var keyPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyPrefixes)
-            for listof__string0 in keyPrefixes {
-                try keyPrefixesContainer.encode(listof__string0)
+            for __string0 in keyPrefixes {
+                try keyPrefixesContainer.encode(__string0)
             }
         }
         if let keys = keys {
             var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
-            for listof__string0 in keys {
-                try keysContainer.encode(listof__string0)
+            for __string0 in keys {
+                try keysContainer.encode(__string0)
             }
         }
         if let s3AccessPointAlias = self.s3AccessPointAlias {
@@ -7854,14 +7854,14 @@ extension DataExchangeClientTypes.S3DataAccessAssetSourceEntry: Swift.Codable {
         }
         if let keyPrefixes = keyPrefixes {
             var keyPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyPrefixes)
-            for listof__string0 in keyPrefixes {
-                try keyPrefixesContainer.encode(listof__string0)
+            for __string0 in keyPrefixes {
+                try keyPrefixesContainer.encode(__string0)
             }
         }
         if let keys = keys {
             var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
-            for listof__string0 in keys {
-                try keysContainer.encode(listof__string0)
+            for __string0 in keys {
+                try keysContainer.encode(__string0)
             }
         }
     }
@@ -8425,8 +8425,8 @@ extension DataExchangeClientTypes.TableLFTagPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let expression = expression {
             var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
-            for listoflftags0 in expression {
-                try expressionContainer.encode(listoflftags0)
+            for lftag0 in expression {
+                try expressionContainer.encode(lftag0)
             }
         }
     }
@@ -8474,14 +8474,14 @@ extension DataExchangeClientTypes.TableLFTagPolicyAndPermissions: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let expression = expression {
             var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
-            for listoflftags0 in expression {
-                try expressionContainer.encode(listoflftags0)
+            for lftag0 in expression {
+                try expressionContainer.encode(lftag0)
             }
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for listoftabletagpolicylfpermissions0 in permissions {
-                try permissionsContainer.encode(listoftabletagpolicylfpermissions0.rawValue)
+            for tabletagpolicylfpermission0 in permissions {
+                try permissionsContainer.encode(tabletagpolicylfpermission0.rawValue)
             }
         }
     }
@@ -8576,8 +8576,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

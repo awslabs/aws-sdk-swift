@@ -227,8 +227,8 @@ extension AddTagsInput: Swift.Encodable {
         }
         if let tagsList = tagsList {
             var tagsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsList)
-            for tagslist0 in tagsList {
-                try tagsListContainer.encode(tagslist0)
+            for tag0 in tagsList {
+                try tagsListContainer.encode(tag0)
             }
         }
     }
@@ -355,8 +355,8 @@ extension CloudTrailClientTypes.AdvancedEventSelector: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fieldSelectors = fieldSelectors {
             var fieldSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldSelectors)
-            for advancedfieldselectors0 in fieldSelectors {
-                try fieldSelectorsContainer.encode(advancedfieldselectors0)
+            for advancedfieldselector0 in fieldSelectors {
+                try fieldSelectorsContainer.encode(advancedfieldselector0)
             }
         }
         if let name = self.name {
@@ -433,14 +433,14 @@ extension CloudTrailClientTypes.AdvancedFieldSelector: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let endsWith = endsWith {
             var endsWithContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endsWith)
-            for operator0 in endsWith {
-                try endsWithContainer.encode(operator0)
+            for operatorvalue0 in endsWith {
+                try endsWithContainer.encode(operatorvalue0)
             }
         }
         if let equals = equals {
             var equalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .equals)
-            for operator0 in equals {
-                try equalsContainer.encode(operator0)
+            for operatorvalue0 in equals {
+                try equalsContainer.encode(operatorvalue0)
             }
         }
         if let field = self.field {
@@ -448,26 +448,26 @@ extension CloudTrailClientTypes.AdvancedFieldSelector: Swift.Codable {
         }
         if let notEndsWith = notEndsWith {
             var notEndsWithContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notEndsWith)
-            for operator0 in notEndsWith {
-                try notEndsWithContainer.encode(operator0)
+            for operatorvalue0 in notEndsWith {
+                try notEndsWithContainer.encode(operatorvalue0)
             }
         }
         if let notEquals = notEquals {
             var notEqualsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notEquals)
-            for operator0 in notEquals {
-                try notEqualsContainer.encode(operator0)
+            for operatorvalue0 in notEquals {
+                try notEqualsContainer.encode(operatorvalue0)
             }
         }
         if let notStartsWith = notStartsWith {
             var notStartsWithContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notStartsWith)
-            for operator0 in notStartsWith {
-                try notStartsWithContainer.encode(operator0)
+            for operatorvalue0 in notStartsWith {
+                try notStartsWithContainer.encode(operatorvalue0)
             }
         }
         if let startsWith = startsWith {
             var startsWithContainer = encodeContainer.nestedUnkeyedContainer(forKey: .startsWith)
-            for operator0 in startsWith {
-                try startsWithContainer.encode(operator0)
+            for operatorvalue0 in startsWith {
+                try startsWithContainer.encode(operatorvalue0)
             }
         }
     }
@@ -1311,8 +1311,8 @@ extension CreateEventDataStoreInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let advancedEventSelectors = advancedEventSelectors {
             var advancedEventSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .advancedEventSelectors)
-            for advancedeventselectors0 in advancedEventSelectors {
-                try advancedEventSelectorsContainer.encode(advancedeventselectors0)
+            for advancedeventselector0 in advancedEventSelectors {
+                try advancedEventSelectorsContainer.encode(advancedeventselector0)
             }
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -1332,8 +1332,8 @@ extension CreateEventDataStoreInput: Swift.Encodable {
         }
         if let tagsList = tagsList {
             var tagsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsList)
-            for tagslist0 in tagsList {
-                try tagsListContainer.encode(tagslist0)
+            for tag0 in tagsList {
+                try tagsListContainer.encode(tag0)
             }
         }
         if let terminationProtectionEnabled = self.terminationProtectionEnabled {
@@ -1737,8 +1737,8 @@ extension CreateTrailInput: Swift.Encodable {
         }
         if let tagsList = tagsList {
             var tagsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsList)
-            for tagslist0 in tagsList {
-                try tagsListContainer.encode(tagslist0)
+            for tag0 in tagsList {
+                try tagsListContainer.encode(tag0)
             }
         }
     }
@@ -2154,8 +2154,8 @@ extension CloudTrailClientTypes.DataResource: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for dataresourcevalues0 in values {
-                try valuesContainer.encode(dataresourcevalues0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -2867,8 +2867,8 @@ extension DescribeTrailsInput: Swift.Encodable {
         }
         if let trailNameList = trailNameList {
             var trailNameListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trailNameList)
-            for trailnamelist0 in trailNameList {
-                try trailNameListContainer.encode(trailnamelist0)
+            for string0 in trailNameList {
+                try trailNameListContainer.encode(string0)
             }
         }
     }
@@ -3129,8 +3129,8 @@ extension CloudTrailClientTypes.Event: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for resourcelist0 in resources {
-                try resourcesContainer.encode(resourcelist0)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
             }
         }
         if let username = self.username {
@@ -3265,8 +3265,8 @@ extension CloudTrailClientTypes.EventDataStore: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let advancedEventSelectors = advancedEventSelectors {
             var advancedEventSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .advancedEventSelectors)
-            for advancedeventselectors0 in advancedEventSelectors {
-                try advancedEventSelectorsContainer.encode(advancedeventselectors0)
+            for advancedeventselector0 in advancedEventSelectors {
+                try advancedEventSelectorsContainer.encode(advancedeventselector0)
             }
         }
         if let createdTimestamp = self.createdTimestamp {
@@ -3757,14 +3757,14 @@ extension CloudTrailClientTypes.EventSelector: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataResources = dataResources {
             var dataResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataResources)
-            for dataresources0 in dataResources {
-                try dataResourcesContainer.encode(dataresources0)
+            for dataresource0 in dataResources {
+                try dataResourcesContainer.encode(dataresource0)
             }
         }
         if let excludeManagementEventSources = excludeManagementEventSources {
             var excludeManagementEventSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeManagementEventSources)
-            for excludemanagementeventsources0 in excludeManagementEventSources {
-                try excludeManagementEventSourcesContainer.encode(excludemanagementeventsources0)
+            for string0 in excludeManagementEventSources {
+                try excludeManagementEventSourcesContainer.encode(string0)
             }
         }
         if let includeManagementEvents = self.includeManagementEvents {
@@ -5729,8 +5729,8 @@ extension CloudTrailClientTypes.ImportsListItem: Swift.Codable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for importdestinations0 in destinations {
-                try destinationsContainer.encode(importdestinations0)
+            for eventdatastorearn0 in destinations {
+                try destinationsContainer.encode(eventdatastorearn0)
             }
         }
         if let importId = self.importId {
@@ -8750,8 +8750,8 @@ extension ListTagsInput: Swift.Encodable {
         }
         if let resourceIdList = resourceIdList {
             var resourceIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIdList)
-            for resourceidlist0 in resourceIdList {
-                try resourceIdListContainer.encode(resourceidlist0)
+            for string0 in resourceIdList {
+                try resourceIdListContainer.encode(string0)
             }
         }
     }
@@ -9159,8 +9159,8 @@ extension LookupEventsInput: Swift.Encodable {
         }
         if let lookupAttributes = lookupAttributes {
             var lookupAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lookupAttributes)
-            for lookupattributeslist0 in lookupAttributes {
-                try lookupAttributesContainer.encode(lookupattributeslist0)
+            for lookupattribute0 in lookupAttributes {
+                try lookupAttributesContainer.encode(lookupattribute0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9854,14 +9854,14 @@ extension PutEventSelectorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let advancedEventSelectors = advancedEventSelectors {
             var advancedEventSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .advancedEventSelectors)
-            for advancedeventselectors0 in advancedEventSelectors {
-                try advancedEventSelectorsContainer.encode(advancedeventselectors0)
+            for advancedeventselector0 in advancedEventSelectors {
+                try advancedEventSelectorsContainer.encode(advancedeventselector0)
             }
         }
         if let eventSelectors = eventSelectors {
             var eventSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventSelectors)
-            for eventselectors0 in eventSelectors {
-                try eventSelectorsContainer.encode(eventselectors0)
+            for eventselector0 in eventSelectors {
+                try eventSelectorsContainer.encode(eventselector0)
             }
         }
         if let trailName = self.trailName {
@@ -10081,8 +10081,8 @@ extension PutInsightSelectorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let insightSelectors = insightSelectors {
             var insightSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insightSelectors)
-            for insightselectors0 in insightSelectors {
-                try insightSelectorsContainer.encode(insightselectors0)
+            for insightselector0 in insightSelectors {
+                try insightSelectorsContainer.encode(insightselector0)
             }
         }
         if let trailName = self.trailName {
@@ -10684,8 +10684,8 @@ extension RemoveTagsInput: Swift.Encodable {
         }
         if let tagsList = tagsList {
             var tagsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsList)
-            for tagslist0 in tagsList {
-                try tagsListContainer.encode(tagslist0)
+            for tag0 in tagsList {
+                try tagsListContainer.encode(tag0)
             }
         }
     }
@@ -10909,8 +10909,8 @@ extension CloudTrailClientTypes.ResourceTag: Swift.Codable {
         }
         if let tagsList = tagsList {
             var tagsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsList)
-            for tagslist0 in tagsList {
-                try tagsListContainer.encode(tagslist0)
+            for tag0 in tagsList {
+                try tagsListContainer.encode(tag0)
             }
         }
     }
@@ -11371,8 +11371,8 @@ extension CloudTrailClientTypes.SourceConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let advancedEventSelectors = advancedEventSelectors {
             var advancedEventSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .advancedEventSelectors)
-            for advancedeventselectors0 in advancedEventSelectors {
-                try advancedEventSelectorsContainer.encode(advancedeventselectors0)
+            for advancedeventselector0 in advancedEventSelectors {
+                try advancedEventSelectorsContainer.encode(advancedeventselector0)
             }
         }
         if let applyToAllRegions = self.applyToAllRegions {
@@ -11431,8 +11431,8 @@ extension StartImportInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for importdestinations0 in destinations {
-                try destinationsContainer.encode(importdestinations0)
+            for eventdatastorearn0 in destinations {
+                try destinationsContainer.encode(eventdatastorearn0)
             }
         }
         if let endEventTime = self.endEventTime {
@@ -12806,8 +12806,8 @@ extension UpdateEventDataStoreInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let advancedEventSelectors = advancedEventSelectors {
             var advancedEventSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .advancedEventSelectors)
-            for advancedeventselectors0 in advancedEventSelectors {
-                try advancedEventSelectorsContainer.encode(advancedeventselectors0)
+            for advancedeventselector0 in advancedEventSelectors {
+                try advancedEventSelectorsContainer.encode(advancedeventselector0)
             }
         }
         if let eventDataStore = self.eventDataStore {

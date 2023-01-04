@@ -306,8 +306,8 @@ extension AmplifyBackendClientTypes.BackendAPIResourceConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalAuthTypes = additionalAuthTypes {
             var additionalAuthTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalAuthTypes)
-            for listofbackendapiauthtype0 in additionalAuthTypes {
-                try additionalAuthTypesContainer.encode(listofbackendapiauthtype0)
+            for backendapiauthtype0 in additionalAuthTypes {
+                try additionalAuthTypesContainer.encode(backendapiauthtype0)
             }
         }
         if let apiName = self.apiName {
@@ -616,14 +616,14 @@ extension AmplifyBackendClientTypes.BackendStoragePermissions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let authenticated = authenticated {
             var authenticatedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authenticated)
-            for listofauthenticatedelement0 in authenticated {
-                try authenticatedContainer.encode(listofauthenticatedelement0.rawValue)
+            for authenticatedelement0 in authenticated {
+                try authenticatedContainer.encode(authenticatedelement0.rawValue)
             }
         }
         if let unAuthenticated = unAuthenticated {
             var unAuthenticatedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .unAuthenticated)
-            for listofunauthenticatedelement0 in unAuthenticated {
-                try unAuthenticatedContainer.encode(listofunauthenticatedelement0.rawValue)
+            for unauthenticatedelement0 in unAuthenticated {
+                try unAuthenticatedContainer.encode(unauthenticatedelement0.rawValue)
             }
         }
     }
@@ -1367,20 +1367,20 @@ extension AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig: Swift.Codable 
         }
         if let oAuthScopes = oAuthScopes {
             var oAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oAuthScopes)
-            for listofoauthscopeselement0 in oAuthScopes {
-                try oAuthScopesContainer.encode(listofoauthscopeselement0.rawValue)
+            for oauthscopeselement0 in oAuthScopes {
+                try oAuthScopesContainer.encode(oauthscopeselement0.rawValue)
             }
         }
         if let redirectSignInURIs = redirectSignInURIs {
             var redirectSignInURIsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .redirectSignInURIs)
-            for listof__string0 in redirectSignInURIs {
-                try redirectSignInURIsContainer.encode(listof__string0)
+            for __string0 in redirectSignInURIs {
+                try redirectSignInURIsContainer.encode(__string0)
             }
         }
         if let redirectSignOutURIs = redirectSignOutURIs {
             var redirectSignOutURIsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .redirectSignOutURIs)
-            for listof__string0 in redirectSignOutURIs {
-                try redirectSignOutURIsContainer.encode(listof__string0)
+            for __string0 in redirectSignOutURIs {
+                try redirectSignOutURIsContainer.encode(__string0)
             }
         }
         if let socialProviderSettings = self.socialProviderSettings {
@@ -1601,8 +1601,8 @@ extension AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig: Swift
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalConstraints = additionalConstraints {
             var additionalConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalConstraints)
-            for listofadditionalconstraintselement0 in additionalConstraints {
-                try additionalConstraintsContainer.encode(listofadditionalconstraintselement0.rawValue)
+            for additionalconstraintselement0 in additionalConstraints {
+                try additionalConstraintsContainer.encode(additionalconstraintselement0.rawValue)
             }
         }
         if let minimumLength = self.minimumLength {
@@ -1745,8 +1745,8 @@ extension AmplifyBackendClientTypes.CreateBackendAuthUserPoolConfig: Swift.Codab
         }
         if let requiredSignUpAttributes = requiredSignUpAttributes {
             var requiredSignUpAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiredSignUpAttributes)
-            for listofrequiredsignupattributeselement0 in requiredSignUpAttributes {
-                try requiredSignUpAttributesContainer.encode(listofrequiredsignupattributeselement0.rawValue)
+            for requiredsignupattributeselement0 in requiredSignUpAttributes {
+                try requiredSignUpAttributesContainer.encode(requiredsignupattributeselement0.rawValue)
             }
         }
         if let signInMethod = self.signInMethod {
@@ -6579,8 +6579,8 @@ extension AmplifyBackendClientTypes.Settings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let mfaTypes = mfaTypes {
             var mfaTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mfaTypes)
-            for listofmfatypeselement0 in mfaTypes {
-                try mfaTypesContainer.encode(listofmfatypeselement0.rawValue)
+            for mfatypeselement0 in mfaTypes {
+                try mfaTypesContainer.encode(mfatypeselement0.rawValue)
             }
         }
         if let smsMessage = self.smsMessage {
@@ -7323,20 +7323,20 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig: Swift.Codable 
         }
         if let oAuthScopes = oAuthScopes {
             var oAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oAuthScopes)
-            for listofoauthscopeselement0 in oAuthScopes {
-                try oAuthScopesContainer.encode(listofoauthscopeselement0.rawValue)
+            for oauthscopeselement0 in oAuthScopes {
+                try oAuthScopesContainer.encode(oauthscopeselement0.rawValue)
             }
         }
         if let redirectSignInURIs = redirectSignInURIs {
             var redirectSignInURIsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .redirectSignInURIs)
-            for listof__string0 in redirectSignInURIs {
-                try redirectSignInURIsContainer.encode(listof__string0)
+            for __string0 in redirectSignInURIs {
+                try redirectSignInURIsContainer.encode(__string0)
             }
         }
         if let redirectSignOutURIs = redirectSignOutURIs {
             var redirectSignOutURIsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .redirectSignOutURIs)
-            for listof__string0 in redirectSignOutURIs {
-                try redirectSignOutURIsContainer.encode(listof__string0)
+            for __string0 in redirectSignOutURIs {
+                try redirectSignOutURIsContainer.encode(__string0)
             }
         }
         if let socialProviderSettings = self.socialProviderSettings {
@@ -7553,8 +7553,8 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthPasswordPolicyConfig: Swift
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalConstraints = additionalConstraints {
             var additionalConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalConstraints)
-            for listofadditionalconstraintselement0 in additionalConstraints {
-                try additionalConstraintsContainer.encode(listofadditionalconstraintselement0.rawValue)
+            for additionalconstraintselement0 in additionalConstraints {
+                try additionalConstraintsContainer.encode(additionalconstraintselement0.rawValue)
             }
         }
         if let minimumLength = self.minimumLength {

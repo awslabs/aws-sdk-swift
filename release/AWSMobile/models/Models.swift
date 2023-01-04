@@ -122,8 +122,8 @@ extension MobileClientTypes.BundleDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availablePlatforms = availablePlatforms {
             var availablePlatformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availablePlatforms)
-            for platforms0 in availablePlatforms {
-                try availablePlatformsContainer.encode(platforms0.rawValue)
+            for platform0 in availablePlatforms {
+                try availablePlatformsContainer.encode(platform0.rawValue)
             }
         }
         if let bundleId = self.bundleId {
@@ -1539,8 +1539,8 @@ extension MobileClientTypes.ProjectDetails: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for resources0 in resources {
-                try resourcesContainer.encode(resources0)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
             }
         }
         if let state = self.state {

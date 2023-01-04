@@ -631,8 +631,8 @@ extension KinesisAnalyticsClientTypes.ApplicationDetail: Swift.Codable {
         }
         if let cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions {
             var cloudWatchLoggingOptionDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchLoggingOptionDescriptions)
-            for cloudwatchloggingoptiondescriptions0 in cloudWatchLoggingOptionDescriptions {
-                try cloudWatchLoggingOptionDescriptionsContainer.encode(cloudwatchloggingoptiondescriptions0)
+            for cloudwatchloggingoptiondescription0 in cloudWatchLoggingOptionDescriptions {
+                try cloudWatchLoggingOptionDescriptionsContainer.encode(cloudwatchloggingoptiondescription0)
             }
         }
         if let createTimestamp = self.createTimestamp {
@@ -640,8 +640,8 @@ extension KinesisAnalyticsClientTypes.ApplicationDetail: Swift.Codable {
         }
         if let inputDescriptions = inputDescriptions {
             var inputDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputDescriptions)
-            for inputdescriptions0 in inputDescriptions {
-                try inputDescriptionsContainer.encode(inputdescriptions0)
+            for inputdescription0 in inputDescriptions {
+                try inputDescriptionsContainer.encode(inputdescription0)
             }
         }
         if let lastUpdateTimestamp = self.lastUpdateTimestamp {
@@ -649,14 +649,14 @@ extension KinesisAnalyticsClientTypes.ApplicationDetail: Swift.Codable {
         }
         if let outputDescriptions = outputDescriptions {
             var outputDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputDescriptions)
-            for outputdescriptions0 in outputDescriptions {
-                try outputDescriptionsContainer.encode(outputdescriptions0)
+            for outputdescription0 in outputDescriptions {
+                try outputDescriptionsContainer.encode(outputdescription0)
             }
         }
         if let referenceDataSourceDescriptions = referenceDataSourceDescriptions {
             var referenceDataSourceDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceDataSourceDescriptions)
-            for referencedatasourcedescriptions0 in referenceDataSourceDescriptions {
-                try referenceDataSourceDescriptionsContainer.encode(referencedatasourcedescriptions0)
+            for referencedatasourcedescription0 in referenceDataSourceDescriptions {
+                try referenceDataSourceDescriptionsContainer.encode(referencedatasourcedescription0)
             }
         }
     }
@@ -908,26 +908,26 @@ extension KinesisAnalyticsClientTypes.ApplicationUpdate: Swift.Codable {
         }
         if let cloudWatchLoggingOptionUpdates = cloudWatchLoggingOptionUpdates {
             var cloudWatchLoggingOptionUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchLoggingOptionUpdates)
-            for cloudwatchloggingoptionupdates0 in cloudWatchLoggingOptionUpdates {
-                try cloudWatchLoggingOptionUpdatesContainer.encode(cloudwatchloggingoptionupdates0)
+            for cloudwatchloggingoptionupdate0 in cloudWatchLoggingOptionUpdates {
+                try cloudWatchLoggingOptionUpdatesContainer.encode(cloudwatchloggingoptionupdate0)
             }
         }
         if let inputUpdates = inputUpdates {
             var inputUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputUpdates)
-            for inputupdates0 in inputUpdates {
-                try inputUpdatesContainer.encode(inputupdates0)
+            for inputupdate0 in inputUpdates {
+                try inputUpdatesContainer.encode(inputupdate0)
             }
         }
         if let outputUpdates = outputUpdates {
             var outputUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputUpdates)
-            for outputupdates0 in outputUpdates {
-                try outputUpdatesContainer.encode(outputupdates0)
+            for outputupdate0 in outputUpdates {
+                try outputUpdatesContainer.encode(outputupdate0)
             }
         }
         if let referenceDataSourceUpdates = referenceDataSourceUpdates {
             var referenceDataSourceUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceDataSourceUpdates)
-            for referencedatasourceupdates0 in referenceDataSourceUpdates {
-                try referenceDataSourceUpdatesContainer.encode(referencedatasourceupdates0)
+            for referencedatasourceupdate0 in referenceDataSourceUpdates {
+                try referenceDataSourceUpdatesContainer.encode(referencedatasourceupdate0)
             }
         }
     }
@@ -1353,26 +1353,26 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let cloudWatchLoggingOptions = cloudWatchLoggingOptions {
             var cloudWatchLoggingOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchLoggingOptions)
-            for cloudwatchloggingoptions0 in cloudWatchLoggingOptions {
-                try cloudWatchLoggingOptionsContainer.encode(cloudwatchloggingoptions0)
+            for cloudwatchloggingoption0 in cloudWatchLoggingOptions {
+                try cloudWatchLoggingOptionsContainer.encode(cloudwatchloggingoption0)
             }
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for inputs0 in inputs {
-                try inputsContainer.encode(inputs0)
+            for input0 in inputs {
+                try inputsContainer.encode(input0)
             }
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for outputs0 in outputs {
-                try outputsContainer.encode(outputs0)
+            for output0 in outputs {
+                try outputsContainer.encode(output0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2666,8 +2666,8 @@ extension KinesisAnalyticsClientTypes.InputDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inAppStreamNames = inAppStreamNames {
             var inAppStreamNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inAppStreamNames)
-            for inappstreamnames0 in inAppStreamNames {
-                try inAppStreamNamesContainer.encode(inappstreamnames0)
+            for inappstreamname0 in inAppStreamNames {
+                try inAppStreamNamesContainer.encode(inappstreamname0)
             }
         }
         if let inputId = self.inputId {
@@ -3101,8 +3101,8 @@ extension KinesisAnalyticsClientTypes.InputSchemaUpdate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recordColumnUpdates = recordColumnUpdates {
             var recordColumnUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordColumnUpdates)
-            for recordcolumns0 in recordColumnUpdates {
-                try recordColumnUpdatesContainer.encode(recordcolumns0)
+            for recordcolumn0 in recordColumnUpdates {
+                try recordColumnUpdatesContainer.encode(recordcolumn0)
             }
         }
         if let recordEncodingUpdate = self.recordEncodingUpdate {
@@ -5545,8 +5545,8 @@ extension KinesisAnalyticsClientTypes.SourceSchema: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recordColumns = recordColumns {
             var recordColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordColumns)
-            for recordcolumns0 in recordColumns {
-                try recordColumnsContainer.encode(recordcolumns0)
+            for recordcolumn0 in recordColumns {
+                try recordColumnsContainer.encode(recordcolumn0)
             }
         }
         if let recordEncoding = self.recordEncoding {
@@ -5616,8 +5616,8 @@ extension StartApplicationInput: Swift.Encodable {
         }
         if let inputConfigurations = inputConfigurations {
             var inputConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputConfigurations)
-            for inputconfigurations0 in inputConfigurations {
-                try inputConfigurationsContainer.encode(inputconfigurations0)
+            for inputconfiguration0 in inputConfigurations {
+                try inputConfigurationsContainer.encode(inputconfiguration0)
             }
         }
     }
@@ -5863,8 +5863,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6168,8 +6168,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

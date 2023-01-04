@@ -274,8 +274,8 @@ extension CreateSystemInstanceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let target = self.target {
@@ -1734,8 +1734,8 @@ extension IoTThingsGraphClientTypes.EntityFilter: Swift.Codable {
         }
         if let value = value {
             var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
-            for entityfiltervalues0 in value {
-                try valueContainer.encode(entityfiltervalues0)
+            for entityfiltervalue0 in value {
+                try valueContainer.encode(entityfiltervalue0)
             }
         }
     }
@@ -2205,8 +2205,8 @@ extension IoTThingsGraphClientTypes.FlowTemplateFilter: Swift.Codable {
         }
         if let value = value {
             var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
-            for flowtemplatefiltervalues0 in value {
-                try valueContainer.encode(flowtemplatefiltervalues0)
+            for flowtemplatefiltervalue0 in value {
+                try valueContainer.encode(flowtemplatefiltervalue0)
             }
         }
     }
@@ -2355,8 +2355,8 @@ extension GetEntitiesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for urns0 in ids {
-                try idsContainer.encode(urns0)
+            for urn0 in ids {
+                try idsContainer.encode(urn0)
             }
         }
         if let namespaceVersion = self.namespaceVersion {
@@ -4268,14 +4268,14 @@ extension SearchEntitiesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entityTypes = entityTypes {
             var entityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTypes)
-            for entitytypes0 in entityTypes {
-                try entityTypesContainer.encode(entitytypes0.rawValue)
+            for entitytype0 in entityTypes {
+                try entityTypesContainer.encode(entitytype0.rawValue)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for entityfilters0 in filters {
-                try filtersContainer.encode(entityfilters0)
+            for entityfilter0 in filters {
+                try filtersContainer.encode(entityfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4668,8 +4668,8 @@ extension SearchFlowTemplatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for flowtemplatefilters0 in filters {
-                try filtersContainer.encode(flowtemplatefilters0)
+            for flowtemplatefilter0 in filters {
+                try filtersContainer.encode(flowtemplatefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4837,8 +4837,8 @@ extension SearchSystemInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for systeminstancefilters0 in filters {
-                try filtersContainer.encode(systeminstancefilters0)
+            for systeminstancefilter0 in filters {
+                try filtersContainer.encode(systeminstancefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5006,8 +5006,8 @@ extension SearchSystemTemplatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for systemtemplatefilters0 in filters {
-                try filtersContainer.encode(systemtemplatefilters0)
+            for systemtemplatefilter0 in filters {
+                try filtersContainer.encode(systemtemplatefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5416,8 +5416,8 @@ extension IoTThingsGraphClientTypes.SystemInstanceDescription: Swift.Codable {
         }
         if let validatedDependencyRevisions = validatedDependencyRevisions {
             var validatedDependencyRevisionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validatedDependencyRevisions)
-            for dependencyrevisions0 in validatedDependencyRevisions {
-                try validatedDependencyRevisionsContainer.encode(dependencyrevisions0)
+            for dependencyrevision0 in validatedDependencyRevisions {
+                try validatedDependencyRevisionsContainer.encode(dependencyrevision0)
             }
         }
         if let validatedNamespaceVersion = self.validatedNamespaceVersion {
@@ -5506,8 +5506,8 @@ extension IoTThingsGraphClientTypes.SystemInstanceFilter: Swift.Codable {
         }
         if let value = value {
             var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
-            for systeminstancefiltervalues0 in value {
-                try valueContainer.encode(systeminstancefiltervalues0)
+            for systeminstancefiltervalue0 in value {
+                try valueContainer.encode(systeminstancefiltervalue0)
             }
         }
     }
@@ -5768,8 +5768,8 @@ extension IoTThingsGraphClientTypes.SystemTemplateFilter: Swift.Codable {
         }
         if let value = value {
             var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
-            for systemtemplatefiltervalues0 in value {
-                try valueContainer.encode(systemtemplatefiltervalues0)
+            for systemtemplatefiltervalue0 in value {
+                try valueContainer.encode(systemtemplatefiltervalue0)
             }
         }
     }
@@ -5968,8 +5968,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6294,8 +6294,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

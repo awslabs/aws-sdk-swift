@@ -105,8 +105,8 @@ extension MgnClientTypes.Application: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let waveID = self.waveID {
@@ -781,8 +781,8 @@ extension AssociateApplicationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationIDs = applicationIDs {
             var applicationIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationIDs)
-            for applicationids0 in applicationIDs {
-                try applicationIDsContainer.encode(applicationids0)
+            for applicationid0 in applicationIDs {
+                try applicationIDsContainer.encode(applicationid0)
             }
         }
         if let waveID = self.waveID {
@@ -895,8 +895,8 @@ extension AssociateSourceServersInput: Swift.Encodable {
         }
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
-            for associatesourceserversrequestsourceserverids0 in sourceServerIDs {
-                try sourceServerIDsContainer.encode(associatesourceserversrequestsourceserverids0)
+            for sourceserverid0 in sourceServerIDs {
+                try sourceServerIDsContainer.encode(sourceserverid0)
             }
         }
     }
@@ -1507,8 +1507,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1808,8 +1808,8 @@ extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetInstanceTypeRightSizingMethod = self.targetInstanceTypeRightSizingMethod {
@@ -2257,8 +2257,8 @@ extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs {
             var replicationServersSecurityGroupsIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationServersSecurityGroupsIDs)
-            for replicationserverssecuritygroupsids0 in replicationServersSecurityGroupsIDs {
-                try replicationServersSecurityGroupsIDsContainer.encode(replicationserverssecuritygroupsids0)
+            for securitygroupid0 in replicationServersSecurityGroupsIDs {
+                try replicationServersSecurityGroupsIDsContainer.encode(securitygroupid0)
             }
         }
         if let stagingAreaSubnetId = self.stagingAreaSubnetId {
@@ -2266,14 +2266,14 @@ extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let stagingAreaTags = stagingAreaTags {
             var stagingAreaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stagingAreaTags)
-            for (dictKey0, tagsmap0) in stagingAreaTags {
-                try stagingAreaTagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in stagingAreaTags {
+                try stagingAreaTagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
@@ -2712,8 +2712,8 @@ extension CreateWaveInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3092,8 +3092,8 @@ extension MgnClientTypes.DataReplicationInfo: Swift.Codable {
         }
         if let replicatedDisks = replicatedDisks {
             var replicatedDisksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicatedDisks)
-            for datareplicationinforeplicateddisks0 in replicatedDisks {
-                try replicatedDisksContainer.encode(datareplicationinforeplicateddisks0)
+            for datareplicationinforeplicateddisk0 in replicatedDisks {
+                try replicatedDisksContainer.encode(datareplicationinforeplicateddisk0)
             }
         }
     }
@@ -3258,8 +3258,8 @@ extension MgnClientTypes.DataReplicationInitiation: Swift.Codable {
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for datareplicationinitiationsteps0 in steps {
-                try stepsContainer.encode(datareplicationinitiationsteps0)
+            for datareplicationinitiationstep0 in steps {
+                try stepsContainer.encode(datareplicationinitiationstep0)
             }
         }
     }
@@ -4428,8 +4428,8 @@ extension MgnClientTypes.DescribeJobsRequestFilters: Swift.Codable {
         }
         if let jobIDs = jobIDs {
             var jobIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobIDs)
-            for describejobsrequestfiltersjobids0 in jobIDs {
-                try jobIDsContainer.encode(describejobsrequestfiltersjobids0)
+            for jobid0 in jobIDs {
+                try jobIDsContainer.encode(jobid0)
             }
         }
         if let toDate = self.toDate {
@@ -4492,8 +4492,8 @@ extension DescribeLaunchConfigurationTemplatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let launchConfigurationTemplateIDs = launchConfigurationTemplateIDs {
             var launchConfigurationTemplateIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .launchConfigurationTemplateIDs)
-            for launchconfigurationtemplateids0 in launchConfigurationTemplateIDs {
-                try launchConfigurationTemplateIDsContainer.encode(launchconfigurationtemplateids0)
+            for launchconfigurationtemplateid0 in launchConfigurationTemplateIDs {
+                try launchConfigurationTemplateIDsContainer.encode(launchconfigurationtemplateid0)
             }
         }
         if maxResults != 0 {
@@ -4667,8 +4667,8 @@ extension DescribeReplicationConfigurationTemplatesInput: Swift.Encodable {
         }
         if let replicationConfigurationTemplateIDs = replicationConfigurationTemplateIDs {
             var replicationConfigurationTemplateIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationConfigurationTemplateIDs)
-            for replicationconfigurationtemplateids0 in replicationConfigurationTemplateIDs {
-                try replicationConfigurationTemplateIDsContainer.encode(replicationconfigurationtemplateids0)
+            for replicationconfigurationtemplateid0 in replicationConfigurationTemplateIDs {
+                try replicationConfigurationTemplateIDsContainer.encode(replicationconfigurationtemplateid0)
             }
         }
     }
@@ -4987,8 +4987,8 @@ extension MgnClientTypes.DescribeSourceServersRequestFilters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationIDs = applicationIDs {
             var applicationIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationIDs)
-            for describesourceserversrequestapplicationids0 in applicationIDs {
-                try applicationIDsContainer.encode(describesourceserversrequestapplicationids0)
+            for applicationid0 in applicationIDs {
+                try applicationIDsContainer.encode(applicationid0)
             }
         }
         if let isArchived = self.isArchived {
@@ -4996,20 +4996,20 @@ extension MgnClientTypes.DescribeSourceServersRequestFilters: Swift.Codable {
         }
         if let lifeCycleStates = lifeCycleStates {
             var lifeCycleStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lifeCycleStates)
-            for lifecyclestates0 in lifeCycleStates {
-                try lifeCycleStatesContainer.encode(lifecyclestates0.rawValue)
+            for lifecyclestate0 in lifeCycleStates {
+                try lifeCycleStatesContainer.encode(lifecyclestate0.rawValue)
             }
         }
         if let replicationTypes = replicationTypes {
             var replicationTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationTypes)
-            for replicationtypes0 in replicationTypes {
-                try replicationTypesContainer.encode(replicationtypes0.rawValue)
+            for replicationtype0 in replicationTypes {
+                try replicationTypesContainer.encode(replicationtype0.rawValue)
             }
         }
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
-            for describesourceserversrequestfiltersids0 in sourceServerIDs {
-                try sourceServerIDsContainer.encode(describesourceserversrequestfiltersids0)
+            for sourceserverid0 in sourceServerIDs {
+                try sourceServerIDsContainer.encode(sourceserverid0)
             }
         }
     }
@@ -5241,8 +5241,8 @@ extension DisassociateApplicationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationIDs = applicationIDs {
             var applicationIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationIDs)
-            for applicationids0 in applicationIDs {
-                try applicationIDsContainer.encode(applicationids0)
+            for applicationid0 in applicationIDs {
+                try applicationIDsContainer.encode(applicationid0)
             }
         }
         if let waveID = self.waveID {
@@ -5353,8 +5353,8 @@ extension DisassociateSourceServersInput: Swift.Encodable {
         }
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
-            for disassociatesourceserversrequestsourceserverids0 in sourceServerIDs {
-                try sourceServerIDsContainer.encode(disassociatesourceserversrequestsourceserverids0)
+            for sourceserverid0 in sourceServerIDs {
+                try sourceServerIDsContainer.encode(sourceserverid0)
             }
         }
     }
@@ -6826,8 +6826,8 @@ extension MgnClientTypes.Job: Swift.Codable {
         }
         if let participatingServers = participatingServers {
             var participatingServersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .participatingServers)
-            for participatingservers0 in participatingServers {
-                try participatingServersContainer.encode(participatingservers0)
+            for participatingserver0 in participatingServers {
+                try participatingServersContainer.encode(participatingserver0)
             }
         }
         if let status = self.status {
@@ -6835,8 +6835,8 @@ extension MgnClientTypes.Job: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -7345,8 +7345,8 @@ extension MgnClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetInstanceTypeRightSizingMethod = self.targetInstanceTypeRightSizingMethod {
@@ -8357,8 +8357,8 @@ extension MgnClientTypes.ListApplicationsRequestFilters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationIDs = applicationIDs {
             var applicationIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationIDs)
-            for applicationidsfilter0 in applicationIDs {
-                try applicationIDsContainer.encode(applicationidsfilter0)
+            for applicationid0 in applicationIDs {
+                try applicationIDsContainer.encode(applicationid0)
             }
         }
         if let isArchived = self.isArchived {
@@ -8366,8 +8366,8 @@ extension MgnClientTypes.ListApplicationsRequestFilters: Swift.Codable {
         }
         if let waveIDs = waveIDs {
             var waveIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .waveIDs)
-            for waveidsfilter0 in waveIDs {
-                try waveIDsContainer.encode(waveidsfilter0)
+            for waveid0 in waveIDs {
+                try waveIDsContainer.encode(waveid0)
             }
         }
     }
@@ -9043,8 +9043,8 @@ extension MgnClientTypes.ListWavesRequestFilters: Swift.Codable {
         }
         if let waveIDs = waveIDs {
             var waveIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .waveIDs)
-            for waveidsfilter0 in waveIDs {
-                try waveIDsContainer.encode(waveidsfilter0)
+            for waveid0 in waveIDs {
+                try waveIDsContainer.encode(waveid0)
             }
         }
     }
@@ -9327,8 +9327,8 @@ extension MgnClientTypes.NetworkInterface: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ips = ips {
             var ipsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ips)
-            for ipslist0 in ips {
-                try ipsContainer.encode(ipslist0)
+            for boundedstring0 in ips {
+                try ipsContainer.encode(boundedstring0)
             }
         }
         if let isPrimary = self.isPrimary {
@@ -9544,8 +9544,8 @@ extension MgnClientTypes.PostLaunchActions: Swift.Codable {
         }
         if let ssmDocuments = ssmDocuments {
             var ssmDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ssmDocuments)
-            for ssmdocuments0 in ssmDocuments {
-                try ssmDocumentsContainer.encode(ssmdocuments0)
+            for ssmdocument0 in ssmDocuments {
+                try ssmDocumentsContainer.encode(ssmdocument0)
             }
         }
     }
@@ -9651,8 +9651,8 @@ extension MgnClientTypes.PostLaunchActionsStatus: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let postLaunchActionsLaunchStatusList = postLaunchActionsLaunchStatusList {
             var postLaunchActionsLaunchStatusListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .postLaunchActionsLaunchStatusList)
-            for postlaunchactionslaunchstatuslist0 in postLaunchActionsLaunchStatusList {
-                try postLaunchActionsLaunchStatusListContainer.encode(postlaunchactionslaunchstatuslist0)
+            for jobpostlaunchactionslaunchstatus0 in postLaunchActionsLaunchStatusList {
+                try postLaunchActionsLaunchStatusListContainer.encode(jobpostlaunchactionslaunchstatus0)
             }
         }
         if let ssmAgentDiscoveryDatetime = self.ssmAgentDiscoveryDatetime {
@@ -9737,8 +9737,11 @@ extension PutSourceServerActionInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, ssmdocumentparameters0) in parameters {
-                try parametersContainer.encode(ssmdocumentparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ssmDocumentParameters0) in parameters {
+                var ssmDocumentParameters0Container = parametersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for ssmparameterstoreparameter1 in ssmDocumentParameters0 {
+                    try ssmDocumentParameters0Container.encode(ssmparameterstoreparameter1)
+                }
             }
         }
         if let sourceServerID = self.sourceServerID {
@@ -10088,8 +10091,11 @@ extension PutTemplateActionInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, ssmdocumentparameters0) in parameters {
-                try parametersContainer.encode(ssmdocumentparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ssmDocumentParameters0) in parameters {
+                var ssmDocumentParameters0Container = parametersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for ssmparameterstoreparameter1 in ssmDocumentParameters0 {
+                    try ssmDocumentParameters0Container.encode(ssmparameterstoreparameter1)
+                }
             }
         }
         if timeoutSeconds != 0 {
@@ -10879,8 +10885,8 @@ extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
         }
         if let replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs {
             var replicationServersSecurityGroupsIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationServersSecurityGroupsIDs)
-            for replicationserverssecuritygroupsids0 in replicationServersSecurityGroupsIDs {
-                try replicationServersSecurityGroupsIDsContainer.encode(replicationserverssecuritygroupsids0)
+            for securitygroupid0 in replicationServersSecurityGroupsIDs {
+                try replicationServersSecurityGroupsIDsContainer.encode(securitygroupid0)
             }
         }
         if let stagingAreaSubnetId = self.stagingAreaSubnetId {
@@ -10888,14 +10894,14 @@ extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
         }
         if let stagingAreaTags = stagingAreaTags {
             var stagingAreaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stagingAreaTags)
-            for (dictKey0, tagsmap0) in stagingAreaTags {
-                try stagingAreaTagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in stagingAreaTags {
+                try stagingAreaTagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
@@ -11511,14 +11517,14 @@ extension MgnClientTypes.SourceProperties: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cpus = cpus {
             var cpusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cpus)
-            for cpus0 in cpus {
-                try cpusContainer.encode(cpus0)
+            for cpu0 in cpus {
+                try cpusContainer.encode(cpu0)
             }
         }
         if let disks = disks {
             var disksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .disks)
-            for disks0 in disks {
-                try disksContainer.encode(disks0)
+            for disk0 in disks {
+                try disksContainer.encode(disk0)
             }
         }
         if let identificationHints = self.identificationHints {
@@ -11529,8 +11535,8 @@ extension MgnClientTypes.SourceProperties: Swift.Codable {
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfaces0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let os = self.os {
@@ -11682,8 +11688,8 @@ extension MgnClientTypes.SourceServer: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vcenterClientID = self.vcenterClientID {
@@ -11825,8 +11831,11 @@ extension MgnClientTypes.SourceServerActionDocument: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, ssmdocumentparameters0) in parameters {
-                try parametersContainer.encode(ssmdocumentparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ssmDocumentParameters0) in parameters {
+                var ssmDocumentParameters0Container = parametersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for ssmparameterstoreparameter1 in ssmDocumentParameters0 {
+                    try ssmDocumentParameters0Container.encode(ssmparameterstoreparameter1)
+                }
             }
         }
         if timeoutSeconds != 0 {
@@ -11929,8 +11938,8 @@ extension MgnClientTypes.SourceServerActionsRequestFilters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actionIDs = actionIDs {
             var actionIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionIDs)
-            for actionids0 in actionIDs {
-                try actionIDsContainer.encode(actionids0)
+            for actionid0 in actionIDs {
+                try actionIDsContainer.encode(actionid0)
             }
         }
     }
@@ -11986,8 +11995,11 @@ extension MgnClientTypes.SsmDocument: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, ssmdocumentparameters0) in parameters {
-                try parametersContainer.encode(ssmdocumentparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ssmDocumentParameters0) in parameters {
+                var ssmDocumentParameters0Container = parametersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for ssmparameterstoreparameter1 in ssmDocumentParameters0 {
+                    try ssmDocumentParameters0Container.encode(ssmparameterstoreparameter1)
+                }
             }
         }
         if let ssmDocumentName = self.ssmDocumentName {
@@ -12186,14 +12198,14 @@ extension StartCutoverInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
-            for startcutoverrequestsourceserverids0 in sourceServerIDs {
-                try sourceServerIDsContainer.encode(startcutoverrequestsourceserverids0)
+            for sourceserverid0 in sourceServerIDs {
+                try sourceServerIDsContainer.encode(sourceserverid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -12575,14 +12587,14 @@ extension StartTestInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
-            for starttestrequestsourceserverids0 in sourceServerIDs {
-                try sourceServerIDsContainer.encode(starttestrequestsourceserverids0)
+            for sourceserverid0 in sourceServerIDs {
+                try sourceServerIDsContainer.encode(sourceserverid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -12730,8 +12742,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -12903,8 +12915,11 @@ extension MgnClientTypes.TemplateActionDocument: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, ssmdocumentparameters0) in parameters {
-                try parametersContainer.encode(ssmdocumentparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ssmDocumentParameters0) in parameters {
+                var ssmDocumentParameters0Container = parametersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for ssmparameterstoreparameter1 in ssmDocumentParameters0 {
+                    try ssmDocumentParameters0Container.encode(ssmparameterstoreparameter1)
+                }
             }
         }
         if timeoutSeconds != 0 {
@@ -13013,8 +13028,8 @@ extension MgnClientTypes.TemplateActionsRequestFilters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actionIDs = actionIDs {
             var actionIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionIDs)
-            for actionids0 in actionIDs {
-                try actionIDsContainer.encode(actionids0)
+            for actionid0 in actionIDs {
+                try actionIDsContainer.encode(actionid0)
             }
         }
     }
@@ -13066,14 +13081,14 @@ extension TerminateTargetInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
-            for terminatetargetinstancesrequestsourceserverids0 in sourceServerIDs {
-                try sourceServerIDsContainer.encode(terminatetargetinstancesrequestsourceserverids0)
+            for sourceserverid0 in sourceServerIDs {
+                try sourceServerIDsContainer.encode(sourceserverid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14966,8 +14981,8 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
         }
         if let replicatedDisks = replicatedDisks {
             var replicatedDisksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicatedDisks)
-            for replicationconfigurationreplicateddisks0 in replicatedDisks {
-                try replicatedDisksContainer.encode(replicationconfigurationreplicateddisks0)
+            for replicationconfigurationreplicateddisk0 in replicatedDisks {
+                try replicatedDisksContainer.encode(replicationconfigurationreplicateddisk0)
             }
         }
         if let replicationServerInstanceType = self.replicationServerInstanceType {
@@ -14975,8 +14990,8 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
         }
         if let replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs {
             var replicationServersSecurityGroupsIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationServersSecurityGroupsIDs)
-            for replicationserverssecuritygroupsids0 in replicationServersSecurityGroupsIDs {
-                try replicationServersSecurityGroupsIDsContainer.encode(replicationserverssecuritygroupsids0)
+            for securitygroupid0 in replicationServersSecurityGroupsIDs {
+                try replicationServersSecurityGroupsIDsContainer.encode(securitygroupid0)
             }
         }
         if let sourceServerID = self.sourceServerID {
@@ -14987,8 +15002,8 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
         }
         if let stagingAreaTags = stagingAreaTags {
             var stagingAreaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stagingAreaTags)
-            for (dictKey0, tagsmap0) in stagingAreaTags {
-                try stagingAreaTagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in stagingAreaTags {
+                try stagingAreaTagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
@@ -15471,8 +15486,8 @@ extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs {
             var replicationServersSecurityGroupsIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationServersSecurityGroupsIDs)
-            for replicationserverssecuritygroupsids0 in replicationServersSecurityGroupsIDs {
-                try replicationServersSecurityGroupsIDsContainer.encode(replicationserverssecuritygroupsids0)
+            for securitygroupid0 in replicationServersSecurityGroupsIDs {
+                try replicationServersSecurityGroupsIDsContainer.encode(securitygroupid0)
             }
         }
         if let stagingAreaSubnetId = self.stagingAreaSubnetId {
@@ -15480,8 +15495,8 @@ extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let stagingAreaTags = stagingAreaTags {
             var stagingAreaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stagingAreaTags)
-            for (dictKey0, tagsmap0) in stagingAreaTags {
-                try stagingAreaTagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in stagingAreaTags {
+                try stagingAreaTagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
@@ -16567,14 +16582,14 @@ extension MgnClientTypes.VcenterClient: Swift.Codable {
         }
         if let sourceServerTags = sourceServerTags {
             var sourceServerTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sourceServerTags)
-            for (dictKey0, tagsmap0) in sourceServerTags {
-                try sourceServerTagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in sourceServerTags {
+                try sourceServerTagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vcenterClientID = self.vcenterClientID {
@@ -16755,8 +16770,8 @@ extension MgnClientTypes.Wave: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let waveAggregatedStatus = self.waveAggregatedStatus {

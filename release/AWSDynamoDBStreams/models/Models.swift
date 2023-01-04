@@ -26,25 +26,25 @@ extension DynamoDBStreamsClientTypes.AttributeValue: Swift.Codable {
                 try container.encode(bool, forKey: .bool)
             case let .bs(bs):
                 var bsContainer = container.nestedUnkeyedContainer(forKey: .bs)
-                for binarysetattributevalue0 in bs {
-                    try bsContainer.encode(binarysetattributevalue0.base64EncodedString())
+                for binaryattributevalue0 in bs {
+                    try bsContainer.encode(binaryattributevalue0.base64EncodedString())
                 }
             case let .l(l):
                 var lContainer = container.nestedUnkeyedContainer(forKey: .l)
-                for listattributevalue0 in l {
-                    try lContainer.encode(listattributevalue0)
+                for attributevalue0 in l {
+                    try lContainer.encode(attributevalue0)
                 }
             case let .m(m):
                 var mContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .m)
-                for (dictKey0, mapattributevalue0) in m {
-                    try mContainer.encode(mapattributevalue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey0, mapAttributeValue0) in m {
+                    try mContainer.encode(mapAttributeValue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
                 }
             case let .n(n):
                 try container.encode(n, forKey: .n)
             case let .ns(ns):
                 var nsContainer = container.nestedUnkeyedContainer(forKey: .ns)
-                for numbersetattributevalue0 in ns {
-                    try nsContainer.encode(numbersetattributevalue0)
+                for numberattributevalue0 in ns {
+                    try nsContainer.encode(numberattributevalue0)
                 }
             case let .null(null):
                 try container.encode(null, forKey: .null)
@@ -52,8 +52,8 @@ extension DynamoDBStreamsClientTypes.AttributeValue: Swift.Codable {
                 try container.encode(s, forKey: .s)
             case let .ss(ss):
                 var ssContainer = container.nestedUnkeyedContainer(forKey: .ss)
-                for stringsetattributevalue0 in ss {
-                    try ssContainer.encode(stringsetattributevalue0)
+                for stringattributevalue0 in ss {
+                    try ssContainer.encode(stringattributevalue0)
                 }
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
@@ -1502,8 +1502,8 @@ extension DynamoDBStreamsClientTypes.StreamDescription: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let lastEvaluatedShardId = self.lastEvaluatedShardId {
@@ -1511,8 +1511,8 @@ extension DynamoDBStreamsClientTypes.StreamDescription: Swift.Codable {
         }
         if let shards = shards {
             var shardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shards)
-            for sharddescriptionlist0 in shards {
-                try shardsContainer.encode(sharddescriptionlist0)
+            for shard0 in shards {
+                try shardsContainer.encode(shard0)
             }
         }
         if let streamArn = self.streamArn {
@@ -1661,20 +1661,20 @@ extension DynamoDBStreamsClientTypes.StreamRecord: Swift.Codable {
         }
         if let keys = keys {
             var keysContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .keys)
-            for (dictKey0, attributemap0) in keys {
-                try keysContainer.encode(attributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMap0) in keys {
+                try keysContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let newImage = newImage {
             var newImageContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .newImage)
-            for (dictKey0, attributemap0) in newImage {
-                try newImageContainer.encode(attributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMap0) in newImage {
+                try newImageContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let oldImage = oldImage {
             var oldImageContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .oldImage)
-            for (dictKey0, attributemap0) in oldImage {
-                try oldImageContainer.encode(attributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMap0) in oldImage {
+                try oldImageContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sequenceNumber = self.sequenceNumber {

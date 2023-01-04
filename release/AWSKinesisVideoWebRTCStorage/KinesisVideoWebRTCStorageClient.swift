@@ -243,41 +243,4 @@ extension KinesisVideoWebRTCStorageClient: KinesisVideoWebRTCStorageClientProtoc
         return result
     }
 
-    /// Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an input channel. If there’s no existing session for the channel, create a new streaming session and provide the Amazon Resource Name (ARN) of the signaling channel (channelArn) and client id (clientId). Currently for SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join a session first and wait for other participants. While participants are having peer to peer conversations through webRTC, the ingested media session will be stored into the Kinesis Video Stream. Multiple viewers are able to playback real-time media. Customers can also use existing Kinesis Video Streams features like HLS or DASH playback, Image generation, and more with ingested WebRTC media. If there’s an existing session with the same clientId that's found in the join session request, the new request takes precedence.
-    public func joinStorageSessionAsViewer(input: JoinStorageSessionAsViewerInput) async throws -> JoinStorageSessionAsViewerOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "joinStorageSessionAsViewer")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "kinesisvideo")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutputResponse, JoinStorageSessionAsViewerOutputError>(id: "joinStorageSessionAsViewer")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutputResponse, JoinStorageSessionAsViewerOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<JoinStorageSessionAsViewerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<JoinStorageSessionAsViewerOutputResponse, JoinStorageSessionAsViewerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutputResponse>(xmlName: "JoinStorageSessionAsViewerInput"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<JoinStorageSessionAsViewerOutputResponse, JoinStorageSessionAsViewerOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<JoinStorageSessionAsViewerOutputResponse, JoinStorageSessionAsViewerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<JoinStorageSessionAsViewerOutputResponse, JoinStorageSessionAsViewerOutputError>(clientLogMode: config.clientLogMode))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<JoinStorageSessionAsViewerOutputResponse, JoinStorageSessionAsViewerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-        return result
-    }
-
 }

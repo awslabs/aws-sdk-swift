@@ -74,8 +74,8 @@ extension BatchAssociateScramSecretInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let secretArnList = secretArnList {
             var secretArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secretArnList)
-            for __listof__string0 in secretArnList {
-                try secretArnListContainer.encode(__listof__string0)
+            for __string0 in secretArnList {
+                try secretArnListContainer.encode(__string0)
             }
         }
     }
@@ -237,8 +237,8 @@ extension BatchDisassociateScramSecretInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let secretArnList = secretArnList {
             var secretArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secretArnList)
-            for __listof__string0 in secretArnList {
-                try secretArnListContainer.encode(__listof__string0)
+            for __string0 in secretArnList {
+                try secretArnListContainer.encode(__string0)
             }
         }
     }
@@ -545,8 +545,8 @@ extension KafkaClientTypes.BrokerNodeGroupInfo: Swift.Codable {
         }
         if let clientSubnets = clientSubnets {
             var clientSubnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientSubnets)
-            for __listof__string0 in clientSubnets {
-                try clientSubnetsContainer.encode(__listof__string0)
+            for __string0 in clientSubnets {
+                try clientSubnetsContainer.encode(__string0)
             }
         }
         if let connectivityInfo = self.connectivityInfo {
@@ -557,8 +557,8 @@ extension KafkaClientTypes.BrokerNodeGroupInfo: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for __listof__string0 in securityGroups {
-                try securityGroupsContainer.encode(__listof__string0)
+            for __string0 in securityGroups {
+                try securityGroupsContainer.encode(__string0)
             }
         }
         if let storageInfo = self.storageInfo {
@@ -668,8 +668,8 @@ extension KafkaClientTypes.BrokerNodeInfo: Swift.Codable {
         }
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpoints)
-            for __listof__string0 in endpoints {
-                try endpointsContainer.encode(__listof__string0)
+            for __string0 in endpoints {
+                try endpointsContainer.encode(__string0)
             }
         }
     }
@@ -974,8 +974,8 @@ extension KafkaClientTypes.Cluster: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1147,8 +1147,8 @@ extension KafkaClientTypes.ClusterInfo: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let zookeeperConnectString = self.zookeeperConnectString {
@@ -1337,8 +1337,8 @@ extension KafkaClientTypes.ClusterOperationInfo: Swift.Codable {
         }
         if let operationSteps = operationSteps {
             var operationStepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operationSteps)
-            for __listofclusteroperationstep0 in operationSteps {
-                try operationStepsContainer.encode(__listofclusteroperationstep0)
+            for clusteroperationstep0 in operationSteps {
+                try operationStepsContainer.encode(clusteroperationstep0)
             }
         }
         if let operationType = self.operationType {
@@ -1621,8 +1621,8 @@ extension KafkaClientTypes.CompatibleKafkaVersion: Swift.Codable {
         }
         if let targetVersions = targetVersions {
             var targetVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetVersions)
-            for __listof__string0 in targetVersions {
-                try targetVersionsContainer.encode(__listof__string0)
+            for __string0 in targetVersions {
+                try targetVersionsContainer.encode(__string0)
             }
         }
     }
@@ -1689,8 +1689,8 @@ extension KafkaClientTypes.Configuration: Swift.Codable {
         }
         if let kafkaVersions = kafkaVersions {
             var kafkaVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .kafkaVersions)
-            for __listof__string0 in kafkaVersions {
-                try kafkaVersionsContainer.encode(__listof__string0)
+            for __string0 in kafkaVersions {
+                try kafkaVersionsContainer.encode(__string0)
             }
         }
         if let latestRevision = self.latestRevision {
@@ -2070,8 +2070,8 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2327,8 +2327,8 @@ extension CreateClusterV2Input: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2522,8 +2522,8 @@ extension CreateConfigurationInput: Swift.Encodable {
         }
         if let kafkaVersions = kafkaVersions {
             var kafkaVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .kafkaVersions)
-            for __listof__string0 in kafkaVersions {
-                try kafkaVersionsContainer.encode(__listof__string0)
+            for __string0 in kafkaVersions {
+                try kafkaVersionsContainer.encode(__string0)
             }
         }
         if let name = self.name {
@@ -5793,8 +5793,8 @@ extension KafkaClientTypes.MutableClusterInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let brokerEBSVolumeInfo = brokerEBSVolumeInfo {
             var brokerEBSVolumeInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .brokerEBSVolumeInfo)
-            for __listofbrokerebsvolumeinfo0 in brokerEBSVolumeInfo {
-                try brokerEBSVolumeInfoContainer.encode(__listofbrokerebsvolumeinfo0)
+            for brokerebsvolumeinfo0 in brokerEBSVolumeInfo {
+                try brokerEBSVolumeInfoContainer.encode(brokerebsvolumeinfo0)
             }
         }
         if let clientAuthentication = self.clientAuthentication {
@@ -6696,8 +6696,8 @@ extension RebootBrokerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let brokerIds = brokerIds {
             var brokerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .brokerIds)
-            for __listof__string0 in brokerIds {
-                try brokerIdsContainer.encode(__listof__string0)
+            for __string0 in brokerIds {
+                try brokerIdsContainer.encode(__string0)
             }
         }
     }
@@ -6986,8 +6986,8 @@ extension KafkaClientTypes.Serverless: Swift.Codable {
         }
         if let vpcConfigs = vpcConfigs {
             var vpcConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcConfigs)
-            for __listofvpcconfig0 in vpcConfigs {
-                try vpcConfigsContainer.encode(__listofvpcconfig0)
+            for vpcconfig0 in vpcConfigs {
+                try vpcConfigsContainer.encode(vpcconfig0)
             }
         }
     }
@@ -7079,8 +7079,8 @@ extension KafkaClientTypes.ServerlessRequest: Swift.Codable {
         }
         if let vpcConfigs = vpcConfigs {
             var vpcConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcConfigs)
-            for __listofvpcconfig0 in vpcConfigs {
-                try vpcConfigsContainer.encode(__listofvpcconfig0)
+            for vpcconfig0 in vpcConfigs {
+                try vpcConfigsContainer.encode(vpcconfig0)
             }
         }
     }
@@ -7341,8 +7341,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7446,8 +7446,8 @@ extension KafkaClientTypes.Tls: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateAuthorityArnList = certificateAuthorityArnList {
             var certificateAuthorityArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateAuthorityArnList)
-            for __listof__string0 in certificateAuthorityArnList {
-                try certificateAuthorityArnListContainer.encode(__listof__string0)
+            for __string0 in certificateAuthorityArnList {
+                try certificateAuthorityArnListContainer.encode(__string0)
             }
         }
         if let enabled = self.enabled {
@@ -7968,8 +7968,8 @@ extension UpdateBrokerStorageInput: Swift.Encodable {
         }
         if let targetBrokerEBSVolumeInfo = targetBrokerEBSVolumeInfo {
             var targetBrokerEBSVolumeInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetBrokerEBSVolumeInfo)
-            for __listofbrokerebsvolumeinfo0 in targetBrokerEBSVolumeInfo {
-                try targetBrokerEBSVolumeInfoContainer.encode(__listofbrokerebsvolumeinfo0)
+            for brokerebsvolumeinfo0 in targetBrokerEBSVolumeInfo {
+                try targetBrokerEBSVolumeInfoContainer.encode(brokerebsvolumeinfo0)
             }
         }
     }
@@ -9419,14 +9419,14 @@ extension KafkaClientTypes.VpcConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for __listof__string0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(__listof__string0)
+            for __string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(__string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for __listof__string0 in subnetIds {
-                try subnetIdsContainer.encode(__listof__string0)
+            for __string0 in subnetIds {
+                try subnetIdsContainer.encode(__string0)
             }
         }
     }
@@ -9498,8 +9498,8 @@ extension KafkaClientTypes.ZookeeperNodeInfo: Swift.Codable {
         }
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpoints)
-            for __listof__string0 in endpoints {
-                try endpointsContainer.encode(__listof__string0)
+            for __string0 in endpoints {
+                try endpointsContainer.encode(__string0)
             }
         }
         if let zookeeperId = self.zookeeperId {

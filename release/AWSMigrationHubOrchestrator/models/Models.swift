@@ -81,8 +81,8 @@ extension CreateWorkflowInput: Swift.Encodable {
         }
         if let inputParameters = inputParameters {
             var inputParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .inputParameters)
-            for (dictKey0, stepinputparameters0) in inputParameters {
-                try inputParametersContainer.encode(stepinputparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stepInputParameters0) in inputParameters {
+                try inputParametersContainer.encode(stepInputParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -90,14 +90,14 @@ extension CreateWorkflowInput: Swift.Encodable {
         }
         if let stepTargets = stepTargets {
             var stepTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepTargets)
-            for stringlist0 in stepTargets {
-                try stepTargetsContainer.encode(stringlist0)
+            for stringlistmember0 in stepTargets {
+                try stepTargetsContainer.encode(stringlistmember0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, stringmap0) in tags {
-                try tagsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in tags {
+                try tagsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let templateId = self.templateId {
@@ -439,14 +439,14 @@ extension CreateWorkflowStepGroupInput: Swift.Encodable {
         }
         if let next = next {
             var nextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .next)
-            for stringlist0 in next {
-                try nextContainer.encode(stringlist0)
+            for stringlistmember0 in next {
+                try nextContainer.encode(stringlistmember0)
             }
         }
         if let previous = previous {
             var previousContainer = encodeContainer.nestedUnkeyedContainer(forKey: .previous)
-            for stringlist0 in previous {
-                try previousContainer.encode(stringlist0)
+            for stringlistmember0 in previous {
+                try previousContainer.encode(stringlistmember0)
             }
         }
         if let workflowId = self.workflowId {
@@ -731,20 +731,20 @@ extension CreateWorkflowStepInput: Swift.Encodable {
         }
         if let next = next {
             var nextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .next)
-            for stringlist0 in next {
-                try nextContainer.encode(stringlist0)
+            for stringlistmember0 in next {
+                try nextContainer.encode(stringlistmember0)
             }
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for workflowstepoutputlist0 in outputs {
-                try outputsContainer.encode(workflowstepoutputlist0)
+            for workflowstepoutput0 in outputs {
+                try outputsContainer.encode(workflowstepoutput0)
             }
         }
         if let previous = previous {
             var previousContainer = encodeContainer.nestedUnkeyedContainer(forKey: .previous)
-            for stringlist0 in previous {
-                try previousContainer.encode(stringlist0)
+            for stringlistmember0 in previous {
+                try previousContainer.encode(stringlistmember0)
             }
         }
         if let stepActionType = self.stepActionType {
@@ -755,8 +755,8 @@ extension CreateWorkflowStepInput: Swift.Encodable {
         }
         if let stepTarget = stepTarget {
             var stepTargetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepTarget)
-            for stringlist0 in stepTarget {
-                try stepTargetContainer.encode(stringlist0)
+            for stringlistmember0 in stepTarget {
+                try stepTargetContainer.encode(stringlistmember0)
             }
         }
         if let workflowId = self.workflowId {
@@ -5188,13 +5188,13 @@ extension MigrationHubOrchestratorClientTypes.StepInput: Swift.Codable {
                 try container.encode(integervalue, forKey: .integervalue)
             case let .listofstringsvalue(listofstringsvalue):
                 var listofstringsvalueContainer = container.nestedUnkeyedContainer(forKey: .listofstringsvalue)
-                for stringlist0 in listofstringsvalue {
-                    try listofstringsvalueContainer.encode(stringlist0)
+                for stringlistmember0 in listofstringsvalue {
+                    try listofstringsvalueContainer.encode(stringlistmember0)
                 }
             case let .mapofstringvalue(mapofstringvalue):
                 var mapofstringvalueContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .mapofstringvalue)
-                for (dictKey0, stringmap0) in mapofstringvalue {
-                    try mapofstringvalueContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey0, stringMap0) in mapofstringvalue {
+                    try mapofstringvalueContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
                 }
             case let .stringvalue(stringvalue):
                 try container.encode(stringvalue, forKey: .stringvalue)
@@ -5516,8 +5516,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5746,14 +5746,14 @@ extension MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary: Swift.Co
         }
         if let next = next {
             var nextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .next)
-            for stringlist0 in next {
-                try nextContainer.encode(stringlist0)
+            for stringlistmember0 in next {
+                try nextContainer.encode(stringlistmember0)
             }
         }
         if let previous = previous {
             var previousContainer = encodeContainer.nestedUnkeyedContainer(forKey: .previous)
-            for stringlist0 in previous {
-                try previousContainer.encode(stringlist0)
+            for stringlistmember0 in previous {
+                try previousContainer.encode(stringlistmember0)
             }
         }
     }
@@ -5840,8 +5840,8 @@ extension MigrationHubOrchestratorClientTypes.TemplateStepSummary: Swift.Codable
         }
         if let next = next {
             var nextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .next)
-            for stringlist0 in next {
-                try nextContainer.encode(stringlist0)
+            for stringlistmember0 in next {
+                try nextContainer.encode(stringlistmember0)
             }
         }
         if let owner = self.owner {
@@ -5849,8 +5849,8 @@ extension MigrationHubOrchestratorClientTypes.TemplateStepSummary: Swift.Codable
         }
         if let previous = previous {
             var previousContainer = encodeContainer.nestedUnkeyedContainer(forKey: .previous)
-            for stringlist0 in previous {
-                try previousContainer.encode(stringlist0)
+            for stringlistmember0 in previous {
+                try previousContainer.encode(stringlistmember0)
             }
         }
         if let stepActionType = self.stepActionType {
@@ -6226,8 +6226,8 @@ extension UpdateWorkflowInput: Swift.Encodable {
         }
         if let inputParameters = inputParameters {
             var inputParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .inputParameters)
-            for (dictKey0, stepinputparameters0) in inputParameters {
-                try inputParametersContainer.encode(stepinputparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stepInputParameters0) in inputParameters {
+                try inputParametersContainer.encode(stepInputParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -6235,8 +6235,8 @@ extension UpdateWorkflowInput: Swift.Encodable {
         }
         if let stepTargets = stepTargets {
             var stepTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepTargets)
-            for stringlist0 in stepTargets {
-                try stepTargetsContainer.encode(stringlist0)
+            for stringlistmember0 in stepTargets {
+                try stepTargetsContainer.encode(stringlistmember0)
             }
         }
     }
@@ -6557,14 +6557,14 @@ extension UpdateWorkflowStepGroupInput: Swift.Encodable {
         }
         if let next = next {
             var nextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .next)
-            for stringlist0 in next {
-                try nextContainer.encode(stringlist0)
+            for stringlistmember0 in next {
+                try nextContainer.encode(stringlistmember0)
             }
         }
         if let previous = previous {
             var previousContainer = encodeContainer.nestedUnkeyedContainer(forKey: .previous)
-            for stringlist0 in previous {
-                try previousContainer.encode(stringlist0)
+            for stringlistmember0 in previous {
+                try previousContainer.encode(stringlistmember0)
             }
         }
     }
@@ -6867,20 +6867,20 @@ extension UpdateWorkflowStepInput: Swift.Encodable {
         }
         if let next = next {
             var nextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .next)
-            for stringlist0 in next {
-                try nextContainer.encode(stringlist0)
+            for stringlistmember0 in next {
+                try nextContainer.encode(stringlistmember0)
             }
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for workflowstepoutputlist0 in outputs {
-                try outputsContainer.encode(workflowstepoutputlist0)
+            for workflowstepoutput0 in outputs {
+                try outputsContainer.encode(workflowstepoutput0)
             }
         }
         if let previous = previous {
             var previousContainer = encodeContainer.nestedUnkeyedContainer(forKey: .previous)
-            for stringlist0 in previous {
-                try previousContainer.encode(stringlist0)
+            for stringlistmember0 in previous {
+                try previousContainer.encode(stringlistmember0)
             }
         }
         if let status = self.status {
@@ -6894,8 +6894,8 @@ extension UpdateWorkflowStepInput: Swift.Encodable {
         }
         if let stepTarget = stepTarget {
             var stepTargetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepTarget)
-            for stringlist0 in stepTarget {
-                try stepTargetContainer.encode(stringlist0)
+            for stringlistmember0 in stepTarget {
+                try stepTargetContainer.encode(stringlistmember0)
             }
         }
         if let workflowId = self.workflowId {
@@ -7314,8 +7314,8 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary: Swift.Co
         }
         if let next = next {
             var nextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .next)
-            for stringlist0 in next {
-                try nextContainer.encode(stringlist0)
+            for stringlistmember0 in next {
+                try nextContainer.encode(stringlistmember0)
             }
         }
         if let owner = self.owner {
@@ -7323,8 +7323,8 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary: Swift.Co
         }
         if let previous = previous {
             var previousContainer = encodeContainer.nestedUnkeyedContainer(forKey: .previous)
-            for stringlist0 in previous {
-                try previousContainer.encode(stringlist0)
+            for stringlistmember0 in previous {
+                try previousContainer.encode(stringlistmember0)
             }
         }
         if let status = self.status {
@@ -7483,8 +7483,8 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepOutputUnion: Swift.Cod
                 try container.encode(integervalue, forKey: .integervalue)
             case let .listofstringvalue(listofstringvalue):
                 var listofstringvalueContainer = container.nestedUnkeyedContainer(forKey: .listofstringvalue)
-                for stringlist0 in listofstringvalue {
-                    try listofstringvalueContainer.encode(stringlist0)
+                for stringlistmember0 in listofstringvalue {
+                    try listofstringvalueContainer.encode(stringlistmember0)
                 }
             case let .stringvalue(stringvalue):
                 try container.encode(stringvalue, forKey: .stringvalue)
@@ -7564,8 +7564,8 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepSummary: Swift.Codable
         }
         if let next = next {
             var nextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .next)
-            for stringlist0 in next {
-                try nextContainer.encode(stringlist0)
+            for stringlistmember0 in next {
+                try nextContainer.encode(stringlistmember0)
             }
         }
         if let noOfSrvCompleted = self.noOfSrvCompleted {
@@ -7579,8 +7579,8 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepSummary: Swift.Codable
         }
         if let previous = previous {
             var previousContainer = encodeContainer.nestedUnkeyedContainer(forKey: .previous)
-            for stringlist0 in previous {
-                try previousContainer.encode(stringlist0)
+            for stringlistmember0 in previous {
+                try previousContainer.encode(stringlistmember0)
             }
         }
         if let scriptLocation = self.scriptLocation {

@@ -672,8 +672,8 @@ extension LambdaClientTypes.AliasRoutingConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalVersionWeights = additionalVersionWeights {
             var additionalVersionWeightsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalVersionWeights)
-            for (dictKey0, additionalversionweights0) in additionalVersionWeights {
-                try additionalVersionWeightsContainer.encode(additionalversionweights0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, additionalVersionWeights0) in additionalVersionWeights {
+                try additionalVersionWeightsContainer.encode(additionalVersionWeights0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -719,8 +719,8 @@ extension LambdaClientTypes.AllowedPublishers: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let signingProfileVersionArns = signingProfileVersionArns {
             var signingProfileVersionArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signingProfileVersionArns)
-            for signingprofileversionarns0 in signingProfileVersionArns {
-                try signingProfileVersionArnsContainer.encode(signingprofileversionarns0)
+            for arn0 in signingProfileVersionArns {
+                try signingProfileVersionArnsContainer.encode(arn0)
             }
         }
     }
@@ -1217,26 +1217,26 @@ extension LambdaClientTypes.Cors: Swift.Codable {
         }
         if let allowHeaders = allowHeaders {
             var allowHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowHeaders)
-            for headerslist0 in allowHeaders {
-                try allowHeadersContainer.encode(headerslist0)
+            for header0 in allowHeaders {
+                try allowHeadersContainer.encode(header0)
             }
         }
         if let allowMethods = allowMethods {
             var allowMethodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowMethods)
-            for allowmethodslist0 in allowMethods {
-                try allowMethodsContainer.encode(allowmethodslist0)
+            for method0 in allowMethods {
+                try allowMethodsContainer.encode(method0)
             }
         }
         if let allowOrigins = allowOrigins {
             var allowOriginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowOrigins)
-            for alloworiginslist0 in allowOrigins {
-                try allowOriginsContainer.encode(alloworiginslist0)
+            for origin0 in allowOrigins {
+                try allowOriginsContainer.encode(origin0)
             }
         }
         if let exposeHeaders = exposeHeaders {
             var exposeHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exposeHeaders)
-            for headerslist0 in exposeHeaders {
-                try exposeHeadersContainer.encode(headerslist0)
+            for header0 in exposeHeaders {
+                try exposeHeadersContainer.encode(header0)
             }
         }
         if let maxAge = self.maxAge {
@@ -1748,8 +1748,8 @@ extension CreateEventSourceMappingInput: Swift.Encodable {
         }
         if let functionResponseTypes = functionResponseTypes {
             var functionResponseTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionResponseTypes)
-            for functionresponsetypelist0 in functionResponseTypes {
-                try functionResponseTypesContainer.encode(functionresponsetypelist0.rawValue)
+            for functionresponsetype0 in functionResponseTypes {
+                try functionResponseTypesContainer.encode(functionresponsetype0.rawValue)
             }
         }
         if let maximumBatchingWindowInSeconds = self.maximumBatchingWindowInSeconds {
@@ -1766,8 +1766,8 @@ extension CreateEventSourceMappingInput: Swift.Encodable {
         }
         if let queues = queues {
             var queuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queues)
-            for queues0 in queues {
-                try queuesContainer.encode(queues0)
+            for queue0 in queues {
+                try queuesContainer.encode(queue0)
             }
         }
         if let selfManagedEventSource = self.selfManagedEventSource {
@@ -1778,8 +1778,8 @@ extension CreateEventSourceMappingInput: Swift.Encodable {
         }
         if let sourceAccessConfigurations = sourceAccessConfigurations {
             var sourceAccessConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceAccessConfigurations)
-            for sourceaccessconfigurations0 in sourceAccessConfigurations {
-                try sourceAccessConfigurationsContainer.encode(sourceaccessconfigurations0)
+            for sourceaccessconfiguration0 in sourceAccessConfigurations {
+                try sourceAccessConfigurationsContainer.encode(sourceaccessconfiguration0)
             }
         }
         if let startingPosition = self.startingPosition {
@@ -1790,8 +1790,8 @@ extension CreateEventSourceMappingInput: Swift.Encodable {
         }
         if let topics = topics {
             var topicsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topics)
-            for topics0 in topics {
-                try topicsContainer.encode(topics0)
+            for topic0 in topics {
+                try topicsContainer.encode(topic0)
             }
         }
         if let tumblingWindowInSeconds = self.tumblingWindowInSeconds {
@@ -2443,8 +2443,8 @@ extension CreateFunctionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let architectures = architectures {
             var architecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architectures)
-            for architectureslist0 in architectures {
-                try architecturesContainer.encode(architectureslist0.rawValue)
+            for architecture0 in architectures {
+                try architecturesContainer.encode(architecture0.rawValue)
             }
         }
         if let code = self.code {
@@ -2467,8 +2467,8 @@ extension CreateFunctionInput: Swift.Encodable {
         }
         if let fileSystemConfigs = fileSystemConfigs {
             var fileSystemConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemConfigs)
-            for filesystemconfiglist0 in fileSystemConfigs {
-                try fileSystemConfigsContainer.encode(filesystemconfiglist0)
+            for filesystemconfig0 in fileSystemConfigs {
+                try fileSystemConfigsContainer.encode(filesystemconfig0)
             }
         }
         if let functionName = self.functionName {
@@ -2485,8 +2485,8 @@ extension CreateFunctionInput: Swift.Encodable {
         }
         if let layers = layers {
             var layersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layers)
-            for layerlist0 in layers {
-                try layersContainer.encode(layerlist0)
+            for layerversionarn0 in layers {
+                try layersContainer.encode(layerversionarn0)
             }
         }
         if let memorySize = self.memorySize {
@@ -5199,8 +5199,8 @@ extension LambdaClientTypes.Environment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variables)
-            for (dictKey0, environmentvariables0) in variables {
-                try variablesContainer.encode(environmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariables0) in variables {
+                try variablesContainer.encode(environmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5305,8 +5305,8 @@ extension LambdaClientTypes.EnvironmentResponse: Swift.Codable {
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variables)
-            for (dictKey0, environmentvariables0) in variables {
-                try variablesContainer.encode(environmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariables0) in variables {
+                try variablesContainer.encode(environmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5444,8 +5444,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
         }
         if let functionResponseTypes = functionResponseTypes {
             var functionResponseTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionResponseTypes)
-            for functionresponsetypelist0 in functionResponseTypes {
-                try functionResponseTypesContainer.encode(functionresponsetypelist0.rawValue)
+            for functionresponsetype0 in functionResponseTypes {
+                try functionResponseTypesContainer.encode(functionresponsetype0.rawValue)
             }
         }
         if let lastModified = self.lastModified {
@@ -5468,8 +5468,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
         }
         if let queues = queues {
             var queuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queues)
-            for queues0 in queues {
-                try queuesContainer.encode(queues0)
+            for queue0 in queues {
+                try queuesContainer.encode(queue0)
             }
         }
         if let selfManagedEventSource = self.selfManagedEventSource {
@@ -5480,8 +5480,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
         }
         if let sourceAccessConfigurations = sourceAccessConfigurations {
             var sourceAccessConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceAccessConfigurations)
-            for sourceaccessconfigurations0 in sourceAccessConfigurations {
-                try sourceAccessConfigurationsContainer.encode(sourceaccessconfigurations0)
+            for sourceaccessconfiguration0 in sourceAccessConfigurations {
+                try sourceAccessConfigurationsContainer.encode(sourceaccessconfiguration0)
             }
         }
         if let startingPosition = self.startingPosition {
@@ -5498,8 +5498,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
         }
         if let topics = topics {
             var topicsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topics)
-            for topics0 in topics {
-                try topicsContainer.encode(topics0)
+            for topic0 in topics {
+                try topicsContainer.encode(topic0)
             }
         }
         if let tumblingWindowInSeconds = self.tumblingWindowInSeconds {
@@ -5839,8 +5839,8 @@ extension LambdaClientTypes.FilterCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
     }
@@ -6064,8 +6064,8 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let architectures = architectures {
             var architecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architectures)
-            for architectureslist0 in architectures {
-                try architecturesContainer.encode(architectureslist0.rawValue)
+            for architecture0 in architectures {
+                try architecturesContainer.encode(architecture0.rawValue)
             }
         }
         if let codeSha256 = self.codeSha256 {
@@ -6088,8 +6088,8 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
         }
         if let fileSystemConfigs = fileSystemConfigs {
             var fileSystemConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemConfigs)
-            for filesystemconfiglist0 in fileSystemConfigs {
-                try fileSystemConfigsContainer.encode(filesystemconfiglist0)
+            for filesystemconfig0 in fileSystemConfigs {
+                try fileSystemConfigsContainer.encode(filesystemconfig0)
             }
         }
         if let functionArn = self.functionArn {
@@ -6121,8 +6121,8 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
         }
         if let layers = layers {
             var layersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layers)
-            for layersreferencelist0 in layers {
-                try layersContainer.encode(layersreferencelist0)
+            for layer0 in layers {
+                try layersContainer.encode(layer0)
             }
         }
         if let masterArn = self.masterArn {
@@ -9539,14 +9539,14 @@ extension LambdaClientTypes.ImageConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let entryPoint = entryPoint {
             var entryPointContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entryPoint)
-            for stringlist0 in entryPoint {
-                try entryPointContainer.encode(stringlist0)
+            for string0 in entryPoint {
+                try entryPointContainer.encode(string0)
             }
         }
         if let workingDirectory = self.workingDirectory {
@@ -11223,14 +11223,14 @@ extension LambdaClientTypes.LayerVersionsListItem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let compatibleArchitectures = compatibleArchitectures {
             var compatibleArchitecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compatibleArchitectures)
-            for compatiblearchitectures0 in compatibleArchitectures {
-                try compatibleArchitecturesContainer.encode(compatiblearchitectures0.rawValue)
+            for architecture0 in compatibleArchitectures {
+                try compatibleArchitecturesContainer.encode(architecture0.rawValue)
             }
         }
         if let compatibleRuntimes = compatibleRuntimes {
             var compatibleRuntimesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compatibleRuntimes)
-            for compatibleruntimes0 in compatibleRuntimes {
-                try compatibleRuntimesContainer.encode(compatibleruntimes0.rawValue)
+            for runtime0 in compatibleRuntimes {
+                try compatibleRuntimesContainer.encode(runtime0.rawValue)
             }
         }
         if let createdDate = self.createdDate {
@@ -13636,14 +13636,14 @@ extension PublishLayerVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let compatibleArchitectures = compatibleArchitectures {
             var compatibleArchitecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compatibleArchitectures)
-            for compatiblearchitectures0 in compatibleArchitectures {
-                try compatibleArchitecturesContainer.encode(compatiblearchitectures0.rawValue)
+            for architecture0 in compatibleArchitectures {
+                try compatibleArchitecturesContainer.encode(architecture0.rawValue)
             }
         }
         if let compatibleRuntimes = compatibleRuntimes {
             var compatibleRuntimesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compatibleRuntimes)
-            for compatibleruntimes0 in compatibleRuntimes {
-                try compatibleRuntimesContainer.encode(compatibleruntimes0.rawValue)
+            for runtime0 in compatibleRuntimes {
+                try compatibleRuntimesContainer.encode(runtime0.rawValue)
             }
         }
         if let content = self.content {
@@ -15823,7 +15823,10 @@ extension LambdaClientTypes.SelfManagedEventSource: Swift.Codable {
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .endpoints)
             for (dictKey0, endpoints0) in endpoints {
-                try endpointsContainer.encode(endpoints0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                var endpoints0Container = endpointsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for endpoint1 in endpoints0 {
+                    try endpoints0Container.encode(endpoint1)
+                }
             }
         }
     }
@@ -17505,8 +17508,8 @@ extension UpdateEventSourceMappingInput: Swift.Encodable {
         }
         if let functionResponseTypes = functionResponseTypes {
             var functionResponseTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionResponseTypes)
-            for functionresponsetypelist0 in functionResponseTypes {
-                try functionResponseTypesContainer.encode(functionresponsetypelist0.rawValue)
+            for functionresponsetype0 in functionResponseTypes {
+                try functionResponseTypesContainer.encode(functionresponsetype0.rawValue)
             }
         }
         if let maximumBatchingWindowInSeconds = self.maximumBatchingWindowInSeconds {
@@ -17523,8 +17526,8 @@ extension UpdateEventSourceMappingInput: Swift.Encodable {
         }
         if let sourceAccessConfigurations = sourceAccessConfigurations {
             var sourceAccessConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceAccessConfigurations)
-            for sourceaccessconfigurations0 in sourceAccessConfigurations {
-                try sourceAccessConfigurationsContainer.encode(sourceaccessconfigurations0)
+            for sourceaccessconfiguration0 in sourceAccessConfigurations {
+                try sourceAccessConfigurationsContainer.encode(sourceaccessconfiguration0)
             }
         }
         if let tumblingWindowInSeconds = self.tumblingWindowInSeconds {
@@ -18084,8 +18087,8 @@ extension UpdateFunctionCodeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let architectures = architectures {
             var architecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architectures)
-            for architectureslist0 in architectures {
-                try architecturesContainer.encode(architectureslist0.rawValue)
+            for architecture0 in architectures {
+                try architecturesContainer.encode(architecture0.rawValue)
             }
         }
         if dryRun != false {
@@ -18715,8 +18718,8 @@ extension UpdateFunctionConfigurationInput: Swift.Encodable {
         }
         if let fileSystemConfigs = fileSystemConfigs {
             var fileSystemConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemConfigs)
-            for filesystemconfiglist0 in fileSystemConfigs {
-                try fileSystemConfigsContainer.encode(filesystemconfiglist0)
+            for filesystemconfig0 in fileSystemConfigs {
+                try fileSystemConfigsContainer.encode(filesystemconfig0)
             }
         }
         if let handler = self.handler {
@@ -18730,8 +18733,8 @@ extension UpdateFunctionConfigurationInput: Swift.Encodable {
         }
         if let layers = layers {
             var layersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layers)
-            for layerlist0 in layers {
-                try layersContainer.encode(layerlist0)
+            for layerversionarn0 in layers {
+                try layersContainer.encode(layerversionarn0)
             }
         }
         if let memorySize = self.memorySize {
@@ -19856,14 +19859,14 @@ extension LambdaClientTypes.VpcConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
     }
@@ -19926,14 +19929,14 @@ extension LambdaClientTypes.VpcConfigResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {

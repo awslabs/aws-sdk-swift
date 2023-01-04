@@ -100,8 +100,8 @@ extension BudgetsClientTypes.Action: Swift.Codable {
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for subscribers0 in subscribers {
-                try subscribersContainer.encode(subscribers0)
+            for subscriber0 in subscribers {
+                try subscribersContainer.encode(subscriber0)
             }
         }
     }
@@ -642,8 +642,11 @@ extension BudgetsClientTypes.Budget: Swift.Codable {
         }
         if let costFilters = costFilters {
             var costFiltersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .costFilters)
-            for (dictKey0, costfilters0) in costFilters {
-                try costFiltersContainer.encode(costfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, costFilters0) in costFilters {
+                var costFilters0Container = costFiltersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for dimensionvalue1 in costFilters0 {
+                    try costFilters0Container.encode(dimensionvalue1)
+                }
             }
         }
         if let costTypes = self.costTypes {
@@ -654,8 +657,8 @@ extension BudgetsClientTypes.Budget: Swift.Codable {
         }
         if let plannedBudgetLimits = plannedBudgetLimits {
             var plannedBudgetLimitsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .plannedBudgetLimits)
-            for (dictKey0, plannedbudgetlimits0) in plannedBudgetLimits {
-                try plannedBudgetLimitsContainer.encode(plannedbudgetlimits0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, plannedBudgetLimits0) in plannedBudgetLimits {
+                try plannedBudgetLimitsContainer.encode(plannedBudgetLimits0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timePeriod = self.timePeriod {
@@ -800,8 +803,8 @@ extension BudgetsClientTypes.BudgetNotificationsForAccount: Swift.Codable {
         }
         if let notifications = notifications {
             var notificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notifications)
-            for notifications0 in notifications {
-                try notificationsContainer.encode(notifications0)
+            for notification0 in notifications {
+                try notificationsContainer.encode(notification0)
             }
         }
     }
@@ -864,14 +867,17 @@ extension BudgetsClientTypes.BudgetPerformanceHistory: Swift.Codable {
         }
         if let budgetedAndActualAmountsList = budgetedAndActualAmountsList {
             var budgetedAndActualAmountsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .budgetedAndActualAmountsList)
-            for budgetedandactualamountslist0 in budgetedAndActualAmountsList {
-                try budgetedAndActualAmountsListContainer.encode(budgetedandactualamountslist0)
+            for budgetedandactualamounts0 in budgetedAndActualAmountsList {
+                try budgetedAndActualAmountsListContainer.encode(budgetedandactualamounts0)
             }
         }
         if let costFilters = costFilters {
             var costFiltersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .costFilters)
-            for (dictKey0, costfilters0) in costFilters {
-                try costFiltersContainer.encode(costfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, costFilters0) in costFilters {
+                var costFilters0Container = costFiltersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for dimensionvalue1 in costFilters0 {
+                    try costFilters0Container.encode(dimensionvalue1)
+                }
             }
         }
         if let costTypes = self.costTypes {
@@ -1318,8 +1324,8 @@ extension CreateBudgetActionInput: Swift.Encodable {
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for subscribers0 in subscribers {
-                try subscribersContainer.encode(subscribers0)
+            for subscriber0 in subscribers {
+                try subscribersContainer.encode(subscriber0)
             }
         }
     }
@@ -1556,8 +1562,8 @@ extension CreateBudgetInput: Swift.Encodable {
         }
         if let notificationsWithSubscribers = notificationsWithSubscribers {
             var notificationsWithSubscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationsWithSubscribers)
-            for notificationwithsubscriberslist0 in notificationsWithSubscribers {
-                try notificationsWithSubscribersContainer.encode(notificationwithsubscriberslist0)
+            for notificationwithsubscribers0 in notificationsWithSubscribers {
+                try notificationsWithSubscribersContainer.encode(notificationwithsubscribers0)
             }
         }
     }
@@ -1689,8 +1695,8 @@ extension CreateNotificationInput: Swift.Encodable {
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for subscribers0 in subscribers {
-                try subscribersContainer.encode(subscribers0)
+            for subscriber0 in subscribers {
+                try subscribersContainer.encode(subscriber0)
             }
         }
     }
@@ -4754,8 +4760,8 @@ extension BudgetsClientTypes.IamActionDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for groups0 in groups {
-                try groupsContainer.encode(groups0)
+            for group0 in groups {
+                try groupsContainer.encode(group0)
             }
         }
         if let policyArn = self.policyArn {
@@ -4763,14 +4769,14 @@ extension BudgetsClientTypes.IamActionDefinition: Swift.Codable {
         }
         if let roles = roles {
             var rolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roles)
-            for roles0 in roles {
-                try rolesContainer.encode(roles0)
+            for role0 in roles {
+                try rolesContainer.encode(role0)
             }
         }
         if let users = users {
             var usersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .users)
-            for users0 in users {
-                try usersContainer.encode(users0)
+            for user0 in users {
+                try usersContainer.encode(user0)
             }
         }
     }
@@ -5220,8 +5226,8 @@ extension BudgetsClientTypes.NotificationWithSubscribers: Swift.Codable {
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for subscribers0 in subscribers {
-                try subscribersContainer.encode(subscribers0)
+            for subscriber0 in subscribers {
+                try subscribersContainer.encode(subscriber0)
             }
         }
     }
@@ -5332,8 +5338,8 @@ extension BudgetsClientTypes.ScpActionDefinition: Swift.Codable {
         }
         if let targetIds = targetIds {
             var targetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetIds)
-            for targetids0 in targetIds {
-                try targetIdsContainer.encode(targetids0)
+            for targetid0 in targetIds {
+                try targetIdsContainer.encode(targetid0)
             }
         }
     }
@@ -5443,8 +5449,8 @@ extension BudgetsClientTypes.SsmActionDefinition: Swift.Codable {
         }
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for instanceids0 in instanceIds {
-                try instanceIdsContainer.encode(instanceids0)
+            for instanceid0 in instanceIds {
+                try instanceIdsContainer.encode(instanceid0)
             }
         }
         if let region = self.region {
@@ -5799,8 +5805,8 @@ extension UpdateBudgetActionInput: Swift.Encodable {
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for subscribers0 in subscribers {
-                try subscribersContainer.encode(subscribers0)
+            for subscriber0 in subscribers {
+                try subscribersContainer.encode(subscriber0)
             }
         }
     }

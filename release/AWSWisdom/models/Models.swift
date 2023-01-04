@@ -67,8 +67,8 @@ extension WisdomClientTypes.AppIntegrationsConfiguration: Swift.Codable {
         }
         if let objectFields = objectFields {
             var objectFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectFields)
-            for objectfieldslist0 in objectFields {
-                try objectFieldsContainer.encode(objectfieldslist0)
+            for nonemptystring0 in objectFields {
+                try objectFieldsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -858,8 +858,8 @@ extension WisdomClientTypes.ContentData: Swift.Codable {
         }
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
-            for (dictKey0, contentmetadata0) in metadata {
-                try metadataContainer.encode(contentmetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, contentMetadata0) in metadata {
+                try metadataContainer.encode(contentMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -1170,8 +1170,8 @@ extension WisdomClientTypes.ContentSummary: Swift.Codable {
         }
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
-            for (dictKey0, contentmetadata0) in metadata {
-                try metadataContainer.encode(contentmetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, contentMetadata0) in metadata {
+                try metadataContainer.encode(contentMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -1689,8 +1689,8 @@ extension CreateContentInput: Swift.Encodable {
         }
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
-            for (dictKey0, contentmetadata0) in metadata {
-                try metadataContainer.encode(contentmetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, contentMetadata0) in metadata {
+                try metadataContainer.encode(contentMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -2632,8 +2632,8 @@ extension WisdomClientTypes.DocumentText: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let highlights = highlights {
             var highlightsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .highlights)
-            for highlights0 in highlights {
-                try highlightsContainer.encode(highlights0)
+            for highlight0 in highlights {
+                try highlightsContainer.encode(highlight0)
             }
         }
         if let text = self.text {
@@ -4749,8 +4749,8 @@ extension NotifyRecommendationsReceivedInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recommendationIds = recommendationIds {
             var recommendationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationIds)
-            for recommendationidlist0 in recommendationIds {
-                try recommendationIdsContainer.encode(recommendationidlist0)
+            for string0 in recommendationIds {
+                try recommendationIdsContainer.encode(string0)
             }
         }
     }
@@ -5306,8 +5306,8 @@ extension WisdomClientTypes.RecommendationTrigger: Swift.Codable {
         }
         if let recommendationIds = recommendationIds {
             var recommendationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationIds)
-            for recommendationidlist0 in recommendationIds {
-                try recommendationIdsContainer.encode(recommendationidlist0)
+            for string0 in recommendationIds {
+                try recommendationIdsContainer.encode(string0)
             }
         }
         if let source = self.source {
@@ -5918,8 +5918,8 @@ extension WisdomClientTypes.SearchExpression: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
     }
@@ -6842,8 +6842,8 @@ extension UpdateContentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
-            for (dictKey0, contentmetadata0) in metadata {
-                try metadataContainer.encode(contentmetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, contentMetadata0) in metadata {
+                try metadataContainer.encode(contentMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let overrideLinkOutUri = self.overrideLinkOutUri {

@@ -15,8 +15,8 @@ extension TranslateClientTypes.AppliedTerminology: Swift.Codable {
         }
         if let terms = terms {
             var termsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .terms)
-            for termlist0 in terms {
-                try termsContainer.encode(termlist0)
+            for term0 in terms {
+                try termsContainer.encode(term0)
             }
         }
     }
@@ -192,8 +192,8 @@ extension CreateParallelDataInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1280,8 +1280,8 @@ extension ImportTerminologyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let terminologyData = self.terminologyData {
@@ -2949,8 +2949,8 @@ extension TranslateClientTypes.ParallelDataProperties: Swift.Codable {
         }
         if let targetLanguageCodes = targetLanguageCodes {
             var targetLanguageCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetLanguageCodes)
-            for languagecodestringlist0 in targetLanguageCodes {
-                try targetLanguageCodesContainer.encode(languagecodestringlist0)
+            for languagecodestring0 in targetLanguageCodes {
+                try targetLanguageCodesContainer.encode(languagecodestring0)
             }
         }
     }
@@ -3290,8 +3290,8 @@ extension StartTextTranslationJobInput: Swift.Encodable {
         }
         if let parallelDataNames = parallelDataNames {
             var parallelDataNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parallelDataNames)
-            for resourcenamelist0 in parallelDataNames {
-                try parallelDataNamesContainer.encode(resourcenamelist0)
+            for resourcename0 in parallelDataNames {
+                try parallelDataNamesContainer.encode(resourcename0)
             }
         }
         if let settings = self.settings {
@@ -3302,14 +3302,14 @@ extension StartTextTranslationJobInput: Swift.Encodable {
         }
         if let targetLanguageCodes = targetLanguageCodes {
             var targetLanguageCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetLanguageCodes)
-            for targetlanguagecodestringlist0 in targetLanguageCodes {
-                try targetLanguageCodesContainer.encode(targetlanguagecodestringlist0)
+            for languagecodestring0 in targetLanguageCodes {
+                try targetLanguageCodesContainer.encode(languagecodestring0)
             }
         }
         if let terminologyNames = terminologyNames {
             var terminologyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .terminologyNames)
-            for resourcenamelist0 in terminologyNames {
-                try terminologyNamesContainer.encode(resourcenamelist0)
+            for resourcename0 in terminologyNames {
+                try terminologyNamesContainer.encode(resourcename0)
             }
         }
     }
@@ -3736,8 +3736,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4083,8 +4083,8 @@ extension TranslateClientTypes.TerminologyProperties: Swift.Codable {
         }
         if let targetLanguageCodes = targetLanguageCodes {
             var targetLanguageCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetLanguageCodes)
-            for languagecodestringlist0 in targetLanguageCodes {
-                try targetLanguageCodesContainer.encode(languagecodestringlist0)
+            for languagecodestring0 in targetLanguageCodes {
+                try targetLanguageCodesContainer.encode(languagecodestring0)
             }
         }
         if let termCount = self.termCount {
@@ -4369,8 +4369,8 @@ extension TranslateClientTypes.TextTranslationJobProperties: Swift.Codable {
         }
         if let parallelDataNames = parallelDataNames {
             var parallelDataNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parallelDataNames)
-            for resourcenamelist0 in parallelDataNames {
-                try parallelDataNamesContainer.encode(resourcenamelist0)
+            for resourcename0 in parallelDataNames {
+                try parallelDataNamesContainer.encode(resourcename0)
             }
         }
         if let settings = self.settings {
@@ -4384,14 +4384,14 @@ extension TranslateClientTypes.TextTranslationJobProperties: Swift.Codable {
         }
         if let targetLanguageCodes = targetLanguageCodes {
             var targetLanguageCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetLanguageCodes)
-            for targetlanguagecodestringlist0 in targetLanguageCodes {
-                try targetLanguageCodesContainer.encode(targetlanguagecodestringlist0)
+            for languagecodestring0 in targetLanguageCodes {
+                try targetLanguageCodesContainer.encode(languagecodestring0)
             }
         }
         if let terminologyNames = terminologyNames {
             var terminologyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .terminologyNames)
-            for resourcenamelist0 in terminologyNames {
-                try terminologyNamesContainer.encode(resourcenamelist0)
+            for resourcename0 in terminologyNames {
+                try terminologyNamesContainer.encode(resourcename0)
             }
         }
     }
@@ -4665,8 +4665,8 @@ extension TranslateTextInput: Swift.Encodable {
         }
         if let terminologyNames = terminologyNames {
             var terminologyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .terminologyNames)
-            for resourcenamelist0 in terminologyNames {
-                try terminologyNamesContainer.encode(resourcenamelist0)
+            for resourcename0 in terminologyNames {
+                try terminologyNamesContainer.encode(resourcename0)
             }
         }
         if let text = self.text {
@@ -5074,8 +5074,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

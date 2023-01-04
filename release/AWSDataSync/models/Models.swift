@@ -224,20 +224,20 @@ extension CreateAgentInput: Swift.Encodable {
         }
         if let securityGroupArns = securityGroupArns {
             var securityGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupArns)
-            for plsecuritygrouparnlist0 in securityGroupArns {
-                try securityGroupArnsContainer.encode(plsecuritygrouparnlist0)
+            for ec2securitygrouparn0 in securityGroupArns {
+                try securityGroupArnsContainer.encode(ec2securitygrouparn0)
             }
         }
         if let subnetArns = subnetArns {
             var subnetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetArns)
-            for plsubnetarnlist0 in subnetArns {
-                try subnetArnsContainer.encode(plsubnetarnlist0)
+            for ec2subnetarn0 in subnetArns {
+                try subnetArnsContainer.encode(ec2subnetarn0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
         if let vpcEndpointId = self.vpcEndpointId {
@@ -448,8 +448,8 @@ extension CreateLocationEfsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -630,8 +630,8 @@ extension CreateLocationFsxLustreInput: Swift.Encodable {
         }
         if let securityGroupArns = securityGroupArns {
             var securityGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupArns)
-            for ec2securitygrouparnlist0 in securityGroupArns {
-                try securityGroupArnsContainer.encode(ec2securitygrouparnlist0)
+            for ec2securitygrouparn0 in securityGroupArns {
+                try securityGroupArnsContainer.encode(ec2securitygrouparn0)
             }
         }
         if let subdirectory = self.subdirectory {
@@ -639,8 +639,8 @@ extension CreateLocationFsxLustreInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -805,8 +805,8 @@ extension CreateLocationFsxOntapInput: Swift.Encodable {
         }
         if let securityGroupArns = securityGroupArns {
             var securityGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupArns)
-            for ec2securitygrouparnlist0 in securityGroupArns {
-                try securityGroupArnsContainer.encode(ec2securitygrouparnlist0)
+            for ec2securitygrouparn0 in securityGroupArns {
+                try securityGroupArnsContainer.encode(ec2securitygrouparn0)
             }
         }
         if let storageVirtualMachineArn = self.storageVirtualMachineArn {
@@ -817,8 +817,8 @@ extension CreateLocationFsxOntapInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -1002,8 +1002,8 @@ extension CreateLocationFsxOpenZfsInput: Swift.Encodable {
         }
         if let securityGroupArns = securityGroupArns {
             var securityGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupArns)
-            for ec2securitygrouparnlist0 in securityGroupArns {
-                try securityGroupArnsContainer.encode(ec2securitygrouparnlist0)
+            for ec2securitygrouparn0 in securityGroupArns {
+                try securityGroupArnsContainer.encode(ec2securitygrouparn0)
             }
         }
         if let subdirectory = self.subdirectory {
@@ -1011,8 +1011,8 @@ extension CreateLocationFsxOpenZfsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -1199,8 +1199,8 @@ extension CreateLocationFsxWindowsInput: Swift.Encodable {
         }
         if let securityGroupArns = securityGroupArns {
             var securityGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupArns)
-            for ec2securitygrouparnlist0 in securityGroupArns {
-                try securityGroupArnsContainer.encode(ec2securitygrouparnlist0)
+            for ec2securitygrouparn0 in securityGroupArns {
+                try securityGroupArnsContainer.encode(ec2securitygrouparn0)
             }
         }
         if let subdirectory = self.subdirectory {
@@ -1208,8 +1208,8 @@ extension CreateLocationFsxWindowsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
         if let user = self.user {
@@ -1412,8 +1412,8 @@ extension CreateLocationHdfsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentArns = agentArns {
             var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
-            for agentarnlist0 in agentArns {
-                try agentArnsContainer.encode(agentarnlist0)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
             }
         }
         if let authenticationType = self.authenticationType {
@@ -1436,8 +1436,8 @@ extension CreateLocationHdfsInput: Swift.Encodable {
         }
         if let nameNodes = nameNodes {
             var nameNodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nameNodes)
-            for hdfsnamenodelist0 in nameNodes {
-                try nameNodesContainer.encode(hdfsnamenodelist0)
+            for hdfsnamenode0 in nameNodes {
+                try nameNodesContainer.encode(hdfsnamenode0)
             }
         }
         if let qopConfiguration = self.qopConfiguration {
@@ -1454,8 +1454,8 @@ extension CreateLocationHdfsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -1711,8 +1711,8 @@ extension CreateLocationNfsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -1889,8 +1889,8 @@ extension CreateLocationObjectStorageInput: Swift.Encodable {
         }
         if let agentArns = agentArns {
             var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
-            for agentarnlist0 in agentArns {
-                try agentArnsContainer.encode(agentarnlist0)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
             }
         }
         if let bucketName = self.bucketName {
@@ -1916,8 +1916,8 @@ extension CreateLocationObjectStorageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -2131,8 +2131,8 @@ extension CreateLocationS3Input: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentArns = agentArns {
             var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
-            for agentarnlist0 in agentArns {
-                try agentArnsContainer.encode(agentarnlist0)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
             }
         }
         if let s3BucketArn = self.s3BucketArn {
@@ -2149,8 +2149,8 @@ extension CreateLocationS3Input: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -2338,8 +2338,8 @@ extension CreateLocationSmbInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentArns = agentArns {
             var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
-            for agentarnlist0 in agentArns {
-                try agentArnsContainer.encode(agentarnlist0)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
             }
         }
         if let domain = self.domain {
@@ -2359,8 +2359,8 @@ extension CreateLocationSmbInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
         if let user = self.user {
@@ -2572,14 +2572,14 @@ extension CreateTaskInput: Swift.Encodable {
         }
         if let excludes = excludes {
             var excludesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludes)
-            for filterlist0 in excludes {
-                try excludesContainer.encode(filterlist0)
+            for filterrule0 in excludes {
+                try excludesContainer.encode(filterrule0)
             }
         }
         if let includes = includes {
             var includesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includes)
-            for filterlist0 in includes {
-                try includesContainer.encode(filterlist0)
+            for filterrule0 in includes {
+                try includesContainer.encode(filterrule0)
             }
         }
         if let name = self.name {
@@ -2596,8 +2596,8 @@ extension CreateTaskInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -5576,8 +5576,8 @@ extension DataSyncClientTypes.Ec2Config: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupArns = securityGroupArns {
             var securityGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupArns)
-            for ec2securitygrouparnlist0 in securityGroupArns {
-                try securityGroupArnsContainer.encode(ec2securitygrouparnlist0)
+            for ec2securitygrouparn0 in securityGroupArns {
+                try securityGroupArnsContainer.encode(ec2securitygrouparn0)
             }
         }
         if let subnetArn = self.subnetArn {
@@ -6416,8 +6416,8 @@ extension ListLocationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for locationfilters0 in filters {
-                try filtersContainer.encode(locationfilters0)
+            for locationfilter0 in filters {
+                try filtersContainer.encode(locationfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -6900,8 +6900,8 @@ extension ListTasksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for taskfilters0 in filters {
-                try filtersContainer.encode(taskfilters0)
+            for taskfilter0 in filters {
+                try filtersContainer.encode(taskfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -7075,8 +7075,8 @@ extension DataSyncClientTypes.LocationFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filterattributevalue0 in values {
+                try valuesContainer.encode(filterattributevalue0)
             }
         }
     }
@@ -7432,8 +7432,8 @@ extension DataSyncClientTypes.OnPremConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentArns = agentArns {
             var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
-            for agentarnlist0 in agentArns {
-                try agentArnsContainer.encode(agentarnlist0)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
             }
         }
     }
@@ -7896,14 +7896,14 @@ extension DataSyncClientTypes.PrivateLinkConfig: Swift.Codable {
         }
         if let securityGroupArns = securityGroupArns {
             var securityGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupArns)
-            for plsecuritygrouparnlist0 in securityGroupArns {
-                try securityGroupArnsContainer.encode(plsecuritygrouparnlist0)
+            for ec2securitygrouparn0 in securityGroupArns {
+                try securityGroupArnsContainer.encode(ec2securitygrouparn0)
             }
         }
         if let subnetArns = subnetArns {
             var subnetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetArns)
-            for plsubnetarnlist0 in subnetArns {
-                try subnetArnsContainer.encode(plsubnetarnlist0)
+            for ec2subnetarn0 in subnetArns {
+                try subnetArnsContainer.encode(ec2subnetarn0)
             }
         }
         if let vpcEndpointId = self.vpcEndpointId {
@@ -8219,14 +8219,14 @@ extension StartTaskExecutionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let excludes = excludes {
             var excludesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludes)
-            for filterlist0 in excludes {
-                try excludesContainer.encode(filterlist0)
+            for filterrule0 in excludes {
+                try excludesContainer.encode(filterrule0)
             }
         }
         if let includes = includes {
             var includesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includes)
-            for filterlist0 in includes {
-                try includesContainer.encode(filterlist0)
+            for filterrule0 in includes {
+                try includesContainer.encode(filterrule0)
             }
         }
         if let overrideOptions = self.overrideOptions {
@@ -8234,8 +8234,8 @@ extension StartTaskExecutionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
         if let taskArn = self.taskArn {
@@ -8464,8 +8464,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for inputtaglist0 in tags {
-                try tagsContainer.encode(inputtaglist0)
+            for taglistentry0 in tags {
+                try tagsContainer.encode(taglistentry0)
             }
         }
     }
@@ -8783,8 +8783,8 @@ extension DataSyncClientTypes.TaskFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filterattributevalue0 in values {
+                try valuesContainer.encode(filterattributevalue0)
             }
         }
     }
@@ -9112,8 +9112,8 @@ extension UntagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let keys = keys {
             var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
-            for tagkeylist0 in keys {
-                try keysContainer.encode(tagkeylist0)
+            for tagkey0 in keys {
+                try keysContainer.encode(tagkey0)
             }
         }
         if let resourceArn = self.resourceArn {
@@ -9326,8 +9326,8 @@ extension UpdateLocationHdfsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentArns = agentArns {
             var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
-            for agentarnlist0 in agentArns {
-                try agentArnsContainer.encode(agentarnlist0)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
             }
         }
         if let authenticationType = self.authenticationType {
@@ -9353,8 +9353,8 @@ extension UpdateLocationHdfsInput: Swift.Encodable {
         }
         if let nameNodes = nameNodes {
             var nameNodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nameNodes)
-            for hdfsnamenodelist0 in nameNodes {
-                try nameNodesContainer.encode(hdfsnamenodelist0)
+            for hdfsnamenode0 in nameNodes {
+                try nameNodesContainer.encode(hdfsnamenode0)
             }
         }
         if let qopConfiguration = self.qopConfiguration {
@@ -9697,8 +9697,8 @@ extension UpdateLocationObjectStorageInput: Swift.Encodable {
         }
         if let agentArns = agentArns {
             var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
-            for agentarnlist0 in agentArns {
-                try agentArnsContainer.encode(agentarnlist0)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
             }
         }
         if let locationArn = self.locationArn {
@@ -9876,8 +9876,8 @@ extension UpdateLocationSmbInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentArns = agentArns {
             var agentArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentArns)
-            for agentarnlist0 in agentArns {
-                try agentArnsContainer.encode(agentarnlist0)
+            for agentarn0 in agentArns {
+                try agentArnsContainer.encode(agentarn0)
             }
         }
         if let domain = self.domain {
@@ -10147,14 +10147,14 @@ extension UpdateTaskInput: Swift.Encodable {
         }
         if let excludes = excludes {
             var excludesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludes)
-            for filterlist0 in excludes {
-                try excludesContainer.encode(filterlist0)
+            for filterrule0 in excludes {
+                try excludesContainer.encode(filterrule0)
             }
         }
         if let includes = includes {
             var includesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includes)
-            for filterlist0 in includes {
-                try includesContainer.encode(filterlist0)
+            for filterrule0 in includes {
+                try includesContainer.encode(filterrule0)
             }
         }
         if let name = self.name {

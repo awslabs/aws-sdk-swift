@@ -171,25 +171,25 @@ extension DynamoDBClientTypes.AttributeValue: Swift.Codable {
                 try container.encode(bool, forKey: .bool)
             case let .bs(bs):
                 var bsContainer = container.nestedUnkeyedContainer(forKey: .bs)
-                for binarysetattributevalue0 in bs {
-                    try bsContainer.encode(binarysetattributevalue0.base64EncodedString())
+                for binaryattributevalue0 in bs {
+                    try bsContainer.encode(binaryattributevalue0.base64EncodedString())
                 }
             case let .l(l):
                 var lContainer = container.nestedUnkeyedContainer(forKey: .l)
-                for listattributevalue0 in l {
-                    try lContainer.encode(listattributevalue0)
+                for attributevalue0 in l {
+                    try lContainer.encode(attributevalue0)
                 }
             case let .m(m):
                 var mContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .m)
-                for (dictKey0, mapattributevalue0) in m {
-                    try mContainer.encode(mapattributevalue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey0, mapAttributeValue0) in m {
+                    try mContainer.encode(mapAttributeValue0, forKey: ClientRuntime.Key(stringValue: dictKey0))
                 }
             case let .n(n):
                 try container.encode(n, forKey: .n)
             case let .ns(ns):
                 var nsContainer = container.nestedUnkeyedContainer(forKey: .ns)
-                for numbersetattributevalue0 in ns {
-                    try nsContainer.encode(numbersetattributevalue0)
+                for numberattributevalue0 in ns {
+                    try nsContainer.encode(numberattributevalue0)
                 }
             case let .null(null):
                 try container.encode(null, forKey: .null)
@@ -197,8 +197,8 @@ extension DynamoDBClientTypes.AttributeValue: Swift.Codable {
                 try container.encode(s, forKey: .s)
             case let .ss(ss):
                 var ssContainer = container.nestedUnkeyedContainer(forKey: .ss)
-                for stringsetattributevalue0 in ss {
-                    try ssContainer.encode(stringsetattributevalue0)
+                for stringattributevalue0 in ss {
+                    try ssContainer.encode(stringattributevalue0)
                 }
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
@@ -517,8 +517,8 @@ extension DynamoDBClientTypes.AutoScalingSettingsDescription: Swift.Codable {
         }
         if let scalingPolicies = scalingPolicies {
             var scalingPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scalingPolicies)
-            for autoscalingpolicydescriptionlist0 in scalingPolicies {
-                try scalingPoliciesContainer.encode(autoscalingpolicydescriptionlist0)
+            for autoscalingpolicydescription0 in scalingPolicies {
+                try scalingPoliciesContainer.encode(autoscalingpolicydescription0)
             }
         }
     }
@@ -1303,8 +1303,8 @@ extension BatchExecuteStatementInput: Swift.Encodable {
         }
         if let statements = statements {
             var statementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statements)
-            for partiqlbatchrequest0 in statements {
-                try statementsContainer.encode(partiqlbatchrequest0)
+            for batchstatementrequest0 in statements {
+                try statementsContainer.encode(batchstatementrequest0)
             }
         }
     }
@@ -1471,8 +1471,8 @@ extension BatchGetItemInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let requestItems = requestItems {
             var requestItemsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestItems)
-            for (dictKey0, batchgetrequestmap0) in requestItems {
-                try requestItemsContainer.encode(batchgetrequestmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, batchGetRequestMap0) in requestItems {
+                try requestItemsContainer.encode(batchGetRequestMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let returnConsumedCapacity = self.returnConsumedCapacity {
@@ -1840,8 +1840,8 @@ extension DynamoDBClientTypes.BatchStatementRequest: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for preparedstatementparameters0 in parameters {
-                try parametersContainer.encode(preparedstatementparameters0)
+            for attributevalue0 in parameters {
+                try parametersContainer.encode(attributevalue0)
             }
         }
         if let statement = self.statement {
@@ -1908,8 +1908,8 @@ extension DynamoDBClientTypes.BatchStatementResponse: Swift.Codable {
         }
         if let item = item {
             var itemContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .item)
-            for (dictKey0, attributemap0) in item {
-                try itemContainer.encode(attributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMap0) in item {
+                try itemContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tableName = self.tableName {
@@ -1972,8 +1972,11 @@ extension BatchWriteItemInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let requestItems = requestItems {
             var requestItemsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestItems)
-            for (dictKey0, batchwriteitemrequestmap0) in requestItems {
-                try requestItemsContainer.encode(batchwriteitemrequestmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, batchWriteItemRequestMap0) in requestItems {
+                var batchWriteItemRequestMap0Container = requestItemsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for writerequest1 in batchWriteItemRequestMap0 {
+                    try batchWriteItemRequestMap0Container.encode(writerequest1)
+                }
             }
         }
         if let returnConsumedCapacity = self.returnConsumedCapacity {
@@ -2325,8 +2328,8 @@ extension DynamoDBClientTypes.CancellationReason: Swift.Codable {
         }
         if let item = item {
             var itemContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .item)
-            for (dictKey0, attributemap0) in item {
-                try itemContainer.encode(attributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMap0) in item {
+                try itemContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let message = self.message {
@@ -2508,8 +2511,8 @@ extension DynamoDBClientTypes.Condition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeValueList = attributeValueList {
             var attributeValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeValueList)
-            for attributevaluelist0 in attributeValueList {
-                try attributeValueListContainer.encode(attributevaluelist0)
+            for attributevalue0 in attributeValueList {
+                try attributeValueListContainer.encode(attributevalue0)
             }
         }
         if let comparisonOperator = self.comparisonOperator {
@@ -2606,14 +2609,14 @@ extension DynamoDBClientTypes.ConditionCheck: Swift.Codable {
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeValues = expressionAttributeValues {
             var expressionAttributeValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeValues)
-            for (dictKey0, expressionattributevaluemap0) in expressionAttributeValues {
-                try expressionAttributeValuesContainer.encode(expressionattributevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeValueMap0) in expressionAttributeValues {
+                try expressionAttributeValuesContainer.encode(expressionAttributeValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let key = key {
@@ -2816,14 +2819,14 @@ extension DynamoDBClientTypes.ConsumedCapacity: Swift.Codable {
         }
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .globalSecondaryIndexes)
-            for (dictKey0, secondaryindexescapacitymap0) in globalSecondaryIndexes {
-                try globalSecondaryIndexesContainer.encode(secondaryindexescapacitymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, secondaryIndexesCapacityMap0) in globalSecondaryIndexes {
+                try globalSecondaryIndexesContainer.encode(secondaryIndexesCapacityMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let localSecondaryIndexes = localSecondaryIndexes {
             var localSecondaryIndexesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .localSecondaryIndexes)
-            for (dictKey0, secondaryindexescapacitymap0) in localSecondaryIndexes {
-                try localSecondaryIndexesContainer.encode(secondaryindexescapacitymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, secondaryIndexesCapacityMap0) in localSecondaryIndexes {
+                try localSecondaryIndexesContainer.encode(secondaryIndexesCapacityMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let readCapacityUnits = self.readCapacityUnits {
@@ -3326,8 +3329,8 @@ extension DynamoDBClientTypes.CreateGlobalSecondaryIndexAction: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let projection = self.projection {
@@ -3404,8 +3407,8 @@ extension CreateGlobalTableInput: Swift.Encodable {
         }
         if let replicationGroup = replicationGroup {
             var replicationGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationGroup)
-            for replicalist0 in replicationGroup {
-                try replicationGroupContainer.encode(replicalist0)
+            for replica0 in replicationGroup {
+                try replicationGroupContainer.encode(replica0)
             }
         }
     }
@@ -3584,8 +3587,8 @@ extension DynamoDBClientTypes.CreateReplicationGroupMemberAction: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
-            for replicaglobalsecondaryindexlist0 in globalSecondaryIndexes {
-                try globalSecondaryIndexesContainer.encode(replicaglobalsecondaryindexlist0)
+            for replicaglobalsecondaryindex0 in globalSecondaryIndexes {
+                try globalSecondaryIndexesContainer.encode(replicaglobalsecondaryindex0)
             }
         }
         if let kmsMasterKeyId = self.kmsMasterKeyId {
@@ -3678,8 +3681,8 @@ extension CreateTableInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeDefinitions = attributeDefinitions {
             var attributeDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeDefinitions)
-            for attributedefinitions0 in attributeDefinitions {
-                try attributeDefinitionsContainer.encode(attributedefinitions0)
+            for attributedefinition0 in attributeDefinitions {
+                try attributeDefinitionsContainer.encode(attributedefinition0)
             }
         }
         if let billingMode = self.billingMode {
@@ -3687,20 +3690,20 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
-            for globalsecondaryindexlist0 in globalSecondaryIndexes {
-                try globalSecondaryIndexesContainer.encode(globalsecondaryindexlist0)
+            for globalsecondaryindex0 in globalSecondaryIndexes {
+                try globalSecondaryIndexesContainer.encode(globalsecondaryindex0)
             }
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let localSecondaryIndexes = localSecondaryIndexes {
             var localSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localSecondaryIndexes)
-            for localsecondaryindexlist0 in localSecondaryIndexes {
-                try localSecondaryIndexesContainer.encode(localsecondaryindexlist0)
+            for localsecondaryindex0 in localSecondaryIndexes {
+                try localSecondaryIndexesContainer.encode(localsecondaryindex0)
             }
         }
         if let provisionedThroughput = self.provisionedThroughput {
@@ -3720,8 +3723,8 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4046,8 +4049,8 @@ extension DynamoDBClientTypes.CsvOptions: Swift.Codable {
         }
         if let headerList = headerList {
             var headerListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headerList)
-            for csvheaderlist0 in headerList {
-                try headerListContainer.encode(csvheaderlist0)
+            for csvheader0 in headerList {
+                try headerListContainer.encode(csvheader0)
             }
         }
     }
@@ -4107,14 +4110,14 @@ extension DynamoDBClientTypes.Delete: Swift.Codable {
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeValues = expressionAttributeValues {
             var expressionAttributeValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeValues)
-            for (dictKey0, expressionattributevaluemap0) in expressionAttributeValues {
-                try expressionAttributeValuesContainer.encode(expressionattributevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeValueMap0) in expressionAttributeValues {
+                try expressionAttributeValuesContainer.encode(expressionAttributeValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let key = key {
@@ -4392,20 +4395,20 @@ extension DeleteItemInput: Swift.Encodable {
         }
         if let expected = expected {
             var expectedContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expected)
-            for (dictKey0, expectedattributemap0) in expected {
-                try expectedContainer.encode(expectedattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expectedAttributeMap0) in expected {
+                try expectedContainer.encode(expectedAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeValues = expressionAttributeValues {
             var expressionAttributeValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeValues)
-            for (dictKey0, expressionattributevaluemap0) in expressionAttributeValues {
-                try expressionAttributeValuesContainer.encode(expressionattributevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeValueMap0) in expressionAttributeValues {
+                try expressionAttributeValuesContainer.encode(expressionAttributeValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let key = key {
@@ -7054,8 +7057,8 @@ extension ExecuteStatementInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for preparedstatementparameters0 in parameters {
-                try parametersContainer.encode(preparedstatementparameters0)
+            for attributevalue0 in parameters {
+                try parametersContainer.encode(attributevalue0)
             }
         }
         if let returnConsumedCapacity = self.returnConsumedCapacity {
@@ -7308,8 +7311,8 @@ extension ExecuteTransactionInput: Swift.Encodable {
         }
         if let transactStatements = transactStatements {
             var transactStatementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactStatements)
-            for parameterizedstatements0 in transactStatements {
-                try transactStatementsContainer.encode(parameterizedstatements0)
+            for parameterizedstatement0 in transactStatements {
+                try transactStatementsContainer.encode(parameterizedstatement0)
             }
         }
     }
@@ -7490,8 +7493,8 @@ extension DynamoDBClientTypes.ExpectedAttributeValue: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeValueList = attributeValueList {
             var attributeValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeValueList)
-            for attributevaluelist0 in attributeValueList {
-                try attributeValueListContainer.encode(attributevaluelist0)
+            for attributevalue0 in attributeValueList {
+                try attributeValueListContainer.encode(attributevalue0)
             }
         }
         if let comparisonOperator = self.comparisonOperator {
@@ -8313,8 +8316,8 @@ extension DynamoDBClientTypes.Get: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let key = key {
@@ -8407,8 +8410,8 @@ extension GetItemInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributesToGet = attributesToGet {
             var attributesToGetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesToGet)
-            for attributenamelist0 in attributesToGet {
-                try attributesToGetContainer.encode(attributenamelist0)
+            for attributename0 in attributesToGet {
+                try attributesToGetContainer.encode(attributename0)
             }
         }
         if let consistentRead = self.consistentRead {
@@ -8416,8 +8419,8 @@ extension GetItemInput: Swift.Encodable {
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let key = key {
@@ -8686,8 +8689,8 @@ extension DynamoDBClientTypes.GlobalSecondaryIndex: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let projection = self.projection {
@@ -8838,8 +8841,8 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexDescription: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let projection = self.projection {
@@ -8960,8 +8963,8 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexInfo: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let projection = self.projection {
@@ -9113,8 +9116,8 @@ extension DynamoDBClientTypes.GlobalTable: Swift.Codable {
         }
         if let replicationGroup = replicationGroup {
             var replicationGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationGroup)
-            for replicalist0 in replicationGroup {
-                try replicationGroupContainer.encode(replicalist0)
+            for replica0 in replicationGroup {
+                try replicationGroupContainer.encode(replica0)
             }
         }
     }
@@ -9234,8 +9237,8 @@ extension DynamoDBClientTypes.GlobalTableDescription: Swift.Codable {
         }
         if let replicationGroup = replicationGroup {
             var replicationGroupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationGroup)
-            for replicadescriptionlist0 in replicationGroup {
-                try replicationGroupContainer.encode(replicadescriptionlist0)
+            for replicadescription0 in replicationGroup {
+                try replicationGroupContainer.encode(replicadescription0)
             }
         }
     }
@@ -10558,14 +10561,14 @@ extension DynamoDBClientTypes.ItemCollectionMetrics: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let itemCollectionKey = itemCollectionKey {
             var itemCollectionKeyContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .itemCollectionKey)
-            for (dictKey0, itemcollectionkeyattributemap0) in itemCollectionKey {
-                try itemCollectionKeyContainer.encode(itemcollectionkeyattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, itemCollectionKeyAttributeMap0) in itemCollectionKey {
+                try itemCollectionKeyContainer.encode(itemCollectionKeyAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sizeEstimateRangeGB = sizeEstimateRangeGB {
             var sizeEstimateRangeGBContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sizeEstimateRangeGB)
-            for itemcollectionsizeestimaterange0 in sizeEstimateRangeGB {
-                try sizeEstimateRangeGBContainer.encode(itemcollectionsizeestimaterange0)
+            for itemcollectionsizeestimatebound0 in sizeEstimateRangeGB {
+                try sizeEstimateRangeGBContainer.encode(itemcollectionsizeestimatebound0)
             }
         }
     }
@@ -10679,8 +10682,8 @@ extension DynamoDBClientTypes.ItemResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .item)
-            for (dictKey0, attributemap0) in item {
-                try itemContainer.encode(attributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMap0) in item {
+                try itemContainer.encode(attributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -10816,8 +10819,8 @@ extension DynamoDBClientTypes.KeysAndAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributesToGet = attributesToGet {
             var attributesToGetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesToGet)
-            for attributenamelist0 in attributesToGet {
-                try attributesToGetContainer.encode(attributenamelist0)
+            for attributename0 in attributesToGet {
+                try attributesToGetContainer.encode(attributename0)
             }
         }
         if let consistentRead = self.consistentRead {
@@ -10825,16 +10828,16 @@ extension DynamoDBClientTypes.KeysAndAttributes: Swift.Codable {
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let keys = keys {
             var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
-            for keylist0 in keys {
-                var keylist0Container = keysContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
-                for (dictKey1, key1) in keylist0 {
-                    try keylist0Container.encode(key1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+            for key0 in keys {
+                var key0Container = keysContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, key1) in key0 {
+                    try key0Container.encode(key1, forKey: ClientRuntime.Key(stringValue: dictKey1))
                 }
             }
         }
@@ -12179,8 +12182,8 @@ extension DynamoDBClientTypes.LocalSecondaryIndex: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let projection = self.projection {
@@ -12268,8 +12271,8 @@ extension DynamoDBClientTypes.LocalSecondaryIndexDescription: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let projection = self.projection {
@@ -12360,8 +12363,8 @@ extension DynamoDBClientTypes.LocalSecondaryIndexInfo: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let projection = self.projection {
@@ -12430,8 +12433,8 @@ extension DynamoDBClientTypes.ParameterizedStatement: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for preparedstatementparameters0 in parameters {
-                try parametersContainer.encode(preparedstatementparameters0)
+            for attributevalue0 in parameters {
+                try parametersContainer.encode(attributevalue0)
             }
         }
         if let statement = self.statement {
@@ -12667,8 +12670,8 @@ extension DynamoDBClientTypes.Projection: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let nonKeyAttributes = nonKeyAttributes {
             var nonKeyAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nonKeyAttributes)
-            for nonkeyattributenamelist0 in nonKeyAttributes {
-                try nonKeyAttributesContainer.encode(nonkeyattributenamelist0)
+            for nonkeyattributename0 in nonKeyAttributes {
+                try nonKeyAttributesContainer.encode(nonkeyattributename0)
             }
         }
         if let projectionType = self.projectionType {
@@ -12982,20 +12985,20 @@ extension DynamoDBClientTypes.Put: Swift.Codable {
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeValues = expressionAttributeValues {
             var expressionAttributeValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeValues)
-            for (dictKey0, expressionattributevaluemap0) in expressionAttributeValues {
-                try expressionAttributeValuesContainer.encode(expressionattributevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeValueMap0) in expressionAttributeValues {
+                try expressionAttributeValuesContainer.encode(expressionAttributeValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let item = item {
             var itemContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .item)
-            for (dictKey0, putiteminputattributemap0) in item {
-                try itemContainer.encode(putiteminputattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, putItemInputAttributeMap0) in item {
+                try itemContainer.encode(putItemInputAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let returnValuesOnConditionCheckFailure = self.returnValuesOnConditionCheckFailure {
@@ -13112,26 +13115,26 @@ extension PutItemInput: Swift.Encodable {
         }
         if let expected = expected {
             var expectedContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expected)
-            for (dictKey0, expectedattributemap0) in expected {
-                try expectedContainer.encode(expectedattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expectedAttributeMap0) in expected {
+                try expectedContainer.encode(expectedAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeValues = expressionAttributeValues {
             var expressionAttributeValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeValues)
-            for (dictKey0, expressionattributevaluemap0) in expressionAttributeValues {
-                try expressionAttributeValuesContainer.encode(expressionattributevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeValueMap0) in expressionAttributeValues {
+                try expressionAttributeValuesContainer.encode(expressionAttributeValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let item = item {
             var itemContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .item)
-            for (dictKey0, putiteminputattributemap0) in item {
-                try itemContainer.encode(putiteminputattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, putItemInputAttributeMap0) in item {
+                try itemContainer.encode(putItemInputAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let returnConsumedCapacity = self.returnConsumedCapacity {
@@ -13460,8 +13463,8 @@ extension DynamoDBClientTypes.PutRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .item)
-            for (dictKey0, putiteminputattributemap0) in item {
-                try itemContainer.encode(putiteminputattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, putItemInputAttributeMap0) in item {
+                try itemContainer.encode(putItemInputAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -13524,8 +13527,8 @@ extension QueryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributesToGet = attributesToGet {
             var attributesToGetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesToGet)
-            for attributenamelist0 in attributesToGet {
-                try attributesToGetContainer.encode(attributenamelist0)
+            for attributename0 in attributesToGet {
+                try attributesToGetContainer.encode(attributename0)
             }
         }
         if let conditionalOperator = self.conditionalOperator {
@@ -13542,14 +13545,14 @@ extension QueryInput: Swift.Encodable {
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeValues = expressionAttributeValues {
             var expressionAttributeValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeValues)
-            for (dictKey0, expressionattributevaluemap0) in expressionAttributeValues {
-                try expressionAttributeValuesContainer.encode(expressionattributevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeValueMap0) in expressionAttributeValues {
+                try expressionAttributeValuesContainer.encode(expressionAttributeValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let filterExpression = self.filterExpression {
@@ -13563,8 +13566,8 @@ extension QueryInput: Swift.Encodable {
         }
         if let keyConditions = keyConditions {
             var keyConditionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .keyConditions)
-            for (dictKey0, keyconditions0) in keyConditions {
-                try keyConditionsContainer.encode(keyconditions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, keyConditions0) in keyConditions {
+                try keyConditionsContainer.encode(keyConditions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let limit = self.limit {
@@ -13575,8 +13578,8 @@ extension QueryInput: Swift.Encodable {
         }
         if let queryFilter = queryFilter {
             var queryFilterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .queryFilter)
-            for (dictKey0, filterconditionmap0) in queryFilter {
-                try queryFilterContainer.encode(filterconditionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterConditionMap0) in queryFilter {
+                try queryFilterContainer.encode(filterConditionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let returnConsumedCapacity = self.returnConsumedCapacity {
@@ -14134,8 +14137,8 @@ extension DynamoDBClientTypes.ReplicaAutoScalingDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
-            for replicaglobalsecondaryindexautoscalingdescriptionlist0 in globalSecondaryIndexes {
-                try globalSecondaryIndexesContainer.encode(replicaglobalsecondaryindexautoscalingdescriptionlist0)
+            for replicaglobalsecondaryindexautoscalingdescription0 in globalSecondaryIndexes {
+                try globalSecondaryIndexesContainer.encode(replicaglobalsecondaryindexautoscalingdescription0)
             }
         }
         if let regionName = self.regionName {
@@ -14230,8 +14233,8 @@ extension DynamoDBClientTypes.ReplicaAutoScalingUpdate: Swift.Codable {
         }
         if let replicaGlobalSecondaryIndexUpdates = replicaGlobalSecondaryIndexUpdates {
             var replicaGlobalSecondaryIndexUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaGlobalSecondaryIndexUpdates)
-            for replicaglobalsecondaryindexautoscalingupdatelist0 in replicaGlobalSecondaryIndexUpdates {
-                try replicaGlobalSecondaryIndexUpdatesContainer.encode(replicaglobalsecondaryindexautoscalingupdatelist0)
+            for replicaglobalsecondaryindexautoscalingupdate0 in replicaGlobalSecondaryIndexUpdates {
+                try replicaGlobalSecondaryIndexUpdatesContainer.encode(replicaglobalsecondaryindexautoscalingupdate0)
             }
         }
         if let replicaProvisionedReadCapacityAutoScalingUpdate = self.replicaProvisionedReadCapacityAutoScalingUpdate {
@@ -14301,8 +14304,8 @@ extension DynamoDBClientTypes.ReplicaDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
-            for replicaglobalsecondaryindexdescriptionlist0 in globalSecondaryIndexes {
-                try globalSecondaryIndexesContainer.encode(replicaglobalsecondaryindexdescriptionlist0)
+            for replicaglobalsecondaryindexdescription0 in globalSecondaryIndexes {
+                try globalSecondaryIndexesContainer.encode(replicaglobalsecondaryindexdescription0)
             }
         }
         if let kmsMasterKeyId = self.kmsMasterKeyId {
@@ -14857,8 +14860,8 @@ extension DynamoDBClientTypes.ReplicaSettingsDescription: Swift.Codable {
         }
         if let replicaGlobalSecondaryIndexSettings = replicaGlobalSecondaryIndexSettings {
             var replicaGlobalSecondaryIndexSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaGlobalSecondaryIndexSettings)
-            for replicaglobalsecondaryindexsettingsdescriptionlist0 in replicaGlobalSecondaryIndexSettings {
-                try replicaGlobalSecondaryIndexSettingsContainer.encode(replicaglobalsecondaryindexsettingsdescriptionlist0)
+            for replicaglobalsecondaryindexsettingsdescription0 in replicaGlobalSecondaryIndexSettings {
+                try replicaGlobalSecondaryIndexSettingsContainer.encode(replicaglobalsecondaryindexsettingsdescription0)
             }
         }
         if let replicaProvisionedReadCapacityAutoScalingSettings = self.replicaProvisionedReadCapacityAutoScalingSettings {
@@ -14986,8 +14989,8 @@ extension DynamoDBClientTypes.ReplicaSettingsUpdate: Swift.Codable {
         }
         if let replicaGlobalSecondaryIndexSettingsUpdate = replicaGlobalSecondaryIndexSettingsUpdate {
             var replicaGlobalSecondaryIndexSettingsUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaGlobalSecondaryIndexSettingsUpdate)
-            for replicaglobalsecondaryindexsettingsupdatelist0 in replicaGlobalSecondaryIndexSettingsUpdate {
-                try replicaGlobalSecondaryIndexSettingsUpdateContainer.encode(replicaglobalsecondaryindexsettingsupdatelist0)
+            for replicaglobalsecondaryindexsettingsupdate0 in replicaGlobalSecondaryIndexSettingsUpdate {
+                try replicaGlobalSecondaryIndexSettingsUpdateContainer.encode(replicaglobalsecondaryindexsettingsupdate0)
             }
         }
         if let replicaProvisionedReadCapacityAutoScalingSettingsUpdate = self.replicaProvisionedReadCapacityAutoScalingSettingsUpdate {
@@ -15466,14 +15469,14 @@ extension RestoreTableFromBackupInput: Swift.Encodable {
         }
         if let globalSecondaryIndexOverride = globalSecondaryIndexOverride {
             var globalSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexOverride)
-            for globalsecondaryindexlist0 in globalSecondaryIndexOverride {
-                try globalSecondaryIndexOverrideContainer.encode(globalsecondaryindexlist0)
+            for globalsecondaryindex0 in globalSecondaryIndexOverride {
+                try globalSecondaryIndexOverrideContainer.encode(globalsecondaryindex0)
             }
         }
         if let localSecondaryIndexOverride = localSecondaryIndexOverride {
             var localSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localSecondaryIndexOverride)
-            for localsecondaryindexlist0 in localSecondaryIndexOverride {
-                try localSecondaryIndexOverrideContainer.encode(localsecondaryindexlist0)
+            for localsecondaryindex0 in localSecondaryIndexOverride {
+                try localSecondaryIndexOverrideContainer.encode(localsecondaryindex0)
             }
         }
         if let provisionedThroughputOverride = self.provisionedThroughputOverride {
@@ -15686,14 +15689,14 @@ extension RestoreTableToPointInTimeInput: Swift.Encodable {
         }
         if let globalSecondaryIndexOverride = globalSecondaryIndexOverride {
             var globalSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexOverride)
-            for globalsecondaryindexlist0 in globalSecondaryIndexOverride {
-                try globalSecondaryIndexOverrideContainer.encode(globalsecondaryindexlist0)
+            for globalsecondaryindex0 in globalSecondaryIndexOverride {
+                try globalSecondaryIndexOverrideContainer.encode(globalsecondaryindex0)
             }
         }
         if let localSecondaryIndexOverride = localSecondaryIndexOverride {
             var localSecondaryIndexOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localSecondaryIndexOverride)
-            for localsecondaryindexlist0 in localSecondaryIndexOverride {
-                try localSecondaryIndexOverrideContainer.encode(localsecondaryindexlist0)
+            for localsecondaryindex0 in localSecondaryIndexOverride {
+                try localSecondaryIndexOverrideContainer.encode(localsecondaryindex0)
             }
         }
         if let provisionedThroughputOverride = self.provisionedThroughputOverride {
@@ -16417,8 +16420,8 @@ extension ScanInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributesToGet = attributesToGet {
             var attributesToGetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesToGet)
-            for attributenamelist0 in attributesToGet {
-                try attributesToGetContainer.encode(attributenamelist0)
+            for attributename0 in attributesToGet {
+                try attributesToGetContainer.encode(attributename0)
             }
         }
         if let conditionalOperator = self.conditionalOperator {
@@ -16435,14 +16438,14 @@ extension ScanInput: Swift.Encodable {
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeValues = expressionAttributeValues {
             var expressionAttributeValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeValues)
-            for (dictKey0, expressionattributevaluemap0) in expressionAttributeValues {
-                try expressionAttributeValuesContainer.encode(expressionattributevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeValueMap0) in expressionAttributeValues {
+                try expressionAttributeValuesContainer.encode(expressionAttributeValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let filterExpression = self.filterExpression {
@@ -16462,8 +16465,8 @@ extension ScanInput: Swift.Encodable {
         }
         if let scanFilter = scanFilter {
             var scanFilterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .scanFilter)
-            for (dictKey0, filterconditionmap0) in scanFilter {
-                try scanFilterContainer.encode(filterconditionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterConditionMap0) in scanFilter {
+                try scanFilterContainer.encode(filterConditionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let segment = self.segment {
@@ -16930,8 +16933,8 @@ extension DynamoDBClientTypes.SourceTableDetails: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let provisionedThroughput = self.provisionedThroughput {
@@ -17056,14 +17059,14 @@ extension DynamoDBClientTypes.SourceTableFeatureDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
-            for globalsecondaryindexes0 in globalSecondaryIndexes {
-                try globalSecondaryIndexesContainer.encode(globalsecondaryindexes0)
+            for globalsecondaryindexinfo0 in globalSecondaryIndexes {
+                try globalSecondaryIndexesContainer.encode(globalsecondaryindexinfo0)
             }
         }
         if let localSecondaryIndexes = localSecondaryIndexes {
             var localSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localSecondaryIndexes)
-            for localsecondaryindexes0 in localSecondaryIndexes {
-                try localSecondaryIndexesContainer.encode(localsecondaryindexes0)
+            for localsecondaryindexinfo0 in localSecondaryIndexes {
+                try localSecondaryIndexesContainer.encode(localsecondaryindexinfo0)
             }
         }
         if let sseDescription = self.sseDescription {
@@ -17297,8 +17300,8 @@ extension DynamoDBClientTypes.TableAutoScalingDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let replicas = replicas {
             var replicasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicas)
-            for replicaautoscalingdescriptionlist0 in replicas {
-                try replicasContainer.encode(replicaautoscalingdescriptionlist0)
+            for replicaautoscalingdescription0 in replicas {
+                try replicasContainer.encode(replicaautoscalingdescription0)
             }
         }
         if let tableName = self.tableName {
@@ -17453,8 +17456,8 @@ extension DynamoDBClientTypes.TableCreationParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeDefinitions = attributeDefinitions {
             var attributeDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeDefinitions)
-            for attributedefinitions0 in attributeDefinitions {
-                try attributeDefinitionsContainer.encode(attributedefinitions0)
+            for attributedefinition0 in attributeDefinitions {
+                try attributeDefinitionsContainer.encode(attributedefinition0)
             }
         }
         if let billingMode = self.billingMode {
@@ -17462,14 +17465,14 @@ extension DynamoDBClientTypes.TableCreationParameters: Swift.Codable {
         }
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
-            for globalsecondaryindexlist0 in globalSecondaryIndexes {
-                try globalSecondaryIndexesContainer.encode(globalsecondaryindexlist0)
+            for globalsecondaryindex0 in globalSecondaryIndexes {
+                try globalSecondaryIndexesContainer.encode(globalsecondaryindex0)
             }
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let provisionedThroughput = self.provisionedThroughput {
@@ -17605,8 +17608,8 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         }
         if let attributeDefinitions = attributeDefinitions {
             var attributeDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeDefinitions)
-            for attributedefinitions0 in attributeDefinitions {
-                try attributeDefinitionsContainer.encode(attributedefinitions0)
+            for attributedefinition0 in attributeDefinitions {
+                try attributeDefinitionsContainer.encode(attributedefinition0)
             }
         }
         if let billingModeSummary = self.billingModeSummary {
@@ -17617,8 +17620,8 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         }
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
-            for globalsecondaryindexdescriptionlist0 in globalSecondaryIndexes {
-                try globalSecondaryIndexesContainer.encode(globalsecondaryindexdescriptionlist0)
+            for globalsecondaryindexdescription0 in globalSecondaryIndexes {
+                try globalSecondaryIndexesContainer.encode(globalsecondaryindexdescription0)
             }
         }
         if let globalTableVersion = self.globalTableVersion {
@@ -17629,8 +17632,8 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         }
         if let keySchema = keySchema {
             var keySchemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keySchema)
-            for keyschema0 in keySchema {
-                try keySchemaContainer.encode(keyschema0)
+            for keyschemaelement0 in keySchema {
+                try keySchemaContainer.encode(keyschemaelement0)
             }
         }
         if let latestStreamArn = self.latestStreamArn {
@@ -17641,8 +17644,8 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         }
         if let localSecondaryIndexes = localSecondaryIndexes {
             var localSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localSecondaryIndexes)
-            for localsecondaryindexdescriptionlist0 in localSecondaryIndexes {
-                try localSecondaryIndexesContainer.encode(localsecondaryindexdescriptionlist0)
+            for localsecondaryindexdescription0 in localSecondaryIndexes {
+                try localSecondaryIndexesContainer.encode(localsecondaryindexdescription0)
             }
         }
         if let provisionedThroughput = self.provisionedThroughput {
@@ -17650,8 +17653,8 @@ extension DynamoDBClientTypes.TableDescription: Swift.Codable {
         }
         if let replicas = replicas {
             var replicasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicas)
-            for replicadescriptionlist0 in replicas {
-                try replicasContainer.encode(replicadescriptionlist0)
+            for replicadescription0 in replicas {
+                try replicasContainer.encode(replicadescription0)
             }
         }
         if let restoreSummary = self.restoreSummary {
@@ -18201,8 +18204,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -18480,8 +18483,8 @@ extension TransactGetItemsInput: Swift.Encodable {
         }
         if let transactItems = transactItems {
             var transactItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactItems)
-            for transactgetitemlist0 in transactItems {
-                try transactItemsContainer.encode(transactgetitemlist0)
+            for transactgetitem0 in transactItems {
+                try transactItemsContainer.encode(transactgetitem0)
             }
         }
     }
@@ -18726,8 +18729,8 @@ extension TransactWriteItemsInput: Swift.Encodable {
         }
         if let transactItems = transactItems {
             var transactItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactItems)
-            for transactwriteitemlist0 in transactItems {
-                try transactItemsContainer.encode(transactwriteitemlist0)
+            for transactwriteitem0 in transactItems {
+                try transactItemsContainer.encode(transactwriteitem0)
             }
         }
     }
@@ -19227,8 +19230,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkeystring0 in tagKeys {
+                try tagKeysContainer.encode(tagkeystring0)
             }
         }
     }
@@ -19345,14 +19348,14 @@ extension DynamoDBClientTypes.Update: Swift.Codable {
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeValues = expressionAttributeValues {
             var expressionAttributeValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeValues)
-            for (dictKey0, expressionattributevaluemap0) in expressionAttributeValues {
-                try expressionAttributeValuesContainer.encode(expressionattributevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeValueMap0) in expressionAttributeValues {
+                try expressionAttributeValuesContainer.encode(expressionAttributeValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let key = key {
@@ -19809,8 +19812,8 @@ extension UpdateGlobalTableInput: Swift.Encodable {
         }
         if let replicaUpdates = replicaUpdates {
             var replicaUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaUpdates)
-            for replicaupdatelist0 in replicaUpdates {
-                try replicaUpdatesContainer.encode(replicaupdatelist0)
+            for replicaupdate0 in replicaUpdates {
+                try replicaUpdatesContainer.encode(replicaupdate0)
             }
         }
     }
@@ -19959,8 +19962,8 @@ extension UpdateGlobalTableSettingsInput: Swift.Encodable {
         }
         if let globalTableGlobalSecondaryIndexSettingsUpdate = globalTableGlobalSecondaryIndexSettingsUpdate {
             var globalTableGlobalSecondaryIndexSettingsUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalTableGlobalSecondaryIndexSettingsUpdate)
-            for globaltableglobalsecondaryindexsettingsupdatelist0 in globalTableGlobalSecondaryIndexSettingsUpdate {
-                try globalTableGlobalSecondaryIndexSettingsUpdateContainer.encode(globaltableglobalsecondaryindexsettingsupdatelist0)
+            for globaltableglobalsecondaryindexsettingsupdate0 in globalTableGlobalSecondaryIndexSettingsUpdate {
+                try globalTableGlobalSecondaryIndexSettingsUpdateContainer.encode(globaltableglobalsecondaryindexsettingsupdate0)
             }
         }
         if let globalTableName = self.globalTableName {
@@ -19974,8 +19977,8 @@ extension UpdateGlobalTableSettingsInput: Swift.Encodable {
         }
         if let replicaSettingsUpdate = replicaSettingsUpdate {
             var replicaSettingsUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaSettingsUpdate)
-            for replicasettingsupdatelist0 in replicaSettingsUpdate {
-                try replicaSettingsUpdateContainer.encode(replicasettingsupdatelist0)
+            for replicasettingsupdate0 in replicaSettingsUpdate {
+                try replicaSettingsUpdateContainer.encode(replicasettingsupdate0)
             }
         }
     }
@@ -20192,8 +20195,8 @@ extension UpdateItemInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeUpdates = attributeUpdates {
             var attributeUpdatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributeUpdates)
-            for (dictKey0, attributeupdates0) in attributeUpdates {
-                try attributeUpdatesContainer.encode(attributeupdates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeUpdates0) in attributeUpdates {
+                try attributeUpdatesContainer.encode(attributeUpdates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let conditionExpression = self.conditionExpression {
@@ -20204,20 +20207,20 @@ extension UpdateItemInput: Swift.Encodable {
         }
         if let expected = expected {
             var expectedContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expected)
-            for (dictKey0, expectedattributemap0) in expected {
-                try expectedContainer.encode(expectedattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expectedAttributeMap0) in expected {
+                try expectedContainer.encode(expectedAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeNames = expressionAttributeNames {
             var expressionAttributeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeNames)
-            for (dictKey0, expressionattributenamemap0) in expressionAttributeNames {
-                try expressionAttributeNamesContainer.encode(expressionattributenamemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeNameMap0) in expressionAttributeNames {
+                try expressionAttributeNamesContainer.encode(expressionAttributeNameMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expressionAttributeValues = expressionAttributeValues {
             var expressionAttributeValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .expressionAttributeValues)
-            for (dictKey0, expressionattributevaluemap0) in expressionAttributeValues {
-                try expressionAttributeValuesContainer.encode(expressionattributevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, expressionAttributeValueMap0) in expressionAttributeValues {
+                try expressionAttributeValuesContainer.encode(expressionAttributeValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let key = key {
@@ -20615,8 +20618,8 @@ extension DynamoDBClientTypes.UpdateReplicationGroupMemberAction: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let globalSecondaryIndexes = globalSecondaryIndexes {
             var globalSecondaryIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexes)
-            for replicaglobalsecondaryindexlist0 in globalSecondaryIndexes {
-                try globalSecondaryIndexesContainer.encode(replicaglobalsecondaryindexlist0)
+            for replicaglobalsecondaryindex0 in globalSecondaryIndexes {
+                try globalSecondaryIndexesContainer.encode(replicaglobalsecondaryindex0)
             }
         }
         if let kmsMasterKeyId = self.kmsMasterKeyId {
@@ -20707,8 +20710,8 @@ extension UpdateTableInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeDefinitions = attributeDefinitions {
             var attributeDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeDefinitions)
-            for attributedefinitions0 in attributeDefinitions {
-                try attributeDefinitionsContainer.encode(attributedefinitions0)
+            for attributedefinition0 in attributeDefinitions {
+                try attributeDefinitionsContainer.encode(attributedefinition0)
             }
         }
         if let billingMode = self.billingMode {
@@ -20716,8 +20719,8 @@ extension UpdateTableInput: Swift.Encodable {
         }
         if let globalSecondaryIndexUpdates = globalSecondaryIndexUpdates {
             var globalSecondaryIndexUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexUpdates)
-            for globalsecondaryindexupdatelist0 in globalSecondaryIndexUpdates {
-                try globalSecondaryIndexUpdatesContainer.encode(globalsecondaryindexupdatelist0)
+            for globalsecondaryindexupdate0 in globalSecondaryIndexUpdates {
+                try globalSecondaryIndexUpdatesContainer.encode(globalsecondaryindexupdate0)
             }
         }
         if let provisionedThroughput = self.provisionedThroughput {
@@ -20725,8 +20728,8 @@ extension UpdateTableInput: Swift.Encodable {
         }
         if let replicaUpdates = replicaUpdates {
             var replicaUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaUpdates)
-            for replicationgroupupdatelist0 in replicaUpdates {
-                try replicaUpdatesContainer.encode(replicationgroupupdatelist0)
+            for replicationgroupupdate0 in replicaUpdates {
+                try replicaUpdatesContainer.encode(replicationgroupupdate0)
             }
         }
         if let sseSpecification = self.sseSpecification {
@@ -20968,8 +20971,8 @@ extension UpdateTableReplicaAutoScalingInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let globalSecondaryIndexUpdates = globalSecondaryIndexUpdates {
             var globalSecondaryIndexUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .globalSecondaryIndexUpdates)
-            for globalsecondaryindexautoscalingupdatelist0 in globalSecondaryIndexUpdates {
-                try globalSecondaryIndexUpdatesContainer.encode(globalsecondaryindexautoscalingupdatelist0)
+            for globalsecondaryindexautoscalingupdate0 in globalSecondaryIndexUpdates {
+                try globalSecondaryIndexUpdatesContainer.encode(globalsecondaryindexautoscalingupdate0)
             }
         }
         if let provisionedWriteCapacityAutoScalingUpdate = self.provisionedWriteCapacityAutoScalingUpdate {
@@ -20977,8 +20980,8 @@ extension UpdateTableReplicaAutoScalingInput: Swift.Encodable {
         }
         if let replicaUpdates = replicaUpdates {
             var replicaUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaUpdates)
-            for replicaautoscalingupdatelist0 in replicaUpdates {
-                try replicaUpdatesContainer.encode(replicaautoscalingupdatelist0)
+            for replicaautoscalingupdate0 in replicaUpdates {
+                try replicaUpdatesContainer.encode(replicaautoscalingupdate0)
             }
         }
         if let tableName = self.tableName {

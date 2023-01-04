@@ -9,9 +9,9 @@ import AwsCommonRuntimeKit
 public struct Profile {
     public let name: String?
     public let propertyCount: Int
-    let crtProfile: CRTAWSProfile?
+    let crtProfile: AwsCommonRuntimeKit.Profile?
     
-    init(crtProfile: CRTAWSProfile) {
+    init(crtProfile: AwsCommonRuntimeKit.Profile) {
         self.name = crtProfile.name
         self.propertyCount = crtProfile.propertyCount
         self.crtProfile = crtProfile

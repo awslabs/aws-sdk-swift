@@ -37,7 +37,7 @@ val codegenTests = listOf(
         "rest_json_extras"
     ),
     CodegenTest(
-        "aws.protocoltests.restjson#Waiters",
+        "aws.protocoltests.waiters#Waiters",
         "Waiters"
     )
 )

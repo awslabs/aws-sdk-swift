@@ -2392,14 +2392,14 @@ extension CloudControlClientTypes.ResourceRequestStatusFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let operationStatuses = operationStatuses {
             var operationStatusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operationStatuses)
-            for operationstatuses0 in operationStatuses {
-                try operationStatusesContainer.encode(operationstatuses0.rawValue)
+            for operationstatus0 in operationStatuses {
+                try operationStatusesContainer.encode(operationstatus0.rawValue)
             }
         }
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for operations0 in operations {
-                try operationsContainer.encode(operations0.rawValue)
+            for operation0 in operations {
+                try operationsContainer.encode(operation0.rawValue)
             }
         }
     }

@@ -547,8 +547,8 @@ extension GetProductsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let formatVersion = self.formatVersion {
@@ -960,8 +960,8 @@ extension PricingClientTypes.Service: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeNames = attributeNames {
             var attributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeNames)
-            for attributenamelist0 in attributeNames {
-                try attributeNamesContainer.encode(attributenamelist0)
+            for string0 in attributeNames {
+                try attributeNamesContainer.encode(string0)
             }
         }
         if let serviceCode = self.serviceCode {

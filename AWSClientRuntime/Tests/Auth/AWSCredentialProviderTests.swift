@@ -22,6 +22,10 @@ class AWSCredentialProviderTests: XCTestCase {
 
 struct MyCustomCredentialsProvider: CredentialsProvider {
     func getCredentials() async throws -> AWSCredentials {
-        return AWSCredentials(accessKey: "MYACCESSKEY", secret: "sekrit", expirationTimeout: 30)
+        return AWSCredentials(
+            accessKey: "MYACCESSKEY",
+            secret: "sekrit",
+            expirationTimeout: .init(timeIntervalSinceNow: 30)
+        )
     }
 }

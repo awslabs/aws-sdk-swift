@@ -57,7 +57,10 @@ extension ForecastqueryClientTypes.Forecast: Swift.Codable {
         if let predictions = predictions {
             var predictionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .predictions)
             for (dictKey0, predictions0) in predictions {
-                try predictionsContainer.encode(predictions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                var predictions0Container = predictionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for datapoint1 in predictions0 {
+                    try predictions0Container.encode(datapoint1)
+                }
             }
         }
     }

@@ -227,8 +227,8 @@ extension TranscribeClientTypes.CallAnalyticsJob: Swift.Codable {
         }
         if let channelDefinitions = channelDefinitions {
             var channelDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channelDefinitions)
-            for channeldefinitions0 in channelDefinitions {
-                try channelDefinitionsContainer.encode(channeldefinitions0)
+            for channeldefinition0 in channelDefinitions {
+                try channelDefinitionsContainer.encode(channeldefinition0)
             }
         }
         if let completionTime = self.completionTime {
@@ -415,8 +415,8 @@ extension TranscribeClientTypes.CallAnalyticsJobSettings: Swift.Codable {
         }
         if let languageIdSettings = languageIdSettings {
             var languageIdSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .languageIdSettings)
-            for (dictKey0, languageidsettingsmap0) in languageIdSettings {
-                try languageIdSettingsContainer.encode(languageidsettingsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, languageIdSettingsMap0) in languageIdSettings {
+                try languageIdSettingsContainer.encode(languageIdSettingsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let languageModelName = self.languageModelName {
@@ -424,8 +424,8 @@ extension TranscribeClientTypes.CallAnalyticsJobSettings: Swift.Codable {
         }
         if let languageOptions = languageOptions {
             var languageOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .languageOptions)
-            for languageoptions0 in languageOptions {
-                try languageOptionsContainer.encode(languageoptions0.rawValue)
+            for languagecode0 in languageOptions {
+                try languageOptionsContainer.encode(languagecode0.rawValue)
             }
         }
         if let vocabularyFilterMethod = self.vocabularyFilterMethod {
@@ -674,8 +674,8 @@ extension TranscribeClientTypes.CategoryProperties: Swift.Codable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rulelist0 in rules {
-                try rulesContainer.encode(rulelist0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
     }
@@ -844,8 +844,8 @@ extension TranscribeClientTypes.ContentRedaction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let piiEntityTypes = piiEntityTypes {
             var piiEntityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .piiEntityTypes)
-            for piientitytypes0 in piiEntityTypes {
-                try piiEntityTypesContainer.encode(piientitytypes0.rawValue)
+            for piientitytype0 in piiEntityTypes {
+                try piiEntityTypesContainer.encode(piientitytype0.rawValue)
             }
         }
         if let redactionOutput = self.redactionOutput {
@@ -915,8 +915,8 @@ extension CreateCallAnalyticsCategoryInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rulelist0 in rules {
-                try rulesContainer.encode(rulelist0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
     }
@@ -1069,8 +1069,8 @@ extension CreateLanguageModelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1274,8 +1274,8 @@ extension CreateMedicalVocabularyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vocabularyFileUri = self.vocabularyFileUri {
@@ -1474,8 +1474,8 @@ extension CreateVocabularyFilterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vocabularyFilterFileUri = self.vocabularyFilterFileUri {
@@ -1483,8 +1483,8 @@ extension CreateVocabularyFilterInput: Swift.Encodable {
         }
         if let words = words {
             var wordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .words)
-            for words0 in words {
-                try wordsContainer.encode(words0)
+            for word0 in words {
+                try wordsContainer.encode(word0)
             }
         }
     }
@@ -1676,14 +1676,14 @@ extension CreateVocabularyInput: Swift.Encodable {
         }
         if let phrases = phrases {
             var phrasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phrases)
-            for phrases0 in phrases {
-                try phrasesContainer.encode(phrases0)
+            for phrase0 in phrases {
+                try phrasesContainer.encode(phrase0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vocabularyFileUri = self.vocabularyFileUri {
@@ -5647,8 +5647,8 @@ extension TranscribeClientTypes.MedicalTranscriptionJob: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let transcript = self.transcript {
@@ -6554,8 +6554,8 @@ extension TranscribeClientTypes.SentimentFilter: Swift.Codable {
         }
         if let sentiments = sentiments {
             var sentimentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sentiments)
-            for sentimentvaluelist0 in sentiments {
-                try sentimentsContainer.encode(sentimentvaluelist0.rawValue)
+            for sentimentvalue0 in sentiments {
+                try sentimentsContainer.encode(sentimentvalue0.rawValue)
             }
         }
     }
@@ -6814,8 +6814,8 @@ extension StartCallAnalyticsJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channelDefinitions = channelDefinitions {
             var channelDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channelDefinitions)
-            for channeldefinitions0 in channelDefinitions {
-                try channelDefinitionsContainer.encode(channeldefinitions0)
+            for channeldefinition0 in channelDefinitions {
+                try channelDefinitionsContainer.encode(channeldefinition0)
             }
         }
         if let dataAccessRoleArn = self.dataAccessRoleArn {
@@ -7045,8 +7045,8 @@ extension StartMedicalTranscriptionJobInput: Swift.Encodable {
         }
         if let kmsEncryptionContext = kmsEncryptionContext {
             var kmsEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .kmsEncryptionContext)
-            for (dictKey0, kmsencryptioncontextmap0) in kmsEncryptionContext {
-                try kmsEncryptionContextContainer.encode(kmsencryptioncontextmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, kmsEncryptionContextMap0) in kmsEncryptionContext {
+                try kmsEncryptionContextContainer.encode(kmsEncryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let languageCode = self.languageCode {
@@ -7078,8 +7078,8 @@ extension StartMedicalTranscriptionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -7382,8 +7382,8 @@ extension StartTranscriptionJobInput: Swift.Encodable {
         }
         if let kmsEncryptionContext = kmsEncryptionContext {
             var kmsEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .kmsEncryptionContext)
-            for (dictKey0, kmsencryptioncontextmap0) in kmsEncryptionContext {
-                try kmsEncryptionContextContainer.encode(kmsencryptioncontextmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, kmsEncryptionContextMap0) in kmsEncryptionContext {
+                try kmsEncryptionContextContainer.encode(kmsEncryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let languageCode = self.languageCode {
@@ -7391,14 +7391,14 @@ extension StartTranscriptionJobInput: Swift.Encodable {
         }
         if let languageIdSettings = languageIdSettings {
             var languageIdSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .languageIdSettings)
-            for (dictKey0, languageidsettingsmap0) in languageIdSettings {
-                try languageIdSettingsContainer.encode(languageidsettingsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, languageIdSettingsMap0) in languageIdSettings {
+                try languageIdSettingsContainer.encode(languageIdSettingsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let languageOptions = languageOptions {
             var languageOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .languageOptions)
-            for languageoptions0 in languageOptions {
-                try languageOptionsContainer.encode(languageoptions0.rawValue)
+            for languagecode0 in languageOptions {
+                try languageOptionsContainer.encode(languagecode0.rawValue)
             }
         }
         if let media = self.media {
@@ -7430,8 +7430,8 @@ extension StartTranscriptionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7789,8 +7789,8 @@ extension TranscribeClientTypes.Subtitles: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let formats = formats {
             var formatsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .formats)
-            for subtitleformats0 in formats {
-                try formatsContainer.encode(subtitleformats0.rawValue)
+            for subtitleformat0 in formats {
+                try formatsContainer.encode(subtitleformat0.rawValue)
             }
         }
         if let outputStartIndex = self.outputStartIndex {
@@ -7847,8 +7847,8 @@ extension TranscribeClientTypes.SubtitlesOutput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let formats = formats {
             var formatsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .formats)
-            for subtitleformats0 in formats {
-                try formatsContainer.encode(subtitleformats0.rawValue)
+            for subtitleformat0 in formats {
+                try formatsContainer.encode(subtitleformat0.rawValue)
             }
         }
         if let outputStartIndex = self.outputStartIndex {
@@ -7856,8 +7856,8 @@ extension TranscribeClientTypes.SubtitlesOutput: Swift.Codable {
         }
         if let subtitleFileUris = subtitleFileUris {
             var subtitleFileUrisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subtitleFileUris)
-            for subtitlefileuris0 in subtitleFileUris {
-                try subtitleFileUrisContainer.encode(subtitlefileuris0)
+            for uri0 in subtitleFileUris {
+                try subtitleFileUrisContainer.encode(uri0)
             }
         }
     }
@@ -7971,8 +7971,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8138,8 +8138,8 @@ extension TranscribeClientTypes.TranscriptFilter: Swift.Codable {
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
-            for stringtargetlist0 in targets {
-                try targetsContainer.encode(stringtargetlist0)
+            for nonemptystring0 in targets {
+                try targetsContainer.encode(nonemptystring0)
             }
         }
         if let transcriptFilterType = self.transcriptFilterType {
@@ -8307,20 +8307,20 @@ extension TranscribeClientTypes.TranscriptionJob: Swift.Codable {
         }
         if let languageCodes = languageCodes {
             var languageCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .languageCodes)
-            for languagecodelist0 in languageCodes {
-                try languageCodesContainer.encode(languagecodelist0)
+            for languagecodeitem0 in languageCodes {
+                try languageCodesContainer.encode(languagecodeitem0)
             }
         }
         if let languageIdSettings = languageIdSettings {
             var languageIdSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .languageIdSettings)
-            for (dictKey0, languageidsettingsmap0) in languageIdSettings {
-                try languageIdSettingsContainer.encode(languageidsettingsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, languageIdSettingsMap0) in languageIdSettings {
+                try languageIdSettingsContainer.encode(languageIdSettingsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let languageOptions = languageOptions {
             var languageOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .languageOptions)
-            for languageoptions0 in languageOptions {
-                try languageOptionsContainer.encode(languageoptions0.rawValue)
+            for languagecode0 in languageOptions {
+                try languageOptionsContainer.encode(languagecode0.rawValue)
             }
         }
         if let media = self.media {
@@ -8346,8 +8346,8 @@ extension TranscribeClientTypes.TranscriptionJob: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let transcript = self.transcript {
@@ -8648,8 +8648,8 @@ extension TranscribeClientTypes.TranscriptionJobSummary: Swift.Codable {
         }
         if let languageCodes = languageCodes {
             var languageCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .languageCodes)
-            for languagecodelist0 in languageCodes {
-                try languageCodesContainer.encode(languagecodelist0)
+            for languagecodeitem0 in languageCodes {
+                try languageCodesContainer.encode(languagecodeitem0)
             }
         }
         if let modelSettings = self.modelSettings {
@@ -8820,8 +8820,8 @@ extension UntagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -8929,8 +8929,8 @@ extension UpdateCallAnalyticsCategoryInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rulelist0 in rules {
-                try rulesContainer.encode(rulelist0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
     }
@@ -9244,8 +9244,8 @@ extension UpdateVocabularyFilterInput: Swift.Encodable {
         }
         if let words = words {
             var wordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .words)
-            for words0 in words {
-                try wordsContainer.encode(words0)
+            for word0 in words {
+                try wordsContainer.encode(word0)
             }
         }
     }
@@ -9410,8 +9410,8 @@ extension UpdateVocabularyInput: Swift.Encodable {
         }
         if let phrases = phrases {
             var phrasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phrases)
-            for phrases0 in phrases {
-                try phrasesContainer.encode(phrases0)
+            for phrase0 in phrases {
+                try phrasesContainer.encode(phrase0)
             }
         }
         if let vocabularyFileUri = self.vocabularyFileUri {

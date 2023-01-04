@@ -301,8 +301,8 @@ extension AppStreamClientTypes.Application: Swift.Codable {
         }
         if let instanceFamilies = instanceFamilies {
             var instanceFamiliesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceFamilies)
-            for stringlist0 in instanceFamilies {
-                try instanceFamiliesContainer.encode(stringlist0)
+            for string0 in instanceFamilies {
+                try instanceFamiliesContainer.encode(string0)
             }
         }
         if let launchParameters = self.launchParameters {
@@ -322,8 +322,8 @@ extension AppStreamClientTypes.Application: Swift.Codable {
         }
         if let platforms = platforms {
             var platformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platforms)
-            for platforms0 in platforms {
-                try platformsContainer.encode(platforms0.rawValue)
+            for platformtype0 in platforms {
+                try platformsContainer.encode(platformtype0.rawValue)
             }
         }
         if let workingDirectory = self.workingDirectory {
@@ -1039,8 +1039,8 @@ extension BatchAssociateUserStackInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let userStackAssociations = userStackAssociations {
             var userStackAssociationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userStackAssociations)
-            for userstackassociationlist0 in userStackAssociations {
-                try userStackAssociationsContainer.encode(userstackassociationlist0)
+            for userstackassociation0 in userStackAssociations {
+                try userStackAssociationsContainer.encode(userstackassociation0)
             }
         }
     }
@@ -1173,8 +1173,8 @@ extension BatchDisassociateUserStackInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let userStackAssociations = userStackAssociations {
             var userStackAssociationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userStackAssociations)
-            for userstackassociationlist0 in userStackAssociations {
-                try userStackAssociationsContainer.encode(userstackassociationlist0)
+            for userstackassociation0 in userStackAssociations {
+                try userStackAssociationsContainer.encode(userstackassociation0)
             }
         }
     }
@@ -1914,8 +1914,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let instanceFamilies = instanceFamilies {
             var instanceFamiliesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceFamilies)
-            for stringlist0 in instanceFamilies {
-                try instanceFamiliesContainer.encode(stringlist0)
+            for string0 in instanceFamilies {
+                try instanceFamiliesContainer.encode(string0)
             }
         }
         if let launchParameters = self.launchParameters {
@@ -1929,8 +1929,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let platforms = platforms {
             var platformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platforms)
-            for platforms0 in platforms {
-                try platformsContainer.encode(platforms0.rawValue)
+            for platformtype0 in platforms {
+                try platformsContainer.encode(platformtype0.rawValue)
             }
         }
         if let tags = tags {
@@ -2181,8 +2181,8 @@ extension CreateDirectoryConfigInput: Swift.Encodable {
         }
         if let organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames {
             var organizationalUnitDistinguishedNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnitDistinguishedNames)
-            for organizationalunitdistinguishednameslist0 in organizationalUnitDistinguishedNames {
-                try organizationalUnitDistinguishedNamesContainer.encode(organizationalunitdistinguishednameslist0)
+            for organizationalunitdistinguishedname0 in organizationalUnitDistinguishedNames {
+                try organizationalUnitDistinguishedNamesContainer.encode(organizationalunitdistinguishedname0)
             }
         }
         if let serviceAccountCredentials = self.serviceAccountCredentials {
@@ -2349,8 +2349,8 @@ extension CreateEntitlementInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for entitlementattributelist0 in attributes {
-                try attributesContainer.encode(entitlementattributelist0)
+            for entitlementattribute0 in attributes {
+                try attributesContainer.encode(entitlementattribute0)
             }
         }
         if let description = self.description {
@@ -2602,8 +2602,8 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let usbDeviceFilterStrings = usbDeviceFilterStrings {
             var usbDeviceFilterStringsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usbDeviceFilterStrings)
-            for usbdevicefilterstrings0 in usbDeviceFilterStrings {
-                try usbDeviceFilterStringsContainer.encode(usbdevicefilterstrings0)
+            for usbdevicefilterstring0 in usbDeviceFilterStrings {
+                try usbDeviceFilterStringsContainer.encode(usbdevicefilterstring0)
             }
         }
         if let vpcConfig = self.vpcConfig {
@@ -3013,8 +3013,8 @@ extension CreateImageBuilderInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessEndpoints = accessEndpoints {
             var accessEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessEndpoints)
-            for accessendpointlist0 in accessEndpoints {
-                try accessEndpointsContainer.encode(accessendpointlist0)
+            for accessendpoint0 in accessEndpoints {
+                try accessEndpointsContainer.encode(accessendpoint0)
             }
         }
         if let appstreamAgentVersion = self.appstreamAgentVersion {
@@ -3513,8 +3513,8 @@ extension CreateStackInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessEndpoints = accessEndpoints {
             var accessEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessEndpoints)
-            for accessendpointlist0 in accessEndpoints {
-                try accessEndpointsContainer.encode(accessendpointlist0)
+            for accessendpoint0 in accessEndpoints {
+                try accessEndpointsContainer.encode(accessendpoint0)
             }
         }
         if let applicationSettings = self.applicationSettings {
@@ -3528,8 +3528,8 @@ extension CreateStackInput: Swift.Encodable {
         }
         if let embedHostDomains = embedHostDomains {
             var embedHostDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .embedHostDomains)
-            for embedhostdomains0 in embedHostDomains {
-                try embedHostDomainsContainer.encode(embedhostdomains0)
+            for embedhostdomain0 in embedHostDomains {
+                try embedHostDomainsContainer.encode(embedhostdomain0)
             }
         }
         if let feedbackURL = self.feedbackURL {
@@ -3543,8 +3543,8 @@ extension CreateStackInput: Swift.Encodable {
         }
         if let storageConnectors = storageConnectors {
             var storageConnectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .storageConnectors)
-            for storageconnectorlist0 in storageConnectors {
-                try storageConnectorsContainer.encode(storageconnectorlist0)
+            for storageconnector0 in storageConnectors {
+                try storageConnectorsContainer.encode(storageconnector0)
             }
         }
         if let streamingExperienceSettings = self.streamingExperienceSettings {
@@ -3558,8 +3558,8 @@ extension CreateStackInput: Swift.Encodable {
         }
         if let userSettings = userSettings {
             var userSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userSettings)
-            for usersettinglist0 in userSettings {
-                try userSettingsContainer.encode(usersettinglist0)
+            for usersetting0 in userSettings {
+                try userSettingsContainer.encode(usersetting0)
             }
         }
     }
@@ -5469,8 +5469,8 @@ extension DescribeAppBlocksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for arnlist0 in arns {
-                try arnsContainer.encode(arnlist0)
+            for arn0 in arns {
+                try arnsContainer.encode(arn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5803,8 +5803,8 @@ extension DescribeApplicationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for arnlist0 in arns {
-                try arnsContainer.encode(arnlist0)
+            for arn0 in arns {
+                try arnsContainer.encode(arn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5970,8 +5970,8 @@ extension DescribeDirectoryConfigsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let directoryNames = directoryNames {
             var directoryNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .directoryNames)
-            for directorynamelist0 in directoryNames {
-                try directoryNamesContainer.encode(directorynamelist0)
+            for directoryname0 in directoryNames {
+                try directoryNamesContainer.encode(directoryname0)
             }
         }
         if let maxResults = self.maxResults {
@@ -6304,8 +6304,8 @@ extension DescribeFleetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for stringlist0 in names {
-                try namesContainer.encode(stringlist0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let nextToken = self.nextToken {
@@ -6461,8 +6461,8 @@ extension DescribeImageBuildersInput: Swift.Encodable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for stringlist0 in names {
-                try namesContainer.encode(stringlist0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let nextToken = self.nextToken {
@@ -6633,8 +6633,8 @@ extension DescribeImagePermissionsInput: Swift.Encodable {
         }
         if let sharedAwsAccountIds = sharedAwsAccountIds {
             var sharedAwsAccountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sharedAwsAccountIds)
-            for awsaccountidlist0 in sharedAwsAccountIds {
-                try sharedAwsAccountIdsContainer.encode(awsaccountidlist0)
+            for awsaccountid0 in sharedAwsAccountIds {
+                try sharedAwsAccountIdsContainer.encode(awsaccountid0)
             }
         }
     }
@@ -6813,8 +6813,8 @@ extension DescribeImagesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for arnlist0 in arns {
-                try arnsContainer.encode(arnlist0)
+            for arn0 in arns {
+                try arnsContainer.encode(arn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -6822,8 +6822,8 @@ extension DescribeImagesInput: Swift.Encodable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for stringlist0 in names {
-                try namesContainer.encode(stringlist0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let nextToken = self.nextToken {
@@ -7204,8 +7204,8 @@ extension DescribeStacksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for stringlist0 in names {
-                try namesContainer.encode(stringlist0)
+            for string0 in names {
+                try namesContainer.encode(string0)
             }
         }
         if let nextToken = self.nextToken {
@@ -7854,8 +7854,8 @@ extension AppStreamClientTypes.DirectoryConfig: Swift.Codable {
         }
         if let organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames {
             var organizationalUnitDistinguishedNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnitDistinguishedNames)
-            for organizationalunitdistinguishednameslist0 in organizationalUnitDistinguishedNames {
-                try organizationalUnitDistinguishedNamesContainer.encode(organizationalunitdistinguishednameslist0)
+            for organizationalunitdistinguishedname0 in organizationalUnitDistinguishedNames {
+                try organizationalUnitDistinguishedNamesContainer.encode(organizationalunitdistinguishedname0)
             }
         }
         if let serviceAccountCredentials = self.serviceAccountCredentials {
@@ -8523,8 +8523,8 @@ extension AppStreamClientTypes.Entitlement: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for entitlementattributelist0 in attributes {
-                try attributesContainer.encode(entitlementattributelist0)
+            for entitlementattribute0 in attributes {
+                try attributesContainer.encode(entitlementattribute0)
             }
         }
         if let createdTime = self.createdTime {
@@ -8917,8 +8917,8 @@ extension AppStreamClientTypes.Fleet: Swift.Codable {
         }
         if let fleetErrors = fleetErrors {
             var fleetErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fleetErrors)
-            for fleeterrors0 in fleetErrors {
-                try fleetErrorsContainer.encode(fleeterrors0)
+            for fleeterror0 in fleetErrors {
+                try fleetErrorsContainer.encode(fleeterror0)
             }
         }
         if let fleetType = self.fleetType {
@@ -8962,8 +8962,8 @@ extension AppStreamClientTypes.Fleet: Swift.Codable {
         }
         if let usbDeviceFilterStrings = usbDeviceFilterStrings {
             var usbDeviceFilterStringsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usbDeviceFilterStrings)
-            for usbdevicefilterstrings0 in usbDeviceFilterStrings {
-                try usbDeviceFilterStringsContainer.encode(usbdevicefilterstrings0)
+            for usbdevicefilterstring0 in usbDeviceFilterStrings {
+                try usbDeviceFilterStringsContainer.encode(usbdevicefilterstring0)
             }
         }
         if let vpcConfig = self.vpcConfig {
@@ -9525,8 +9525,8 @@ extension AppStreamClientTypes.Image: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applications = applications {
             var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
-            for applications0 in applications {
-                try applicationsContainer.encode(applications0)
+            for application0 in applications {
+                try applicationsContainer.encode(application0)
             }
         }
         if let appstreamAgentVersion = self.appstreamAgentVersion {
@@ -9555,8 +9555,8 @@ extension AppStreamClientTypes.Image: Swift.Codable {
         }
         if let imageErrors = imageErrors {
             var imageErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageErrors)
-            for resourceerrors0 in imageErrors {
-                try imageErrorsContainer.encode(resourceerrors0)
+            for resourceerror0 in imageErrors {
+                try imageErrorsContainer.encode(resourceerror0)
             }
         }
         if let imagePermissions = self.imagePermissions {
@@ -9746,8 +9746,8 @@ extension AppStreamClientTypes.ImageBuilder: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessEndpoints = accessEndpoints {
             var accessEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessEndpoints)
-            for accessendpointlist0 in accessEndpoints {
-                try accessEndpointsContainer.encode(accessendpointlist0)
+            for accessendpoint0 in accessEndpoints {
+                try accessEndpointsContainer.encode(accessendpoint0)
             }
         }
         if let appstreamAgentVersion = self.appstreamAgentVersion {
@@ -9779,8 +9779,8 @@ extension AppStreamClientTypes.ImageBuilder: Swift.Codable {
         }
         if let imageBuilderErrors = imageBuilderErrors {
             var imageBuilderErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageBuilderErrors)
-            for resourceerrors0 in imageBuilderErrors {
-                try imageBuilderErrorsContainer.encode(resourceerrors0)
+            for resourceerror0 in imageBuilderErrors {
+                try imageBuilderErrorsContainer.encode(resourceerror0)
             }
         }
         if let instanceType = self.instanceType {
@@ -12191,8 +12191,8 @@ extension AppStreamClientTypes.Stack: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessEndpoints = accessEndpoints {
             var accessEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessEndpoints)
-            for accessendpointlist0 in accessEndpoints {
-                try accessEndpointsContainer.encode(accessendpointlist0)
+            for accessendpoint0 in accessEndpoints {
+                try accessEndpointsContainer.encode(accessendpoint0)
             }
         }
         if let applicationSettings = self.applicationSettings {
@@ -12212,8 +12212,8 @@ extension AppStreamClientTypes.Stack: Swift.Codable {
         }
         if let embedHostDomains = embedHostDomains {
             var embedHostDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .embedHostDomains)
-            for embedhostdomains0 in embedHostDomains {
-                try embedHostDomainsContainer.encode(embedhostdomains0)
+            for embedhostdomain0 in embedHostDomains {
+                try embedHostDomainsContainer.encode(embedhostdomain0)
             }
         }
         if let feedbackURL = self.feedbackURL {
@@ -12227,14 +12227,14 @@ extension AppStreamClientTypes.Stack: Swift.Codable {
         }
         if let stackErrors = stackErrors {
             var stackErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackErrors)
-            for stackerrors0 in stackErrors {
-                try stackErrorsContainer.encode(stackerrors0)
+            for stackerror0 in stackErrors {
+                try stackErrorsContainer.encode(stackerror0)
             }
         }
         if let storageConnectors = storageConnectors {
             var storageConnectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .storageConnectors)
-            for storageconnectorlist0 in storageConnectors {
-                try storageConnectorsContainer.encode(storageconnectorlist0)
+            for storageconnector0 in storageConnectors {
+                try storageConnectorsContainer.encode(storageconnector0)
             }
         }
         if let streamingExperienceSettings = self.streamingExperienceSettings {
@@ -12242,8 +12242,8 @@ extension AppStreamClientTypes.Stack: Swift.Codable {
         }
         if let userSettings = userSettings {
             var userSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userSettings)
-            for usersettinglist0 in userSettings {
-                try userSettingsContainer.encode(usersettinglist0)
+            for usersetting0 in userSettings {
+                try userSettingsContainer.encode(usersetting0)
             }
         }
     }
@@ -12970,8 +12970,8 @@ extension AppStreamClientTypes.StorageConnector: Swift.Codable {
         }
         if let domains = domains {
             var domainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domains)
-            for domainlist0 in domains {
-                try domainsContainer.encode(domainlist0)
+            for domain0 in domains {
+                try domainsContainer.encode(domain0)
             }
         }
         if let resourceIdentifier = self.resourceIdentifier {
@@ -13249,8 +13249,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -13361,8 +13361,8 @@ extension UpdateApplicationInput: Swift.Encodable {
         }
         if let attributesToDelete = attributesToDelete {
             var attributesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesToDelete)
-            for applicationattributes0 in attributesToDelete {
-                try attributesToDeleteContainer.encode(applicationattributes0.rawValue)
+            for applicationattribute0 in attributesToDelete {
+                try attributesToDeleteContainer.encode(applicationattribute0.rawValue)
             }
         }
         if let description = self.description {
@@ -13582,8 +13582,8 @@ extension UpdateDirectoryConfigInput: Swift.Encodable {
         }
         if let organizationalUnitDistinguishedNames = organizationalUnitDistinguishedNames {
             var organizationalUnitDistinguishedNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnitDistinguishedNames)
-            for organizationalunitdistinguishednameslist0 in organizationalUnitDistinguishedNames {
-                try organizationalUnitDistinguishedNamesContainer.encode(organizationalunitdistinguishednameslist0)
+            for organizationalunitdistinguishedname0 in organizationalUnitDistinguishedNames {
+                try organizationalUnitDistinguishedNamesContainer.encode(organizationalunitdistinguishedname0)
             }
         }
         if let serviceAccountCredentials = self.serviceAccountCredentials {
@@ -13747,8 +13747,8 @@ extension UpdateEntitlementInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for entitlementattributelist0 in attributes {
-                try attributesContainer.encode(entitlementattributelist0)
+            for entitlementattribute0 in attributes {
+                try attributesContainer.encode(entitlementattribute0)
             }
         }
         if let description = self.description {
@@ -13938,8 +13938,8 @@ extension UpdateFleetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributesToDelete = attributesToDelete {
             var attributesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesToDelete)
-            for fleetattributes0 in attributesToDelete {
-                try attributesToDeleteContainer.encode(fleetattributes0.rawValue)
+            for fleetattribute0 in attributesToDelete {
+                try attributesToDeleteContainer.encode(fleetattribute0.rawValue)
             }
         }
         if let computeCapacity = self.computeCapacity {
@@ -13998,8 +13998,8 @@ extension UpdateFleetInput: Swift.Encodable {
         }
         if let usbDeviceFilterStrings = usbDeviceFilterStrings {
             var usbDeviceFilterStringsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usbDeviceFilterStrings)
-            for usbdevicefilterstrings0 in usbDeviceFilterStrings {
-                try usbDeviceFilterStringsContainer.encode(usbdevicefilterstrings0)
+            for usbdevicefilterstring0 in usbDeviceFilterStrings {
+                try usbDeviceFilterStringsContainer.encode(usbdevicefilterstring0)
             }
         }
         if let vpcConfig = self.vpcConfig {
@@ -14518,8 +14518,8 @@ extension UpdateStackInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessEndpoints = accessEndpoints {
             var accessEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessEndpoints)
-            for accessendpointlist0 in accessEndpoints {
-                try accessEndpointsContainer.encode(accessendpointlist0)
+            for accessendpoint0 in accessEndpoints {
+                try accessEndpointsContainer.encode(accessendpoint0)
             }
         }
         if let applicationSettings = self.applicationSettings {
@@ -14527,8 +14527,8 @@ extension UpdateStackInput: Swift.Encodable {
         }
         if let attributesToDelete = attributesToDelete {
             var attributesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesToDelete)
-            for stackattributes0 in attributesToDelete {
-                try attributesToDeleteContainer.encode(stackattributes0.rawValue)
+            for stackattribute0 in attributesToDelete {
+                try attributesToDeleteContainer.encode(stackattribute0.rawValue)
             }
         }
         if deleteStorageConnectors != false {
@@ -14542,8 +14542,8 @@ extension UpdateStackInput: Swift.Encodable {
         }
         if let embedHostDomains = embedHostDomains {
             var embedHostDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .embedHostDomains)
-            for embedhostdomains0 in embedHostDomains {
-                try embedHostDomainsContainer.encode(embedhostdomains0)
+            for embedhostdomain0 in embedHostDomains {
+                try embedHostDomainsContainer.encode(embedhostdomain0)
             }
         }
         if let feedbackURL = self.feedbackURL {
@@ -14557,8 +14557,8 @@ extension UpdateStackInput: Swift.Encodable {
         }
         if let storageConnectors = storageConnectors {
             var storageConnectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .storageConnectors)
-            for storageconnectorlist0 in storageConnectors {
-                try storageConnectorsContainer.encode(storageconnectorlist0)
+            for storageconnector0 in storageConnectors {
+                try storageConnectorsContainer.encode(storageconnector0)
             }
         }
         if let streamingExperienceSettings = self.streamingExperienceSettings {
@@ -14566,8 +14566,8 @@ extension UpdateStackInput: Swift.Encodable {
         }
         if let userSettings = userSettings {
             var userSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userSettings)
-            for usersettinglist0 in userSettings {
-                try userSettingsContainer.encode(usersettinglist0)
+            for usersetting0 in userSettings {
+                try userSettingsContainer.encode(usersetting0)
             }
         }
     }
@@ -14914,8 +14914,8 @@ extension AppStreamClientTypes.UsageReportSubscription: Swift.Codable {
         }
         if let subscriptionErrors = subscriptionErrors {
             var subscriptionErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscriptionErrors)
-            for lastreportgenerationexecutionerrors0 in subscriptionErrors {
-                try subscriptionErrorsContainer.encode(lastreportgenerationexecutionerrors0)
+            for lastreportgenerationexecutionerror0 in subscriptionErrors {
+                try subscriptionErrorsContainer.encode(lastreportgenerationexecutionerror0)
             }
         }
     }
@@ -15349,14 +15349,14 @@ extension AppStreamClientTypes.VpcConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }

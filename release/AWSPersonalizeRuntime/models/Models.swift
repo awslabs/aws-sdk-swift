@@ -28,14 +28,14 @@ extension GetPersonalizedRankingInput: Swift.Encodable {
         }
         if let filterValues = filterValues {
             var filterValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filterValues)
-            for (dictKey0, filtervalues0) in filterValues {
-                try filterValuesContainer.encode(filtervalues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterValues0) in filterValues {
+                try filterValuesContainer.encode(filterValues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let inputList = inputList {
             var inputListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputList)
-            for inputlist0 in inputList {
-                try inputListContainer.encode(inputlist0)
+            for itemid0 in inputList {
+                try inputListContainer.encode(itemid0)
             }
         }
         if let userId = self.userId {
@@ -261,8 +261,8 @@ extension GetRecommendationsInput: Swift.Encodable {
         }
         if let filterValues = filterValues {
             var filterValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filterValues)
-            for (dictKey0, filtervalues0) in filterValues {
-                try filterValuesContainer.encode(filtervalues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterValues0) in filterValues {
+                try filterValuesContainer.encode(filterValues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let itemId = self.itemId {
@@ -273,8 +273,8 @@ extension GetRecommendationsInput: Swift.Encodable {
         }
         if let promotions = promotions {
             var promotionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .promotions)
-            for promotionlist0 in promotions {
-                try promotionsContainer.encode(promotionlist0)
+            for promotion0 in promotions {
+                try promotionsContainer.encode(promotion0)
             }
         }
         if let recommenderArn = self.recommenderArn {
@@ -617,8 +617,8 @@ extension PersonalizeRuntimeClientTypes.Promotion: Swift.Codable {
         }
         if let filterValues = filterValues {
             var filterValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filterValues)
-            for (dictKey0, filtervalues0) in filterValues {
-                try filterValuesContainer.encode(filtervalues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterValues0) in filterValues {
+                try filterValuesContainer.encode(filterValues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {

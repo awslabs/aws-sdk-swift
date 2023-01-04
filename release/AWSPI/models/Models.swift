@@ -69,8 +69,8 @@ extension DescribeDimensionKeysInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalMetrics = additionalMetrics {
             var additionalMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalMetrics)
-            for additionalmetricslist0 in additionalMetrics {
-                try additionalMetricsContainer.encode(additionalmetricslist0)
+            for requeststring0 in additionalMetrics {
+                try additionalMetricsContainer.encode(requeststring0)
             }
         }
         if let endTime = self.endTime {
@@ -78,8 +78,8 @@ extension DescribeDimensionKeysInput: Swift.Encodable {
         }
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, metricqueryfiltermap0) in filter {
-                try filterContainer.encode(metricqueryfiltermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, metricQueryFilterMap0) in filter {
+                try filterContainer.encode(metricQueryFilterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let groupBy = self.groupBy {
@@ -492,8 +492,8 @@ extension PIClientTypes.DimensionGroup: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for requeststringlist0 in dimensions {
-                try dimensionsContainer.encode(requeststringlist0)
+            for requeststring0 in dimensions {
+                try dimensionsContainer.encode(requeststring0)
             }
         }
         if let group = self.group {
@@ -692,8 +692,8 @@ extension PIClientTypes.DimensionGroupDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for dimensiondetaillist0 in dimensions {
-                try dimensionsContainer.encode(dimensiondetaillist0)
+            for dimensiondetail0 in dimensions {
+                try dimensionsContainer.encode(dimensiondetail0)
             }
         }
         if let group = self.group {
@@ -751,20 +751,20 @@ extension PIClientTypes.DimensionKeyDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalMetrics = additionalMetrics {
             var additionalMetricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalMetrics)
-            for (dictKey0, additionalmetricsmap0) in additionalMetrics {
-                try additionalMetricsContainer.encode(additionalmetricsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, additionalMetricsMap0) in additionalMetrics {
+                try additionalMetricsContainer.encode(additionalMetricsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dimensions)
-            for (dictKey0, dimensionmap0) in dimensions {
-                try dimensionsContainer.encode(dimensionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dimensionMap0) in dimensions {
+                try dimensionsContainer.encode(dimensionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let partitions = partitions {
             var partitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitions)
-            for metricvalueslist0 in partitions {
-                try partitionsContainer.encode(metricvalueslist0)
+            for double0 in partitions {
+                try partitionsContainer.encode(double0)
             }
         }
         if let total = self.total {
@@ -1022,8 +1022,8 @@ extension GetDimensionKeyDetailsInput: Swift.Encodable {
         }
         if let requestedDimensions = requestedDimensions {
             var requestedDimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestedDimensions)
-            for requesteddimensionlist0 in requestedDimensions {
-                try requestedDimensionsContainer.encode(requesteddimensionlist0)
+            for requeststring0 in requestedDimensions {
+                try requestedDimensionsContainer.encode(requeststring0)
             }
         }
         if let serviceType = self.serviceType {
@@ -1371,8 +1371,8 @@ extension GetResourceMetricsInput: Swift.Encodable {
         }
         if let metricQueries = metricQueries {
             var metricQueriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricQueries)
-            for metricquerylist0 in metricQueries {
-                try metricQueriesContainer.encode(metricquerylist0)
+            for metricquery0 in metricQueries {
+                try metricQueriesContainer.encode(metricquery0)
             }
         }
         if let nextToken = self.nextToken {
@@ -1750,8 +1750,8 @@ extension ListAvailableResourceDimensionsInput: Swift.Encodable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
-            for dimensionsmetriclist0 in metrics {
-                try metricsContainer.encode(dimensionsmetriclist0)
+            for requeststring0 in metrics {
+                try metricsContainer.encode(requeststring0)
             }
         }
         if let nextToken = self.nextToken {
@@ -1946,8 +1946,8 @@ extension ListAvailableResourceMetricsInput: Swift.Encodable {
         }
         if let metricTypes = metricTypes {
             var metricTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricTypes)
-            for metrictypelist0 in metricTypes {
-                try metricTypesContainer.encode(metrictypelist0)
+            for requeststring0 in metricTypes {
+                try metricTypesContainer.encode(requeststring0)
             }
         }
         if let nextToken = self.nextToken {
@@ -2141,8 +2141,8 @@ extension PIClientTypes.MetricDimensionGroups: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for dimensiongroupdetaillist0 in groups {
-                try groupsContainer.encode(dimensiongroupdetaillist0)
+            for dimensiongroupdetail0 in groups {
+                try groupsContainer.encode(dimensiongroupdetail0)
             }
         }
         if let metric = self.metric {
@@ -2198,8 +2198,8 @@ extension PIClientTypes.MetricKeyDataPoints: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataPoints = dataPoints {
             var dataPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataPoints)
-            for datapointslist0 in dataPoints {
-                try dataPointsContainer.encode(datapointslist0)
+            for datapoint0 in dataPoints {
+                try dataPointsContainer.encode(datapoint0)
             }
         }
         if let key = self.key {
@@ -2256,8 +2256,8 @@ extension PIClientTypes.MetricQuery: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, metricqueryfiltermap0) in filter {
-                try filterContainer.encode(metricqueryfiltermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, metricQueryFilterMap0) in filter {
+                try filterContainer.encode(metricQueryFilterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let groupBy = self.groupBy {
@@ -2387,8 +2387,8 @@ extension PIClientTypes.ResponsePartitionKey: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dimensions)
-            for (dictKey0, dimensionmap0) in dimensions {
-                try dimensionsContainer.encode(dimensionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dimensionMap0) in dimensions {
+                try dimensionsContainer.encode(dimensionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2491,8 +2491,8 @@ extension PIClientTypes.ResponseResourceMetricKey: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dimensions)
-            for (dictKey0, dimensionmap0) in dimensions {
-                try dimensionsContainer.encode(dimensionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dimensionMap0) in dimensions {
+                try dimensionsContainer.encode(dimensionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let metric = self.metric {

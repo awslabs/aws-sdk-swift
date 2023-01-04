@@ -146,8 +146,8 @@ extension ImagebuilderClientTypes.AmiDistributionConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let amiTags = amiTags {
             var amiTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .amiTags)
-            for (dictKey0, tagmap0) in amiTags {
-                try amiTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in amiTags {
+                try amiTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -164,8 +164,8 @@ extension ImagebuilderClientTypes.AmiDistributionConfiguration: Swift.Codable {
         }
         if let targetAccountIds = targetAccountIds {
             var targetAccountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetAccountIds)
-            for accountlist0 in targetAccountIds {
-                try targetAccountIdsContainer.encode(accountlist0)
+            for accountid0 in targetAccountIds {
+                try targetAccountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -589,8 +589,8 @@ extension ImagebuilderClientTypes.Component: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for componentparameterdetaillist0 in parameters {
-                try parametersContainer.encode(componentparameterdetaillist0)
+            for componentparameterdetail0 in parameters {
+                try parametersContainer.encode(componentparameterdetail0)
             }
         }
         if let platform = self.platform {
@@ -601,14 +601,14 @@ extension ImagebuilderClientTypes.Component: Swift.Codable {
         }
         if let supportedOsVersions = supportedOsVersions {
             var supportedOsVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedOsVersions)
-            for osversionlist0 in supportedOsVersions {
-                try supportedOsVersionsContainer.encode(osversionlist0)
+            for osversion0 in supportedOsVersions {
+                try supportedOsVersionsContainer.encode(osversion0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -772,8 +772,8 @@ extension ImagebuilderClientTypes.ComponentConfiguration: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for componentparameterlist0 in parameters {
-                try parametersContainer.encode(componentparameterlist0)
+            for componentparameter0 in parameters {
+                try parametersContainer.encode(componentparameter0)
             }
         }
     }
@@ -859,8 +859,8 @@ extension ImagebuilderClientTypes.ComponentParameter: Swift.Codable {
         }
         if let value = value {
             var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
-            for componentparametervaluelist0 in value {
-                try valueContainer.encode(componentparametervaluelist0)
+            for componentparametervalue0 in value {
+                try valueContainer.encode(componentparametervalue0)
             }
         }
     }
@@ -917,8 +917,8 @@ extension ImagebuilderClientTypes.ComponentParameterDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultValue = defaultValue {
             var defaultValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultValue)
-            for componentparametervaluelist0 in defaultValue {
-                try defaultValueContainer.encode(componentparametervaluelist0)
+            for componentparametervalue0 in defaultValue {
+                try defaultValueContainer.encode(componentparametervalue0)
             }
         }
         if let description = self.description {
@@ -1102,14 +1102,14 @@ extension ImagebuilderClientTypes.ComponentSummary: Swift.Codable {
         }
         if let supportedOsVersions = supportedOsVersions {
             var supportedOsVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedOsVersions)
-            for osversionlist0 in supportedOsVersions {
-                try supportedOsVersionsContainer.encode(osversionlist0)
+            for osversion0 in supportedOsVersions {
+                try supportedOsVersionsContainer.encode(osversion0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -1294,8 +1294,8 @@ extension ImagebuilderClientTypes.ComponentVersion: Swift.Codable {
         }
         if let supportedOsVersions = supportedOsVersions {
             var supportedOsVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedOsVersions)
-            for osversionlist0 in supportedOsVersions {
-                try supportedOsVersionsContainer.encode(osversionlist0)
+            for osversion0 in supportedOsVersions {
+                try supportedOsVersionsContainer.encode(osversion0)
             }
         }
         if let type = self.type {
@@ -1402,8 +1402,8 @@ extension ImagebuilderClientTypes.Container: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let imageUris = imageUris {
             var imageUrisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageUris)
-            for stringlist0 in imageUris {
-                try imageUrisContainer.encode(stringlist0)
+            for nonemptystring0 in imageUris {
+                try imageUrisContainer.encode(nonemptystring0)
             }
         }
         if let region = self.region {
@@ -1460,8 +1460,8 @@ extension ImagebuilderClientTypes.ContainerDistributionConfiguration: Swift.Coda
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containerTags = containerTags {
             var containerTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerTags)
-            for stringlist0 in containerTags {
-                try containerTagsContainer.encode(stringlist0)
+            for nonemptystring0 in containerTags {
+                try containerTagsContainer.encode(nonemptystring0)
             }
         }
         if let description = self.description {
@@ -1545,8 +1545,8 @@ extension ImagebuilderClientTypes.ContainerRecipe: Swift.Codable {
         }
         if let components = components {
             var componentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .components)
-            for componentconfigurationlist0 in components {
-                try componentsContainer.encode(componentconfigurationlist0)
+            for componentconfiguration0 in components {
+                try componentsContainer.encode(componentconfiguration0)
             }
         }
         if let containerType = self.containerType {
@@ -1584,8 +1584,8 @@ extension ImagebuilderClientTypes.ContainerRecipe: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetRepository = self.targetRepository {
@@ -1779,8 +1779,8 @@ extension ImagebuilderClientTypes.ContainerRecipeSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1960,14 +1960,14 @@ extension CreateComponentInput: Swift.Encodable {
         }
         if let supportedOsVersions = supportedOsVersions {
             var supportedOsVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedOsVersions)
-            for osversionlist0 in supportedOsVersions {
-                try supportedOsVersionsContainer.encode(osversionlist0)
+            for osversion0 in supportedOsVersions {
+                try supportedOsVersionsContainer.encode(osversion0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let uri = self.uri {
@@ -2242,8 +2242,8 @@ extension CreateContainerRecipeInput: Swift.Encodable {
         }
         if let components = components {
             var componentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .components)
-            for componentconfigurationlist0 in components {
-                try componentsContainer.encode(componentconfigurationlist0)
+            for componentconfiguration0 in components {
+                try componentsContainer.encode(componentconfiguration0)
             }
         }
         if let containerType = self.containerType {
@@ -2281,8 +2281,8 @@ extension CreateContainerRecipeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetRepository = self.targetRepository {
@@ -2595,8 +2595,8 @@ extension CreateDistributionConfigurationInput: Swift.Encodable {
         }
         if let distributions = distributions {
             var distributionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .distributions)
-            for distributionlist0 in distributions {
-                try distributionsContainer.encode(distributionlist0)
+            for distribution0 in distributions {
+                try distributionsContainer.encode(distribution0)
             }
         }
         if let name = self.name {
@@ -2604,8 +2604,8 @@ extension CreateDistributionConfigurationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2838,8 +2838,8 @@ extension CreateImageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3098,8 +3098,8 @@ extension CreateImagePipelineInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3361,8 +3361,8 @@ extension CreateImageRecipeInput: Swift.Encodable {
         }
         if let blockDeviceMappings = blockDeviceMappings {
             var blockDeviceMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockDeviceMappings)
-            for instanceblockdevicemappings0 in blockDeviceMappings {
-                try blockDeviceMappingsContainer.encode(instanceblockdevicemappings0)
+            for instanceblockdevicemapping0 in blockDeviceMappings {
+                try blockDeviceMappingsContainer.encode(instanceblockdevicemapping0)
             }
         }
         if let clientToken = self.clientToken {
@@ -3370,8 +3370,8 @@ extension CreateImageRecipeInput: Swift.Encodable {
         }
         if let components = components {
             var componentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .components)
-            for componentconfigurationlist0 in components {
-                try componentsContainer.encode(componentconfigurationlist0)
+            for componentconfiguration0 in components {
+                try componentsContainer.encode(componentconfiguration0)
             }
         }
         if let description = self.description {
@@ -3388,8 +3388,8 @@ extension CreateImageRecipeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let workingDirectory = self.workingDirectory {
@@ -3673,8 +3673,8 @@ extension CreateInfrastructureConfigurationInput: Swift.Encodable {
         }
         if let instanceTypes = instanceTypes {
             var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
-            for instancetypelist0 in instanceTypes {
-                try instanceTypesContainer.encode(instancetypelist0)
+            for instancetype0 in instanceTypes {
+                try instanceTypesContainer.encode(instancetype0)
             }
         }
         if let keyPair = self.keyPair {
@@ -3688,14 +3688,14 @@ extension CreateInfrastructureConfigurationInput: Swift.Encodable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTags)
-            for (dictKey0, resourcetagmap0) in resourceTags {
-                try resourceTagsContainer.encode(resourcetagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resourceTagMap0) in resourceTags {
+                try resourceTagsContainer.encode(resourceTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for nonemptystring0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(nonemptystring0)
             }
         }
         if let snsTopicArn = self.snsTopicArn {
@@ -3706,8 +3706,8 @@ extension CreateInfrastructureConfigurationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let terminateInstanceOnFailure = self.terminateInstanceOnFailure {
@@ -4946,20 +4946,20 @@ extension ImagebuilderClientTypes.Distribution: Swift.Codable {
         }
         if let fastLaunchConfigurations = fastLaunchConfigurations {
             var fastLaunchConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fastLaunchConfigurations)
-            for fastlaunchconfigurationlist0 in fastLaunchConfigurations {
-                try fastLaunchConfigurationsContainer.encode(fastlaunchconfigurationlist0)
+            for fastlaunchconfiguration0 in fastLaunchConfigurations {
+                try fastLaunchConfigurationsContainer.encode(fastlaunchconfiguration0)
             }
         }
         if let launchTemplateConfigurations = launchTemplateConfigurations {
             var launchTemplateConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .launchTemplateConfigurations)
-            for launchtemplateconfigurationlist0 in launchTemplateConfigurations {
-                try launchTemplateConfigurationsContainer.encode(launchtemplateconfigurationlist0)
+            for launchtemplateconfiguration0 in launchTemplateConfigurations {
+                try launchTemplateConfigurationsContainer.encode(launchtemplateconfiguration0)
             }
         }
         if let licenseConfigurationArns = licenseConfigurationArns {
             var licenseConfigurationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseConfigurationArns)
-            for licenseconfigurationarnlist0 in licenseConfigurationArns {
-                try licenseConfigurationArnsContainer.encode(licenseconfigurationarnlist0)
+            for licenseconfigurationarn0 in licenseConfigurationArns {
+                try licenseConfigurationArnsContainer.encode(licenseconfigurationarn0)
             }
         }
         if let region = self.region {
@@ -5085,8 +5085,8 @@ extension ImagebuilderClientTypes.DistributionConfiguration: Swift.Codable {
         }
         if let distributions = distributions {
             var distributionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .distributions)
-            for distributionlist0 in distributions {
-                try distributionsContainer.encode(distributionlist0)
+            for distribution0 in distributions {
+                try distributionsContainer.encode(distribution0)
             }
         }
         if let name = self.name {
@@ -5094,8 +5094,8 @@ extension ImagebuilderClientTypes.DistributionConfiguration: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeoutMinutes = self.timeoutMinutes {
@@ -5217,14 +5217,14 @@ extension ImagebuilderClientTypes.DistributionConfigurationSummary: Swift.Codabl
         }
         if let regions = regions {
             var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
-            for regionlist0 in regions {
-                try regionsContainer.encode(regionlist0)
+            for nonemptystring0 in regions {
+                try regionsContainer.encode(nonemptystring0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5637,8 +5637,8 @@ extension ImagebuilderClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -7248,8 +7248,8 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -7530,8 +7530,8 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7692,14 +7692,14 @@ extension ImagebuilderClientTypes.ImageRecipe: Swift.Codable {
         }
         if let blockDeviceMappings = blockDeviceMappings {
             var blockDeviceMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockDeviceMappings)
-            for instanceblockdevicemappings0 in blockDeviceMappings {
-                try blockDeviceMappingsContainer.encode(instanceblockdevicemappings0)
+            for instanceblockdevicemapping0 in blockDeviceMappings {
+                try blockDeviceMappingsContainer.encode(instanceblockdevicemapping0)
             }
         }
         if let components = components {
             var componentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .components)
-            for componentconfigurationlist0 in components {
-                try componentsContainer.encode(componentconfigurationlist0)
+            for componentconfiguration0 in components {
+                try componentsContainer.encode(componentconfiguration0)
             }
         }
         if let dateCreated = self.dateCreated {
@@ -7722,8 +7722,8 @@ extension ImagebuilderClientTypes.ImageRecipe: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -7898,8 +7898,8 @@ extension ImagebuilderClientTypes.ImageRecipeSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8123,8 +8123,8 @@ extension ImagebuilderClientTypes.ImageSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -8490,8 +8490,8 @@ extension ImportComponentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -8775,8 +8775,8 @@ extension ImportVmImageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vmImportTaskId = self.vmImportTaskId {
@@ -9018,8 +9018,8 @@ extension ImagebuilderClientTypes.InfrastructureConfiguration: Swift.Codable {
         }
         if let instanceTypes = instanceTypes {
             var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
-            for instancetypelist0 in instanceTypes {
-                try instanceTypesContainer.encode(instancetypelist0)
+            for instancetype0 in instanceTypes {
+                try instanceTypesContainer.encode(instancetype0)
             }
         }
         if let keyPair = self.keyPair {
@@ -9033,14 +9033,14 @@ extension ImagebuilderClientTypes.InfrastructureConfiguration: Swift.Codable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTags)
-            for (dictKey0, resourcetagmap0) in resourceTags {
-                try resourceTagsContainer.encode(resourcetagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resourceTagMap0) in resourceTags {
+                try resourceTagsContainer.encode(resourceTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for nonemptystring0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(nonemptystring0)
             }
         }
         if let snsTopicArn = self.snsTopicArn {
@@ -9051,8 +9051,8 @@ extension ImagebuilderClientTypes.InfrastructureConfiguration: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let terminateInstanceOnFailure = self.terminateInstanceOnFailure {
@@ -9241,8 +9241,8 @@ extension ImagebuilderClientTypes.InfrastructureConfigurationSummary: Swift.Coda
         }
         if let instanceTypes = instanceTypes {
             var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
-            for instancetypelist0 in instanceTypes {
-                try instanceTypesContainer.encode(instancetypelist0)
+            for instancetype0 in instanceTypes {
+                try instanceTypesContainer.encode(instancetype0)
             }
         }
         if let name = self.name {
@@ -9250,14 +9250,14 @@ extension ImagebuilderClientTypes.InfrastructureConfigurationSummary: Swift.Coda
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTags)
-            for (dictKey0, resourcetagmap0) in resourceTags {
-                try resourceTagsContainer.encode(resourcetagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resourceTagMap0) in resourceTags {
+                try resourceTagsContainer.encode(resourceTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9435,8 +9435,8 @@ extension ImagebuilderClientTypes.InstanceConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let blockDeviceMappings = blockDeviceMappings {
             var blockDeviceMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockDeviceMappings)
-            for instanceblockdevicemappings0 in blockDeviceMappings {
-                try blockDeviceMappingsContainer.encode(instanceblockdevicemappings0)
+            for instanceblockdevicemapping0 in blockDeviceMappings {
+                try blockDeviceMappingsContainer.encode(instanceblockdevicemapping0)
             }
         }
         if let image = self.image {
@@ -9858,26 +9858,26 @@ extension ImagebuilderClientTypes.LaunchPermissionConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let organizationArns = organizationArns {
             var organizationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationArns)
-            for organizationarnlist0 in organizationArns {
-                try organizationArnsContainer.encode(organizationarnlist0)
+            for organizationarn0 in organizationArns {
+                try organizationArnsContainer.encode(organizationarn0)
             }
         }
         if let organizationalUnitArns = organizationalUnitArns {
             var organizationalUnitArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnitArns)
-            for organizationalunitarnlist0 in organizationalUnitArns {
-                try organizationalUnitArnsContainer.encode(organizationalunitarnlist0)
+            for organizationalunitarn0 in organizationalUnitArns {
+                try organizationalUnitArnsContainer.encode(organizationalunitarn0)
             }
         }
         if let userGroups = userGroups {
             var userGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userGroups)
-            for stringlist0 in userGroups {
-                try userGroupsContainer.encode(stringlist0)
+            for nonemptystring0 in userGroups {
+                try userGroupsContainer.encode(nonemptystring0)
             }
         }
         if let userIds = userIds {
             var userIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userIds)
-            for accountlist0 in userIds {
-                try userIdsContainer.encode(accountlist0)
+            for accountid0 in userIds {
+                try userIdsContainer.encode(accountid0)
             }
         }
     }
@@ -10207,8 +10207,8 @@ extension ListComponentsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10426,8 +10426,8 @@ extension ListContainerRecipesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10632,8 +10632,8 @@ extension ListDistributionConfigurationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10820,8 +10820,8 @@ extension ListImageBuildVersionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let imageVersionArn = self.imageVersionArn {
@@ -11208,8 +11208,8 @@ extension ListImagePipelineImagesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let imagePipelineArn = self.imagePipelineArn {
@@ -11413,8 +11413,8 @@ extension ListImagePipelinesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11613,8 +11613,8 @@ extension ListImageRecipesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11823,8 +11823,8 @@ extension ListImagesInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let includeDeprecated = self.includeDeprecated {
@@ -12050,8 +12050,8 @@ extension ListInfrastructureConfigurationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -12378,14 +12378,14 @@ extension ImagebuilderClientTypes.OutputResources: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let amis = amis {
             var amisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .amis)
-            for amilist0 in amis {
-                try amisContainer.encode(amilist0)
+            for ami0 in amis {
+                try amisContainer.encode(ami0)
             }
         }
         if let containers = containers {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
-            for containerlist0 in containers {
-                try containersContainer.encode(containerlist0)
+            for container0 in containers {
+                try containersContainer.encode(container0)
             }
         }
     }
@@ -13902,8 +13902,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14154,8 +14154,8 @@ extension UpdateDistributionConfigurationInput: Swift.Encodable {
         }
         if let distributions = distributions {
             var distributionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .distributions)
-            for distributionlist0 in distributions {
-                try distributionsContainer.encode(distributionlist0)
+            for distribution0 in distributions {
+                try distributionsContainer.encode(distribution0)
             }
         }
     }
@@ -14633,8 +14633,8 @@ extension UpdateInfrastructureConfigurationInput: Swift.Encodable {
         }
         if let instanceTypes = instanceTypes {
             var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
-            for instancetypelist0 in instanceTypes {
-                try instanceTypesContainer.encode(instancetypelist0)
+            for instancetype0 in instanceTypes {
+                try instanceTypesContainer.encode(instancetype0)
             }
         }
         if let keyPair = self.keyPair {
@@ -14645,14 +14645,14 @@ extension UpdateInfrastructureConfigurationInput: Swift.Encodable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTags)
-            for (dictKey0, resourcetagmap0) in resourceTags {
-                try resourceTagsContainer.encode(resourcetagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resourceTagMap0) in resourceTags {
+                try resourceTagsContainer.encode(resourceTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for nonemptystring0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(nonemptystring0)
             }
         }
         if let snsTopicArn = self.snsTopicArn {

@@ -956,8 +956,8 @@ extension UpdateRoutingControlStateInput: Swift.Encodable {
         }
         if let safetyRulesToOverride = safetyRulesToOverride {
             var safetyRulesToOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .safetyRulesToOverride)
-            for arns0 in safetyRulesToOverride {
-                try safetyRulesToOverrideContainer.encode(arns0)
+            for arn0 in safetyRulesToOverride {
+                try safetyRulesToOverrideContainer.encode(arn0)
             }
         }
     }
@@ -1078,14 +1078,14 @@ extension UpdateRoutingControlStatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let safetyRulesToOverride = safetyRulesToOverride {
             var safetyRulesToOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .safetyRulesToOverride)
-            for arns0 in safetyRulesToOverride {
-                try safetyRulesToOverrideContainer.encode(arns0)
+            for arn0 in safetyRulesToOverride {
+                try safetyRulesToOverrideContainer.encode(arn0)
             }
         }
         if let updateRoutingControlStateEntries = updateRoutingControlStateEntries {
             var updateRoutingControlStateEntriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updateRoutingControlStateEntries)
-            for updateroutingcontrolstateentries0 in updateRoutingControlStateEntries {
-                try updateRoutingControlStateEntriesContainer.encode(updateroutingcontrolstateentries0)
+            for updateroutingcontrolstateentry0 in updateRoutingControlStateEntries {
+                try updateRoutingControlStateEntriesContainer.encode(updateroutingcontrolstateentry0)
             }
         }
     }

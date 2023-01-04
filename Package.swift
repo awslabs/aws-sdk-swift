@@ -205,6 +205,7 @@ let package = Package(
         .library(name: "AWSLexRuntimeService", targets: ["AWSLexRuntimeService"]),
         .library(name: "AWSLexRuntimeV2", targets: ["AWSLexRuntimeV2"]),
         .library(name: "AWSLicenseManager", targets: ["AWSLicenseManager"]),
+        .library(name: "AWSLicenseManagerLinuxSubscriptions", targets: ["AWSLicenseManagerLinuxSubscriptions"]),
         .library(name: "AWSLicenseManagerUserSubscriptions", targets: ["AWSLicenseManagerUserSubscriptions"]),
         .library(name: "AWSLightsail", targets: ["AWSLightsail"]),
         .library(name: "AWSLocation", targets: ["AWSLocation"]),
@@ -318,6 +319,7 @@ let package = Package(
         .library(name: "AWSSchemas", targets: ["AWSSchemas"]),
         .library(name: "AWSSecretsManager", targets: ["AWSSecretsManager"]),
         .library(name: "AWSSecurityHub", targets: ["AWSSecurityHub"]),
+        .library(name: "AWSSecurityLake", targets: ["AWSSecurityLake"]),
         .library(name: "AWSServerlessApplicationRepository", targets: ["AWSServerlessApplicationRepository"]),
         .library(name: "AWSServiceCatalog", targets: ["AWSServiceCatalog"]),
         .library(name: "AWSServiceCatalogAppRegistry", targets: ["AWSServiceCatalogAppRegistry"]),
@@ -355,7 +357,7 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.7.0")),
+        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.8.0")),
         .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.4.0"))
     ],
     targets: [
@@ -561,6 +563,7 @@ let package = Package(
         .target(name: "AWSLexRuntimeService", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLexRuntimeService"),
         .target(name: "AWSLexRuntimeV2", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLexRuntimeV2"),
         .target(name: "AWSLicenseManager", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLicenseManager"),
+        .target(name: "AWSLicenseManagerLinuxSubscriptions", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLicenseManagerLinuxSubscriptions"),
         .target(name: "AWSLicenseManagerUserSubscriptions", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLicenseManagerUserSubscriptions"),
         .target(name: "AWSLightsail", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLightsail"),
         .target(name: "AWSLocation", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSLocation"),
@@ -674,6 +677,7 @@ let package = Package(
         .target(name: "AWSSchemas", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSchemas"),
         .target(name: "AWSSecretsManager", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSecretsManager"),
         .target(name: "AWSSecurityHub", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSecurityHub"),
+        .target(name: "AWSSecurityLake", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSSecurityLake"),
         .target(name: "AWSServerlessApplicationRepository", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSServerlessApplicationRepository"),
         .target(name: "AWSServiceCatalog", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSServiceCatalog"),
         .target(name: "AWSServiceCatalogAppRegistry", dependencies: [.product(name: "ClientRuntime", package: "smithy-swift"), "AWSClientRuntime"], path: "./release/AWSServiceCatalogAppRegistry"),

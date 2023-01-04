@@ -196,8 +196,8 @@ extension AddInstanceGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceGroups = instanceGroups {
             var instanceGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceGroups)
-            for instancegroupconfiglist0 in instanceGroups {
-                try instanceGroupsContainer.encode(instancegroupconfiglist0)
+            for instancegroupconfig0 in instanceGroups {
+                try instanceGroupsContainer.encode(instancegroupconfig0)
             }
         }
         if let jobFlowId = self.jobFlowId {
@@ -370,8 +370,8 @@ extension AddJobFlowStepsInput: Swift.Encodable {
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for stepconfiglist0 in steps {
-                try stepsContainer.encode(stepconfiglist0)
+            for stepconfig0 in steps {
+                try stepsContainer.encode(stepconfig0)
             }
         }
     }
@@ -525,8 +525,8 @@ extension AddTagsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -668,14 +668,14 @@ extension EMRClientTypes.Application: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalInfo = additionalInfo {
             var additionalInfoContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalInfo)
-            for (dictKey0, stringmap0) in additionalInfo {
-                try additionalInfoContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in additionalInfo {
+                try additionalInfoContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for stringlist0 in args {
-                try argsContainer.encode(stringlist0)
+            for string0 in args {
+                try argsContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -790,8 +790,8 @@ extension EMRClientTypes.AutoScalingPolicy: Swift.Codable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for scalingrulelist0 in rules {
-                try rulesContainer.encode(scalingrulelist0)
+            for scalingrule0 in rules {
+                try rulesContainer.encode(scalingrule0)
             }
         }
     }
@@ -850,8 +850,8 @@ extension EMRClientTypes.AutoScalingPolicyDescription: Swift.Codable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for scalingrulelist0 in rules {
-                try rulesContainer.encode(scalingrulelist0)
+            for scalingrule0 in rules {
+                try rulesContainer.encode(scalingrule0)
             }
         }
         if let status = self.status {
@@ -1126,20 +1126,20 @@ extension EMRClientTypes.BlockPublicAccessConfiguration: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let permittedPublicSecurityGroupRuleRanges = permittedPublicSecurityGroupRuleRanges {
             var permittedPublicSecurityGroupRuleRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permittedPublicSecurityGroupRuleRanges)
-            for portranges0 in permittedPublicSecurityGroupRuleRanges {
-                try permittedPublicSecurityGroupRuleRangesContainer.encode(portranges0)
+            for portrange0 in permittedPublicSecurityGroupRuleRanges {
+                try permittedPublicSecurityGroupRuleRangesContainer.encode(portrange0)
             }
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, stringmap0) in properties {
-                try propertiesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in properties {
+                try propertiesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1420,8 +1420,8 @@ extension CancelStepsInput: Swift.Encodable {
         }
         if let stepIds = stepIds {
             var stepIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepIds)
-            for stepidslist0 in stepIds {
-                try stepIdsContainer.encode(stepidslist0)
+            for xmlstringmaxlen2560 in stepIds {
+                try stepIdsContainer.encode(xmlstringmaxlen2560)
             }
         }
     }
@@ -1616,8 +1616,8 @@ extension EMRClientTypes.CloudWatchAlarmDefinition: Swift.Codable {
         }
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for metricdimensionlist0 in dimensions {
-                try dimensionsContainer.encode(metricdimensionlist0)
+            for metricdimension0 in dimensions {
+                try dimensionsContainer.encode(metricdimension0)
             }
         }
         if let evaluationPeriods = self.evaluationPeriods {
@@ -1766,8 +1766,8 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applications = applications {
             var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
-            for applicationlist0 in applications {
-                try applicationsContainer.encode(applicationlist0)
+            for application0 in applications {
+                try applicationsContainer.encode(application0)
             }
         }
         if let autoScalingRole = self.autoScalingRole {
@@ -1781,8 +1781,8 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let customAmiId = self.customAmiId {
@@ -1826,8 +1826,8 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         }
         if let placementGroups = placementGroups {
             var placementGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementGroups)
-            for placementgroupconfiglist0 in placementGroups {
-                try placementGroupsContainer.encode(placementgroupconfiglist0)
+            for placementgroupconfig0 in placementGroups {
+                try placementGroupsContainer.encode(placementgroupconfig0)
             }
         }
         if let releaseLabel = self.releaseLabel {
@@ -1859,8 +1859,8 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if terminationProtected != false {
@@ -2458,8 +2458,8 @@ extension EMRClientTypes.Command: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for stringlist0 in args {
-                try argsContainer.encode(stringlist0)
+            for string0 in args {
+                try argsContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -2679,14 +2679,14 @@ extension EMRClientTypes.Configuration: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, stringmap0) in properties {
-                try propertiesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in properties {
+                try propertiesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2927,14 +2927,14 @@ extension CreateStudioInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userRole = self.userRole {
@@ -2956,7 +2956,7 @@ extension CreateStudioInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateStudioInput: Swift.Equatable {
-    /// Specifies whether the Studio authenticates users using IAM or Amazon Web Services SSO.
+    /// Specifies whether the Studio authenticates users using IAM or IAM Identity Center.
     /// This member is required.
     public var authMode: EMRClientTypes.AuthMode?
     /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
@@ -2982,7 +2982,7 @@ public struct CreateStudioInput: Swift.Equatable {
     public var subnetIds: [Swift.String]?
     /// A list of tags to associate with the Amazon EMR Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
     public var tags: [EMRClientTypes.Tag]?
-    /// The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a UserRole when you use Amazon Web Services SSO authentication. The permissions attached to the UserRole can be scoped down for each user or group using session policies.
+    /// The IAM user role that users and groups assume when logged in to an Amazon EMR Studio. Only specify a UserRole when you use IAM Identity Center authentication. The permissions attached to the UserRole can be scoped down for each user or group using session policies.
     public var userRole: Swift.String?
     /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio.
     /// This member is required.
@@ -3216,9 +3216,9 @@ extension CreateStudioSessionMappingInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateStudioSessionMappingInput: Swift.Equatable {
-    /// The globally unique identifier (GUID) of the user or group from the Amazon Web Services SSO Identity Store. For more information, see [UserId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId) and [GroupId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId) in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
+    /// The globally unique identifier (GUID) of the user or group from the IAM Identity Center Identity Store. For more information, see [UserId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId) and [GroupId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId) in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
     public var identityId: Swift.String?
-    /// The name of the user or group. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
+    /// The name of the user or group. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified, but not both.
     public var identityName: Swift.String?
     /// Specifies whether the identity to map to the Amazon EMR Studio is a user or a group.
     /// This member is required.
@@ -3310,6 +3310,43 @@ extension CreateStudioSessionMappingOutputResponse: ClientRuntime.HttpResponseBi
 public struct CreateStudioSessionMappingOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension EMRClientTypes.Credentials: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case usernamepassword = "UsernamePassword"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .usernamepassword(usernamepassword):
+                try container.encode(usernamepassword, forKey: .usernamepassword)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let usernamepasswordDecoded = try values.decodeIfPresent(EMRClientTypes.UsernamePassword.self, forKey: .usernamepassword)
+        if let usernamepassword = usernamepasswordDecoded {
+            self = .usernamepassword(usernamepassword)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension EMRClientTypes {
+    /// The credentials that you can use to connect to cluster endpoints. Credentials consist of a username and a password.
+    public enum Credentials: Swift.Equatable {
+        /// The username and password that you use to connect to cluster endpoints.
+        case usernamepassword(EMRClientTypes.UsernamePassword)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension DeleteSecurityConfigurationInput: Swift.Encodable {
@@ -3508,9 +3545,9 @@ extension DeleteStudioSessionMappingInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteStudioSessionMappingInput: Swift.Equatable {
-    /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see [UserId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId) and [GroupId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId) in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+    /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see [UserId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId) and [GroupId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId) in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
     public var identityId: Swift.String?
-    /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the Amazon Web Services SSO Store API Reference. Either IdentityName or IdentityId must be specified.
+    /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the IAM Identity Center Store API Reference. Either IdentityName or IdentityId must be specified.
     public var identityName: Swift.String?
     /// Specifies whether the identity to delete from the Amazon EMR Studio is a user or a group.
     /// This member is required.
@@ -3728,14 +3765,14 @@ extension DescribeJobFlowsInput: Swift.Encodable {
         }
         if let jobFlowIds = jobFlowIds {
             var jobFlowIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobFlowIds)
-            for xmlstringlist0 in jobFlowIds {
-                try jobFlowIdsContainer.encode(xmlstringlist0)
+            for xmlstring0 in jobFlowIds {
+                try jobFlowIdsContainer.encode(xmlstring0)
             }
         }
         if let jobFlowStates = jobFlowStates {
             var jobFlowStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobFlowStates)
-            for jobflowexecutionstatelist0 in jobFlowStates {
-                try jobFlowStatesContainer.encode(jobflowexecutionstatelist0.rawValue)
+            for jobflowexecutionstate0 in jobFlowStates {
+                try jobFlowStatesContainer.encode(jobflowexecutionstate0.rawValue)
             }
         }
     }
@@ -3808,9 +3845,9 @@ extension DescribeJobFlowsInputBody: Swift.Decodable {
         var jobFlowStatesDecoded0:[EMRClientTypes.JobFlowExecutionState]? = nil
         if let jobFlowStatesContainer = jobFlowStatesContainer {
             jobFlowStatesDecoded0 = [EMRClientTypes.JobFlowExecutionState]()
-            for string0 in jobFlowStatesContainer {
-                if let string0 = string0 {
-                    jobFlowStatesDecoded0?.append(string0)
+            for enum0 in jobFlowStatesContainer {
+                if let enum0 = enum0 {
+                    jobFlowStatesDecoded0?.append(enum0)
                 }
             }
         }
@@ -4663,8 +4700,8 @@ extension EMRClientTypes.EbsConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ebsBlockDeviceConfigs = ebsBlockDeviceConfigs {
             var ebsBlockDeviceConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ebsBlockDeviceConfigs)
-            for ebsblockdeviceconfiglist0 in ebsBlockDeviceConfigs {
-                try ebsBlockDeviceConfigsContainer.encode(ebsblockdeviceconfiglist0)
+            for ebsblockdeviceconfig0 in ebsBlockDeviceConfigs {
+                try ebsBlockDeviceConfigsContainer.encode(ebsblockdeviceconfig0)
             }
         }
         if let ebsOptimized = self.ebsOptimized {
@@ -4774,14 +4811,14 @@ extension EMRClientTypes.Ec2InstanceAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalMasterSecurityGroups = additionalMasterSecurityGroups {
             var additionalMasterSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalMasterSecurityGroups)
-            for stringlist0 in additionalMasterSecurityGroups {
-                try additionalMasterSecurityGroupsContainer.encode(stringlist0)
+            for string0 in additionalMasterSecurityGroups {
+                try additionalMasterSecurityGroupsContainer.encode(string0)
             }
         }
         if let additionalSlaveSecurityGroups = additionalSlaveSecurityGroups {
             var additionalSlaveSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalSlaveSecurityGroups)
-            for stringlist0 in additionalSlaveSecurityGroups {
-                try additionalSlaveSecurityGroupsContainer.encode(stringlist0)
+            for string0 in additionalSlaveSecurityGroups {
+                try additionalSlaveSecurityGroupsContainer.encode(string0)
             }
         }
         if let ec2AvailabilityZone = self.ec2AvailabilityZone {
@@ -4804,14 +4841,14 @@ extension EMRClientTypes.Ec2InstanceAttributes: Swift.Codable {
         }
         if let requestedEc2AvailabilityZones = requestedEc2AvailabilityZones {
             var requestedEc2AvailabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestedEc2AvailabilityZones)
-            for xmlstringmaxlen256list0 in requestedEc2AvailabilityZones {
-                try requestedEc2AvailabilityZonesContainer.encode(xmlstringmaxlen256list0)
+            for xmlstringmaxlen2560 in requestedEc2AvailabilityZones {
+                try requestedEc2AvailabilityZonesContainer.encode(xmlstringmaxlen2560)
             }
         }
         if let requestedEc2SubnetIds = requestedEc2SubnetIds {
             var requestedEc2SubnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestedEc2SubnetIds)
-            for xmlstringmaxlen256list0 in requestedEc2SubnetIds {
-                try requestedEc2SubnetIdsContainer.encode(xmlstringmaxlen256list0)
+            for xmlstringmaxlen2560 in requestedEc2SubnetIds {
+                try requestedEc2SubnetIdsContainer.encode(xmlstringmaxlen2560)
             }
         }
         if let serviceAccessSecurityGroup = self.serviceAccessSecurityGroup {
@@ -5292,6 +5329,142 @@ extension GetBlockPublicAccessConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetClusterSessionCredentialsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterId = "ClusterId"
+        case executionRoleArn = "ExecutionRoleArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clusterId = self.clusterId {
+            try encodeContainer.encode(clusterId, forKey: .clusterId)
+        }
+        if let executionRoleArn = self.executionRoleArn {
+            try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
+        }
+    }
+}
+
+extension GetClusterSessionCredentialsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetClusterSessionCredentialsInput: Swift.Equatable {
+    /// The unique identifier of the cluster.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the runtime role for interactive workload submission on the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:service:region:account:resource.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+
+    public init (
+        clusterId: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil
+    )
+    {
+        self.clusterId = clusterId
+        self.executionRoleArn = executionRoleArn
+    }
+}
+
+struct GetClusterSessionCredentialsInputBody: Swift.Equatable {
+    let clusterId: Swift.String?
+    let executionRoleArn: Swift.String?
+}
+
+extension GetClusterSessionCredentialsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterId = "ClusterId"
+        case executionRoleArn = "ExecutionRoleArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
+        clusterId = clusterIdDecoded
+        let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
+        executionRoleArn = executionRoleArnDecoded
+    }
+}
+
+extension GetClusterSessionCredentialsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetClusterSessionCredentialsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalFailure" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetClusterSessionCredentialsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case invalidRequestException(InvalidRequestException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetClusterSessionCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetClusterSessionCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.credentials = output.credentials
+            self.expiresAt = output.expiresAt
+        } else {
+            self.credentials = nil
+            self.expiresAt = nil
+        }
+    }
+}
+
+public struct GetClusterSessionCredentialsOutputResponse: Swift.Equatable {
+    /// The credentials that you can use to connect to cluster endpoints that support username-based and password-based authentication.
+    public var credentials: EMRClientTypes.Credentials?
+    /// The time when the credentials that are returned by the GetClusterSessionCredentials API expire.
+    public var expiresAt: ClientRuntime.Date?
+
+    public init (
+        credentials: EMRClientTypes.Credentials? = nil,
+        expiresAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.credentials = credentials
+        self.expiresAt = expiresAt
+    }
+}
+
+struct GetClusterSessionCredentialsOutputResponseBody: Swift.Equatable {
+    let credentials: EMRClientTypes.Credentials?
+    let expiresAt: ClientRuntime.Date?
+}
+
+extension GetClusterSessionCredentialsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentials = "Credentials"
+        case expiresAt = "ExpiresAt"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let credentialsDecoded = try containerValues.decodeIfPresent(EMRClientTypes.Credentials.self, forKey: .credentials)
+        credentials = credentialsDecoded
+        let expiresAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expiresAt)
+        expiresAt = expiresAtDecoded
+    }
+}
+
 extension GetManagedScalingPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterId = "ClusterId"
@@ -5433,9 +5606,9 @@ extension GetStudioSessionMappingInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetStudioSessionMappingInput: Swift.Equatable {
-    /// The globally unique identifier (GUID) of the user or group. For more information, see [UserId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId) and [GroupId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId) in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+    /// The globally unique identifier (GUID) of the user or group. For more information, see [UserId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId) and [GroupId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId) in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
     public var identityId: Swift.String?
-    /// The name of the user or group to fetch. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+    /// The name of the user or group to fetch. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
     public var identityName: Swift.String?
     /// Specifies whether the identity to fetch is a user or a group.
     /// This member is required.
@@ -5563,8 +5736,8 @@ extension EMRClientTypes.HadoopJarStepConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for xmlstringlist0 in args {
-                try argsContainer.encode(xmlstringlist0)
+            for xmlstring0 in args {
+                try argsContainer.encode(xmlstring0)
             }
         }
         if let jar = self.jar {
@@ -5575,8 +5748,8 @@ extension EMRClientTypes.HadoopJarStepConfig: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for keyvaluelist0 in properties {
-                try propertiesContainer.encode(keyvaluelist0)
+            for keyvalue0 in properties {
+                try propertiesContainer.encode(keyvalue0)
             }
         }
     }
@@ -5653,8 +5826,8 @@ extension EMRClientTypes.HadoopStepConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for stringlist0 in args {
-                try argsContainer.encode(stringlist0)
+            for string0 in args {
+                try argsContainer.encode(string0)
             }
         }
         if let jar = self.jar {
@@ -5665,8 +5838,8 @@ extension EMRClientTypes.HadoopStepConfig: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, stringmap0) in properties {
-                try propertiesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in properties {
+                try propertiesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5782,8 +5955,8 @@ extension EMRClientTypes.Instance: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ebsVolumes = ebsVolumes {
             var ebsVolumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ebsVolumes)
-            for ebsvolumelist0 in ebsVolumes {
-                try ebsVolumesContainer.encode(ebsvolumelist0)
+            for ebsvolume0 in ebsVolumes {
+                try ebsVolumesContainer.encode(ebsvolume0)
             }
         }
         if let ec2InstanceId = self.ec2InstanceId {
@@ -5975,8 +6148,8 @@ extension EMRClientTypes.InstanceFleet: Swift.Codable {
         }
         if let instanceTypeSpecifications = instanceTypeSpecifications {
             var instanceTypeSpecificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypeSpecifications)
-            for instancetypespecificationlist0 in instanceTypeSpecifications {
-                try instanceTypeSpecificationsContainer.encode(instancetypespecificationlist0)
+            for instancetypespecification0 in instanceTypeSpecifications {
+                try instanceTypeSpecificationsContainer.encode(instancetypespecification0)
             }
         }
         if let launchSpecifications = self.launchSpecifications {
@@ -6105,8 +6278,8 @@ extension EMRClientTypes.InstanceFleetConfig: Swift.Codable {
         }
         if let instanceTypeConfigs = instanceTypeConfigs {
             var instanceTypeConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypeConfigs)
-            for instancetypeconfiglist0 in instanceTypeConfigs {
-                try instanceTypeConfigsContainer.encode(instancetypeconfiglist0)
+            for instancetypeconfig0 in instanceTypeConfigs {
+                try instanceTypeConfigsContainer.encode(instancetypeconfig0)
             }
         }
         if let launchSpecifications = self.launchSpecifications {
@@ -6608,8 +6781,8 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if configurationsVersion != 0 {
@@ -6620,8 +6793,8 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
         }
         if let ebsBlockDevices = ebsBlockDevices {
             var ebsBlockDevicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ebsBlockDevices)
-            for ebsblockdevicelist0 in ebsBlockDevices {
-                try ebsBlockDevicesContainer.encode(ebsblockdevicelist0)
+            for ebsblockdevice0 in ebsBlockDevices {
+                try ebsBlockDevicesContainer.encode(ebsblockdevice0)
             }
         }
         if let ebsOptimized = self.ebsOptimized {
@@ -6638,8 +6811,8 @@ extension EMRClientTypes.InstanceGroup: Swift.Codable {
         }
         if let lastSuccessfullyAppliedConfigurations = lastSuccessfullyAppliedConfigurations {
             var lastSuccessfullyAppliedConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastSuccessfullyAppliedConfigurations)
-            for configurationlist0 in lastSuccessfullyAppliedConfigurations {
-                try lastSuccessfullyAppliedConfigurationsContainer.encode(configurationlist0)
+            for configuration0 in lastSuccessfullyAppliedConfigurations {
+                try lastSuccessfullyAppliedConfigurationsContainer.encode(configuration0)
             }
         }
         if lastSuccessfullyAppliedConfigurationsVersion != 0 {
@@ -6841,8 +7014,8 @@ extension EMRClientTypes.InstanceGroupConfig: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let customAmiId = self.customAmiId {
@@ -7153,14 +7326,14 @@ extension EMRClientTypes.InstanceGroupModifyConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let ec2InstanceIdsToTerminate = ec2InstanceIdsToTerminate {
             var ec2InstanceIdsToTerminateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InstanceIdsToTerminate)
-            for ec2instanceidstoterminatelist0 in ec2InstanceIdsToTerminate {
-                try ec2InstanceIdsToTerminateContainer.encode(ec2instanceidstoterminatelist0)
+            for instanceid0 in ec2InstanceIdsToTerminate {
+                try ec2InstanceIdsToTerminateContainer.encode(instanceid0)
             }
         }
         if let instanceCount = self.instanceCount {
@@ -7550,14 +7723,14 @@ extension EMRClientTypes.InstanceResizePolicy: Swift.Codable {
         }
         if let instancesToProtect = instancesToProtect {
             var instancesToProtectContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instancesToProtect)
-            for ec2instanceidslist0 in instancesToProtect {
-                try instancesToProtectContainer.encode(ec2instanceidslist0)
+            for instanceid0 in instancesToProtect {
+                try instancesToProtectContainer.encode(instanceid0)
             }
         }
         if let instancesToTerminate = instancesToTerminate {
             var instancesToTerminateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instancesToTerminate)
-            for ec2instanceidslist0 in instancesToTerminate {
-                try instancesToTerminateContainer.encode(ec2instanceidslist0)
+            for instanceid0 in instancesToTerminate {
+                try instancesToTerminateContainer.encode(instanceid0)
             }
         }
     }
@@ -7908,8 +8081,8 @@ extension EMRClientTypes.InstanceTypeConfig: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let customAmiId = self.customAmiId {
@@ -8017,8 +8190,8 @@ extension EMRClientTypes.InstanceTypeSpecification: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let customAmiId = self.customAmiId {
@@ -8026,8 +8199,8 @@ extension EMRClientTypes.InstanceTypeSpecification: Swift.Codable {
         }
         if let ebsBlockDevices = ebsBlockDevices {
             var ebsBlockDevicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ebsBlockDevices)
-            for ebsblockdevicelist0 in ebsBlockDevices {
-                try ebsBlockDevicesContainer.encode(ebsblockdevicelist0)
+            for ebsblockdevice0 in ebsBlockDevices {
+                try ebsBlockDevicesContainer.encode(ebsblockdevice0)
             }
         }
         if let ebsOptimized = self.ebsOptimized {
@@ -8291,8 +8464,8 @@ extension EMRClientTypes.JobFlowDetail: Swift.Codable {
         }
         if let bootstrapActions = bootstrapActions {
             var bootstrapActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bootstrapActions)
-            for bootstrapactiondetaillist0 in bootstrapActions {
-                try bootstrapActionsContainer.encode(bootstrapactiondetaillist0)
+            for bootstrapactiondetail0 in bootstrapActions {
+                try bootstrapActionsContainer.encode(bootstrapactiondetail0)
             }
         }
         if let executionStatusDetail = self.executionStatusDetail {
@@ -8324,14 +8497,14 @@ extension EMRClientTypes.JobFlowDetail: Swift.Codable {
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for stepdetaillist0 in steps {
-                try stepsContainer.encode(stepdetaillist0)
+            for stepdetail0 in steps {
+                try stepsContainer.encode(stepdetail0)
             }
         }
         if let supportedProducts = supportedProducts {
             var supportedProductsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedProducts)
-            for supportedproductslist0 in supportedProducts {
-                try supportedProductsContainer.encode(supportedproductslist0)
+            for xmlstringmaxlen2560 in supportedProducts {
+                try supportedProductsContainer.encode(xmlstringmaxlen2560)
             }
         }
         if visibleToAllUsers != false {
@@ -8640,14 +8813,14 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalMasterSecurityGroups = additionalMasterSecurityGroups {
             var additionalMasterSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalMasterSecurityGroups)
-            for securitygroupslist0 in additionalMasterSecurityGroups {
-                try additionalMasterSecurityGroupsContainer.encode(securitygroupslist0)
+            for xmlstringmaxlen2560 in additionalMasterSecurityGroups {
+                try additionalMasterSecurityGroupsContainer.encode(xmlstringmaxlen2560)
             }
         }
         if let additionalSlaveSecurityGroups = additionalSlaveSecurityGroups {
             var additionalSlaveSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalSlaveSecurityGroups)
-            for securitygroupslist0 in additionalSlaveSecurityGroups {
-                try additionalSlaveSecurityGroupsContainer.encode(securitygroupslist0)
+            for xmlstringmaxlen2560 in additionalSlaveSecurityGroups {
+                try additionalSlaveSecurityGroupsContainer.encode(xmlstringmaxlen2560)
             }
         }
         if let ec2KeyName = self.ec2KeyName {
@@ -8658,8 +8831,8 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         }
         if let ec2SubnetIds = ec2SubnetIds {
             var ec2SubnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2SubnetIds)
-            for xmlstringmaxlen256list0 in ec2SubnetIds {
-                try ec2SubnetIdsContainer.encode(xmlstringmaxlen256list0)
+            for xmlstringmaxlen2560 in ec2SubnetIds {
+                try ec2SubnetIdsContainer.encode(xmlstringmaxlen2560)
             }
         }
         if let emrManagedMasterSecurityGroup = self.emrManagedMasterSecurityGroup {
@@ -8676,14 +8849,14 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         }
         if let instanceFleets = instanceFleets {
             var instanceFleetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceFleets)
-            for instancefleetconfiglist0 in instanceFleets {
-                try instanceFleetsContainer.encode(instancefleetconfiglist0)
+            for instancefleetconfig0 in instanceFleets {
+                try instanceFleetsContainer.encode(instancefleetconfig0)
             }
         }
         if let instanceGroups = instanceGroups {
             var instanceGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceGroups)
-            for instancegroupconfiglist0 in instanceGroups {
-                try instanceGroupsContainer.encode(instancegroupconfiglist0)
+            for instancegroupconfig0 in instanceGroups {
+                try instanceGroupsContainer.encode(instancegroupconfig0)
             }
         }
         if keepJobFlowAliveWhenNoSteps != false {
@@ -8903,8 +9076,8 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         }
         if let instanceGroups = instanceGroups {
             var instanceGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceGroups)
-            for instancegroupdetaillist0 in instanceGroups {
-                try instanceGroupsContainer.encode(instancegroupdetaillist0)
+            for instancegroupdetail0 in instanceGroups {
+                try instanceGroupsContainer.encode(instancegroupdetail0)
             }
         }
         if keepJobFlowAliveWhenNoSteps != false {
@@ -9320,8 +9493,8 @@ extension ListClustersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clusterStates = clusterStates {
             var clusterStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clusterStates)
-            for clusterstatelist0 in clusterStates {
-                try clusterStatesContainer.encode(clusterstatelist0.rawValue)
+            for clusterstate0 in clusterStates {
+                try clusterStatesContainer.encode(clusterstate0.rawValue)
             }
         }
         if let createdAfter = self.createdAfter {
@@ -9392,9 +9565,9 @@ extension ListClustersInputBody: Swift.Decodable {
         var clusterStatesDecoded0:[EMRClientTypes.ClusterState]? = nil
         if let clusterStatesContainer = clusterStatesContainer {
             clusterStatesDecoded0 = [EMRClientTypes.ClusterState]()
-            for string0 in clusterStatesContainer {
-                if let string0 = string0 {
-                    clusterStatesDecoded0?.append(string0)
+            for enum0 in clusterStatesContainer {
+                if let enum0 = enum0 {
+                    clusterStatesDecoded0?.append(enum0)
                 }
             }
         }
@@ -9806,14 +9979,14 @@ extension ListInstancesInput: Swift.Encodable {
         }
         if let instanceGroupTypes = instanceGroupTypes {
             var instanceGroupTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceGroupTypes)
-            for instancegrouptypelist0 in instanceGroupTypes {
-                try instanceGroupTypesContainer.encode(instancegrouptypelist0.rawValue)
+            for instancegrouptype0 in instanceGroupTypes {
+                try instanceGroupTypesContainer.encode(instancegrouptype0.rawValue)
             }
         }
         if let instanceStates = instanceStates {
             var instanceStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceStates)
-            for instancestatelist0 in instanceStates {
-                try instanceStatesContainer.encode(instancestatelist0.rawValue)
+            for instancestate0 in instanceStates {
+                try instanceStatesContainer.encode(instancestate0.rawValue)
             }
         }
         if let marker = self.marker {
@@ -9897,9 +10070,9 @@ extension ListInstancesInputBody: Swift.Decodable {
         var instanceGroupTypesDecoded0:[EMRClientTypes.InstanceGroupType]? = nil
         if let instanceGroupTypesContainer = instanceGroupTypesContainer {
             instanceGroupTypesDecoded0 = [EMRClientTypes.InstanceGroupType]()
-            for string0 in instanceGroupTypesContainer {
-                if let string0 = string0 {
-                    instanceGroupTypesDecoded0?.append(string0)
+            for enum0 in instanceGroupTypesContainer {
+                if let enum0 = enum0 {
+                    instanceGroupTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -9912,9 +10085,9 @@ extension ListInstancesInputBody: Swift.Decodable {
         var instanceStatesDecoded0:[EMRClientTypes.InstanceState]? = nil
         if let instanceStatesContainer = instanceStatesContainer {
             instanceStatesDecoded0 = [EMRClientTypes.InstanceState]()
-            for string0 in instanceStatesContainer {
-                if let string0 = string0 {
-                    instanceStatesDecoded0?.append(string0)
+            for enum0 in instanceStatesContainer {
+                if let enum0 = enum0 {
+                    instanceStatesDecoded0?.append(enum0)
                 }
             }
         }
@@ -10512,14 +10685,14 @@ extension ListStepsInput: Swift.Encodable {
         }
         if let stepIds = stepIds {
             var stepIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepIds)
-            for xmlstringlist0 in stepIds {
-                try stepIdsContainer.encode(xmlstringlist0)
+            for xmlstring0 in stepIds {
+                try stepIdsContainer.encode(xmlstring0)
             }
         }
         if let stepStates = stepStates {
             var stepStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepStates)
-            for stepstatelist0 in stepStates {
-                try stepStatesContainer.encode(stepstatelist0.rawValue)
+            for stepstate0 in stepStates {
+                try stepStatesContainer.encode(stepstate0.rawValue)
             }
         }
     }
@@ -10580,9 +10753,9 @@ extension ListStepsInputBody: Swift.Decodable {
         var stepStatesDecoded0:[EMRClientTypes.StepState]? = nil
         if let stepStatesContainer = stepStatesContainer {
             stepStatesDecoded0 = [EMRClientTypes.StepState]()
-            for string0 in stepStatesContainer {
-                if let string0 = string0 {
-                    stepStatesDecoded0?.append(string0)
+            for enum0 in stepStatesContainer {
+                if let enum0 = enum0 {
+                    stepStatesDecoded0?.append(enum0)
                 }
             }
         }
@@ -11319,8 +11492,8 @@ extension ModifyInstanceGroupsInput: Swift.Encodable {
         }
         if let instanceGroups = instanceGroups {
             var instanceGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceGroups)
-            for instancegroupmodifyconfiglist0 in instanceGroups {
-                try instanceGroupsContainer.encode(instancegroupmodifyconfiglist0)
+            for instancegroupmodifyconfig0 in instanceGroups {
+                try instanceGroupsContainer.encode(instancegroupmodifyconfig0)
             }
         }
     }
@@ -11467,8 +11640,8 @@ extension EMRClientTypes.NotebookExecution: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12085,8 +12258,8 @@ extension EMRClientTypes.PlacementType: Swift.Codable {
         }
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for xmlstringmaxlen256list0 in availabilityZones {
-                try availabilityZonesContainer.encode(xmlstringmaxlen256list0)
+            for xmlstringmaxlen2560 in availabilityZones {
+                try availabilityZonesContainer.encode(xmlstringmaxlen2560)
             }
         }
     }
@@ -12940,8 +13113,8 @@ extension RemoveTagsInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for stringlist0 in tagKeys {
-                try tagKeysContainer.encode(stringlist0)
+            for string0 in tagKeys {
+                try tagKeysContainer.encode(string0)
             }
         }
     }
@@ -13111,8 +13284,8 @@ extension RunJobFlowInput: Swift.Encodable {
         }
         if let applications = applications {
             var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
-            for applicationlist0 in applications {
-                try applicationsContainer.encode(applicationlist0)
+            for application0 in applications {
+                try applicationsContainer.encode(application0)
             }
         }
         if let autoScalingRole = self.autoScalingRole {
@@ -13123,14 +13296,14 @@ extension RunJobFlowInput: Swift.Encodable {
         }
         if let bootstrapActions = bootstrapActions {
             var bootstrapActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bootstrapActions)
-            for bootstrapactionconfiglist0 in bootstrapActions {
-                try bootstrapActionsContainer.encode(bootstrapactionconfiglist0)
+            for bootstrapactionconfig0 in bootstrapActions {
+                try bootstrapActionsContainer.encode(bootstrapactionconfig0)
             }
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let customAmiId = self.customAmiId {
@@ -13162,8 +13335,8 @@ extension RunJobFlowInput: Swift.Encodable {
         }
         if let newSupportedProducts = newSupportedProducts {
             var newSupportedProductsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .newSupportedProducts)
-            for newsupportedproductslist0 in newSupportedProducts {
-                try newSupportedProductsContainer.encode(newsupportedproductslist0)
+            for supportedproductconfig0 in newSupportedProducts {
+                try newSupportedProductsContainer.encode(supportedproductconfig0)
             }
         }
         if let osReleaseLabel = self.osReleaseLabel {
@@ -13171,8 +13344,8 @@ extension RunJobFlowInput: Swift.Encodable {
         }
         if let placementGroupConfigs = placementGroupConfigs {
             var placementGroupConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementGroupConfigs)
-            for placementgroupconfiglist0 in placementGroupConfigs {
-                try placementGroupConfigsContainer.encode(placementgroupconfiglist0)
+            for placementgroupconfig0 in placementGroupConfigs {
+                try placementGroupConfigsContainer.encode(placementgroupconfig0)
             }
         }
         if let releaseLabel = self.releaseLabel {
@@ -13195,20 +13368,20 @@ extension RunJobFlowInput: Swift.Encodable {
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for stepconfiglist0 in steps {
-                try stepsContainer.encode(stepconfiglist0)
+            for stepconfig0 in steps {
+                try stepsContainer.encode(stepconfig0)
             }
         }
         if let supportedProducts = supportedProducts {
             var supportedProductsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedProducts)
-            for supportedproductslist0 in supportedProducts {
-                try supportedProductsContainer.encode(supportedproductslist0)
+            for xmlstringmaxlen2560 in supportedProducts {
+                try supportedProductsContainer.encode(xmlstringmaxlen2560)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if visibleToAllUsers != false {
@@ -13289,7 +13462,7 @@ public struct RunJobFlowInput: Swift.Equatable {
     public var scaleDownBehavior: EMRClientTypes.ScaleDownBehavior?
     /// The name of a security configuration to apply to the cluster.
     public var securityConfiguration: Swift.String?
-    /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf.
+    /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf. If you've created a custom service role path, you must specify it for the service role when you launch your cluster.
     public var serviceRole: Swift.String?
     /// Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
     public var stepConcurrencyLevel: Swift.Int?
@@ -13883,8 +14056,8 @@ extension EMRClientTypes.ScriptBootstrapActionConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for xmlstringlist0 in args {
-                try argsContainer.encode(xmlstringlist0)
+            for xmlstring0 in args {
+                try argsContainer.encode(xmlstring0)
             }
         }
         if let path = self.path {
@@ -14038,7 +14211,7 @@ extension EMRClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The globally unique identifier (GUID) of the user or group.
         public var identityId: Swift.String?
-        /// The name of the user or group. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the Amazon Web Services SSO Identity Store API Reference.
+        /// The name of the user or group. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the IAM Identity Center Identity Store API Reference.
         public var identityName: Swift.String?
         /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or a group.
         public var identityType: EMRClientTypes.IdentityType?
@@ -14125,9 +14298,9 @@ extension EMRClientTypes {
     public struct SessionMappingSummary: Swift.Equatable {
         /// The time the session mapping was created.
         public var creationTime: ClientRuntime.Date?
-        /// The globally unique identifier (GUID) of the user or group from the Amazon Web Services SSO Identity Store.
+        /// The globally unique identifier (GUID) of the user or group from the IAM Identity Center Identity Store.
         public var identityId: Swift.String?
-        /// The name of the user or group. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the Amazon Web Services SSO Identity Store API Reference.
+        /// The name of the user or group. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the IAM Identity Center Identity Store API Reference.
         public var identityName: Swift.String?
         /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or a group.
         public var identityType: EMRClientTypes.IdentityType?
@@ -14166,8 +14339,8 @@ extension SetTerminationProtectionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobFlowIds = jobFlowIds {
             var jobFlowIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobFlowIds)
-            for xmlstringlist0 in jobFlowIds {
-                try jobFlowIdsContainer.encode(xmlstringlist0)
+            for xmlstring0 in jobFlowIds {
+                try jobFlowIdsContainer.encode(xmlstring0)
             }
         }
         if terminationProtected != false {
@@ -14272,8 +14445,8 @@ extension SetVisibleToAllUsersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobFlowIds = jobFlowIds {
             var jobFlowIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobFlowIds)
-            for xmlstringlist0 in jobFlowIds {
-                try jobFlowIdsContainer.encode(xmlstringlist0)
+            for xmlstring0 in jobFlowIds {
+                try jobFlowIdsContainer.encode(xmlstring0)
             }
         }
         if visibleToAllUsers != false {
@@ -14679,8 +14852,8 @@ extension StartNotebookExecutionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -15707,14 +15880,14 @@ extension EMRClientTypes.Studio: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let url = self.url {
@@ -15791,7 +15964,7 @@ extension EMRClientTypes.Studio: Swift.Codable {
 extension EMRClientTypes {
     /// Details for an Amazon EMR Studio including ID, creation time, name, and so on.
     public struct Studio: Swift.Equatable {
-        /// Specifies whether the Amazon EMR Studio authenticates users using IAM or Amazon Web Services SSO.
+        /// Specifies whether the Amazon EMR Studio authenticates users using IAM or IAM Identity Center.
         public var authMode: EMRClientTypes.AuthMode?
         /// The time the Amazon EMR Studio was created.
         public var creationTime: ClientRuntime.Date?
@@ -15926,7 +16099,7 @@ extension EMRClientTypes.StudioSummary: Swift.Codable {
 extension EMRClientTypes {
     /// Details for an Amazon EMR Studio, including ID, Name, VPC, and Description. The details do not include subnets, IAM roles, security groups, or tags associated with the Studio.
     public struct StudioSummary: Swift.Equatable {
-        /// Specifies whether the Studio authenticates users using IAM or Amazon Web Services SSO.
+        /// Specifies whether the Studio authenticates users using IAM or IAM Identity Center.
         public var authMode: EMRClientTypes.AuthMode?
         /// The time when the Amazon EMR Studio was created.
         public var creationTime: ClientRuntime.Date?
@@ -15973,8 +16146,8 @@ extension EMRClientTypes.SupportedProductConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .args)
-            for xmlstringlist0 in args {
-                try argsContainer.encode(xmlstringlist0)
+            for xmlstring0 in args {
+                try argsContainer.encode(xmlstring0)
             }
         }
         if let name = self.name {
@@ -16074,8 +16247,8 @@ extension TerminateJobFlowsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobFlowIds = jobFlowIds {
             var jobFlowIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobFlowIds)
-            for xmlstringlist0 in jobFlowIds {
-                try jobFlowIdsContainer.encode(xmlstringlist0)
+            for xmlstring0 in jobFlowIds {
+                try jobFlowIdsContainer.encode(xmlstring0)
             }
         }
     }
@@ -16290,8 +16463,8 @@ extension UpdateStudioInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }
@@ -16443,9 +16616,9 @@ extension UpdateStudioSessionMappingInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateStudioSessionMappingInput: Swift.Equatable {
-    /// The globally unique identifier (GUID) of the user or group. For more information, see [UserId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId) and [GroupId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId) in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+    /// The globally unique identifier (GUID) of the user or group. For more information, see [UserId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId) and [GroupId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId) in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
     public var identityId: Swift.String?
-    /// The name of the user or group to update. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+    /// The name of the user or group to update. For more information, see [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName) and [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName) in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
     public var identityName: Swift.String?
     /// Specifies whether the identity to update is a user or a group.
     /// This member is required.
@@ -16539,6 +16712,57 @@ public struct UpdateStudioSessionMappingOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension EMRClientTypes.UsernamePassword: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case password = "Password"
+        case username = "Username"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let password = self.password {
+            try encodeContainer.encode(password, forKey: .password)
+        }
+        if let username = self.username {
+            try encodeContainer.encode(username, forKey: .username)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .username)
+        username = usernameDecoded
+        let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
+        password = passwordDecoded
+    }
+}
+
+extension EMRClientTypes.UsernamePassword: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension EMRClientTypes {
+    /// The username and password that you use to connect to cluster endpoints.
+    public struct UsernamePassword: Swift.Equatable {
+        /// The password associated with the temporary credentials that you use to connect to cluster endpoints.
+        public var password: Swift.String?
+        /// The username associated with the temporary credentials that you use to connect to cluster endpoints.
+        public var username: Swift.String?
+
+        public init (
+            password: Swift.String? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.password = password
+            self.username = username
+        }
+    }
+
+}
+
 extension EMRClientTypes.VolumeSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case iops = "Iops"
@@ -16586,7 +16810,7 @@ extension EMRClientTypes {
         public var sizeInGB: Swift.Int?
         /// The throughput, in mebibyte per second (MiB/s). This optional parameter can be a number from 125 - 1000 and is valid only for gp3 volumes.
         public var throughput: Swift.Int?
-        /// The volume type. Volume types supported are gp2, io1, and standard.
+        /// The volume type. Volume types supported are gp3, gp2, io1, st1, sc1, and standard.
         /// This member is required.
         public var volumeType: Swift.String?
 

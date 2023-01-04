@@ -63,8 +63,8 @@ extension BatchEvaluateFeatureInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let requests = requests {
             var requestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requests)
-            for evaluationrequestslist0 in requests {
-                try requestsContainer.encode(evaluationrequestslist0)
+            for evaluationrequest0 in requests {
+                try requestsContainer.encode(evaluationrequest0)
             }
         }
     }
@@ -394,8 +394,8 @@ extension CreateExperimentInput: Swift.Encodable {
         }
         if let metricGoals = metricGoals {
             var metricGoalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricGoals)
-            for metricgoalconfiglist0 in metricGoals {
-                try metricGoalsContainer.encode(metricgoalconfiglist0)
+            for metricgoalconfig0 in metricGoals {
+                try metricGoalsContainer.encode(metricgoalconfig0)
             }
         }
         if let name = self.name {
@@ -415,14 +415,14 @@ extension CreateExperimentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let treatments = treatments {
             var treatmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .treatments)
-            for treatmentconfiglist0 in treatments {
-                try treatmentsContainer.encode(treatmentconfiglist0)
+            for treatmentconfig0 in treatments {
+                try treatmentsContainer.encode(treatmentconfig0)
             }
         }
     }
@@ -657,8 +657,8 @@ extension CreateFeatureInput: Swift.Encodable {
         }
         if let entityOverrides = entityOverrides {
             var entityOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .entityOverrides)
-            for (dictKey0, entityoverridemap0) in entityOverrides {
-                try entityOverridesContainer.encode(entityoverridemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, entityOverrideMap0) in entityOverrides {
+                try entityOverridesContainer.encode(entityOverrideMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let evaluationStrategy = self.evaluationStrategy {
@@ -669,14 +669,14 @@ extension CreateFeatureInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let variations = variations {
             var variationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variations)
-            for variationconfigslist0 in variations {
-                try variationsContainer.encode(variationconfigslist0)
+            for variationconfig0 in variations {
+                try variationsContainer.encode(variationconfig0)
             }
         }
     }
@@ -890,14 +890,14 @@ extension CreateLaunchInput: Swift.Encodable {
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for launchgroupconfiglist0 in groups {
-                try groupsContainer.encode(launchgroupconfiglist0)
+            for launchgroupconfig0 in groups {
+                try groupsContainer.encode(launchgroupconfig0)
             }
         }
         if let metricMonitors = metricMonitors {
             var metricMonitorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricMonitors)
-            for metricmonitorconfiglist0 in metricMonitors {
-                try metricMonitorsContainer.encode(metricmonitorconfiglist0)
+            for metricmonitorconfig0 in metricMonitors {
+                try metricMonitorsContainer.encode(metricmonitorconfig0)
             }
         }
         if let name = self.name {
@@ -911,8 +911,8 @@ extension CreateLaunchInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1134,8 +1134,8 @@ extension CreateProjectInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1308,8 +1308,8 @@ extension CreateSegmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2341,8 +2341,8 @@ extension EvidentlyClientTypes.Experiment: Swift.Codable {
         }
         if let metricGoals = metricGoals {
             var metricGoalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricGoals)
-            for metricgoalslist0 in metricGoals {
-                try metricGoalsContainer.encode(metricgoalslist0)
+            for metricgoal0 in metricGoals {
+                try metricGoalsContainer.encode(metricgoal0)
             }
         }
         if let name = self.name {
@@ -2374,14 +2374,14 @@ extension EvidentlyClientTypes.Experiment: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let treatments = treatments {
             var treatmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .treatments)
-            for treatmentlist0 in treatments {
-                try treatmentsContainer.encode(treatmentlist0)
+            for treatment0 in treatments {
+                try treatmentsContainer.encode(treatment0)
             }
         }
         if let type = self.type {
@@ -2815,8 +2815,8 @@ extension EvidentlyClientTypes.ExperimentResultsData: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for doublevaluelist0 in values {
-                try valuesContainer.encode(doublevaluelist0)
+            for double0 in values {
+                try valuesContainer.encode(double0)
             }
         }
     }
@@ -3042,14 +3042,14 @@ extension EvidentlyClientTypes.Feature: Swift.Codable {
         }
         if let entityOverrides = entityOverrides {
             var entityOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .entityOverrides)
-            for (dictKey0, entityoverridemap0) in entityOverrides {
-                try entityOverridesContainer.encode(entityoverridemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, entityOverrideMap0) in entityOverrides {
+                try entityOverridesContainer.encode(entityOverrideMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let evaluationRules = evaluationRules {
             var evaluationRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evaluationRules)
-            for evaluationruleslist0 in evaluationRules {
-                try evaluationRulesContainer.encode(evaluationruleslist0)
+            for evaluationrule0 in evaluationRules {
+                try evaluationRulesContainer.encode(evaluationrule0)
             }
         }
         if let evaluationStrategy = self.evaluationStrategy {
@@ -3069,8 +3069,8 @@ extension EvidentlyClientTypes.Feature: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let valueType = self.valueType {
@@ -3078,8 +3078,8 @@ extension EvidentlyClientTypes.Feature: Swift.Codable {
         }
         if let variations = variations {
             var variationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variations)
-            for variationslist0 in variations {
-                try variationsContainer.encode(variationslist0)
+            for variation0 in variations {
+                try variationsContainer.encode(variation0)
             }
         }
     }
@@ -3320,8 +3320,8 @@ extension EvidentlyClientTypes.FeatureSummary: Swift.Codable {
         }
         if let evaluationRules = evaluationRules {
             var evaluationRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evaluationRules)
-            for evaluationruleslist0 in evaluationRules {
-                try evaluationRulesContainer.encode(evaluationruleslist0)
+            for evaluationrule0 in evaluationRules {
+                try evaluationRulesContainer.encode(evaluationrule0)
             }
         }
         if let evaluationStrategy = self.evaluationStrategy {
@@ -3341,8 +3341,8 @@ extension EvidentlyClientTypes.FeatureSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3578,8 +3578,8 @@ extension GetExperimentResultsInput: Swift.Encodable {
         }
         if let metricNames = metricNames {
             var metricNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricNames)
-            for metricnamelist0 in metricNames {
-                try metricNamesContainer.encode(metricnamelist0)
+            for cwdimensionsafename0 in metricNames {
+                try metricNamesContainer.encode(cwdimensionsafename0)
             }
         }
         if period != 0 {
@@ -3587,14 +3587,14 @@ extension GetExperimentResultsInput: Swift.Encodable {
         }
         if let reportNames = reportNames {
             var reportNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reportNames)
-            for experimentreportnamelist0 in reportNames {
-                try reportNamesContainer.encode(experimentreportnamelist0.rawValue)
+            for experimentreportname0 in reportNames {
+                try reportNamesContainer.encode(experimentreportname0.rawValue)
             }
         }
         if let resultStats = resultStats {
             var resultStatsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resultStats)
-            for experimentresultrequesttypelist0 in resultStats {
-                try resultStatsContainer.encode(experimentresultrequesttypelist0.rawValue)
+            for experimentresultrequesttype0 in resultStats {
+                try resultStatsContainer.encode(experimentresultrequesttype0.rawValue)
             }
         }
         if let startTime = self.startTime {
@@ -3602,8 +3602,8 @@ extension GetExperimentResultsInput: Swift.Encodable {
         }
         if let treatmentNames = treatmentNames {
             var treatmentNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .treatmentNames)
-            for treatmentnamelist0 in treatmentNames {
-                try treatmentNamesContainer.encode(treatmentnamelist0)
+            for treatmentname0 in treatmentNames {
+                try treatmentNamesContainer.encode(treatmentname0)
             }
         }
     }
@@ -4395,8 +4395,8 @@ extension EvidentlyClientTypes.Launch: Swift.Codable {
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for launchgrouplist0 in groups {
-                try groupsContainer.encode(launchgrouplist0)
+            for launchgroup0 in groups {
+                try groupsContainer.encode(launchgroup0)
             }
         }
         if let lastUpdatedTime = self.lastUpdatedTime {
@@ -4404,8 +4404,8 @@ extension EvidentlyClientTypes.Launch: Swift.Codable {
         }
         if let metricMonitors = metricMonitors {
             var metricMonitorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricMonitors)
-            for metricmonitorlist0 in metricMonitors {
-                try metricMonitorsContainer.encode(metricmonitorlist0)
+            for metricmonitor0 in metricMonitors {
+                try metricMonitorsContainer.encode(metricmonitor0)
             }
         }
         if let name = self.name {
@@ -4428,8 +4428,8 @@ extension EvidentlyClientTypes.Launch: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -4636,8 +4636,8 @@ extension EvidentlyClientTypes.LaunchGroup: Swift.Codable {
         }
         if let featureVariations = featureVariations {
             var featureVariationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .featureVariations)
-            for (dictKey0, featuretovariationmap0) in featureVariations {
-                try featureVariationsContainer.encode(featuretovariationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, featureToVariationMap0) in featureVariations {
+                try featureVariationsContainer.encode(featureToVariationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -6165,8 +6165,8 @@ extension EvidentlyClientTypes.OnlineAbConfig: Swift.Codable {
         }
         if let treatmentWeights = treatmentWeights {
             var treatmentWeightsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .treatmentWeights)
-            for (dictKey0, treatmenttoweightmap0) in treatmentWeights {
-                try treatmentWeightsContainer.encode(treatmenttoweightmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, treatmentToWeightMap0) in treatmentWeights {
+                try treatmentWeightsContainer.encode(treatmentToWeightMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6222,8 +6222,8 @@ extension EvidentlyClientTypes.OnlineAbDefinition: Swift.Codable {
         }
         if let treatmentWeights = treatmentWeights {
             var treatmentWeightsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .treatmentWeights)
-            for (dictKey0, treatmenttoweightmap0) in treatmentWeights {
-                try treatmentWeightsContainer.encode(treatmenttoweightmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, treatmentToWeightMap0) in treatmentWeights {
+                try treatmentWeightsContainer.encode(treatmentToWeightMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6327,8 +6327,8 @@ extension EvidentlyClientTypes.Project: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6726,8 +6726,8 @@ extension EvidentlyClientTypes.ProjectSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6844,8 +6844,8 @@ extension PutProjectEventsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for eventlist0 in events {
-                try eventsContainer.encode(eventlist0)
+            for event0 in events {
+                try eventsContainer.encode(event0)
             }
         }
     }
@@ -7316,14 +7316,14 @@ extension EvidentlyClientTypes.ScheduledSplit: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupWeights = groupWeights {
             var groupWeightsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .groupWeights)
-            for (dictKey0, grouptoweightmap0) in groupWeights {
-                try groupWeightsContainer.encode(grouptoweightmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, groupToWeightMap0) in groupWeights {
+                try groupWeightsContainer.encode(groupToWeightMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let segmentOverrides = segmentOverrides {
             var segmentOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentOverrides)
-            for segmentoverrideslist0 in segmentOverrides {
-                try segmentOverridesContainer.encode(segmentoverrideslist0)
+            for segmentoverride0 in segmentOverrides {
+                try segmentOverridesContainer.encode(segmentoverride0)
             }
         }
         if let startTime = self.startTime {
@@ -7396,14 +7396,14 @@ extension EvidentlyClientTypes.ScheduledSplitConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupWeights = groupWeights {
             var groupWeightsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .groupWeights)
-            for (dictKey0, grouptoweightmap0) in groupWeights {
-                try groupWeightsContainer.encode(grouptoweightmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, groupToWeightMap0) in groupWeights {
+                try groupWeightsContainer.encode(groupToWeightMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let segmentOverrides = segmentOverrides {
             var segmentOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentOverrides)
-            for segmentoverrideslist0 in segmentOverrides {
-                try segmentOverridesContainer.encode(segmentoverrideslist0)
+            for segmentoverride0 in segmentOverrides {
+                try segmentOverridesContainer.encode(segmentoverride0)
             }
         }
         if let startTime = self.startTime {
@@ -7475,8 +7475,8 @@ extension EvidentlyClientTypes.ScheduledSplitsLaunchConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for scheduledsplitconfiglist0 in steps {
-                try stepsContainer.encode(scheduledsplitconfiglist0)
+            for scheduledsplitconfig0 in steps {
+                try stepsContainer.encode(scheduledsplitconfig0)
             }
         }
     }
@@ -7523,8 +7523,8 @@ extension EvidentlyClientTypes.ScheduledSplitsLaunchDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for scheduledsteplist0 in steps {
-                try stepsContainer.encode(scheduledsteplist0)
+            for scheduledsplit0 in steps {
+                try stepsContainer.encode(scheduledsplit0)
             }
         }
     }
@@ -7602,8 +7602,8 @@ extension EvidentlyClientTypes.Segment: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7710,8 +7710,8 @@ extension EvidentlyClientTypes.SegmentOverride: Swift.Codable {
         }
         if let weights = weights {
             var weightsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .weights)
-            for (dictKey0, grouptoweightmap0) in weights {
-                try weightsContainer.encode(grouptoweightmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, groupToWeightMap0) in weights {
+                try weightsContainer.encode(groupToWeightMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8490,8 +8490,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8800,8 +8800,8 @@ extension EvidentlyClientTypes.Treatment: Swift.Codable {
         }
         if let featureVariations = featureVariations {
             var featureVariationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .featureVariations)
-            for (dictKey0, featuretovariationmap0) in featureVariations {
-                try featureVariationsContainer.encode(featuretovariationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, featureToVariationMap0) in featureVariations {
+                try featureVariationsContainer.encode(featureToVariationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -9030,8 +9030,8 @@ extension UpdateExperimentInput: Swift.Encodable {
         }
         if let metricGoals = metricGoals {
             var metricGoalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricGoals)
-            for metricgoalconfiglist0 in metricGoals {
-                try metricGoalsContainer.encode(metricgoalconfiglist0)
+            for metricgoalconfig0 in metricGoals {
+                try metricGoalsContainer.encode(metricgoalconfig0)
             }
         }
         if let onlineAbConfig = self.onlineAbConfig {
@@ -9051,8 +9051,8 @@ extension UpdateExperimentInput: Swift.Encodable {
         }
         if let treatments = treatments {
             var treatmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .treatments)
-            for treatmentconfiglist0 in treatments {
-                try treatmentsContainer.encode(treatmentconfiglist0)
+            for treatmentconfig0 in treatments {
+                try treatmentsContainer.encode(treatmentconfig0)
             }
         }
     }
@@ -9266,8 +9266,8 @@ extension UpdateFeatureInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addOrUpdateVariations = addOrUpdateVariations {
             var addOrUpdateVariationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addOrUpdateVariations)
-            for variationconfigslist0 in addOrUpdateVariations {
-                try addOrUpdateVariationsContainer.encode(variationconfigslist0)
+            for variationconfig0 in addOrUpdateVariations {
+                try addOrUpdateVariationsContainer.encode(variationconfig0)
             }
         }
         if let defaultVariation = self.defaultVariation {
@@ -9278,8 +9278,8 @@ extension UpdateFeatureInput: Swift.Encodable {
         }
         if let entityOverrides = entityOverrides {
             var entityOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .entityOverrides)
-            for (dictKey0, entityoverridemap0) in entityOverrides {
-                try entityOverridesContainer.encode(entityoverridemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, entityOverrideMap0) in entityOverrides {
+                try entityOverridesContainer.encode(entityOverrideMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let evaluationStrategy = self.evaluationStrategy {
@@ -9287,8 +9287,8 @@ extension UpdateFeatureInput: Swift.Encodable {
         }
         if let removeVariations = removeVariations {
             var removeVariationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeVariations)
-            for variationnamelist0 in removeVariations {
-                try removeVariationsContainer.encode(variationnamelist0)
+            for variationname0 in removeVariations {
+                try removeVariationsContainer.encode(variationname0)
             }
         }
     }
@@ -9499,14 +9499,14 @@ extension UpdateLaunchInput: Swift.Encodable {
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for launchgroupconfiglist0 in groups {
-                try groupsContainer.encode(launchgroupconfiglist0)
+            for launchgroupconfig0 in groups {
+                try groupsContainer.encode(launchgroupconfig0)
             }
         }
         if let metricMonitors = metricMonitors {
             var metricMonitorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricMonitors)
-            for metricmonitorconfiglist0 in metricMonitors {
-                try metricMonitorsContainer.encode(metricmonitorconfiglist0)
+            for metricmonitorconfig0 in metricMonitors {
+                try metricMonitorsContainer.encode(metricmonitorconfig0)
             }
         }
         if let randomizationSalt = self.randomizationSalt {

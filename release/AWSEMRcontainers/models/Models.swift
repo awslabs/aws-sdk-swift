@@ -221,14 +221,14 @@ extension EMRcontainersClientTypes.Configuration: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
-            for configurationlist0 in configurations {
-                try configurationsContainer.encode(configurationlist0)
+            for configuration0 in configurations {
+                try configurationsContainer.encode(configuration0)
             }
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, sensitivepropertiesmap0) in properties {
-                try propertiesContainer.encode(sensitivepropertiesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, sensitivePropertiesMap0) in properties {
+                try propertiesContainer.encode(sensitivePropertiesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -302,8 +302,8 @@ extension EMRcontainersClientTypes.ConfigurationOverrides: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationConfiguration = applicationConfiguration {
             var applicationConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationConfiguration)
-            for configurationlist0 in applicationConfiguration {
-                try applicationConfigurationContainer.encode(configurationlist0)
+            for configuration0 in applicationConfiguration {
+                try applicationConfigurationContainer.encode(configuration0)
             }
         }
         if let monitoringConfiguration = self.monitoringConfiguration {
@@ -497,8 +497,8 @@ extension CreateJobTemplateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -713,8 +713,8 @@ extension CreateManagedEndpointInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -954,8 +954,8 @@ extension CreateVirtualClusterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1935,14 +1935,14 @@ extension EMRcontainersClientTypes.Endpoint: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for string2560 in subnetIds {
+                try subnetIdsContainer.encode(string2560)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -2339,8 +2339,8 @@ extension EMRcontainersClientTypes.JobRun: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let virtualClusterId = self.virtualClusterId {
@@ -2558,8 +2558,8 @@ extension EMRcontainersClientTypes.JobTemplate: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2668,14 +2668,14 @@ extension EMRcontainersClientTypes.JobTemplateData: Swift.Codable {
         }
         if let jobTags = jobTags {
             var jobTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .jobTags)
-            for (dictKey0, tagmap0) in jobTags {
-                try jobTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in jobTags {
+                try jobTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let parameterConfiguration = parameterConfiguration {
             var parameterConfigurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameterConfiguration)
-            for (dictKey0, templateparameterconfigurationmap0) in parameterConfiguration {
-                try parameterConfigurationContainer.encode(templateparameterconfigurationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateParameterConfigurationMap0) in parameterConfiguration {
+                try parameterConfigurationContainer.encode(templateParameterConfigurationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let releaseLabel = self.releaseLabel {
@@ -3646,8 +3646,8 @@ extension EMRcontainersClientTypes.ParametricConfigurationOverrides: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationConfiguration = applicationConfiguration {
             var applicationConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationConfiguration)
-            for configurationlist0 in applicationConfiguration {
-                try applicationConfigurationContainer.encode(configurationlist0)
+            for configuration0 in applicationConfiguration {
+                try applicationConfigurationContainer.encode(configuration0)
             }
         }
         if let monitoringConfiguration = self.monitoringConfiguration {
@@ -3967,8 +3967,8 @@ extension EMRcontainersClientTypes.SparkSubmitJobDriver: Swift.Codable {
         }
         if let entryPointArguments = entryPointArguments {
             var entryPointArgumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entryPointArguments)
-            for entrypointarguments0 in entryPointArguments {
-                try entryPointArgumentsContainer.encode(entrypointarguments0)
+            for entrypointargument0 in entryPointArguments {
+                try entryPointArgumentsContainer.encode(entrypointargument0)
             }
         }
         if let sparkSubmitParameters = self.sparkSubmitParameters {
@@ -4058,8 +4058,8 @@ extension StartJobRunInput: Swift.Encodable {
         }
         if let jobTemplateParameters = jobTemplateParameters {
             var jobTemplateParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .jobTemplateParameters)
-            for (dictKey0, templateparameterinputmap0) in jobTemplateParameters {
-                try jobTemplateParametersContainer.encode(templateparameterinputmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateParameterInputMap0) in jobTemplateParameters {
+                try jobTemplateParametersContainer.encode(templateParameterInputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -4070,8 +4070,8 @@ extension StartJobRunInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4308,8 +4308,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4654,8 +4654,8 @@ extension EMRcontainersClientTypes.VirtualCluster: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

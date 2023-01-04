@@ -246,14 +246,17 @@ extension DrsClientTypes.ConversionProperties: Swift.Codable {
         }
         if let volumeToConversionMap = volumeToConversionMap {
             var volumeToConversionMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .volumeToConversionMap)
-            for (dictKey0, volumetoconversionmap0) in volumeToConversionMap {
-                try volumeToConversionMapContainer.encode(volumetoconversionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, volumeToConversionMap0) in volumeToConversionMap {
+                var volumeToConversionMap0Container = volumeToConversionMapContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, conversionMap1) in volumeToConversionMap0 {
+                    try volumeToConversionMap0Container.encode(conversionMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let volumeToVolumeSize = volumeToVolumeSize {
             var volumeToVolumeSizeContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .volumeToVolumeSize)
-            for (dictKey0, volumetosizemap0) in volumeToVolumeSize {
-                try volumeToVolumeSizeContainer.encode(volumetosizemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, volumeToSizeMap0) in volumeToVolumeSize {
+                try volumeToVolumeSizeContainer.encode(volumeToSizeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -348,8 +351,8 @@ extension CreateExtendedSourceServerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -530,8 +533,8 @@ extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let pitPolicy = pitPolicy {
             var pitPolicyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pitPolicy)
-            for pitpolicy0 in pitPolicy {
-                try pitPolicyContainer.encode(pitpolicy0)
+            for pitpolicyrule0 in pitPolicy {
+                try pitPolicyContainer.encode(pitpolicyrule0)
             }
         }
         if let replicationServerInstanceType = self.replicationServerInstanceType {
@@ -539,8 +542,8 @@ extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs {
             var replicationServersSecurityGroupsIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationServersSecurityGroupsIDs)
-            for replicationserverssecuritygroupsids0 in replicationServersSecurityGroupsIDs {
-                try replicationServersSecurityGroupsIDsContainer.encode(replicationserverssecuritygroupsids0)
+            for securitygroupid0 in replicationServersSecurityGroupsIDs {
+                try replicationServersSecurityGroupsIDsContainer.encode(securitygroupid0)
             }
         }
         if let stagingAreaSubnetId = self.stagingAreaSubnetId {
@@ -548,14 +551,14 @@ extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let stagingAreaTags = stagingAreaTags {
             var stagingAreaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stagingAreaTags)
-            for (dictKey0, tagsmap0) in stagingAreaTags {
-                try stagingAreaTagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in stagingAreaTags {
+                try stagingAreaTagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
@@ -1157,8 +1160,8 @@ extension DrsClientTypes.DataReplicationInfo: Swift.Codable {
         }
         if let replicatedDisks = replicatedDisks {
             var replicatedDisksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicatedDisks)
-            for datareplicationinforeplicateddisks0 in replicatedDisks {
-                try replicatedDisksContainer.encode(datareplicationinforeplicateddisks0)
+            for datareplicationinforeplicateddisk0 in replicatedDisks {
+                try replicatedDisksContainer.encode(datareplicationinforeplicateddisk0)
             }
         }
     }
@@ -1317,8 +1320,8 @@ extension DrsClientTypes.DataReplicationInitiation: Swift.Codable {
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for datareplicationinitiationsteps0 in steps {
-                try stepsContainer.encode(datareplicationinitiationsteps0)
+            for datareplicationinitiationstep0 in steps {
+                try stepsContainer.encode(datareplicationinitiationstep0)
             }
         }
     }
@@ -2253,8 +2256,8 @@ extension DrsClientTypes.DescribeJobsRequestFilters: Swift.Codable {
         }
         if let jobIDs = jobIDs {
             var jobIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobIDs)
-            for describejobsrequestfiltersjobids0 in jobIDs {
-                try jobIDsContainer.encode(describejobsrequestfiltersjobids0)
+            for jobid0 in jobIDs {
+                try jobIDsContainer.encode(jobid0)
             }
         }
         if let toDate = self.toDate {
@@ -2475,14 +2478,14 @@ extension DrsClientTypes.DescribeRecoveryInstancesRequestFilters: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recoveryInstanceIDs = recoveryInstanceIDs {
             var recoveryInstanceIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recoveryInstanceIDs)
-            for recoveryinstanceids0 in recoveryInstanceIDs {
-                try recoveryInstanceIDsContainer.encode(recoveryinstanceids0)
+            for recoveryinstanceid0 in recoveryInstanceIDs {
+                try recoveryInstanceIDsContainer.encode(recoveryinstanceid0)
             }
         }
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
-            for sourceserverids0 in sourceServerIDs {
-                try sourceServerIDsContainer.encode(sourceserverids0)
+            for sourceserverid0 in sourceServerIDs {
+                try sourceServerIDsContainer.encode(sourceserverid0)
             }
         }
     }
@@ -2782,8 +2785,8 @@ extension DescribeReplicationConfigurationTemplatesInput: Swift.Encodable {
         }
         if let replicationConfigurationTemplateIDs = replicationConfigurationTemplateIDs {
             var replicationConfigurationTemplateIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationConfigurationTemplateIDs)
-            for replicationconfigurationtemplateids0 in replicationConfigurationTemplateIDs {
-                try replicationConfigurationTemplateIDsContainer.encode(replicationconfigurationtemplateids0)
+            for replicationconfigurationtemplateid0 in replicationConfigurationTemplateIDs {
+                try replicationConfigurationTemplateIDsContainer.encode(replicationconfigurationtemplateid0)
             }
         }
     }
@@ -3111,14 +3114,14 @@ extension DrsClientTypes.DescribeSourceServersRequestFilters: Swift.Codable {
         }
         if let sourceServerIDs = sourceServerIDs {
             var sourceServerIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServerIDs)
-            for describesourceserversrequestfiltersids0 in sourceServerIDs {
-                try sourceServerIDsContainer.encode(describesourceserversrequestfiltersids0)
+            for sourceserverid0 in sourceServerIDs {
+                try sourceServerIDsContainer.encode(sourceserverid0)
             }
         }
         if let stagingAccountIDs = stagingAccountIDs {
             var stagingAccountIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stagingAccountIDs)
-            for accountids0 in stagingAccountIDs {
-                try stagingAccountIDsContainer.encode(accountids0)
+            for accountid0 in stagingAccountIDs {
+                try stagingAccountIDsContainer.encode(accountid0)
             }
         }
     }
@@ -4710,8 +4713,8 @@ extension DrsClientTypes.Job: Swift.Codable {
         }
         if let participatingServers = participatingServers {
             var participatingServersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .participatingServers)
-            for participatingservers0 in participatingServers {
-                try participatingServersContainer.encode(participatingservers0)
+            for participatingserver0 in participatingServers {
+                try participatingServersContainer.encode(participatingserver0)
             }
         }
         if let status = self.status {
@@ -4719,8 +4722,8 @@ extension DrsClientTypes.Job: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -5870,8 +5873,8 @@ extension DrsClientTypes.NetworkInterface: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ips = ips {
             var ipsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ips)
-            for ipslist0 in ips {
-                try ipsContainer.encode(ipslist0)
+            for boundedstring0 in ips {
+                try ipsContainer.encode(boundedstring0)
             }
         }
         if let isPrimary = self.isPrimary {
@@ -6218,8 +6221,8 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6407,8 +6410,8 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInfo: Swift.Codable {
         }
         if let replicatedDisks = replicatedDisks {
             var replicatedDisksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicatedDisks)
-            for recoveryinstancedatareplicationinforeplicateddisks0 in replicatedDisks {
-                try replicatedDisksContainer.encode(recoveryinstancedatareplicationinforeplicateddisks0)
+            for recoveryinstancedatareplicationinforeplicateddisk0 in replicatedDisks {
+                try replicatedDisksContainer.encode(recoveryinstancedatareplicationinforeplicateddisk0)
             }
         }
     }
@@ -6563,8 +6566,8 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInitiation: Swift.Codabl
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for recoveryinstancedatareplicationinitiationsteps0 in steps {
-                try stepsContainer.encode(recoveryinstancedatareplicationinitiationsteps0)
+            for recoveryinstancedatareplicationinitiationstep0 in steps {
+                try stepsContainer.encode(recoveryinstancedatareplicationinitiationstep0)
             }
         }
     }
@@ -7030,14 +7033,14 @@ extension DrsClientTypes.RecoveryInstanceProperties: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cpus = cpus {
             var cpusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cpus)
-            for cpus0 in cpus {
-                try cpusContainer.encode(cpus0)
+            for cpu0 in cpus {
+                try cpusContainer.encode(cpu0)
             }
         }
         if let disks = disks {
             var disksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .disks)
-            for recoveryinstancedisks0 in disks {
-                try disksContainer.encode(recoveryinstancedisks0)
+            for recoveryinstancedisk0 in disks {
+                try disksContainer.encode(recoveryinstancedisk0)
             }
         }
         if let identificationHints = self.identificationHints {
@@ -7048,8 +7051,8 @@ extension DrsClientTypes.RecoveryInstanceProperties: Swift.Codable {
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfaces0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let os = self.os {
@@ -7159,8 +7162,8 @@ extension DrsClientTypes.RecoverySnapshot: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ebsSnapshots = ebsSnapshots {
             var ebsSnapshotsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ebsSnapshots)
-            for ebssnapshotslist0 in ebsSnapshots {
-                try ebsSnapshotsContainer.encode(ebssnapshotslist0)
+            for ebssnapshot0 in ebsSnapshots {
+                try ebsSnapshotsContainer.encode(ebssnapshot0)
             }
         }
         if let expectedTimestamp = self.expectedTimestamp {
@@ -7550,8 +7553,8 @@ extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
         }
         if let pitPolicy = pitPolicy {
             var pitPolicyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pitPolicy)
-            for pitpolicy0 in pitPolicy {
-                try pitPolicyContainer.encode(pitpolicy0)
+            for pitpolicyrule0 in pitPolicy {
+                try pitPolicyContainer.encode(pitpolicyrule0)
             }
         }
         if let replicationConfigurationTemplateID = self.replicationConfigurationTemplateID {
@@ -7562,8 +7565,8 @@ extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
         }
         if let replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs {
             var replicationServersSecurityGroupsIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationServersSecurityGroupsIDs)
-            for replicationserverssecuritygroupsids0 in replicationServersSecurityGroupsIDs {
-                try replicationServersSecurityGroupsIDsContainer.encode(replicationserverssecuritygroupsids0)
+            for securitygroupid0 in replicationServersSecurityGroupsIDs {
+                try replicationServersSecurityGroupsIDsContainer.encode(securitygroupid0)
             }
         }
         if let stagingAreaSubnetId = self.stagingAreaSubnetId {
@@ -7571,14 +7574,14 @@ extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
         }
         if let stagingAreaTags = stagingAreaTags {
             var stagingAreaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stagingAreaTags)
-            for (dictKey0, tagsmap0) in stagingAreaTags {
-                try stagingAreaTagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in stagingAreaTags {
+                try stagingAreaTagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
@@ -8392,14 +8395,14 @@ extension DrsClientTypes.SourceProperties: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cpus = cpus {
             var cpusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cpus)
-            for cpus0 in cpus {
-                try cpusContainer.encode(cpus0)
+            for cpu0 in cpus {
+                try cpusContainer.encode(cpu0)
             }
         }
         if let disks = disks {
             var disksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .disks)
-            for disks0 in disks {
-                try disksContainer.encode(disks0)
+            for disk0 in disks {
+                try disksContainer.encode(disk0)
             }
         }
         if let identificationHints = self.identificationHints {
@@ -8410,8 +8413,8 @@ extension DrsClientTypes.SourceProperties: Swift.Codable {
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfaces0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let os = self.os {
@@ -8570,8 +8573,8 @@ extension DrsClientTypes.SourceServer: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8760,8 +8763,8 @@ extension DrsClientTypes.StagingSourceServer: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8830,14 +8833,14 @@ extension StartFailbackLaunchInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recoveryInstanceIDs = recoveryInstanceIDs {
             var recoveryInstanceIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recoveryInstanceIDs)
-            for startfailbackrequestrecoveryinstanceids0 in recoveryInstanceIDs {
-                try recoveryInstanceIDsContainer.encode(startfailbackrequestrecoveryinstanceids0)
+            for recoveryinstanceid0 in recoveryInstanceIDs {
+                try recoveryInstanceIDsContainer.encode(recoveryinstanceid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8996,14 +8999,14 @@ extension StartRecoveryInput: Swift.Encodable {
         }
         if let sourceServers = sourceServers {
             var sourceServersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceServers)
-            for startrecoveryrequestsourceservers0 in sourceServers {
-                try sourceServersContainer.encode(startrecoveryrequestsourceservers0)
+            for startrecoveryrequestsourceserver0 in sourceServers {
+                try sourceServersContainer.encode(startrecoveryrequestsourceserver0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9533,8 +9536,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9673,8 +9676,8 @@ extension TerminateRecoveryInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recoveryInstanceIDs = recoveryInstanceIDs {
             var recoveryInstanceIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recoveryInstanceIDs)
-            for recoveryinstancesforterminationrequest0 in recoveryInstanceIDs {
-                try recoveryInstanceIDsContainer.encode(recoveryinstancesforterminationrequest0)
+            for recoveryinstanceid0 in recoveryInstanceIDs {
+                try recoveryInstanceIDsContainer.encode(recoveryinstanceid0)
             }
         }
     }
@@ -10476,14 +10479,14 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
         }
         if let pitPolicy = pitPolicy {
             var pitPolicyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pitPolicy)
-            for pitpolicy0 in pitPolicy {
-                try pitPolicyContainer.encode(pitpolicy0)
+            for pitpolicyrule0 in pitPolicy {
+                try pitPolicyContainer.encode(pitpolicyrule0)
             }
         }
         if let replicatedDisks = replicatedDisks {
             var replicatedDisksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicatedDisks)
-            for replicationconfigurationreplicateddisks0 in replicatedDisks {
-                try replicatedDisksContainer.encode(replicationconfigurationreplicateddisks0)
+            for replicationconfigurationreplicateddisk0 in replicatedDisks {
+                try replicatedDisksContainer.encode(replicationconfigurationreplicateddisk0)
             }
         }
         if let replicationServerInstanceType = self.replicationServerInstanceType {
@@ -10491,8 +10494,8 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
         }
         if let replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs {
             var replicationServersSecurityGroupsIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationServersSecurityGroupsIDs)
-            for replicationserverssecuritygroupsids0 in replicationServersSecurityGroupsIDs {
-                try replicationServersSecurityGroupsIDsContainer.encode(replicationserverssecuritygroupsids0)
+            for securitygroupid0 in replicationServersSecurityGroupsIDs {
+                try replicationServersSecurityGroupsIDsContainer.encode(securitygroupid0)
             }
         }
         if let sourceServerID = self.sourceServerID {
@@ -10503,8 +10506,8 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
         }
         if let stagingAreaTags = stagingAreaTags {
             var stagingAreaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stagingAreaTags)
-            for (dictKey0, tagsmap0) in stagingAreaTags {
-                try stagingAreaTagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in stagingAreaTags {
+                try stagingAreaTagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {
@@ -11022,8 +11025,8 @@ extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let pitPolicy = pitPolicy {
             var pitPolicyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pitPolicy)
-            for pitpolicy0 in pitPolicy {
-                try pitPolicyContainer.encode(pitpolicy0)
+            for pitpolicyrule0 in pitPolicy {
+                try pitPolicyContainer.encode(pitpolicyrule0)
             }
         }
         if let replicationConfigurationTemplateID = self.replicationConfigurationTemplateID {
@@ -11034,8 +11037,8 @@ extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs {
             var replicationServersSecurityGroupsIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationServersSecurityGroupsIDs)
-            for replicationserverssecuritygroupsids0 in replicationServersSecurityGroupsIDs {
-                try replicationServersSecurityGroupsIDsContainer.encode(replicationserverssecuritygroupsids0)
+            for securitygroupid0 in replicationServersSecurityGroupsIDs {
+                try replicationServersSecurityGroupsIDsContainer.encode(securitygroupid0)
             }
         }
         if let stagingAreaSubnetId = self.stagingAreaSubnetId {
@@ -11043,8 +11046,8 @@ extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let stagingAreaTags = stagingAreaTags {
             var stagingAreaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stagingAreaTags)
-            for (dictKey0, tagsmap0) in stagingAreaTags {
-                try stagingAreaTagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in stagingAreaTags {
+                try stagingAreaTagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDedicatedReplicationServer = self.useDedicatedReplicationServer {

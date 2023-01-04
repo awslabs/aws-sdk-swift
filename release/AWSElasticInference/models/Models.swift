@@ -19,8 +19,8 @@ extension ElasticInferenceClientTypes.AcceleratorType: Swift.Codable {
         }
         if let throughputInfo = throughputInfo {
             var throughputInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .throughputInfo)
-            for throughputinfolist0 in throughputInfo {
-                try throughputInfoContainer.encode(throughputinfolist0)
+            for keyvaluepair0 in throughputInfo {
+                try throughputInfoContainer.encode(keyvaluepair0)
             }
         }
     }
@@ -186,8 +186,8 @@ extension DescribeAcceleratorOfferingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let acceleratorTypes = acceleratorTypes {
             var acceleratorTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acceleratorTypes)
-            for acceleratortypenamelist0 in acceleratorTypes {
-                try acceleratorTypesContainer.encode(acceleratortypenamelist0)
+            for acceleratortypename0 in acceleratorTypes {
+                try acceleratorTypesContainer.encode(acceleratortypename0)
             }
         }
         if let locationType = self.locationType {
@@ -428,14 +428,14 @@ extension DescribeAcceleratorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let acceleratorIds = acceleratorIds {
             var acceleratorIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acceleratorIds)
-            for acceleratoridlist0 in acceleratorIds {
-                try acceleratorIdsContainer.encode(acceleratoridlist0)
+            for acceleratorid0 in acceleratorIds {
+                try acceleratorIdsContainer.encode(acceleratorid0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if maxResults != 0 {
@@ -732,8 +732,8 @@ extension ElasticInferenceClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for valuestringlist0 in values {
-                try valuesContainer.encode(valuestringlist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -1111,8 +1111,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

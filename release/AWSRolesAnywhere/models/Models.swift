@@ -76,8 +76,8 @@ extension CreateProfileInput: Swift.Encodable {
         }
         if let managedPolicyArns = managedPolicyArns {
             var managedPolicyArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedPolicyArns)
-            for managedpolicylist0 in managedPolicyArns {
-                try managedPolicyArnsContainer.encode(managedpolicylist0)
+            for string0 in managedPolicyArns {
+                try managedPolicyArnsContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -88,8 +88,8 @@ extension CreateProfileInput: Swift.Encodable {
         }
         if let roleArns = roleArns {
             var roleArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roleArns)
-            for rolearnlist0 in roleArns {
-                try roleArnsContainer.encode(rolearnlist0)
+            for rolearn0 in roleArns {
+                try roleArnsContainer.encode(rolearn0)
             }
         }
         if let sessionPolicy = self.sessionPolicy {
@@ -97,8 +97,8 @@ extension CreateProfileInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -309,8 +309,8 @@ extension CreateTrustAnchorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1919,8 +1919,8 @@ extension ImportCrlInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let trustAnchorArn = self.trustAnchorArn {
@@ -2087,8 +2087,8 @@ extension RolesAnywhereClientTypes.InstanceProperty: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, instancepropertymap0) in properties {
-                try propertiesContainer.encode(instancepropertymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, instancePropertyMap0) in properties {
+                try propertiesContainer.encode(instancePropertyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let seenAt = self.seenAt {
@@ -2819,8 +2819,8 @@ extension RolesAnywhereClientTypes.ProfileDetail: Swift.Codable {
         }
         if let managedPolicyArns = managedPolicyArns {
             var managedPolicyArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedPolicyArns)
-            for managedpolicylist0 in managedPolicyArns {
-                try managedPolicyArnsContainer.encode(managedpolicylist0)
+            for string0 in managedPolicyArns {
+                try managedPolicyArnsContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -2837,8 +2837,8 @@ extension RolesAnywhereClientTypes.ProfileDetail: Swift.Codable {
         }
         if let roleArns = roleArns {
             var roleArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roleArns)
-            for rolearnlist0 in roleArns {
-                try roleArnsContainer.encode(rolearnlist0)
+            for rolearn0 in roleArns {
+                try roleArnsContainer.encode(rolearn0)
             }
         }
         if let sessionPolicy = self.sessionPolicy {
@@ -3120,8 +3120,8 @@ extension RolesAnywhereClientTypes.SubjectDetail: Swift.Codable {
         }
         if let credentials = credentials {
             var credentialsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .credentials)
-            for credentialsummaries0 in credentials {
-                try credentialsContainer.encode(credentialsummaries0)
+            for credentialsummary0 in credentials {
+                try credentialsContainer.encode(credentialsummary0)
             }
         }
         if let enabled = self.enabled {
@@ -3129,8 +3129,8 @@ extension RolesAnywhereClientTypes.SubjectDetail: Swift.Codable {
         }
         if let instanceProperties = instanceProperties {
             var instancePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceProperties)
-            for instanceproperties0 in instanceProperties {
-                try instancePropertiesContainer.encode(instanceproperties0)
+            for instanceproperty0 in instanceProperties {
+                try instancePropertiesContainer.encode(instanceproperty0)
             }
         }
         if let lastSeenAt = self.lastSeenAt {
@@ -3399,8 +3399,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3692,8 +3692,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -3939,8 +3939,8 @@ extension UpdateProfileInput: Swift.Encodable {
         }
         if let managedPolicyArns = managedPolicyArns {
             var managedPolicyArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedPolicyArns)
-            for managedpolicylist0 in managedPolicyArns {
-                try managedPolicyArnsContainer.encode(managedpolicylist0)
+            for string0 in managedPolicyArns {
+                try managedPolicyArnsContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -3948,8 +3948,8 @@ extension UpdateProfileInput: Swift.Encodable {
         }
         if let roleArns = roleArns {
             var roleArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roleArns)
-            for rolearnlist0 in roleArns {
-                try roleArnsContainer.encode(rolearnlist0)
+            for rolearn0 in roleArns {
+                try roleArnsContainer.encode(rolearn0)
             }
         }
         if let sessionPolicy = self.sessionPolicy {

@@ -107,10 +107,6 @@ class RestJsonProtocolGeneratorTests {
                     self.init(config: config)
                 }
             
-                deinit {
-                    client.close()
-                }
-            
                 public class ExampleClientConfiguration: ExampleClientConfigurationProtocol {
                     public var clientLogMode: ClientRuntime.ClientLogMode
                     public var decoder: ClientRuntime.ResponseDecoder?
@@ -157,7 +153,7 @@ class RestJsonProtocolGeneratorTests {
                         }
                         self.frameworkMetadata = frameworkMetadata
                         self.region = region
-                        self.regionResolver = regionResolver ?? DefaultRegionResolver()
+                        self.regionResolver = try regionResolver ?? DefaultRegionResolver()
                         self.signingRegion = signingRegion ?? region
                         self.useDualStack = useDualStack
                         self.useFIPS = useFIPS
@@ -220,9 +216,9 @@ class RestJsonProtocolGeneratorTests {
                             self.endpointResolver = try DefaultEndpointResolver()
                         }
                         self.frameworkMetadata = frameworkMetadata
-                        let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
+                        let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
                         self.region = await resolvedRegionResolver.resolveRegion()
-                        self.regionResolver = regionResolver ?? DefaultRegionResolver()
+                        self.regionResolver = try regionResolver ?? DefaultRegionResolver()
                         self.signingRegion = signingRegion ?? region
                         self.useDualStack = useDualStack
                         self.useFIPS = useFIPS

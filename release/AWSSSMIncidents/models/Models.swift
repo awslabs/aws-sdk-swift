@@ -150,13 +150,13 @@ extension SSMIncidentsClientTypes.AttributeValueList: Swift.Codable {
         switch self {
             case let .integervalues(integervalues):
                 var integervaluesContainer = container.nestedUnkeyedContainer(forKey: .integervalues)
-                for integerlist0 in integervalues {
-                    try integervaluesContainer.encode(integerlist0)
+                for integer0 in integervalues {
+                    try integervaluesContainer.encode(integer0)
                 }
             case let .stringvalues(stringvalues):
                 var stringvaluesContainer = container.nestedUnkeyedContainer(forKey: .stringvalues)
-                for stringlist0 in stringvalues {
-                    try stringvaluesContainer.encode(stringlist0)
+                for string0 in stringvalues {
+                    try stringvaluesContainer.encode(string0)
                 }
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
@@ -258,8 +258,8 @@ extension SSMIncidentsClientTypes.ChatChannel: Swift.Codable {
         switch self {
             case let .chatbotsns(chatbotsns):
                 var chatbotsnsContainer = container.nestedUnkeyedContainer(forKey: .chatbotsns)
-                for chatbotsnsconfigurationset0 in chatbotsns {
-                    try chatbotsnsContainer.encode(chatbotsnsconfigurationset0)
+                for snsarn0 in chatbotsns {
+                    try chatbotsnsContainer.encode(snsarn0)
                 }
             case let .empty(empty):
                 try container.encode(empty, forKey: .empty)
@@ -459,14 +459,14 @@ extension CreateReplicationSetInput: Swift.Encodable {
         }
         if let regions = regions {
             var regionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .regions)
-            for (dictKey0, regionmapinput0) in regions {
-                try regionsContainer.encode(regionmapinput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, regionMapInput0) in regions {
+                try regionsContainer.encode(regionMapInput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -632,8 +632,8 @@ extension CreateResponsePlanInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionslist0 in actions {
-                try actionsContainer.encode(actionslist0)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
             }
         }
         if let chatChannel = self.chatChannel {
@@ -647,8 +647,8 @@ extension CreateResponsePlanInput: Swift.Encodable {
         }
         if let engagements = engagements {
             var engagementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .engagements)
-            for engagementset0 in engagements {
-                try engagementsContainer.encode(engagementset0)
+            for ssmcontactsarn0 in engagements {
+                try engagementsContainer.encode(ssmcontactsarn0)
             }
         }
         if let incidentTemplate = self.incidentTemplate {
@@ -656,8 +656,8 @@ extension CreateResponsePlanInput: Swift.Encodable {
         }
         if let integrations = integrations {
             var integrationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integrations)
-            for integrations0 in integrations {
-                try integrationsContainer.encode(integrations0)
+            for integration0 in integrations {
+                try integrationsContainer.encode(integration0)
             }
         }
         if let name = self.name {
@@ -665,8 +665,8 @@ extension CreateResponsePlanInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -902,8 +902,8 @@ extension CreateTimelineEventInput: Swift.Encodable {
         }
         if let eventReferences = eventReferences {
             var eventReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventReferences)
-            for eventreferencelist0 in eventReferences {
-                try eventReferencesContainer.encode(eventreferencelist0)
+            for eventreference0 in eventReferences {
+                try eventReferencesContainer.encode(eventreference0)
             }
         }
         if let eventTime = self.eventTime {
@@ -1702,8 +1702,8 @@ extension SSMIncidentsClientTypes.EventSummary: Swift.Codable {
         }
         if let eventReferences = eventReferences {
             var eventReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventReferences)
-            for eventreferencelist0 in eventReferences {
-                try eventReferencesContainer.encode(eventreferencelist0)
+            for eventreference0 in eventReferences {
+                try eventReferencesContainer.encode(eventreference0)
             }
         }
         if let eventTime = self.eventTime {
@@ -2615,8 +2615,8 @@ extension SSMIncidentsClientTypes.IncidentRecord: Swift.Codable {
         }
         if let automationExecutions = automationExecutions {
             var automationExecutionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .automationExecutions)
-            for automationexecutionset0 in automationExecutions {
-                try automationExecutionsContainer.encode(automationexecutionset0)
+            for automationexecution0 in automationExecutions {
+                try automationExecutionsContainer.encode(automationexecution0)
             }
         }
         if let chatChannel = self.chatChannel {
@@ -2642,8 +2642,8 @@ extension SSMIncidentsClientTypes.IncidentRecord: Swift.Codable {
         }
         if let notificationTargets = notificationTargets {
             var notificationTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationTargets)
-            for notificationtargetset0 in notificationTargets {
-                try notificationTargetsContainer.encode(notificationtargetset0)
+            for notificationtargetitem0 in notificationTargets {
+                try notificationTargetsContainer.encode(notificationtargetitem0)
             }
         }
         if let resolvedTime = self.resolvedTime {
@@ -3008,14 +3008,14 @@ extension SSMIncidentsClientTypes.IncidentTemplate: Swift.Codable {
         }
         if let incidentTags = incidentTags {
             var incidentTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .incidentTags)
-            for (dictKey0, tagmap0) in incidentTags {
-                try incidentTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in incidentTags {
+                try incidentTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let notificationTargets = notificationTargets {
             var notificationTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationTargets)
-            for notificationtargetset0 in notificationTargets {
-                try notificationTargetsContainer.encode(notificationtargetset0)
+            for notificationtargetitem0 in notificationTargets {
+                try notificationTargetsContainer.encode(notificationtargetitem0)
             }
         }
         if let summary = self.summary {
@@ -3367,8 +3367,8 @@ extension ListIncidentRecordsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4128,8 +4128,8 @@ extension ListTimelineEventsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let incidentRecordArn = self.incidentRecordArn {
@@ -4937,8 +4937,8 @@ extension SSMIncidentsClientTypes.ReplicationSet: Swift.Codable {
         }
         if let regionMap = regionMap {
             var regionMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .regionMap)
-            for (dictKey0, regioninfomap0) in regionMap {
-                try regionMapContainer.encode(regioninfomap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, regionInfoMap0) in regionMap {
+                try regionMapContainer.encode(regionInfoMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let status = self.status {
@@ -5478,14 +5478,17 @@ extension SSMIncidentsClientTypes.SsmAutomation: Swift.Codable {
         }
         if let dynamicParameters = dynamicParameters {
             var dynamicParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dynamicParameters)
-            for (dictKey0, dynamicssmparameters0) in dynamicParameters {
-                try dynamicParametersContainer.encode(dynamicssmparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dynamicSsmParameters0) in dynamicParameters {
+                try dynamicParametersContainer.encode(dynamicSsmParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, ssmparameters0) in parameters {
-                try parametersContainer.encode(ssmparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ssmParameters0) in parameters {
+                var ssmParameters0Container = parametersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in ssmParameters0 {
+                    try ssmParameters0Container.encode(string1)
+                }
             }
         }
         if let roleArn = self.roleArn {
@@ -5628,8 +5631,8 @@ extension StartIncidentInput: Swift.Encodable {
         }
         if let relatedItems = relatedItems {
             var relatedItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedItems)
-            for relateditemlist0 in relatedItems {
-                try relatedItemsContainer.encode(relateditemlist0)
+            for relateditem0 in relatedItems {
+                try relatedItemsContainer.encode(relateditem0)
             }
         }
         if let responsePlanArn = self.responsePlanArn {
@@ -5821,8 +5824,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6020,8 +6023,8 @@ extension SSMIncidentsClientTypes.TimelineEvent: Swift.Codable {
         }
         if let eventReferences = eventReferences {
             var eventReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventReferences)
-            for eventreferencelist0 in eventReferences {
-                try eventReferencesContainer.encode(eventreferencelist0)
+            for eventreference0 in eventReferences {
+                try eventReferencesContainer.encode(eventreference0)
             }
         }
         if let eventTime = self.eventTime {
@@ -6444,8 +6447,8 @@ extension UpdateIncidentRecordInput: Swift.Encodable {
         }
         if let notificationTargets = notificationTargets {
             var notificationTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationTargets)
-            for notificationtargetset0 in notificationTargets {
-                try notificationTargetsContainer.encode(notificationtargetset0)
+            for notificationtargetitem0 in notificationTargets {
+                try notificationTargetsContainer.encode(notificationtargetitem0)
             }
         }
         if let status = self.status {
@@ -6785,8 +6788,8 @@ extension UpdateReplicationSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for updateactionlist0 in actions {
-                try actionsContainer.encode(updateactionlist0)
+            for updatereplicationsetaction0 in actions {
+                try actionsContainer.encode(updatereplicationsetaction0)
             }
         }
         if let arn = self.arn {
@@ -6922,8 +6925,8 @@ extension UpdateResponsePlanInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionslist0 in actions {
-                try actionsContainer.encode(actionslist0)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
             }
         }
         if let arn = self.arn {
@@ -6940,8 +6943,8 @@ extension UpdateResponsePlanInput: Swift.Encodable {
         }
         if let engagements = engagements {
             var engagementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .engagements)
-            for engagementset0 in engagements {
-                try engagementsContainer.encode(engagementset0)
+            for ssmcontactsarn0 in engagements {
+                try engagementsContainer.encode(ssmcontactsarn0)
             }
         }
         if let incidentTemplateDedupeString = self.incidentTemplateDedupeString {
@@ -6952,8 +6955,8 @@ extension UpdateResponsePlanInput: Swift.Encodable {
         }
         if let incidentTemplateNotificationTargets = incidentTemplateNotificationTargets {
             var incidentTemplateNotificationTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .incidentTemplateNotificationTargets)
-            for notificationtargetset0 in incidentTemplateNotificationTargets {
-                try incidentTemplateNotificationTargetsContainer.encode(notificationtargetset0)
+            for notificationtargetitem0 in incidentTemplateNotificationTargets {
+                try incidentTemplateNotificationTargetsContainer.encode(notificationtargetitem0)
             }
         }
         if let incidentTemplateSummary = self.incidentTemplateSummary {
@@ -6961,8 +6964,8 @@ extension UpdateResponsePlanInput: Swift.Encodable {
         }
         if let incidentTemplateTags = incidentTemplateTags {
             var incidentTemplateTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .incidentTemplateTags)
-            for (dictKey0, tagmapupdate0) in incidentTemplateTags {
-                try incidentTemplateTagsContainer.encode(tagmapupdate0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMapUpdate0) in incidentTemplateTags {
+                try incidentTemplateTagsContainer.encode(tagMapUpdate0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let incidentTemplateTitle = self.incidentTemplateTitle {
@@ -6970,8 +6973,8 @@ extension UpdateResponsePlanInput: Swift.Encodable {
         }
         if let integrations = integrations {
             var integrationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integrations)
-            for integrations0 in integrations {
-                try integrationsContainer.encode(integrations0)
+            for integration0 in integrations {
+                try integrationsContainer.encode(integration0)
             }
         }
     }
@@ -7229,8 +7232,8 @@ extension UpdateTimelineEventInput: Swift.Encodable {
         }
         if let eventReferences = eventReferences {
             var eventReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventReferences)
-            for eventreferencelist0 in eventReferences {
-                try eventReferencesContainer.encode(eventreferencelist0)
+            for eventreference0 in eventReferences {
+                try eventReferencesContainer.encode(eventreference0)
             }
         }
         if let eventTime = self.eventTime {

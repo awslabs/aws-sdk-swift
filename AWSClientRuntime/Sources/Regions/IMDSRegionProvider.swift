@@ -10,8 +10,8 @@ public struct IMDSRegionProvider: RegionProvider {
     private let REGION_PATH = "/latest/meta-data/placement/region"
     let imdsClient: IMDSClient
     
-    public init() {
-        self.imdsClient = IMDSClient()
+    public init() throws {
+        self.imdsClient = try IMDSClient()
     }
     
     public func resolveRegion() async throws -> String? {

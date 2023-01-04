@@ -119,6 +119,38 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes {
+    public enum AutoScalingConfiguration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case targetTrackingScalingCpu
+        case targetTrackingScalingMemory
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoScalingConfiguration] {
+            return [
+                .targetTrackingScalingCpu,
+                .targetTrackingScalingMemory,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .targetTrackingScalingCpu: return "TargetTrackingScalingCpu"
+            case .targetTrackingScalingMemory: return "TargetTrackingScalingMemory"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AutoScalingConfiguration(rawValue: rawValue) ?? AutoScalingConfiguration.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ComputeOptimizerClientTypes.AutoScalingGroupConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredCapacity
@@ -225,8 +257,8 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Coda
         }
         if let inferredWorkloadTypes = inferredWorkloadTypes {
             var inferredWorkloadTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferredWorkloadTypes)
-            for inferredworkloadtypes0 in inferredWorkloadTypes {
-                try inferredWorkloadTypesContainer.encode(inferredworkloadtypes0.rawValue)
+            for inferredworkloadtype0 in inferredWorkloadTypes {
+                try inferredWorkloadTypesContainer.encode(inferredworkloadtype0.rawValue)
             }
         }
         if let lastRefreshTimestamp = self.lastRefreshTimestamp {
@@ -237,14 +269,14 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Coda
         }
         if let recommendationOptions = recommendationOptions {
             var recommendationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationOptions)
-            for autoscalinggrouprecommendationoptions0 in recommendationOptions {
-                try recommendationOptionsContainer.encode(autoscalinggrouprecommendationoptions0)
+            for autoscalinggrouprecommendationoption0 in recommendationOptions {
+                try recommendationOptionsContainer.encode(autoscalinggrouprecommendationoption0)
             }
         }
         if let utilizationMetrics = utilizationMetrics {
             var utilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationMetrics)
-            for utilizationmetrics0 in utilizationMetrics {
-                try utilizationMetricsContainer.encode(utilizationmetrics0)
+            for utilizationmetric0 in utilizationMetrics {
+                try utilizationMetricsContainer.encode(utilizationmetric0)
             }
         }
     }
@@ -406,8 +438,8 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swif
         }
         if let projectedUtilizationMetrics = projectedUtilizationMetrics {
             var projectedUtilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .projectedUtilizationMetrics)
-            for projectedutilizationmetrics0 in projectedUtilizationMetrics {
-                try projectedUtilizationMetricsContainer.encode(projectedutilizationmetrics0)
+            for utilizationmetric0 in projectedUtilizationMetrics {
+                try projectedUtilizationMetricsContainer.encode(utilizationmetric0)
             }
         }
         if rank != 0 {
@@ -475,6 +507,116 @@ extension ComputeOptimizerClientTypes {
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ContainerConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerName
+        case cpu
+        case memorySizeConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerName = self.containerName {
+            try encodeContainer.encode(containerName, forKey: .containerName)
+        }
+        if let cpu = self.cpu {
+            try encodeContainer.encode(cpu, forKey: .cpu)
+        }
+        if let memorySizeConfiguration = self.memorySizeConfiguration {
+            try encodeContainer.encode(memorySizeConfiguration, forKey: .memorySizeConfiguration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerName)
+        containerName = containerNameDecoded
+        let memorySizeConfigurationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MemorySizeConfiguration.self, forKey: .memorySizeConfiguration)
+        memorySizeConfiguration = memorySizeConfigurationDecoded
+        let cpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cpu)
+        cpu = cpuDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the container configurations within the tasks of your Amazon ECS service.
+    public struct ContainerConfiguration: Swift.Equatable {
+        /// The name of the container.
+        public var containerName: Swift.String?
+        /// The number of CPU units reserved for the container.
+        public var cpu: Swift.Int?
+        /// The memory size configurations for the container.
+        public var memorySizeConfiguration: ComputeOptimizerClientTypes.MemorySizeConfiguration?
+
+        public init (
+            containerName: Swift.String? = nil,
+            cpu: Swift.Int? = nil,
+            memorySizeConfiguration: ComputeOptimizerClientTypes.MemorySizeConfiguration? = nil
+        )
+        {
+            self.containerName = containerName
+            self.cpu = cpu
+            self.memorySizeConfiguration = memorySizeConfiguration
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ContainerRecommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerName
+        case cpu
+        case memorySizeConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerName = self.containerName {
+            try encodeContainer.encode(containerName, forKey: .containerName)
+        }
+        if let cpu = self.cpu {
+            try encodeContainer.encode(cpu, forKey: .cpu)
+        }
+        if let memorySizeConfiguration = self.memorySizeConfiguration {
+            try encodeContainer.encode(memorySizeConfiguration, forKey: .memorySizeConfiguration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerName)
+        containerName = containerNameDecoded
+        let memorySizeConfigurationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MemorySizeConfiguration.self, forKey: .memorySizeConfiguration)
+        memorySizeConfiguration = memorySizeConfigurationDecoded
+        let cpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cpu)
+        cpu = cpuDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The CPU and memory recommendations for a container within the tasks of your Amazon ECS service.
+    public struct ContainerRecommendation: Swift.Equatable {
+        /// The name of the container.
+        public var containerName: Swift.String?
+        /// The recommended number of CPU units reserved for the container.
+        public var cpu: Swift.Int?
+        /// The recommended memory size configurations for the container.
+        public var memorySizeConfiguration: ComputeOptimizerClientTypes.MemorySizeConfiguration?
+
+        public init (
+            containerName: Swift.String? = nil,
+            cpu: Swift.Int? = nil,
+            memorySizeConfiguration: ComputeOptimizerClientTypes.MemorySizeConfiguration? = nil
+        )
+        {
+            self.containerName = containerName
+            self.cpu = cpu
+            self.memorySizeConfiguration = memorySizeConfiguration
         }
     }
 
@@ -658,8 +800,8 @@ extension DeleteRecommendationPreferencesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recommendationPreferenceNames = recommendationPreferenceNames {
             var recommendationPreferenceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationPreferenceNames)
-            for recommendationpreferencenames0 in recommendationPreferenceNames {
-                try recommendationPreferenceNamesContainer.encode(recommendationpreferencenames0.rawValue)
+            for recommendationpreferencename0 in recommendationPreferenceNames {
+                try recommendationPreferenceNamesContainer.encode(recommendationpreferencename0.rawValue)
             }
         }
         if let resourceType = self.resourceType {
@@ -790,14 +932,14 @@ extension DescribeRecommendationExportJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for jobfilters0 in filters {
-                try filtersContainer.encode(jobfilters0)
+            for jobfilter0 in filters {
+                try filtersContainer.encode(jobfilter0)
             }
         }
         if let jobIds = jobIds {
             var jobIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobIds)
-            for jobids0 in jobIds {
-                try jobIdsContainer.encode(jobids0)
+            for jobid0 in jobIds {
+                try jobIdsContainer.encode(jobid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -994,8 +1136,8 @@ extension ComputeOptimizerClientTypes.EBSFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -1200,6 +1342,852 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes {
+    public enum ECSServiceLaunchType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ec2
+        case fargate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ECSServiceLaunchType] {
+            return [
+                .ec2,
+                .fargate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2: return "EC2"
+            case .fargate: return "Fargate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ECSServiceLaunchType(rawValue: rawValue) ?? ECSServiceLaunchType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ECSServiceMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cpu
+        case memory
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ECSServiceMetricName] {
+            return [
+                .cpu,
+                .memory,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cpu: return "Cpu"
+            case .memory: return "Memory"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ECSServiceMetricName(rawValue: rawValue) ?? ECSServiceMetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ECSServiceMetricStatistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case maximum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ECSServiceMetricStatistic] {
+            return [
+                .average,
+                .maximum,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "Average"
+            case .maximum: return "Maximum"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ECSServiceMetricStatistic(rawValue: rawValue) ?? ECSServiceMetricStatistic.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceProjectedMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lowerBoundValues
+        case name
+        case timestamps
+        case upperBoundValues
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lowerBoundValues = lowerBoundValues {
+            var lowerBoundValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lowerBoundValues)
+            for metricvalue0 in lowerBoundValues {
+                try lowerBoundValuesContainer.encode(metricvalue0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let timestamps = timestamps {
+            var timestampsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timestamps)
+            for timestamp0 in timestamps {
+                try timestampsContainer.encodeTimestamp(timestamp0, format: .epochSeconds)
+            }
+        }
+        if let upperBoundValues = upperBoundValues {
+            var upperBoundValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .upperBoundValues)
+            for metricvalue0 in upperBoundValues {
+                try upperBoundValuesContainer.encode(metricvalue0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSServiceMetricName.self, forKey: .name)
+        name = nameDecoded
+        let timestampsContainer = try containerValues.decodeIfPresent([ClientRuntime.Date?].self, forKey: .timestamps)
+        var timestampsDecoded0:[ClientRuntime.Date]? = nil
+        if let timestampsContainer = timestampsContainer {
+            timestampsDecoded0 = [ClientRuntime.Date]()
+            for timestamp0 in timestampsContainer {
+                if let timestamp0 = timestamp0 {
+                    timestampsDecoded0?.append(timestamp0)
+                }
+            }
+        }
+        timestamps = timestampsDecoded0
+        let upperBoundValuesContainer = try containerValues.decodeIfPresent([Swift.Double?].self, forKey: .upperBoundValues)
+        var upperBoundValuesDecoded0:[Swift.Double]? = nil
+        if let upperBoundValuesContainer = upperBoundValuesContainer {
+            upperBoundValuesDecoded0 = [Swift.Double]()
+            for double0 in upperBoundValuesContainer {
+                if let double0 = double0 {
+                    upperBoundValuesDecoded0?.append(double0)
+                }
+            }
+        }
+        upperBoundValues = upperBoundValuesDecoded0
+        let lowerBoundValuesContainer = try containerValues.decodeIfPresent([Swift.Double?].self, forKey: .lowerBoundValues)
+        var lowerBoundValuesDecoded0:[Swift.Double]? = nil
+        if let lowerBoundValuesContainer = lowerBoundValuesContainer {
+            lowerBoundValuesDecoded0 = [Swift.Double]()
+            for double0 in lowerBoundValuesContainer {
+                if let double0 = double0 {
+                    lowerBoundValuesDecoded0?.append(double0)
+                }
+            }
+        }
+        lowerBoundValues = lowerBoundValuesDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the projected metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current ECS service and the recommended option, compare the metric data of your service against its projected metric data.
+    public struct ECSServiceProjectedMetric: Swift.Equatable {
+        /// The lower bound values for the projected metric.
+        public var lowerBoundValues: [Swift.Double]?
+        /// The name of the projected metric. The following metrics are available:
+        ///
+        /// * CPU — The percentage of allocated compute units that are currently in use on the ECS service tasks.
+        ///
+        /// * Memory — The percentage of memory that is currently in use on the ECS service tasks.
+        public var name: ComputeOptimizerClientTypes.ECSServiceMetricName?
+        /// The timestamps of the projected metric.
+        public var timestamps: [ClientRuntime.Date]?
+        /// The upper bound values for the projected metric.
+        public var upperBoundValues: [Swift.Double]?
+
+        public init (
+            lowerBoundValues: [Swift.Double]? = nil,
+            name: ComputeOptimizerClientTypes.ECSServiceMetricName? = nil,
+            timestamps: [ClientRuntime.Date]? = nil,
+            upperBoundValues: [Swift.Double]? = nil
+        )
+        {
+            self.lowerBoundValues = lowerBoundValues
+            self.name = name
+            self.timestamps = timestamps
+            self.upperBoundValues = upperBoundValues
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lowerBoundValue
+        case name
+        case statistic
+        case upperBoundValue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if lowerBoundValue != 0.0 {
+            try encodeContainer.encode(lowerBoundValue, forKey: .lowerBoundValue)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if upperBoundValue != 0.0 {
+            try encodeContainer.encode(upperBoundValue, forKey: .upperBoundValue)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSServiceMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSServiceMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let lowerBoundValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lowerBoundValue) ?? 0.0
+        lowerBoundValue = lowerBoundValueDecoded
+        let upperBoundValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .upperBoundValue) ?? 0.0
+        upperBoundValue = upperBoundValueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the projected utilization metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current ECS service and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
+    public struct ECSServiceProjectedUtilizationMetric: Swift.Equatable {
+        /// The lower bound values for the projected utilization metrics.
+        public var lowerBoundValue: Swift.Double
+        /// The name of the projected utilization metric. The following utilization metrics are available:
+        ///
+        /// * CPU — The percentage of allocated compute units that are currently in use on the ECS service tasks.
+        ///
+        /// * Memory — The percentage of memory that is currently in use on the ECS service tasks.
+        public var name: ComputeOptimizerClientTypes.ECSServiceMetricName?
+        /// The statistic of the projected utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
+        public var statistic: ComputeOptimizerClientTypes.ECSServiceMetricStatistic?
+        /// The upper bound values for the projected utilization metrics.
+        public var upperBoundValue: Swift.Double
+
+        public init (
+            lowerBoundValue: Swift.Double = 0.0,
+            name: ComputeOptimizerClientTypes.ECSServiceMetricName? = nil,
+            statistic: ComputeOptimizerClientTypes.ECSServiceMetricStatistic? = nil,
+            upperBoundValue: Swift.Double = 0.0
+        )
+        {
+            self.lowerBoundValue = lowerBoundValue
+            self.name = name
+            self.statistic = statistic
+            self.upperBoundValue = upperBoundValue
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case currentPerformanceRisk
+        case currentServiceConfiguration
+        case finding
+        case findingReasonCodes
+        case lastRefreshTimestamp
+        case launchType
+        case lookbackPeriodInDays
+        case serviceArn
+        case serviceRecommendationOptions
+        case utilizationMetrics
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let currentPerformanceRisk = self.currentPerformanceRisk {
+            try encodeContainer.encode(currentPerformanceRisk.rawValue, forKey: .currentPerformanceRisk)
+        }
+        if let currentServiceConfiguration = self.currentServiceConfiguration {
+            try encodeContainer.encode(currentServiceConfiguration, forKey: .currentServiceConfiguration)
+        }
+        if let finding = self.finding {
+            try encodeContainer.encode(finding.rawValue, forKey: .finding)
+        }
+        if let findingReasonCodes = findingReasonCodes {
+            var findingReasonCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingReasonCodes)
+            for ecsservicerecommendationfindingreasoncode0 in findingReasonCodes {
+                try findingReasonCodesContainer.encode(ecsservicerecommendationfindingreasoncode0.rawValue)
+            }
+        }
+        if let lastRefreshTimestamp = self.lastRefreshTimestamp {
+            try encodeContainer.encodeTimestamp(lastRefreshTimestamp, format: .epochSeconds, forKey: .lastRefreshTimestamp)
+        }
+        if let launchType = self.launchType {
+            try encodeContainer.encode(launchType.rawValue, forKey: .launchType)
+        }
+        if lookbackPeriodInDays != 0.0 {
+            try encodeContainer.encode(lookbackPeriodInDays, forKey: .lookbackPeriodInDays)
+        }
+        if let serviceArn = self.serviceArn {
+            try encodeContainer.encode(serviceArn, forKey: .serviceArn)
+        }
+        if let serviceRecommendationOptions = serviceRecommendationOptions {
+            var serviceRecommendationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceRecommendationOptions)
+            for ecsservicerecommendationoption0 in serviceRecommendationOptions {
+                try serviceRecommendationOptionsContainer.encode(ecsservicerecommendationoption0)
+            }
+        }
+        if let utilizationMetrics = utilizationMetrics {
+            var utilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationMetrics)
+            for ecsserviceutilizationmetric0 in utilizationMetrics {
+                try utilizationMetricsContainer.encode(ecsserviceutilizationmetric0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceArn)
+        serviceArn = serviceArnDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let currentServiceConfigurationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ServiceConfiguration.self, forKey: .currentServiceConfiguration)
+        currentServiceConfiguration = currentServiceConfigurationDecoded
+        let utilizationMetricsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ECSServiceUtilizationMetric?].self, forKey: .utilizationMetrics)
+        var utilizationMetricsDecoded0:[ComputeOptimizerClientTypes.ECSServiceUtilizationMetric]? = nil
+        if let utilizationMetricsContainer = utilizationMetricsContainer {
+            utilizationMetricsDecoded0 = [ComputeOptimizerClientTypes.ECSServiceUtilizationMetric]()
+            for structure0 in utilizationMetricsContainer {
+                if let structure0 = structure0 {
+                    utilizationMetricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        utilizationMetrics = utilizationMetricsDecoded0
+        let lookbackPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lookbackPeriodInDays) ?? 0.0
+        lookbackPeriodInDays = lookbackPeriodInDaysDecoded
+        let launchTypeDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSServiceLaunchType.self, forKey: .launchType)
+        launchType = launchTypeDecoded
+        let lastRefreshTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRefreshTimestamp)
+        lastRefreshTimestamp = lastRefreshTimestampDecoded
+        let findingDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSServiceRecommendationFinding.self, forKey: .finding)
+        finding = findingDecoded
+        let findingReasonCodesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode?].self, forKey: .findingReasonCodes)
+        var findingReasonCodesDecoded0:[ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode]? = nil
+        if let findingReasonCodesContainer = findingReasonCodesContainer {
+            findingReasonCodesDecoded0 = [ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode]()
+            for enum0 in findingReasonCodesContainer {
+                if let enum0 = enum0 {
+                    findingReasonCodesDecoded0?.append(enum0)
+                }
+            }
+        }
+        findingReasonCodes = findingReasonCodesDecoded0
+        let serviceRecommendationOptionsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ECSServiceRecommendationOption?].self, forKey: .serviceRecommendationOptions)
+        var serviceRecommendationOptionsDecoded0:[ComputeOptimizerClientTypes.ECSServiceRecommendationOption]? = nil
+        if let serviceRecommendationOptionsContainer = serviceRecommendationOptionsContainer {
+            serviceRecommendationOptionsDecoded0 = [ComputeOptimizerClientTypes.ECSServiceRecommendationOption]()
+            for structure0 in serviceRecommendationOptionsContainer {
+                if let structure0 = structure0 {
+                    serviceRecommendationOptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        serviceRecommendationOptions = serviceRecommendationOptionsDecoded0
+        let currentPerformanceRiskDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.CurrentPerformanceRisk.self, forKey: .currentPerformanceRisk)
+        currentPerformanceRisk = currentPerformanceRiskDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes an Amazon ECS service recommendation.
+    public struct ECSServiceRecommendation: Swift.Equatable {
+        /// The Amazon Web Services account ID of the ECS service.
+        public var accountId: Swift.String?
+        /// The risk of the current ECS service not meeting the performance needs of its workloads. The higher the risk, the more likely the current service can't meet the performance requirements of its workload.
+        public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
+        /// The configuration of the current ECS service.
+        public var currentServiceConfiguration: ComputeOptimizerClientTypes.ServiceConfiguration?
+        /// The finding classification of an ECS service. Findings for ECS services include:
+        ///
+        /// * Underprovisioned — When Compute Optimizer detects that there’s not enough memory or CPU, an ECS service is considered under-provisioned. An under-provisioned ECS service might result in poor application performance.
+        ///
+        /// * Overprovisioned — When Compute Optimizer detects that there’s excessive memory or CPU, an ECS service is considered over-provisioned. An over-provisioned ECS service might result in additional infrastructure costs.
+        ///
+        /// * Optimized — When both the CPU and memory of your ECS service meet the performance requirements of your workload, the service is considered optimized.
+        public var finding: ComputeOptimizerClientTypes.ECSServiceRecommendationFinding?
+        /// The reason for the finding classification of an ECS service. Finding reason codes for ECS services include:
+        ///
+        /// * CPUUnderprovisioned — The ECS service CPU configuration can be sized up to enhance the performance of your workload. This is identified by analyzing the CPUUtilization metric of the current service during the look-back period.
+        ///
+        /// * CPUOverprovisioned — The ECS service CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current service during the look-back period.
+        ///
+        /// * MemoryUnderprovisioned — The ECS service memory configuration can be sized up to enhance the performance of your workload. This is identified by analyzing the MemoryUtilization metric of the current service during the look-back period.
+        ///
+        /// * MemoryOverprovisioned — The ECS service memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the MemoryUtilization metric of the current service during the look-back period.
+        public var findingReasonCodes: [ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode]?
+        /// The timestamp of when the ECS service recommendation was last generated.
+        public var lastRefreshTimestamp: ClientRuntime.Date?
+        /// The launch type the ECS service is using. Compute Optimizer only supports the Fargate launch type.
+        public var launchType: ComputeOptimizerClientTypes.ECSServiceLaunchType?
+        /// The number of days the ECS service utilization metrics were analyzed.
+        public var lookbackPeriodInDays: Swift.Double
+        /// The Amazon Resource Name (ARN) of the current ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+        public var serviceArn: Swift.String?
+        /// An array of objects that describe the recommendation options for the ECS service.
+        public var serviceRecommendationOptions: [ComputeOptimizerClientTypes.ECSServiceRecommendationOption]?
+        /// An array of objects that describe the utilization metrics of the ECS service.
+        public var utilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceUtilizationMetric]?
+
+        public init (
+            accountId: Swift.String? = nil,
+            currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
+            currentServiceConfiguration: ComputeOptimizerClientTypes.ServiceConfiguration? = nil,
+            finding: ComputeOptimizerClientTypes.ECSServiceRecommendationFinding? = nil,
+            findingReasonCodes: [ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode]? = nil,
+            lastRefreshTimestamp: ClientRuntime.Date? = nil,
+            launchType: ComputeOptimizerClientTypes.ECSServiceLaunchType? = nil,
+            lookbackPeriodInDays: Swift.Double = 0.0,
+            serviceArn: Swift.String? = nil,
+            serviceRecommendationOptions: [ComputeOptimizerClientTypes.ECSServiceRecommendationOption]? = nil,
+            utilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceUtilizationMetric]? = nil
+        )
+        {
+            self.accountId = accountId
+            self.currentPerformanceRisk = currentPerformanceRisk
+            self.currentServiceConfiguration = currentServiceConfiguration
+            self.finding = finding
+            self.findingReasonCodes = findingReasonCodes
+            self.lastRefreshTimestamp = lastRefreshTimestamp
+            self.launchType = launchType
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.serviceArn = serviceArn
+            self.serviceRecommendationOptions = serviceRecommendationOptions
+            self.utilizationMetrics = utilizationMetrics
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceRecommendationFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSServiceRecommendationFilterName.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes a filter that returns a more specific list of Amazon ECS service recommendations. Use this filter with the [GetECSServiceRecommendations] action.
+    public struct ECSServiceRecommendationFilter: Swift.Equatable {
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code.
+        public var name: ComputeOptimizerClientTypes.ECSServiceRecommendationFilterName?
+        /// The value of the filter. The valid values for this parameter are as follows:
+        ///
+        /// * If you specify the name parameter as Finding, specify Optimized, NotOptimized, or Unavailable.
+        ///
+        /// * If you specify the name parameter as FindingReasonCode, specify CPUUnderprovisioned, CPUOverprovisioned, MemoryUnderprovisioned, or MemoryOverprovisioned.
+        public var values: [Swift.String]?
+
+        public init (
+            name: ComputeOptimizerClientTypes.ECSServiceRecommendationFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ECSServiceRecommendationFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case finding
+        case findingReasonCode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ECSServiceRecommendationFilterName] {
+            return [
+                .finding,
+                .findingReasonCode,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .finding: return "Finding"
+            case .findingReasonCode: return "FindingReasonCode"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ECSServiceRecommendationFilterName(rawValue: rawValue) ?? ECSServiceRecommendationFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ECSServiceRecommendationFinding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case optimized
+        case overProvisioned
+        case underProvisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ECSServiceRecommendationFinding] {
+            return [
+                .optimized,
+                .overProvisioned,
+                .underProvisioned,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .optimized: return "Optimized"
+            case .overProvisioned: return "Overprovisioned"
+            case .underProvisioned: return "Underprovisioned"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ECSServiceRecommendationFinding(rawValue: rawValue) ?? ECSServiceRecommendationFinding.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ECSServiceRecommendationFindingReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cpuOverProvisioned
+        case cpuUnderProvisioned
+        case memoryOverProvisioned
+        case memoryUnderProvisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ECSServiceRecommendationFindingReasonCode] {
+            return [
+                .cpuOverProvisioned,
+                .cpuUnderProvisioned,
+                .memoryOverProvisioned,
+                .memoryUnderProvisioned,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cpuOverProvisioned: return "CPUOverprovisioned"
+            case .cpuUnderProvisioned: return "CPUUnderprovisioned"
+            case .memoryOverProvisioned: return "MemoryOverprovisioned"
+            case .memoryUnderProvisioned: return "MemoryUnderprovisioned"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ECSServiceRecommendationFindingReasonCode(rawValue: rawValue) ?? ECSServiceRecommendationFindingReasonCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerRecommendations
+        case cpu
+        case memory
+        case projectedUtilizationMetrics
+        case savingsOpportunity
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerRecommendations = containerRecommendations {
+            var containerRecommendationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerRecommendations)
+            for containerrecommendation0 in containerRecommendations {
+                try containerRecommendationsContainer.encode(containerrecommendation0)
+            }
+        }
+        if let cpu = self.cpu {
+            try encodeContainer.encode(cpu, forKey: .cpu)
+        }
+        if let memory = self.memory {
+            try encodeContainer.encode(memory, forKey: .memory)
+        }
+        if let projectedUtilizationMetrics = projectedUtilizationMetrics {
+            var projectedUtilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .projectedUtilizationMetrics)
+            for ecsserviceprojectedutilizationmetric0 in projectedUtilizationMetrics {
+                try projectedUtilizationMetricsContainer.encode(ecsserviceprojectedutilizationmetric0)
+            }
+        }
+        if let savingsOpportunity = self.savingsOpportunity {
+            try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let memoryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memory)
+        memory = memoryDecoded
+        let cpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cpu)
+        cpu = cpuDecoded
+        let savingsOpportunityDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsOpportunity.self, forKey: .savingsOpportunity)
+        savingsOpportunity = savingsOpportunityDecoded
+        let projectedUtilizationMetricsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric?].self, forKey: .projectedUtilizationMetrics)
+        var projectedUtilizationMetricsDecoded0:[ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]? = nil
+        if let projectedUtilizationMetricsContainer = projectedUtilizationMetricsContainer {
+            projectedUtilizationMetricsDecoded0 = [ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]()
+            for structure0 in projectedUtilizationMetricsContainer {
+                if let structure0 = structure0 {
+                    projectedUtilizationMetricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        projectedUtilizationMetrics = projectedUtilizationMetricsDecoded0
+        let containerRecommendationsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ContainerRecommendation?].self, forKey: .containerRecommendations)
+        var containerRecommendationsDecoded0:[ComputeOptimizerClientTypes.ContainerRecommendation]? = nil
+        if let containerRecommendationsContainer = containerRecommendationsContainer {
+            containerRecommendationsDecoded0 = [ComputeOptimizerClientTypes.ContainerRecommendation]()
+            for structure0 in containerRecommendationsContainer {
+                if let structure0 = structure0 {
+                    containerRecommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        containerRecommendations = containerRecommendationsDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the recommendation options for an Amazon ECS service.
+    public struct ECSServiceRecommendationOption: Swift.Equatable {
+        /// The CPU and memory size recommendations for the containers within the task of your ECS service.
+        public var containerRecommendations: [ComputeOptimizerClientTypes.ContainerRecommendation]?
+        /// The CPU size of the ECS service recommendation option.
+        public var cpu: Swift.Int?
+        /// The memory size of the ECS service recommendation option.
+        public var memory: Swift.Int?
+        /// An array of objects that describe the projected utilization metrics of the ECS service recommendation option.
+        public var projectedUtilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]?
+        /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
+        public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+
+        public init (
+            containerRecommendations: [ComputeOptimizerClientTypes.ContainerRecommendation]? = nil,
+            cpu: Swift.Int? = nil,
+            memory: Swift.Int? = nil,
+            projectedUtilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]? = nil,
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+        )
+        {
+            self.containerRecommendations = containerRecommendations
+            self.cpu = cpu
+            self.memory = memory
+            self.projectedUtilizationMetrics = projectedUtilizationMetrics
+            self.savingsOpportunity = savingsOpportunity
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case projectedMetrics
+        case recommendedCpuUnits
+        case recommendedMemorySize
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let projectedMetrics = projectedMetrics {
+            var projectedMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .projectedMetrics)
+            for ecsserviceprojectedmetric0 in projectedMetrics {
+                try projectedMetricsContainer.encode(ecsserviceprojectedmetric0)
+            }
+        }
+        if recommendedCpuUnits != 0 {
+            try encodeContainer.encode(recommendedCpuUnits, forKey: .recommendedCpuUnits)
+        }
+        if recommendedMemorySize != 0 {
+            try encodeContainer.encode(recommendedMemorySize, forKey: .recommendedMemorySize)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendedCpuUnitsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recommendedCpuUnits) ?? 0
+        recommendedCpuUnits = recommendedCpuUnitsDecoded
+        let recommendedMemorySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recommendedMemorySize) ?? 0
+        recommendedMemorySize = recommendedMemorySizeDecoded
+        let projectedMetricsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ECSServiceProjectedMetric?].self, forKey: .projectedMetrics)
+        var projectedMetricsDecoded0:[ComputeOptimizerClientTypes.ECSServiceProjectedMetric]? = nil
+        if let projectedMetricsContainer = projectedMetricsContainer {
+            projectedMetricsDecoded0 = [ComputeOptimizerClientTypes.ECSServiceProjectedMetric]()
+            for structure0 in projectedMetricsContainer {
+                if let structure0 = structure0 {
+                    projectedMetricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        projectedMetrics = projectedMetricsDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the projected metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current ECS service and the recommended option, compare the metric data of your service against its projected metric data.
+    public struct ECSServiceRecommendedOptionProjectedMetric: Swift.Equatable {
+        /// An array of objects that describe the projected metric.
+        public var projectedMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedMetric]?
+        /// The recommended CPU size for the ECS service.
+        public var recommendedCpuUnits: Swift.Int
+        /// The recommended memory size for the ECS service.
+        public var recommendedMemorySize: Swift.Int
+
+        public init (
+            projectedMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedMetric]? = nil,
+            recommendedCpuUnits: Swift.Int = 0,
+            recommendedMemorySize: Swift.Int = 0
+        )
+        {
+            self.projectedMetrics = projectedMetrics
+            self.recommendedCpuUnits = recommendedCpuUnits
+            self.recommendedMemorySize = recommendedMemorySize
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceUtilizationMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case statistic
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if value != 0.0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSServiceMetricName.self, forKey: .name)
+        name = nameDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ECSServiceMetricStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value) ?? 0.0
+        value = valueDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the utilization metric of an Amazon ECS service. To determine the performance difference between your current ECS service and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
+    public struct ECSServiceUtilizationMetric: Swift.Equatable {
+        /// The name of the utilization metric. The following utilization metrics are available:
+        ///
+        /// * Cpu — The amount of CPU units that are used in the service.
+        ///
+        /// * Memory — The amount of memory that is used in the service.
+        public var name: ComputeOptimizerClientTypes.ECSServiceMetricName?
+        /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
+        public var statistic: ComputeOptimizerClientTypes.ECSServiceMetricStatistic?
+        /// The value of the utilization metric.
+        public var value: Swift.Double
+
+        public init (
+            name: ComputeOptimizerClientTypes.ECSServiceMetricName? = nil,
+            statistic: ComputeOptimizerClientTypes.ECSServiceMetricStatistic? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cpuVendorArchitectures
@@ -1212,8 +2200,8 @@ extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences: Swift.
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cpuVendorArchitectures = cpuVendorArchitectures {
             var cpuVendorArchitecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cpuVendorArchitectures)
-            for cpuvendorarchitectures0 in cpuVendorArchitectures {
-                try cpuVendorArchitecturesContainer.encode(cpuvendorarchitectures0.rawValue)
+            for cpuvendorarchitecture0 in cpuVendorArchitectures {
+                try cpuVendorArchitecturesContainer.encode(cpuvendorarchitecture0.rawValue)
             }
         }
         if let enhancedInfrastructureMetrics = self.enhancedInfrastructureMetrics {
@@ -1328,8 +2316,8 @@ extension ComputeOptimizerClientTypes.EnrollmentFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -1461,14 +2449,14 @@ extension ExportAutoScalingGroupRecommendationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let fieldsToExport = fieldsToExport {
             var fieldsToExportContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldsToExport)
-            for exportableautoscalinggroupfields0 in fieldsToExport {
-                try fieldsToExportContainer.encode(exportableautoscalinggroupfields0.rawValue)
+            for exportableautoscalinggroupfield0 in fieldsToExport {
+                try fieldsToExportContainer.encode(exportableautoscalinggroupfield0.rawValue)
             }
         }
         if let fileFormat = self.fileFormat {
@@ -1476,8 +2464,8 @@ extension ExportAutoScalingGroupRecommendationsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if includeMemberAccounts != false {
@@ -1738,14 +2726,14 @@ extension ExportEBSVolumeRecommendationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let fieldsToExport = fieldsToExport {
             var fieldsToExportContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldsToExport)
-            for exportablevolumefields0 in fieldsToExport {
-                try fieldsToExportContainer.encode(exportablevolumefields0.rawValue)
+            for exportablevolumefield0 in fieldsToExport {
+                try fieldsToExportContainer.encode(exportablevolumefield0.rawValue)
             }
         }
         if let fileFormat = self.fileFormat {
@@ -1753,8 +2741,8 @@ extension ExportEBSVolumeRecommendationsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for ebsfilters0 in filters {
-                try filtersContainer.encode(ebsfilters0)
+            for ebsfilter0 in filters {
+                try filtersContainer.encode(ebsfilter0)
             }
         }
         if includeMemberAccounts != false {
@@ -1970,14 +2958,14 @@ extension ExportEC2InstanceRecommendationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let fieldsToExport = fieldsToExport {
             var fieldsToExportContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldsToExport)
-            for exportableinstancefields0 in fieldsToExport {
-                try fieldsToExportContainer.encode(exportableinstancefields0.rawValue)
+            for exportableinstancefield0 in fieldsToExport {
+                try fieldsToExportContainer.encode(exportableinstancefield0.rawValue)
             }
         }
         if let fileFormat = self.fileFormat {
@@ -1985,8 +2973,8 @@ extension ExportEC2InstanceRecommendationsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if includeMemberAccounts != false {
@@ -2198,6 +3186,237 @@ extension ExportEC2InstanceRecommendationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ExportECSServiceRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case fieldsToExport
+        case fileFormat
+        case filters
+        case includeMemberAccounts
+        case s3DestinationConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
+        if let fieldsToExport = fieldsToExport {
+            var fieldsToExportContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldsToExport)
+            for exportableecsservicefield0 in fieldsToExport {
+                try fieldsToExportContainer.encode(exportableecsservicefield0.rawValue)
+            }
+        }
+        if let fileFormat = self.fileFormat {
+            try encodeContainer.encode(fileFormat.rawValue, forKey: .fileFormat)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for ecsservicerecommendationfilter0 in filters {
+                try filtersContainer.encode(ecsservicerecommendationfilter0)
+            }
+        }
+        if includeMemberAccounts != false {
+            try encodeContainer.encode(includeMemberAccounts, forKey: .includeMemberAccounts)
+        }
+        if let s3DestinationConfig = self.s3DestinationConfig {
+            try encodeContainer.encode(s3DestinationConfig, forKey: .s3DestinationConfig)
+        }
+    }
+}
+
+extension ExportECSServiceRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ExportECSServiceRecommendationsInput: Swift.Equatable {
+    /// The Amazon Web Services account IDs for the export ECS service recommendations. If your account is the management account or the delegated administrator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+    public var accountIds: [Swift.String]?
+    /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
+    public var fieldsToExport: [ComputeOptimizerClientTypes.ExportableECSServiceField]?
+    /// The format of the export file. The CSV file is the only export file format currently supported.
+    public var fileFormat: ComputeOptimizerClientTypes.FileFormat?
+    /// An array of objects to specify a filter that exports a more specific set of ECS service recommendations.
+    public var filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]?
+    /// If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for member accounts aren't included in the export.
+    public var includeMemberAccounts: Swift.Bool
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
+    /// This member is required.
+    public var s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
+
+    public init (
+        accountIds: [Swift.String]? = nil,
+        fieldsToExport: [ComputeOptimizerClientTypes.ExportableECSServiceField]? = nil,
+        fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
+        filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]? = nil,
+        includeMemberAccounts: Swift.Bool = false,
+        s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.fieldsToExport = fieldsToExport
+        self.fileFormat = fileFormat
+        self.filters = filters
+        self.includeMemberAccounts = includeMemberAccounts
+        self.s3DestinationConfig = s3DestinationConfig
+    }
+}
+
+struct ExportECSServiceRecommendationsInputBody: Swift.Equatable {
+    let accountIds: [Swift.String]?
+    let filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]?
+    let fieldsToExport: [ComputeOptimizerClientTypes.ExportableECSServiceField]?
+    let s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
+    let fileFormat: ComputeOptimizerClientTypes.FileFormat?
+    let includeMemberAccounts: Swift.Bool
+}
+
+extension ExportECSServiceRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case fieldsToExport
+        case fileFormat
+        case filters
+        case includeMemberAccounts
+        case s3DestinationConfig
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ECSServiceRecommendationFilter?].self, forKey: .filters)
+        var filtersDecoded0:[ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let fieldsToExportContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ExportableECSServiceField?].self, forKey: .fieldsToExport)
+        var fieldsToExportDecoded0:[ComputeOptimizerClientTypes.ExportableECSServiceField]? = nil
+        if let fieldsToExportContainer = fieldsToExportContainer {
+            fieldsToExportDecoded0 = [ComputeOptimizerClientTypes.ExportableECSServiceField]()
+            for enum0 in fieldsToExportContainer {
+                if let enum0 = enum0 {
+                    fieldsToExportDecoded0?.append(enum0)
+                }
+            }
+        }
+        fieldsToExport = fieldsToExportDecoded0
+        let s3DestinationConfigDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3DestinationConfig.self, forKey: .s3DestinationConfig)
+        s3DestinationConfig = s3DestinationConfigDecoded
+        let fileFormatDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.FileFormat.self, forKey: .fileFormat)
+        fileFormat = fileFormatDecoded
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts) ?? false
+        includeMemberAccounts = includeMemberAccountsDecoded
+    }
+}
+
+extension ExportECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ExportECSServiceRecommendationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingAuthenticationToken" : self = .missingAuthenticationToken(try MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OptInRequiredException" : self = .optInRequiredException(try OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ExportECSServiceRecommendationsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case missingAuthenticationToken(MissingAuthenticationToken)
+    case optInRequiredException(OptInRequiredException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ExportECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ExportECSServiceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
+            self.s3Destination = output.s3Destination
+        } else {
+            self.jobId = nil
+            self.s3Destination = nil
+        }
+    }
+}
+
+public struct ExportECSServiceRecommendationsOutputResponse: Swift.Equatable {
+    /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
+    public var jobId: Swift.String?
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
+    public var s3Destination: ComputeOptimizerClientTypes.S3Destination?
+
+    public init (
+        jobId: Swift.String? = nil,
+        s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
+    )
+    {
+        self.jobId = jobId
+        self.s3Destination = s3Destination
+    }
+}
+
+struct ExportECSServiceRecommendationsOutputResponseBody: Swift.Equatable {
+    let jobId: Swift.String?
+    let s3Destination: ComputeOptimizerClientTypes.S3Destination?
+}
+
+extension ExportECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId
+        case s3Destination
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
+        s3Destination = s3DestinationDecoded
+    }
+}
+
 extension ExportLambdaFunctionRecommendationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIds
@@ -2212,14 +3431,14 @@ extension ExportLambdaFunctionRecommendationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let fieldsToExport = fieldsToExport {
             var fieldsToExportContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldsToExport)
-            for exportablelambdafunctionfields0 in fieldsToExport {
-                try fieldsToExportContainer.encode(exportablelambdafunctionfields0.rawValue)
+            for exportablelambdafunctionfield0 in fieldsToExport {
+                try fieldsToExportContainer.encode(exportablelambdafunctionfield0.rawValue)
             }
         }
         if let fileFormat = self.fileFormat {
@@ -2227,8 +3446,8 @@ extension ExportLambdaFunctionRecommendationsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for lambdafunctionrecommendationfilters0 in filters {
-                try filtersContainer.encode(lambdafunctionrecommendationfilters0)
+            for lambdafunctionrecommendationfilter0 in filters {
+                try filtersContainer.encode(lambdafunctionrecommendationfilter0)
             }
         }
         if includeMemberAccounts != false {
@@ -2613,6 +3832,101 @@ extension ComputeOptimizerClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ExportableAutoScalingGroupField(rawValue: rawValue) ?? ExportableAutoScalingGroupField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ExportableECSServiceField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accountId
+        case currentPerformanceRisk
+        case currentServiceConfigurationAutoScalingConfiguration
+        case currentServiceConfigurationCpu
+        case currentServiceConfigurationMemory
+        case currentServiceConfigurationTaskDefinitionArn
+        case currentServiceContainerConfigurations
+        case finding
+        case findingReasonCodes
+        case lastRefreshTimestamp
+        case launchType
+        case lookbackPeriodInDays
+        case recommendationOptionsContainerRecommendations
+        case recommendationOptionsCpu
+        case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsMemory
+        case recommendationOptionsProjectedUtilizationMetricsCpuMaximum
+        case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
+        case recommendationOptionsSavingsOpportunityPercentage
+        case serviceArn
+        case utilizationMetricsCpuMaximum
+        case utilizationMetricsMemoryMaximum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportableECSServiceField] {
+            return [
+                .accountId,
+                .currentPerformanceRisk,
+                .currentServiceConfigurationAutoScalingConfiguration,
+                .currentServiceConfigurationCpu,
+                .currentServiceConfigurationMemory,
+                .currentServiceConfigurationTaskDefinitionArn,
+                .currentServiceContainerConfigurations,
+                .finding,
+                .findingReasonCodes,
+                .lastRefreshTimestamp,
+                .launchType,
+                .lookbackPeriodInDays,
+                .recommendationOptionsContainerRecommendations,
+                .recommendationOptionsCpu,
+                .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsMemory,
+                .recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+                .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
+                .recommendationOptionsSavingsOpportunityPercentage,
+                .serviceArn,
+                .utilizationMetricsCpuMaximum,
+                .utilizationMetricsMemoryMaximum,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .currentPerformanceRisk: return "CurrentPerformanceRisk"
+            case .currentServiceConfigurationAutoScalingConfiguration: return "CurrentServiceConfigurationAutoScalingConfiguration"
+            case .currentServiceConfigurationCpu: return "CurrentServiceConfigurationCpu"
+            case .currentServiceConfigurationMemory: return "CurrentServiceConfigurationMemory"
+            case .currentServiceConfigurationTaskDefinitionArn: return "CurrentServiceConfigurationTaskDefinitionArn"
+            case .currentServiceContainerConfigurations: return "CurrentServiceContainerConfigurations"
+            case .finding: return "Finding"
+            case .findingReasonCodes: return "FindingReasonCodes"
+            case .lastRefreshTimestamp: return "LastRefreshTimestamp"
+            case .launchType: return "LaunchType"
+            case .lookbackPeriodInDays: return "LookbackPeriodInDays"
+            case .recommendationOptionsContainerRecommendations: return "RecommendationOptionsContainerRecommendations"
+            case .recommendationOptionsCpu: return "RecommendationOptionsCpu"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsMemory: return "RecommendationOptionsMemory"
+            case .recommendationOptionsProjectedUtilizationMetricsCpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+            case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+            case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
+            case .serviceArn: return "ServiceArn"
+            case .utilizationMetricsCpuMaximum: return "UtilizationMetricsCpuMaximum"
+            case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExportableECSServiceField(rawValue: rawValue) ?? ExportableECSServiceField.sdkUnknown(rawValue)
         }
     }
 }
@@ -3131,8 +4445,8 @@ extension ComputeOptimizerClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -3334,20 +4648,20 @@ extension GetAutoScalingGroupRecommendationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let autoScalingGroupArns = autoScalingGroupArns {
             var autoScalingGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoScalingGroupArns)
-            for autoscalinggrouparns0 in autoScalingGroupArns {
-                try autoScalingGroupArnsContainer.encode(autoscalinggrouparns0)
+            for autoscalinggrouparn0 in autoScalingGroupArns {
+                try autoScalingGroupArnsContainer.encode(autoscalinggrouparn0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3591,14 +4905,14 @@ extension GetEBSVolumeRecommendationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for ebsfilters0 in filters {
-                try filtersContainer.encode(ebsfilters0)
+            for ebsfilter0 in filters {
+                try filtersContainer.encode(ebsfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3609,8 +4923,8 @@ extension GetEBSVolumeRecommendationsInput: Swift.Encodable {
         }
         if let volumeArns = volumeArns {
             var volumeArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeArns)
-            for volumearns0 in volumeArns {
-                try volumeArnsContainer.encode(volumearns0)
+            for volumearn0 in volumeArns {
+                try volumeArnsContainer.encode(volumearn0)
             }
         }
     }
@@ -3838,20 +5152,20 @@ extension GetEC2InstanceRecommendationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let instanceArns = instanceArns {
             var instanceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceArns)
-            for instancearns0 in instanceArns {
-                try instanceArnsContainer.encode(instancearns0)
+            for instancearn0 in instanceArns {
+                try instanceArnsContainer.encode(instancearn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4280,6 +5594,438 @@ extension GetEC2RecommendationProjectedMetricsOutputResponseBody: Swift.Decodabl
     }
 }
 
+extension GetECSServiceRecommendationProjectedMetricsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case period
+        case serviceArn
+        case startTime
+        case stat
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if period != 0 {
+            try encodeContainer.encode(period, forKey: .period)
+        }
+        if let serviceArn = self.serviceArn {
+            try encodeContainer.encode(serviceArn, forKey: .serviceArn)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let stat = self.stat {
+            try encodeContainer.encode(stat.rawValue, forKey: .stat)
+        }
+    }
+}
+
+extension GetECSServiceRecommendationProjectedMetricsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetECSServiceRecommendationProjectedMetricsInput: Swift.Equatable {
+    /// The timestamp of the last projected metrics data point to return.
+    /// This member is required.
+    public var endTime: ClientRuntime.Date?
+    /// The granularity, in seconds, of the projected metrics data points.
+    /// This member is required.
+    public var period: Swift.Int
+    /// The ARN that identifies the ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+    /// This member is required.
+    public var serviceArn: Swift.String?
+    /// The timestamp of the first projected metrics data point to return.
+    /// This member is required.
+    public var startTime: ClientRuntime.Date?
+    /// The statistic of the projected metrics.
+    /// This member is required.
+    public var stat: ComputeOptimizerClientTypes.MetricStatistic?
+
+    public init (
+        endTime: ClientRuntime.Date? = nil,
+        period: Swift.Int = 0,
+        serviceArn: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil,
+        stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
+    )
+    {
+        self.endTime = endTime
+        self.period = period
+        self.serviceArn = serviceArn
+        self.startTime = startTime
+        self.stat = stat
+    }
+}
+
+struct GetECSServiceRecommendationProjectedMetricsInputBody: Swift.Equatable {
+    let serviceArn: Swift.String?
+    let stat: ComputeOptimizerClientTypes.MetricStatistic?
+    let period: Swift.Int
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+}
+
+extension GetECSServiceRecommendationProjectedMetricsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case period
+        case serviceArn
+        case startTime
+        case stat
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceArn)
+        serviceArn = serviceArnDecoded
+        let statDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MetricStatistic.self, forKey: .stat)
+        stat = statDecoded
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        period = periodDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension GetECSServiceRecommendationProjectedMetricsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetECSServiceRecommendationProjectedMetricsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingAuthenticationToken" : self = .missingAuthenticationToken(try MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OptInRequiredException" : self = .optInRequiredException(try OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetECSServiceRecommendationProjectedMetricsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case missingAuthenticationToken(MissingAuthenticationToken)
+    case optInRequiredException(OptInRequiredException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetECSServiceRecommendationProjectedMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetECSServiceRecommendationProjectedMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.recommendedOptionProjectedMetrics = output.recommendedOptionProjectedMetrics
+        } else {
+            self.recommendedOptionProjectedMetrics = nil
+        }
+    }
+}
+
+public struct GetECSServiceRecommendationProjectedMetricsOutputResponse: Swift.Equatable {
+    /// An array of objects that describes the projected metrics.
+    public var recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]?
+
+    public init (
+        recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]? = nil
+    )
+    {
+        self.recommendedOptionProjectedMetrics = recommendedOptionProjectedMetrics
+    }
+}
+
+struct GetECSServiceRecommendationProjectedMetricsOutputResponseBody: Swift.Equatable {
+    let recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]?
+}
+
+extension GetECSServiceRecommendationProjectedMetricsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommendedOptionProjectedMetrics
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendedOptionProjectedMetricsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric?].self, forKey: .recommendedOptionProjectedMetrics)
+        var recommendedOptionProjectedMetricsDecoded0:[ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]? = nil
+        if let recommendedOptionProjectedMetricsContainer = recommendedOptionProjectedMetricsContainer {
+            recommendedOptionProjectedMetricsDecoded0 = [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]()
+            for structure0 in recommendedOptionProjectedMetricsContainer {
+                if let structure0 = structure0 {
+                    recommendedOptionProjectedMetricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        recommendedOptionProjectedMetrics = recommendedOptionProjectedMetricsDecoded0
+    }
+}
+
+extension GetECSServiceRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case filters
+        case maxResults
+        case nextToken
+        case serviceArns
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for ecsservicerecommendationfilter0 in filters {
+                try filtersContainer.encode(ecsservicerecommendationfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let serviceArns = serviceArns {
+            var serviceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceArns)
+            for servicearn0 in serviceArns {
+                try serviceArnsContainer.encode(servicearn0)
+            }
+        }
+    }
+}
+
+extension GetECSServiceRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetECSServiceRecommendationsInput: Swift.Equatable {
+    /// Return the ECS service recommendations to the specified Amazon Web Services account IDs. If your account is the management account or the delegated administrator of an organization, use this parameter to return the ECS service recommendations to specific member accounts. You can only specify one account ID per request.
+    public var accountIds: [Swift.String]?
+    /// An array of objects to specify a filter that returns a more specific list of ECS service recommendations.
+    public var filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]?
+    /// The maximum number of ECS service recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token to advance to the next page of ECS service recommendations.
+    public var nextToken: Swift.String?
+    /// The ARN that identifies the ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+    public var serviceArns: [Swift.String]?
+
+    public init (
+        accountIds: [Swift.String]? = nil,
+        filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        serviceArns: [Swift.String]? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serviceArns = serviceArns
+    }
+}
+
+struct GetECSServiceRecommendationsInputBody: Swift.Equatable {
+    let serviceArns: [Swift.String]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]?
+    let accountIds: [Swift.String]?
+}
+
+extension GetECSServiceRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case filters
+        case maxResults
+        case nextToken
+        case serviceArns
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .serviceArns)
+        var serviceArnsDecoded0:[Swift.String]? = nil
+        if let serviceArnsContainer = serviceArnsContainer {
+            serviceArnsDecoded0 = [Swift.String]()
+            for string0 in serviceArnsContainer {
+                if let string0 = string0 {
+                    serviceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        serviceArns = serviceArnsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ECSServiceRecommendationFilter?].self, forKey: .filters)
+        var filtersDecoded0:[ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+    }
+}
+
+extension GetECSServiceRecommendationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetECSServiceRecommendationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MissingAuthenticationToken" : self = .missingAuthenticationToken(try MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OptInRequiredException" : self = .optInRequiredException(try OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetECSServiceRecommendationsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case missingAuthenticationToken(MissingAuthenticationToken)
+    case optInRequiredException(OptInRequiredException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: GetECSServiceRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.ecsServiceRecommendations = output.ecsServiceRecommendations
+            self.errors = output.errors
+            self.nextToken = output.nextToken
+        } else {
+            self.ecsServiceRecommendations = nil
+            self.errors = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetECSServiceRecommendationsOutputResponse: Swift.Equatable {
+    /// An array of objects that describe the ECS service recommendations.
+    public var ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]?
+    /// An array of objects that describe errors of the request.
+    public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
+    /// The token to advance to the next page of ECS service recommendations.
+    public var nextToken: Swift.String?
+
+    public init (
+        ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]? = nil,
+        errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.ecsServiceRecommendations = ecsServiceRecommendations
+        self.errors = errors
+        self.nextToken = nextToken
+    }
+}
+
+struct GetECSServiceRecommendationsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]?
+    let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
+}
+
+extension GetECSServiceRecommendationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ecsServiceRecommendations
+        case errors
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let ecsServiceRecommendationsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ECSServiceRecommendation?].self, forKey: .ecsServiceRecommendations)
+        var ecsServiceRecommendationsDecoded0:[ComputeOptimizerClientTypes.ECSServiceRecommendation]? = nil
+        if let ecsServiceRecommendationsContainer = ecsServiceRecommendationsContainer {
+            ecsServiceRecommendationsDecoded0 = [ComputeOptimizerClientTypes.ECSServiceRecommendation]()
+            for structure0 in ecsServiceRecommendationsContainer {
+                if let structure0 = structure0 {
+                    ecsServiceRecommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        ecsServiceRecommendations = ecsServiceRecommendationsDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.GetRecommendationError?].self, forKey: .errors)
+        var errorsDecoded0:[ComputeOptimizerClientTypes.GetRecommendationError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [ComputeOptimizerClientTypes.GetRecommendationError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
 extension GetEffectiveRecommendationPreferencesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn
@@ -4382,7 +6128,7 @@ extension GetEffectiveRecommendationPreferencesOutputResponse: ClientRuntime.Htt
 public struct GetEffectiveRecommendationPreferencesOutputResponse: Swift.Equatable {
     /// The status of the enhanced infrastructure metrics recommendation preference. Considers all applicable preferences that you might have set at the resource, account, and organization level. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetAutoScalingGroupRecommendations] and [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
-    /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
+    /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
 
     public init (
@@ -4567,8 +6313,8 @@ extension GetEnrollmentStatusesForOrganizationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for enrollmentfilters0 in filters {
-                try filtersContainer.encode(enrollmentfilters0)
+            for enrollmentfilter0 in filters {
+                try filtersContainer.encode(enrollmentfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4744,20 +6490,20 @@ extension GetLambdaFunctionRecommendationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for lambdafunctionrecommendationfilters0 in filters {
-                try filtersContainer.encode(lambdafunctionrecommendationfilters0)
+            for lambdafunctionrecommendationfilter0 in filters {
+                try filtersContainer.encode(lambdafunctionrecommendationfilter0)
             }
         }
         if let functionArns = functionArns {
             var functionArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionArns)
-            for functionarns0 in functionArns {
-                try functionArnsContainer.encode(functionarns0)
+            for functionarn0 in functionArns {
+                try functionArnsContainer.encode(functionarn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5204,8 +6950,8 @@ extension GetRecommendationSummariesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountids0 in accountIds {
-                try accountIdsContainer.encode(accountids0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5486,14 +7232,14 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         }
         if let findingReasonCodes = findingReasonCodes {
             var findingReasonCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingReasonCodes)
-            for instancerecommendationfindingreasoncodes0 in findingReasonCodes {
-                try findingReasonCodesContainer.encode(instancerecommendationfindingreasoncodes0.rawValue)
+            for instancerecommendationfindingreasoncode0 in findingReasonCodes {
+                try findingReasonCodesContainer.encode(instancerecommendationfindingreasoncode0.rawValue)
             }
         }
         if let inferredWorkloadTypes = inferredWorkloadTypes {
             var inferredWorkloadTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferredWorkloadTypes)
-            for inferredworkloadtypes0 in inferredWorkloadTypes {
-                try inferredWorkloadTypesContainer.encode(inferredworkloadtypes0.rawValue)
+            for inferredworkloadtype0 in inferredWorkloadTypes {
+                try inferredWorkloadTypesContainer.encode(inferredworkloadtype0.rawValue)
             }
         }
         if let instanceArn = self.instanceArn {
@@ -5510,20 +7256,20 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         }
         if let recommendationOptions = recommendationOptions {
             var recommendationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationOptions)
-            for recommendationoptions0 in recommendationOptions {
-                try recommendationOptionsContainer.encode(recommendationoptions0)
+            for instancerecommendationoption0 in recommendationOptions {
+                try recommendationOptionsContainer.encode(instancerecommendationoption0)
             }
         }
         if let recommendationSources = recommendationSources {
             var recommendationSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationSources)
-            for recommendationsources0 in recommendationSources {
-                try recommendationSourcesContainer.encode(recommendationsources0)
+            for recommendationsource0 in recommendationSources {
+                try recommendationSourcesContainer.encode(recommendationsource0)
             }
         }
         if let utilizationMetrics = utilizationMetrics {
             var utilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationMetrics)
-            for utilizationmetrics0 in utilizationMetrics {
-                try utilizationMetricsContainer.encode(utilizationmetrics0)
+            for utilizationmetric0 in utilizationMetrics {
+                try utilizationMetricsContainer.encode(utilizationmetric0)
             }
         }
     }
@@ -5827,14 +7573,14 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
         }
         if let platformDifferences = platformDifferences {
             var platformDifferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platformDifferences)
-            for platformdifferences0 in platformDifferences {
-                try platformDifferencesContainer.encode(platformdifferences0.rawValue)
+            for platformdifference0 in platformDifferences {
+                try platformDifferencesContainer.encode(platformdifference0.rawValue)
             }
         }
         if let projectedUtilizationMetrics = projectedUtilizationMetrics {
             var projectedUtilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .projectedUtilizationMetrics)
-            for projectedutilizationmetrics0 in projectedUtilizationMetrics {
-                try projectedUtilizationMetricsContainer.encode(projectedutilizationmetrics0)
+            for utilizationmetric0 in projectedUtilizationMetrics {
+                try projectedUtilizationMetricsContainer.encode(utilizationmetric0)
             }
         }
         if rank != 0 {
@@ -6051,8 +7797,8 @@ extension ComputeOptimizerClientTypes.JobFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -6303,8 +8049,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption: 
         }
         if let projectedUtilizationMetrics = projectedUtilizationMetrics {
             var projectedUtilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .projectedUtilizationMetrics)
-            for lambdafunctionmemoryprojectedmetrics0 in projectedUtilizationMetrics {
-                try projectedUtilizationMetricsContainer.encode(lambdafunctionmemoryprojectedmetrics0)
+            for lambdafunctionmemoryprojectedmetric0 in projectedUtilizationMetrics {
+                try projectedUtilizationMetricsContainer.encode(lambdafunctionmemoryprojectedmetric0)
             }
         }
         if rank != 0 {
@@ -6461,8 +8207,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         }
         if let findingReasonCodes = findingReasonCodes {
             var findingReasonCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingReasonCodes)
-            for lambdafunctionrecommendationfindingreasoncodes0 in findingReasonCodes {
-                try findingReasonCodesContainer.encode(lambdafunctionrecommendationfindingreasoncodes0.rawValue)
+            for lambdafunctionrecommendationfindingreasoncode0 in findingReasonCodes {
+                try findingReasonCodesContainer.encode(lambdafunctionrecommendationfindingreasoncode0.rawValue)
             }
         }
         if let functionArn = self.functionArn {
@@ -6479,8 +8225,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         }
         if let memorySizeRecommendationOptions = memorySizeRecommendationOptions {
             var memorySizeRecommendationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .memorySizeRecommendationOptions)
-            for lambdafunctionmemoryrecommendationoptions0 in memorySizeRecommendationOptions {
-                try memorySizeRecommendationOptionsContainer.encode(lambdafunctionmemoryrecommendationoptions0)
+            for lambdafunctionmemoryrecommendationoption0 in memorySizeRecommendationOptions {
+                try memorySizeRecommendationOptionsContainer.encode(lambdafunctionmemoryrecommendationoption0)
             }
         }
         if numberOfInvocations != 0 {
@@ -6488,8 +8234,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation: Swift.Codabl
         }
         if let utilizationMetrics = utilizationMetrics {
             var utilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationMetrics)
-            for lambdafunctionutilizationmetrics0 in utilizationMetrics {
-                try utilizationMetricsContainer.encode(lambdafunctionutilizationmetrics0)
+            for lambdafunctionutilizationmetric0 in utilizationMetrics {
+                try utilizationMetricsContainer.encode(lambdafunctionutilizationmetric0)
             }
         }
     }
@@ -6637,8 +8383,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter: Swift.
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -6899,6 +8645,51 @@ extension LimitExceededExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension ComputeOptimizerClientTypes.MemorySizeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case memory
+        case memoryReservation
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let memory = self.memory {
+            try encodeContainer.encode(memory, forKey: .memory)
+        }
+        if let memoryReservation = self.memoryReservation {
+            try encodeContainer.encode(memoryReservation, forKey: .memoryReservation)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let memoryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memory)
+        memory = memoryDecoded
+        let memoryReservationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memoryReservation)
+        memoryReservation = memoryReservationDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The memory size configurations of a container.
+    public struct MemorySizeConfiguration: Swift.Equatable {
+        /// The amount of memory in the container.
+        public var memory: Swift.Int?
+        /// The limit of memory reserve for the container.
+        public var memoryReservation: Swift.Int?
+
+        public init (
+            memory: Swift.Int? = nil,
+            memoryReservation: Swift.Int? = nil
+        )
+        {
+            self.memory = memory
+            self.memoryReservation = memoryReservation
+        }
+    }
+
 }
 
 extension ComputeOptimizerClientTypes {
@@ -7201,14 +8992,14 @@ extension ComputeOptimizerClientTypes.ProjectedMetric: Swift.Codable {
         }
         if let timestamps = timestamps {
             var timestampsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timestamps)
-            for timestamps0 in timestamps {
-                try timestampsContainer.encodeTimestamp(timestamps0, format: .epochSeconds)
+            for timestamp0 in timestamps {
+                try timestampsContainer.encodeTimestamp(timestamp0, format: .epochSeconds)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for metricvalues0 in values {
-                try valuesContainer.encode(metricvalues0)
+            for metricvalue0 in values {
+                try valuesContainer.encode(metricvalue0)
             }
         }
     }
@@ -7596,8 +9387,8 @@ extension ComputeOptimizerClientTypes.RecommendationPreferences: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cpuVendorArchitectures = cpuVendorArchitectures {
             var cpuVendorArchitecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cpuVendorArchitectures)
-            for cpuvendorarchitectures0 in cpuVendorArchitectures {
-                try cpuVendorArchitecturesContainer.encode(cpuvendorarchitectures0.rawValue)
+            for cpuvendorarchitecture0 in cpuVendorArchitectures {
+                try cpuVendorArchitecturesContainer.encode(cpuvendorarchitecture0.rawValue)
             }
         }
     }
@@ -7765,6 +9556,7 @@ extension ComputeOptimizerClientTypes {
         case autoScalingGroup
         case ebsVolume
         case ec2Instance
+        case ecsService
         case lambdaFunction
         case sdkUnknown(Swift.String)
 
@@ -7773,6 +9565,7 @@ extension ComputeOptimizerClientTypes {
                 .autoScalingGroup,
                 .ebsVolume,
                 .ec2Instance,
+                .ecsService,
                 .lambdaFunction,
                 .sdkUnknown("")
             ]
@@ -7786,6 +9579,7 @@ extension ComputeOptimizerClientTypes {
             case .autoScalingGroup: return "AutoScalingGroup"
             case .ebsVolume: return "EbsVolume"
             case .ec2Instance: return "Ec2Instance"
+            case .ecsService: return "EcsService"
             case .lambdaFunction: return "LambdaFunction"
             case let .sdkUnknown(s): return s
             }
@@ -7823,8 +9617,8 @@ extension ComputeOptimizerClientTypes.RecommendationSummary: Swift.Codable {
         }
         if let summaries = summaries {
             var summariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .summaries)
-            for summaries0 in summaries {
-                try summariesContainer.encode(summaries0)
+            for summary0 in summaries {
+                try summariesContainer.encode(summary0)
             }
         }
     }
@@ -7896,8 +9690,8 @@ extension ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric: Swift.Co
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let projectedMetrics = projectedMetrics {
             var projectedMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .projectedMetrics)
-            for projectedmetrics0 in projectedMetrics {
-                try projectedMetricsContainer.encode(projectedmetrics0)
+            for projectedmetric0 in projectedMetrics {
+                try projectedMetricsContainer.encode(projectedmetric0)
             }
         }
         if rank != 0 {
@@ -8009,6 +9803,7 @@ extension ComputeOptimizerClientTypes {
         case autoScalingGroup
         case ebsVolume
         case ec2Instance
+        case ecsService
         case lambdaFunction
         case notApplicable
         case sdkUnknown(Swift.String)
@@ -8018,6 +9813,7 @@ extension ComputeOptimizerClientTypes {
                 .autoScalingGroup,
                 .ebsVolume,
                 .ec2Instance,
+                .ecsService,
                 .lambdaFunction,
                 .notApplicable,
                 .sdkUnknown("")
@@ -8032,6 +9828,7 @@ extension ComputeOptimizerClientTypes {
             case .autoScalingGroup: return "AutoScalingGroup"
             case .ebsVolume: return "EbsVolume"
             case .ec2Instance: return "Ec2Instance"
+            case .ecsService: return "EcsService"
             case .lambdaFunction: return "LambdaFunction"
             case .notApplicable: return "NotApplicable"
             case let .sdkUnknown(s): return s
@@ -8285,6 +10082,100 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes.ServiceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfiguration
+        case containerConfigurations
+        case cpu
+        case memory
+        case taskDefinitionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoScalingConfiguration = self.autoScalingConfiguration {
+            try encodeContainer.encode(autoScalingConfiguration.rawValue, forKey: .autoScalingConfiguration)
+        }
+        if let containerConfigurations = containerConfigurations {
+            var containerConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerConfigurations)
+            for containerconfiguration0 in containerConfigurations {
+                try containerConfigurationsContainer.encode(containerconfiguration0)
+            }
+        }
+        if let cpu = self.cpu {
+            try encodeContainer.encode(cpu, forKey: .cpu)
+        }
+        if let memory = self.memory {
+            try encodeContainer.encode(memory, forKey: .memory)
+        }
+        if let taskDefinitionArn = self.taskDefinitionArn {
+            try encodeContainer.encode(taskDefinitionArn, forKey: .taskDefinitionArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let memoryDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memory)
+        memory = memoryDecoded
+        let cpuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cpu)
+        cpu = cpuDecoded
+        let containerConfigurationsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ContainerConfiguration?].self, forKey: .containerConfigurations)
+        var containerConfigurationsDecoded0:[ComputeOptimizerClientTypes.ContainerConfiguration]? = nil
+        if let containerConfigurationsContainer = containerConfigurationsContainer {
+            containerConfigurationsDecoded0 = [ComputeOptimizerClientTypes.ContainerConfiguration]()
+            for structure0 in containerConfigurationsContainer {
+                if let structure0 = structure0 {
+                    containerConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        containerConfigurations = containerConfigurationsDecoded0
+        let autoScalingConfigurationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.AutoScalingConfiguration.self, forKey: .autoScalingConfiguration)
+        autoScalingConfiguration = autoScalingConfigurationDecoded
+        let taskDefinitionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskDefinitionArn)
+        taskDefinitionArn = taskDefinitionArnDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The Amazon ECS service configurations used for recommendations.
+    public struct ServiceConfiguration: Swift.Equatable {
+        /// Describes the Auto Scaling configuration methods for an Amazon ECS service. This affects the generated recommendations. For example, if Auto Scaling is configured on a ECS service’s CPU, then Compute Optimizer doesn’t generate CPU size recommendations. The Auto Scaling configuration methods include:
+        ///
+        /// * TARGET_TRACKING_SCALING_CPU — If the ECS service is configured to use target scaling on CPU, Compute Optimizer doesn't generate CPU recommendations.
+        ///
+        /// * TARGET_TRACKING_SCALING_MEMORY — If the ECS service is configured to use target scaling on memory, Compute Optimizer doesn't generate memory recommendations.
+        ///
+        ///
+        /// For more information about step scaling and target scaling, see [ Step scaling policies for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) and [ Target tracking scaling policies for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) in the Application Auto Scaling User Guide.
+        public var autoScalingConfiguration: ComputeOptimizerClientTypes.AutoScalingConfiguration?
+        /// The container configurations within a task of an ECS service.
+        public var containerConfigurations: [ComputeOptimizerClientTypes.ContainerConfiguration]?
+        /// The number of CPU units used by the tasks in the ECS service.
+        public var cpu: Swift.Int?
+        /// The amount of memory used by the tasks in the ECS service.
+        public var memory: Swift.Int?
+        /// The task definition ARN used by the tasks in the ECS service.
+        public var taskDefinitionArn: Swift.String?
+
+        public init (
+            autoScalingConfiguration: ComputeOptimizerClientTypes.AutoScalingConfiguration? = nil,
+            containerConfigurations: [ComputeOptimizerClientTypes.ContainerConfiguration]? = nil,
+            cpu: Swift.Int? = nil,
+            memory: Swift.Int? = nil,
+            taskDefinitionArn: Swift.String? = nil
+        )
+        {
+            self.autoScalingConfiguration = autoScalingConfiguration
+            self.containerConfigurations = containerConfigurations
+            self.cpu = cpu
+            self.memory = memory
+            self.taskDefinitionArn = taskDefinitionArn
+        }
+    }
+
+}
+
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8389,8 +10280,8 @@ extension ComputeOptimizerClientTypes.Summary: Swift.Codable {
         }
         if let reasonCodeSummaries = reasonCodeSummaries {
             var reasonCodeSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reasonCodeSummaries)
-            for reasoncodesummaries0 in reasonCodeSummaries {
-                try reasonCodeSummariesContainer.encode(reasoncodesummaries0)
+            for reasoncodesummary0 in reasonCodeSummaries {
+                try reasonCodeSummariesContainer.encode(reasoncodesummary0)
             }
         }
         if value != 0.0 {
@@ -8848,8 +10739,8 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
         }
         if let utilizationMetrics = utilizationMetrics {
             var utilizationMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .utilizationMetrics)
-            for ebsutilizationmetrics0 in utilizationMetrics {
-                try utilizationMetricsContainer.encode(ebsutilizationmetrics0)
+            for ebsutilizationmetric0 in utilizationMetrics {
+                try utilizationMetricsContainer.encode(ebsutilizationmetric0)
             }
         }
         if let volumeArn = self.volumeArn {
@@ -8857,8 +10748,8 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation: Swift.Codable {
         }
         if let volumeRecommendationOptions = volumeRecommendationOptions {
             var volumeRecommendationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeRecommendationOptions)
-            for volumerecommendationoptions0 in volumeRecommendationOptions {
-                try volumeRecommendationOptionsContainer.encode(volumerecommendationoptions0)
+            for volumerecommendationoption0 in volumeRecommendationOptions {
+                try volumeRecommendationOptionsContainer.encode(volumerecommendationoption0)
             }
         }
     }

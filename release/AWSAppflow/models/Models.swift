@@ -353,8 +353,8 @@ extension AppflowClientTypes.AuthParameter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectorSuppliedValues = connectorSuppliedValues {
             var connectorSuppliedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectorSuppliedValues)
-            for connectorsuppliedvaluelist0 in connectorSuppliedValues {
-                try connectorSuppliedValuesContainer.encode(connectorsuppliedvaluelist0)
+            for connectorsuppliedvalue0 in connectorSuppliedValues {
+                try connectorSuppliedValuesContainer.encode(connectorsuppliedvalue0)
             }
         }
         if let description = self.description {
@@ -450,8 +450,8 @@ extension AppflowClientTypes.AuthenticationConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customAuthConfigs = customAuthConfigs {
             var customAuthConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customAuthConfigs)
-            for customauthconfiglist0 in customAuthConfigs {
-                try customAuthConfigsContainer.encode(customauthconfiglist0)
+            for customauthconfig0 in customAuthConfigs {
+                try customAuthConfigsContainer.encode(customauthconfig0)
             }
         }
         if isApiKeyAuthSupported != false {
@@ -843,8 +843,8 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
         }
         if let connectorModes = connectorModes {
             var connectorModesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectorModes)
-            for connectormodelist0 in connectorModes {
-                try connectorModesContainer.encode(connectormodelist0)
+            for connectormode0 in connectorModes {
+                try connectorModesContainer.encode(connectormode0)
             }
         }
         if let connectorName = self.connectorName {
@@ -861,8 +861,8 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
         }
         if let connectorRuntimeSettings = connectorRuntimeSettings {
             var connectorRuntimeSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectorRuntimeSettings)
-            for connectorruntimesettinglist0 in connectorRuntimeSettings {
-                try connectorRuntimeSettingsContainer.encode(connectorruntimesettinglist0)
+            for connectorruntimesetting0 in connectorRuntimeSettings {
+                try connectorRuntimeSettingsContainer.encode(connectorruntimesetting0)
             }
         }
         if let connectorType = self.connectorType {
@@ -888,38 +888,38 @@ extension AppflowClientTypes.ConnectorConfiguration: Swift.Codable {
         }
         if let supportedApiVersions = supportedApiVersions {
             var supportedApiVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedApiVersions)
-            for supportedapiversionlist0 in supportedApiVersions {
-                try supportedApiVersionsContainer.encode(supportedapiversionlist0)
+            for supportedapiversion0 in supportedApiVersions {
+                try supportedApiVersionsContainer.encode(supportedapiversion0)
             }
         }
         if let supportedDestinationConnectors = supportedDestinationConnectors {
             var supportedDestinationConnectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDestinationConnectors)
-            for connectortypelist0 in supportedDestinationConnectors {
-                try supportedDestinationConnectorsContainer.encode(connectortypelist0.rawValue)
+            for connectortype0 in supportedDestinationConnectors {
+                try supportedDestinationConnectorsContainer.encode(connectortype0.rawValue)
             }
         }
         if let supportedOperators = supportedOperators {
             var supportedOperatorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedOperators)
-            for supportedoperatorlist0 in supportedOperators {
-                try supportedOperatorsContainer.encode(supportedoperatorlist0.rawValue)
+            for operators0 in supportedOperators {
+                try supportedOperatorsContainer.encode(operators0.rawValue)
             }
         }
         if let supportedSchedulingFrequencies = supportedSchedulingFrequencies {
             var supportedSchedulingFrequenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedSchedulingFrequencies)
-            for schedulingfrequencytypelist0 in supportedSchedulingFrequencies {
-                try supportedSchedulingFrequenciesContainer.encode(schedulingfrequencytypelist0.rawValue)
+            for schedulefrequencytype0 in supportedSchedulingFrequencies {
+                try supportedSchedulingFrequenciesContainer.encode(schedulefrequencytype0.rawValue)
             }
         }
         if let supportedTriggerTypes = supportedTriggerTypes {
             var supportedTriggerTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedTriggerTypes)
-            for triggertypelist0 in supportedTriggerTypes {
-                try supportedTriggerTypesContainer.encode(triggertypelist0.rawValue)
+            for triggertype0 in supportedTriggerTypes {
+                try supportedTriggerTypesContainer.encode(triggertype0.rawValue)
             }
         }
         if let supportedWriteOperations = supportedWriteOperations {
             var supportedWriteOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedWriteOperations)
-            for supportedwriteoperationlist0 in supportedWriteOperations {
-                try supportedWriteOperationsContainer.encode(supportedwriteoperationlist0.rawValue)
+            for writeoperationtype0 in supportedWriteOperations {
+                try supportedWriteOperationsContainer.encode(writeoperationtype0.rawValue)
             }
         }
     }
@@ -1197,8 +1197,8 @@ extension AppflowClientTypes.ConnectorDetail: Swift.Codable {
         }
         if let connectorModes = connectorModes {
             var connectorModesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectorModes)
-            for connectormodelist0 in connectorModes {
-                try connectorModesContainer.encode(connectormodelist0)
+            for connectormode0 in connectorModes {
+                try connectorModesContainer.encode(connectormode0)
             }
         }
         if let connectorName = self.connectorName {
@@ -1391,8 +1391,8 @@ extension AppflowClientTypes.ConnectorEntityField: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customProperties = customProperties {
             var customPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customProperties)
-            for (dictKey0, customproperties0) in customProperties {
-                try customPropertiesContainer.encode(customproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customProperties0) in customProperties {
+                try customPropertiesContainer.encode(customProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let defaultValue = self.defaultValue {
@@ -2646,8 +2646,8 @@ extension AppflowClientTypes.ConnectorRuntimeSetting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectorSuppliedValueOptions = connectorSuppliedValueOptions {
             var connectorSuppliedValueOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectorSuppliedValueOptions)
-            for connectorsuppliedvalueoptionlist0 in connectorSuppliedValueOptions {
-                try connectorSuppliedValueOptionsContainer.encode(connectorsuppliedvalueoptionlist0)
+            for connectorsuppliedvalue0 in connectorSuppliedValueOptions {
+                try connectorSuppliedValueOptionsContainer.encode(connectorsuppliedvalue0)
             }
         }
         if let dataType = self.dataType {
@@ -3087,8 +3087,8 @@ extension CreateFlowInput: Swift.Encodable {
         }
         if let destinationFlowConfigList = destinationFlowConfigList {
             var destinationFlowConfigListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationFlowConfigList)
-            for destinationflowconfiglist0 in destinationFlowConfigList {
-                try destinationFlowConfigListContainer.encode(destinationflowconfiglist0)
+            for destinationflowconfig0 in destinationFlowConfigList {
+                try destinationFlowConfigListContainer.encode(destinationflowconfig0)
             }
         }
         if let flowName = self.flowName {
@@ -3105,14 +3105,14 @@ extension CreateFlowInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tasks = tasks {
             var tasksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tasks)
-            for tasks0 in tasks {
-                try tasksContainer.encode(tasks0)
+            for task0 in tasks {
+                try tasksContainer.encode(task0)
             }
         }
         if let triggerConfig = self.triggerConfig {
@@ -3346,8 +3346,8 @@ extension AppflowClientTypes.CustomAuthConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let authParameters = authParameters {
             var authParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authParameters)
-            for authparameterlist0 in authParameters {
-                try authParametersContainer.encode(authparameterlist0)
+            for authparameter0 in authParameters {
+                try authParametersContainer.encode(authparameter0)
             }
         }
         if let customAuthenticationType = self.customAuthenticationType {
@@ -3403,8 +3403,8 @@ extension AppflowClientTypes.CustomAuthCredentials: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let credentialsMap = credentialsMap {
             var credentialsMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .credentialsMap)
-            for (dictKey0, credentialsmap0) in credentialsMap {
-                try credentialsMapContainer.encode(credentialsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, credentialsMap0) in credentialsMap {
+                try credentialsMapContainer.encode(credentialsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let customAuthenticationType = self.customAuthenticationType {
@@ -3464,8 +3464,8 @@ extension AppflowClientTypes.CustomConnectorDestinationProperties: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customProperties = customProperties {
             var customPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customProperties)
-            for (dictKey0, customproperties0) in customProperties {
-                try customPropertiesContainer.encode(customproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customProperties0) in customProperties {
+                try customPropertiesContainer.encode(customProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let entityName = self.entityName {
@@ -3476,8 +3476,8 @@ extension AppflowClientTypes.CustomConnectorDestinationProperties: Swift.Codable
         }
         if let idFieldNames = idFieldNames {
             var idFieldNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .idFieldNames)
-            for idfieldnamelist0 in idFieldNames {
-                try idFieldNamesContainer.encode(idfieldnamelist0)
+            for name0 in idFieldNames {
+                try idFieldNamesContainer.encode(name0)
             }
         }
         if let writeOperationType = self.writeOperationType {
@@ -3640,8 +3640,8 @@ extension AppflowClientTypes.CustomConnectorProfileProperties: Swift.Codable {
         }
         if let profileProperties = profileProperties {
             var profilePropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .profileProperties)
-            for (dictKey0, profilepropertiesmap0) in profileProperties {
-                try profilePropertiesContainer.encode(profilepropertiesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, profilePropertiesMap0) in profileProperties {
+                try profilePropertiesContainer.encode(profilePropertiesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3694,8 +3694,8 @@ extension AppflowClientTypes.CustomConnectorSourceProperties: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customProperties = customProperties {
             var customPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customProperties)
-            for (dictKey0, customproperties0) in customProperties {
-                try customPropertiesContainer.encode(customproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customProperties0) in customProperties {
+                try customPropertiesContainer.encode(customProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let entityName = self.entityName {
@@ -4555,8 +4555,8 @@ extension DescribeConnectorProfilesInput: Swift.Encodable {
         }
         if let connectorProfileNames = connectorProfileNames {
             var connectorProfileNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectorProfileNames)
-            for connectorprofilenamelist0 in connectorProfileNames {
-                try connectorProfileNamesContainer.encode(connectorprofilenamelist0)
+            for connectorprofilename0 in connectorProfileNames {
+                try connectorProfileNamesContainer.encode(connectorprofilename0)
             }
         }
         if let connectorType = self.connectorType {
@@ -4741,8 +4741,8 @@ extension DescribeConnectorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectorTypes = connectorTypes {
             var connectorTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectorTypes)
-            for connectortypelist0 in connectorTypes {
-                try connectorTypesContainer.encode(connectortypelist0.rawValue)
+            for connectortype0 in connectorTypes {
+                try connectorTypesContainer.encode(connectortype0.rawValue)
             }
         }
         if let maxResults = self.maxResults {
@@ -5593,8 +5593,8 @@ extension AppflowClientTypes.DestinationFieldProperties: Swift.Codable {
         }
         if let supportedWriteOperations = supportedWriteOperations {
             var supportedWriteOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedWriteOperations)
-            for supportedwriteoperationlist0 in supportedWriteOperations {
-                try supportedWriteOperationsContainer.encode(supportedwriteoperationlist0.rawValue)
+            for writeoperationtype0 in supportedWriteOperations {
+                try supportedWriteOperationsContainer.encode(writeoperationtype0.rawValue)
             }
         }
     }
@@ -6182,8 +6182,8 @@ extension AppflowClientTypes.ExecutionRecord: Swift.Codable {
         }
         if let metadataCatalogDetails = metadataCatalogDetails {
             var metadataCatalogDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadataCatalogDetails)
-            for metadatacatalogdetails0 in metadataCatalogDetails {
-                try metadataCatalogDetailsContainer.encode(metadatacatalogdetails0)
+            for metadatacatalogdetail0 in metadataCatalogDetails {
+                try metadataCatalogDetailsContainer.encode(metadatacatalogdetail0)
             }
         }
         if let startedAt = self.startedAt {
@@ -6389,8 +6389,8 @@ extension AppflowClientTypes.FieldTypeDetails: Swift.Codable {
         }
         if let filterOperators = filterOperators {
             var filterOperatorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterOperators)
-            for filteroperatorlist0 in filterOperators {
-                try filterOperatorsContainer.encode(filteroperatorlist0.rawValue)
+            for operator0 in filterOperators {
+                try filterOperatorsContainer.encode(operator0.rawValue)
             }
         }
         if let supportedDateFormat = self.supportedDateFormat {
@@ -6398,8 +6398,8 @@ extension AppflowClientTypes.FieldTypeDetails: Swift.Codable {
         }
         if let supportedValues = supportedValues {
             var supportedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedValues)
-            for supportedvaluelist0 in supportedValues {
-                try supportedValuesContainer.encode(supportedvaluelist0)
+            for value0 in supportedValues {
+                try supportedValuesContainer.encode(value0)
             }
         }
         if let valueRegexPattern = self.valueRegexPattern {
@@ -6583,8 +6583,8 @@ extension AppflowClientTypes.FlowDefinition: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let triggerType = self.triggerType {
@@ -6953,8 +6953,8 @@ extension AppflowClientTypes.GoogleAnalyticsMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let oAuthScopes = oAuthScopes {
             var oAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oAuthScopes)
-            for oauthscopelist0 in oAuthScopes {
-                try oAuthScopesContainer.encode(oauthscopelist0)
+            for oauthscope0 in oAuthScopes {
+                try oAuthScopesContainer.encode(oauthscope0)
             }
         }
     }
@@ -7162,8 +7162,8 @@ extension AppflowClientTypes.HoneycodeMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let oAuthScopes = oAuthScopes {
             var oAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oAuthScopes)
-            for oauthscopelist0 in oAuthScopes {
-                try oAuthScopesContainer.encode(oauthscopelist0)
+            for oauthscope0 in oAuthScopes {
+                try oAuthScopesContainer.encode(oauthscope0)
             }
         }
     }
@@ -8657,8 +8657,8 @@ extension AppflowClientTypes.OAuth2CustomParameter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectorSuppliedValues = connectorSuppliedValues {
             var connectorSuppliedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectorSuppliedValues)
-            for connectorsuppliedvaluelist0 in connectorSuppliedValues {
-                try connectorSuppliedValuesContainer.encode(connectorsuppliedvaluelist0)
+            for connectorsuppliedvalue0 in connectorSuppliedValues {
+                try connectorSuppliedValuesContainer.encode(connectorsuppliedvalue0)
             }
         }
         if let description = self.description {
@@ -8794,32 +8794,32 @@ extension AppflowClientTypes.OAuth2Defaults: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let authCodeUrls = authCodeUrls {
             var authCodeUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authCodeUrls)
-            for authcodeurllist0 in authCodeUrls {
-                try authCodeUrlsContainer.encode(authcodeurllist0)
+            for authcodeurl0 in authCodeUrls {
+                try authCodeUrlsContainer.encode(authcodeurl0)
             }
         }
         if let oauth2CustomProperties = oauth2CustomProperties {
             var oauth2CustomPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oauth2CustomProperties)
-            for oauth2custompropertieslist0 in oauth2CustomProperties {
-                try oauth2CustomPropertiesContainer.encode(oauth2custompropertieslist0)
+            for oauth2customparameter0 in oauth2CustomProperties {
+                try oauth2CustomPropertiesContainer.encode(oauth2customparameter0)
             }
         }
         if let oauth2GrantTypesSupported = oauth2GrantTypesSupported {
             var oauth2GrantTypesSupportedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oauth2GrantTypesSupported)
-            for oauth2granttypesupportedlist0 in oauth2GrantTypesSupported {
-                try oauth2GrantTypesSupportedContainer.encode(oauth2granttypesupportedlist0.rawValue)
+            for oauth2granttype0 in oauth2GrantTypesSupported {
+                try oauth2GrantTypesSupportedContainer.encode(oauth2granttype0.rawValue)
             }
         }
         if let oauthScopes = oauthScopes {
             var oauthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oauthScopes)
-            for oauthscopelist0 in oauthScopes {
-                try oauthScopesContainer.encode(oauthscopelist0)
+            for oauthscope0 in oauthScopes {
+                try oauthScopesContainer.encode(oauthscope0)
             }
         }
         if let tokenUrls = tokenUrls {
             var tokenUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenUrls)
-            for tokenurllist0 in tokenUrls {
-                try tokenUrlsContainer.encode(tokenurllist0)
+            for tokenurl0 in tokenUrls {
+                try tokenUrlsContainer.encode(tokenurl0)
             }
         }
     }
@@ -8965,8 +8965,8 @@ extension AppflowClientTypes.OAuth2Properties: Swift.Codable {
         }
         if let tokenUrlCustomProperties = tokenUrlCustomProperties {
             var tokenUrlCustomPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tokenUrlCustomProperties)
-            for (dictKey0, tokenurlcustomproperties0) in tokenUrlCustomProperties {
-                try tokenUrlCustomPropertiesContainer.encode(tokenurlcustomproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tokenUrlCustomProperties0) in tokenUrlCustomProperties {
+                try tokenUrlCustomPropertiesContainer.encode(tokenUrlCustomProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9113,8 +9113,8 @@ extension AppflowClientTypes.OAuthProperties: Swift.Codable {
         }
         if let oAuthScopes = oAuthScopes {
             var oAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oAuthScopes)
-            for oauthscopelist0 in oAuthScopes {
-                try oAuthScopesContainer.encode(oauthscopelist0)
+            for oauthscope0 in oAuthScopes {
+                try oAuthScopesContainer.encode(oauthscope0)
             }
         }
         if let tokenUrl = self.tokenUrl {
@@ -9467,8 +9467,8 @@ extension AppflowClientTypes.PrefixConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pathPrefixHierarchy = pathPrefixHierarchy {
             var pathPrefixHierarchyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pathPrefixHierarchy)
-            for pathprefixhierarchy0 in pathPrefixHierarchy {
-                try pathPrefixHierarchyContainer.encode(pathprefixhierarchy0.rawValue)
+            for pathprefix0 in pathPrefixHierarchy {
+                try pathPrefixHierarchyContainer.encode(pathprefix0.rawValue)
             }
         }
         if let prefixFormat = self.prefixFormat {
@@ -10907,8 +10907,8 @@ extension AppflowClientTypes.SAPODataDestinationProperties: Swift.Codable {
         }
         if let idFieldNames = idFieldNames {
             var idFieldNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .idFieldNames)
-            for idfieldnamelist0 in idFieldNames {
-                try idFieldNamesContainer.encode(idfieldnamelist0)
+            for name0 in idFieldNames {
+                try idFieldNamesContainer.encode(name0)
             }
         }
         if let objectPath = self.objectPath {
@@ -11292,8 +11292,8 @@ extension AppflowClientTypes.SalesforceDestinationProperties: Swift.Codable {
         }
         if let idFieldNames = idFieldNames {
             var idFieldNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .idFieldNames)
-            for idfieldnamelist0 in idFieldNames {
-                try idFieldNamesContainer.encode(idfieldnamelist0)
+            for name0 in idFieldNames {
+                try idFieldNamesContainer.encode(name0)
             }
         }
         if let object = self.object {
@@ -11371,14 +11371,14 @@ extension AppflowClientTypes.SalesforceMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataTransferApis = dataTransferApis {
             var dataTransferApisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataTransferApis)
-            for salesforcedatatransferapilist0 in dataTransferApis {
-                try dataTransferApisContainer.encode(salesforcedatatransferapilist0.rawValue)
+            for salesforcedatatransferapi0 in dataTransferApis {
+                try dataTransferApisContainer.encode(salesforcedatatransferapi0.rawValue)
             }
         }
         if let oAuthScopes = oAuthScopes {
             var oAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oAuthScopes)
-            for oauthscopelist0 in oAuthScopes {
-                try oAuthScopesContainer.encode(oauthscopelist0)
+            for oauthscope0 in oAuthScopes {
+                try oAuthScopesContainer.encode(oauthscope0)
             }
         }
     }
@@ -12316,8 +12316,8 @@ extension AppflowClientTypes.SlackMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let oAuthScopes = oAuthScopes {
             var oAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oAuthScopes)
-            for oauthscopelist0 in oAuthScopes {
-                try oAuthScopesContainer.encode(oauthscopelist0)
+            for oauthscope0 in oAuthScopes {
+                try oAuthScopesContainer.encode(oauthscope0)
             }
         }
     }
@@ -12616,8 +12616,8 @@ extension AppflowClientTypes.SnowflakeMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let supportedRegions = supportedRegions {
             var supportedRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedRegions)
-            for regionlist0 in supportedRegions {
-                try supportedRegionsContainer.encode(regionlist0)
+            for region0 in supportedRegions {
+                try supportedRegionsContainer.encode(region0)
             }
         }
     }
@@ -13325,8 +13325,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -13439,14 +13439,14 @@ extension AppflowClientTypes.Task: Swift.Codable {
         }
         if let sourceFields = sourceFields {
             var sourceFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceFields)
-            for sourcefields0 in sourceFields {
-                try sourceFieldsContainer.encode(sourcefields0)
+            for string0 in sourceFields {
+                try sourceFieldsContainer.encode(string0)
             }
         }
         if let taskProperties = taskProperties {
             var taskPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .taskProperties)
-            for (dictKey0, taskpropertiesmap0) in taskProperties {
-                try taskPropertiesContainer.encode(taskpropertiesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, taskPropertiesMap0) in taskProperties {
+                try taskPropertiesContainer.encode(taskPropertiesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let taskType = self.taskType {
@@ -14481,8 +14481,8 @@ extension UpdateFlowInput: Swift.Encodable {
         }
         if let destinationFlowConfigList = destinationFlowConfigList {
             var destinationFlowConfigListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationFlowConfigList)
-            for destinationflowconfiglist0 in destinationFlowConfigList {
-                try destinationFlowConfigListContainer.encode(destinationflowconfiglist0)
+            for destinationflowconfig0 in destinationFlowConfigList {
+                try destinationFlowConfigListContainer.encode(destinationflowconfig0)
             }
         }
         if let flowName = self.flowName {
@@ -14496,8 +14496,8 @@ extension UpdateFlowInput: Swift.Encodable {
         }
         if let tasks = tasks {
             var tasksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tasks)
-            for tasks0 in tasks {
-                try tasksContainer.encode(tasks0)
+            for task0 in tasks {
+                try tasksContainer.encode(task0)
             }
         }
         if let triggerConfig = self.triggerConfig {
@@ -15374,8 +15374,8 @@ extension AppflowClientTypes.ZendeskDestinationProperties: Swift.Codable {
         }
         if let idFieldNames = idFieldNames {
             var idFieldNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .idFieldNames)
-            for idfieldnamelist0 in idFieldNames {
-                try idFieldNamesContainer.encode(idfieldnamelist0)
+            for name0 in idFieldNames {
+                try idFieldNamesContainer.encode(name0)
             }
         }
         if let object = self.object {
@@ -15446,8 +15446,8 @@ extension AppflowClientTypes.ZendeskMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let oAuthScopes = oAuthScopes {
             var oAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oAuthScopes)
-            for oauthscopelist0 in oAuthScopes {
-                try oAuthScopesContainer.encode(oauthscopelist0)
+            for oauthscope0 in oAuthScopes {
+                try oAuthScopesContainer.encode(oauthscope0)
             }
         }
     }

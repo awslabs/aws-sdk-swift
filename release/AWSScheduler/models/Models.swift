@@ -48,14 +48,14 @@ extension SchedulerClientTypes.AwsVpcConfiguration: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroups0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroups0)
+            for securitygroup0 in securityGroups {
+                try securityGroupsContainer.encode(securitygroup0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for subnets0 in subnets {
-                try subnetsContainer.encode(subnets0)
+            for subnet0 in subnets {
+                try subnetsContainer.encode(subnet0)
             }
         }
     }
@@ -236,8 +236,8 @@ extension CreateScheduleGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -876,8 +876,8 @@ extension SchedulerClientTypes.EcsParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviderStrategy = capacityProviderStrategy {
             var capacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviderStrategy)
-            for capacityproviderstrategy0 in capacityProviderStrategy {
-                try capacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in capacityProviderStrategy {
+                try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if let enableECSManagedTags = self.enableECSManagedTags {
@@ -897,14 +897,14 @@ extension SchedulerClientTypes.EcsParameters: Swift.Codable {
         }
         if let placementConstraints = placementConstraints {
             var placementConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementConstraints)
-            for placementconstraints0 in placementConstraints {
-                try placementConstraintsContainer.encode(placementconstraints0)
+            for placementconstraint0 in placementConstraints {
+                try placementConstraintsContainer.encode(placementconstraint0)
             }
         }
         if let placementStrategy = placementStrategy {
             var placementStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementStrategy)
-            for placementstrategies0 in placementStrategy {
-                try placementStrategyContainer.encode(placementstrategies0)
+            for placementstrategy0 in placementStrategy {
+                try placementStrategyContainer.encode(placementstrategy0)
             }
         }
         if let platformVersion = self.platformVersion {
@@ -918,10 +918,10 @@ extension SchedulerClientTypes.EcsParameters: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                var tags0Container = tagsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
-                for (dictKey1, tagmap1) in tags0 {
-                    try tags0Container.encode(tagmap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+            for tagmap0 in tags {
+                var tagmap0Container = tagsContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, tagMap1) in tagmap0 {
+                    try tagmap0Container.encode(tagMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
                 }
             }
         }
@@ -2513,8 +2513,8 @@ extension SchedulerClientTypes.SageMakerPipelineParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pipelineParameterList = pipelineParameterList {
             var pipelineParameterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineParameterList)
-            for sagemakerpipelineparameterlist0 in pipelineParameterList {
-                try pipelineParameterListContainer.encode(sagemakerpipelineparameterlist0)
+            for sagemakerpipelineparameter0 in pipelineParameterList {
+                try pipelineParameterListContainer.encode(sagemakerpipelineparameter0)
             }
         }
     }
@@ -2929,8 +2929,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }

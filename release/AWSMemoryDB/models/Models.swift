@@ -20,8 +20,8 @@ extension MemoryDBClientTypes.ACL: Swift.Codable {
         }
         if let clusters = clusters {
             var clustersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clusters)
-            for aclclusternamelist0 in clusters {
-                try clustersContainer.encode(aclclusternamelist0)
+            for string0 in clusters {
+                try clustersContainer.encode(string0)
             }
         }
         if let minimumEngineVersion = self.minimumEngineVersion {
@@ -38,8 +38,8 @@ extension MemoryDBClientTypes.ACL: Swift.Codable {
         }
         if let userNames = userNames {
             var userNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userNames)
-            for usernamelist0 in userNames {
-                try userNamesContainer.encode(usernamelist0)
+            for username0 in userNames {
+                try userNamesContainer.encode(username0)
             }
         }
     }
@@ -235,14 +235,14 @@ extension MemoryDBClientTypes.ACLPendingChanges: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let userNamesToAdd = userNamesToAdd {
             var userNamesToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userNamesToAdd)
-            for usernamelist0 in userNamesToAdd {
-                try userNamesToAddContainer.encode(usernamelist0)
+            for username0 in userNamesToAdd {
+                try userNamesToAddContainer.encode(username0)
             }
         }
         if let userNamesToRemove = userNamesToRemove {
             var userNamesToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userNamesToRemove)
-            for usernamelist0 in userNamesToRemove {
-                try userNamesToRemoveContainer.encode(usernamelist0)
+            for username0 in userNamesToRemove {
+                try userNamesToRemoveContainer.encode(username0)
             }
         }
     }
@@ -520,8 +520,8 @@ extension MemoryDBClientTypes.AuthenticationMode: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let passwords = passwords {
             var passwordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .passwords)
-            for passwordlistinput0 in passwords {
-                try passwordsContainer.encode(passwordlistinput0)
+            for string0 in passwords {
+                try passwordsContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -644,8 +644,8 @@ extension BatchUpdateClusterInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clusterNames = clusterNames {
             var clusterNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clusterNames)
-            for clusternamelist0 in clusterNames {
-                try clusterNamesContainer.encode(clusternamelist0)
+            for string0 in clusterNames {
+                try clusterNamesContainer.encode(string0)
             }
         }
         if let serviceUpdate = self.serviceUpdate {
@@ -884,14 +884,14 @@ extension MemoryDBClientTypes.Cluster: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroupmembershiplist0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroupmembershiplist0)
+            for securitygroupmembership0 in securityGroups {
+                try securityGroupsContainer.encode(securitygroupmembership0)
             }
         }
         if let shards = shards {
             var shardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shards)
-            for shardlist0 in shards {
-                try shardsContainer.encode(shardlist0)
+            for shard0 in shards {
+                try shardsContainer.encode(shard0)
             }
         }
         if let snapshotRetentionLimit = self.snapshotRetentionLimit {
@@ -1206,8 +1206,8 @@ extension MemoryDBClientTypes.ClusterConfiguration: Swift.Codable {
         }
         if let shards = shards {
             var shardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shards)
-            for sharddetails0 in shards {
-                try shardsContainer.encode(sharddetails0)
+            for sharddetail0 in shards {
+                try shardsContainer.encode(sharddetail0)
             }
         }
         if let snapshotRetentionLimit = self.snapshotRetentionLimit {
@@ -1406,8 +1406,8 @@ extension MemoryDBClientTypes.ClusterPendingUpdates: Swift.Codable {
         }
         if let serviceUpdates = serviceUpdates {
             var serviceUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceUpdates)
-            for pendingmodifiedserviceupdatelist0 in serviceUpdates {
-                try serviceUpdatesContainer.encode(pendingmodifiedserviceupdatelist0)
+            for pendingmodifiedserviceupdate0 in serviceUpdates {
+                try serviceUpdatesContainer.encode(pendingmodifiedserviceupdate0)
             }
         }
     }
@@ -1527,8 +1527,8 @@ extension CopySnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let targetBucket = self.targetBucket {
@@ -1708,14 +1708,14 @@ extension CreateACLInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userNames = userNames {
             var userNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userNames)
-            for usernamelistinput0 in userNames {
-                try userNamesContainer.encode(usernamelistinput0)
+            for username0 in userNames {
+                try userNamesContainer.encode(username0)
             }
         }
     }
@@ -1934,14 +1934,14 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidslist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidslist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let snapshotArns = snapshotArns {
             var snapshotArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .snapshotArns)
-            for snapshotarnslist0 in snapshotArns {
-                try snapshotArnsContainer.encode(snapshotarnslist0)
+            for string0 in snapshotArns {
+                try snapshotArnsContainer.encode(string0)
             }
         }
         if let snapshotName = self.snapshotName {
@@ -1964,8 +1964,8 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2334,8 +2334,8 @@ extension CreateParameterGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2506,8 +2506,8 @@ extension CreateSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2677,14 +2677,14 @@ extension CreateSubnetGroupInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidentifierlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidentifierlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2861,8 +2861,8 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userName = self.userName {
@@ -4845,6 +4845,408 @@ extension DescribeParametersOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeReservedNodesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case duration = "Duration"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case nodeType = "NodeType"
+        case offeringType = "OfferingType"
+        case reservationId = "ReservationId"
+        case reservedNodesOfferingId = "ReservedNodesOfferingId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let duration = self.duration {
+            try encodeContainer.encode(duration, forKey: .duration)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let nodeType = self.nodeType {
+            try encodeContainer.encode(nodeType, forKey: .nodeType)
+        }
+        if let offeringType = self.offeringType {
+            try encodeContainer.encode(offeringType, forKey: .offeringType)
+        }
+        if let reservationId = self.reservationId {
+            try encodeContainer.encode(reservationId, forKey: .reservationId)
+        }
+        if let reservedNodesOfferingId = self.reservedNodesOfferingId {
+            try encodeContainer.encode(reservedNodesOfferingId, forKey: .reservedNodesOfferingId)
+        }
+    }
+}
+
+extension DescribeReservedNodesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeReservedNodesInput: Swift.Equatable {
+    /// The duration filter value, specified in years or seconds. Use this parameter to show only reservations for this duration.
+    public var duration: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var nextToken: Swift.String?
+    /// The node type filter value. Use this parameter to show only those reservations matching the specified node type. For more information, see [Supported node types](https://docs.aws.amazon.com/memorydb/latest/devguide/nodes.reserved.html#reserved-nodes-supported).
+    public var nodeType: Swift.String?
+    /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: "All Upfront"|"Partial Upfront"| "No Upfront"
+    public var offeringType: Swift.String?
+    /// The reserved node identifier filter value. Use this parameter to show only the reservation that matches the specified reservation ID.
+    public var reservationId: Swift.String?
+    /// The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
+    public var reservedNodesOfferingId: Swift.String?
+
+    public init (
+        duration: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        nodeType: Swift.String? = nil,
+        offeringType: Swift.String? = nil,
+        reservationId: Swift.String? = nil,
+        reservedNodesOfferingId: Swift.String? = nil
+    )
+    {
+        self.duration = duration
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.nodeType = nodeType
+        self.offeringType = offeringType
+        self.reservationId = reservationId
+        self.reservedNodesOfferingId = reservedNodesOfferingId
+    }
+}
+
+struct DescribeReservedNodesInputBody: Swift.Equatable {
+    let reservationId: Swift.String?
+    let reservedNodesOfferingId: Swift.String?
+    let nodeType: Swift.String?
+    let duration: Swift.String?
+    let offeringType: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeReservedNodesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case duration = "Duration"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case nodeType = "NodeType"
+        case offeringType = "OfferingType"
+        case reservationId = "ReservationId"
+        case reservedNodesOfferingId = "ReservedNodesOfferingId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reservationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservationId)
+        reservationId = reservationIdDecoded
+        let reservedNodesOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedNodesOfferingId)
+        reservedNodesOfferingId = reservedNodesOfferingIdDecoded
+        let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
+        nodeType = nodeTypeDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .duration)
+        duration = durationDecoded
+        let offeringTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringType)
+        offeringType = offeringTypeDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeReservedNodesOfferingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case duration = "Duration"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case nodeType = "NodeType"
+        case offeringType = "OfferingType"
+        case reservedNodesOfferingId = "ReservedNodesOfferingId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let duration = self.duration {
+            try encodeContainer.encode(duration, forKey: .duration)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let nodeType = self.nodeType {
+            try encodeContainer.encode(nodeType, forKey: .nodeType)
+        }
+        if let offeringType = self.offeringType {
+            try encodeContainer.encode(offeringType, forKey: .offeringType)
+        }
+        if let reservedNodesOfferingId = self.reservedNodesOfferingId {
+            try encodeContainer.encode(reservedNodesOfferingId, forKey: .reservedNodesOfferingId)
+        }
+    }
+}
+
+extension DescribeReservedNodesOfferingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeReservedNodesOfferingsInput: Swift.Equatable {
+    /// Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration.
+    public var duration: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var nextToken: Swift.String?
+    /// The node type for the reserved nodes. For more information, see [Supported node types](https://docs.aws.amazon.com/memorydb/latest/devguide/nodes.reserved.html#reserved-nodes-supported).
+    public var nodeType: Swift.String?
+    /// The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: "All Upfront"|"Partial Upfront"| "No Upfront"
+    public var offeringType: Swift.String?
+    /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier.
+    public var reservedNodesOfferingId: Swift.String?
+
+    public init (
+        duration: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        nodeType: Swift.String? = nil,
+        offeringType: Swift.String? = nil,
+        reservedNodesOfferingId: Swift.String? = nil
+    )
+    {
+        self.duration = duration
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.nodeType = nodeType
+        self.offeringType = offeringType
+        self.reservedNodesOfferingId = reservedNodesOfferingId
+    }
+}
+
+struct DescribeReservedNodesOfferingsInputBody: Swift.Equatable {
+    let reservedNodesOfferingId: Swift.String?
+    let nodeType: Swift.String?
+    let duration: Swift.String?
+    let offeringType: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension DescribeReservedNodesOfferingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case duration = "Duration"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case nodeType = "NodeType"
+        case offeringType = "OfferingType"
+        case reservedNodesOfferingId = "ReservedNodesOfferingId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reservedNodesOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedNodesOfferingId)
+        reservedNodesOfferingId = reservedNodesOfferingIdDecoded
+        let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
+        nodeType = nodeTypeDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .duration)
+        duration = durationDecoded
+        let offeringTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringType)
+        offeringType = offeringTypeDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeReservedNodesOfferingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeReservedNodesOfferingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ReservedNodesOfferingNotFound" : self = .reservedNodesOfferingNotFoundFault(try ReservedNodesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeReservedNodesOfferingsOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterCombinationException(InvalidParameterCombinationException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case reservedNodesOfferingNotFoundFault(ReservedNodesOfferingNotFoundFault)
+    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeReservedNodesOfferingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeReservedNodesOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.reservedNodesOfferings = output.reservedNodesOfferings
+        } else {
+            self.nextToken = nil
+            self.reservedNodesOfferings = nil
+        }
+    }
+}
+
+public struct DescribeReservedNodesOfferingsOutputResponse: Swift.Equatable {
+    /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var nextToken: Swift.String?
+    /// Lists available reserved node offerings.
+    public var reservedNodesOfferings: [MemoryDBClientTypes.ReservedNodesOffering]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        reservedNodesOfferings: [MemoryDBClientTypes.ReservedNodesOffering]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.reservedNodesOfferings = reservedNodesOfferings
+    }
+}
+
+struct DescribeReservedNodesOfferingsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let reservedNodesOfferings: [MemoryDBClientTypes.ReservedNodesOffering]?
+}
+
+extension DescribeReservedNodesOfferingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case reservedNodesOfferings = "ReservedNodesOfferings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let reservedNodesOfferingsContainer = try containerValues.decodeIfPresent([MemoryDBClientTypes.ReservedNodesOffering?].self, forKey: .reservedNodesOfferings)
+        var reservedNodesOfferingsDecoded0:[MemoryDBClientTypes.ReservedNodesOffering]? = nil
+        if let reservedNodesOfferingsContainer = reservedNodesOfferingsContainer {
+            reservedNodesOfferingsDecoded0 = [MemoryDBClientTypes.ReservedNodesOffering]()
+            for structure0 in reservedNodesOfferingsContainer {
+                if let structure0 = structure0 {
+                    reservedNodesOfferingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        reservedNodesOfferings = reservedNodesOfferingsDecoded0
+    }
+}
+
+extension DescribeReservedNodesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeReservedNodesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ReservedNodeNotFound" : self = .reservedNodeNotFoundFault(try ReservedNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeReservedNodesOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterCombinationException(InvalidParameterCombinationException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case reservedNodeNotFoundFault(ReservedNodeNotFoundFault)
+    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeReservedNodesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: DescribeReservedNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.reservedNodes = output.reservedNodes
+        } else {
+            self.nextToken = nil
+            self.reservedNodes = nil
+        }
+    }
+}
+
+public struct DescribeReservedNodesOutputResponse: Swift.Equatable {
+    /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var nextToken: Swift.String?
+    /// Returns information about reserved nodes for this account, or about a specified reserved node.
+    public var reservedNodes: [MemoryDBClientTypes.ReservedNode]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        reservedNodes: [MemoryDBClientTypes.ReservedNode]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.reservedNodes = reservedNodes
+    }
+}
+
+struct DescribeReservedNodesOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let reservedNodes: [MemoryDBClientTypes.ReservedNode]?
+}
+
+extension DescribeReservedNodesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case reservedNodes = "ReservedNodes"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let reservedNodesContainer = try containerValues.decodeIfPresent([MemoryDBClientTypes.ReservedNode?].self, forKey: .reservedNodes)
+        var reservedNodesDecoded0:[MemoryDBClientTypes.ReservedNode]? = nil
+        if let reservedNodesContainer = reservedNodesContainer {
+            reservedNodesDecoded0 = [MemoryDBClientTypes.ReservedNode]()
+            for structure0 in reservedNodesContainer {
+                if let structure0 = structure0 {
+                    reservedNodesDecoded0?.append(structure0)
+                }
+            }
+        }
+        reservedNodes = reservedNodesDecoded0
+    }
+}
+
 extension DescribeServiceUpdatesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterNames = "ClusterNames"
@@ -4858,8 +5260,8 @@ extension DescribeServiceUpdatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clusterNames = clusterNames {
             var clusterNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clusterNames)
-            for clusternamelist0 in clusterNames {
-                try clusterNamesContainer.encode(clusternamelist0)
+            for string0 in clusterNames {
+                try clusterNamesContainer.encode(string0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4873,8 +5275,8 @@ extension DescribeServiceUpdatesInput: Swift.Encodable {
         }
         if let status = status {
             var statusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .status)
-            for serviceupdatestatuslist0 in status {
-                try statusContainer.encode(serviceupdatestatuslist0.rawValue)
+            for serviceupdatestatus0 in status {
+                try statusContainer.encode(serviceupdatestatus0.rawValue)
             }
         }
     }
@@ -5410,8 +5812,8 @@ extension DescribeUsersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5945,8 +6347,8 @@ extension MemoryDBClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -7656,6 +8058,222 @@ extension MemoryDBClientTypes {
 
 }
 
+extension PurchaseReservedNodesOfferingInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nodeCount = "NodeCount"
+        case reservationId = "ReservationId"
+        case reservedNodesOfferingId = "ReservedNodesOfferingId"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let nodeCount = self.nodeCount {
+            try encodeContainer.encode(nodeCount, forKey: .nodeCount)
+        }
+        if let reservationId = self.reservationId {
+            try encodeContainer.encode(reservationId, forKey: .reservationId)
+        }
+        if let reservedNodesOfferingId = self.reservedNodesOfferingId {
+            try encodeContainer.encode(reservedNodesOfferingId, forKey: .reservedNodesOfferingId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension PurchaseReservedNodesOfferingInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PurchaseReservedNodesOfferingInput: Swift.Equatable {
+    /// The number of node instances to reserve.
+    public var nodeCount: Swift.Int?
+    /// A customer-specified identifier to track this reservation.
+    public var reservationId: Swift.String?
+    /// The ID of the reserved node offering to purchase.
+    /// This member is required.
+    public var reservedNodesOfferingId: Swift.String?
+    /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+    public var tags: [MemoryDBClientTypes.Tag]?
+
+    public init (
+        nodeCount: Swift.Int? = nil,
+        reservationId: Swift.String? = nil,
+        reservedNodesOfferingId: Swift.String? = nil,
+        tags: [MemoryDBClientTypes.Tag]? = nil
+    )
+    {
+        self.nodeCount = nodeCount
+        self.reservationId = reservationId
+        self.reservedNodesOfferingId = reservedNodesOfferingId
+        self.tags = tags
+    }
+}
+
+struct PurchaseReservedNodesOfferingInputBody: Swift.Equatable {
+    let reservedNodesOfferingId: Swift.String?
+    let reservationId: Swift.String?
+    let nodeCount: Swift.Int?
+    let tags: [MemoryDBClientTypes.Tag]?
+}
+
+extension PurchaseReservedNodesOfferingInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nodeCount = "NodeCount"
+        case reservationId = "ReservationId"
+        case reservedNodesOfferingId = "ReservedNodesOfferingId"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reservedNodesOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedNodesOfferingId)
+        reservedNodesOfferingId = reservedNodesOfferingIdDecoded
+        let reservationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservationId)
+        reservationId = reservationIdDecoded
+        let nodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeCount)
+        nodeCount = nodeCountDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([MemoryDBClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[MemoryDBClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [MemoryDBClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension PurchaseReservedNodesOfferingOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PurchaseReservedNodesOfferingOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterCombination" : self = .invalidParameterCombinationException(try InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValue" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ReservedNodeAlreadyExists" : self = .reservedNodeAlreadyExistsFault(try ReservedNodeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ReservedNodeQuotaExceeded" : self = .reservedNodeQuotaExceededFault(try ReservedNodeQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ReservedNodesOfferingNotFound" : self = .reservedNodesOfferingNotFoundFault(try ReservedNodesOfferingNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceLinkedRoleNotFoundFault" : self = .serviceLinkedRoleNotFoundFault(try ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TagQuotaPerResourceExceeded" : self = .tagQuotaPerResourceExceeded(try TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PurchaseReservedNodesOfferingOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterCombinationException(InvalidParameterCombinationException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case reservedNodeAlreadyExistsFault(ReservedNodeAlreadyExistsFault)
+    case reservedNodeQuotaExceededFault(ReservedNodeQuotaExceededFault)
+    case reservedNodesOfferingNotFoundFault(ReservedNodesOfferingNotFoundFault)
+    case serviceLinkedRoleNotFoundFault(ServiceLinkedRoleNotFoundFault)
+    case tagQuotaPerResourceExceeded(TagQuotaPerResourceExceeded)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PurchaseReservedNodesOfferingOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: PurchaseReservedNodesOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.reservedNode = output.reservedNode
+        } else {
+            self.reservedNode = nil
+        }
+    }
+}
+
+public struct PurchaseReservedNodesOfferingOutputResponse: Swift.Equatable {
+    /// Represents the output of a PurchaseReservedNodesOffering operation.
+    public var reservedNode: MemoryDBClientTypes.ReservedNode?
+
+    public init (
+        reservedNode: MemoryDBClientTypes.ReservedNode? = nil
+    )
+    {
+        self.reservedNode = reservedNode
+    }
+}
+
+struct PurchaseReservedNodesOfferingOutputResponseBody: Swift.Equatable {
+    let reservedNode: MemoryDBClientTypes.ReservedNode?
+}
+
+extension PurchaseReservedNodesOfferingOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reservedNode = "ReservedNode"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reservedNodeDecoded = try containerValues.decodeIfPresent(MemoryDBClientTypes.ReservedNode.self, forKey: .reservedNode)
+        reservedNode = reservedNodeDecoded
+    }
+}
+
+extension MemoryDBClientTypes.RecurringCharge: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recurringChargeAmount = "RecurringChargeAmount"
+        case recurringChargeFrequency = "RecurringChargeFrequency"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if recurringChargeAmount != 0.0 {
+            try encodeContainer.encode(recurringChargeAmount, forKey: .recurringChargeAmount)
+        }
+        if let recurringChargeFrequency = self.recurringChargeFrequency {
+            try encodeContainer.encode(recurringChargeFrequency, forKey: .recurringChargeFrequency)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recurringChargeAmountDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recurringChargeAmount) ?? 0.0
+        recurringChargeAmount = recurringChargeAmountDecoded
+        let recurringChargeFrequencyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recurringChargeFrequency)
+        recurringChargeFrequency = recurringChargeFrequencyDecoded
+    }
+}
+
+extension MemoryDBClientTypes {
+    /// The recurring charge to run this reserved node.
+    public struct RecurringCharge: Swift.Equatable {
+        /// The amount of the recurring charge to run this reserved node.
+        public var recurringChargeAmount: Swift.Double
+        /// The frequency of the recurring price charged to run this reserved node.
+        public var recurringChargeFrequency: Swift.String?
+
+        public init (
+            recurringChargeAmount: Swift.Double = 0.0,
+            recurringChargeFrequency: Swift.String? = nil
+        )
+        {
+            self.recurringChargeAmount = recurringChargeAmount
+            self.recurringChargeFrequency = recurringChargeFrequency
+        }
+    }
+
+}
+
 extension MemoryDBClientTypes.ReplicaConfigurationRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicaCount = "ReplicaCount"
@@ -7691,6 +8309,458 @@ extension MemoryDBClientTypes {
 
 }
 
+extension MemoryDBClientTypes.ReservedNode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "ARN"
+        case duration = "Duration"
+        case fixedPrice = "FixedPrice"
+        case nodeCount = "NodeCount"
+        case nodeType = "NodeType"
+        case offeringType = "OfferingType"
+        case recurringCharges = "RecurringCharges"
+        case reservationId = "ReservationId"
+        case reservedNodesOfferingId = "ReservedNodesOfferingId"
+        case startTime = "StartTime"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if duration != 0 {
+            try encodeContainer.encode(duration, forKey: .duration)
+        }
+        if fixedPrice != 0.0 {
+            try encodeContainer.encode(fixedPrice, forKey: .fixedPrice)
+        }
+        if nodeCount != 0 {
+            try encodeContainer.encode(nodeCount, forKey: .nodeCount)
+        }
+        if let nodeType = self.nodeType {
+            try encodeContainer.encode(nodeType, forKey: .nodeType)
+        }
+        if let offeringType = self.offeringType {
+            try encodeContainer.encode(offeringType, forKey: .offeringType)
+        }
+        if let recurringCharges = recurringCharges {
+            var recurringChargesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recurringCharges)
+            for recurringcharge0 in recurringCharges {
+                try recurringChargesContainer.encode(recurringcharge0)
+            }
+        }
+        if let reservationId = self.reservationId {
+            try encodeContainer.encode(reservationId, forKey: .reservationId)
+        }
+        if let reservedNodesOfferingId = self.reservedNodesOfferingId {
+            try encodeContainer.encode(reservedNodesOfferingId, forKey: .reservedNodesOfferingId)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state, forKey: .state)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reservationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservationId)
+        reservationId = reservationIdDecoded
+        let reservedNodesOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedNodesOfferingId)
+        reservedNodesOfferingId = reservedNodesOfferingIdDecoded
+        let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
+        nodeType = nodeTypeDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        duration = durationDecoded
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0.0
+        fixedPrice = fixedPriceDecoded
+        let nodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeCount) ?? 0
+        nodeCount = nodeCountDecoded
+        let offeringTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringType)
+        offeringType = offeringTypeDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
+        state = stateDecoded
+        let recurringChargesContainer = try containerValues.decodeIfPresent([MemoryDBClientTypes.RecurringCharge?].self, forKey: .recurringCharges)
+        var recurringChargesDecoded0:[MemoryDBClientTypes.RecurringCharge]? = nil
+        if let recurringChargesContainer = recurringChargesContainer {
+            recurringChargesDecoded0 = [MemoryDBClientTypes.RecurringCharge]()
+            for structure0 in recurringChargesContainer {
+                if let structure0 = structure0 {
+                    recurringChargesDecoded0?.append(structure0)
+                }
+            }
+        }
+        recurringCharges = recurringChargesDecoded0
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension MemoryDBClientTypes {
+    /// Represents the output of a PurchaseReservedNodesOffering operation.
+    public struct ReservedNode: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the reserved node.
+        public var arn: Swift.String?
+        /// The duration of the reservation in seconds.
+        public var duration: Swift.Int
+        /// The fixed price charged for this reserved node.
+        public var fixedPrice: Swift.Double
+        /// The number of nodes that have been reserved.
+        public var nodeCount: Swift.Int
+        /// The node type for the reserved nodes.
+        public var nodeType: Swift.String?
+        /// The offering type of this reserved node.
+        public var offeringType: Swift.String?
+        /// The recurring price charged to run this reserved node.
+        public var recurringCharges: [MemoryDBClientTypes.RecurringCharge]?
+        /// A customer-specified identifier to track this reservation.
+        public var reservationId: Swift.String?
+        /// The ID of the reserved node offering to purchase.
+        public var reservedNodesOfferingId: Swift.String?
+        /// The time the reservation started.
+        public var startTime: ClientRuntime.Date?
+        /// The state of the reserved node.
+        public var state: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            duration: Swift.Int = 0,
+            fixedPrice: Swift.Double = 0.0,
+            nodeCount: Swift.Int = 0,
+            nodeType: Swift.String? = nil,
+            offeringType: Swift.String? = nil,
+            recurringCharges: [MemoryDBClientTypes.RecurringCharge]? = nil,
+            reservationId: Swift.String? = nil,
+            reservedNodesOfferingId: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            state: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.duration = duration
+            self.fixedPrice = fixedPrice
+            self.nodeCount = nodeCount
+            self.nodeType = nodeType
+            self.offeringType = offeringType
+            self.recurringCharges = recurringCharges
+            self.reservationId = reservationId
+            self.reservedNodesOfferingId = reservedNodesOfferingId
+            self.startTime = startTime
+            self.state = state
+        }
+    }
+
+}
+
+extension ReservedNodeAlreadyExistsFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ReservedNodeAlreadyExistsFaultBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// You already have a reservation with the given identifier.
+public struct ReservedNodeAlreadyExistsFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ReservedNodeAlreadyExistsFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ReservedNodeAlreadyExistsFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ReservedNodeNotFoundFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ReservedNodeNotFoundFaultBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The requested node does not exist.
+public struct ReservedNodeNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ReservedNodeNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ReservedNodeNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ReservedNodeQuotaExceededFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ReservedNodeQuotaExceededFaultBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request cannot be processed because it would exceed the user's node quota.
+public struct ReservedNodeQuotaExceededFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ReservedNodeQuotaExceededFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ReservedNodeQuotaExceededFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension MemoryDBClientTypes.ReservedNodesOffering: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case duration = "Duration"
+        case fixedPrice = "FixedPrice"
+        case nodeType = "NodeType"
+        case offeringType = "OfferingType"
+        case recurringCharges = "RecurringCharges"
+        case reservedNodesOfferingId = "ReservedNodesOfferingId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if duration != 0 {
+            try encodeContainer.encode(duration, forKey: .duration)
+        }
+        if fixedPrice != 0.0 {
+            try encodeContainer.encode(fixedPrice, forKey: .fixedPrice)
+        }
+        if let nodeType = self.nodeType {
+            try encodeContainer.encode(nodeType, forKey: .nodeType)
+        }
+        if let offeringType = self.offeringType {
+            try encodeContainer.encode(offeringType, forKey: .offeringType)
+        }
+        if let recurringCharges = recurringCharges {
+            var recurringChargesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recurringCharges)
+            for recurringcharge0 in recurringCharges {
+                try recurringChargesContainer.encode(recurringcharge0)
+            }
+        }
+        if let reservedNodesOfferingId = self.reservedNodesOfferingId {
+            try encodeContainer.encode(reservedNodesOfferingId, forKey: .reservedNodesOfferingId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reservedNodesOfferingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservedNodesOfferingId)
+        reservedNodesOfferingId = reservedNodesOfferingIdDecoded
+        let nodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeType)
+        nodeType = nodeTypeDecoded
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        duration = durationDecoded
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0.0
+        fixedPrice = fixedPriceDecoded
+        let offeringTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offeringType)
+        offeringType = offeringTypeDecoded
+        let recurringChargesContainer = try containerValues.decodeIfPresent([MemoryDBClientTypes.RecurringCharge?].self, forKey: .recurringCharges)
+        var recurringChargesDecoded0:[MemoryDBClientTypes.RecurringCharge]? = nil
+        if let recurringChargesContainer = recurringChargesContainer {
+            recurringChargesDecoded0 = [MemoryDBClientTypes.RecurringCharge]()
+            for structure0 in recurringChargesContainer {
+                if let structure0 = structure0 {
+                    recurringChargesDecoded0?.append(structure0)
+                }
+            }
+        }
+        recurringCharges = recurringChargesDecoded0
+    }
+}
+
+extension MemoryDBClientTypes {
+    /// The offering type of this node.
+    public struct ReservedNodesOffering: Swift.Equatable {
+        /// The duration of the reservation in seconds.
+        public var duration: Swift.Int
+        /// The fixed price charged for this reserved node.
+        public var fixedPrice: Swift.Double
+        /// The node type for the reserved nodes. For more information, see [Supported node types](https://docs.aws.amazon.com/memorydb/latest/devguide/nodes.reserved.html#reserved-nodes-supported).
+        public var nodeType: Swift.String?
+        /// The offering type of this reserved node.
+        public var offeringType: Swift.String?
+        /// The recurring price charged to run this reserved node.
+        public var recurringCharges: [MemoryDBClientTypes.RecurringCharge]?
+        /// The offering identifier.
+        public var reservedNodesOfferingId: Swift.String?
+
+        public init (
+            duration: Swift.Int = 0,
+            fixedPrice: Swift.Double = 0.0,
+            nodeType: Swift.String? = nil,
+            offeringType: Swift.String? = nil,
+            recurringCharges: [MemoryDBClientTypes.RecurringCharge]? = nil,
+            reservedNodesOfferingId: Swift.String? = nil
+        )
+        {
+            self.duration = duration
+            self.fixedPrice = fixedPrice
+            self.nodeType = nodeType
+            self.offeringType = offeringType
+            self.recurringCharges = recurringCharges
+            self.reservedNodesOfferingId = reservedNodesOfferingId
+        }
+    }
+
+}
+
+extension ReservedNodesOfferingNotFoundFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: ReservedNodesOfferingNotFoundFaultBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The requested node offering does not exist.
+public struct ReservedNodesOfferingNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ReservedNodesOfferingNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ReservedNodesOfferingNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ResetParameterGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allParameters = "AllParameters"
@@ -7708,8 +8778,8 @@ extension ResetParameterGroupInput: Swift.Encodable {
         }
         if let parameterNames = parameterNames {
             var parameterNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterNames)
-            for parameternamelist0 in parameterNames {
-                try parameterNamesContainer.encode(parameternamelist0)
+            for string0 in parameterNames {
+                try parameterNamesContainer.encode(string0)
             }
         }
     }
@@ -8253,8 +9323,8 @@ extension MemoryDBClientTypes.Shard: Swift.Codable {
         }
         if let nodes = nodes {
             var nodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodes)
-            for nodelist0 in nodes {
-                try nodesContainer.encode(nodelist0)
+            for node0 in nodes {
+                try nodesContainer.encode(node0)
             }
         }
         if let numberOfNodes = self.numberOfNodes {
@@ -8970,8 +10040,8 @@ extension MemoryDBClientTypes.SubnetGroup: Swift.Codable {
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for subnetlist0 in subnets {
-                try subnetsContainer.encode(subnetlist0)
+            for subnet0 in subnets {
+                try subnetsContainer.encode(subnet0)
             }
         }
         if let vpcId = self.vpcId {
@@ -9568,8 +10638,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -9838,8 +10908,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for keylist0 in tagKeys {
-                try tagKeysContainer.encode(keylist0)
+            for string0 in tagKeys {
+                try tagKeysContainer.encode(string0)
             }
         }
     }
@@ -10002,14 +11072,14 @@ extension UpdateACLInput: Swift.Encodable {
         }
         if let userNamesToAdd = userNamesToAdd {
             var userNamesToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userNamesToAdd)
-            for usernamelistinput0 in userNamesToAdd {
-                try userNamesToAddContainer.encode(usernamelistinput0)
+            for username0 in userNamesToAdd {
+                try userNamesToAddContainer.encode(username0)
             }
         }
         if let userNamesToRemove = userNamesToRemove {
             var userNamesToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userNamesToRemove)
-            for usernamelistinput0 in userNamesToRemove {
-                try userNamesToRemoveContainer.encode(usernamelistinput0)
+            for username0 in userNamesToRemove {
+                try userNamesToRemoveContainer.encode(username0)
             }
         }
     }
@@ -10205,8 +11275,8 @@ extension UpdateClusterInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidslist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidslist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let shardConfiguration = self.shardConfiguration {
@@ -10498,8 +11568,8 @@ extension UpdateParameterGroupInput: Swift.Encodable {
         }
         if let parameterNameValues = parameterNameValues {
             var parameterNameValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterNameValues)
-            for parameternamevaluelist0 in parameterNameValues {
-                try parameterNameValuesContainer.encode(parameternamevaluelist0)
+            for parameternamevalue0 in parameterNameValues {
+                try parameterNameValuesContainer.encode(parameternamevalue0)
             }
         }
     }
@@ -10646,8 +11716,8 @@ extension UpdateSubnetGroupInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidentifierlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidentifierlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }
@@ -10942,8 +12012,8 @@ extension MemoryDBClientTypes.User: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aclNames = aclNames {
             var aclNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aclNames)
-            for aclnamelist0 in aclNames {
-                try aclNamesContainer.encode(aclnamelist0)
+            for aclname0 in aclNames {
+                try aclNamesContainer.encode(aclname0)
             }
         }
         if let arn = self.arn {

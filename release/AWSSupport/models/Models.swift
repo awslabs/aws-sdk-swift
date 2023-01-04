@@ -15,8 +15,8 @@ extension AddAttachmentsToSetInput: Swift.Encodable {
         }
         if let attachments = attachments {
             var attachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachments)
-            for attachments0 in attachments {
-                try attachmentsContainer.encode(attachments0)
+            for attachment0 in attachments {
+                try attachmentsContainer.encode(attachment0)
             }
         }
     }
@@ -174,8 +174,8 @@ extension AddCommunicationToCaseInput: Swift.Encodable {
         }
         if let ccEmailAddresses = ccEmailAddresses {
             var ccEmailAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ccEmailAddresses)
-            for ccemailaddresslist0 in ccEmailAddresses {
-                try ccEmailAddressesContainer.encode(ccemailaddresslist0)
+            for ccemailaddress0 in ccEmailAddresses {
+                try ccEmailAddressesContainer.encode(ccemailaddress0)
             }
         }
         if let communicationBody = self.communicationBody {
@@ -756,8 +756,8 @@ extension SupportClientTypes.CaseDetails: Swift.Codable {
         }
         if let ccEmailAddresses = ccEmailAddresses {
             var ccEmailAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ccEmailAddresses)
-            for ccemailaddresslist0 in ccEmailAddresses {
-                try ccEmailAddressesContainer.encode(ccemailaddresslist0)
+            for ccemailaddress0 in ccEmailAddresses {
+                try ccEmailAddressesContainer.encode(ccemailaddress0)
             }
         }
         if let displayId = self.displayId {
@@ -836,7 +836,7 @@ extension SupportClientTypes {
     ///
     /// * displayId - The identifier for the case on pages in the Amazon Web Services Support Center.
     ///
-    /// * language - The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+    /// * language - The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     ///
     /// * nextToken - A resumption point for pagination.
     ///
@@ -877,7 +877,7 @@ extension SupportClientTypes {
         public var ccEmailAddresses: [Swift.String]?
         /// The ID displayed for the case in the Amazon Web Services Support Center. This is a numeric string.
         public var displayId: Swift.String?
-        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
         public var language: Swift.String?
         /// The five most recent communications between you and Amazon Web Services Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
         public var recentCommunications: SupportClientTypes.RecentCaseCommunications?
@@ -1049,8 +1049,8 @@ extension SupportClientTypes.Communication: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachmentSet = attachmentSet {
             var attachmentSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachmentSet)
-            for attachmentset0 in attachmentSet {
-                try attachmentSetContainer.encode(attachmentset0)
+            for attachmentdetails0 in attachmentSet {
+                try attachmentSetContainer.encode(attachmentdetails0)
             }
         }
         if let body = self.body {
@@ -1146,8 +1146,8 @@ extension CreateCaseInput: Swift.Encodable {
         }
         if let ccEmailAddresses = ccEmailAddresses {
             var ccEmailAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ccEmailAddresses)
-            for ccemailaddresslist0 in ccEmailAddresses {
-                try ccEmailAddressesContainer.encode(ccemailaddresslist0)
+            for ccemailaddress0 in ccEmailAddresses {
+                try ccEmailAddressesContainer.encode(ccemailaddress0)
             }
         }
         if let communicationBody = self.communicationBody {
@@ -1189,7 +1189,7 @@ public struct CreateCaseInput: Swift.Equatable {
     public var communicationBody: Swift.String?
     /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
     public var issueType: Swift.String?
-    /// The language in which Amazon Web Services Support handles the case. You must specify the ISO 639-1 code for the language parameter if you want support in that language. Currently, English ("en") and Japanese ("ja") are supported.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// The code for the Amazon Web Services service. You can use the [DescribeServices] operation to get the possible serviceCode values.
     public var serviceCode: Swift.String?
@@ -1542,8 +1542,8 @@ extension DescribeCasesInput: Swift.Encodable {
         }
         if let caseIdList = caseIdList {
             var caseIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .caseIdList)
-            for caseidlist0 in caseIdList {
-                try caseIdListContainer.encode(caseidlist0)
+            for caseid0 in caseIdList {
+                try caseIdListContainer.encode(caseid0)
             }
         }
         if let displayId = self.displayId {
@@ -1586,7 +1586,7 @@ public struct DescribeCasesInput: Swift.Equatable {
     public var includeCommunications: Swift.Bool?
     /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
     public var includeResolvedCases: Swift.Bool
-    /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// The maximum number of results to return before paginating.
     public var maxResults: Swift.Int?
@@ -1953,8 +1953,8 @@ extension DescribeServicesInput: Swift.Encodable {
         }
         if let serviceCodeList = serviceCodeList {
             var serviceCodeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceCodeList)
-            for servicecodelist0 in serviceCodeList {
-                try serviceCodeListContainer.encode(servicecodelist0)
+            for servicecode0 in serviceCodeList {
+                try serviceCodeListContainer.encode(servicecode0)
             }
         }
     }
@@ -1967,7 +1967,7 @@ extension DescribeServicesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeServicesInput: Swift.Equatable {
-    /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// A JSON-formatted list of service codes available for Amazon Web Services services.
     public var serviceCodeList: [Swift.String]?
@@ -2104,7 +2104,7 @@ extension DescribeSeverityLevelsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeSeverityLevelsInput: Swift.Equatable {
-    /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+    /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
 
     public init (
@@ -2213,8 +2213,8 @@ extension DescribeTrustedAdvisorCheckRefreshStatusesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let checkIds = checkIds {
             var checkIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkIds)
-            for stringlist0 in checkIds {
-                try checkIdsContainer.encode(stringlist0)
+            for string0 in checkIds {
+                try checkIdsContainer.encode(string0)
             }
         }
     }
@@ -2366,7 +2366,29 @@ public struct DescribeTrustedAdvisorCheckResultInput: Swift.Equatable {
     /// The unique identifier for the Trusted Advisor check.
     /// This member is required.
     public var checkId: Swift.String?
-    /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+    /// The ISO 639-1 code for the language that you want your check results to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor:
+    ///
+    /// * Chinese, Simplified - zh
+    ///
+    /// * Chinese, Traditional - zh_TW
+    ///
+    /// * English - en
+    ///
+    /// * French - fr
+    ///
+    /// * German - de
+    ///
+    /// * Indonesian - id
+    ///
+    /// * Italian - it
+    ///
+    /// * Japanese - ja
+    ///
+    /// * Korean - ko
+    ///
+    /// * Portuguese, Brazilian - pt_BR
+    ///
+    /// * Spanish - es
     public var language: Swift.String?
 
     public init (
@@ -2472,8 +2494,8 @@ extension DescribeTrustedAdvisorCheckSummariesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let checkIds = checkIds {
             var checkIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .checkIds)
-            for stringlist0 in checkIds {
-                try checkIdsContainer.encode(stringlist0)
+            for string0 in checkIds {
+                try checkIdsContainer.encode(string0)
             }
         }
     }
@@ -2617,7 +2639,29 @@ extension DescribeTrustedAdvisorChecksInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeTrustedAdvisorChecksInput: Swift.Equatable {
-    /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+    /// The ISO 639-1 code for the language that you want your checks to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor:
+    ///
+    /// * Chinese, Simplified - zh
+    ///
+    /// * Chinese, Traditional - zh_TW
+    ///
+    /// * English - en
+    ///
+    /// * French - fr
+    ///
+    /// * German - de
+    ///
+    /// * Indonesian - id
+    ///
+    /// * Italian - it
+    ///
+    /// * Japanese - ja
+    ///
+    /// * Korean - ko
+    ///
+    /// * Portuguese, Brazilian - pt_BR
+    ///
+    /// * Spanish - es
     /// This member is required.
     public var language: Swift.String?
 
@@ -2782,8 +2826,8 @@ extension SupportClientTypes.RecentCaseCommunications: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let communications = communications {
             var communicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .communications)
-            for communicationlist0 in communications {
-                try communicationsContainer.encode(communicationlist0)
+            for communication0 in communications {
+                try communicationsContainer.encode(communication0)
             }
         }
         if let nextToken = self.nextToken {
@@ -3077,8 +3121,8 @@ extension SupportClientTypes.Service: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categories = categories {
             var categoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categories)
-            for categorylist0 in categories {
-                try categoriesContainer.encode(categorylist0)
+            for category0 in categories {
+                try categoriesContainer.encode(category0)
             }
         }
         if let code = self.code {
@@ -3248,8 +3292,8 @@ extension SupportClientTypes.TrustedAdvisorCheckDescription: Swift.Codable {
         }
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadata)
-            for stringlist0 in metadata {
-                try metadataContainer.encode(stringlist0)
+            for string0 in metadata {
+                try metadataContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -3406,8 +3450,8 @@ extension SupportClientTypes.TrustedAdvisorCheckResult: Swift.Codable {
         }
         if let flaggedResources = flaggedResources {
             var flaggedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .flaggedResources)
-            for trustedadvisorresourcedetaillist0 in flaggedResources {
-                try flaggedResourcesContainer.encode(trustedadvisorresourcedetaillist0)
+            for trustedadvisorresourcedetail0 in flaggedResources {
+                try flaggedResourcesContainer.encode(trustedadvisorresourcedetail0)
             }
         }
         if let resourcesSummary = self.resourcesSummary {
@@ -3642,8 +3686,8 @@ extension SupportClientTypes.TrustedAdvisorResourceDetail: Swift.Codable {
         }
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metadata)
-            for stringlist0 in metadata {
-                try metadataContainer.encode(stringlist0)
+            for string0 in metadata {
+                try metadataContainer.encode(string0)
             }
         }
         if let region = self.region {

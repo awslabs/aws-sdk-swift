@@ -15,12 +15,17 @@ import ClientRuntime
 /// See https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html#instance-metadata-transition-to-version-2
 /// for more information.
 public class IMDSClient {
-    let crtIMDSClient: CRTIMDSClient
+    let crtIMDSClient: AwsCommonRuntimeKit.IMDSClient
     private let sharedDefaultIO: SDKDefaultIO = SDKDefaultIO.shared
     
-    public init(config: IMDSConfig = IMDSConfig()) {
-        let crtConfig = config.toCRTConfig()
-        self.crtIMDSClient = CRTIMDSClient(options: crtConfig)
+    public init(config: IMDSConfig = IMDSConfig()) throws {
+        self.crtIMDSClient = try AwsCommonRuntimeKit.IMDSClient(
+            bootstrap: sharedDefaultIO.clientBootstrap,
+            retryStrategy: .init(
+                eventLoopGroup: sharedDefaultIO.eventLoopGroup,
+                maxRetries: config.retries
+            )
+        )
     }
     
     public func get(path: String) async throws -> String? {

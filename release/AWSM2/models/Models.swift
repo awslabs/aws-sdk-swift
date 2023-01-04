@@ -946,8 +946,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1496,26 +1496,26 @@ extension CreateEnvironmentInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for string50list0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(string50list0)
+            for string500 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string500)
             }
         }
         if let storageConfigurations = storageConfigurations {
             var storageConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .storageConfigurations)
-            for storageconfigurationlist0 in storageConfigurations {
-                try storageConfigurationsContainer.encode(storageconfigurationlist0)
+            for storageconfiguration0 in storageConfigurations {
+                try storageConfigurationsContainer.encode(storageconfiguration0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for string50list0 in subnetIds {
-                try subnetIdsContainer.encode(string50list0)
+            for string500 in subnetIds {
+                try subnetIdsContainer.encode(string500)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1862,8 +1862,8 @@ extension M2ClientTypes.DataSetImportConfig: Swift.Codable {
         switch self {
             case let .datasets(datasets):
                 var datasetsContainer = container.nestedUnkeyedContainer(forKey: .datasets)
-                for datasetimportlist0 in datasets {
-                    try datasetsContainer.encode(datasetimportlist0)
+                for datasetimportitem0 in datasets {
+                    try datasetsContainer.encode(datasetimportitem0)
                 }
             case let .s3location(s3location):
                 try container.encode(s3location, forKey: .s3location)
@@ -7049,8 +7049,8 @@ extension StartBatchJobInput: Swift.Encodable {
         }
         if let jobParams = jobParams {
             var jobParamsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .jobParams)
-            for (dictKey0, batchjobparametersmap0) in jobParams {
-                try jobParamsContainer.encode(batchjobparametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, batchJobParametersMap0) in jobParams {
+                try jobParamsContainer.encode(batchJobParametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7343,8 +7343,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8132,8 +8132,8 @@ extension M2ClientTypes.VsamAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alternateKeys = alternateKeys {
             var alternateKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alternateKeys)
-            for alternatekeylist0 in alternateKeys {
-                try alternateKeysContainer.encode(alternatekeylist0)
+            for alternatekey0 in alternateKeys {
+                try alternateKeysContainer.encode(alternatekey0)
             }
         }
         if compressed != false {
@@ -8221,8 +8221,8 @@ extension M2ClientTypes.VsamDetailAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alternateKeys = alternateKeys {
             var alternateKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alternateKeys)
-            for alternatekeylist0 in alternateKeys {
-                try alternateKeysContainer.encode(alternatekeylist0)
+            for alternatekey0 in alternateKeys {
+                try alternateKeysContainer.encode(alternatekey0)
             }
         }
         if let cacheAtStartup = self.cacheAtStartup {

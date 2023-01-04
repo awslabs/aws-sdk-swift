@@ -535,8 +535,8 @@ extension AssociateFileSystemAliasesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aliases = aliases {
             var aliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliases)
-            for alternatednsnames0 in aliases {
-                try aliasesContainer.encode(alternatednsnames0)
+            for alternatednsname0 in aliases {
+                try aliasesContainer.encode(alternatednsname0)
             }
         }
         if let clientRequestToken = self.clientRequestToken {
@@ -707,8 +707,8 @@ extension FSxClientTypes.AutoExportPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for eventtypes0 in events {
-                try eventsContainer.encode(eventtypes0.rawValue)
+            for eventtype0 in events {
+                try eventsContainer.encode(eventtype0.rawValue)
             }
         }
     }
@@ -763,8 +763,8 @@ extension FSxClientTypes.AutoImportPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for eventtypes0 in events {
-                try eventsContainer.encode(eventtypes0.rawValue)
+            for eventtype0 in events {
+                try eventsContainer.encode(eventtype0.rawValue)
             }
         }
     }
@@ -911,8 +911,8 @@ extension FSxClientTypes.Backup: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -1719,8 +1719,8 @@ extension CopyBackupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1922,8 +1922,8 @@ extension CreateBackupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeId = self.volumeId {
@@ -2115,8 +2115,8 @@ extension CreateDataRepositoryAssociationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2320,8 +2320,8 @@ extension CreateDataRepositoryTaskInput: Swift.Encodable {
         }
         if let paths = paths {
             var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
-            for datarepositorytaskpaths0 in paths {
-                try pathsContainer.encode(datarepositorytaskpaths0)
+            for datarepositorytaskpath0 in paths {
+                try pathsContainer.encode(datarepositorytaskpath0)
             }
         }
         if let report = self.report {
@@ -2329,8 +2329,8 @@ extension CreateDataRepositoryTaskInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -2546,8 +2546,8 @@ extension CreateFileCacheInput: Swift.Encodable {
         }
         if let dataRepositoryAssociations = dataRepositoryAssociations {
             var dataRepositoryAssociationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataRepositoryAssociations)
-            for createfilecachedatarepositoryassociations0 in dataRepositoryAssociations {
-                try dataRepositoryAssociationsContainer.encode(createfilecachedatarepositoryassociations0)
+            for filecachedatarepositoryassociation0 in dataRepositoryAssociations {
+                try dataRepositoryAssociationsContainer.encode(filecachedatarepositoryassociation0)
             }
         }
         if let fileCacheType = self.fileCacheType {
@@ -2564,8 +2564,8 @@ extension CreateFileCacheInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let storageCapacity = self.storageCapacity {
@@ -2573,14 +2573,14 @@ extension CreateFileCacheInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2928,8 +2928,8 @@ extension CreateFileSystemFromBackupInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let storageCapacity = self.storageCapacity {
@@ -2940,14 +2940,14 @@ extension CreateFileSystemFromBackupInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let windowsConfiguration = self.windowsConfiguration {
@@ -3256,8 +3256,8 @@ extension CreateFileSystemInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let storageCapacity = self.storageCapacity {
@@ -3268,14 +3268,14 @@ extension CreateFileSystemInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let windowsConfiguration = self.windowsConfiguration {
@@ -3727,8 +3727,8 @@ extension FSxClientTypes.CreateFileSystemOntapConfiguration: Swift.Codable {
         }
         if let routeTableIds = routeTableIds {
             var routeTableIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routeTableIds)
-            for routetableids0 in routeTableIds {
-                try routeTableIdsContainer.encode(routetableids0)
+            for routetableid0 in routeTableIds {
+                try routeTableIdsContainer.encode(routetableid0)
             }
         }
         if let throughputCapacity = self.throughputCapacity {
@@ -3924,7 +3924,7 @@ extension FSxClientTypes {
         /// * SINGLE_AZ_2- Creates file systems with throughput capacities of 160 - 10,240 MB/s using an NVMe L2ARC cache. Single_AZ_2 is available only in the US East (N. Virginia), US East (Ohio), US West (Oregon), and Europe (Ireland) Amazon Web Services Regions.
         ///
         ///
-        /// For more information, see: [Deployment type availability](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/available-aws-regions.html) and [ File system performance](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/zfs-fs-performance.html)in theAmazon FSx for OpenZFS User Guide.
+        /// For more information, see: [Deployment type availability](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/availability-durability.html#available-aws-regions) and [File system performance](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#zfs-fs-performance) in the Amazon FSx for OpenZFS User Guide.
         /// This member is required.
         public var deploymentType: FSxClientTypes.OpenZFSDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how the amount was provisioned (by the customer or by the system).
@@ -4074,8 +4074,8 @@ extension FSxClientTypes.CreateFileSystemWindowsConfiguration: Swift.Codable {
         }
         if let aliases = aliases {
             var aliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliases)
-            for alternatednsnames0 in aliases {
-                try aliasesContainer.encode(alternatednsnames0)
+            for alternatednsname0 in aliases {
+                try aliasesContainer.encode(alternatednsname0)
             }
         }
         if let auditLogConfiguration = self.auditLogConfiguration {
@@ -4451,8 +4451,8 @@ extension FSxClientTypes.CreateOpenZFSVolumeConfiguration: Swift.Codable {
         }
         if let nfsExports = nfsExports {
             var nfsExportsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nfsExports)
-            for openzfsnfsexports0 in nfsExports {
-                try nfsExportsContainer.encode(openzfsnfsexports0)
+            for openzfsnfsexport0 in nfsExports {
+                try nfsExportsContainer.encode(openzfsnfsexport0)
             }
         }
         if let originSnapshot = self.originSnapshot {
@@ -4475,8 +4475,8 @@ extension FSxClientTypes.CreateOpenZFSVolumeConfiguration: Swift.Codable {
         }
         if let userAndGroupQuotas = userAndGroupQuotas {
             var userAndGroupQuotasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAndGroupQuotas)
-            for openzfsuserandgroupquotas0 in userAndGroupQuotas {
-                try userAndGroupQuotasContainer.encode(openzfsuserandgroupquotas0)
+            for openzfsuserorgroupquota0 in userAndGroupQuotas {
+                try userAndGroupQuotasContainer.encode(openzfsuserorgroupquota0)
             }
         }
     }
@@ -4604,8 +4604,8 @@ extension CreateSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeId = self.volumeId {
@@ -4790,8 +4790,8 @@ extension CreateStorageVirtualMachineInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5042,8 +5042,8 @@ extension CreateVolumeFromBackupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5229,8 +5229,8 @@ extension CreateVolumeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeType = self.volumeType {
@@ -5469,8 +5469,8 @@ extension FSxClientTypes.DataRepositoryAssociation: Swift.Codable {
         }
         if let dataRepositorySubdirectories = dataRepositorySubdirectories {
             var dataRepositorySubdirectoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataRepositorySubdirectories)
-            for subdirectoriespaths0 in dataRepositorySubdirectories {
-                try dataRepositorySubdirectoriesContainer.encode(subdirectoriespaths0)
+            for namespace0 in dataRepositorySubdirectories {
+                try dataRepositorySubdirectoriesContainer.encode(namespace0)
             }
         }
         if let failureDetails = self.failureDetails {
@@ -5505,8 +5505,8 @@ extension FSxClientTypes.DataRepositoryAssociation: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5955,8 +5955,8 @@ extension FSxClientTypes.DataRepositoryTask: Swift.Codable {
         }
         if let paths = paths {
             var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
-            for datarepositorytaskpaths0 in paths {
-                try pathsContainer.encode(datarepositorytaskpaths0)
+            for datarepositorytaskpath0 in paths {
+                try pathsContainer.encode(datarepositorytaskpath0)
             }
         }
         if let report = self.report {
@@ -5973,8 +5973,8 @@ extension FSxClientTypes.DataRepositoryTask: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskId = self.taskId {
@@ -6289,8 +6289,8 @@ extension FSxClientTypes.DataRepositoryTaskFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for datarepositorytaskfiltervalues0 in values {
-                try valuesContainer.encode(datarepositorytaskfiltervalues0)
+            for datarepositorytaskfiltervalue0 in values {
+                try valuesContainer.encode(datarepositorytaskfiltervalue0)
             }
         }
     }
@@ -7143,8 +7143,8 @@ extension FSxClientTypes.DeleteFileSystemLustreConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let finalBackupTags = finalBackupTags {
             var finalBackupTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .finalBackupTags)
-            for tags0 in finalBackupTags {
-                try finalBackupTagsContainer.encode(tags0)
+            for tag0 in finalBackupTags {
+                try finalBackupTagsContainer.encode(tag0)
             }
         }
         if let skipFinalBackup = self.skipFinalBackup {
@@ -7203,8 +7203,8 @@ extension FSxClientTypes.DeleteFileSystemLustreResponse: Swift.Codable {
         }
         if let finalBackupTags = finalBackupTags {
             var finalBackupTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .finalBackupTags)
-            for tags0 in finalBackupTags {
-                try finalBackupTagsContainer.encode(tags0)
+            for tag0 in finalBackupTags {
+                try finalBackupTagsContainer.encode(tag0)
             }
         }
     }
@@ -7258,14 +7258,14 @@ extension FSxClientTypes.DeleteFileSystemOpenZFSConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let finalBackupTags = finalBackupTags {
             var finalBackupTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .finalBackupTags)
-            for tags0 in finalBackupTags {
-                try finalBackupTagsContainer.encode(tags0)
+            for tag0 in finalBackupTags {
+                try finalBackupTagsContainer.encode(tag0)
             }
         }
         if let options = options {
             var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
-            for deletefilesystemopenzfsoptions0 in options {
-                try optionsContainer.encode(deletefilesystemopenzfsoptions0.rawValue)
+            for deletefilesystemopenzfsoption0 in options {
+                try optionsContainer.encode(deletefilesystemopenzfsoption0.rawValue)
             }
         }
         if let skipFinalBackup = self.skipFinalBackup {
@@ -7368,8 +7368,8 @@ extension FSxClientTypes.DeleteFileSystemOpenZFSResponse: Swift.Codable {
         }
         if let finalBackupTags = finalBackupTags {
             var finalBackupTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .finalBackupTags)
-            for tags0 in finalBackupTags {
-                try finalBackupTagsContainer.encode(tags0)
+            for tag0 in finalBackupTags {
+                try finalBackupTagsContainer.encode(tag0)
             }
         }
     }
@@ -7534,8 +7534,8 @@ extension FSxClientTypes.DeleteFileSystemWindowsConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let finalBackupTags = finalBackupTags {
             var finalBackupTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .finalBackupTags)
-            for tags0 in finalBackupTags {
-                try finalBackupTagsContainer.encode(tags0)
+            for tag0 in finalBackupTags {
+                try finalBackupTagsContainer.encode(tag0)
             }
         }
         if let skipFinalBackup = self.skipFinalBackup {
@@ -7594,8 +7594,8 @@ extension FSxClientTypes.DeleteFileSystemWindowsResponse: Swift.Codable {
         }
         if let finalBackupTags = finalBackupTags {
             var finalBackupTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .finalBackupTags)
-            for tags0 in finalBackupTags {
-                try finalBackupTagsContainer.encode(tags0)
+            for tag0 in finalBackupTags {
+                try finalBackupTagsContainer.encode(tag0)
             }
         }
     }
@@ -8037,8 +8037,8 @@ extension FSxClientTypes.DeleteVolumeOntapConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let finalBackupTags = finalBackupTags {
             var finalBackupTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .finalBackupTags)
-            for tags0 in finalBackupTags {
-                try finalBackupTagsContainer.encode(tags0)
+            for tag0 in finalBackupTags {
+                try finalBackupTagsContainer.encode(tag0)
             }
         }
         if let skipFinalBackup = self.skipFinalBackup {
@@ -8097,8 +8097,8 @@ extension FSxClientTypes.DeleteVolumeOntapResponse: Swift.Codable {
         }
         if let finalBackupTags = finalBackupTags {
             var finalBackupTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .finalBackupTags)
-            for tags0 in finalBackupTags {
-                try finalBackupTagsContainer.encode(tags0)
+            for tag0 in finalBackupTags {
+                try finalBackupTagsContainer.encode(tag0)
             }
         }
     }
@@ -8150,8 +8150,8 @@ extension FSxClientTypes.DeleteVolumeOpenZFSConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let options = options {
             var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
-            for deleteopenzfsvolumeoptions0 in options {
-                try optionsContainer.encode(deleteopenzfsvolumeoptions0.rawValue)
+            for deleteopenzfsvolumeoption0 in options {
+                try optionsContainer.encode(deleteopenzfsvolumeoption0.rawValue)
             }
         }
     }
@@ -8289,14 +8289,14 @@ extension DescribeBackupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let backupIds = backupIds {
             var backupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .backupIds)
-            for backupids0 in backupIds {
-                try backupIdsContainer.encode(backupids0)
+            for backupid0 in backupIds {
+                try backupIdsContainer.encode(backupid0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8488,14 +8488,14 @@ extension DescribeDataRepositoryAssociationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associationIds = associationIds {
             var associationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associationIds)
-            for datarepositoryassociationids0 in associationIds {
-                try associationIdsContainer.encode(datarepositoryassociationids0)
+            for datarepositoryassociationid0 in associationIds {
+                try associationIdsContainer.encode(datarepositoryassociationid0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8685,8 +8685,8 @@ extension DescribeDataRepositoryTasksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for datarepositorytaskfilters0 in filters {
-                try filtersContainer.encode(datarepositorytaskfilters0)
+            for datarepositorytaskfilter0 in filters {
+                try filtersContainer.encode(datarepositorytaskfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8697,8 +8697,8 @@ extension DescribeDataRepositoryTasksInput: Swift.Encodable {
         }
         if let taskIds = taskIds {
             var taskIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taskIds)
-            for taskids0 in taskIds {
-                try taskIdsContainer.encode(taskids0)
+            for taskid0 in taskIds {
+                try taskIdsContainer.encode(taskid0)
             }
         }
     }
@@ -8879,8 +8879,8 @@ extension DescribeFileCachesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fileCacheIds = fileCacheIds {
             var fileCacheIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileCacheIds)
-            for filecacheids0 in fileCacheIds {
-                try fileCacheIdsContainer.encode(filecacheids0)
+            for filecacheid0 in fileCacheIds {
+                try fileCacheIdsContainer.encode(filecacheid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9220,8 +9220,8 @@ extension DescribeFileSystemsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fileSystemIds = fileSystemIds {
             var fileSystemIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemIds)
-            for filesystemids0 in fileSystemIds {
-                try fileSystemIdsContainer.encode(filesystemids0)
+            for filesystemid0 in fileSystemIds {
+                try fileSystemIdsContainer.encode(filesystemid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9392,8 +9392,8 @@ extension DescribeSnapshotsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for snapshotfilters0 in filters {
-                try filtersContainer.encode(snapshotfilters0)
+            for snapshotfilter0 in filters {
+                try filtersContainer.encode(snapshotfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9404,8 +9404,8 @@ extension DescribeSnapshotsInput: Swift.Encodable {
         }
         if let snapshotIds = snapshotIds {
             var snapshotIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .snapshotIds)
-            for snapshotids0 in snapshotIds {
-                try snapshotIdsContainer.encode(snapshotids0)
+            for snapshotid0 in snapshotIds {
+                try snapshotIdsContainer.encode(snapshotid0)
             }
         }
     }
@@ -9585,8 +9585,8 @@ extension DescribeStorageVirtualMachinesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for storagevirtualmachinefilters0 in filters {
-                try filtersContainer.encode(storagevirtualmachinefilters0)
+            for storagevirtualmachinefilter0 in filters {
+                try filtersContainer.encode(storagevirtualmachinefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9597,8 +9597,8 @@ extension DescribeStorageVirtualMachinesInput: Swift.Encodable {
         }
         if let storageVirtualMachineIds = storageVirtualMachineIds {
             var storageVirtualMachineIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .storageVirtualMachineIds)
-            for storagevirtualmachineids0 in storageVirtualMachineIds {
-                try storageVirtualMachineIdsContainer.encode(storagevirtualmachineids0)
+            for storagevirtualmachineid0 in storageVirtualMachineIds {
+                try storageVirtualMachineIdsContainer.encode(storagevirtualmachineid0)
             }
         }
     }
@@ -9778,8 +9778,8 @@ extension DescribeVolumesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for volumefilters0 in filters {
-                try filtersContainer.encode(volumefilters0)
+            for volumefilter0 in filters {
+                try filtersContainer.encode(volumefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9790,8 +9790,8 @@ extension DescribeVolumesInput: Swift.Encodable {
         }
         if let volumeIds = volumeIds {
             var volumeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeIds)
-            for volumeids0 in volumeIds {
-                try volumeIdsContainer.encode(volumeids0)
+            for volumeid0 in volumeIds {
+                try volumeIdsContainer.encode(volumeid0)
             }
         }
     }
@@ -9970,8 +9970,8 @@ extension DisassociateFileSystemAliasesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aliases = aliases {
             var aliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliases)
-            for alternatednsnames0 in aliases {
-                try aliasesContainer.encode(alternatednsnames0)
+            for alternatednsname0 in aliases {
+                try aliasesContainer.encode(alternatednsname0)
             }
         }
         if let clientRequestToken = self.clientRequestToken {
@@ -10296,8 +10296,8 @@ extension FSxClientTypes.FileCache: Swift.Codable {
         }
         if let dataRepositoryAssociationIds = dataRepositoryAssociationIds {
             var dataRepositoryAssociationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataRepositoryAssociationIds)
-            for datarepositoryassociationids0 in dataRepositoryAssociationIds {
-                try dataRepositoryAssociationIdsContainer.encode(datarepositoryassociationids0)
+            for datarepositoryassociationid0 in dataRepositoryAssociationIds {
+                try dataRepositoryAssociationIdsContainer.encode(datarepositoryassociationid0)
             }
         }
         if let failureDetails = self.failureDetails {
@@ -10323,8 +10323,8 @@ extension FSxClientTypes.FileCache: Swift.Codable {
         }
         if let networkInterfaceIds = networkInterfaceIds {
             var networkInterfaceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaceIds)
-            for networkinterfaceids0 in networkInterfaceIds {
-                try networkInterfaceIdsContainer.encode(networkinterfaceids0)
+            for networkinterfaceid0 in networkInterfaceIds {
+                try networkInterfaceIdsContainer.encode(networkinterfaceid0)
             }
         }
         if let ownerId = self.ownerId {
@@ -10338,8 +10338,8 @@ extension FSxClientTypes.FileCache: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {
@@ -10532,8 +10532,8 @@ extension FSxClientTypes.FileCacheCreating: Swift.Codable {
         }
         if let dataRepositoryAssociationIds = dataRepositoryAssociationIds {
             var dataRepositoryAssociationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataRepositoryAssociationIds)
-            for datarepositoryassociationids0 in dataRepositoryAssociationIds {
-                try dataRepositoryAssociationIdsContainer.encode(datarepositoryassociationids0)
+            for datarepositoryassociationid0 in dataRepositoryAssociationIds {
+                try dataRepositoryAssociationIdsContainer.encode(datarepositoryassociationid0)
             }
         }
         if let failureDetails = self.failureDetails {
@@ -10559,8 +10559,8 @@ extension FSxClientTypes.FileCacheCreating: Swift.Codable {
         }
         if let networkInterfaceIds = networkInterfaceIds {
             var networkInterfaceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaceIds)
-            for networkinterfaceids0 in networkInterfaceIds {
-                try networkInterfaceIdsContainer.encode(networkinterfaceids0)
+            for networkinterfaceid0 in networkInterfaceIds {
+                try networkInterfaceIdsContainer.encode(networkinterfaceid0)
             }
         }
         if let ownerId = self.ownerId {
@@ -10574,14 +10574,14 @@ extension FSxClientTypes.FileCacheCreating: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcId = self.vpcId {
@@ -10775,8 +10775,8 @@ extension FSxClientTypes.FileCacheDataRepositoryAssociation: Swift.Codable {
         }
         if let dataRepositorySubdirectories = dataRepositorySubdirectories {
             var dataRepositorySubdirectoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataRepositorySubdirectories)
-            for subdirectoriespaths0 in dataRepositorySubdirectories {
-                try dataRepositorySubdirectoriesContainer.encode(subdirectoriespaths0)
+            for namespace0 in dataRepositorySubdirectories {
+                try dataRepositorySubdirectoriesContainer.encode(namespace0)
             }
         }
         if let fileCachePath = self.fileCachePath {
@@ -11086,8 +11086,8 @@ extension FSxClientTypes.FileCacheNFSConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dnsIps = dnsIps {
             var dnsIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIps)
-            for repositorydnsips0 in dnsIps {
-                try dnsIpsContainer.encode(repositorydnsips0)
+            for ipaddress0 in dnsIps {
+                try dnsIpsContainer.encode(ipaddress0)
             }
         }
         if let version = self.version {
@@ -11245,8 +11245,8 @@ extension FSxClientTypes.FileSystem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let administrativeActions = administrativeActions {
             var administrativeActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .administrativeActions)
-            for administrativeactions0 in administrativeActions {
-                try administrativeActionsContainer.encode(administrativeactions0)
+            for administrativeaction0 in administrativeActions {
+                try administrativeActionsContainer.encode(administrativeaction0)
             }
         }
         if let creationTime = self.creationTime {
@@ -11278,8 +11278,8 @@ extension FSxClientTypes.FileSystem: Swift.Codable {
         }
         if let networkInterfaceIds = networkInterfaceIds {
             var networkInterfaceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaceIds)
-            for networkinterfaceids0 in networkInterfaceIds {
-                try networkInterfaceIdsContainer.encode(networkinterfaceids0)
+            for networkinterfaceid0 in networkInterfaceIds {
+                try networkInterfaceIdsContainer.encode(networkinterfaceid0)
             }
         }
         if let ontapConfiguration = self.ontapConfiguration {
@@ -11302,14 +11302,14 @@ extension FSxClientTypes.FileSystem: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcId = self.vpcId {
@@ -11534,8 +11534,8 @@ extension FSxClientTypes.FileSystemEndpoint: Swift.Codable {
         }
         if let ipAddresses = ipAddresses {
             var ipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddresses)
-            for ontapendpointipaddresses0 in ipAddresses {
-                try ipAddressesContainer.encode(ontapendpointipaddresses0)
+            for ipaddress0 in ipAddresses {
+                try ipAddressesContainer.encode(ipaddress0)
             }
         }
     }
@@ -11844,8 +11844,8 @@ extension FSxClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -13191,8 +13191,8 @@ extension FSxClientTypes.LustreRootSquashConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let noSquashNids = noSquashNids {
             var noSquashNidsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .noSquashNids)
-            for lustrenosquashnids0 in noSquashNids {
-                try noSquashNidsContainer.encode(lustrenosquashnids0)
+            for lustrenosquashnid0 in noSquashNids {
+                try noSquashNidsContainer.encode(lustrenosquashnid0)
             }
         }
         if let rootSquash = self.rootSquash {
@@ -13422,8 +13422,8 @@ extension FSxClientTypes.NFSDataRepositoryConfiguration: Swift.Codable {
         }
         if let dnsIps = dnsIps {
             var dnsIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIps)
-            for repositorydnsips0 in dnsIps {
-                try dnsIpsContainer.encode(repositorydnsips0)
+            for ipaddress0 in dnsIps {
+                try dnsIpsContainer.encode(ipaddress0)
             }
         }
         if let version = self.version {
@@ -13640,8 +13640,8 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.Codable {
         }
         if let routeTableIds = routeTableIds {
             var routeTableIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routeTableIds)
-            for routetableids0 in routeTableIds {
-                try routeTableIdsContainer.encode(routetableids0)
+            for routetableid0 in routeTableIds {
+                try routeTableIdsContainer.encode(routetableid0)
             }
         }
         if let throughputCapacity = self.throughputCapacity {
@@ -13959,8 +13959,8 @@ extension FSxClientTypes.OpenZFSClientConfiguration: Swift.Codable {
         }
         if let options = options {
             var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
-            for openzfsnfsexportoptions0 in options {
-                try optionsContainer.encode(openzfsnfsexportoptions0)
+            for openzfsnfsexportoption0 in options {
+                try optionsContainer.encode(openzfsnfsexportoption0)
             }
         }
     }
@@ -14061,8 +14061,8 @@ extension FSxClientTypes.OpenZFSCreateRootVolumeConfiguration: Swift.Codable {
         }
         if let nfsExports = nfsExports {
             var nfsExportsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nfsExports)
-            for openzfsnfsexports0 in nfsExports {
-                try nfsExportsContainer.encode(openzfsnfsexports0)
+            for openzfsnfsexport0 in nfsExports {
+                try nfsExportsContainer.encode(openzfsnfsexport0)
             }
         }
         if let readOnly = self.readOnly {
@@ -14073,8 +14073,8 @@ extension FSxClientTypes.OpenZFSCreateRootVolumeConfiguration: Swift.Codable {
         }
         if let userAndGroupQuotas = userAndGroupQuotas {
             var userAndGroupQuotasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAndGroupQuotas)
-            for openzfsuserandgroupquotas0 in userAndGroupQuotas {
-                try userAndGroupQuotasContainer.encode(openzfsuserandgroupquotas0)
+            for openzfsuserorgroupquota0 in userAndGroupQuotas {
+                try userAndGroupQuotasContainer.encode(openzfsuserorgroupquota0)
             }
         }
     }
@@ -14347,8 +14347,8 @@ extension FSxClientTypes.OpenZFSNfsExport: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientConfigurations = clientConfigurations {
             var clientConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientConfigurations)
-            for openzfsclientconfigurations0 in clientConfigurations {
-                try clientConfigurationsContainer.encode(openzfsclientconfigurations0)
+            for openzfsclientconfiguration0 in clientConfigurations {
+                try clientConfigurationsContainer.encode(openzfsclientconfiguration0)
             }
         }
     }
@@ -14559,8 +14559,8 @@ extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
         }
         if let nfsExports = nfsExports {
             var nfsExportsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nfsExports)
-            for openzfsnfsexports0 in nfsExports {
-                try nfsExportsContainer.encode(openzfsnfsexports0)
+            for openzfsnfsexport0 in nfsExports {
+                try nfsExportsContainer.encode(openzfsnfsexport0)
             }
         }
         if let originSnapshot = self.originSnapshot {
@@ -14586,8 +14586,8 @@ extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
         }
         if let userAndGroupQuotas = userAndGroupQuotas {
             var userAndGroupQuotasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAndGroupQuotas)
-            for openzfsuserandgroupquotas0 in userAndGroupQuotas {
-                try userAndGroupQuotasContainer.encode(openzfsuserandgroupquotas0)
+            for openzfsuserorgroupquota0 in userAndGroupQuotas {
+                try userAndGroupQuotasContainer.encode(openzfsuserorgroupquota0)
             }
         }
         if let volumePath = self.volumePath {
@@ -15116,8 +15116,8 @@ extension RestoreVolumeFromSnapshotInput: Swift.Encodable {
         }
         if let options = options {
             var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
-            for restoreopenzfsvolumeoptions0 in options {
-                try optionsContainer.encode(restoreopenzfsvolumeoptions0.rawValue)
+            for restoreopenzfsvolumeoption0 in options {
+                try optionsContainer.encode(restoreopenzfsvolumeoption0.rawValue)
             }
         }
         if let snapshotId = self.snapshotId {
@@ -15391,8 +15391,8 @@ extension FSxClientTypes.SelfManagedActiveDirectoryAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dnsIps = dnsIps {
             var dnsIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIps)
-            for dnsips0 in dnsIps {
-                try dnsIpsContainer.encode(dnsips0)
+            for ipaddress0 in dnsIps {
+                try dnsIpsContainer.encode(ipaddress0)
             }
         }
         if let domainName = self.domainName {
@@ -15479,8 +15479,8 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dnsIps = dnsIps {
             var dnsIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIps)
-            for dnsips0 in dnsIps {
-                try dnsIpsContainer.encode(dnsips0)
+            for ipaddress0 in dnsIps {
+                try dnsIpsContainer.encode(ipaddress0)
             }
         }
         if let domainName = self.domainName {
@@ -15582,8 +15582,8 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dnsIps = dnsIps {
             var dnsIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIps)
-            for dnsips0 in dnsIps {
-                try dnsIpsContainer.encode(dnsips0)
+            for ipaddress0 in dnsIps {
+                try dnsIpsContainer.encode(ipaddress0)
             }
         }
         if let password = self.password {
@@ -15781,8 +15781,8 @@ extension FSxClientTypes.Snapshot: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let administrativeActions = administrativeActions {
             var administrativeActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .administrativeActions)
-            for administrativeactions0 in administrativeActions {
-                try administrativeActionsContainer.encode(administrativeactions0)
+            for administrativeaction0 in administrativeActions {
+                try administrativeActionsContainer.encode(administrativeaction0)
             }
         }
         if let creationTime = self.creationTime {
@@ -15805,8 +15805,8 @@ extension FSxClientTypes.Snapshot: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeId = self.volumeId {
@@ -15924,8 +15924,8 @@ extension FSxClientTypes.SnapshotFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for snapshotfiltervalues0 in values {
-                try valuesContainer.encode(snapshotfiltervalues0)
+            for snapshotfiltervalue0 in values {
+                try valuesContainer.encode(snapshotfiltervalue0)
             }
         }
     }
@@ -16240,6 +16240,7 @@ extension FSxClientTypes.StorageVirtualMachine: Swift.Codable {
         case resourceARN = "ResourceARN"
         case rootVolumeSecurityStyle = "RootVolumeSecurityStyle"
         case storageVirtualMachineId = "StorageVirtualMachineId"
+        case subtype = "Subtype"
         case tags = "Tags"
         case uuid = "UUID"
     }
@@ -16276,10 +16277,13 @@ extension FSxClientTypes.StorageVirtualMachine: Swift.Codable {
         if let storageVirtualMachineId = self.storageVirtualMachineId {
             try encodeContainer.encode(storageVirtualMachineId, forKey: .storageVirtualMachineId)
         }
+        if let subtype = self.subtype {
+            try encodeContainer.encode(subtype.rawValue, forKey: .subtype)
+        }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let uuid = self.uuid {
@@ -16305,6 +16309,8 @@ extension FSxClientTypes.StorageVirtualMachine: Swift.Codable {
         resourceARN = resourceARNDecoded
         let storageVirtualMachineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageVirtualMachineId)
         storageVirtualMachineId = storageVirtualMachineIdDecoded
+        let subtypeDecoded = try containerValues.decodeIfPresent(FSxClientTypes.StorageVirtualMachineSubtype.self, forKey: .subtype)
+        subtype = subtypeDecoded
         let uuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uuid)
         uuid = uuidDecoded
         let tagsContainer = try containerValues.decodeIfPresent([FSxClientTypes.Tag?].self, forKey: .tags)
@@ -16360,6 +16366,8 @@ extension FSxClientTypes {
         public var rootVolumeSecurityStyle: FSxClientTypes.StorageVirtualMachineRootVolumeSecurityStyle?
         /// The SVM's system generated unique ID.
         public var storageVirtualMachineId: Swift.String?
+        /// Describes the SVM's subtype.
+        public var subtype: FSxClientTypes.StorageVirtualMachineSubtype?
         /// A list of Tag values, with a maximum of 50 elements.
         public var tags: [FSxClientTypes.Tag]?
         /// The SVM's UUID (universally unique identifier).
@@ -16376,6 +16384,7 @@ extension FSxClientTypes {
             resourceARN: Swift.String? = nil,
             rootVolumeSecurityStyle: FSxClientTypes.StorageVirtualMachineRootVolumeSecurityStyle? = nil,
             storageVirtualMachineId: Swift.String? = nil,
+            subtype: FSxClientTypes.StorageVirtualMachineSubtype? = nil,
             tags: [FSxClientTypes.Tag]? = nil,
             uuid: Swift.String? = nil
         )
@@ -16390,6 +16399,7 @@ extension FSxClientTypes {
             self.resourceARN = resourceARN
             self.rootVolumeSecurityStyle = rootVolumeSecurityStyle
             self.storageVirtualMachineId = storageVirtualMachineId
+            self.subtype = subtype
             self.tags = tags
             self.uuid = uuid
         }
@@ -16410,8 +16420,8 @@ extension FSxClientTypes.StorageVirtualMachineFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for storagevirtualmachinefiltervalues0 in values {
-                try valuesContainer.encode(storagevirtualmachinefiltervalues0)
+            for storagevirtualmachinefiltervalue0 in values {
+                try valuesContainer.encode(storagevirtualmachinefiltervalue0)
             }
         }
     }
@@ -16615,6 +16625,44 @@ extension FSxClientTypes {
     }
 }
 
+extension FSxClientTypes {
+    public enum StorageVirtualMachineSubtype: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `default`
+        case dpDestination
+        case syncDestination
+        case syncSource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageVirtualMachineSubtype] {
+            return [
+                .default,
+                .dpDestination,
+                .syncDestination,
+                .syncSource,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .dpDestination: return "DP_DESTINATION"
+            case .syncDestination: return "SYNC_DESTINATION"
+            case .syncSource: return "SYNC_SOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StorageVirtualMachineSubtype(rawValue: rawValue) ?? StorageVirtualMachineSubtype.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension FSxClientTypes.SvmActiveDirectoryConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case netBiosName = "NetBiosName"
@@ -16673,8 +16721,8 @@ extension FSxClientTypes.SvmEndpoint: Swift.Codable {
         }
         if let ipAddresses = ipAddresses {
             var ipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddresses)
-            for ontapendpointipaddresses0 in ipAddresses {
-                try ipAddressesContainer.encode(ontapendpointipaddresses0)
+            for ipaddress0 in ipAddresses {
+                try ipAddressesContainer.encode(ipaddress0)
             }
         }
     }
@@ -16842,8 +16890,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -17118,8 +17166,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -17816,8 +17864,8 @@ extension FSxClientTypes.UpdateFileSystemOntapConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addRouteTableIds = addRouteTableIds {
             var addRouteTableIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addRouteTableIds)
-            for routetableids0 in addRouteTableIds {
-                try addRouteTableIdsContainer.encode(routetableids0)
+            for routetableid0 in addRouteTableIds {
+                try addRouteTableIdsContainer.encode(routetableid0)
             }
         }
         if let automaticBackupRetentionDays = self.automaticBackupRetentionDays {
@@ -17834,8 +17882,8 @@ extension FSxClientTypes.UpdateFileSystemOntapConfiguration: Swift.Codable {
         }
         if let removeRouteTableIds = removeRouteTableIds {
             var removeRouteTableIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeRouteTableIds)
-            for routetableids0 in removeRouteTableIds {
-                try removeRouteTableIdsContainer.encode(routetableids0)
+            for routetableid0 in removeRouteTableIds {
+                try removeRouteTableIdsContainer.encode(routetableid0)
             }
         }
         if let throughputCapacity = self.throughputCapacity {
@@ -18318,8 +18366,8 @@ extension FSxClientTypes.UpdateOpenZFSVolumeConfiguration: Swift.Codable {
         }
         if let nfsExports = nfsExports {
             var nfsExportsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nfsExports)
-            for openzfsnfsexports0 in nfsExports {
-                try nfsExportsContainer.encode(openzfsnfsexports0)
+            for openzfsnfsexport0 in nfsExports {
+                try nfsExportsContainer.encode(openzfsnfsexport0)
             }
         }
         if let readOnly = self.readOnly {
@@ -18336,8 +18384,8 @@ extension FSxClientTypes.UpdateOpenZFSVolumeConfiguration: Swift.Codable {
         }
         if let userAndGroupQuotas = userAndGroupQuotas {
             var userAndGroupQuotasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAndGroupQuotas)
-            for openzfsuserandgroupquotas0 in userAndGroupQuotas {
-                try userAndGroupQuotasContainer.encode(openzfsuserandgroupquotas0)
+            for openzfsuserorgroupquota0 in userAndGroupQuotas {
+                try userAndGroupQuotasContainer.encode(openzfsuserorgroupquota0)
             }
         }
     }
@@ -18947,8 +18995,8 @@ extension FSxClientTypes.Volume: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let administrativeActions = administrativeActions {
             var administrativeActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .administrativeActions)
-            for administrativeactions0 in administrativeActions {
-                try administrativeActionsContainer.encode(administrativeactions0)
+            for administrativeaction0 in administrativeActions {
+                try administrativeActionsContainer.encode(administrativeaction0)
             }
         }
         if let creationTime = self.creationTime {
@@ -18977,8 +19025,8 @@ extension FSxClientTypes.Volume: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeId = self.volumeId {
@@ -19123,8 +19171,8 @@ extension FSxClientTypes.VolumeFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for volumefiltervalues0 in values {
-                try valuesContainer.encode(volumefiltervalues0)
+            for volumefiltervalue0 in values {
+                try valuesContainer.encode(volumefiltervalue0)
             }
         }
     }
@@ -19585,8 +19633,8 @@ extension FSxClientTypes.WindowsFileSystemConfiguration: Swift.Codable {
         }
         if let aliases = aliases {
             var aliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliases)
-            for aliases0 in aliases {
-                try aliasesContainer.encode(aliases0)
+            for alias0 in aliases {
+                try aliasesContainer.encode(alias0)
             }
         }
         if let auditLogConfiguration = self.auditLogConfiguration {
@@ -19606,8 +19654,8 @@ extension FSxClientTypes.WindowsFileSystemConfiguration: Swift.Codable {
         }
         if let maintenanceOperationsInProgress = maintenanceOperationsInProgress {
             var maintenanceOperationsInProgressContainer = encodeContainer.nestedUnkeyedContainer(forKey: .maintenanceOperationsInProgress)
-            for filesystemmaintenanceoperations0 in maintenanceOperationsInProgress {
-                try maintenanceOperationsInProgressContainer.encode(filesystemmaintenanceoperations0.rawValue)
+            for filesystemmaintenanceoperation0 in maintenanceOperationsInProgress {
+                try maintenanceOperationsInProgressContainer.encode(filesystemmaintenanceoperation0.rawValue)
             }
         }
         if let preferredFileServerIp = self.preferredFileServerIp {

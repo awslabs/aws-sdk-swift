@@ -1599,8 +1599,8 @@ extension ListApplicationStatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationIds = applicationIds {
             var applicationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationIds)
-            for applicationids0 in applicationIds {
-                try applicationIdsContainer.encode(applicationids0)
+            for applicationid0 in applicationIds {
+                try applicationIdsContainer.encode(applicationid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -2458,8 +2458,8 @@ extension MigrationHubClientTypes.MigrationTask: Swift.Codable {
         }
         if let resourceAttributeList = resourceAttributeList {
             var resourceAttributeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceAttributeList)
-            for latestresourceattributelist0 in resourceAttributeList {
-                try resourceAttributeListContainer.encode(latestresourceattributelist0)
+            for resourceattribute0 in resourceAttributeList {
+                try resourceAttributeListContainer.encode(resourceattribute0)
             }
         }
         if let task = self.task {
@@ -3014,8 +3014,8 @@ extension PutResourceAttributesInput: Swift.Encodable {
         }
         if let resourceAttributeList = resourceAttributeList {
             var resourceAttributeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceAttributeList)
-            for resourceattributelist0 in resourceAttributeList {
-                try resourceAttributeListContainer.encode(resourceattributelist0)
+            for resourceattribute0 in resourceAttributeList {
+                try resourceAttributeListContainer.encode(resourceattribute0)
             }
         }
     }

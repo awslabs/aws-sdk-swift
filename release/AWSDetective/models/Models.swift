@@ -61,6 +61,7 @@ extension AcceptInvitationOutputError: ClientRuntime.HttpResponseBinding {
 extension AcceptInvitationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -71,6 +72,7 @@ extension AcceptInvitationOutputError {
 }
 
 public enum AcceptInvitationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
@@ -86,6 +88,98 @@ extension AcceptInvitationOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct AcceptInvitationOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension AccessDeniedException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.errorCode = output.errorCode
+            self.errorCodeReason = output.errorCodeReason
+            self.message = output.message
+            self.subErrorCode = output.subErrorCode
+            self.subErrorCodeReason = output.subErrorCodeReason
+        } else {
+            self.errorCode = nil
+            self.errorCodeReason = nil
+            self.message = nil
+            self.subErrorCode = nil
+            self.subErrorCodeReason = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request issuer does not have permission to access this resource or perform this operation.
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// The SDK default error code associated with the access denied exception.
+    public var errorCode: DetectiveClientTypes.ErrorCode?
+    /// The SDK default explanation of why access was denied.
+    public var errorCodeReason: Swift.String?
+    public var message: Swift.String?
+    /// The error code associated with the access denied exception.
+    public var subErrorCode: DetectiveClientTypes.ErrorCode?
+    /// An explanation of why access was denied.
+    public var subErrorCodeReason: Swift.String?
+
+    public init (
+        errorCode: DetectiveClientTypes.ErrorCode? = nil,
+        errorCodeReason: Swift.String? = nil,
+        message: Swift.String? = nil,
+        subErrorCode: DetectiveClientTypes.ErrorCode? = nil,
+        subErrorCodeReason: Swift.String? = nil
+    )
+    {
+        self.errorCode = errorCode
+        self.errorCodeReason = errorCodeReason
+        self.message = message
+        self.subErrorCode = subErrorCode
+        self.subErrorCodeReason = subErrorCodeReason
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let errorCode: DetectiveClientTypes.ErrorCode?
+    let errorCodeReason: Swift.String?
+    let subErrorCode: DetectiveClientTypes.ErrorCode?
+    let subErrorCodeReason: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorCodeReason = "ErrorCodeReason"
+        case message = "Message"
+        case subErrorCode = "SubErrorCode"
+        case subErrorCodeReason = "SubErrorCodeReason"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.ErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorCodeReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCodeReason)
+        errorCodeReason = errorCodeReasonDecoded
+        let subErrorCodeDecoded = try containerValues.decodeIfPresent(DetectiveClientTypes.ErrorCode.self, forKey: .subErrorCode)
+        subErrorCode = subErrorCodeDecoded
+        let subErrorCodeReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subErrorCodeReason)
+        subErrorCodeReason = subErrorCodeReasonDecoded
+    }
 }
 
 extension DetectiveClientTypes.Account: Swift.Codable {
@@ -200,8 +294,8 @@ extension BatchGetGraphMemberDatasourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidextendedlist0 in accountIds {
-                try accountIdsContainer.encode(accountidextendedlist0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let graphArn = self.graphArn {
@@ -274,6 +368,7 @@ extension BatchGetGraphMemberDatasourcesOutputError: ClientRuntime.HttpResponseB
 extension BatchGetGraphMemberDatasourcesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -283,6 +378,7 @@ extension BatchGetGraphMemberDatasourcesOutputError {
 }
 
 public enum BatchGetGraphMemberDatasourcesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -367,8 +463,8 @@ extension BatchGetMembershipDatasourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let graphArns = graphArns {
             var graphArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .graphArns)
-            for grapharnlist0 in graphArns {
-                try graphArnsContainer.encode(grapharnlist0)
+            for grapharn0 in graphArns {
+                try graphArnsContainer.encode(grapharn0)
             }
         }
     }
@@ -429,6 +525,7 @@ extension BatchGetMembershipDatasourcesOutputError: ClientRuntime.HttpResponseBi
 extension BatchGetMembershipDatasourcesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -438,6 +535,7 @@ extension BatchGetMembershipDatasourcesOutputError {
 }
 
 public enum BatchGetMembershipDatasourcesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -574,8 +672,8 @@ extension CreateGraphInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -635,6 +733,7 @@ extension CreateGraphOutputError: ClientRuntime.HttpResponseBinding {
 extension CreateGraphOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -644,6 +743,7 @@ extension CreateGraphOutputError {
 }
 
 public enum CreateGraphOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case serviceQuotaExceededException(ServiceQuotaExceededException)
@@ -703,8 +803,8 @@ extension CreateMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accounts = accounts {
             var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
-            for accountlist0 in accounts {
-                try accountsContainer.encode(accountlist0)
+            for account0 in accounts {
+                try accountsContainer.encode(account0)
             }
         }
         if disableEmailNotification != false {
@@ -799,6 +899,7 @@ extension CreateMembersOutputError: ClientRuntime.HttpResponseBinding {
 extension CreateMembersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -809,6 +910,7 @@ extension CreateMembersOutputError {
 }
 
 public enum CreateMembersOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceQuotaExceededException(ServiceQuotaExceededException)
@@ -930,8 +1032,8 @@ extension DetectiveClientTypes.DatasourcePackageIngestDetail: Swift.Codable {
         }
         if let lastIngestStateChange = lastIngestStateChange {
             var lastIngestStateChangeContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .lastIngestStateChange)
-            for (dictKey0, lastingeststatechangedates0) in lastIngestStateChange {
-                try lastIngestStateChangeContainer.encode(lastingeststatechangedates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, lastIngestStateChangeDates0) in lastIngestStateChange {
+                try lastIngestStateChangeContainer.encode(lastIngestStateChangeDates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1113,6 +1215,7 @@ extension DeleteGraphOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteGraphOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1122,6 +1225,7 @@ extension DeleteGraphOutputError {
 }
 
 public enum DeleteGraphOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -1148,8 +1252,8 @@ extension DeleteMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidlist0 in accountIds {
-                try accountIdsContainer.encode(accountidlist0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let graphArn = self.graphArn {
@@ -1222,6 +1326,7 @@ extension DeleteMembersOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteMembersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1232,6 +1337,7 @@ extension DeleteMembersOutputError {
 }
 
 public enum DeleteMembersOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
@@ -1367,6 +1473,7 @@ extension DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpRespon
 extension DescribeOrganizationConfigurationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1376,6 +1483,7 @@ extension DescribeOrganizationConfigurationOutputError {
 }
 
 public enum DescribeOrganizationConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case tooManyRequestsException(TooManyRequestsException)
     case validationException(ValidationException)
@@ -1454,6 +1562,7 @@ extension DisableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponse
 extension DisableOrganizationAdminAccountOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1463,6 +1572,7 @@ extension DisableOrganizationAdminAccountOutputError {
 }
 
 public enum DisableOrganizationAdminAccountOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case tooManyRequestsException(TooManyRequestsException)
     case validationException(ValidationException)
@@ -1538,6 +1648,7 @@ extension DisassociateMembershipOutputError: ClientRuntime.HttpResponseBinding {
 extension DisassociateMembershipOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1548,6 +1659,7 @@ extension DisassociateMembershipOutputError {
 }
 
 public enum DisassociateMembershipOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
@@ -1624,6 +1736,7 @@ extension EnableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseB
 extension EnableOrganizationAdminAccountOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1633,6 +1746,7 @@ extension EnableOrganizationAdminAccountOutputError {
 }
 
 public enum EnableOrganizationAdminAccountOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case tooManyRequestsException(TooManyRequestsException)
     case validationException(ValidationException)
@@ -1694,8 +1808,8 @@ extension GetMembersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidlist0 in accountIds {
-                try accountIdsContainer.encode(accountidlist0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let graphArn = self.graphArn {
@@ -1768,6 +1882,7 @@ extension GetMembersOutputError: ClientRuntime.HttpResponseBinding {
 extension GetMembersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1777,6 +1892,7 @@ extension GetMembersOutputError {
 }
 
 public enum GetMembersOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -2064,6 +2180,7 @@ extension ListDatasourcePackagesOutputError: ClientRuntime.HttpResponseBinding {
 extension ListDatasourcePackagesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2073,6 +2190,7 @@ extension ListDatasourcePackagesOutputError {
 }
 
 public enum ListDatasourcePackagesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -2209,6 +2327,7 @@ extension ListGraphsOutputError: ClientRuntime.HttpResponseBinding {
 extension ListGraphsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -2217,6 +2336,7 @@ extension ListGraphsOutputError {
 }
 
 public enum ListGraphsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
@@ -2352,6 +2472,7 @@ extension ListInvitationsOutputError: ClientRuntime.HttpResponseBinding {
 extension ListInvitationsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -2360,6 +2481,7 @@ extension ListInvitationsOutputError {
 }
 
 public enum ListInvitationsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
@@ -2508,6 +2630,7 @@ extension ListMembersOutputError: ClientRuntime.HttpResponseBinding {
 extension ListMembersOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2517,6 +2640,7 @@ extension ListMembersOutputError {
 }
 
 public enum ListMembersOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -2653,6 +2777,7 @@ extension ListOrganizationAdminAccountsOutputError: ClientRuntime.HttpResponseBi
 extension ListOrganizationAdminAccountsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2662,6 +2787,7 @@ extension ListOrganizationAdminAccountsOutputError {
 }
 
 public enum ListOrganizationAdminAccountsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case tooManyRequestsException(TooManyRequestsException)
     case validationException(ValidationException)
@@ -2770,6 +2896,7 @@ extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension ListTagsForResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2779,6 +2906,7 @@ extension ListTagsForResourceOutputError {
 }
 
 public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -2865,8 +2993,8 @@ extension DetectiveClientTypes.MemberDetail: Swift.Codable {
         }
         if let datasourcePackageIngestStates = datasourcePackageIngestStates {
             var datasourcePackageIngestStatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .datasourcePackageIngestStates)
-            for (dictKey0, datasourcepackageingeststates0) in datasourcePackageIngestStates {
-                try datasourcePackageIngestStatesContainer.encode(datasourcepackageingeststates0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, datasourcePackageIngestStates0) in datasourcePackageIngestStates {
+                try datasourcePackageIngestStatesContainer.encode(datasourcePackageIngestStates0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let disabledReason = self.disabledReason {
@@ -2901,8 +3029,8 @@ extension DetectiveClientTypes.MemberDetail: Swift.Codable {
         }
         if let volumeUsageByDatasourcePackage = volumeUsageByDatasourcePackage {
             var volumeUsageByDatasourcePackageContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .volumeUsageByDatasourcePackage)
-            for (dictKey0, volumeusagebydatasourcepackage0) in volumeUsageByDatasourcePackage {
-                try volumeUsageByDatasourcePackageContainer.encode(volumeusagebydatasourcepackage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, volumeUsageByDatasourcePackage0) in volumeUsageByDatasourcePackage {
+                try volumeUsageByDatasourcePackageContainer.encode(volumeUsageByDatasourcePackage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let volumeUsageInBytes = self.volumeUsageInBytes {
@@ -3153,8 +3281,11 @@ extension DetectiveClientTypes.MembershipDatasources: Swift.Codable {
         }
         if let datasourcePackageIngestHistory = datasourcePackageIngestHistory {
             var datasourcePackageIngestHistoryContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .datasourcePackageIngestHistory)
-            for (dictKey0, datasourcepackageingesthistory0) in datasourcePackageIngestHistory {
-                try datasourcePackageIngestHistoryContainer.encode(datasourcepackageingesthistory0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, datasourcePackageIngestHistory0) in datasourcePackageIngestHistory {
+                var datasourcePackageIngestHistory0Container = datasourcePackageIngestHistoryContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, lastIngestStateChangeDates1) in datasourcePackageIngestHistory0 {
+                    try datasourcePackageIngestHistory0Container.encode(lastIngestStateChangeDates1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let graphArn = self.graphArn {
@@ -3272,6 +3403,7 @@ extension RejectInvitationOutputError: ClientRuntime.HttpResponseBinding {
 extension RejectInvitationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -3282,6 +3414,7 @@ extension RejectInvitationOutputError {
 }
 
 public enum RejectInvitationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
@@ -3500,6 +3633,7 @@ extension StartMonitoringMemberOutputError: ClientRuntime.HttpResponseBinding {
 extension StartMonitoringMemberOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -3511,6 +3645,7 @@ extension StartMonitoringMemberOutputError {
 }
 
 public enum StartMonitoringMemberOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
@@ -3538,8 +3673,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3608,6 +3743,7 @@ extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension TagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -3617,6 +3753,7 @@ extension TagResourceOutputError {
 }
 
 public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -3874,6 +4011,7 @@ extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
 extension UntagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -3883,6 +4021,7 @@ extension UntagResourceOutputError {
 }
 
 public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -3909,8 +4048,8 @@ extension UpdateDatasourcePackagesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let datasourcePackages = datasourcePackages {
             var datasourcePackagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasourcePackages)
-            for datasourcepackagelist0 in datasourcePackages {
-                try datasourcePackagesContainer.encode(datasourcepackagelist0.rawValue)
+            for datasourcepackage0 in datasourcePackages {
+                try datasourcePackagesContainer.encode(datasourcepackage0.rawValue)
             }
         }
         if let graphArn = self.graphArn {
@@ -3962,9 +4101,9 @@ extension UpdateDatasourcePackagesInputBody: Swift.Decodable {
         var datasourcePackagesDecoded0:[DetectiveClientTypes.DatasourcePackage]? = nil
         if let datasourcePackagesContainer = datasourcePackagesContainer {
             datasourcePackagesDecoded0 = [DetectiveClientTypes.DatasourcePackage]()
-            for string0 in datasourcePackagesContainer {
-                if let string0 = string0 {
-                    datasourcePackagesDecoded0?.append(string0)
+            for enum0 in datasourcePackagesContainer {
+                if let enum0 = enum0 {
+                    datasourcePackagesDecoded0?.append(enum0)
                 }
             }
         }
@@ -3983,6 +4122,7 @@ extension UpdateDatasourcePackagesOutputError: ClientRuntime.HttpResponseBinding
 extension UpdateDatasourcePackagesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -3993,6 +4133,7 @@ extension UpdateDatasourcePackagesOutputError {
 }
 
 public enum UpdateDatasourcePackagesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceQuotaExceededException(ServiceQuotaExceededException)
@@ -4081,6 +4222,7 @@ extension UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpResponse
 extension UpdateOrganizationConfigurationOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4090,6 +4232,7 @@ extension UpdateOrganizationConfigurationOutputError {
 }
 
 public enum UpdateOrganizationConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case tooManyRequestsException(TooManyRequestsException)
     case validationException(ValidationException)

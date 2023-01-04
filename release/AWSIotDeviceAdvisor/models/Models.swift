@@ -68,8 +68,8 @@ extension CreateSuiteDefinitionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -83,6 +83,7 @@ extension CreateSuiteDefinitionInput: ClientRuntime.URLPathProvider {
 
 public struct CreateSuiteDefinitionInput: Swift.Equatable {
     /// Creates a Device Advisor test suite with suite definition configuration.
+    /// This member is required.
     public var suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration?
     /// The tags to be attached to the suite definition.
     public var tags: [Swift.String:Swift.String]?
@@ -170,13 +171,13 @@ extension CreateSuiteDefinitionOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct CreateSuiteDefinitionOutputResponse: Swift.Equatable {
-    /// Creates a Device Advisor test suite with TimeStamp of when it was created.
+    /// The timestamp of when the test suite was created.
     public var createdAt: ClientRuntime.Date?
-    /// Creates a Device Advisor test suite with Amazon Resource Name (ARN).
+    /// The Amazon Resource Name (ARN) of the test suite.
     public var suiteDefinitionArn: Swift.String?
-    /// Creates a Device Advisor test suite with suite UUID.
+    /// The UUID of the test suite created.
     public var suiteDefinitionId: Swift.String?
-    /// Creates a Device Advisor test suite with suite definition name.
+    /// The suite definition name of the test suite. This is a required parameter.
     public var suiteDefinitionName: Swift.String?
 
     public init (
@@ -978,8 +979,8 @@ extension IotDeviceAdvisorClientTypes.GroupResult: Swift.Codable {
         }
         if let tests = tests {
             var testsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tests)
-            for testcaseruns0 in tests {
-                try testsContainer.encode(testcaseruns0)
+            for testcaserun0 in tests {
+                try testsContainer.encode(testcaserun0)
             }
         }
     }
@@ -1371,7 +1372,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The ARN of the IoT Device Advisor resource.
+    /// The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -1570,8 +1571,8 @@ extension StartSuiteRunInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1593,6 +1594,7 @@ public struct StartSuiteRunInput: Swift.Equatable {
     /// Suite definition version of the test suite.
     public var suiteDefinitionVersion: Swift.String?
     /// Suite run configuration.
+    /// This member is required.
     public var suiteRunConfiguration: IotDeviceAdvisorClientTypes.SuiteRunConfiguration?
     /// The tags to be attached to the suite run.
     public var tags: [Swift.String:Swift.String]?
@@ -1677,10 +1679,12 @@ extension StartSuiteRunOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().toData()
             let output: StartSuiteRunOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
+            self.endpoint = output.endpoint
             self.suiteRunArn = output.suiteRunArn
             self.suiteRunId = output.suiteRunId
         } else {
             self.createdAt = nil
+            self.endpoint = nil
             self.suiteRunArn = nil
             self.suiteRunId = nil
         }
@@ -1690,6 +1694,8 @@ extension StartSuiteRunOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct StartSuiteRunOutputResponse: Swift.Equatable {
     /// Starts a Device Advisor test suite run based on suite create time.
     public var createdAt: ClientRuntime.Date?
+    /// The response of an Device Advisor test endpoint.
+    public var endpoint: Swift.String?
     /// Amazon Resource Name (ARN) of the started suite run.
     public var suiteRunArn: Swift.String?
     /// Suite Run ID of the started suite run.
@@ -1697,11 +1703,13 @@ public struct StartSuiteRunOutputResponse: Swift.Equatable {
 
     public init (
         createdAt: ClientRuntime.Date? = nil,
+        endpoint: Swift.String? = nil,
         suiteRunArn: Swift.String? = nil,
         suiteRunId: Swift.String? = nil
     )
     {
         self.createdAt = createdAt
+        self.endpoint = endpoint
         self.suiteRunArn = suiteRunArn
         self.suiteRunId = suiteRunId
     }
@@ -1711,11 +1719,13 @@ struct StartSuiteRunOutputResponseBody: Swift.Equatable {
     let suiteRunId: Swift.String?
     let suiteRunArn: Swift.String?
     let createdAt: ClientRuntime.Date?
+    let endpoint: Swift.String?
 }
 
 extension StartSuiteRunOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt
+        case endpoint
         case suiteRunArn
         case suiteRunId
     }
@@ -1728,6 +1738,8 @@ extension StartSuiteRunOutputResponseBody: Swift.Decodable {
         suiteRunArn = suiteRunArnDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
+        let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
+        endpoint = endpointDecoded
     }
 }
 
@@ -1877,8 +1889,8 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration: Swift.Codabl
         }
         if let devices = devices {
             var devicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .devices)
-            for deviceundertestlist0 in devices {
-                try devicesContainer.encode(deviceundertestlist0)
+            for deviceundertest0 in devices {
+                try devicesContainer.encode(deviceundertest0)
             }
         }
         if intendedForQualification != false {
@@ -1927,9 +1939,10 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration: Swift.Codabl
 }
 
 extension IotDeviceAdvisorClientTypes {
-    /// Gets Suite Definition Configuration.
+    /// Gets the suite definition configuration.
     public struct SuiteDefinitionConfiguration: Swift.Equatable {
-        /// Gets the device permission ARN.
+        /// Gets the device permission ARN. This is a required parameter.
+        /// This member is required.
         public var devicePermissionRoleArn: Swift.String?
         /// Gets the devices configured.
         public var devices: [IotDeviceAdvisorClientTypes.DeviceUnderTest]?
@@ -1937,11 +1950,13 @@ extension IotDeviceAdvisorClientTypes {
         public var intendedForQualification: Swift.Bool
         /// Verifies if the test suite is a long duration test.
         public var isLongDurationTest: Swift.Bool
-        /// Gets the MQTT protocol that is configured in the suite definition.
+        /// Sets the MQTT protocol that is configured in the suite definition.
         public var `protocol`: IotDeviceAdvisorClientTypes.ModelProtocol?
-        /// Gets test suite root group.
+        /// Gets the test suite root group. This is a required parameter.
+        /// This member is required.
         public var rootGroup: Swift.String?
-        /// Gets Suite Definition Configuration name.
+        /// Gets the suite definition name. This is a required parameter.
+        /// This member is required.
         public var suiteDefinitionName: Swift.String?
 
         public init (
@@ -1984,8 +1999,8 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionInformation: Swift.Codable 
         }
         if let defaultDevices = defaultDevices {
             var defaultDevicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultDevices)
-            for deviceundertestlist0 in defaultDevices {
-                try defaultDevicesContainer.encode(deviceundertestlist0)
+            for deviceundertest0 in defaultDevices {
+                try defaultDevicesContainer.encode(deviceundertest0)
             }
         }
         if intendedForQualification != false {
@@ -2090,8 +2105,8 @@ extension IotDeviceAdvisorClientTypes.SuiteRunConfiguration: Swift.Codable {
         }
         if let selectedTestList = selectedTestList {
             var selectedTestListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedTestList)
-            for selectedtestlist0 in selectedTestList {
-                try selectedTestListContainer.encode(selectedtestlist0)
+            for uuid0 in selectedTestList {
+                try selectedTestListContainer.encode(uuid0)
             }
         }
     }
@@ -2121,9 +2136,10 @@ extension IotDeviceAdvisorClientTypes {
     public struct SuiteRunConfiguration: Swift.Equatable {
         /// TRUE if multiple test suites run in parallel.
         public var parallelRun: Swift.Bool
-        /// Gets the primary device for suite run.
+        /// Sets the primary device for the test suite run. This requires a thing ARN or a certificate ARN.
+        /// This member is required.
         public var primaryDevice: IotDeviceAdvisorClientTypes.DeviceUnderTest?
-        /// Gets test case list.
+        /// Sets test case list.
         public var selectedTestList: [Swift.String]?
 
         public init (
@@ -2327,8 +2343,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2344,7 +2360,7 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The resource ARN of an IoT Device Advisor resource.
+    /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The tags to be attached to the IoT Device Advisor resource.
@@ -2464,8 +2480,8 @@ extension IotDeviceAdvisorClientTypes.TestCaseRun: Swift.Codable {
         }
         if let testScenarios = testScenarios {
             var testScenariosContainer = encodeContainer.nestedUnkeyedContainer(forKey: .testScenarios)
-            for testcasescenarioslist0 in testScenarios {
-                try testScenariosContainer.encode(testcasescenarioslist0)
+            for testcasescenario0 in testScenarios {
+                try testScenariosContainer.encode(testcasescenario0)
             }
         }
         if let warnings = self.warnings {
@@ -2764,8 +2780,8 @@ extension IotDeviceAdvisorClientTypes.TestResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for groupresultlist0 in groups {
-                try groupsContainer.encode(groupresultlist0)
+            for groupresult0 in groups {
+                try groupsContainer.encode(groupresult0)
             }
         }
     }
@@ -2829,7 +2845,7 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The resource ARN of an IoT Device Advisor resource.
+    /// The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// List of tag keys to remove from the IoT Device Advisor resource.
@@ -2915,6 +2931,7 @@ extension UpdateSuiteDefinitionInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateSuiteDefinitionInput: Swift.Equatable {
     /// Updates a Device Advisor test suite with suite definition configuration.
+    /// This member is required.
     public var suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration?
     /// Suite definition ID of the test suite to be updated.
     /// This member is required.
@@ -3002,7 +3019,7 @@ public struct UpdateSuiteDefinitionOutputResponse: Swift.Equatable {
     public var suiteDefinitionArn: Swift.String?
     /// Suite definition ID of the updated test suite.
     public var suiteDefinitionId: Swift.String?
-    /// Suite definition name of the updated test suite.
+    /// Updates the suite definition name. This is a required parameter.
     public var suiteDefinitionName: Swift.String?
     /// Suite definition version of the updated test suite.
     public var suiteDefinitionVersion: Swift.String?

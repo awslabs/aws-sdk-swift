@@ -1056,8 +1056,8 @@ extension CreateMediaCapturePipelineInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1253,20 +1253,20 @@ extension CreateMediaConcatenationPipelineInput: Swift.Encodable {
         }
         if let sinks = sinks {
             var sinksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sinks)
-            for concatenationsinklist0 in sinks {
-                try sinksContainer.encode(concatenationsinklist0)
+            for concatenationsink0 in sinks {
+                try sinksContainer.encode(concatenationsink0)
             }
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for concatenationsourcelist0 in sources {
-                try sourcesContainer.encode(concatenationsourcelist0)
+            for concatenationsource0 in sources {
+                try sourcesContainer.encode(concatenationsource0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1454,20 +1454,20 @@ extension CreateMediaLiveConnectorPipelineInput: Swift.Encodable {
         }
         if let sinks = sinks {
             var sinksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sinks)
-            for liveconnectorsinklist0 in sinks {
-                try sinksContainer.encode(liveconnectorsinklist0)
+            for liveconnectorsinkconfiguration0 in sinks {
+                try sinksContainer.encode(liveconnectorsinkconfiguration0)
             }
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for liveconnectorsourcelist0 in sources {
-                try sourcesContainer.encode(liveconnectorsourcelist0)
+            for liveconnectorsourceconfiguration0 in sources {
+                try sourcesContainer.encode(liveconnectorsourceconfiguration0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3133,14 +3133,14 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline: Swift.Co
         }
         if let sinks = sinks {
             var sinksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sinks)
-            for concatenationsinklist0 in sinks {
-                try sinksContainer.encode(concatenationsinklist0)
+            for concatenationsink0 in sinks {
+                try sinksContainer.encode(concatenationsink0)
             }
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for concatenationsourcelist0 in sources {
-                try sourcesContainer.encode(concatenationsourcelist0)
+            for concatenationsource0 in sources {
+                try sourcesContainer.encode(concatenationsource0)
             }
         }
         if let status = self.status {
@@ -3252,14 +3252,14 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline: Swift.Co
         }
         if let sinks = sinks {
             var sinksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sinks)
-            for liveconnectorsinklist0 in sinks {
-                try sinksContainer.encode(liveconnectorsinklist0)
+            for liveconnectorsinkconfiguration0 in sinks {
+                try sinksContainer.encode(liveconnectorsinkconfiguration0)
             }
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for liveconnectorsourcelist0 in sources {
-                try sourcesContainer.encode(liveconnectorsourcelist0)
+            for liveconnectorsourceconfiguration0 in sources {
+                try sourcesContainer.encode(liveconnectorsourceconfiguration0)
             }
         }
         if let status = self.status {
@@ -3880,14 +3880,14 @@ extension ChimeSDKMediaPipelinesClientTypes.SelectedVideoStreams: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attendeeIds = attendeeIds {
             var attendeeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attendeeIds)
-            for attendeeidlist0 in attendeeIds {
-                try attendeeIdsContainer.encode(attendeeidlist0)
+            for guidstring0 in attendeeIds {
+                try attendeeIdsContainer.encode(guidstring0)
             }
         }
         if let externalUserIds = externalUserIds {
             var externalUserIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .externalUserIds)
-            for externaluseridlist0 in externalUserIds {
-                try externalUserIdsContainer.encode(externaluseridlist0)
+            for externaluseridtype0 in externalUserIds {
+                try externalUserIdsContainer.encode(externaluseridtype0)
             }
         }
     }
@@ -4176,8 +4176,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4481,8 +4481,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

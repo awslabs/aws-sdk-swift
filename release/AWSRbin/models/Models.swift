@@ -113,8 +113,8 @@ extension CreateRuleInput: Swift.Encodable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for resourcetags0 in resourceTags {
-                try resourceTagsContainer.encode(resourcetags0)
+            for resourcetag0 in resourceTags {
+                try resourceTagsContainer.encode(resourcetag0)
             }
         }
         if let resourceType = self.resourceType {
@@ -125,8 +125,8 @@ extension CreateRuleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -737,8 +737,8 @@ extension ListRulesInput: Swift.Encodable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for resourcetags0 in resourceTags {
-                try resourceTagsContainer.encode(resourcetags0)
+            for resourcetag0 in resourceTags {
+                try resourceTagsContainer.encode(resourcetag0)
             }
         }
         if let resourceType = self.resourceType {
@@ -1794,8 +1794,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2268,8 +2268,8 @@ extension UpdateRuleInput: Swift.Encodable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for resourcetags0 in resourceTags {
-                try resourceTagsContainer.encode(resourcetags0)
+            for resourcetag0 in resourceTags {
+                try resourceTagsContainer.encode(resourcetag0)
             }
         }
         if let resourceType = self.resourceType {

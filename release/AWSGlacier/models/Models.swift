@@ -210,8 +210,8 @@ extension AddTagsToVaultInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -858,8 +858,8 @@ extension GlacierClientTypes.DataRetrievalPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for dataretrievalruleslist0 in rules {
-                try rulesContainer.encode(dataretrievalruleslist0)
+            for dataretrievalrule0 in rules {
+                try rulesContainer.encode(dataretrievalrule0)
             }
         }
     }
@@ -5390,8 +5390,8 @@ extension RemoveTagsFromVaultInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for string0 in tagKeys {
+                try tagKeysContainer.encode(string0)
             }
         }
     }
@@ -5667,8 +5667,8 @@ extension GlacierClientTypes.S3Location: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessControlList = accessControlList {
             var accessControlListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessControlList)
-            for accesscontrolpolicylist0 in accessControlList {
-                try accessControlListContainer.encode(accesscontrolpolicylist0)
+            for grant0 in accessControlList {
+                try accessControlListContainer.encode(grant0)
             }
         }
         if let bucketName = self.bucketName {
@@ -6916,8 +6916,8 @@ extension GlacierClientTypes.VaultNotificationConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for notificationeventlist0 in events {
-                try eventsContainer.encode(notificationeventlist0)
+            for string0 in events {
+                try eventsContainer.encode(string0)
             }
         }
         if let snsTopic = self.snsTopic {
