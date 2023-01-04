@@ -11,7 +11,7 @@ public protocol ProfileCollection {
     func profile(for name: String) -> Profile?
 }
 
-extension CRTAWSProfileCollection: ProfileCollection {
+extension AwsCommonRuntimeKit.ProfileCollection: ProfileCollection {
     public func profile(for name: String) -> Profile? {
         guard let crtProfile = getProfile(name: name) else {
             return nil

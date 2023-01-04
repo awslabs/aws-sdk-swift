@@ -6,14 +6,20 @@
 //
 
 import AwsCommonRuntimeKit
+import Foundation
 
 public struct AWSCredentials {
     let accessKey: String
     let secret: String
-    let expirationTimeout: UInt64
+    let expirationTimeout: Date?
     let sessionToken: String?
     
-    public init(accessKey: String, secret: String, expirationTimeout: UInt64, sessionToken: String? = nil) {
+    public init(
+        accessKey: String,
+        secret: String,
+        expirationTimeout: Date? = nil,
+        sessionToken: String? = nil
+    ) {
         self.accessKey = accessKey
         self.secret = secret
         self.expirationTimeout = expirationTimeout
@@ -22,10 +28,12 @@ public struct AWSCredentials {
 }
 
 extension AWSCredentials {
-    func toCRTType() -> CRTCredentials {
-        return CRTCredentials(accessKey: accessKey,
-                              secret: secret,
-                              sessionToken: sessionToken,
-                              expirationTimeout: expirationTimeout)
+    func toCRTType() throws -> Credentials {
+        return try Credentials(
+            accessKey: accessKey,
+            secret: secret,
+            sessionToken: sessionToken,
+            expiration: expirationTimeout
+        )
     }
 }

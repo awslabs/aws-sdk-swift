@@ -13,12 +13,16 @@ import XCTest
 
 class Sigv4SigningTests: XCTestCase {
     override func setUp() {
-        AwsCommonRuntimeKit.initialize()
+        CommonRuntimeKit.initialize()
     }
 
-    struct MyCustomCredentialsProvider: CredentialsProvider {
-        func getCredentials() async throws -> AWSCredentials {
-            return AWSCredentials(accessKey: "AKIDEXAMPLE", secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY", expirationTimeout: 30)
+    class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProvider {
+        func getCredentials() async throws -> AWSClientRuntime.AWSCredentials {
+            return AWSCredentials(
+                accessKey: "AKIDEXAMPLE",
+                secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
+                expirationTimeout: .init(timeIntervalSinceNow: 30)
+            )
         }
     }
 

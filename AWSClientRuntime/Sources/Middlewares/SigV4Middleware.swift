@@ -31,8 +31,8 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
     Self.MOutput == H.Output {
         
         let originalRequest = input.build()
-        let crtUnsignedRequest = originalRequest.toHttpRequest()
-        let signer = SigV4HttpRequestSigner()
+        let crtUnsignedRequest = try originalRequest.toHttpRequest()
+        
         guard let credentialsProvider = context.getCredentialsProvider() else {
             throw SdkError<OperationStackError>.client(
                 ClientError.authError("AwsSigv4Signer requires a credentialsProvider"))
@@ -55,18 +55,22 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
         let signedBodyValue: AWSSignedBodyValue = config.unsignedBody ? .unsignedPayload : .empty
         
         let credentials = try await credentialsProvider.getCredentials()
-        let signingConfig = AWSSigningConfig(credentials: credentials,
-                                             expiration: config.expiration,
-                                             signedBodyHeader: config.signedBodyHeader,
-                                             signedBodyValue: signedBodyValue,
-                                             flags: flags,
-                                             date: Date(),
-                                             service: signingName,
-                                             region: signingRegion,
-                                             signatureType: config.signatureType)
+        let signingConfig = AWSSigningConfig(
+            credentials: credentials,
+            expiration: config.expiration,
+            signedBodyHeader: config.signedBodyHeader,
+            signedBodyValue: signedBodyValue,
+            flags: flags,
+            date: Date(),
+            service: signingName,
+            region: signingRegion,
+            signatureType: config.signatureType
+        )
         
-        let crtSignedRequest = try await signer.signRequest(request: crtUnsignedRequest,
-                                            config: signingConfig.toCRTType())
+        let crtSignedRequest = try await Signer.signRequest(
+            request: crtUnsignedRequest,
+            config: signingConfig.toCRTType()
+        )
         let sdkSignedRequest = input.update(from: crtSignedRequest, originalRequest: originalRequest)
         
         return try await next.handle(context: context, input: sdkSignedRequest)

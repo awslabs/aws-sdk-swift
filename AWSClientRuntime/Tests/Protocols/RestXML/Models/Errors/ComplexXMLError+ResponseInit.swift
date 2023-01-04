@@ -18,9 +18,7 @@ extension ComplexXMLError: AWSHttpServiceError {
             self.header = nil
         }
 
-        if case .stream(let reader) = httpResponse.body,
-            let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData(), let responseDecoder = decoder {
             let output: ErrorResponseContainer<ComplexXMLErrorBody> = try responseDecoder.decode(responseBody: data)
             self.nested = output.error.nested
             self.topLevel = output.error.topLevel

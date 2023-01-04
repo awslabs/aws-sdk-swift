@@ -5,32 +5,36 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import AwsCommonRuntimeKit
-import struct Foundation.Date
+import Foundation
         
 public struct AWSSigningConfig {
     public let credentials: AWSCredentials?
     public let credentialsProvider: AWSCredentialsProvider?
-    public let expiration: Int64
+    public let expiration: TimeInterval
     public let signedBodyHeader: AWSSignedBodyHeader
     public let signedBodyValue: AWSSignedBodyValue
     public let flags: SigningFlags
     public let date: Date
     public let service: String
     public let region: String
+    public let shouldSignHeader: ((String) -> Bool)?
     public let signatureType: AWSSignatureType
     public let signingAlgorithm: AWSSigningAlgorithm
     
-    public init(credentials: AWSCredentials? = nil,
-                credentialsProvider: AWSCredentialsProvider? = nil,
-                expiration: Int64 = 0,
-                signedBodyHeader: AWSSignedBodyHeader = .none,
-                signedBodyValue: AWSSignedBodyValue,
-                flags: SigningFlags,
-                date: Date,
-                service: String,
-                region: String,
-                signatureType: AWSSignatureType,
-                signingAlgorithm: AWSSigningAlgorithm = .sigv4) {
+    public init(
+        credentials: AWSCredentials? = nil,
+        credentialsProvider: AWSCredentialsProvider? = nil,
+        expiration: TimeInterval = 0,
+        signedBodyHeader: AWSSignedBodyHeader = .none,
+        signedBodyValue: AWSSignedBodyValue,
+        flags: SigningFlags,
+        date: Date,
+        service: String,
+        region: String,
+        shouldSignHeader: ((String) -> Bool)? = nil,
+        signatureType: AWSSignatureType,
+        signingAlgorithm: AWSSigningAlgorithm = .sigv4
+    ) {
         self.credentials = credentials
         self.credentialsProvider = credentialsProvider
         self.expiration = expiration
@@ -40,24 +44,29 @@ public struct AWSSigningConfig {
         self.date = date
         self.service = service
         self.region = region
+        self.shouldSignHeader = shouldSignHeader
         self.signatureType = signatureType
         self.signingAlgorithm = signingAlgorithm
     }
 }
 
 extension AWSSigningConfig {
-    func toCRTType() -> SigningConfig {
-        return SigningConfig(credentials: credentials?.toCRTType(),
-                             credentialsProvider: credentialsProvider?.crtCredentialsProvider,
-                             date: date.awsDateTimeIntervalSince1970,
-                             service: service,
-                             region: region,
-                             expiration: expiration,
-                             signedBodyHeader: signedBodyHeader.toCRTType(),
-                             signedBodyValue: signedBodyValue.toCRTType(),
-                             flags: flags.toCRTType(),
-                             signatureType: signatureType.toCRTType(),
-                             signingAlgorithm: signingAlgorithm.toCRTType(),
-                             configType: .aws)
+    func toCRTType() throws -> SigningConfig {
+        SigningConfig(
+            algorithm: signingAlgorithm.toCRTType(),
+            signatureType: signatureType.toCRTType(),
+            service: service,
+            region: region,
+            date: date,
+            credentials: try credentials?.toCRTType(),
+            credentialsProvider: credentialsProvider?.crtCredentialsProvider,
+            expiration: expiration,
+            signedBodyHeader: signedBodyHeader.toCRTType(),
+            signedBodyValue: signedBodyValue.toCRTType(),
+            shouldSignHeader: shouldSignHeader,
+            useDoubleURIEncode: flags.useDoubleURIEncode,
+            shouldNormalizeURIPath: flags.shouldNormalizeURIPath,
+            omitSessionToken: flags.omitSessionToken
+        )
     }
 }

@@ -6,29 +6,49 @@ import AwsCommonRuntimeKit
 /// Wrapper for CRTAWSEndpointResolvedEndpoint
 public class AWSEndpointsResolvedEndpoint {
     
-    let crtResolvedEndpoint: CRTAWSEndpointResolvedEndpoint
+    let crtResolvedEndpoint: AwsCommonRuntimeKit.ResolvedEndpoint
     
-    init(crtResolvedEndpoint: CRTAWSEndpointResolvedEndpoint) {
+    init(crtResolvedEndpoint: AwsCommonRuntimeKit.ResolvedEndpoint) {
         self.crtResolvedEndpoint = crtResolvedEndpoint
     }
     
     public func getType() -> AWSEndpointsResolvedEndpointType {
-        AWSEndpointsResolvedEndpointType(crtType: crtResolvedEndpoint.getType())
+        AWSEndpointsResolvedEndpointType(crtType: crtResolvedEndpoint)
     }
     
-    public func getError() throws -> String? {
-        try crtResolvedEndpoint.getError()
+    public func getError() -> String? {
+        switch crtResolvedEndpoint {
+        case .endpoint:
+            return nil
+        case let .error(message):
+            return message
+        }
     }
     
-    public func getURL() throws -> String? {
-        try crtResolvedEndpoint.getURL()
+    public func getURL() -> String? {
+        switch crtResolvedEndpoint {
+        case let .endpoint(url, _, _):
+            return url
+        case .error:
+            return nil
+        }
     }
     
-    public func getProperties() throws -> [String: AnyHashable]? {
-        try crtResolvedEndpoint.getProperties()
+    public func getProperties() -> [String: AnyHashable]? {
+        switch crtResolvedEndpoint {
+        case let .endpoint(_, _, properties):
+            return properties
+        case .error:
+            return nil
+        }
     }
     
-    public func getHeaders() throws -> [String: [String]]? {
-        try crtResolvedEndpoint.getHeaders()
+    public func getHeaders() -> [String: [String]]? {
+        switch crtResolvedEndpoint {
+        case let .endpoint(_, headers, _):
+            return headers
+        case .error:
+            return nil
+        }
     }
 }
