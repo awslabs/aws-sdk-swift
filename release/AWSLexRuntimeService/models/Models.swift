@@ -16,8 +16,8 @@ extension LexRuntimeClientTypes.ActiveContext: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, activecontextparametersmap0) in parameters {
-                try parametersContainer.encode(activecontextparametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, activeContextParametersMap0) in parameters {
+                try parametersContainer.encode(activeContextParametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeToLive = self.timeToLive {
@@ -620,8 +620,8 @@ extension LexRuntimeClientTypes.DialogAction: Swift.Codable {
         }
         if let slots = slots {
             var slotsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .slots)
-            for (dictKey0, stringmap0) in slots {
-                try slotsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in slots {
+                try slotsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -861,8 +861,8 @@ extension LexRuntimeClientTypes.GenericAttachment: Swift.Codable {
         }
         if let buttons = buttons {
             var buttonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .buttons)
-            for listofbuttons0 in buttons {
-                try buttonsContainer.encode(listofbuttons0)
+            for button0 in buttons {
+                try buttonsContainer.encode(button0)
             }
         }
         if let imageUrl = self.imageUrl {
@@ -1205,8 +1205,8 @@ extension LexRuntimeClientTypes.IntentSummary: Swift.Codable {
         }
         if let slots = slots {
             var slotsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .slots)
-            for (dictKey0, stringmap0) in slots {
-                try slotsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in slots {
+                try slotsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2095,8 +2095,8 @@ extension PostTextInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activeContexts = activeContexts {
             var activeContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .activeContexts)
-            for activecontextslist0 in activeContexts {
-                try activeContextsContainer.encode(activecontextslist0)
+            for activecontext0 in activeContexts {
+                try activeContextsContainer.encode(activecontext0)
             }
         }
         if let inputText = self.inputText {
@@ -2104,14 +2104,14 @@ extension PostTextInput: Swift.Encodable {
         }
         if let requestAttributes = requestAttributes {
             var requestAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestAttributes)
-            for (dictKey0, stringmap0) in requestAttributes {
-                try requestAttributesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in requestAttributes {
+                try requestAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sessionAttributes = sessionAttributes {
             var sessionAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sessionAttributes)
-            for (dictKey0, stringmap0) in sessionAttributes {
-                try sessionAttributesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in sessionAttributes {
+                try sessionAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2520,8 +2520,8 @@ extension LexRuntimeClientTypes.PredictedIntent: Swift.Codable {
         }
         if let slots = slots {
             var slotsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .slots)
-            for (dictKey0, stringmap0) in slots {
-                try slotsContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in slots {
+                try slotsContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2592,8 +2592,8 @@ extension PutSessionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activeContexts = activeContexts {
             var activeContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .activeContexts)
-            for activecontextslist0 in activeContexts {
-                try activeContextsContainer.encode(activecontextslist0)
+            for activecontext0 in activeContexts {
+                try activeContextsContainer.encode(activecontext0)
             }
         }
         if let dialogAction = self.dialogAction {
@@ -2601,14 +2601,14 @@ extension PutSessionInput: Swift.Encodable {
         }
         if let recentIntentSummaryView = recentIntentSummaryView {
             var recentIntentSummaryViewContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recentIntentSummaryView)
-            for intentsummarylist0 in recentIntentSummaryView {
-                try recentIntentSummaryViewContainer.encode(intentsummarylist0)
+            for intentsummary0 in recentIntentSummaryView {
+                try recentIntentSummaryViewContainer.encode(intentsummary0)
             }
         }
         if let sessionAttributes = sessionAttributes {
             var sessionAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sessionAttributes)
-            for (dictKey0, stringmap0) in sessionAttributes {
-                try sessionAttributesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in sessionAttributes {
+                try sessionAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3028,8 +3028,8 @@ extension LexRuntimeClientTypes.ResponseCard: Swift.Codable {
         }
         if let genericAttachments = genericAttachments {
             var genericAttachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .genericAttachments)
-            for genericattachmentlist0 in genericAttachments {
-                try genericAttachmentsContainer.encode(genericattachmentlist0)
+            for genericattachment0 in genericAttachments {
+                try genericAttachmentsContainer.encode(genericattachment0)
             }
         }
         if let version = self.version {

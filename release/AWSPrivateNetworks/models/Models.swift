@@ -840,8 +840,8 @@ extension CreateNetworkInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1049,8 +1049,8 @@ extension CreateNetworkSiteInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2632,8 +2632,11 @@ extension ListDeviceIdentifiersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
-            for (dictKey0, deviceidentifierfilters0) in filters {
-                try filtersContainer.encode(deviceidentifierfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, deviceIdentifierFilters0) in filters {
+                var deviceIdentifierFilters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in deviceIdentifierFilters0 {
+                    try deviceIdentifierFilters0Container.encode(string1)
+                }
             }
         }
         if let maxResults = self.maxResults {
@@ -2830,8 +2833,11 @@ extension ListNetworkResourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
-            for (dictKey0, networkresourcefilters0) in filters {
-                try filtersContainer.encode(networkresourcefilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, networkResourceFilters0) in filters {
+                var networkResourceFilters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in networkResourceFilters0 {
+                    try networkResourceFilters0Container.encode(string1)
+                }
             }
         }
         if let maxResults = self.maxResults {
@@ -3026,8 +3032,11 @@ extension ListNetworkSitesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
-            for (dictKey0, networksitefilters0) in filters {
-                try filtersContainer.encode(networksitefilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, networkSiteFilters0) in filters {
+                var networkSiteFilters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in networkSiteFilters0 {
+                    try networkSiteFilters0Container.encode(string1)
+                }
             }
         }
         if let maxResults = self.maxResults {
@@ -3219,8 +3228,11 @@ extension ListNetworksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
-            for (dictKey0, networkfilters0) in filters {
-                try filtersContainer.encode(networkfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, networkFilters0) in filters {
+                var networkFilters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in networkFilters0 {
+                    try networkFilters0Container.encode(string1)
+                }
             }
         }
         if let maxResults = self.maxResults {
@@ -3401,8 +3413,11 @@ extension ListOrdersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
-            for (dictKey0, orderfilters0) in filters {
-                try filtersContainer.encode(orderfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, orderFilters0) in filters {
+                var orderFilters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in orderFilters0 {
+                    try orderFilters0Container.encode(string1)
+                }
             }
         }
         if let maxResults = self.maxResults {
@@ -3887,8 +3902,8 @@ extension PrivateNetworksClientTypes.NetworkResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for namevaluepairs0 in attributes {
-                try attributesContainer.encode(namevaluepairs0)
+            for namevaluepair0 in attributes {
+                try attributesContainer.encode(namevaluepair0)
             }
         }
         if let createdAt = self.createdAt {
@@ -4065,8 +4080,8 @@ extension PrivateNetworksClientTypes.NetworkResourceDefinition: Swift.Codable {
         }
         if let options = options {
             var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
-            for options0 in options {
-                try optionsContainer.encode(options0)
+            for namevaluepair0 in options {
+                try optionsContainer.encode(namevaluepair0)
             }
         }
         if let type = self.type {
@@ -4546,8 +4561,8 @@ extension PrivateNetworksClientTypes.Order: Swift.Codable {
         }
         if let trackingInformation = trackingInformation {
             var trackingInformationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trackingInformation)
-            for trackinginformationlist0 in trackingInformation {
-                try trackingInformationContainer.encode(trackinginformationlist0)
+            for trackinginformation0 in trackingInformation {
+                try trackingInformationContainer.encode(trackinginformation0)
             }
         }
     }
@@ -4896,14 +4911,14 @@ extension PrivateNetworksClientTypes.SitePlan: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let options = options {
             var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
-            for options0 in options {
-                try optionsContainer.encode(options0)
+            for namevaluepair0 in options {
+                try optionsContainer.encode(namevaluepair0)
             }
         }
         if let resourceDefinitions = resourceDefinitions {
             var resourceDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceDefinitions)
-            for networkresourcedefinitions0 in resourceDefinitions {
-                try resourceDefinitionsContainer.encode(networkresourcedefinitions0)
+            for networkresourcedefinition0 in resourceDefinitions {
+                try resourceDefinitionsContainer.encode(networkresourcedefinition0)
             }
         }
     }
@@ -4969,8 +4984,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

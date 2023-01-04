@@ -23,8 +23,8 @@ extension CreateHttpNamespaceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -195,8 +195,8 @@ extension CreatePrivateDnsNamespaceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpc = self.vpc {
@@ -386,8 +386,8 @@ extension CreatePublicDnsNamespaceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -578,8 +578,8 @@ extension CreateServiceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -1413,8 +1413,8 @@ extension ServiceDiscoveryClientTypes.DnsConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dnsRecords = dnsRecords {
             var dnsRecordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsRecords)
-            for dnsrecordlist0 in dnsRecords {
-                try dnsRecordsContainer.encode(dnsrecordlist0)
+            for dnsrecord0 in dnsRecords {
+                try dnsRecordsContainer.encode(dnsrecord0)
             }
         }
         if let namespaceId = self.namespaceId {
@@ -1480,8 +1480,8 @@ extension ServiceDiscoveryClientTypes.DnsConfigChange: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dnsRecords = dnsRecords {
             var dnsRecordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsRecords)
-            for dnsrecordlist0 in dnsRecords {
-                try dnsRecordsContainer.encode(dnsrecordlist0)
+            for dnsrecord0 in dnsRecords {
+                try dnsRecordsContainer.encode(dnsrecord0)
             }
         }
     }
@@ -1895,8 +1895,8 @@ extension GetInstancesHealthStatusInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instances = instances {
             var instancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instances)
-            for instanceidlist0 in instances {
-                try instancesContainer.encode(instanceidlist0)
+            for resourceid0 in instances {
+                try instancesContainer.encode(resourceid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3230,8 +3230,8 @@ extension ListNamespacesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for namespacefilters0 in filters {
-                try filtersContainer.encode(namespacefilters0)
+            for namespacefilter0 in filters {
+                try filtersContainer.encode(namespacefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3395,8 +3395,8 @@ extension ListOperationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for operationfilters0 in filters {
-                try filtersContainer.encode(operationfilters0)
+            for operationfilter0 in filters {
+                try filtersContainer.encode(operationfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3560,8 +3560,8 @@ extension ListServicesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for servicefilters0 in filters {
-                try filtersContainer.encode(servicefilters0)
+            for servicefilter0 in filters {
+                try filtersContainer.encode(servicefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4040,8 +4040,8 @@ extension ServiceDiscoveryClientTypes.NamespaceFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -4411,8 +4411,8 @@ extension ServiceDiscoveryClientTypes.Operation: Swift.Codable {
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, operationtargetsmap0) in targets {
-                try targetsContainer.encode(operationtargetsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, operationTargetsMap0) in targets {
+                try targetsContainer.encode(operationTargetsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -4528,8 +4528,8 @@ extension ServiceDiscoveryClientTypes.OperationFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -6086,8 +6086,8 @@ extension ServiceDiscoveryClientTypes.ServiceFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -6477,8 +6477,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6648,8 +6648,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

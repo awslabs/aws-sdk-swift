@@ -620,8 +620,8 @@ extension SMSClientTypes.Connector: Swift.Codable {
         }
         if let capabilityList = capabilityList {
             var capabilityListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capabilityList)
-            for connectorcapabilitylist0 in capabilityList {
-                try capabilityListContainer.encode(connectorcapabilitylist0.rawValue)
+            for connectorcapability0 in capabilityList {
+                try capabilityListContainer.encode(connectorcapability0.rawValue)
             }
         }
         if let connectorId = self.connectorId {
@@ -835,14 +835,14 @@ extension CreateAppInput: Swift.Encodable {
         }
         if let serverGroups = serverGroups {
             var serverGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverGroups)
-            for servergroups0 in serverGroups {
-                try serverGroupsContainer.encode(servergroups0)
+            for servergroup0 in serverGroups {
+                try serverGroupsContainer.encode(servergroup0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3419,8 +3419,8 @@ extension GetServersInput: Swift.Encodable {
         }
         if let vmServerAddressList = vmServerAddressList {
             var vmServerAddressListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vmServerAddressList)
-            for vmserveraddresslist0 in vmServerAddressList {
-                try vmServerAddressListContainer.encode(vmserveraddresslist0)
+            for vmserveraddress0 in vmServerAddressList {
+                try vmServerAddressListContainer.encode(vmserveraddress0)
             }
         }
     }
@@ -4037,8 +4037,8 @@ extension ListAppsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appIds = appIds {
             var appIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appIds)
-            for appids0 in appIds {
-                try appIdsContainer.encode(appids0)
+            for appid0 in appIds {
+                try appIdsContainer.encode(appid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4563,8 +4563,8 @@ extension PutAppLaunchConfigurationInput: Swift.Encodable {
         }
         if let serverGroupLaunchConfigurations = serverGroupLaunchConfigurations {
             var serverGroupLaunchConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverGroupLaunchConfigurations)
-            for servergrouplaunchconfigurations0 in serverGroupLaunchConfigurations {
-                try serverGroupLaunchConfigurationsContainer.encode(servergrouplaunchconfigurations0)
+            for servergrouplaunchconfiguration0 in serverGroupLaunchConfigurations {
+                try serverGroupLaunchConfigurationsContainer.encode(servergrouplaunchconfiguration0)
             }
         }
     }
@@ -4690,8 +4690,8 @@ extension PutAppReplicationConfigurationInput: Swift.Encodable {
         }
         if let serverGroupReplicationConfigurations = serverGroupReplicationConfigurations {
             var serverGroupReplicationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverGroupReplicationConfigurations)
-            for servergroupreplicationconfigurations0 in serverGroupReplicationConfigurations {
-                try serverGroupReplicationConfigurationsContainer.encode(servergroupreplicationconfigurations0)
+            for servergroupreplicationconfiguration0 in serverGroupReplicationConfigurations {
+                try serverGroupReplicationConfigurationsContainer.encode(servergroupreplicationconfiguration0)
             }
         }
     }
@@ -4802,14 +4802,14 @@ extension PutAppValidationConfigurationInput: Swift.Encodable {
         }
         if let appValidationConfigurations = appValidationConfigurations {
             var appValidationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appValidationConfigurations)
-            for appvalidationconfigurations0 in appValidationConfigurations {
-                try appValidationConfigurationsContainer.encode(appvalidationconfigurations0)
+            for appvalidationconfiguration0 in appValidationConfigurations {
+                try appValidationConfigurationsContainer.encode(appvalidationconfiguration0)
             }
         }
         if let serverGroupValidationConfigurations = serverGroupValidationConfigurations {
             var serverGroupValidationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverGroupValidationConfigurations)
-            for servergroupvalidationconfigurations0 in serverGroupValidationConfigurations {
-                try serverGroupValidationConfigurationsContainer.encode(servergroupvalidationconfigurations0)
+            for servergroupvalidationconfiguration0 in serverGroupValidationConfigurations {
+                try serverGroupValidationConfigurationsContainer.encode(servergroupvalidationconfiguration0)
             }
         }
     }
@@ -4977,8 +4977,8 @@ extension SMSClientTypes.ReplicationJob: Swift.Codable {
         }
         if let replicationRunList = replicationRunList {
             var replicationRunListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationRunList)
-            for replicationrunlist0 in replicationRunList {
-                try replicationRunListContainer.encode(replicationrunlist0)
+            for replicationrun0 in replicationRunList {
+                try replicationRunListContainer.encode(replicationrun0)
             }
         }
         if let roleName = self.roleName {
@@ -6010,8 +6010,8 @@ extension SMSClientTypes.ServerGroup: Swift.Codable {
         }
         if let serverList = serverList {
             var serverListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverList)
-            for serverlist0 in serverList {
-                try serverListContainer.encode(serverlist0)
+            for server0 in serverList {
+                try serverListContainer.encode(server0)
             }
         }
     }
@@ -6077,8 +6077,8 @@ extension SMSClientTypes.ServerGroupLaunchConfiguration: Swift.Codable {
         }
         if let serverLaunchConfigurations = serverLaunchConfigurations {
             var serverLaunchConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverLaunchConfigurations)
-            for serverlaunchconfigurations0 in serverLaunchConfigurations {
-                try serverLaunchConfigurationsContainer.encode(serverlaunchconfigurations0)
+            for serverlaunchconfiguration0 in serverLaunchConfigurations {
+                try serverLaunchConfigurationsContainer.encode(serverlaunchconfiguration0)
             }
         }
     }
@@ -6140,8 +6140,8 @@ extension SMSClientTypes.ServerGroupReplicationConfiguration: Swift.Codable {
         }
         if let serverReplicationConfigurations = serverReplicationConfigurations {
             var serverReplicationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverReplicationConfigurations)
-            for serverreplicationconfigurations0 in serverReplicationConfigurations {
-                try serverReplicationConfigurationsContainer.encode(serverreplicationconfigurations0)
+            for serverreplicationconfiguration0 in serverReplicationConfigurations {
+                try serverReplicationConfigurationsContainer.encode(serverreplicationconfiguration0)
             }
         }
     }
@@ -6197,8 +6197,8 @@ extension SMSClientTypes.ServerGroupValidationConfiguration: Swift.Codable {
         }
         if let serverValidationConfigurations = serverValidationConfigurations {
             var serverValidationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverValidationConfigurations)
-            for servervalidationconfigurations0 in serverValidationConfigurations {
-                try serverValidationConfigurationsContainer.encode(servervalidationconfigurations0)
+            for servervalidationconfiguration0 in serverValidationConfigurations {
+                try serverValidationConfigurationsContainer.encode(servervalidationconfiguration0)
             }
         }
     }
@@ -7379,14 +7379,14 @@ extension UpdateAppInput: Swift.Encodable {
         }
         if let serverGroups = serverGroups {
             var serverGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverGroups)
-            for servergroups0 in serverGroups {
-                try serverGroupsContainer.encode(servergroups0)
+            for servergroup0 in serverGroups {
+                try serverGroupsContainer.encode(servergroup0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }

@@ -299,8 +299,8 @@ extension IoT1ClickDevicesClientTypes.DeviceDescription: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, deviceattributes0) in attributes {
-                try attributesContainer.encode(deviceattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, deviceAttributes0) in attributes {
+                try attributesContainer.encode(deviceAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let deviceId = self.deviceId {
@@ -314,8 +314,8 @@ extension IoT1ClickDevicesClientTypes.DeviceDescription: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -496,8 +496,8 @@ extension FinalizeDeviceClaimInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1828,8 +1828,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

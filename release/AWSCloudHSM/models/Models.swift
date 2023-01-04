@@ -15,8 +15,8 @@ extension AddTagsToResourceInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -1899,8 +1899,8 @@ extension GetConfigInput: Swift.Encodable {
         }
         if let hapgList = hapgList {
             var hapgListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hapgList)
-            for hapglist0 in hapgList {
-                try hapgListContainer.encode(hapglist0)
+            for hapgarn0 in hapgList {
+                try hapgListContainer.encode(hapgarn0)
             }
         }
     }
@@ -2814,8 +2814,8 @@ extension ModifyHapgInput: Swift.Encodable {
         }
         if let partitionSerialList = partitionSerialList {
             var partitionSerialListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionSerialList)
-            for partitionseriallist0 in partitionSerialList {
-                try partitionSerialListContainer.encode(partitionseriallist0)
+            for partitionserial0 in partitionSerialList {
+                try partitionSerialListContainer.encode(partitionserial0)
             }
         }
     }
@@ -3262,8 +3262,8 @@ extension RemoveTagsFromResourceInput: Swift.Encodable {
         }
         if let tagKeyList = tagKeyList {
             var tagKeyListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeyList)
-            for tagkeylist0 in tagKeyList {
-                try tagKeyListContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeyList {
+                try tagKeyListContainer.encode(tagkey0)
             }
         }
     }

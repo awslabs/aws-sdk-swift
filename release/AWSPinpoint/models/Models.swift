@@ -218,8 +218,8 @@ extension PinpointClientTypes.ADMMessage: Swift.Codable {
         }
         if let data = data {
             var dataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .data)
-            for (dictKey0, mapof__string0) in data {
-                try dataContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in data {
+                try dataContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let expiresAfter = self.expiresAfter {
@@ -251,8 +251,11 @@ extension PinpointClientTypes.ADMMessage: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let title = self.title {
@@ -702,8 +705,8 @@ extension PinpointClientTypes.APNSMessage: Swift.Codable {
         }
         if let data = data {
             var dataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .data)
-            for (dictKey0, mapof__string0) in data {
-                try dataContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in data {
+                try dataContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let mediaUrl = self.mediaUrl {
@@ -726,8 +729,11 @@ extension PinpointClientTypes.APNSMessage: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let threadId = self.threadId {
@@ -1816,8 +1822,8 @@ extension PinpointClientTypes.ActivitiesResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofactivityresponse0 in item {
-                try itemContainer.encode(listofactivityresponse0)
+            for activityresponse0 in item {
+                try itemContainer.encode(activityresponse0)
             }
         }
         if let nextToken = self.nextToken {
@@ -2177,8 +2183,8 @@ extension PinpointClientTypes.AddressConfiguration: Swift.Codable {
         }
         if let context = context {
             var contextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .context)
-            for (dictKey0, mapof__string0) in context {
-                try contextContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in context {
+                try contextContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let rawContent = self.rawContent {
@@ -2186,8 +2192,11 @@ extension PinpointClientTypes.AddressConfiguration: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let titleOverride = self.titleOverride {
@@ -2544,8 +2553,8 @@ extension PinpointClientTypes.ApplicationResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2704,8 +2713,8 @@ extension PinpointClientTypes.ApplicationsResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofapplicationresponse0 in item {
-                try itemContainer.encode(listofapplicationresponse0)
+            for applicationresponse0 in item {
+                try itemContainer.encode(applicationresponse0)
             }
         }
         if let nextToken = self.nextToken {
@@ -2764,8 +2773,8 @@ extension PinpointClientTypes.AttributeDimension: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for listof__string0 in values {
-                try valuesContainer.encode(listof__string0)
+            for __string0 in values {
+                try valuesContainer.encode(__string0)
             }
         }
     }
@@ -2887,8 +2896,8 @@ extension PinpointClientTypes.AttributesResource: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for listof__string0 in attributes {
-                try attributesContainer.encode(listof__string0)
+            for __string0 in attributes {
+                try attributesContainer.encode(__string0)
             }
         }
     }
@@ -3230,8 +3239,8 @@ extension PinpointClientTypes.BaiduMessage: Swift.Codable {
         }
         if let data = data {
             var dataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .data)
-            for (dictKey0, mapof__string0) in data {
-                try dataContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in data {
+                try dataContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let iconReference = self.iconReference {
@@ -3257,8 +3266,11 @@ extension PinpointClientTypes.BaiduMessage: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let timeToLive = self.timeToLive {
@@ -3413,8 +3425,8 @@ extension PinpointClientTypes.BaseKpiResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rows = rows {
             var rowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rows)
-            for listofresultrow0 in rows {
-                try rowsContainer.encode(listofresultrow0)
+            for resultrow0 in rows {
+                try rowsContainer.encode(resultrow0)
             }
         }
     }
@@ -3809,14 +3821,14 @@ extension PinpointClientTypes.CampaignInAppMessage: Swift.Codable {
         }
         if let content = content {
             var contentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .content)
-            for listofinappmessagecontent0 in content {
-                try contentContainer.encode(listofinappmessagecontent0)
+            for inappmessagecontent0 in content {
+                try contentContainer.encode(inappmessagecontent0)
             }
         }
         if let customConfig = customConfig {
             var customConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customConfig)
-            for (dictKey0, mapof__string0) in customConfig {
-                try customConfigContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in customConfig {
+                try customConfigContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let layout = self.layout {
@@ -3991,8 +4003,8 @@ extension PinpointClientTypes.CampaignResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalTreatments = additionalTreatments {
             var additionalTreatmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalTreatments)
-            for listoftreatmentresource0 in additionalTreatments {
-                try additionalTreatmentsContainer.encode(listoftreatmentresource0)
+            for treatmentresource0 in additionalTreatments {
+                try additionalTreatmentsContainer.encode(treatmentresource0)
             }
         }
         if let applicationId = self.applicationId {
@@ -4066,8 +4078,8 @@ extension PinpointClientTypes.CampaignResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4441,8 +4453,8 @@ extension PinpointClientTypes.CampaignsResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofcampaignresponse0 in item {
-                try itemContainer.encode(listofcampaignresponse0)
+            for campaignresponse0 in item {
+                try itemContainer.encode(campaignresponse0)
             }
         }
         if let nextToken = self.nextToken {
@@ -4678,8 +4690,8 @@ extension PinpointClientTypes.ChannelsResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channels = channels {
             var channelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .channels)
-            for (dictKey0, mapofchannelresponse0) in channels {
-                try channelsContainer.encode(mapofchannelresponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfChannelResponse0) in channels {
+                try channelsContainer.encode(mapOfChannelResponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4730,32 +4742,32 @@ extension PinpointClientTypes.ClosedDays: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let custom = custom {
             var customContainer = encodeContainer.nestedUnkeyedContainer(forKey: .custom)
-            for listofcloseddaysrules0 in custom {
-                try customContainer.encode(listofcloseddaysrules0)
+            for closeddaysrule0 in custom {
+                try customContainer.encode(closeddaysrule0)
             }
         }
         if let email = email {
             var emailContainer = encodeContainer.nestedUnkeyedContainer(forKey: .email)
-            for listofcloseddaysrules0 in email {
-                try emailContainer.encode(listofcloseddaysrules0)
+            for closeddaysrule0 in email {
+                try emailContainer.encode(closeddaysrule0)
             }
         }
         if let push = push {
             var pushContainer = encodeContainer.nestedUnkeyedContainer(forKey: .push)
-            for listofcloseddaysrules0 in push {
-                try pushContainer.encode(listofcloseddaysrules0)
+            for closeddaysrule0 in push {
+                try pushContainer.encode(closeddaysrule0)
             }
         }
         if let sms = sms {
             var smsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sms)
-            for listofcloseddaysrules0 in sms {
-                try smsContainer.encode(listofcloseddaysrules0)
+            for closeddaysrule0 in sms {
+                try smsContainer.encode(closeddaysrule0)
             }
         }
         if let voice = voice {
             var voiceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .voice)
-            for listofcloseddaysrules0 in voice {
-                try voiceContainer.encode(listofcloseddaysrules0)
+            for closeddaysrule0 in voice {
+                try voiceContainer.encode(closeddaysrule0)
             }
         }
     }
@@ -4917,8 +4929,8 @@ extension PinpointClientTypes.Condition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conditions = conditions {
             var conditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditions)
-            for listofsimplecondition0 in conditions {
-                try conditionsContainer.encode(listofsimplecondition0)
+            for simplecondition0 in conditions {
+                try conditionsContainer.encode(simplecondition0)
             }
         }
         if let `operator` = self.`operator` {
@@ -5304,8 +5316,8 @@ extension PinpointClientTypes.CreateApplicationRequest: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6730,8 +6742,8 @@ extension PinpointClientTypes.CreateRecommenderConfigurationShape: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapof__string0) in attributes {
-                try attributesContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in attributes {
+                try attributesContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -7432,8 +7444,8 @@ extension PinpointClientTypes.CustomDeliveryConfiguration: Swift.Codable {
         }
         if let endpointTypes = endpointTypes {
             var endpointTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointTypes)
-            for listof__endpointtypeselement0 in endpointTypes {
-                try endpointTypesContainer.encode(listof__endpointtypeselement0.rawValue)
+            for __endpointtypeselement0 in endpointTypes {
+                try endpointTypesContainer.encode(__endpointtypeselement0.rawValue)
             }
         }
     }
@@ -7498,8 +7510,8 @@ extension PinpointClientTypes.CustomMessageActivity: Swift.Codable {
         }
         if let endpointTypes = endpointTypes {
             var endpointTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointTypes)
-            for listof__endpointtypeselement0 in endpointTypes {
-                try endpointTypesContainer.encode(listof__endpointtypeselement0.rawValue)
+            for __endpointtypeselement0 in endpointTypes {
+                try endpointTypesContainer.encode(__endpointtypeselement0.rawValue)
             }
         }
         if let messageConfig = self.messageConfig {
@@ -7729,8 +7741,11 @@ extension PinpointClientTypes.DefaultMessage: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
     }
@@ -7801,8 +7816,8 @@ extension PinpointClientTypes.DefaultPushNotificationMessage: Swift.Codable {
         }
         if let data = data {
             var dataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .data)
-            for (dictKey0, mapof__string0) in data {
-                try dataContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in data {
+                try dataContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let silentPush = self.silentPush {
@@ -7810,8 +7825,11 @@ extension PinpointClientTypes.DefaultPushNotificationMessage: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let title = self.title {
@@ -11190,8 +11208,8 @@ extension PinpointClientTypes.EmailMessage: Swift.Codable {
         }
         if let replyToAddresses = replyToAddresses {
             var replyToAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replyToAddresses)
-            for listof__string0 in replyToAddresses {
-                try replyToAddressesContainer.encode(listof__string0)
+            for __string0 in replyToAddresses {
+                try replyToAddressesContainer.encode(__string0)
             }
         }
         if let simpleEmail = self.simpleEmail {
@@ -11199,8 +11217,11 @@ extension PinpointClientTypes.EmailMessage: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
     }
@@ -11387,8 +11408,8 @@ extension PinpointClientTypes.EmailTemplateRequest: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -11518,8 +11539,8 @@ extension PinpointClientTypes.EmailTemplateResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -11655,8 +11676,11 @@ extension PinpointClientTypes.EndpointBatchItem: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapoflistof__string0) in attributes {
-                try attributesContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in attributes {
+                var mapOfListOf__string0Container = attributesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let channelType = self.channelType {
@@ -11679,8 +11703,8 @@ extension PinpointClientTypes.EndpointBatchItem: Swift.Codable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
-            for (dictKey0, mapof__double0) in metrics {
-                try metricsContainer.encode(mapof__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__double0) in metrics {
+                try metricsContainer.encode(mapOf__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let optOut = self.optOut {
@@ -11817,8 +11841,8 @@ extension PinpointClientTypes.EndpointBatchRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofendpointbatchitem0 in item {
-                try itemContainer.encode(listofendpointbatchitem0)
+            for endpointbatchitem0 in item {
+                try itemContainer.encode(endpointbatchitem0)
             }
         }
     }
@@ -12216,8 +12240,11 @@ extension PinpointClientTypes.EndpointRequest: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapoflistof__string0) in attributes {
-                try attributesContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in attributes {
+                var mapOfListOf__string0Container = attributesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let channelType = self.channelType {
@@ -12237,8 +12264,8 @@ extension PinpointClientTypes.EndpointRequest: Swift.Codable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
-            for (dictKey0, mapof__double0) in metrics {
-                try metricsContainer.encode(mapof__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__double0) in metrics {
+                try metricsContainer.encode(mapOf__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let optOut = self.optOut {
@@ -12389,8 +12416,11 @@ extension PinpointClientTypes.EndpointResponse: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapoflistof__string0) in attributes {
-                try attributesContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in attributes {
+                var mapOfListOf__string0Container = attributesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let channelType = self.channelType {
@@ -12419,8 +12449,8 @@ extension PinpointClientTypes.EndpointResponse: Swift.Codable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
-            for (dictKey0, mapof__double0) in metrics {
-                try metricsContainer.encode(mapof__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__double0) in metrics {
+                try metricsContainer.encode(mapOf__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let optOut = self.optOut {
@@ -12582,8 +12612,8 @@ extension PinpointClientTypes.EndpointSendConfiguration: Swift.Codable {
         }
         if let context = context {
             var contextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .context)
-            for (dictKey0, mapof__string0) in context {
-                try contextContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in context {
+                try contextContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let rawContent = self.rawContent {
@@ -12591,8 +12621,11 @@ extension PinpointClientTypes.EndpointSendConfiguration: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let titleOverride = self.titleOverride {
@@ -12682,8 +12715,11 @@ extension PinpointClientTypes.EndpointUser: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let userAttributes = userAttributes {
             var userAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .userAttributes)
-            for (dictKey0, mapoflistof__string0) in userAttributes {
-                try userAttributesContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in userAttributes {
+                var mapOfListOf__string0Container = userAttributesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let userId = self.userId {
@@ -12745,8 +12781,8 @@ extension PinpointClientTypes.EndpointsResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofendpointresponse0 in item {
-                try itemContainer.encode(listofendpointresponse0)
+            for endpointresponse0 in item {
+                try itemContainer.encode(endpointresponse0)
             }
         }
     }
@@ -12811,8 +12847,8 @@ extension PinpointClientTypes.Event: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapof__string0) in attributes {
-                try attributesContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in attributes {
+                try attributesContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let clientSdkVersion = self.clientSdkVersion {
@@ -12823,8 +12859,8 @@ extension PinpointClientTypes.Event: Swift.Codable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
-            for (dictKey0, mapof__double0) in metrics {
-                try metricsContainer.encode(mapof__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__double0) in metrics {
+                try metricsContainer.encode(mapOf__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sdkName = self.sdkName {
@@ -12991,8 +13027,8 @@ extension PinpointClientTypes.EventDimensions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapofattributedimension0) in attributes {
-                try attributesContainer.encode(mapofattributedimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfAttributeDimension0) in attributes {
+                try attributesContainer.encode(mapOfAttributeDimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let eventType = self.eventType {
@@ -13000,8 +13036,8 @@ extension PinpointClientTypes.EventDimensions: Swift.Codable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
-            for (dictKey0, mapofmetricdimension0) in metrics {
-                try metricsContainer.encode(mapofmetricdimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfMetricDimension0) in metrics {
+                try metricsContainer.encode(mapOfMetricDimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -13296,8 +13332,8 @@ extension PinpointClientTypes.EventsBatch: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .events)
-            for (dictKey0, mapofevent0) in events {
-                try eventsContainer.encode(mapofevent0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfEvent0) in events {
+                try eventsContainer.encode(mapOfEvent0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -13351,8 +13387,8 @@ extension PinpointClientTypes.EventsRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let batchItem = batchItem {
             var batchItemContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .batchItem)
-            for (dictKey0, mapofeventsbatch0) in batchItem {
-                try batchItemContainer.encode(mapofeventsbatch0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfEventsBatch0) in batchItem {
+                try batchItemContainer.encode(mapOfEventsBatch0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -13399,8 +13435,8 @@ extension PinpointClientTypes.EventsResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let results = results {
             var resultsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .results)
-            for (dictKey0, mapofitemresponse0) in results {
-                try resultsContainer.encode(mapofitemresponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfItemResponse0) in results {
+                try resultsContainer.encode(mapOfItemResponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -13610,8 +13646,8 @@ extension PinpointClientTypes.ExportJobResponse: Swift.Codable {
         }
         if let failures = failures {
             var failuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failures)
-            for listof__string0 in failures {
-                try failuresContainer.encode(listof__string0)
+            for __string0 in failures {
+                try failuresContainer.encode(__string0)
             }
         }
         if let id = self.id {
@@ -13754,8 +13790,8 @@ extension PinpointClientTypes.ExportJobsResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofexportjobresponse0 in item {
-                try itemContainer.encode(listofexportjobresponse0)
+            for exportjobresponse0 in item {
+                try itemContainer.encode(exportjobresponse0)
             }
         }
         if let nextToken = self.nextToken {
@@ -14193,8 +14229,8 @@ extension PinpointClientTypes.GCMMessage: Swift.Codable {
         }
         if let data = data {
             var dataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .data)
-            for (dictKey0, mapof__string0) in data {
-                try dataContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in data {
+                try dataContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let iconReference = self.iconReference {
@@ -14226,8 +14262,11 @@ extension PinpointClientTypes.GCMMessage: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let timeToLive = self.timeToLive {
@@ -20594,8 +20633,8 @@ extension PinpointClientTypes.ImportJobResponse: Swift.Codable {
         }
         if let failures = failures {
             var failuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failures)
-            for listof__string0 in failures {
-                try failuresContainer.encode(listof__string0)
+            for __string0 in failures {
+                try failuresContainer.encode(__string0)
             }
         }
         if let id = self.id {
@@ -20738,8 +20777,8 @@ extension PinpointClientTypes.ImportJobsResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofimportjobresponse0 in item {
-                try itemContainer.encode(listofimportjobresponse0)
+            for importjobresponse0 in item {
+                try itemContainer.encode(importjobresponse0)
             }
         }
         if let nextToken = self.nextToken {
@@ -20852,14 +20891,14 @@ extension PinpointClientTypes.InAppMessage: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let content = content {
             var contentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .content)
-            for listofinappmessagecontent0 in content {
-                try contentContainer.encode(listofinappmessagecontent0)
+            for inappmessagecontent0 in content {
+                try contentContainer.encode(inappmessagecontent0)
             }
         }
         if let customConfig = customConfig {
             var customConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customConfig)
-            for (dictKey0, mapof__string0) in customConfig {
-                try customConfigContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in customConfig {
+                try customConfigContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let layout = self.layout {
@@ -21300,8 +21339,8 @@ extension PinpointClientTypes.InAppMessagesResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inAppMessageCampaigns = inAppMessageCampaigns {
             var inAppMessageCampaignsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inAppMessageCampaigns)
-            for listofinappmessagecampaign0 in inAppMessageCampaigns {
-                try inAppMessageCampaignsContainer.encode(listofinappmessagecampaign0)
+            for inappmessagecampaign0 in inAppMessageCampaigns {
+                try inAppMessageCampaignsContainer.encode(inappmessagecampaign0)
             }
         }
     }
@@ -21351,14 +21390,14 @@ extension PinpointClientTypes.InAppTemplateRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let content = content {
             var contentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .content)
-            for listofinappmessagecontent0 in content {
-                try contentContainer.encode(listofinappmessagecontent0)
+            for inappmessagecontent0 in content {
+                try contentContainer.encode(inappmessagecontent0)
             }
         }
         if let customConfig = customConfig {
             var customConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customConfig)
-            for (dictKey0, mapof__string0) in customConfig {
-                try customConfigContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in customConfig {
+                try customConfigContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let layout = self.layout {
@@ -21369,8 +21408,8 @@ extension PinpointClientTypes.InAppTemplateRequest: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -21471,8 +21510,8 @@ extension PinpointClientTypes.InAppTemplateResponse: Swift.Codable {
         }
         if let content = content {
             var contentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .content)
-            for listofinappmessagecontent0 in content {
-                try contentContainer.encode(listofinappmessagecontent0)
+            for inappmessagecontent0 in content {
+                try contentContainer.encode(inappmessagecontent0)
             }
         }
         if let creationDate = self.creationDate {
@@ -21480,8 +21519,8 @@ extension PinpointClientTypes.InAppTemplateResponse: Swift.Codable {
         }
         if let customConfig = customConfig {
             var customConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customConfig)
-            for (dictKey0, mapof__string0) in customConfig {
-                try customConfigContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in customConfig {
+                try customConfigContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let lastModifiedDate = self.lastModifiedDate {
@@ -21504,8 +21543,8 @@ extension PinpointClientTypes.InAppTemplateResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -21735,8 +21774,8 @@ extension PinpointClientTypes.ItemResponse: Swift.Codable {
         }
         if let eventsItemResponse = eventsItemResponse {
             var eventsItemResponseContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .eventsItemResponse)
-            for (dictKey0, mapofeventitemresponse0) in eventsItemResponse {
-                try eventsItemResponseContainer.encode(mapofeventitemresponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfEventItemResponse0) in eventsItemResponse {
+                try eventsItemResponseContainer.encode(mapOfEventItemResponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -22077,8 +22116,8 @@ extension PinpointClientTypes.JourneyExecutionActivityMetricsResponse: Swift.Cod
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
-            for (dictKey0, mapof__string0) in metrics {
-                try metricsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in metrics {
+                try metricsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -22184,8 +22223,8 @@ extension PinpointClientTypes.JourneyExecutionMetricsResponse: Swift.Codable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
-            for (dictKey0, mapof__string0) in metrics {
-                try metricsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in metrics {
+                try metricsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -22373,8 +22412,8 @@ extension PinpointClientTypes.JourneyResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activities = activities {
             var activitiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .activities)
-            for (dictKey0, mapofactivity0) in activities {
-                try activitiesContainer.encode(mapofactivity0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfActivity0) in activities {
+                try activitiesContainer.encode(mapOfActivity0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let applicationId = self.applicationId {
@@ -22436,8 +22475,8 @@ extension PinpointClientTypes.JourneyResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -22800,8 +22839,8 @@ extension PinpointClientTypes.JourneysResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofjourneyresponse0 in item {
-                try itemContainer.encode(listofjourneyresponse0)
+            for journeyresponse0 in item {
+                try itemContainer.encode(journeyresponse0)
             }
         }
         if let nextToken = self.nextToken {
@@ -23037,8 +23076,8 @@ extension PinpointClientTypes.ListRecommenderConfigurationsResponse: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofrecommenderconfigurationresponse0 in item {
-                try itemContainer.encode(listofrecommenderconfigurationresponse0)
+            for recommenderconfigurationresponse0 in item {
+                try itemContainer.encode(recommenderconfigurationresponse0)
             }
         }
         if let nextToken = self.nextToken {
@@ -23788,20 +23827,20 @@ extension PinpointClientTypes.MessageRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addresses = addresses {
             var addressesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .addresses)
-            for (dictKey0, mapofaddressconfiguration0) in addresses {
-                try addressesContainer.encode(mapofaddressconfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfAddressConfiguration0) in addresses {
+                try addressesContainer.encode(mapOfAddressConfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let context = context {
             var contextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .context)
-            for (dictKey0, mapof__string0) in context {
-                try contextContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in context {
+                try contextContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .endpoints)
-            for (dictKey0, mapofendpointsendconfiguration0) in endpoints {
-                try endpointsContainer.encode(mapofendpointsendconfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfEndpointSendConfiguration0) in endpoints {
+                try endpointsContainer.encode(mapOfEndpointSendConfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let messageConfiguration = self.messageConfiguration {
@@ -23911,8 +23950,8 @@ extension PinpointClientTypes.MessageResponse: Swift.Codable {
         }
         if let endpointResult = endpointResult {
             var endpointResultContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .endpointResult)
-            for (dictKey0, mapofendpointmessageresult0) in endpointResult {
-                try endpointResultContainer.encode(mapofendpointmessageresult0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfEndpointMessageResult0) in endpointResult {
+                try endpointResultContainer.encode(mapOfEndpointMessageResult0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestId = self.requestId {
@@ -23920,8 +23959,8 @@ extension PinpointClientTypes.MessageResponse: Swift.Codable {
         }
         if let result = result {
             var resultContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .result)
-            for (dictKey0, mapofmessageresult0) in result {
-                try resultContainer.encode(mapofmessageresult0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfMessageResult0) in result {
+                try resultContainer.encode(mapOfMessageResult0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -24309,8 +24348,8 @@ extension PinpointClientTypes.MultiConditionalSplitActivity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let branches = branches {
             var branchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .branches)
-            for listofmulticonditionalbranch0 in branches {
-                try branchesContainer.encode(listofmulticonditionalbranch0)
+            for multiconditionalbranch0 in branches {
+                try branchesContainer.encode(multiconditionalbranch0)
             }
         }
         if let defaultActivity = self.defaultActivity {
@@ -24651,32 +24690,47 @@ extension PinpointClientTypes.OpenHours: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let custom = custom {
             var customContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .custom)
-            for (dictKey0, mapoflistofopenhoursrules0) in custom {
-                try customContainer.encode(mapoflistofopenhoursrules0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOfOpenHoursRules0) in custom {
+                var mapOfListOfOpenHoursRules0Container = customContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for openhoursrule1 in mapOfListOfOpenHoursRules0 {
+                    try mapOfListOfOpenHoursRules0Container.encode(openhoursrule1)
+                }
             }
         }
         if let email = email {
             var emailContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .email)
-            for (dictKey0, mapoflistofopenhoursrules0) in email {
-                try emailContainer.encode(mapoflistofopenhoursrules0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOfOpenHoursRules0) in email {
+                var mapOfListOfOpenHoursRules0Container = emailContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for openhoursrule1 in mapOfListOfOpenHoursRules0 {
+                    try mapOfListOfOpenHoursRules0Container.encode(openhoursrule1)
+                }
             }
         }
         if let push = push {
             var pushContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .push)
-            for (dictKey0, mapoflistofopenhoursrules0) in push {
-                try pushContainer.encode(mapoflistofopenhoursrules0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOfOpenHoursRules0) in push {
+                var mapOfListOfOpenHoursRules0Container = pushContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for openhoursrule1 in mapOfListOfOpenHoursRules0 {
+                    try mapOfListOfOpenHoursRules0Container.encode(openhoursrule1)
+                }
             }
         }
         if let sms = sms {
             var smsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sms)
-            for (dictKey0, mapoflistofopenhoursrules0) in sms {
-                try smsContainer.encode(mapoflistofopenhoursrules0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOfOpenHoursRules0) in sms {
+                var mapOfListOfOpenHoursRules0Container = smsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for openhoursrule1 in mapOfListOfOpenHoursRules0 {
+                    try mapOfListOfOpenHoursRules0Container.encode(openhoursrule1)
+                }
             }
         }
         if let voice = voice {
             var voiceContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .voice)
-            for (dictKey0, mapoflistofopenhoursrules0) in voice {
-                try voiceContainer.encode(mapoflistofopenhoursrules0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOfOpenHoursRules0) in voice {
+                var mapOfListOfOpenHoursRules0Container = voiceContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for openhoursrule1 in mapOfListOfOpenHoursRules0 {
+                    try mapOfListOfOpenHoursRules0Container.encode(openhoursrule1)
+                }
             }
         }
     }
@@ -25181,8 +25235,11 @@ extension PinpointClientTypes.PublicEndpoint: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapoflistof__string0) in attributes {
-                try attributesContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in attributes {
+                var mapOfListOf__string0Container = attributesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let channelType = self.channelType {
@@ -25202,8 +25259,8 @@ extension PinpointClientTypes.PublicEndpoint: Swift.Codable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
-            for (dictKey0, mapof__double0) in metrics {
-                try metricsContainer.encode(mapof__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__double0) in metrics {
+                try metricsContainer.encode(mapOf__double0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let optOut = self.optOut {
@@ -25431,8 +25488,8 @@ extension PinpointClientTypes.PushNotificationTemplateRequest: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -25582,8 +25639,8 @@ extension PinpointClientTypes.PushNotificationTemplateResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -26108,8 +26165,8 @@ extension PinpointClientTypes.RandomSplitActivity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let branches = branches {
             var branchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .branches)
-            for listofrandomsplitentry0 in branches {
-                try branchesContainer.encode(listofrandomsplitentry0)
+            for randomsplitentry0 in branches {
+                try branchesContainer.encode(randomsplitentry0)
             }
         }
     }
@@ -26325,8 +26382,8 @@ extension PinpointClientTypes.RecommenderConfigurationResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapof__string0) in attributes {
-                try attributesContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in attributes {
+                try attributesContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let creationDate = self.creationDate {
@@ -26668,14 +26725,14 @@ extension PinpointClientTypes.ResultRow: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupedBys = groupedBys {
             var groupedBysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupedBys)
-            for listofresultrowvalue0 in groupedBys {
-                try groupedBysContainer.encode(listofresultrowvalue0)
+            for resultrowvalue0 in groupedBys {
+                try groupedBysContainer.encode(resultrowvalue0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for listofresultrowvalue0 in values {
-                try valuesContainer.encode(listofresultrowvalue0)
+            for resultrowvalue0 in values {
+                try valuesContainer.encode(resultrowvalue0)
             }
         }
     }
@@ -27046,8 +27103,11 @@ extension PinpointClientTypes.SMSMessage: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let templateId = self.templateId {
@@ -27232,8 +27292,8 @@ extension PinpointClientTypes.SMSTemplateRequest: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -27343,8 +27403,8 @@ extension PinpointClientTypes.SMSTemplateResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -27720,8 +27780,8 @@ extension PinpointClientTypes.SegmentDimensions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapofattributedimension0) in attributes {
-                try attributesContainer.encode(mapofattributedimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfAttributeDimension0) in attributes {
+                try attributesContainer.encode(mapOfAttributeDimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let behavior = self.behavior {
@@ -27735,14 +27795,14 @@ extension PinpointClientTypes.SegmentDimensions: Swift.Codable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metrics)
-            for (dictKey0, mapofmetricdimension0) in metrics {
-                try metricsContainer.encode(mapofmetricdimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfMetricDimension0) in metrics {
+                try metricsContainer.encode(mapOfMetricDimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let userAttributes = userAttributes {
             var userAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .userAttributes)
-            for (dictKey0, mapofattributedimension0) in userAttributes {
-                try userAttributesContainer.encode(mapofattributedimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfAttributeDimension0) in userAttributes {
+                try userAttributesContainer.encode(mapOfAttributeDimension0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -27839,14 +27899,14 @@ extension PinpointClientTypes.SegmentGroup: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for listofsegmentdimensions0 in dimensions {
-                try dimensionsContainer.encode(listofsegmentdimensions0)
+            for segmentdimensions0 in dimensions {
+                try dimensionsContainer.encode(segmentdimensions0)
             }
         }
         if let sourceSegments = sourceSegments {
             var sourceSegmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceSegments)
-            for listofsegmentreference0 in sourceSegments {
-                try sourceSegmentsContainer.encode(listofsegmentreference0)
+            for segmentreference0 in sourceSegments {
+                try sourceSegmentsContainer.encode(segmentreference0)
             }
         }
         if let sourceType = self.sourceType {
@@ -27926,8 +27986,8 @@ extension PinpointClientTypes.SegmentGroupList: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for listofsegmentgroup0 in groups {
-                try groupsContainer.encode(listofsegmentgroup0)
+            for segmentgroup0 in groups {
+                try groupsContainer.encode(segmentgroup0)
             }
         }
         if let include = self.include {
@@ -27987,8 +28047,8 @@ extension PinpointClientTypes.SegmentImportResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channelCounts = channelCounts {
             var channelCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .channelCounts)
-            for (dictKey0, mapof__integer0) in channelCounts {
-                try channelCountsContainer.encode(mapof__integer0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__integer0) in channelCounts {
+                try channelCountsContainer.encode(mapOf__integer0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let externalId = self.externalId {
@@ -28219,8 +28279,8 @@ extension PinpointClientTypes.SegmentResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -28374,8 +28434,8 @@ extension PinpointClientTypes.SegmentsResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listofsegmentresponse0 in item {
-                try itemContainer.encode(listofsegmentresponse0)
+            for segmentresponse0 in item {
+                try itemContainer.encode(segmentresponse0)
             }
         }
         if let nextToken = self.nextToken {
@@ -28921,8 +28981,8 @@ extension PinpointClientTypes.SendUsersMessageRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let context = context {
             var contextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .context)
-            for (dictKey0, mapof__string0) in context {
-                try contextContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in context {
+                try contextContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let messageConfiguration = self.messageConfiguration {
@@ -28936,8 +28996,8 @@ extension PinpointClientTypes.SendUsersMessageRequest: Swift.Codable {
         }
         if let users = users {
             var usersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .users)
-            for (dictKey0, mapofendpointsendconfiguration0) in users {
-                try usersContainer.encode(mapofendpointsendconfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfEndpointSendConfiguration0) in users {
+                try usersContainer.encode(mapOfEndpointSendConfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -29026,8 +29086,11 @@ extension PinpointClientTypes.SendUsersMessageResponse: Swift.Codable {
         }
         if let result = result {
             var resultContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .result)
-            for (dictKey0, mapofmapofendpointmessageresult0) in result {
-                try resultContainer.encode(mapofmapofendpointmessageresult0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfMapOfEndpointMessageResult0) in result {
+                var mapOfMapOfEndpointMessageResult0Container = resultContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, mapOfEndpointMessageResult1) in mapOfMapOfEndpointMessageResult0 {
+                    try mapOfMapOfEndpointMessageResult0Container.encode(mapOfEndpointMessageResult1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
     }
@@ -29337,8 +29400,8 @@ extension PinpointClientTypes.SetDimension: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for listof__string0 in values {
-                try valuesContainer.encode(listof__string0)
+            for __string0 in values {
+                try valuesContainer.encode(__string0)
             }
         }
     }
@@ -29804,8 +29867,8 @@ extension PinpointClientTypes.TagsModel: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -30084,8 +30147,8 @@ extension PinpointClientTypes.TemplateResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -30326,8 +30389,8 @@ extension PinpointClientTypes.TemplateVersionsResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listoftemplateversionresponse0 in item {
-                try itemContainer.encode(listoftemplateversionresponse0)
+            for templateversionresponse0 in item {
+                try itemContainer.encode(templateversionresponse0)
             }
         }
         if let message = self.message {
@@ -30402,8 +30465,8 @@ extension PinpointClientTypes.TemplatesResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let item = item {
             var itemContainer = encodeContainer.nestedUnkeyedContainer(forKey: .item)
-            for listoftemplateresponse0 in item {
-                try itemContainer.encode(listoftemplateresponse0)
+            for templateresponse0 in item {
+                try itemContainer.encode(templateresponse0)
             }
         }
         if let nextToken = self.nextToken {
@@ -31795,8 +31858,8 @@ extension PinpointClientTypes.UpdateAttributesRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let blacklist = blacklist {
             var blacklistContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blacklist)
-            for listof__string0 in blacklist {
-                try blacklistContainer.encode(listof__string0)
+            for __string0 in blacklist {
+                try blacklistContainer.encode(__string0)
             }
         }
     }
@@ -34053,8 +34116,8 @@ extension PinpointClientTypes.UpdateRecommenderConfigurationShape: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, mapof__string0) in attributes {
-                try attributesContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in attributes {
+                try attributesContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -35741,8 +35804,11 @@ extension PinpointClientTypes.VoiceMessage: Swift.Codable {
         }
         if let substitutions = substitutions {
             var substitutionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutions)
-            for (dictKey0, mapoflistof__string0) in substitutions {
-                try substitutionsContainer.encode(mapoflistof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfListOf__string0) in substitutions {
+                var mapOfListOf__string0Container = substitutionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for __string1 in mapOfListOf__string0 {
+                    try mapOfListOf__string0Container.encode(__string1)
+                }
             }
         }
         if let voiceId = self.voiceId {
@@ -35842,8 +35908,8 @@ extension PinpointClientTypes.VoiceTemplateRequest: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -35963,8 +36029,8 @@ extension PinpointClientTypes.VoiceTemplateResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -36269,8 +36335,8 @@ extension PinpointClientTypes.WriteCampaignRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalTreatments = additionalTreatments {
             var additionalTreatmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalTreatments)
-            for listofwritetreatmentresource0 in additionalTreatments {
-                try additionalTreatmentsContainer.encode(listofwritetreatmentresource0)
+            for writetreatmentresource0 in additionalTreatments {
+                try additionalTreatmentsContainer.encode(writetreatmentresource0)
             }
         }
         if let customDeliveryConfiguration = self.customDeliveryConfiguration {
@@ -36320,8 +36386,8 @@ extension PinpointClientTypes.WriteCampaignRequest: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -36536,8 +36602,8 @@ extension PinpointClientTypes.WriteJourneyRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activities = activities {
             var activitiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .activities)
-            for (dictKey0, mapofactivity0) in activities {
-                try activitiesContainer.encode(mapofactivity0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOfActivity0) in activities {
+                try activitiesContainer.encode(mapOfActivity0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let closedDays = self.closedDays {
@@ -36765,8 +36831,8 @@ extension PinpointClientTypes.WriteSegmentRequest: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, mapof__string0) in tags {
-                try tagsContainer.encode(mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, mapOf__string0) in tags {
+                try tagsContainer.encode(mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

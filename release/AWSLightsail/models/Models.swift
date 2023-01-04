@@ -704,8 +704,8 @@ extension LightsailClientTypes.Alarm: Swift.Codable {
         }
         if let contactProtocols = contactProtocols {
             var contactProtocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contactProtocols)
-            for contactprotocolslist0 in contactProtocols {
-                try contactProtocolsContainer.encode(contactprotocolslist0.rawValue)
+            for contactprotocol0 in contactProtocols {
+                try contactProtocolsContainer.encode(contactprotocol0.rawValue)
             }
         }
         if let createdAt = self.createdAt {
@@ -734,8 +734,8 @@ extension LightsailClientTypes.Alarm: Swift.Codable {
         }
         if let notificationTriggers = notificationTriggers {
             var notificationTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationTriggers)
-            for notificationtriggerlist0 in notificationTriggers {
-                try notificationTriggersContainer.encode(notificationtriggerlist0.rawValue)
+            for alarmstate0 in notificationTriggers {
+                try notificationTriggersContainer.encode(alarmstate0.rawValue)
             }
         }
         if period != 0 {
@@ -1412,8 +1412,8 @@ extension AttachInstancesToLoadBalancerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceNames = instanceNames {
             var instanceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceNames)
-            for resourcenamelist0 in instanceNames {
-                try instanceNamesContainer.encode(resourcenamelist0)
+            for resourcename0 in instanceNames {
+                try instanceNamesContainer.encode(resourcename0)
             }
         }
         if let loadBalancerName = self.loadBalancerName {
@@ -1961,8 +1961,8 @@ extension LightsailClientTypes.AutoSnapshotDetails: Swift.Codable {
         }
         if let fromAttachedDisks = fromAttachedDisks {
             var fromAttachedDisksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fromAttachedDisks)
-            for attacheddisklist0 in fromAttachedDisks {
-                try fromAttachedDisksContainer.encode(attacheddisklist0)
+            for attacheddisk0 in fromAttachedDisks {
+                try fromAttachedDisksContainer.encode(attacheddisk0)
             }
         }
         if let status = self.status {
@@ -2401,8 +2401,8 @@ extension LightsailClientTypes.Bucket: Swift.Codable {
         }
         if let readonlyAccessAccounts = readonlyAccessAccounts {
             var readonlyAccessAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readonlyAccessAccounts)
-            for partneridlist0 in readonlyAccessAccounts {
-                try readonlyAccessAccountsContainer.encode(partneridlist0)
+            for nonemptystring0 in readonlyAccessAccounts {
+                try readonlyAccessAccountsContainer.encode(nonemptystring0)
             }
         }
         if let resourceType = self.resourceType {
@@ -2410,8 +2410,8 @@ extension LightsailClientTypes.Bucket: Swift.Codable {
         }
         if let resourcesReceivingAccess = resourcesReceivingAccess {
             var resourcesReceivingAccessContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourcesReceivingAccess)
-            for accessreceiverlist0 in resourcesReceivingAccess {
-                try resourcesReceivingAccessContainer.encode(accessreceiverlist0)
+            for resourcereceivingaccess0 in resourcesReceivingAccess {
+                try resourcesReceivingAccessContainer.encode(resourcereceivingaccess0)
             }
         }
         if let state = self.state {
@@ -2422,8 +2422,8 @@ extension LightsailClientTypes.Bucket: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let url = self.url {
@@ -2845,8 +2845,8 @@ extension LightsailClientTypes.Bundle: Swift.Codable {
         }
         if let supportedPlatforms = supportedPlatforms {
             var supportedPlatformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPlatforms)
-            for instanceplatformlist0 in supportedPlatforms {
-                try supportedPlatformsContainer.encode(instanceplatformlist0.rawValue)
+            for instanceplatform0 in supportedPlatforms {
+                try supportedPlatformsContainer.encode(instanceplatform0.rawValue)
             }
         }
         if let transferPerMonthInGb = self.transferPerMonthInGb {
@@ -3198,8 +3198,8 @@ extension LightsailClientTypes.Certificate: Swift.Codable {
         }
         if let domainValidationRecords = domainValidationRecords {
             var domainValidationRecordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainValidationRecords)
-            for domainvalidationrecordlist0 in domainValidationRecords {
-                try domainValidationRecordsContainer.encode(domainvalidationrecordlist0)
+            for domainvalidationrecord0 in domainValidationRecords {
+                try domainValidationRecordsContainer.encode(domainvalidationrecord0)
             }
         }
         if let eligibleToRenew = self.eligibleToRenew {
@@ -3246,8 +3246,8 @@ extension LightsailClientTypes.Certificate: Swift.Codable {
         }
         if let subjectAlternativeNames = subjectAlternativeNames {
             var subjectAlternativeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subjectAlternativeNames)
-            for subjectalternativenamelist0 in subjectAlternativeNames {
-                try subjectAlternativeNamesContainer.encode(subjectalternativenamelist0)
+            for domainname0 in subjectAlternativeNames {
+                try subjectAlternativeNamesContainer.encode(domainname0)
             }
         }
         if let supportCode = self.supportCode {
@@ -3255,8 +3255,8 @@ extension LightsailClientTypes.Certificate: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3548,8 +3548,8 @@ extension LightsailClientTypes.CertificateSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3780,8 +3780,8 @@ extension LightsailClientTypes.CloudFormationStackRecord: Swift.Codable {
         }
         if let sourceInfo = sourceInfo {
             var sourceInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceInfo)
-            for cloudformationstackrecordsourceinfolist0 in sourceInfo {
-                try sourceInfoContainer.encode(cloudformationstackrecordsourceinfolist0)
+            for cloudformationstackrecordsourceinfo0 in sourceInfo {
+                try sourceInfoContainer.encode(cloudformationstackrecordsourceinfo0)
             }
         }
         if let state = self.state {
@@ -4214,8 +4214,8 @@ extension LightsailClientTypes.Container: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for stringlist0 in command {
-                try commandContainer.encode(stringlist0)
+            for string0 in command {
+                try commandContainer.encode(string0)
             }
         }
         if let environment = environment {
@@ -4229,8 +4229,8 @@ extension LightsailClientTypes.Container: Swift.Codable {
         }
         if let ports = ports {
             var portsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .ports)
-            for (dictKey0, portmap0) in ports {
-                try portsContainer.encode(portmap0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, portMap0) in ports {
+                try portsContainer.encode(portMap0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4421,8 +4421,11 @@ extension LightsailClientTypes.ContainerService: Swift.Codable {
         }
         if let publicDomainNames = publicDomainNames {
             var publicDomainNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .publicDomainNames)
-            for (dictKey0, containerservicepublicdomains0) in publicDomainNames {
-                try publicDomainNamesContainer.encode(containerservicepublicdomains0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, containerServicePublicDomains0) in publicDomainNames {
+                var containerServicePublicDomains0Container = publicDomainNamesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in containerServicePublicDomains0 {
+                    try containerServicePublicDomains0Container.encode(string1)
+                }
             }
         }
         if let resourceType = self.resourceType {
@@ -4439,8 +4442,8 @@ extension LightsailClientTypes.ContainerService: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let url = self.url {
@@ -4631,8 +4634,8 @@ extension LightsailClientTypes.ContainerServiceDeployment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containers = containers {
             var containersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .containers)
-            for (dictKey0, containermap0) in containers {
-                try containersContainer.encode(containermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, containerMap0) in containers {
+                try containersContainer.encode(containerMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let createdAt = self.createdAt {
@@ -4723,8 +4726,8 @@ extension LightsailClientTypes.ContainerServiceDeploymentRequest: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containers = containers {
             var containersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .containers)
-            for (dictKey0, containermap0) in containers {
-                try containersContainer.encode(containermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, containerMap0) in containers {
+                try containersContainer.encode(containerMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let publicEndpoint = self.publicEndpoint {
@@ -5517,8 +5520,8 @@ extension LightsailClientTypes.CookieObject: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cookiesAllowList = cookiesAllowList {
             var cookiesAllowListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cookiesAllowList)
-            for stringlist0 in cookiesAllowList {
-                try cookiesAllowListContainer.encode(stringlist0)
+            for string0 in cookiesAllowList {
+                try cookiesAllowListContainer.encode(string0)
             }
         }
         if let option = self.option {
@@ -5930,8 +5933,8 @@ extension CreateBucketInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6112,14 +6115,14 @@ extension CreateCertificateInput: Swift.Encodable {
         }
         if let subjectAlternativeNames = subjectAlternativeNames {
             var subjectAlternativeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subjectAlternativeNames)
-            for subjectalternativenamelist0 in subjectAlternativeNames {
-                try subjectAlternativeNamesContainer.encode(subjectalternativenamelist0)
+            for domainname0 in subjectAlternativeNames {
+                try subjectAlternativeNamesContainer.encode(domainname0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6302,8 +6305,8 @@ extension CreateCloudFormationStackInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instances = instances {
             var instancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instances)
-            for instanceentrylist0 in instances {
-                try instancesContainer.encode(instanceentrylist0)
+            for instanceentry0 in instances {
+                try instancesContainer.encode(instanceentry0)
             }
         }
     }
@@ -6605,8 +6608,8 @@ extension CreateContainerServiceDeploymentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containers = containers {
             var containersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .containers)
-            for (dictKey0, containermap0) in containers {
-                try containersContainer.encode(containermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, containerMap0) in containers {
+                try containersContainer.encode(containerMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let publicEndpoint = self.publicEndpoint {
@@ -6766,8 +6769,11 @@ extension CreateContainerServiceInput: Swift.Encodable {
         }
         if let publicDomainNames = publicDomainNames {
             var publicDomainNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .publicDomainNames)
-            for (dictKey0, containerservicepublicdomains0) in publicDomainNames {
-                try publicDomainNamesContainer.encode(containerservicepublicdomains0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, containerServicePublicDomains0) in publicDomainNames {
+                var containerServicePublicDomains0Container = publicDomainNamesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in containerServicePublicDomains0 {
+                    try containerServicePublicDomains0Container.encode(string1)
+                }
             }
         }
         if let scale = self.scale {
@@ -6778,8 +6784,8 @@ extension CreateContainerServiceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7090,8 +7096,8 @@ extension CreateDiskFromSnapshotInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addOns = addOns {
             var addOnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addOns)
-            for addonrequestlist0 in addOns {
-                try addOnsContainer.encode(addonrequestlist0)
+            for addonrequest0 in addOns {
+                try addOnsContainer.encode(addonrequest0)
             }
         }
         if let availabilityZone = self.availabilityZone {
@@ -7114,8 +7120,8 @@ extension CreateDiskFromSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let useLatestRestorableAutoSnapshot = self.useLatestRestorableAutoSnapshot {
@@ -7356,8 +7362,8 @@ extension CreateDiskInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addOns = addOns {
             var addOnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addOns)
-            for addonrequestlist0 in addOns {
-                try addOnsContainer.encode(addonrequestlist0)
+            for addonrequest0 in addOns {
+                try addOnsContainer.encode(addonrequest0)
             }
         }
         if let availabilityZone = self.availabilityZone {
@@ -7371,8 +7377,8 @@ extension CreateDiskInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7570,8 +7576,8 @@ extension CreateDiskSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7751,8 +7757,8 @@ extension CreateDistributionInput: Swift.Encodable {
         }
         if let cacheBehaviors = cacheBehaviors {
             var cacheBehaviorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cacheBehaviors)
-            for cachebehaviorlist0 in cacheBehaviors {
-                try cacheBehaviorsContainer.encode(cachebehaviorlist0)
+            for cachebehaviorperpath0 in cacheBehaviors {
+                try cacheBehaviorsContainer.encode(cachebehaviorperpath0)
             }
         }
         if let defaultCacheBehavior = self.defaultCacheBehavior {
@@ -7769,8 +7775,8 @@ extension CreateDistributionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8120,8 +8126,8 @@ extension CreateDomainInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8271,8 +8277,8 @@ extension CreateInstanceSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8444,14 +8450,17 @@ extension CreateInstancesFromSnapshotInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addOns = addOns {
             var addOnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addOns)
-            for addonrequestlist0 in addOns {
-                try addOnsContainer.encode(addonrequestlist0)
+            for addonrequest0 in addOns {
+                try addOnsContainer.encode(addonrequest0)
             }
         }
         if let attachedDiskMapping = attachedDiskMapping {
             var attachedDiskMappingContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attachedDiskMapping)
-            for (dictKey0, attacheddiskmap0) in attachedDiskMapping {
-                try attachedDiskMappingContainer.encode(attacheddiskmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attachedDiskMap0) in attachedDiskMapping {
+                var attachedDiskMap0Container = attachedDiskMappingContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for diskmap1 in attachedDiskMap0 {
+                    try attachedDiskMap0Container.encode(diskmap1)
+                }
             }
         }
         if let availabilityZone = self.availabilityZone {
@@ -8462,8 +8471,8 @@ extension CreateInstancesFromSnapshotInput: Swift.Encodable {
         }
         if let instanceNames = instanceNames {
             var instanceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceNames)
-            for stringlist0 in instanceNames {
-                try instanceNamesContainer.encode(stringlist0)
+            for string0 in instanceNames {
+                try instanceNamesContainer.encode(string0)
             }
         }
         if let instanceSnapshotName = self.instanceSnapshotName {
@@ -8483,8 +8492,8 @@ extension CreateInstancesFromSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let useLatestRestorableAutoSnapshot = self.useLatestRestorableAutoSnapshot {
@@ -8790,8 +8799,8 @@ extension CreateInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addOns = addOns {
             var addOnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addOns)
-            for addonrequestlist0 in addOns {
-                try addOnsContainer.encode(addonrequestlist0)
+            for addonrequest0 in addOns {
+                try addOnsContainer.encode(addonrequest0)
             }
         }
         if let availabilityZone = self.availabilityZone {
@@ -8808,8 +8817,8 @@ extension CreateInstancesInput: Swift.Encodable {
         }
         if let instanceNames = instanceNames {
             var instanceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceNames)
-            for stringlist0 in instanceNames {
-                try instanceNamesContainer.encode(stringlist0)
+            for string0 in instanceNames {
+                try instanceNamesContainer.encode(string0)
             }
         }
         if let ipAddressType = self.ipAddressType {
@@ -8820,8 +8829,8 @@ extension CreateInstancesInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userData = self.userData {
@@ -9065,8 +9074,8 @@ extension CreateKeyPairInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -9246,8 +9255,8 @@ extension CreateLoadBalancerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateAlternativeNames = certificateAlternativeNames {
             var certificateAlternativeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateAlternativeNames)
-            for domainnamelist0 in certificateAlternativeNames {
-                try certificateAlternativeNamesContainer.encode(domainnamelist0)
+            for domainname0 in certificateAlternativeNames {
+                try certificateAlternativeNamesContainer.encode(domainname0)
             }
         }
         if let certificateDomainName = self.certificateDomainName {
@@ -9270,8 +9279,8 @@ extension CreateLoadBalancerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let tlsPolicyName = self.tlsPolicyName {
@@ -9495,8 +9504,8 @@ extension CreateLoadBalancerTlsCertificateInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateAlternativeNames = certificateAlternativeNames {
             var certificateAlternativeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateAlternativeNames)
-            for domainnamelist0 in certificateAlternativeNames {
-                try certificateAlternativeNamesContainer.encode(domainnamelist0)
+            for domainname0 in certificateAlternativeNames {
+                try certificateAlternativeNamesContainer.encode(domainname0)
             }
         }
         if let certificateDomainName = self.certificateDomainName {
@@ -9510,8 +9519,8 @@ extension CreateLoadBalancerTlsCertificateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -9726,8 +9735,8 @@ extension CreateRelationalDatabaseFromSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let useLatestRestorableTime = self.useLatestRestorableTime {
@@ -9994,8 +10003,8 @@ extension CreateRelationalDatabaseInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -10286,8 +10295,8 @@ extension CreateRelationalDatabaseSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -13509,8 +13518,8 @@ extension DetachInstancesFromLoadBalancerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceNames = instanceNames {
             var instanceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceNames)
-            for resourcenamelist0 in instanceNames {
-                try instanceNamesContainer.encode(resourcenamelist0)
+            for resourcename0 in instanceNames {
+                try instanceNamesContainer.encode(resourcename0)
             }
         }
         if let loadBalancerName = self.loadBalancerName {
@@ -13956,8 +13965,8 @@ extension LightsailClientTypes.Disk: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addOns = addOns {
             var addOnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addOns)
-            for addonlist0 in addOns {
-                try addOnsContainer.encode(addonlist0)
+            for addon0 in addOns {
+                try addOnsContainer.encode(addon0)
             }
         }
         if let arn = self.arn {
@@ -14007,8 +14016,8 @@ extension LightsailClientTypes.Disk: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -14327,8 +14336,8 @@ extension LightsailClientTypes.DiskSnapshot: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -14791,8 +14800,8 @@ extension LightsailClientTypes.Domain: Swift.Codable {
         }
         if let domainEntries = domainEntries {
             var domainEntriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainEntries)
-            for domainentrylist0 in domainEntries {
-                try domainEntriesContainer.encode(domainentrylist0)
+            for domainentry0 in domainEntries {
+                try domainEntriesContainer.encode(domainentry0)
             }
         }
         if let location = self.location {
@@ -14812,8 +14821,8 @@ extension LightsailClientTypes.Domain: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -14930,8 +14939,8 @@ extension LightsailClientTypes.DomainEntry: Swift.Codable {
         }
         if let options = options {
             var optionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .options)
-            for (dictKey0, domainentryoptions0) in options {
-                try optionsContainer.encode(domainentryoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, domainEntryOptions0) in options {
+                try optionsContainer.encode(domainEntryOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let target = self.target {
@@ -16708,8 +16717,8 @@ extension GetBucketMetricDataInput: Swift.Encodable {
         }
         if let statistics = statistics {
             var statisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statistics)
-            for metricstatisticlist0 in statistics {
-                try statisticsContainer.encode(metricstatisticlist0.rawValue)
+            for metricstatistic0 in statistics {
+                try statisticsContainer.encode(metricstatistic0.rawValue)
             }
         }
         if let unit = self.unit {
@@ -17258,8 +17267,8 @@ extension GetCertificatesInput: Swift.Encodable {
         }
         if let certificateStatuses = certificateStatuses {
             var certificateStatusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateStatuses)
-            for certificatestatuslist0 in certificateStatuses {
-                try certificateStatusesContainer.encode(certificatestatuslist0.rawValue)
+            for certificatestatus0 in certificateStatuses {
+                try certificateStatusesContainer.encode(certificatestatus0.rawValue)
             }
         }
         if includeCertificateDetails != false {
@@ -17557,8 +17566,8 @@ extension GetContactMethodsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for contactprotocolslist0 in protocols {
-                try protocolsContainer.encode(contactprotocolslist0.rawValue)
+            for contactprotocol0 in protocols {
+                try protocolsContainer.encode(contactprotocol0.rawValue)
             }
         }
     }
@@ -19418,8 +19427,8 @@ extension GetDistributionMetricDataInput: Swift.Encodable {
         }
         if let statistics = statistics {
             var statisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statistics)
-            for metricstatisticlist0 in statistics {
-                try statisticsContainer.encode(metricstatisticlist0.rawValue)
+            for metricstatistic0 in statistics {
+                try statisticsContainer.encode(metricstatistic0.rawValue)
             }
         }
         if let unit = self.unit {
@@ -20423,8 +20432,8 @@ extension GetInstanceMetricDataInput: Swift.Encodable {
         }
         if let statistics = statistics {
             var statisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statistics)
-            for metricstatisticlist0 in statistics {
-                try statisticsContainer.encode(metricstatisticlist0.rawValue)
+            for metricstatistic0 in statistics {
+                try statisticsContainer.encode(metricstatistic0.rawValue)
             }
         }
         if let unit = self.unit {
@@ -21742,8 +21751,8 @@ extension GetLoadBalancerMetricDataInput: Swift.Encodable {
         }
         if let statistics = statistics {
             var statisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statistics)
-            for metricstatisticlist0 in statistics {
-                try statisticsContainer.encode(metricstatisticlist0.rawValue)
+            for metricstatistic0 in statistics {
+                try statisticsContainer.encode(metricstatistic0.rawValue)
             }
         }
         if let unit = self.unit {
@@ -24076,8 +24085,8 @@ extension GetRelationalDatabaseMetricDataInput: Swift.Encodable {
         }
         if let statistics = statistics {
             var statisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statistics)
-            for metricstatisticlist0 in statistics {
-                try statisticsContainer.encode(metricstatisticlist0.rawValue)
+            for metricstatistic0 in statistics {
+                try statisticsContainer.encode(metricstatistic0.rawValue)
             }
         }
         if let unit = self.unit {
@@ -25287,8 +25296,8 @@ extension LightsailClientTypes.HeaderObject: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let headersAllowList = headersAllowList {
             var headersAllowListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headersAllowList)
-            for headerforwardlist0 in headersAllowList {
-                try headersAllowListContainer.encode(headerforwardlist0.rawValue)
+            for headerenum0 in headersAllowList {
+                try headersAllowListContainer.encode(headerenum0.rawValue)
             }
         }
         if let option = self.option {
@@ -25760,8 +25769,8 @@ extension LightsailClientTypes.Instance: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addOns = addOns {
             var addOnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addOns)
-            for addonlist0 in addOns {
-                try addOnsContainer.encode(addonlist0)
+            for addon0 in addOns {
+                try addOnsContainer.encode(addon0)
             }
         }
         if let arn = self.arn {
@@ -25787,8 +25796,8 @@ extension LightsailClientTypes.Instance: Swift.Codable {
         }
         if let ipv6Addresses = ipv6Addresses {
             var ipv6AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv6Addresses)
-            for ipv6addresslist0 in ipv6Addresses {
-                try ipv6AddressesContainer.encode(ipv6addresslist0)
+            for ipv6address0 in ipv6Addresses {
+                try ipv6AddressesContainer.encode(ipv6address0)
             }
         }
         if let isStaticIp = self.isStaticIp {
@@ -25826,8 +25835,8 @@ extension LightsailClientTypes.Instance: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let username = self.username {
@@ -26035,8 +26044,8 @@ extension LightsailClientTypes.InstanceAccessDetails: Swift.Codable {
         }
         if let hostKeys = hostKeys {
             var hostKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hostKeys)
-            for hostkeyslist0 in hostKeys {
-                try hostKeysContainer.encode(hostkeyslist0)
+            for hostkeyattributes0 in hostKeys {
+                try hostKeysContainer.encode(hostkeyattributes0)
             }
         }
         if let instanceName = self.instanceName {
@@ -26284,8 +26293,8 @@ extension LightsailClientTypes.InstanceHardware: Swift.Codable {
         }
         if let disks = disks {
             var disksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .disks)
-            for disklist0 in disks {
-                try disksContainer.encode(disklist0)
+            for disk0 in disks {
+                try disksContainer.encode(disk0)
             }
         }
         if let ramSizeInGb = self.ramSizeInGb {
@@ -26703,8 +26712,8 @@ extension LightsailClientTypes.InstanceNetworking: Swift.Codable {
         }
         if let ports = ports {
             var portsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ports)
-            for instanceportinfolist0 in ports {
-                try portsContainer.encode(instanceportinfolist0)
+            for instanceportinfo0 in ports {
+                try portsContainer.encode(instanceportinfo0)
             }
         }
     }
@@ -26806,14 +26815,14 @@ extension LightsailClientTypes.InstancePortInfo: Swift.Codable {
         }
         if let cidrListAliases = cidrListAliases {
             var cidrListAliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrListAliases)
-            for stringlist0 in cidrListAliases {
-                try cidrListAliasesContainer.encode(stringlist0)
+            for string0 in cidrListAliases {
+                try cidrListAliasesContainer.encode(string0)
             }
         }
         if let cidrs = cidrs {
             var cidrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrs)
-            for stringlist0 in cidrs {
-                try cidrsContainer.encode(stringlist0)
+            for string0 in cidrs {
+                try cidrsContainer.encode(string0)
             }
         }
         if let commonName = self.commonName {
@@ -26824,8 +26833,8 @@ extension LightsailClientTypes.InstancePortInfo: Swift.Codable {
         }
         if let ipv6Cidrs = ipv6Cidrs {
             var ipv6CidrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv6Cidrs)
-            for stringlist0 in ipv6Cidrs {
-                try ipv6CidrsContainer.encode(stringlist0)
+            for string0 in ipv6Cidrs {
+                try ipv6CidrsContainer.encode(string0)
             }
         }
         if let `protocol` = self.`protocol` {
@@ -26975,14 +26984,14 @@ extension LightsailClientTypes.InstancePortState: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cidrListAliases = cidrListAliases {
             var cidrListAliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrListAliases)
-            for stringlist0 in cidrListAliases {
-                try cidrListAliasesContainer.encode(stringlist0)
+            for string0 in cidrListAliases {
+                try cidrListAliasesContainer.encode(string0)
             }
         }
         if let cidrs = cidrs {
             var cidrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrs)
-            for stringlist0 in cidrs {
-                try cidrsContainer.encode(stringlist0)
+            for string0 in cidrs {
+                try cidrsContainer.encode(string0)
             }
         }
         if fromPort != 0 {
@@ -26990,8 +26999,8 @@ extension LightsailClientTypes.InstancePortState: Swift.Codable {
         }
         if let ipv6Cidrs = ipv6Cidrs {
             var ipv6CidrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv6Cidrs)
-            for stringlist0 in ipv6Cidrs {
-                try ipv6CidrsContainer.encode(stringlist0)
+            for string0 in ipv6Cidrs {
+                try ipv6CidrsContainer.encode(string0)
             }
         }
         if let `protocol` = self.`protocol` {
@@ -27141,8 +27150,8 @@ extension LightsailClientTypes.InstanceSnapshot: Swift.Codable {
         }
         if let fromAttachedDisks = fromAttachedDisks {
             var fromAttachedDisksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fromAttachedDisks)
-            for disklist0 in fromAttachedDisks {
-                try fromAttachedDisksContainer.encode(disklist0)
+            for disk0 in fromAttachedDisks {
+                try fromAttachedDisksContainer.encode(disk0)
             }
         }
         if let fromBlueprintId = self.fromBlueprintId {
@@ -27183,8 +27192,8 @@ extension LightsailClientTypes.InstanceSnapshot: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -27337,8 +27346,8 @@ extension LightsailClientTypes.InstanceSnapshotInfo: Swift.Codable {
         }
         if let fromDiskInfo = fromDiskInfo {
             var fromDiskInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fromDiskInfo)
-            for diskinfolist0 in fromDiskInfo {
-                try fromDiskInfoContainer.encode(diskinfolist0)
+            for diskinfo0 in fromDiskInfo {
+                try fromDiskInfoContainer.encode(diskinfo0)
             }
         }
     }
@@ -27718,8 +27727,8 @@ extension LightsailClientTypes.KeyPair: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -27829,8 +27838,8 @@ extension LightsailClientTypes.LightsailDistribution: Swift.Codable {
         }
         if let alternativeDomainNames = alternativeDomainNames {
             var alternativeDomainNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alternativeDomainNames)
-            for stringlist0 in alternativeDomainNames {
-                try alternativeDomainNamesContainer.encode(stringlist0)
+            for string0 in alternativeDomainNames {
+                try alternativeDomainNamesContainer.encode(string0)
             }
         }
         if let arn = self.arn {
@@ -27844,8 +27853,8 @@ extension LightsailClientTypes.LightsailDistribution: Swift.Codable {
         }
         if let cacheBehaviors = cacheBehaviors {
             var cacheBehaviorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cacheBehaviors)
-            for cachebehaviorlist0 in cacheBehaviors {
-                try cacheBehaviorsContainer.encode(cachebehaviorlist0)
+            for cachebehaviorperpath0 in cacheBehaviors {
+                try cacheBehaviorsContainer.encode(cachebehaviorperpath0)
             }
         }
         if let certificateName = self.certificateName {
@@ -27889,8 +27898,8 @@ extension LightsailClientTypes.LightsailDistribution: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -28089,8 +28098,8 @@ extension LightsailClientTypes.LoadBalancer: Swift.Codable {
         }
         if let configurationOptions = configurationOptions {
             var configurationOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configurationOptions)
-            for (dictKey0, loadbalancerconfigurationoptions0) in configurationOptions {
-                try configurationOptionsContainer.encode(loadbalancerconfigurationoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loadBalancerConfigurationOptions0) in configurationOptions {
+                try configurationOptionsContainer.encode(loadBalancerConfigurationOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let createdAt = self.createdAt {
@@ -28107,8 +28116,8 @@ extension LightsailClientTypes.LoadBalancer: Swift.Codable {
         }
         if let instanceHealthSummary = instanceHealthSummary {
             var instanceHealthSummaryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceHealthSummary)
-            for instancehealthsummarylist0 in instanceHealthSummary {
-                try instanceHealthSummaryContainer.encode(instancehealthsummarylist0)
+            for instancehealthsummary0 in instanceHealthSummary {
+                try instanceHealthSummaryContainer.encode(instancehealthsummary0)
             }
         }
         if let instancePort = self.instancePort {
@@ -28128,8 +28137,8 @@ extension LightsailClientTypes.LoadBalancer: Swift.Codable {
         }
         if let publicPorts = publicPorts {
             var publicPortsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publicPorts)
-            for portlist0 in publicPorts {
-                try publicPortsContainer.encode(portlist0)
+            for port0 in publicPorts {
+                try publicPortsContainer.encode(port0)
             }
         }
         if let resourceType = self.resourceType {
@@ -28143,14 +28152,14 @@ extension LightsailClientTypes.LoadBalancer: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let tlsCertificateSummaries = tlsCertificateSummaries {
             var tlsCertificateSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tlsCertificateSummaries)
-            for loadbalancertlscertificatesummarylist0 in tlsCertificateSummaries {
-                try tlsCertificateSummariesContainer.encode(loadbalancertlscertificatesummarylist0)
+            for loadbalancertlscertificatesummary0 in tlsCertificateSummaries {
+                try tlsCertificateSummariesContainer.encode(loadbalancertlscertificatesummary0)
             }
         }
         if let tlsPolicyName = self.tlsPolicyName {
@@ -28552,8 +28561,8 @@ extension LightsailClientTypes.LoadBalancerTlsCertificate: Swift.Codable {
         }
         if let domainValidationRecords = domainValidationRecords {
             var domainValidationRecordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainValidationRecords)
-            for loadbalancertlscertificatedomainvalidationrecordlist0 in domainValidationRecords {
-                try domainValidationRecordsContainer.encode(loadbalancertlscertificatedomainvalidationrecordlist0)
+            for loadbalancertlscertificatedomainvalidationrecord0 in domainValidationRecords {
+                try domainValidationRecordsContainer.encode(loadbalancertlscertificatedomainvalidationrecord0)
             }
         }
         if let failureReason = self.failureReason {
@@ -28612,8 +28621,8 @@ extension LightsailClientTypes.LoadBalancerTlsCertificate: Swift.Codable {
         }
         if let subjectAlternativeNames = subjectAlternativeNames {
             var subjectAlternativeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subjectAlternativeNames)
-            for stringlist0 in subjectAlternativeNames {
-                try subjectAlternativeNamesContainer.encode(stringlist0)
+            for string0 in subjectAlternativeNames {
+                try subjectAlternativeNamesContainer.encode(string0)
             }
         }
         if let supportCode = self.supportCode {
@@ -28621,8 +28630,8 @@ extension LightsailClientTypes.LoadBalancerTlsCertificate: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -29191,8 +29200,8 @@ extension LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainValidationOptions = domainValidationOptions {
             var domainValidationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainValidationOptions)
-            for loadbalancertlscertificatedomainvalidationoptionlist0 in domainValidationOptions {
-                try domainValidationOptionsContainer.encode(loadbalancertlscertificatedomainvalidationoptionlist0)
+            for loadbalancertlscertificatedomainvalidationoption0 in domainValidationOptions {
+                try domainValidationOptionsContainer.encode(loadbalancertlscertificatedomainvalidationoption0)
             }
         }
         if let renewalStatus = self.renewalStatus {
@@ -29418,8 +29427,8 @@ extension LightsailClientTypes.LoadBalancerTlsPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ciphers = ciphers {
             var ciphersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ciphers)
-            for stringlist0 in ciphers {
-                try ciphersContainer.encode(stringlist0)
+            for string0 in ciphers {
+                try ciphersContainer.encode(string0)
             }
         }
         if let description = self.description {
@@ -29433,8 +29442,8 @@ extension LightsailClientTypes.LoadBalancerTlsPolicy: Swift.Codable {
         }
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for stringlist0 in protocols {
-                try protocolsContainer.encode(stringlist0)
+            for string0 in protocols {
+                try protocolsContainer.encode(string0)
             }
         }
     }
@@ -31259,14 +31268,14 @@ extension LightsailClientTypes.PortInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cidrListAliases = cidrListAliases {
             var cidrListAliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrListAliases)
-            for stringlist0 in cidrListAliases {
-                try cidrListAliasesContainer.encode(stringlist0)
+            for string0 in cidrListAliases {
+                try cidrListAliasesContainer.encode(string0)
             }
         }
         if let cidrs = cidrs {
             var cidrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrs)
-            for stringlist0 in cidrs {
-                try cidrsContainer.encode(stringlist0)
+            for string0 in cidrs {
+                try cidrsContainer.encode(string0)
             }
         }
         if fromPort != 0 {
@@ -31274,8 +31283,8 @@ extension LightsailClientTypes.PortInfo: Swift.Codable {
         }
         if let ipv6Cidrs = ipv6Cidrs {
             var ipv6CidrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv6Cidrs)
-            for stringlist0 in ipv6Cidrs {
-                try ipv6CidrsContainer.encode(stringlist0)
+            for string0 in ipv6Cidrs {
+                try ipv6CidrsContainer.encode(string0)
             }
         }
         if let `protocol` = self.`protocol` {
@@ -31558,8 +31567,8 @@ extension PutAlarmInput: Swift.Encodable {
         }
         if let contactProtocols = contactProtocols {
             var contactProtocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contactProtocols)
-            for contactprotocolslist0 in contactProtocols {
-                try contactProtocolsContainer.encode(contactprotocolslist0.rawValue)
+            for contactprotocol0 in contactProtocols {
+                try contactProtocolsContainer.encode(contactprotocol0.rawValue)
             }
         }
         if let datapointsToAlarm = self.datapointsToAlarm {
@@ -31579,8 +31588,8 @@ extension PutAlarmInput: Swift.Encodable {
         }
         if let notificationTriggers = notificationTriggers {
             var notificationTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationTriggers)
-            for notificationtriggerlist0 in notificationTriggers {
-                try notificationTriggersContainer.encode(notificationtriggerlist0.rawValue)
+            for alarmstate0 in notificationTriggers {
+                try notificationTriggersContainer.encode(alarmstate0.rawValue)
             }
         }
         if let threshold = self.threshold {
@@ -31861,8 +31870,8 @@ extension PutInstancePublicPortsInput: Swift.Encodable {
         }
         if let portInfos = portInfos {
             var portInfosContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portInfos)
-            for portinfolist0 in portInfos {
-                try portInfosContainer.encode(portinfolist0)
+            for portinfo0 in portInfos {
+                try portInfosContainer.encode(portinfo0)
             }
         }
     }
@@ -32009,8 +32018,8 @@ extension LightsailClientTypes.QueryStringObject: Swift.Codable {
         }
         if let queryStringsAllowList = queryStringsAllowList {
             var queryStringsAllowListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryStringsAllowList)
-            for stringlist0 in queryStringsAllowList {
-                try queryStringsAllowListContainer.encode(stringlist0)
+            for string0 in queryStringsAllowList {
+                try queryStringsAllowListContainer.encode(string0)
             }
         }
     }
@@ -32457,8 +32466,8 @@ extension LightsailClientTypes.Region: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzonelist0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzonelist0)
+            for availabilityzone0 in availabilityZones {
+                try availabilityZonesContainer.encode(availabilityzone0)
             }
         }
         if let continentCode = self.continentCode {
@@ -32475,8 +32484,8 @@ extension LightsailClientTypes.Region: Swift.Codable {
         }
         if let relationalDatabaseAvailabilityZones = relationalDatabaseAvailabilityZones {
             var relationalDatabaseAvailabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relationalDatabaseAvailabilityZones)
-            for availabilityzonelist0 in relationalDatabaseAvailabilityZones {
-                try relationalDatabaseAvailabilityZonesContainer.encode(availabilityzonelist0)
+            for availabilityzone0 in relationalDatabaseAvailabilityZones {
+                try relationalDatabaseAvailabilityZonesContainer.encode(availabilityzone0)
             }
         }
     }
@@ -32895,8 +32904,8 @@ extension LightsailClientTypes.RelationalDatabase: Swift.Codable {
         }
         if let pendingMaintenanceActions = pendingMaintenanceActions {
             var pendingMaintenanceActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pendingMaintenanceActions)
-            for pendingmaintenanceactionlist0 in pendingMaintenanceActions {
-                try pendingMaintenanceActionsContainer.encode(pendingmaintenanceactionlist0)
+            for pendingmaintenanceaction0 in pendingMaintenanceActions {
+                try pendingMaintenanceActionsContainer.encode(pendingmaintenanceaction0)
             }
         }
         if let pendingModifiedValues = self.pendingModifiedValues {
@@ -32931,8 +32940,8 @@ extension LightsailClientTypes.RelationalDatabase: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -33417,8 +33426,8 @@ extension LightsailClientTypes.RelationalDatabaseEvent: Swift.Codable {
         }
         if let eventCategories = eventCategories {
             var eventCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventCategories)
-            for stringlist0 in eventCategories {
-                try eventCategoriesContainer.encode(stringlist0)
+            for string0 in eventCategories {
+                try eventCategoriesContainer.encode(string0)
             }
         }
         if let message = self.message {
@@ -33783,8 +33792,8 @@ extension LightsailClientTypes.RelationalDatabaseSnapshot: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -34087,8 +34096,8 @@ extension LightsailClientTypes.RenewalSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainValidationRecords = domainValidationRecords {
             var domainValidationRecordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainValidationRecords)
-            for domainvalidationrecordlist0 in domainValidationRecords {
-                try domainValidationRecordsContainer.encode(domainvalidationrecordlist0)
+            for domainvalidationrecord0 in domainValidationRecords {
+                try domainValidationRecordsContainer.encode(domainvalidationrecord0)
             }
         }
         if let renewalStatus = self.renewalStatus {
@@ -35849,8 +35858,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -36387,8 +36396,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -36702,8 +36711,8 @@ extension UpdateBucketInput: Swift.Encodable {
         }
         if let readonlyAccessAccounts = readonlyAccessAccounts {
             var readonlyAccessAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readonlyAccessAccounts)
-            for partneridlist0 in readonlyAccessAccounts {
-                try readonlyAccessAccountsContainer.encode(partneridlist0)
+            for nonemptystring0 in readonlyAccessAccounts {
+                try readonlyAccessAccountsContainer.encode(nonemptystring0)
             }
         }
         if let versioning = self.versioning {
@@ -36904,8 +36913,11 @@ extension UpdateContainerServiceInput: Swift.Encodable {
         }
         if let publicDomainNames = publicDomainNames {
             var publicDomainNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .publicDomainNames)
-            for (dictKey0, containerservicepublicdomains0) in publicDomainNames {
-                try publicDomainNamesContainer.encode(containerservicepublicdomains0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, containerServicePublicDomains0) in publicDomainNames {
+                var containerServicePublicDomains0Container = publicDomainNamesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in containerServicePublicDomains0 {
+                    try containerServicePublicDomains0Container.encode(string1)
+                }
             }
         }
         if let scale = self.scale {
@@ -37221,8 +37233,8 @@ extension UpdateDistributionInput: Swift.Encodable {
         }
         if let cacheBehaviors = cacheBehaviors {
             var cacheBehaviorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cacheBehaviors)
-            for cachebehaviorlist0 in cacheBehaviors {
-                try cacheBehaviorsContainer.encode(cachebehaviorlist0)
+            for cachebehaviorperpath0 in cacheBehaviors {
+                try cacheBehaviorsContainer.encode(cachebehaviorperpath0)
             }
         }
         if let defaultCacheBehavior = self.defaultCacheBehavior {
@@ -38154,8 +38166,8 @@ extension UpdateRelationalDatabaseParametersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for relationaldatabaseparameterlist0 in parameters {
-                try parametersContainer.encode(relationaldatabaseparameterlist0)
+            for relationaldatabaseparameter0 in parameters {
+                try parametersContainer.encode(relationaldatabaseparameter0)
             }
         }
         if let relationalDatabaseName = self.relationalDatabaseName {

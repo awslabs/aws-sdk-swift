@@ -230,8 +230,8 @@ extension SyntheticsClientTypes.BaseScreenshot: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ignoreCoordinates = ignoreCoordinates {
             var ignoreCoordinatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ignoreCoordinates)
-            for basescreenshotignorecoordinates0 in ignoreCoordinates {
-                try ignoreCoordinatesContainer.encode(basescreenshotignorecoordinates0)
+            for basescreenshotconfigignorecoordinate0 in ignoreCoordinates {
+                try ignoreCoordinatesContainer.encode(basescreenshotconfigignorecoordinate0)
             }
         }
         if let screenshotName = self.screenshotName {
@@ -342,8 +342,8 @@ extension SyntheticsClientTypes.Canary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timeline = self.timeline {
@@ -741,8 +741,8 @@ extension SyntheticsClientTypes.CanaryRunConfigInput: Swift.Codable {
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariablesmap0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariablesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariablesMap0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariablesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let memoryInMB = self.memoryInMB {
@@ -1453,8 +1453,8 @@ extension CreateCanaryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vpcConfig = self.vpcConfig {
@@ -1694,8 +1694,8 @@ extension CreateGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1991,8 +1991,8 @@ extension DescribeCanariesInput: Swift.Encodable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for describecanariesnamefilter0 in names {
-                try namesContainer.encode(describecanariesnamefilter0)
+            for canaryname0 in names {
+                try namesContainer.encode(canaryname0)
             }
         }
         if let nextToken = self.nextToken {
@@ -2074,8 +2074,8 @@ extension DescribeCanariesLastRunInput: Swift.Encodable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for describecanarieslastrunnamefilter0 in names {
-                try namesContainer.encode(describecanarieslastrunnamefilter0)
+            for canaryname0 in names {
+                try namesContainer.encode(canaryname0)
             }
         }
         if let nextToken = self.nextToken {
@@ -2958,8 +2958,8 @@ extension SyntheticsClientTypes.Group: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4212,8 +4212,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4750,8 +4750,8 @@ extension SyntheticsClientTypes.VisualReferenceInput: Swift.Codable {
         }
         if let baseScreenshots = baseScreenshots {
             var baseScreenshotsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .baseScreenshots)
-            for basescreenshots0 in baseScreenshots {
-                try baseScreenshotsContainer.encode(basescreenshots0)
+            for basescreenshot0 in baseScreenshots {
+                try baseScreenshotsContainer.encode(basescreenshot0)
             }
         }
     }
@@ -4808,8 +4808,8 @@ extension SyntheticsClientTypes.VisualReferenceOutput: Swift.Codable {
         }
         if let baseScreenshots = baseScreenshots {
             var baseScreenshotsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .baseScreenshots)
-            for basescreenshots0 in baseScreenshots {
-                try baseScreenshotsContainer.encode(basescreenshots0)
+            for basescreenshot0 in baseScreenshots {
+                try baseScreenshotsContainer.encode(basescreenshot0)
             }
         }
     }
@@ -4862,14 +4862,14 @@ extension SyntheticsClientTypes.VpcConfigInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
     }
@@ -4932,14 +4932,14 @@ extension SyntheticsClientTypes.VpcConfigOutput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {

@@ -262,8 +262,8 @@ extension MediaPackageVodClientTypes.CmafPackage: Swift.Codable {
         }
         if let hlsManifests = hlsManifests {
             var hlsManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hlsManifests)
-            for __listofhlsmanifest0 in hlsManifests {
-                try hlsManifestsContainer.encode(__listofhlsmanifest0)
+            for hlsmanifest0 in hlsManifests {
+                try hlsManifestsContainer.encode(hlsmanifest0)
             }
         }
         if let includeEncoderConfigurationInSegments = self.includeEncoderConfigurationInSegments {
@@ -1459,8 +1459,8 @@ extension MediaPackageVodClientTypes.DashPackage: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dashManifests = dashManifests {
             var dashManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashManifests)
-            for __listofdashmanifest0 in dashManifests {
-                try dashManifestsContainer.encode(__listofdashmanifest0)
+            for dashmanifest0 in dashManifests {
+                try dashManifestsContainer.encode(dashmanifest0)
             }
         }
         if let encryption = self.encryption {
@@ -1474,8 +1474,8 @@ extension MediaPackageVodClientTypes.DashPackage: Swift.Codable {
         }
         if let periodTriggers = periodTriggers {
             var periodTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .periodTriggers)
-            for __listof__periodtriggerselement0 in periodTriggers {
-                try periodTriggersContainer.encode(__listof__periodtriggerselement0.rawValue)
+            for __periodtriggerselement0 in periodTriggers {
+                try periodTriggersContainer.encode(__periodtriggerselement0.rawValue)
             }
         }
         if let segmentDurationSeconds = self.segmentDurationSeconds {
@@ -2719,8 +2719,8 @@ extension MediaPackageVodClientTypes.HlsPackage: Swift.Codable {
         }
         if let hlsManifests = hlsManifests {
             var hlsManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hlsManifests)
-            for __listofhlsmanifest0 in hlsManifests {
-                try hlsManifestsContainer.encode(__listofhlsmanifest0)
+            for hlsmanifest0 in hlsManifests {
+                try hlsManifestsContainer.encode(hlsmanifest0)
             }
         }
         if let includeDvbSubtitles = self.includeDvbSubtitles {
@@ -3507,8 +3507,8 @@ extension MediaPackageVodClientTypes.MssPackage: Swift.Codable {
         }
         if let mssManifests = mssManifests {
             var mssManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mssManifests)
-            for __listofmssmanifest0 in mssManifests {
-                try mssManifestsContainer.encode(__listofmssmanifest0)
+            for mssmanifest0 in mssManifests {
+                try mssManifestsContainer.encode(mssmanifest0)
             }
         }
         if let segmentDurationSeconds = self.segmentDurationSeconds {
@@ -4103,8 +4103,8 @@ extension MediaPackageVodClientTypes.SpekeKeyProvider: Swift.Codable {
         }
         if let systemIds = systemIds {
             var systemIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .systemIds)
-            for __listof__string0 in systemIds {
-                try systemIdsContainer.encode(__listof__string0)
+            for __string0 in systemIds {
+                try systemIdsContainer.encode(__string0)
             }
         }
         if let url = self.url {
@@ -4264,8 +4264,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

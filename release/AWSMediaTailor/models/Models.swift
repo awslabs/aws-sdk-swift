@@ -211,8 +211,8 @@ extension MediaTailorClientTypes.Alert: Swift.Codable {
         }
         if let relatedResourceArns = relatedResourceArns {
             var relatedResourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedResourceArns)
-            for __listof__string0 in relatedResourceArns {
-                try relatedResourceArnsContainer.encode(__listof__string0)
+            for __string0 in relatedResourceArns {
+                try relatedResourceArnsContainer.encode(__string0)
             }
         }
         if let resourceArn = self.resourceArn {
@@ -551,8 +551,8 @@ extension MediaTailorClientTypes.Channel: Swift.Codable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for responseoutputs0 in outputs {
-                try outputsContainer.encode(responseoutputs0)
+            for responseoutputitem0 in outputs {
+                try outputsContainer.encode(responseoutputitem0)
             }
         }
         if let playbackMode = self.playbackMode {
@@ -560,8 +560,8 @@ extension MediaTailorClientTypes.Channel: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tier = self.tier {
@@ -852,8 +852,8 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for requestoutputs0 in outputs {
-                try outputsContainer.encode(requestoutputs0)
+            for requestoutputitem0 in outputs {
+                try outputsContainer.encode(requestoutputitem0)
             }
         }
         if let playbackMode = self.playbackMode {
@@ -861,8 +861,8 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tier = self.tier {
@@ -1144,14 +1144,14 @@ extension CreateLiveSourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let httpPackageConfigurations = httpPackageConfigurations {
             var httpPackageConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .httpPackageConfigurations)
-            for httppackageconfigurations0 in httpPackageConfigurations {
-                try httpPackageConfigurationsContainer.encode(httppackageconfigurations0)
+            for httppackageconfiguration0 in httpPackageConfigurations {
+                try httpPackageConfigurationsContainer.encode(httppackageconfiguration0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1586,8 +1586,8 @@ extension CreateProgramInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adBreaks = adBreaks {
             var adBreaksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adBreaks)
-            for __listofadbreak0 in adBreaks {
-                try adBreaksContainer.encode(__listofadbreak0)
+            for adbreak0 in adBreaks {
+                try adBreaksContainer.encode(adbreak0)
             }
         }
         if let liveSourceName = self.liveSourceName {
@@ -1870,14 +1870,14 @@ extension CreateSourceLocationInput: Swift.Encodable {
         }
         if let segmentDeliveryConfigurations = segmentDeliveryConfigurations {
             var segmentDeliveryConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentDeliveryConfigurations)
-            for __listofsegmentdeliveryconfiguration0 in segmentDeliveryConfigurations {
-                try segmentDeliveryConfigurationsContainer.encode(__listofsegmentdeliveryconfiguration0)
+            for segmentdeliveryconfiguration0 in segmentDeliveryConfigurations {
+                try segmentDeliveryConfigurationsContainer.encode(segmentdeliveryconfiguration0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2145,14 +2145,14 @@ extension CreateVodSourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let httpPackageConfigurations = httpPackageConfigurations {
             var httpPackageConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .httpPackageConfigurations)
-            for httppackageconfigurations0 in httpPackageConfigurations {
-                try httpPackageConfigurationsContainer.encode(httppackageconfigurations0)
+            for httppackageconfiguration0 in httpPackageConfigurations {
+                try httpPackageConfigurationsContainer.encode(httppackageconfiguration0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5999,8 +5999,8 @@ extension MediaTailorClientTypes.LiveSource: Swift.Codable {
         }
         if let httpPackageConfigurations = httpPackageConfigurations {
             var httpPackageConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .httpPackageConfigurations)
-            for httppackageconfigurations0 in httpPackageConfigurations {
-                try httpPackageConfigurationsContainer.encode(httppackageconfigurations0)
+            for httppackageconfiguration0 in httpPackageConfigurations {
+                try httpPackageConfigurationsContainer.encode(httppackageconfiguration0)
             }
         }
         if let lastModifiedTime = self.lastModifiedTime {
@@ -6014,8 +6014,8 @@ extension MediaTailorClientTypes.LiveSource: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6336,8 +6336,11 @@ extension MediaTailorClientTypes.PlaybackConfiguration: Swift.Codable {
         }
         if let configurationAliases = configurationAliases {
             var configurationAliasesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configurationAliases)
-            for (dictKey0, configurationaliasesresponse0) in configurationAliases {
-                try configurationAliasesContainer.encode(configurationaliasesresponse0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, configurationAliasesResponse0) in configurationAliases {
+                var configurationAliasesResponse0Container = configurationAliasesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, __mapOf__string1) in configurationAliasesResponse0 {
+                    try configurationAliasesResponse0Container.encode(__mapOf__string1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let dashConfiguration = self.dashConfiguration {
@@ -6375,8 +6378,8 @@ extension MediaTailorClientTypes.PlaybackConfiguration: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let transcodeProfileName = self.transcodeProfileName {
@@ -6586,8 +6589,8 @@ extension MediaTailorClientTypes.PrefetchConsumption: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availMatchingCriteria = availMatchingCriteria {
             var availMatchingCriteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availMatchingCriteria)
-            for __listofavailmatchingcriteria0 in availMatchingCriteria {
-                try availMatchingCriteriaContainer.encode(__listofavailmatchingcriteria0)
+            for availmatchingcriteria0 in availMatchingCriteria {
+                try availMatchingCriteriaContainer.encode(availmatchingcriteria0)
             }
         }
         if let endTime = self.endTime {
@@ -6654,8 +6657,8 @@ extension MediaTailorClientTypes.PrefetchRetrieval: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dynamicVariables = dynamicVariables {
             var dynamicVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dynamicVariables)
-            for (dictKey0, __mapof__string0) in dynamicVariables {
-                try dynamicVariablesContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in dynamicVariables {
+                try dynamicVariablesContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let endTime = self.endTime {
@@ -6921,8 +6924,11 @@ extension PutPlaybackConfigurationInput: Swift.Encodable {
         }
         if let configurationAliases = configurationAliases {
             var configurationAliasesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configurationAliases)
-            for (dictKey0, configurationaliasesrequest0) in configurationAliases {
-                try configurationAliasesContainer.encode(configurationaliasesrequest0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, configurationAliasesRequest0) in configurationAliases {
+                var configurationAliasesRequest0Container = configurationAliasesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, __mapOf__string1) in configurationAliasesRequest0 {
+                    try configurationAliasesRequest0Container.encode(__mapOf__string1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let dashConfiguration = self.dashConfiguration {
@@ -6945,8 +6951,8 @@ extension PutPlaybackConfigurationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let transcodeProfileName = self.transcodeProfileName {
@@ -7702,8 +7708,8 @@ extension MediaTailorClientTypes.ScheduleEntry: Swift.Codable {
         }
         if let scheduleAdBreaks = scheduleAdBreaks {
             var scheduleAdBreaksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scheduleAdBreaks)
-            for __listofscheduleadbreak0 in scheduleAdBreaks {
-                try scheduleAdBreaksContainer.encode(__listofscheduleadbreak0)
+            for scheduleadbreak0 in scheduleAdBreaks {
+                try scheduleAdBreaksContainer.encode(scheduleadbreak0)
             }
         }
         if let scheduleEntryType = self.scheduleEntryType {
@@ -8124,8 +8130,8 @@ extension MediaTailorClientTypes.SourceLocation: Swift.Codable {
         }
         if let segmentDeliveryConfigurations = segmentDeliveryConfigurations {
             var segmentDeliveryConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentDeliveryConfigurations)
-            for __listofsegmentdeliveryconfiguration0 in segmentDeliveryConfigurations {
-                try segmentDeliveryConfigurationsContainer.encode(__listofsegmentdeliveryconfiguration0)
+            for segmentdeliveryconfiguration0 in segmentDeliveryConfigurations {
+                try segmentDeliveryConfigurationsContainer.encode(segmentdeliveryconfiguration0)
             }
         }
         if let sourceLocationName = self.sourceLocationName {
@@ -8133,8 +8139,8 @@ extension MediaTailorClientTypes.SourceLocation: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8427,8 +8433,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8559,8 +8565,8 @@ extension MediaTailorClientTypes.TimeSignalMessage: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let segmentationDescriptors = segmentationDescriptors {
             var segmentationDescriptorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentationDescriptors)
-            for segmentationdescriptorlist0 in segmentationDescriptors {
-                try segmentationDescriptorsContainer.encode(segmentationdescriptorlist0)
+            for segmentationdescriptor0 in segmentationDescriptors {
+                try segmentationDescriptorsContainer.encode(segmentationdescriptor0)
             }
         }
     }
@@ -8804,8 +8810,8 @@ extension UpdateChannelInput: Swift.Encodable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for requestoutputs0 in outputs {
-                try outputsContainer.encode(requestoutputs0)
+            for requestoutputitem0 in outputs {
+                try outputsContainer.encode(requestoutputitem0)
             }
         }
     }
@@ -9049,8 +9055,8 @@ extension UpdateLiveSourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let httpPackageConfigurations = httpPackageConfigurations {
             var httpPackageConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .httpPackageConfigurations)
-            for httppackageconfigurations0 in httpPackageConfigurations {
-                try httpPackageConfigurationsContainer.encode(httppackageconfigurations0)
+            for httppackageconfiguration0 in httpPackageConfigurations {
+                try httpPackageConfigurationsContainer.encode(httppackageconfiguration0)
             }
         }
     }
@@ -9276,8 +9282,8 @@ extension UpdateSourceLocationInput: Swift.Encodable {
         }
         if let segmentDeliveryConfigurations = segmentDeliveryConfigurations {
             var segmentDeliveryConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentDeliveryConfigurations)
-            for __listofsegmentdeliveryconfiguration0 in segmentDeliveryConfigurations {
-                try segmentDeliveryConfigurationsContainer.encode(__listofsegmentdeliveryconfiguration0)
+            for segmentdeliveryconfiguration0 in segmentDeliveryConfigurations {
+                try segmentDeliveryConfigurationsContainer.encode(segmentdeliveryconfiguration0)
             }
         }
     }
@@ -9527,8 +9533,8 @@ extension UpdateVodSourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let httpPackageConfigurations = httpPackageConfigurations {
             var httpPackageConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .httpPackageConfigurations)
-            for httppackageconfigurations0 in httpPackageConfigurations {
-                try httpPackageConfigurationsContainer.encode(httppackageconfigurations0)
+            for httppackageconfiguration0 in httpPackageConfigurations {
+                try httpPackageConfigurationsContainer.encode(httppackageconfiguration0)
             }
         }
     }
@@ -9754,8 +9760,8 @@ extension MediaTailorClientTypes.VodSource: Swift.Codable {
         }
         if let httpPackageConfigurations = httpPackageConfigurations {
             var httpPackageConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .httpPackageConfigurations)
-            for httppackageconfigurations0 in httpPackageConfigurations {
-                try httpPackageConfigurationsContainer.encode(httppackageconfigurations0)
+            for httppackageconfiguration0 in httpPackageConfigurations {
+                try httpPackageConfigurationsContainer.encode(httppackageconfiguration0)
             }
         }
         if let lastModifiedTime = self.lastModifiedTime {
@@ -9766,8 +9772,8 @@ extension MediaTailorClientTypes.VodSource: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vodSourceName = self.vodSourceName {

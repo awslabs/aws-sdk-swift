@@ -1142,8 +1142,8 @@ extension MediaLiveClientTypes.AudioChannelMapping: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputChannelLevels = inputChannelLevels {
             var inputChannelLevelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputChannelLevels)
-            for __listofinputchannellevel0 in inputChannelLevels {
-                try inputChannelLevelsContainer.encode(__listofinputchannellevel0)
+            for inputchannellevel0 in inputChannelLevels {
+                try inputChannelLevelsContainer.encode(inputchannellevel0)
             }
         }
         if let outputChannel = self.outputChannel {
@@ -2148,8 +2148,8 @@ extension MediaLiveClientTypes.AudioTrackSelection: Swift.Codable {
         }
         if let tracks = tracks {
             var tracksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tracks)
-            for __listofaudiotrack0 in tracks {
-                try tracksContainer.encode(__listofaudiotrack0)
+            for audiotrack0 in tracks {
+                try tracksContainer.encode(audiotrack0)
             }
         }
     }
@@ -2315,8 +2315,8 @@ extension MediaLiveClientTypes.AutomaticInputFailoverSettings: Swift.Codable {
         }
         if let failoverConditions = failoverConditions {
             var failoverConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failoverConditions)
-            for __listoffailovercondition0 in failoverConditions {
-                try failoverConditionsContainer.encode(__listoffailovercondition0)
+            for failovercondition0 in failoverConditions {
+                try failoverConditionsContainer.encode(failovercondition0)
             }
         }
         if let inputPreference = self.inputPreference {
@@ -2664,26 +2664,26 @@ extension BatchDeleteInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channelIds = channelIds {
             var channelIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channelIds)
-            for __listof__string0 in channelIds {
-                try channelIdsContainer.encode(__listof__string0)
+            for __string0 in channelIds {
+                try channelIdsContainer.encode(__string0)
             }
         }
         if let inputIds = inputIds {
             var inputIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputIds)
-            for __listof__string0 in inputIds {
-                try inputIdsContainer.encode(__listof__string0)
+            for __string0 in inputIds {
+                try inputIdsContainer.encode(__string0)
             }
         }
         if let inputSecurityGroupIds = inputSecurityGroupIds {
             var inputSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputSecurityGroupIds)
-            for __listof__string0 in inputSecurityGroupIds {
-                try inputSecurityGroupIdsContainer.encode(__listof__string0)
+            for __string0 in inputSecurityGroupIds {
+                try inputSecurityGroupIdsContainer.encode(__string0)
             }
         }
         if let multiplexIds = multiplexIds {
             var multiplexIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multiplexIds)
-            for __listof__string0 in multiplexIds {
-                try multiplexIdsContainer.encode(__listof__string0)
+            for __string0 in multiplexIds {
+                try multiplexIdsContainer.encode(__string0)
             }
         }
     }
@@ -2964,8 +2964,8 @@ extension MediaLiveClientTypes.BatchScheduleActionCreateRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let scheduleActions = scheduleActions {
             var scheduleActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scheduleActions)
-            for __listofscheduleaction0 in scheduleActions {
-                try scheduleActionsContainer.encode(__listofscheduleaction0)
+            for scheduleaction0 in scheduleActions {
+                try scheduleActionsContainer.encode(scheduleaction0)
             }
         }
     }
@@ -3012,8 +3012,8 @@ extension MediaLiveClientTypes.BatchScheduleActionCreateResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let scheduleActions = scheduleActions {
             var scheduleActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scheduleActions)
-            for __listofscheduleaction0 in scheduleActions {
-                try scheduleActionsContainer.encode(__listofscheduleaction0)
+            for scheduleaction0 in scheduleActions {
+                try scheduleActionsContainer.encode(scheduleaction0)
             }
         }
     }
@@ -3060,8 +3060,8 @@ extension MediaLiveClientTypes.BatchScheduleActionDeleteRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actionNames = actionNames {
             var actionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionNames)
-            for __listof__string0 in actionNames {
-                try actionNamesContainer.encode(__listof__string0)
+            for __string0 in actionNames {
+                try actionNamesContainer.encode(__string0)
             }
         }
     }
@@ -3108,8 +3108,8 @@ extension MediaLiveClientTypes.BatchScheduleActionDeleteResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let scheduleActions = scheduleActions {
             var scheduleActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scheduleActions)
-            for __listofscheduleaction0 in scheduleActions {
-                try scheduleActionsContainer.encode(__listofscheduleaction0)
+            for scheduleaction0 in scheduleActions {
+                try scheduleActionsContainer.encode(scheduleaction0)
             }
         }
     }
@@ -3157,14 +3157,14 @@ extension BatchStartInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channelIds = channelIds {
             var channelIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channelIds)
-            for __listof__string0 in channelIds {
-                try channelIdsContainer.encode(__listof__string0)
+            for __string0 in channelIds {
+                try channelIdsContainer.encode(__string0)
             }
         }
         if let multiplexIds = multiplexIds {
             var multiplexIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multiplexIds)
-            for __listof__string0 in multiplexIds {
-                try multiplexIdsContainer.encode(__listof__string0)
+            for __string0 in multiplexIds {
+                try multiplexIdsContainer.encode(__string0)
             }
         }
     }
@@ -3347,14 +3347,14 @@ extension BatchStopInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channelIds = channelIds {
             var channelIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channelIds)
-            for __listof__string0 in channelIds {
-                try channelIdsContainer.encode(__listof__string0)
+            for __string0 in channelIds {
+                try channelIdsContainer.encode(__string0)
             }
         }
         if let multiplexIds = multiplexIds {
             var multiplexIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multiplexIds)
-            for __listof__string0 in multiplexIds {
-                try multiplexIdsContainer.encode(__listof__string0)
+            for __string0 in multiplexIds {
+                try multiplexIdsContainer.encode(__string0)
             }
         }
     }
@@ -5015,14 +5015,14 @@ extension MediaLiveClientTypes.Channel: Swift.Codable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for __listofoutputdestination0 in destinations {
-                try destinationsContainer.encode(__listofoutputdestination0)
+            for outputdestination0 in destinations {
+                try destinationsContainer.encode(outputdestination0)
             }
         }
         if let egressEndpoints = egressEndpoints {
             var egressEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .egressEndpoints)
-            for __listofchannelegressendpoint0 in egressEndpoints {
-                try egressEndpointsContainer.encode(__listofchannelegressendpoint0)
+            for channelegressendpoint0 in egressEndpoints {
+                try egressEndpointsContainer.encode(channelegressendpoint0)
             }
         }
         if let encoderSettings = self.encoderSettings {
@@ -5033,8 +5033,8 @@ extension MediaLiveClientTypes.Channel: Swift.Codable {
         }
         if let inputAttachments = inputAttachments {
             var inputAttachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputAttachments)
-            for __listofinputattachment0 in inputAttachments {
-                try inputAttachmentsContainer.encode(__listofinputattachment0)
+            for inputattachment0 in inputAttachments {
+                try inputAttachmentsContainer.encode(inputattachment0)
             }
         }
         if let inputSpecification = self.inputSpecification {
@@ -5051,8 +5051,8 @@ extension MediaLiveClientTypes.Channel: Swift.Codable {
         }
         if let pipelineDetails = pipelineDetails {
             var pipelineDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineDetails)
-            for __listofpipelinedetail0 in pipelineDetails {
-                try pipelineDetailsContainer.encode(__listofpipelinedetail0)
+            for pipelinedetail0 in pipelineDetails {
+                try pipelineDetailsContainer.encode(pipelinedetail0)
             }
         }
         if let pipelinesRunningCount = self.pipelinesRunningCount {
@@ -5406,14 +5406,14 @@ extension MediaLiveClientTypes.ChannelSummary: Swift.Codable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for __listofoutputdestination0 in destinations {
-                try destinationsContainer.encode(__listofoutputdestination0)
+            for outputdestination0 in destinations {
+                try destinationsContainer.encode(outputdestination0)
             }
         }
         if let egressEndpoints = egressEndpoints {
             var egressEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .egressEndpoints)
-            for __listofchannelegressendpoint0 in egressEndpoints {
-                try egressEndpointsContainer.encode(__listofchannelegressendpoint0)
+            for channelegressendpoint0 in egressEndpoints {
+                try egressEndpointsContainer.encode(channelegressendpoint0)
             }
         }
         if let id = self.id {
@@ -5421,8 +5421,8 @@ extension MediaLiveClientTypes.ChannelSummary: Swift.Codable {
         }
         if let inputAttachments = inputAttachments {
             var inputAttachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputAttachments)
-            for __listofinputattachment0 in inputAttachments {
-                try inputAttachmentsContainer.encode(__listofinputattachment0)
+            for inputattachment0 in inputAttachments {
+                try inputAttachmentsContainer.encode(inputattachment0)
             }
         }
         if let inputSpecification = self.inputSpecification {
@@ -5832,8 +5832,8 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for __listofoutputdestination0 in destinations {
-                try destinationsContainer.encode(__listofoutputdestination0)
+            for outputdestination0 in destinations {
+                try destinationsContainer.encode(outputdestination0)
             }
         }
         if let encoderSettings = self.encoderSettings {
@@ -5841,8 +5841,8 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let inputAttachments = inputAttachments {
             var inputAttachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputAttachments)
-            for __listofinputattachment0 in inputAttachments {
-                try inputAttachmentsContainer.encode(__listofinputattachment0)
+            for inputattachment0 in inputAttachments {
+                try inputAttachmentsContainer.encode(inputattachment0)
             }
         }
         if let inputSpecification = self.inputSpecification {
@@ -6142,26 +6142,26 @@ extension CreateInputInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for __listofinputdestinationrequest0 in destinations {
-                try destinationsContainer.encode(__listofinputdestinationrequest0)
+            for inputdestinationrequest0 in destinations {
+                try destinationsContainer.encode(inputdestinationrequest0)
             }
         }
         if let inputDevices = inputDevices {
             var inputDevicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputDevices)
-            for __listofinputdevicesettings0 in inputDevices {
-                try inputDevicesContainer.encode(__listofinputdevicesettings0)
+            for inputdevicesettings0 in inputDevices {
+                try inputDevicesContainer.encode(inputdevicesettings0)
             }
         }
         if let inputSecurityGroups = inputSecurityGroups {
             var inputSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputSecurityGroups)
-            for __listof__string0 in inputSecurityGroups {
-                try inputSecurityGroupsContainer.encode(__listof__string0)
+            for __string0 in inputSecurityGroups {
+                try inputSecurityGroupsContainer.encode(__string0)
             }
         }
         if let mediaConnectFlows = mediaConnectFlows {
             var mediaConnectFlowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaConnectFlows)
-            for __listofmediaconnectflowrequest0 in mediaConnectFlows {
-                try mediaConnectFlowsContainer.encode(__listofmediaconnectflowrequest0)
+            for mediaconnectflowrequest0 in mediaConnectFlows {
+                try mediaConnectFlowsContainer.encode(mediaconnectflowrequest0)
             }
         }
         if let name = self.name {
@@ -6175,8 +6175,8 @@ extension CreateInputInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for __listofinputsourcerequest0 in sources {
-                try sourcesContainer.encode(__listofinputsourcerequest0)
+            for inputsourcerequest0 in sources {
+                try sourcesContainer.encode(inputsourcerequest0)
             }
         }
         if let tags = tags {
@@ -6453,8 +6453,8 @@ extension CreateInputSecurityGroupInput: Swift.Encodable {
         }
         if let whitelistRules = whitelistRules {
             var whitelistRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .whitelistRules)
-            for __listofinputwhitelistrulecidr0 in whitelistRules {
-                try whitelistRulesContainer.encode(__listofinputwhitelistrulecidr0)
+            for inputwhitelistrulecidr0 in whitelistRules {
+                try whitelistRulesContainer.encode(inputwhitelistrulecidr0)
             }
         }
     }
@@ -6608,8 +6608,8 @@ extension CreateMultiplexInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for __listof__string0 in availabilityZones {
-                try availabilityZonesContainer.encode(__listof__string0)
+            for __string0 in availabilityZones {
+                try availabilityZonesContainer.encode(__string0)
             }
         }
         if let multiplexSettings = self.multiplexSettings {
@@ -13020,8 +13020,8 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let audioDescriptions = audioDescriptions {
             var audioDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audioDescriptions)
-            for __listofaudiodescription0 in audioDescriptions {
-                try audioDescriptionsContainer.encode(__listofaudiodescription0)
+            for audiodescription0 in audioDescriptions {
+                try audioDescriptionsContainer.encode(audiodescription0)
             }
         }
         if let availBlanking = self.availBlanking {
@@ -13035,8 +13035,8 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
         }
         if let captionDescriptions = captionDescriptions {
             var captionDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .captionDescriptions)
-            for __listofcaptiondescription0 in captionDescriptions {
-                try captionDescriptionsContainer.encode(__listofcaptiondescription0)
+            for captiondescription0 in captionDescriptions {
+                try captionDescriptionsContainer.encode(captiondescription0)
             }
         }
         if let featureActivations = self.featureActivations {
@@ -13053,8 +13053,8 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
         }
         if let outputGroups = outputGroups {
             var outputGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputGroups)
-            for __listofoutputgroup0 in outputGroups {
-                try outputGroupsContainer.encode(__listofoutputgroup0)
+            for outputgroup0 in outputGroups {
+                try outputGroupsContainer.encode(outputgroup0)
             }
         }
         if let timecodeConfig = self.timecodeConfig {
@@ -13062,8 +13062,8 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
         }
         if let videoDescriptions = videoDescriptions {
             var videoDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .videoDescriptions)
-            for __listofvideodescription0 in videoDescriptions {
-                try videoDescriptionsContainer.encode(__listofvideodescription0)
+            for videodescription0 in videoDescriptions {
+                try videoDescriptionsContainer.encode(videodescription0)
             }
         }
     }
@@ -17270,8 +17270,8 @@ extension MediaLiveClientTypes.HlsGroupSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adMarkers = adMarkers {
             var adMarkersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adMarkers)
-            for __listofhlsadmarkers0 in adMarkers {
-                try adMarkersContainer.encode(__listofhlsadmarkers0.rawValue)
+            for hlsadmarkers0 in adMarkers {
+                try adMarkersContainer.encode(hlsadmarkers0.rawValue)
             }
         }
         if let baseUrlContent = self.baseUrlContent {
@@ -17288,8 +17288,8 @@ extension MediaLiveClientTypes.HlsGroupSettings: Swift.Codable {
         }
         if let captionLanguageMappings = captionLanguageMappings {
             var captionLanguageMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .captionLanguageMappings)
-            for __listofcaptionlanguagemapping0 in captionLanguageMappings {
-                try captionLanguageMappingsContainer.encode(__listofcaptionlanguagemapping0)
+            for captionlanguagemapping0 in captionLanguageMappings {
+                try captionLanguageMappingsContainer.encode(captionlanguagemapping0)
             }
         }
         if let captionLanguageSetting = self.captionLanguageSetting {
@@ -18892,14 +18892,14 @@ extension MediaLiveClientTypes.Input: Swift.Codable {
         }
         if let attachedChannels = attachedChannels {
             var attachedChannelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachedChannels)
-            for __listof__string0 in attachedChannels {
-                try attachedChannelsContainer.encode(__listof__string0)
+            for __string0 in attachedChannels {
+                try attachedChannelsContainer.encode(__string0)
             }
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for __listofinputdestination0 in destinations {
-                try destinationsContainer.encode(__listofinputdestination0)
+            for inputdestination0 in destinations {
+                try destinationsContainer.encode(inputdestination0)
             }
         }
         if let id = self.id {
@@ -18910,14 +18910,14 @@ extension MediaLiveClientTypes.Input: Swift.Codable {
         }
         if let inputDevices = inputDevices {
             var inputDevicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputDevices)
-            for __listofinputdevicesettings0 in inputDevices {
-                try inputDevicesContainer.encode(__listofinputdevicesettings0)
+            for inputdevicesettings0 in inputDevices {
+                try inputDevicesContainer.encode(inputdevicesettings0)
             }
         }
         if let inputPartnerIds = inputPartnerIds {
             var inputPartnerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputPartnerIds)
-            for __listof__string0 in inputPartnerIds {
-                try inputPartnerIdsContainer.encode(__listof__string0)
+            for __string0 in inputPartnerIds {
+                try inputPartnerIdsContainer.encode(__string0)
             }
         }
         if let inputSourceType = self.inputSourceType {
@@ -18925,8 +18925,8 @@ extension MediaLiveClientTypes.Input: Swift.Codable {
         }
         if let mediaConnectFlows = mediaConnectFlows {
             var mediaConnectFlowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaConnectFlows)
-            for __listofmediaconnectflow0 in mediaConnectFlows {
-                try mediaConnectFlowsContainer.encode(__listofmediaconnectflow0)
+            for mediaconnectflow0 in mediaConnectFlows {
+                try mediaConnectFlowsContainer.encode(mediaconnectflow0)
             }
         }
         if let name = self.name {
@@ -18937,14 +18937,14 @@ extension MediaLiveClientTypes.Input: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for __listof__string0 in securityGroups {
-                try securityGroupsContainer.encode(__listof__string0)
+            for __string0 in securityGroups {
+                try securityGroupsContainer.encode(__string0)
             }
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for __listofinputsource0 in sources {
-                try sourcesContainer.encode(__listofinputsource0)
+            for inputsource0 in sources {
+                try sourcesContainer.encode(inputsource0)
             }
         }
         if let state = self.state {
@@ -19912,8 +19912,8 @@ extension MediaLiveClientTypes.InputDeviceNetworkSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dnsAddresses = dnsAddresses {
             var dnsAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsAddresses)
-            for __listof__string0 in dnsAddresses {
-                try dnsAddressesContainer.encode(__listof__string0)
+            for __string0 in dnsAddresses {
+                try dnsAddressesContainer.encode(__string0)
             }
         }
         if let gateway = self.gateway {
@@ -20904,8 +20904,8 @@ extension MediaLiveClientTypes.InputPrepareScheduleActionSettings: Swift.Codable
         }
         if let urlPath = urlPath {
             var urlPathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .urlPath)
-            for __listof__string0 in urlPath {
-                try urlPathContainer.encode(__listof__string0)
+            for __string0 in urlPath {
+                try urlPathContainer.encode(__string0)
             }
         }
     }
@@ -21010,8 +21010,8 @@ extension MediaLiveClientTypes.InputSecurityGroup: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for __listof__string0 in inputs {
-                try inputsContainer.encode(__listof__string0)
+            for __string0 in inputs {
+                try inputsContainer.encode(__string0)
             }
         }
         if let state = self.state {
@@ -21025,8 +21025,8 @@ extension MediaLiveClientTypes.InputSecurityGroup: Swift.Codable {
         }
         if let whitelistRules = whitelistRules {
             var whitelistRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .whitelistRules)
-            for __listofinputwhitelistrule0 in whitelistRules {
-                try whitelistRulesContainer.encode(__listofinputwhitelistrule0)
+            for inputwhitelistrule0 in whitelistRules {
+                try whitelistRulesContainer.encode(inputwhitelistrule0)
             }
         }
     }
@@ -21169,14 +21169,14 @@ extension MediaLiveClientTypes.InputSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let audioSelectors = audioSelectors {
             var audioSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audioSelectors)
-            for __listofaudioselector0 in audioSelectors {
-                try audioSelectorsContainer.encode(__listofaudioselector0)
+            for audioselector0 in audioSelectors {
+                try audioSelectorsContainer.encode(audioselector0)
             }
         }
         if let captionSelectors = captionSelectors {
             var captionSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .captionSelectors)
-            for __listofcaptionselector0 in captionSelectors {
-                try captionSelectorsContainer.encode(__listofcaptionselector0)
+            for captionselector0 in captionSelectors {
+                try captionSelectorsContainer.encode(captionselector0)
             }
         }
         if let deblockFilter = self.deblockFilter {
@@ -21609,8 +21609,8 @@ extension MediaLiveClientTypes.InputSwitchScheduleActionSettings: Swift.Codable 
         }
         if let urlPath = urlPath {
             var urlPathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .urlPath)
-            for __listof__string0 in urlPath {
-                try urlPathContainer.encode(__listof__string0)
+            for __string0 in urlPath {
+                try urlPathContainer.encode(__string0)
             }
         }
     }
@@ -21760,14 +21760,14 @@ extension MediaLiveClientTypes.InputVpcRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for __listof__string0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(__listof__string0)
+            for __string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(__string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for __listof__string0 in subnetIds {
-                try subnetIdsContainer.encode(__listof__string0)
+            for __string0 in subnetIds {
+                try subnetIdsContainer.encode(__string0)
             }
         }
     }
@@ -26567,14 +26567,14 @@ extension MediaLiveClientTypes.Multiplex: Swift.Codable {
         }
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for __listof__string0 in availabilityZones {
-                try availabilityZonesContainer.encode(__listof__string0)
+            for __string0 in availabilityZones {
+                try availabilityZonesContainer.encode(__string0)
             }
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for __listofmultiplexoutputdestination0 in destinations {
-                try destinationsContainer.encode(__listofmultiplexoutputdestination0)
+            for multiplexoutputdestination0 in destinations {
+                try destinationsContainer.encode(multiplexoutputdestination0)
             }
         }
         if let id = self.id {
@@ -26855,8 +26855,8 @@ extension MediaLiveClientTypes.MultiplexProgram: Swift.Codable {
         }
         if let pipelineDetails = pipelineDetails {
             var pipelineDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineDetails)
-            for __listofmultiplexprogrampipelinedetail0 in pipelineDetails {
-                try pipelineDetailsContainer.encode(__listofmultiplexprogrampipelinedetail0)
+            for multiplexprogrampipelinedetail0 in pipelineDetails {
+                try pipelineDetailsContainer.encode(multiplexprogrampipelinedetail0)
             }
         }
         if let programName = self.programName {
@@ -26986,14 +26986,14 @@ extension MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let audioPids = audioPids {
             var audioPidsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audioPids)
-            for __listof__integer0 in audioPids {
-                try audioPidsContainer.encode(__listof__integer0)
+            for __integer0 in audioPids {
+                try audioPidsContainer.encode(__integer0)
             }
         }
         if let dvbSubPids = dvbSubPids {
             var dvbSubPidsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dvbSubPids)
-            for __listof__integer0 in dvbSubPids {
-                try dvbSubPidsContainer.encode(__listof__integer0)
+            for __integer0 in dvbSubPids {
+                try dvbSubPidsContainer.encode(__integer0)
             }
         }
         if let dvbTeletextPid = self.dvbTeletextPid {
@@ -27007,8 +27007,8 @@ extension MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap: Swift.Codab
         }
         if let klvDataPids = klvDataPids {
             var klvDataPidsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .klvDataPids)
-            for __listof__integer0 in klvDataPids {
-                try klvDataPidsContainer.encode(__listof__integer0)
+            for __integer0 in klvDataPids {
+                try klvDataPidsContainer.encode(__integer0)
             }
         }
         if let pcrPid = self.pcrPid {
@@ -27022,8 +27022,8 @@ extension MediaLiveClientTypes.MultiplexProgramPacketIdentifiersMap: Swift.Codab
         }
         if let scte27Pids = scte27Pids {
             var scte27PidsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scte27Pids)
-            for __listof__integer0 in scte27Pids {
-                try scte27PidsContainer.encode(__listof__integer0)
+            for __integer0 in scte27Pids {
+                try scte27PidsContainer.encode(__integer0)
             }
         }
         if let scte35Pid = self.scte35Pid {
@@ -27602,8 +27602,8 @@ extension MediaLiveClientTypes.MultiplexSummary: Swift.Codable {
         }
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for __listof__string0 in availabilityZones {
-                try availabilityZonesContainer.encode(__listof__string0)
+            for __string0 in availabilityZones {
+                try availabilityZonesContainer.encode(__string0)
             }
         }
         if let id = self.id {
@@ -28413,14 +28413,14 @@ extension MediaLiveClientTypes.Output: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let audioDescriptionNames = audioDescriptionNames {
             var audioDescriptionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audioDescriptionNames)
-            for __listof__string0 in audioDescriptionNames {
-                try audioDescriptionNamesContainer.encode(__listof__string0)
+            for __string0 in audioDescriptionNames {
+                try audioDescriptionNamesContainer.encode(__string0)
             }
         }
         if let captionDescriptionNames = captionDescriptionNames {
             var captionDescriptionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .captionDescriptionNames)
-            for __listof__string0 in captionDescriptionNames {
-                try captionDescriptionNamesContainer.encode(__listof__string0)
+            for __string0 in captionDescriptionNames {
+                try captionDescriptionNamesContainer.encode(__string0)
             }
         }
         if let outputName = self.outputName {
@@ -28515,8 +28515,8 @@ extension MediaLiveClientTypes.OutputDestination: Swift.Codable {
         }
         if let mediaPackageSettings = mediaPackageSettings {
             var mediaPackageSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaPackageSettings)
-            for __listofmediapackageoutputdestinationsettings0 in mediaPackageSettings {
-                try mediaPackageSettingsContainer.encode(__listofmediapackageoutputdestinationsettings0)
+            for mediapackageoutputdestinationsettings0 in mediaPackageSettings {
+                try mediaPackageSettingsContainer.encode(mediapackageoutputdestinationsettings0)
             }
         }
         if let multiplexSettings = self.multiplexSettings {
@@ -28524,8 +28524,8 @@ extension MediaLiveClientTypes.OutputDestination: Swift.Codable {
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
-            for __listofoutputdestinationsettings0 in settings {
-                try settingsContainer.encode(__listofoutputdestinationsettings0)
+            for outputdestinationsettings0 in settings {
+                try settingsContainer.encode(outputdestinationsettings0)
             }
         }
     }
@@ -28671,8 +28671,8 @@ extension MediaLiveClientTypes.OutputGroup: Swift.Codable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for __listofoutput0 in outputs {
-                try outputsContainer.encode(__listofoutput0)
+            for output0 in outputs {
+                try outputsContainer.encode(output0)
             }
         }
     }
@@ -28997,8 +28997,8 @@ extension MediaLiveClientTypes.PauseStateScheduleActionSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pipelines = pipelines {
             var pipelinesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelines)
-            for __listofpipelinepausestatesettings0 in pipelines {
-                try pipelinesContainer.encode(__listofpipelinepausestatesettings0)
+            for pipelinepausestatesettings0 in pipelines {
+                try pipelinesContainer.encode(pipelinepausestatesettings0)
             }
         }
     }
@@ -29710,8 +29710,8 @@ extension MediaLiveClientTypes.RemixSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channelMappings = channelMappings {
             var channelMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channelMappings)
-            for __listofaudiochannelmapping0 in channelMappings {
-                try channelMappingsContainer.encode(__listofaudiochannelmapping0)
+            for audiochannelmapping0 in channelMappings {
+                try channelMappingsContainer.encode(audiochannelmapping0)
             }
         }
         if let channelsIn = self.channelsIn {
@@ -30617,8 +30617,8 @@ extension MediaLiveClientTypes.RtmpGroupSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adMarkers = adMarkers {
             var adMarkersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adMarkers)
-            for __listofrtmpadmarkers0 in adMarkers {
-                try adMarkersContainer.encode(__listofrtmpadmarkers0.rawValue)
+            for rtmpadmarkers0 in adMarkers {
+                try adMarkersContainer.encode(rtmpadmarkers0.rawValue)
             }
         }
         if let authenticationScheme = self.authenticationScheme {
@@ -32163,8 +32163,8 @@ extension MediaLiveClientTypes.Scte35TimeSignalScheduleActionSettings: Swift.Cod
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let scte35Descriptors = scte35Descriptors {
             var scte35DescriptorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scte35Descriptors)
-            for __listofscte35descriptor0 in scte35Descriptors {
-                try scte35DescriptorsContainer.encode(__listofscte35descriptor0)
+            for scte35descriptor0 in scte35Descriptors {
+                try scte35DescriptorsContainer.encode(scte35descriptor0)
             }
         }
     }
@@ -35137,8 +35137,8 @@ extension UpdateChannelClassInput: Swift.Encodable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for __listofoutputdestination0 in destinations {
-                try destinationsContainer.encode(__listofoutputdestination0)
+            for outputdestination0 in destinations {
+                try destinationsContainer.encode(outputdestination0)
             }
         }
     }
@@ -35305,8 +35305,8 @@ extension UpdateChannelInput: Swift.Encodable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for __listofoutputdestination0 in destinations {
-                try destinationsContainer.encode(__listofoutputdestination0)
+            for outputdestination0 in destinations {
+                try destinationsContainer.encode(outputdestination0)
             }
         }
         if let encoderSettings = self.encoderSettings {
@@ -35314,8 +35314,8 @@ extension UpdateChannelInput: Swift.Encodable {
         }
         if let inputAttachments = inputAttachments {
             var inputAttachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputAttachments)
-            for __listofinputattachment0 in inputAttachments {
-                try inputAttachmentsContainer.encode(__listofinputattachment0)
+            for inputattachment0 in inputAttachments {
+                try inputAttachmentsContainer.encode(inputattachment0)
             }
         }
         if let inputSpecification = self.inputSpecification {
@@ -35820,26 +35820,26 @@ extension UpdateInputInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for __listofinputdestinationrequest0 in destinations {
-                try destinationsContainer.encode(__listofinputdestinationrequest0)
+            for inputdestinationrequest0 in destinations {
+                try destinationsContainer.encode(inputdestinationrequest0)
             }
         }
         if let inputDevices = inputDevices {
             var inputDevicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputDevices)
-            for __listofinputdevicerequest0 in inputDevices {
-                try inputDevicesContainer.encode(__listofinputdevicerequest0)
+            for inputdevicerequest0 in inputDevices {
+                try inputDevicesContainer.encode(inputdevicerequest0)
             }
         }
         if let inputSecurityGroups = inputSecurityGroups {
             var inputSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputSecurityGroups)
-            for __listof__string0 in inputSecurityGroups {
-                try inputSecurityGroupsContainer.encode(__listof__string0)
+            for __string0 in inputSecurityGroups {
+                try inputSecurityGroupsContainer.encode(__string0)
             }
         }
         if let mediaConnectFlows = mediaConnectFlows {
             var mediaConnectFlowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaConnectFlows)
-            for __listofmediaconnectflowrequest0 in mediaConnectFlows {
-                try mediaConnectFlowsContainer.encode(__listofmediaconnectflowrequest0)
+            for mediaconnectflowrequest0 in mediaConnectFlows {
+                try mediaConnectFlowsContainer.encode(mediaconnectflowrequest0)
             }
         }
         if let name = self.name {
@@ -35850,8 +35850,8 @@ extension UpdateInputInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for __listofinputsourcerequest0 in sources {
-                try sourcesContainer.encode(__listofinputsourcerequest0)
+            for inputsourcerequest0 in sources {
+                try sourcesContainer.encode(inputsourcerequest0)
             }
         }
     }
@@ -36085,8 +36085,8 @@ extension UpdateInputSecurityGroupInput: Swift.Encodable {
         }
         if let whitelistRules = whitelistRules {
             var whitelistRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .whitelistRules)
-            for __listofinputwhitelistrulecidr0 in whitelistRules {
-                try whitelistRulesContainer.encode(__listofinputwhitelistrulecidr0)
+            for inputwhitelistrulecidr0 in whitelistRules {
+                try whitelistRulesContainer.encode(inputwhitelistrulecidr0)
             }
         }
     }
@@ -37292,20 +37292,20 @@ extension MediaLiveClientTypes.VpcOutputSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let publicAddressAllocationIds = publicAddressAllocationIds {
             var publicAddressAllocationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publicAddressAllocationIds)
-            for __listof__string0 in publicAddressAllocationIds {
-                try publicAddressAllocationIdsContainer.encode(__listof__string0)
+            for __string0 in publicAddressAllocationIds {
+                try publicAddressAllocationIdsContainer.encode(__string0)
             }
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for __listof__string0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(__listof__string0)
+            for __string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(__string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for __listof__string0 in subnetIds {
-                try subnetIdsContainer.encode(__listof__string0)
+            for __string0 in subnetIds {
+                try subnetIdsContainer.encode(__string0)
             }
         }
     }
@@ -37385,26 +37385,26 @@ extension MediaLiveClientTypes.VpcOutputSettingsDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for __listof__string0 in availabilityZones {
-                try availabilityZonesContainer.encode(__listof__string0)
+            for __string0 in availabilityZones {
+                try availabilityZonesContainer.encode(__string0)
             }
         }
         if let networkInterfaceIds = networkInterfaceIds {
             var networkInterfaceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaceIds)
-            for __listof__string0 in networkInterfaceIds {
-                try networkInterfaceIdsContainer.encode(__listof__string0)
+            for __string0 in networkInterfaceIds {
+                try networkInterfaceIdsContainer.encode(__string0)
             }
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for __listof__string0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(__listof__string0)
+            for __string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(__string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for __listof__string0 in subnetIds {
-                try subnetIdsContainer.encode(__listof__string0)
+            for __string0 in subnetIds {
+                try subnetIdsContainer.encode(__string0)
             }
         }
     }

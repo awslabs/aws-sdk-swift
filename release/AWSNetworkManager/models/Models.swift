@@ -919,8 +919,8 @@ extension NetworkManagerClientTypes.Attachment: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let updatedAt = self.updatedAt {
@@ -1581,8 +1581,8 @@ extension NetworkManagerClientTypes.ConnectPeer: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1852,8 +1852,8 @@ extension NetworkManagerClientTypes.ConnectPeerConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bgpConfigurations = bgpConfigurations {
             var bgpConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bgpConfigurations)
-            for connectpeerbgpconfigurationlist0 in bgpConfigurations {
-                try bgpConfigurationsContainer.encode(connectpeerbgpconfigurationlist0)
+            for connectpeerbgpconfiguration0 in bgpConfigurations {
+                try bgpConfigurationsContainer.encode(connectpeerbgpconfiguration0)
             }
         }
         if let coreNetworkAddress = self.coreNetworkAddress {
@@ -1861,8 +1861,8 @@ extension NetworkManagerClientTypes.ConnectPeerConfiguration: Swift.Codable {
         }
         if let insideCidrBlocks = insideCidrBlocks {
             var insideCidrBlocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insideCidrBlocks)
-            for constrainedstringlist0 in insideCidrBlocks {
-                try insideCidrBlocksContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in insideCidrBlocks {
+                try insideCidrBlocksContainer.encode(constrainedstring0)
             }
         }
         if let peerAddress = self.peerAddress {
@@ -2009,8 +2009,8 @@ extension NetworkManagerClientTypes.ConnectPeerSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2132,8 +2132,8 @@ extension NetworkManagerClientTypes.Connection: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2416,8 +2416,8 @@ extension NetworkManagerClientTypes.CoreNetwork: Swift.Codable {
         }
         if let edges = edges {
             var edgesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edges)
-            for corenetworkedgelist0 in edges {
-                try edgesContainer.encode(corenetworkedgelist0)
+            for corenetworkedge0 in edges {
+                try edgesContainer.encode(corenetworkedge0)
             }
         }
         if let globalNetworkId = self.globalNetworkId {
@@ -2425,8 +2425,8 @@ extension NetworkManagerClientTypes.CoreNetwork: Swift.Codable {
         }
         if let segments = segments {
             var segmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segments)
-            for corenetworksegmentlist0 in segments {
-                try segmentsContainer.encode(corenetworksegmentlist0)
+            for corenetworksegment0 in segments {
+                try segmentsContainer.encode(corenetworksegment0)
             }
         }
         if let state = self.state {
@@ -2434,8 +2434,8 @@ extension NetworkManagerClientTypes.CoreNetwork: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2797,14 +2797,14 @@ extension NetworkManagerClientTypes.CoreNetworkChangeValues: Swift.Codable {
         }
         if let edgeLocations = edgeLocations {
             var edgeLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edgeLocations)
-            for externalregioncodelist0 in edgeLocations {
-                try edgeLocationsContainer.encode(externalregioncodelist0)
+            for externalregioncode0 in edgeLocations {
+                try edgeLocationsContainer.encode(externalregioncode0)
             }
         }
         if let insideCidrBlocks = insideCidrBlocks {
             var insideCidrBlocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insideCidrBlocks)
-            for constrainedstringlist0 in insideCidrBlocks {
-                try insideCidrBlocksContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in insideCidrBlocks {
+                try insideCidrBlocksContainer.encode(constrainedstring0)
             }
         }
         if let segmentName = self.segmentName {
@@ -2812,8 +2812,8 @@ extension NetworkManagerClientTypes.CoreNetworkChangeValues: Swift.Codable {
         }
         if let sharedSegments = sharedSegments {
             var sharedSegmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sharedSegments)
-            for constrainedstringlist0 in sharedSegments {
-                try sharedSegmentsContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in sharedSegments {
+                try sharedSegmentsContainer.encode(constrainedstring0)
             }
         }
     }
@@ -2921,8 +2921,8 @@ extension NetworkManagerClientTypes.CoreNetworkEdge: Swift.Codable {
         }
         if let insideCidrBlocks = insideCidrBlocks {
             var insideCidrBlocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insideCidrBlocks)
-            for constrainedstringlist0 in insideCidrBlocks {
-                try insideCidrBlocksContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in insideCidrBlocks {
+                try insideCidrBlocksContainer.encode(constrainedstring0)
             }
         }
     }
@@ -3005,8 +3005,8 @@ extension NetworkManagerClientTypes.CoreNetworkPolicy: Swift.Codable {
         }
         if let policyErrors = policyErrors {
             var policyErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .policyErrors)
-            for corenetworkpolicyerrorlist0 in policyErrors {
-                try policyErrorsContainer.encode(corenetworkpolicyerrorlist0)
+            for corenetworkpolicyerror0 in policyErrors {
+                try policyErrorsContainer.encode(corenetworkpolicyerror0)
             }
         }
         if let policyVersionId = self.policyVersionId {
@@ -3345,8 +3345,8 @@ extension NetworkManagerClientTypes.CoreNetworkSegment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let edgeLocations = edgeLocations {
             var edgeLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edgeLocations)
-            for externalregioncodelist0 in edgeLocations {
-                try edgeLocationsContainer.encode(externalregioncodelist0)
+            for externalregioncode0 in edgeLocations {
+                try edgeLocationsContainer.encode(externalregioncode0)
             }
         }
         if let name = self.name {
@@ -3354,8 +3354,8 @@ extension NetworkManagerClientTypes.CoreNetworkSegment: Swift.Codable {
         }
         if let sharedSegments = sharedSegments {
             var sharedSegmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sharedSegments)
-            for constrainedstringlist0 in sharedSegments {
-                try sharedSegmentsContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in sharedSegments {
+                try sharedSegmentsContainer.encode(constrainedstring0)
             }
         }
     }
@@ -3539,8 +3539,8 @@ extension NetworkManagerClientTypes.CoreNetworkSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3639,8 +3639,8 @@ extension CreateConnectAttachmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let transportAttachmentId = self.transportAttachmentId {
@@ -3836,8 +3836,8 @@ extension CreateConnectPeerInput: Swift.Encodable {
         }
         if let insideCidrBlocks = insideCidrBlocks {
             var insideCidrBlocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insideCidrBlocks)
-            for constrainedstringlist0 in insideCidrBlocks {
-                try insideCidrBlocksContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in insideCidrBlocks {
+                try insideCidrBlocksContainer.encode(constrainedstring0)
             }
         }
         if let peerAddress = self.peerAddress {
@@ -3845,8 +3845,8 @@ extension CreateConnectPeerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4057,8 +4057,8 @@ extension CreateConnectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4255,8 +4255,8 @@ extension CreateCoreNetworkInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4453,8 +4453,8 @@ extension CreateDeviceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -4669,8 +4669,8 @@ extension CreateGlobalNetworkInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4826,8 +4826,8 @@ extension CreateLinkInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -5026,8 +5026,8 @@ extension CreateSiteInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5199,8 +5199,8 @@ extension CreateSiteToSiteVpnAttachmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpnConnectionArn = self.vpnConnectionArn {
@@ -5369,8 +5369,8 @@ extension CreateTransitGatewayPeeringInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let transitGatewayArn = self.transitGatewayArn {
@@ -5539,8 +5539,8 @@ extension CreateTransitGatewayRouteTableAttachmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let transitGatewayRouteTableArn = self.transitGatewayRouteTableArn {
@@ -5714,14 +5714,14 @@ extension CreateVpcAttachmentInput: Swift.Encodable {
         }
         if let subnetArns = subnetArns {
             var subnetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetArns)
-            for subnetarnlist0 in subnetArns {
-                try subnetArnsContainer.encode(subnetarnlist0)
+            for subnetarn0 in subnetArns {
+                try subnetArnsContainer.encode(subnetarn0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcArn = self.vpcArn {
@@ -7477,8 +7477,8 @@ extension NetworkManagerClientTypes.Device: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -10574,26 +10574,29 @@ extension GetNetworkRoutesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinationFilters = destinationFilters {
             var destinationFiltersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .destinationFilters)
-            for (dictKey0, filtermap0) in destinationFilters {
-                try destinationFiltersContainer.encode(filtermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterMap0) in destinationFilters {
+                var filterMap0Container = destinationFiltersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for filtervalue1 in filterMap0 {
+                    try filterMap0Container.encode(filtervalue1)
+                }
             }
         }
         if let exactCidrMatches = exactCidrMatches {
             var exactCidrMatchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exactCidrMatches)
-            for constrainedstringlist0 in exactCidrMatches {
-                try exactCidrMatchesContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in exactCidrMatches {
+                try exactCidrMatchesContainer.encode(constrainedstring0)
             }
         }
         if let longestPrefixMatches = longestPrefixMatches {
             var longestPrefixMatchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .longestPrefixMatches)
-            for constrainedstringlist0 in longestPrefixMatches {
-                try longestPrefixMatchesContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in longestPrefixMatches {
+                try longestPrefixMatchesContainer.encode(constrainedstring0)
             }
         }
         if let prefixListIds = prefixListIds {
             var prefixListIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .prefixListIds)
-            for constrainedstringlist0 in prefixListIds {
-                try prefixListIdsContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in prefixListIds {
+                try prefixListIdsContainer.encode(constrainedstring0)
             }
         }
         if let routeTableIdentifier = self.routeTableIdentifier {
@@ -10601,26 +10604,26 @@ extension GetNetworkRoutesInput: Swift.Encodable {
         }
         if let states = states {
             var statesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .states)
-            for routestatelist0 in states {
-                try statesContainer.encode(routestatelist0.rawValue)
+            for routestate0 in states {
+                try statesContainer.encode(routestate0.rawValue)
             }
         }
         if let subnetOfMatches = subnetOfMatches {
             var subnetOfMatchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetOfMatches)
-            for constrainedstringlist0 in subnetOfMatches {
-                try subnetOfMatchesContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in subnetOfMatches {
+                try subnetOfMatchesContainer.encode(constrainedstring0)
             }
         }
         if let supernetOfMatches = supernetOfMatches {
             var supernetOfMatchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supernetOfMatches)
-            for constrainedstringlist0 in supernetOfMatches {
-                try supernetOfMatchesContainer.encode(constrainedstringlist0)
+            for constrainedstring0 in supernetOfMatches {
+                try supernetOfMatchesContainer.encode(constrainedstring0)
             }
         }
         if let types = types {
             var typesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .types)
-            for routetypelist0 in types {
-                try typesContainer.encode(routetypelist0.rawValue)
+            for routetype0 in types {
+                try typesContainer.encode(routetype0.rawValue)
             }
         }
     }
@@ -12275,8 +12278,8 @@ extension NetworkManagerClientTypes.GlobalNetwork: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12489,8 +12492,8 @@ extension NetworkManagerClientTypes.Link: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -13826,8 +13829,8 @@ extension NetworkManagerClientTypes.NetworkResource: Swift.Codable {
         }
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
-            for (dictKey0, networkresourcemetadatamap0) in metadata {
-                try metadataContainer.encode(networkresourcemetadatamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, networkResourceMetadataMap0) in metadata {
+                try metadataContainer.encode(networkResourceMetadataMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let registeredGatewayArn = self.registeredGatewayArn {
@@ -13844,8 +13847,8 @@ extension NetworkManagerClientTypes.NetworkResource: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -14129,8 +14132,8 @@ extension NetworkManagerClientTypes.NetworkRoute: Swift.Codable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for networkroutedestinationlist0 in destinations {
-                try destinationsContainer.encode(networkroutedestinationlist0)
+            for networkroutedestination0 in destinations {
+                try destinationsContainer.encode(networkroutedestination0)
             }
         }
         if let prefixListId = self.prefixListId {
@@ -14412,8 +14415,8 @@ extension NetworkManagerClientTypes.OrganizationStatus: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountStatusList = accountStatusList {
             var accountStatusListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountStatusList)
-            for accountstatuslist0 in accountStatusList {
-                try accountStatusListContainer.encode(accountstatuslist0)
+            for accountstatus0 in accountStatusList {
+                try accountStatusListContainer.encode(accountstatus0)
             }
         }
         if let organizationAwsServiceAccessStatus = self.organizationAwsServiceAccessStatus {
@@ -14577,8 +14580,8 @@ extension NetworkManagerClientTypes.Peering: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -14753,8 +14756,8 @@ extension NetworkManagerClientTypes.ProposedSegmentChange: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -15701,8 +15704,8 @@ extension NetworkManagerClientTypes.RouteAnalysisCompletion: Swift.Codable {
         }
         if let reasonContext = reasonContext {
             var reasonContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .reasonContext)
-            for (dictKey0, reasoncontextmap0) in reasonContext {
-                try reasonContextContainer.encode(reasoncontextmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, reasonContextMap0) in reasonContext {
+                try reasonContextContainer.encode(reasonContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resultCode = self.resultCode {
@@ -15976,8 +15979,8 @@ extension NetworkManagerClientTypes.RouteAnalysisPath: Swift.Codable {
         }
         if let path = path {
             var pathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .path)
-            for pathcomponentlist0 in path {
-                try pathContainer.encode(pathcomponentlist0)
+            for pathcomponent0 in path {
+                try pathContainer.encode(pathcomponent0)
             }
         }
     }
@@ -16329,8 +16332,8 @@ extension NetworkManagerClientTypes.Site: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -16838,8 +16841,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -18315,8 +18318,8 @@ extension UpdateNetworkResourceMetadataInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
-            for (dictKey0, networkresourcemetadatamap0) in metadata {
-                try metadataContainer.encode(networkresourcemetadatamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, networkResourceMetadataMap0) in metadata {
+                try metadataContainer.encode(networkResourceMetadataMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -18644,8 +18647,8 @@ extension UpdateVpcAttachmentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addSubnetArns = addSubnetArns {
             var addSubnetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addSubnetArns)
-            for subnetarnlist0 in addSubnetArns {
-                try addSubnetArnsContainer.encode(subnetarnlist0)
+            for subnetarn0 in addSubnetArns {
+                try addSubnetArnsContainer.encode(subnetarn0)
             }
         }
         if let options = self.options {
@@ -18653,8 +18656,8 @@ extension UpdateVpcAttachmentInput: Swift.Encodable {
         }
         if let removeSubnetArns = removeSubnetArns {
             var removeSubnetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeSubnetArns)
-            for subnetarnlist0 in removeSubnetArns {
-                try removeSubnetArnsContainer.encode(subnetarnlist0)
+            for subnetarn0 in removeSubnetArns {
+                try removeSubnetArnsContainer.encode(subnetarn0)
             }
         }
     }
@@ -18993,8 +18996,8 @@ extension NetworkManagerClientTypes.VpcAttachment: Swift.Codable {
         }
         if let subnetArns = subnetArns {
             var subnetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetArns)
-            for subnetarnlist0 in subnetArns {
-                try subnetArnsContainer.encode(subnetarnlist0)
+            for subnetarn0 in subnetArns {
+                try subnetArnsContainer.encode(subnetarn0)
             }
         }
     }

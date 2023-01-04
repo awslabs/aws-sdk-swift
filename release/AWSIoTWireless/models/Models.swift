@@ -310,8 +310,8 @@ extension AssociateAwsAccountWithPartnerAccountInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1128,8 +1128,8 @@ extension IoTWirelessClientTypes.Beaconing: Swift.Codable {
         }
         if let frequencies = frequencies {
             var frequenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .frequencies)
-            for beaconingfrequencies0 in frequencies {
-                try frequenciesContainer.encode(beaconingfrequencies0)
+            for beaconingfrequency0 in frequencies {
+                try frequenciesContainer.encode(beaconingfrequency0)
             }
         }
     }
@@ -1388,8 +1388,8 @@ extension IoTWirelessClientTypes.CdmaObj: Swift.Codable {
         }
         if let cdmaNmr = cdmaNmr {
             var cdmaNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cdmaNmr)
-            for cdmanmrlist0 in cdmaNmr {
-                try cdmaNmrContainer.encode(cdmanmrlist0)
+            for cdmanmrobj0 in cdmaNmr {
+                try cdmaNmrContainer.encode(cdmanmrobj0)
             }
         }
         if let networkId = self.networkId {
@@ -1502,32 +1502,32 @@ extension IoTWirelessClientTypes.CellTowers: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cdma = cdma {
             var cdmaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cdma)
-            for cdmalist0 in cdma {
-                try cdmaContainer.encode(cdmalist0)
+            for cdmaobj0 in cdma {
+                try cdmaContainer.encode(cdmaobj0)
             }
         }
         if let gsm = gsm {
             var gsmContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gsm)
-            for gsmlist0 in gsm {
-                try gsmContainer.encode(gsmlist0)
+            for gsmobj0 in gsm {
+                try gsmContainer.encode(gsmobj0)
             }
         }
         if let lte = lte {
             var lteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lte)
-            for ltelist0 in lte {
-                try lteContainer.encode(ltelist0)
+            for lteobj0 in lte {
+                try lteContainer.encode(lteobj0)
             }
         }
         if let tdscdma = tdscdma {
             var tdscdmaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tdscdma)
-            for tdscdmalist0 in tdscdma {
-                try tdscdmaContainer.encode(tdscdmalist0)
+            for tdscdmaobj0 in tdscdma {
+                try tdscdmaContainer.encode(tdscdmaobj0)
             }
         }
         if let wcdma = wcdma {
             var wcdmaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wcdma)
-            for wcdmalist0 in wcdma {
-                try wcdmaContainer.encode(wcdmalist0)
+            for wcdmaobj0 in wcdma {
+                try wcdmaContainer.encode(wcdmaobj0)
             }
         }
     }
@@ -1888,8 +1888,8 @@ extension CreateDestinationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2094,8 +2094,8 @@ extension CreateDeviceProfileInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2282,8 +2282,8 @@ extension CreateFuotaTaskInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2490,8 +2490,8 @@ extension CreateMulticastGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2680,8 +2680,8 @@ extension CreateNetworkAnalyzerConfigurationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let traceContent = self.traceContent {
@@ -2689,14 +2689,14 @@ extension CreateNetworkAnalyzerConfigurationInput: Swift.Encodable {
         }
         if let wirelessDevices = wirelessDevices {
             var wirelessDevicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wirelessDevices)
-            for wirelessdevicelist0 in wirelessDevices {
-                try wirelessDevicesContainer.encode(wirelessdevicelist0)
+            for wirelessdeviceid0 in wirelessDevices {
+                try wirelessDevicesContainer.encode(wirelessdeviceid0)
             }
         }
         if let wirelessGateways = wirelessGateways {
             var wirelessGatewaysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wirelessGateways)
-            for wirelessgatewaylist0 in wirelessGateways {
-                try wirelessGatewaysContainer.encode(wirelessgatewaylist0)
+            for wirelessgatewayid0 in wirelessGateways {
+                try wirelessGatewaysContainer.encode(wirelessgatewayid0)
             }
         }
     }
@@ -2916,8 +2916,8 @@ extension CreateServiceProfileInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3105,8 +3105,8 @@ extension CreateWirelessDeviceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -3324,8 +3324,8 @@ extension CreateWirelessGatewayInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3510,8 +3510,8 @@ extension CreateWirelessGatewayTaskDefinitionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let update = self.update {
@@ -5897,8 +5897,8 @@ extension IoTWirelessClientTypes.FPorts: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applications = applications {
             var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
-            for applications0 in applications {
-                try applicationsContainer.encode(applications0)
+            for applicationconfig0 in applications {
+                try applicationsContainer.encode(applicationconfig0)
             }
         }
         if let clockSync = self.clockSync {
@@ -7620,8 +7620,8 @@ extension GetPositionEstimateInput: Swift.Encodable {
         }
         if let wiFiAccessPoints = wiFiAccessPoints {
             var wiFiAccessPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wiFiAccessPoints)
-            for wifiaccesspoints0 in wiFiAccessPoints {
-                try wiFiAccessPointsContainer.encode(wifiaccesspoints0)
+            for wifiaccesspoint0 in wiFiAccessPoints {
+                try wiFiAccessPointsContainer.encode(wifiaccesspoint0)
             }
         }
     }
@@ -9837,8 +9837,8 @@ extension IoTWirelessClientTypes.Gnss: Swift.Codable {
         }
         if let assistPosition = assistPosition {
             var assistPositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assistPosition)
-            for assistposition0 in assistPosition {
-                try assistPositionContainer.encode(assistposition0)
+            for coordinate0 in assistPosition {
+                try assistPositionContainer.encode(coordinate0)
             }
         }
         if let captureTime = self.captureTime {
@@ -10054,8 +10054,8 @@ extension IoTWirelessClientTypes.GsmObj: Swift.Codable {
         }
         if let gsmNmr = gsmNmr {
             var gsmNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gsmNmr)
-            for gsmnmrlist0 in gsmNmr {
-                try gsmNmrContainer.encode(gsmnmrlist0)
+            for gsmnmrobj0 in gsmNmr {
+                try gsmNmrContainer.encode(gsmnmrobj0)
             }
         }
         if let gsmTimingAdvance = self.gsmTimingAdvance {
@@ -12695,8 +12695,8 @@ extension IoTWirelessClientTypes.LoRaWANDeviceMetadata: Swift.Codable {
         }
         if let gateways = gateways {
             var gatewaysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gateways)
-            for lorawangatewaymetadatalist0 in gateways {
-                try gatewaysContainer.encode(lorawangatewaymetadatalist0)
+            for lorawangatewaymetadata0 in gateways {
+                try gatewaysContainer.encode(lorawangatewaymetadata0)
             }
         }
         if let timestamp = self.timestamp {
@@ -12799,8 +12799,8 @@ extension IoTWirelessClientTypes.LoRaWANDeviceProfile: Swift.Codable {
         }
         if let factoryPresetFreqsList = factoryPresetFreqsList {
             var factoryPresetFreqsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .factoryPresetFreqsList)
-            for factorypresetfreqslist0 in factoryPresetFreqsList {
-                try factoryPresetFreqsListContainer.encode(factorypresetfreqslist0)
+            for presetfreq0 in factoryPresetFreqsList {
+                try factoryPresetFreqsListContainer.encode(presetfreq0)
             }
         }
         if let macVersion = self.macVersion {
@@ -13093,17 +13093,17 @@ extension IoTWirelessClientTypes.LoRaWANGateway: Swift.Codable {
         }
         if let joinEuiFilters = joinEuiFilters {
             var joinEuiFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .joinEuiFilters)
-            for joineuifilters0 in joinEuiFilters {
-                var joineuifilters0Container = joinEuiFiltersContainer.nestedUnkeyedContainer()
-                for joineuirange1 in joineuifilters0 {
-                    try joineuifilters0Container.encode(joineuirange1)
+            for joineuirange0 in joinEuiFilters {
+                var joineuirange0Container = joinEuiFiltersContainer.nestedUnkeyedContainer()
+                for joineui1 in joineuirange0 {
+                    try joineuirange0Container.encode(joineui1)
                 }
             }
         }
         if let netIdFilters = netIdFilters {
             var netIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .netIdFilters)
-            for netidfilters0 in netIdFilters {
-                try netIdFiltersContainer.encode(netidfilters0)
+            for netid0 in netIdFilters {
+                try netIdFiltersContainer.encode(netid0)
             }
         }
         if let rfRegion = self.rfRegion {
@@ -13111,8 +13111,8 @@ extension IoTWirelessClientTypes.LoRaWANGateway: Swift.Codable {
         }
         if let subBands = subBands {
             var subBandsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subBands)
-            for subbands0 in subBands {
-                try subBandsContainer.encode(subbands0)
+            for subband0 in subBands {
+                try subBandsContainer.encode(subband0)
             }
         }
     }
@@ -14386,8 +14386,8 @@ extension IoTWirelessClientTypes.LteObj: Swift.Codable {
         }
         if let lteNmr = lteNmr {
             var lteNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lteNmr)
-            for ltenmrlist0 in lteNmr {
-                try lteNmrContainer.encode(ltenmrlist0)
+            for ltenmrobj0 in lteNmr {
+                try lteNmrContainer.encode(ltenmrobj0)
             }
         }
         if let lteTimingAdvance = self.lteTimingAdvance {
@@ -14915,8 +14915,8 @@ extension IoTWirelessClientTypes.ParticipatingGateways: Swift.Codable {
         }
         if let gatewayList = gatewayList {
             var gatewayListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gatewayList)
-            for gatewaylist0 in gatewayList {
-                try gatewayListContainer.encode(gatewaylist0)
+            for gatewaylistitem0 in gatewayList {
+                try gatewayListContainer.encode(gatewaylistitem0)
             }
         }
         if let transmissionInterval = self.transmissionInterval {
@@ -16618,8 +16618,8 @@ extension IoTWirelessClientTypes.SidewalkDevice: Swift.Codable {
         }
         if let deviceCertificates = deviceCertificates {
             var deviceCertificatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceCertificates)
-            for devicecertificatelist0 in deviceCertificates {
-                try deviceCertificatesContainer.encode(devicecertificatelist0)
+            for certificatelist0 in deviceCertificates {
+                try deviceCertificatesContainer.encode(certificatelist0)
             }
         }
         if let sidewalkId = self.sidewalkId {
@@ -16795,8 +16795,8 @@ extension IoTWirelessClientTypes.SidewalkListDevice: Swift.Codable {
         }
         if let deviceCertificates = deviceCertificates {
             var deviceCertificatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceCertificates)
-            for devicecertificatelist0 in deviceCertificates {
-                try deviceCertificatesContainer.encode(devicecertificatelist0)
+            for certificatelist0 in deviceCertificates {
+                try deviceCertificatesContainer.encode(certificatelist0)
             }
         }
         if let sidewalkId = self.sidewalkId {
@@ -17033,8 +17033,8 @@ extension StartBulkAssociateWirelessDeviceWithMulticastGroupInput: Swift.Encodab
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -17152,8 +17152,8 @@ extension StartBulkDisassociateWirelessDeviceFromMulticastGroupInput: Swift.Enco
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -17548,8 +17548,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -17820,8 +17820,8 @@ extension IoTWirelessClientTypes.TdscdmaObj: Swift.Codable {
         }
         if let tdscdmaNmr = tdscdmaNmr {
             var tdscdmaNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tdscdmaNmr)
-            for tdscdmanmrlist0 in tdscdmaNmr {
-                try tdscdmaNmrContainer.encode(tdscdmanmrlist0)
+            for tdscdmanmrobj0 in tdscdmaNmr {
+                try tdscdmaNmrContainer.encode(tdscdmanmrobj0)
             }
         }
         if let tdscdmaTimingAdvance = self.tdscdmaTimingAdvance {
@@ -18614,8 +18614,8 @@ extension IoTWirelessClientTypes.UpdateFPorts: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applications = applications {
             var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
-            for applications0 in applications {
-                try applicationsContainer.encode(applications0)
+            for applicationconfig0 in applications {
+                try applicationsContainer.encode(applicationconfig0)
             }
         }
         if let positioning = self.positioning {
@@ -18820,14 +18820,14 @@ extension UpdateLogLevelsByResourceTypesInput: Swift.Encodable {
         }
         if let wirelessDeviceLogOptions = wirelessDeviceLogOptions {
             var wirelessDeviceLogOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wirelessDeviceLogOptions)
-            for wirelessdevicelogoptionlist0 in wirelessDeviceLogOptions {
-                try wirelessDeviceLogOptionsContainer.encode(wirelessdevicelogoptionlist0)
+            for wirelessdevicelogoption0 in wirelessDeviceLogOptions {
+                try wirelessDeviceLogOptionsContainer.encode(wirelessdevicelogoption0)
             }
         }
         if let wirelessGatewayLogOptions = wirelessGatewayLogOptions {
             var wirelessGatewayLogOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wirelessGatewayLogOptions)
-            for wirelessgatewaylogoptionlist0 in wirelessGatewayLogOptions {
-                try wirelessGatewayLogOptionsContainer.encode(wirelessgatewaylogoptionlist0)
+            for wirelessgatewaylogoption0 in wirelessGatewayLogOptions {
+                try wirelessGatewayLogOptionsContainer.encode(wirelessgatewaylogoption0)
             }
         }
     }
@@ -19084,26 +19084,26 @@ extension UpdateNetworkAnalyzerConfigurationInput: Swift.Encodable {
         }
         if let wirelessDevicesToAdd = wirelessDevicesToAdd {
             var wirelessDevicesToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wirelessDevicesToAdd)
-            for wirelessdevicelist0 in wirelessDevicesToAdd {
-                try wirelessDevicesToAddContainer.encode(wirelessdevicelist0)
+            for wirelessdeviceid0 in wirelessDevicesToAdd {
+                try wirelessDevicesToAddContainer.encode(wirelessdeviceid0)
             }
         }
         if let wirelessDevicesToRemove = wirelessDevicesToRemove {
             var wirelessDevicesToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wirelessDevicesToRemove)
-            for wirelessdevicelist0 in wirelessDevicesToRemove {
-                try wirelessDevicesToRemoveContainer.encode(wirelessdevicelist0)
+            for wirelessdeviceid0 in wirelessDevicesToRemove {
+                try wirelessDevicesToRemoveContainer.encode(wirelessdeviceid0)
             }
         }
         if let wirelessGatewaysToAdd = wirelessGatewaysToAdd {
             var wirelessGatewaysToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wirelessGatewaysToAdd)
-            for wirelessgatewaylist0 in wirelessGatewaysToAdd {
-                try wirelessGatewaysToAddContainer.encode(wirelessgatewaylist0)
+            for wirelessgatewayid0 in wirelessGatewaysToAdd {
+                try wirelessGatewaysToAddContainer.encode(wirelessgatewayid0)
             }
         }
         if let wirelessGatewaysToRemove = wirelessGatewaysToRemove {
             var wirelessGatewaysToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wirelessGatewaysToRemove)
-            for wirelessgatewaylist0 in wirelessGatewaysToRemove {
-                try wirelessGatewaysToRemoveContainer.encode(wirelessgatewaylist0)
+            for wirelessgatewayid0 in wirelessGatewaysToRemove {
+                try wirelessGatewaysToRemoveContainer.encode(wirelessgatewayid0)
             }
         }
     }
@@ -19390,8 +19390,8 @@ extension UpdatePositionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let position = position {
             var positionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .position)
-            for positioncoordinate0 in position {
-                try positionContainer.encode(positioncoordinate0)
+            for positioncoordinatevalue0 in position {
+                try positionContainer.encode(positioncoordinatevalue0)
             }
         }
     }
@@ -19983,10 +19983,10 @@ extension UpdateWirelessGatewayInput: Swift.Encodable {
         }
         if let joinEuiFilters = joinEuiFilters {
             var joinEuiFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .joinEuiFilters)
-            for joineuifilters0 in joinEuiFilters {
-                var joineuifilters0Container = joinEuiFiltersContainer.nestedUnkeyedContainer()
-                for joineuirange1 in joineuifilters0 {
-                    try joineuifilters0Container.encode(joineuirange1)
+            for joineuirange0 in joinEuiFilters {
+                var joineuirange0Container = joinEuiFiltersContainer.nestedUnkeyedContainer()
+                for joineui1 in joineuirange0 {
+                    try joineuirange0Container.encode(joineui1)
                 }
             }
         }
@@ -19995,8 +19995,8 @@ extension UpdateWirelessGatewayInput: Swift.Encodable {
         }
         if let netIdFilters = netIdFilters {
             var netIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .netIdFilters)
-            for netidfilters0 in netIdFilters {
-                try netIdFiltersContainer.encode(netidfilters0)
+            for netid0 in netIdFilters {
+                try netIdFiltersContainer.encode(netid0)
             }
         }
     }
@@ -20459,8 +20459,8 @@ extension IoTWirelessClientTypes.WcdmaObj: Swift.Codable {
         }
         if let wcdmaNmr = wcdmaNmr {
             var wcdmaNmrContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wcdmaNmr)
-            for wcdmanmrlist0 in wcdmaNmr {
-                try wcdmaNmrContainer.encode(wcdmanmrlist0)
+            for wcdmanmrobj0 in wcdmaNmr {
+                try wcdmaNmrContainer.encode(wcdmanmrobj0)
             }
         }
     }
@@ -20760,8 +20760,8 @@ extension IoTWirelessClientTypes.WirelessDeviceLogOption: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for wirelessdeviceeventlogoptionlist0 in events {
-                try eventsContainer.encode(wirelessdeviceeventlogoptionlist0)
+            for wirelessdeviceeventlogoption0 in events {
+                try eventsContainer.encode(wirelessdeviceeventlogoption0)
             }
         }
         if let logLevel = self.logLevel {
@@ -21111,8 +21111,8 @@ extension IoTWirelessClientTypes.WirelessGatewayLogOption: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for wirelessgatewayeventlogoptionlist0 in events {
-                try eventsContainer.encode(wirelessgatewayeventlogoptionlist0)
+            for wirelessgatewayeventlogoption0 in events {
+                try eventsContainer.encode(wirelessgatewayeventlogoption0)
             }
         }
         if let logLevel = self.logLevel {

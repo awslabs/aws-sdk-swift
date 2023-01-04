@@ -778,8 +778,8 @@ extension CreateHITInput: Swift.Encodable {
         }
         if let hitLayoutParameters = hitLayoutParameters {
             var hitLayoutParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hitLayoutParameters)
-            for hitlayoutparameterlist0 in hitLayoutParameters {
-                try hitLayoutParametersContainer.encode(hitlayoutparameterlist0)
+            for hitlayoutparameter0 in hitLayoutParameters {
+                try hitLayoutParametersContainer.encode(hitlayoutparameter0)
             }
         }
         if let hitReviewPolicy = self.hitReviewPolicy {
@@ -796,8 +796,8 @@ extension CreateHITInput: Swift.Encodable {
         }
         if let qualificationRequirements = qualificationRequirements {
             var qualificationRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .qualificationRequirements)
-            for qualificationrequirementlist0 in qualificationRequirements {
-                try qualificationRequirementsContainer.encode(qualificationrequirementlist0)
+            for qualificationrequirement0 in qualificationRequirements {
+                try qualificationRequirementsContainer.encode(qualificationrequirement0)
             }
         }
         if let question = self.question {
@@ -1087,8 +1087,8 @@ extension CreateHITTypeInput: Swift.Encodable {
         }
         if let qualificationRequirements = qualificationRequirements {
             var qualificationRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .qualificationRequirements)
-            for qualificationrequirementlist0 in qualificationRequirements {
-                try qualificationRequirementsContainer.encode(qualificationrequirementlist0)
+            for qualificationrequirement0 in qualificationRequirements {
+                try qualificationRequirementsContainer.encode(qualificationrequirement0)
             }
         }
         if let reward = self.reward {
@@ -1284,8 +1284,8 @@ extension CreateHITWithHITTypeInput: Swift.Encodable {
         }
         if let hitLayoutParameters = hitLayoutParameters {
             var hitLayoutParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hitLayoutParameters)
-            for hitlayoutparameterlist0 in hitLayoutParameters {
-                try hitLayoutParametersContainer.encode(hitlayoutparameterlist0)
+            for hitlayoutparameter0 in hitLayoutParameters {
+                try hitLayoutParametersContainer.encode(hitlayoutparameter0)
             }
         }
         if let hitReviewPolicy = self.hitReviewPolicy {
@@ -3020,8 +3020,8 @@ extension MTurkClientTypes.HIT: Swift.Codable {
         }
         if let qualificationRequirements = qualificationRequirements {
             var qualificationRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .qualificationRequirements)
-            for qualificationrequirementlist0 in qualificationRequirements {
-                try qualificationRequirementsContainer.encode(qualificationrequirementlist0)
+            for qualificationrequirement0 in qualificationRequirements {
+                try qualificationRequirementsContainer.encode(qualificationrequirement0)
             }
         }
         if let question = self.question {
@@ -3363,8 +3363,8 @@ extension ListAssignmentsForHITInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assignmentStatuses = assignmentStatuses {
             var assignmentStatusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assignmentStatuses)
-            for assignmentstatuslist0 in assignmentStatuses {
-                try assignmentStatusesContainer.encode(assignmentstatuslist0.rawValue)
+            for assignmentstatus0 in assignmentStatuses {
+                try assignmentStatusesContainer.encode(assignmentstatus0.rawValue)
             }
         }
         if let hitId = self.hitId {
@@ -4412,8 +4412,8 @@ extension ListReviewPolicyResultsForHITInput: Swift.Encodable {
         }
         if let policyLevels = policyLevels {
             var policyLevelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .policyLevels)
-            for reviewpolicylevellist0 in policyLevels {
-                try policyLevelsContainer.encode(reviewpolicylevellist0.rawValue)
+            for reviewpolicylevel0 in policyLevels {
+                try policyLevelsContainer.encode(reviewpolicylevel0.rawValue)
             }
         }
         if let retrieveActions = self.retrieveActions {
@@ -5192,8 +5192,8 @@ extension MTurkClientTypes.NotificationSpecification: Swift.Codable {
         }
         if let eventTypes = eventTypes {
             var eventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTypes)
-            for eventtypelist0 in eventTypes {
-                try eventTypesContainer.encode(eventtypelist0.rawValue)
+            for eventtype0 in eventTypes {
+                try eventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let transport = self.transport {
@@ -5403,8 +5403,8 @@ extension NotifyWorkersInput: Swift.Encodable {
         }
         if let workerIds = workerIds {
             var workerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workerIds)
-            for customeridlist0 in workerIds {
-                try workerIdsContainer.encode(customeridlist0)
+            for customerid0 in workerIds {
+                try workerIdsContainer.encode(customerid0)
             }
         }
     }
@@ -5559,8 +5559,8 @@ extension MTurkClientTypes.ParameterMapEntry: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for stringlist0 in values {
-                try valuesContainer.encode(stringlist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -5617,14 +5617,14 @@ extension MTurkClientTypes.PolicyParameter: Swift.Codable {
         }
         if let mapEntries = mapEntries {
             var mapEntriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mapEntries)
-            for parametermapentrylist0 in mapEntries {
-                try mapEntriesContainer.encode(parametermapentrylist0)
+            for parametermapentry0 in mapEntries {
+                try mapEntriesContainer.encode(parametermapentry0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for stringlist0 in values {
-                try valuesContainer.encode(stringlist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -5872,14 +5872,14 @@ extension MTurkClientTypes.QualificationRequirement: Swift.Codable {
         }
         if let integerValues = integerValues {
             var integerValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integerValues)
-            for integerlist0 in integerValues {
-                try integerValuesContainer.encode(integerlist0)
+            for integer0 in integerValues {
+                try integerValuesContainer.encode(integer0)
             }
         }
         if let localeValues = localeValues {
             var localeValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .localeValues)
-            for localelist0 in localeValues {
-                try localeValuesContainer.encode(localelist0)
+            for locale0 in localeValues {
+                try localeValuesContainer.encode(locale0)
             }
         }
         if let qualificationTypeId = self.qualificationTypeId {
@@ -6586,8 +6586,8 @@ extension MTurkClientTypes.ReviewPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for policyparameterlist0 in parameters {
-                try parametersContainer.encode(policyparameterlist0)
+            for policyparameter0 in parameters {
+                try parametersContainer.encode(policyparameter0)
             }
         }
         if let policyName = self.policyName {
@@ -6676,14 +6676,14 @@ extension MTurkClientTypes.ReviewReport: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let reviewActions = reviewActions {
             var reviewActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reviewActions)
-            for reviewactiondetaillist0 in reviewActions {
-                try reviewActionsContainer.encode(reviewactiondetaillist0)
+            for reviewactiondetail0 in reviewActions {
+                try reviewActionsContainer.encode(reviewactiondetail0)
             }
         }
         if let reviewResults = reviewResults {
             var reviewResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reviewResults)
-            for reviewresultdetaillist0 in reviewResults {
-                try reviewResultsContainer.encode(reviewresultdetaillist0)
+            for reviewresultdetail0 in reviewResults {
+                try reviewResultsContainer.encode(reviewresultdetail0)
             }
         }
     }

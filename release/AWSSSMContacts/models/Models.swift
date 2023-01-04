@@ -1064,8 +1064,8 @@ extension CreateContactInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagslist0 in tags {
-                try tagsContainer.encode(tagslist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -3868,8 +3868,8 @@ extension SSMContactsClientTypes.Plan: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stages = stages {
             var stagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stages)
-            for stageslist0 in stages {
-                try stagesContainer.encode(stageslist0)
+            for stage0 in stages {
+                try stagesContainer.encode(stage0)
             }
         }
     }
@@ -4393,8 +4393,8 @@ extension SSMContactsClientTypes.Stage: Swift.Codable {
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
-            for targetslist0 in targets {
-                try targetsContainer.encode(targetslist0)
+            for target0 in targets {
+                try targetsContainer.encode(target0)
             }
         }
     }
@@ -4806,8 +4806,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagslist0 in tags {
-                try tagsContainer.encode(tagslist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5093,8 +5093,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

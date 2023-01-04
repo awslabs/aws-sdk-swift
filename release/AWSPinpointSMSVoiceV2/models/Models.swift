@@ -529,8 +529,8 @@ extension PinpointSMSVoiceV2ClientTypes.ConfigurationSetFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -642,8 +642,8 @@ extension PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation: Swift.Codab
         }
         if let eventDestinations = eventDestinations {
             var eventDestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventDestinations)
-            for eventdestinationlist0 in eventDestinations {
-                try eventDestinationsContainer.encode(eventdestinationlist0)
+            for eventdestination0 in eventDestinations {
+                try eventDestinationsContainer.encode(eventdestination0)
             }
         }
     }
@@ -896,8 +896,8 @@ extension CreateConfigurationSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1105,8 +1105,8 @@ extension CreateEventDestinationInput: Swift.Encodable {
         }
         if let matchingEventTypes = matchingEventTypes {
             var matchingEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingEventTypes)
-            for eventtypelist0 in matchingEventTypes {
-                try matchingEventTypesContainer.encode(eventtypelist0.rawValue)
+            for eventtype0 in matchingEventTypes {
+                try matchingEventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let snsDestination = self.snsDestination {
@@ -1321,8 +1321,8 @@ extension CreateOptOutListInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1529,8 +1529,8 @@ extension CreatePoolInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3636,14 +3636,14 @@ extension DescribeConfigurationSetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configurationSetNames = configurationSetNames {
             var configurationSetNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationSetNames)
-            for configurationsetnamelist0 in configurationSetNames {
-                try configurationSetNamesContainer.encode(configurationsetnamelist0)
+            for configurationsetnameorarn0 in configurationSetNames {
+                try configurationSetNamesContainer.encode(configurationsetnameorarn0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for configurationsetfilterlist0 in filters {
-                try filtersContainer.encode(configurationsetfilterlist0)
+            for configurationsetfilter0 in filters {
+                try filtersContainer.encode(configurationsetfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3834,14 +3834,14 @@ extension DescribeKeywordsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for keywordfilterlist0 in filters {
-                try filtersContainer.encode(keywordfilterlist0)
+            for keywordfilter0 in filters {
+                try filtersContainer.encode(keywordfilter0)
             }
         }
         if let keywords = keywords {
             var keywordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keywords)
-            for keywordlist0 in keywords {
-                try keywordsContainer.encode(keywordlist0)
+            for keyword0 in keywords {
+                try keywordsContainer.encode(keyword0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4068,8 +4068,8 @@ extension DescribeOptOutListsInput: Swift.Encodable {
         }
         if let optOutListNames = optOutListNames {
             var optOutListNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .optOutListNames)
-            for optoutlistnamelist0 in optOutListNames {
-                try optOutListNamesContainer.encode(optoutlistnamelist0)
+            for optoutlistnameorarn0 in optOutListNames {
+                try optOutListNamesContainer.encode(optoutlistnameorarn0)
             }
         }
     }
@@ -4237,8 +4237,8 @@ extension DescribeOptedOutNumbersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for optedoutfilterlist0 in filters {
-                try filtersContainer.encode(optedoutfilterlist0)
+            for optedoutfilter0 in filters {
+                try filtersContainer.encode(optedoutfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4252,8 +4252,8 @@ extension DescribeOptedOutNumbersInput: Swift.Encodable {
         }
         if let optedOutNumbers = optedOutNumbers {
             var optedOutNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .optedOutNumbers)
-            for optedoutnumberlist0 in optedOutNumbers {
-                try optedOutNumbersContainer.encode(optedoutnumberlist0)
+            for phonenumber0 in optedOutNumbers {
+                try optedOutNumbersContainer.encode(phonenumber0)
             }
         }
     }
@@ -4466,8 +4466,8 @@ extension DescribePhoneNumbersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for phonenumberfilterlist0 in filters {
-                try filtersContainer.encode(phonenumberfilterlist0)
+            for phonenumberfilter0 in filters {
+                try filtersContainer.encode(phonenumberfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4478,8 +4478,8 @@ extension DescribePhoneNumbersInput: Swift.Encodable {
         }
         if let phoneNumberIds = phoneNumberIds {
             var phoneNumberIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumberIds)
-            for phonenumberidlist0 in phoneNumberIds {
-                try phoneNumberIdsContainer.encode(phonenumberidlist0)
+            for phonenumberidorarn0 in phoneNumberIds {
+                try phoneNumberIdsContainer.encode(phonenumberidorarn0)
             }
         }
     }
@@ -4663,8 +4663,8 @@ extension DescribePoolsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for poolfilterlist0 in filters {
-                try filtersContainer.encode(poolfilterlist0)
+            for poolfilter0 in filters {
+                try filtersContainer.encode(poolfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4675,8 +4675,8 @@ extension DescribePoolsInput: Swift.Encodable {
         }
         if let poolIds = poolIds {
             var poolIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .poolIds)
-            for poolidlist0 in poolIds {
-                try poolIdsContainer.encode(poolidlist0)
+            for poolidorarn0 in poolIds {
+                try poolIdsContainer.encode(poolidorarn0)
             }
         }
     }
@@ -4860,8 +4860,8 @@ extension DescribeSenderIdsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for senderidfilterlist0 in filters {
-                try filtersContainer.encode(senderidfilterlist0)
+            for senderidfilter0 in filters {
+                try filtersContainer.encode(senderidfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4872,8 +4872,8 @@ extension DescribeSenderIdsInput: Swift.Encodable {
         }
         if let senderIds = senderIds {
             var senderIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .senderIds)
-            for senderidlist0 in senderIds {
-                try senderIdsContainer.encode(senderidlist0)
+            for senderidandcountry0 in senderIds {
+                try senderIdsContainer.encode(senderidandcountry0)
             }
         }
     }
@@ -5449,8 +5449,8 @@ extension PinpointSMSVoiceV2ClientTypes.EventDestination: Swift.Codable {
         }
         if let matchingEventTypes = matchingEventTypes {
             var matchingEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingEventTypes)
-            for eventtypelist0 in matchingEventTypes {
-                try matchingEventTypesContainer.encode(eventtypelist0.rawValue)
+            for eventtype0 in matchingEventTypes {
+                try matchingEventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let snsDestination = self.snsDestination {
@@ -5734,8 +5734,8 @@ extension PinpointSMSVoiceV2ClientTypes.KeywordFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -5926,8 +5926,8 @@ extension ListPoolOriginationIdentitiesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for pooloriginationidentitiesfilterlist0 in filters {
-                try filtersContainer.encode(pooloriginationidentitiesfilterlist0)
+            for pooloriginationidentitiesfilter0 in filters {
+                try filtersContainer.encode(pooloriginationidentitiesfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -6472,8 +6472,8 @@ extension PinpointSMSVoiceV2ClientTypes.OptedOutFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -6620,8 +6620,8 @@ extension PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata: Swift.Codab
         }
         if let numberCapabilities = numberCapabilities {
             var numberCapabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .numberCapabilities)
-            for numbercapabilitylist0 in numberCapabilities {
-                try numberCapabilitiesContainer.encode(numbercapabilitylist0.rawValue)
+            for numbercapability0 in numberCapabilities {
+                try numberCapabilitiesContainer.encode(numbercapability0.rawValue)
             }
         }
         if let originationIdentity = self.originationIdentity {
@@ -6699,8 +6699,8 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -6837,8 +6837,8 @@ extension PinpointSMSVoiceV2ClientTypes.PhoneNumberInformation: Swift.Codable {
         }
         if let numberCapabilities = numberCapabilities {
             var numberCapabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .numberCapabilities)
-            for numbercapabilitylist0 in numberCapabilities {
-                try numberCapabilitiesContainer.encode(numbercapabilitylist0.rawValue)
+            for numbercapability0 in numberCapabilities {
+                try numberCapabilitiesContainer.encode(numbercapability0.rawValue)
             }
         }
         if let numberType = self.numberType {
@@ -7021,8 +7021,8 @@ extension PinpointSMSVoiceV2ClientTypes.PoolFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -7272,8 +7272,8 @@ extension PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilter: Swift.C
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -8054,8 +8054,8 @@ extension RequestPhoneNumberInput: Swift.Encodable {
         }
         if let numberCapabilities = numberCapabilities {
             var numberCapabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .numberCapabilities)
-            for numbercapabilitylist0 in numberCapabilities {
-                try numberCapabilitiesContainer.encode(numbercapabilitylist0.rawValue)
+            for numbercapability0 in numberCapabilities {
+                try numberCapabilitiesContainer.encode(numbercapability0.rawValue)
             }
         }
         if let numberType = self.numberType {
@@ -8072,8 +8072,8 @@ extension RequestPhoneNumberInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8645,14 +8645,14 @@ extension SendTextMessageInput: Swift.Encodable {
         }
         if let context = context {
             var contextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .context)
-            for (dictKey0, contextmap0) in context {
-                try contextContainer.encode(contextmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, contextMap0) in context {
+                try contextContainer.encode(contextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let destinationCountryParameters = destinationCountryParameters {
             var destinationCountryParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .destinationCountryParameters)
-            for (dictKey0, destinationcountryparameters0) in destinationCountryParameters {
-                try destinationCountryParametersContainer.encode(destinationcountryparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, destinationCountryParameters0) in destinationCountryParameters {
+                try destinationCountryParametersContainer.encode(destinationCountryParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let destinationPhoneNumber = self.destinationPhoneNumber {
@@ -8911,8 +8911,8 @@ extension SendVoiceMessageInput: Swift.Encodable {
         }
         if let context = context {
             var contextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .context)
-            for (dictKey0, contextmap0) in context {
-                try contextContainer.encode(contextmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, contextMap0) in context {
+                try contextContainer.encode(contextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let destinationPhoneNumber = self.destinationPhoneNumber {
@@ -9198,8 +9198,8 @@ extension PinpointSMSVoiceV2ClientTypes.SenderIdFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -9295,8 +9295,8 @@ extension PinpointSMSVoiceV2ClientTypes.SenderIdInformation: Swift.Codable {
         }
         if let messageTypes = messageTypes {
             var messageTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageTypes)
-            for messagetypelist0 in messageTypes {
-                try messageTypesContainer.encode(messagetypelist0.rawValue)
+            for messagetype0 in messageTypes {
+                try messageTypesContainer.encode(messagetype0.rawValue)
             }
         }
         if let monthlyLeasingPrice = self.monthlyLeasingPrice {
@@ -10233,8 +10233,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for nonemptytaglist0 in tags {
-                try tagsContainer.encode(nonemptytaglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -10400,8 +10400,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -10530,8 +10530,8 @@ extension UpdateEventDestinationInput: Swift.Encodable {
         }
         if let matchingEventTypes = matchingEventTypes {
             var matchingEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingEventTypes)
-            for eventtypelist0 in matchingEventTypes {
-                try matchingEventTypesContainer.encode(eventtypelist0.rawValue)
+            for eventtype0 in matchingEventTypes {
+                try matchingEventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let snsDestination = self.snsDestination {

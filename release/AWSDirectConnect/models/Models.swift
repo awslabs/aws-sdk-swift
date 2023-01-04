@@ -20,8 +20,8 @@ extension AcceptDirectConnectGatewayAssociationProposalInput: Swift.Encodable {
         }
         if let overrideAllowedPrefixesToDirectConnectGateway = overrideAllowedPrefixesToDirectConnectGateway {
             var overrideAllowedPrefixesToDirectConnectGatewayContainer = encodeContainer.nestedUnkeyedContainer(forKey: .overrideAllowedPrefixesToDirectConnectGateway)
-            for routefilterprefixlist0 in overrideAllowedPrefixesToDirectConnectGateway {
-                try overrideAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in overrideAllowedPrefixesToDirectConnectGateway {
+                try overrideAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefix0)
             }
         }
         if let proposalId = self.proposalId {
@@ -636,8 +636,8 @@ extension AllocateHostedConnectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if vlan != 0 {
@@ -4437,8 +4437,8 @@ extension DirectConnectClientTypes.Connection: Swift.Codable {
         }
         if let macSecKeys = macSecKeys {
             var macSecKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .macSecKeys)
-            for macseckeylist0 in macSecKeys {
-                try macSecKeysContainer.encode(macseckeylist0)
+            for macseckey0 in macSecKeys {
+                try macSecKeysContainer.encode(macseckey0)
             }
         }
         if let ownerAccount = self.ownerAccount {
@@ -4458,8 +4458,8 @@ extension DirectConnectClientTypes.Connection: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if vlan != 0 {
@@ -4863,8 +4863,8 @@ extension CreateConnectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5293,8 +5293,8 @@ extension CreateDirectConnectGatewayAssociationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway {
             var addAllowedPrefixesToDirectConnectGatewayContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addAllowedPrefixesToDirectConnectGateway)
-            for routefilterprefixlist0 in addAllowedPrefixesToDirectConnectGateway {
-                try addAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in addAllowedPrefixesToDirectConnectGateway {
+                try addAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefix0)
             }
         }
         if let directConnectGatewayId = self.directConnectGatewayId {
@@ -5455,8 +5455,8 @@ extension CreateDirectConnectGatewayAssociationProposalInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway {
             var addAllowedPrefixesToDirectConnectGatewayContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addAllowedPrefixesToDirectConnectGateway)
-            for routefilterprefixlist0 in addAllowedPrefixesToDirectConnectGateway {
-                try addAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in addAllowedPrefixesToDirectConnectGateway {
+                try addAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefix0)
             }
         }
         if let directConnectGatewayId = self.directConnectGatewayId {
@@ -5470,8 +5470,8 @@ extension CreateDirectConnectGatewayAssociationProposalInput: Swift.Encodable {
         }
         if let removeAllowedPrefixesToDirectConnectGateway = removeAllowedPrefixesToDirectConnectGateway {
             var removeAllowedPrefixesToDirectConnectGatewayContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeAllowedPrefixesToDirectConnectGateway)
-            for routefilterprefixlist0 in removeAllowedPrefixesToDirectConnectGateway {
-                try removeAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in removeAllowedPrefixesToDirectConnectGateway {
+                try removeAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefix0)
             }
         }
     }
@@ -5783,8 +5783,8 @@ extension CreateInterconnectInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6127,8 +6127,8 @@ extension CreateLagInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let childConnectionTags = childConnectionTags {
             var childConnectionTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .childConnectionTags)
-            for taglist0 in childConnectionTags {
-                try childConnectionTagsContainer.encode(taglist0)
+            for tag0 in childConnectionTags {
+                try childConnectionTagsContainer.encode(tag0)
             }
         }
         if let connectionId = self.connectionId {
@@ -6154,8 +6154,8 @@ extension CreateLagInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -11211,8 +11211,8 @@ extension DescribeTagsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
             }
         }
     }
@@ -11734,8 +11734,8 @@ extension DirectConnectClientTypes.DirectConnectGatewayAssociation: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedPrefixesToDirectConnectGateway = allowedPrefixesToDirectConnectGateway {
             var allowedPrefixesToDirectConnectGatewayContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedPrefixesToDirectConnectGateway)
-            for routefilterprefixlist0 in allowedPrefixesToDirectConnectGateway {
-                try allowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in allowedPrefixesToDirectConnectGateway {
+                try allowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefix0)
             }
         }
         if let associatedGateway = self.associatedGateway {
@@ -11886,8 +11886,8 @@ extension DirectConnectClientTypes.DirectConnectGatewayAssociationProposal: Swif
         }
         if let existingAllowedPrefixesToDirectConnectGateway = existingAllowedPrefixesToDirectConnectGateway {
             var existingAllowedPrefixesToDirectConnectGatewayContainer = encodeContainer.nestedUnkeyedContainer(forKey: .existingAllowedPrefixesToDirectConnectGateway)
-            for routefilterprefixlist0 in existingAllowedPrefixesToDirectConnectGateway {
-                try existingAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in existingAllowedPrefixesToDirectConnectGateway {
+                try existingAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefix0)
             }
         }
         if let proposalId = self.proposalId {
@@ -11898,8 +11898,8 @@ extension DirectConnectClientTypes.DirectConnectGatewayAssociationProposal: Swif
         }
         if let requestedAllowedPrefixesToDirectConnectGateway = requestedAllowedPrefixesToDirectConnectGateway {
             var requestedAllowedPrefixesToDirectConnectGatewayContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestedAllowedPrefixesToDirectConnectGateway)
-            for routefilterprefixlist0 in requestedAllowedPrefixesToDirectConnectGateway {
-                try requestedAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in requestedAllowedPrefixesToDirectConnectGateway {
+                try requestedAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefix0)
             }
         }
     }
@@ -13029,8 +13029,8 @@ extension DirectConnectClientTypes.Interconnect: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -13254,8 +13254,8 @@ extension DirectConnectClientTypes.Lag: Swift.Codable {
         }
         if let connections = connections {
             var connectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connections)
-            for connectionlist0 in connections {
-                try connectionsContainer.encode(connectionlist0)
+            for connection0 in connections {
+                try connectionsContainer.encode(connection0)
             }
         }
         if let connectionsBandwidth = self.connectionsBandwidth {
@@ -13287,8 +13287,8 @@ extension DirectConnectClientTypes.Lag: Swift.Codable {
         }
         if let macSecKeys = macSecKeys {
             var macSecKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .macSecKeys)
-            for macseckeylist0 in macSecKeys {
-                try macSecKeysContainer.encode(macseckeylist0)
+            for macseckey0 in macSecKeys {
+                try macSecKeysContainer.encode(macseckey0)
             }
         }
         if minimumLinks != 0 {
@@ -13308,8 +13308,8 @@ extension DirectConnectClientTypes.Lag: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -13560,8 +13560,8 @@ extension ListVirtualInterfaceTestHistoryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bgpPeers = bgpPeers {
             var bgpPeersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bgpPeers)
-            for bgppeeridlist0 in bgpPeers {
-                try bgpPeersContainer.encode(bgppeeridlist0)
+            for bgppeerid0 in bgpPeers {
+                try bgpPeersContainer.encode(bgppeerid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -13837,20 +13837,20 @@ extension DirectConnectClientTypes.Location: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availableMacSecPortSpeeds = availableMacSecPortSpeeds {
             var availableMacSecPortSpeedsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availableMacSecPortSpeeds)
-            for availablemacsecportspeeds0 in availableMacSecPortSpeeds {
-                try availableMacSecPortSpeedsContainer.encode(availablemacsecportspeeds0)
+            for portspeed0 in availableMacSecPortSpeeds {
+                try availableMacSecPortSpeedsContainer.encode(portspeed0)
             }
         }
         if let availablePortSpeeds = availablePortSpeeds {
             var availablePortSpeedsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availablePortSpeeds)
-            for availableportspeeds0 in availablePortSpeeds {
-                try availablePortSpeedsContainer.encode(availableportspeeds0)
+            for portspeed0 in availablePortSpeeds {
+                try availablePortSpeedsContainer.encode(portspeed0)
             }
         }
         if let availableProviders = availableProviders {
             var availableProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availableProviders)
-            for providerlist0 in availableProviders {
-                try availableProvidersContainer.encode(providerlist0)
+            for providername0 in availableProviders {
+                try availableProvidersContainer.encode(providername0)
             }
         }
         if let locationCode = self.locationCode {
@@ -14136,8 +14136,8 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterface: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let virtualGatewayId = self.virtualGatewayId {
@@ -14287,8 +14287,8 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation: Swift.C
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let virtualInterfaceName = self.virtualInterfaceName {
@@ -14414,14 +14414,14 @@ extension DirectConnectClientTypes.NewPublicVirtualInterface: Swift.Codable {
         }
         if let routeFilterPrefixes = routeFilterPrefixes {
             var routeFilterPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routeFilterPrefixes)
-            for routefilterprefixlist0 in routeFilterPrefixes {
-                try routeFilterPrefixesContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in routeFilterPrefixes {
+                try routeFilterPrefixesContainer.encode(routefilterprefix0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let virtualInterfaceName = self.virtualInterfaceName {
@@ -14556,14 +14556,14 @@ extension DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation: Swift.Co
         }
         if let routeFilterPrefixes = routeFilterPrefixes {
             var routeFilterPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routeFilterPrefixes)
-            for routefilterprefixlist0 in routeFilterPrefixes {
-                try routeFilterPrefixesContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in routeFilterPrefixes {
+                try routeFilterPrefixesContainer.encode(routefilterprefix0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let virtualInterfaceName = self.virtualInterfaceName {
@@ -14709,8 +14709,8 @@ extension DirectConnectClientTypes.NewTransitVirtualInterface: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let virtualInterfaceName = self.virtualInterfaceName {
@@ -14848,8 +14848,8 @@ extension DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation: Swift.C
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let virtualInterfaceName = self.virtualInterfaceName {
@@ -14988,8 +14988,8 @@ extension DirectConnectClientTypes.ResourceTag: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -15163,8 +15163,8 @@ extension StartBgpFailoverTestInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bgpPeers = bgpPeers {
             var bgpPeersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bgpPeers)
-            for bgppeeridlist0 in bgpPeers {
-                try bgpPeersContainer.encode(bgppeeridlist0)
+            for bgppeerid0 in bgpPeers {
+                try bgpPeersContainer.encode(bgppeerid0)
             }
         }
         if let testDurationInMinutes = self.testDurationInMinutes {
@@ -15473,8 +15473,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -15636,8 +15636,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -16126,8 +16126,8 @@ extension UpdateDirectConnectGatewayAssociationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway {
             var addAllowedPrefixesToDirectConnectGatewayContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addAllowedPrefixesToDirectConnectGateway)
-            for routefilterprefixlist0 in addAllowedPrefixesToDirectConnectGateway {
-                try addAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in addAllowedPrefixesToDirectConnectGateway {
+                try addAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefix0)
             }
         }
         if let associationId = self.associationId {
@@ -16135,8 +16135,8 @@ extension UpdateDirectConnectGatewayAssociationInput: Swift.Encodable {
         }
         if let removeAllowedPrefixesToDirectConnectGateway = removeAllowedPrefixesToDirectConnectGateway {
             var removeAllowedPrefixesToDirectConnectGatewayContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeAllowedPrefixesToDirectConnectGateway)
-            for routefilterprefixlist0 in removeAllowedPrefixesToDirectConnectGateway {
-                try removeAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in removeAllowedPrefixesToDirectConnectGateway {
+                try removeAllowedPrefixesToDirectConnectGatewayContainer.encode(routefilterprefix0)
             }
         }
     }
@@ -17346,8 +17346,8 @@ extension DirectConnectClientTypes.VirtualInterface: Swift.Codable {
         }
         if let bgpPeers = bgpPeers {
             var bgpPeersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bgpPeers)
-            for bgppeerlist0 in bgpPeers {
-                try bgpPeersContainer.encode(bgppeerlist0)
+            for bgppeer0 in bgpPeers {
+                try bgpPeersContainer.encode(bgppeer0)
             }
         }
         if let connectionId = self.connectionId {
@@ -17379,8 +17379,8 @@ extension DirectConnectClientTypes.VirtualInterface: Swift.Codable {
         }
         if let routeFilterPrefixes = routeFilterPrefixes {
             var routeFilterPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routeFilterPrefixes)
-            for routefilterprefixlist0 in routeFilterPrefixes {
-                try routeFilterPrefixesContainer.encode(routefilterprefixlist0)
+            for routefilterprefix0 in routeFilterPrefixes {
+                try routeFilterPrefixesContainer.encode(routefilterprefix0)
             }
         }
         if let siteLinkEnabled = self.siteLinkEnabled {
@@ -17388,8 +17388,8 @@ extension DirectConnectClientTypes.VirtualInterface: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let virtualGatewayId = self.virtualGatewayId {
@@ -17699,8 +17699,8 @@ extension DirectConnectClientTypes.VirtualInterfaceTestHistory: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bgpPeers = bgpPeers {
             var bgpPeersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bgpPeers)
-            for bgppeeridlist0 in bgpPeers {
-                try bgpPeersContainer.encode(bgppeeridlist0)
+            for bgppeerid0 in bgpPeers {
+                try bgpPeersContainer.encode(bgppeerid0)
             }
         }
         if let endTime = self.endTime {

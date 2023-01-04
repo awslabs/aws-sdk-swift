@@ -61,20 +61,20 @@ extension ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement:
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for __listof__string0 in actions {
-                try actionsContainer.encode(__listof__string0)
+            for __string0 in actions {
+                try actionsContainer.encode(__string0)
             }
         }
         if let principalOrgIDs = principalOrgIDs {
             var principalOrgIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principalOrgIDs)
-            for __listof__string0 in principalOrgIDs {
-                try principalOrgIDsContainer.encode(__listof__string0)
+            for __string0 in principalOrgIDs {
+                try principalOrgIDsContainer.encode(__string0)
             }
         }
         if let principals = principals {
             var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
-            for __listof__string0 in principals {
-                try principalsContainer.encode(__listof__string0)
+            for __string0 in principals {
+                try principalsContainer.encode(__string0)
             }
         }
         if let statementId = self.statementId {
@@ -183,8 +183,8 @@ extension ServerlessApplicationRepositoryClientTypes.ApplicationSummary: Swift.C
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for __listof__string0 in labels {
-                try labelsContainer.encode(__listof__string0)
+            for __string0 in labels {
+                try labelsContainer.encode(__string0)
             }
         }
         if let name = self.name {
@@ -470,8 +470,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for __listof__string0 in labels {
-                try labelsContainer.encode(__listof__string0)
+            for __string0 in labels {
+                try labelsContainer.encode(__string0)
             }
         }
         if let licenseBody = self.licenseBody {
@@ -1156,8 +1156,8 @@ extension CreateCloudFormationChangeSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capabilities = capabilities {
             var capabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capabilities)
-            for __listof__string0 in capabilities {
-                try capabilitiesContainer.encode(__listof__string0)
+            for __string0 in capabilities {
+                try capabilitiesContainer.encode(__string0)
             }
         }
         if let changeSetName = self.changeSetName {
@@ -1171,20 +1171,20 @@ extension CreateCloudFormationChangeSetInput: Swift.Encodable {
         }
         if let notificationArns = notificationArns {
             var notificationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationArns)
-            for __listof__string0 in notificationArns {
-                try notificationArnsContainer.encode(__listof__string0)
+            for __string0 in notificationArns {
+                try notificationArnsContainer.encode(__string0)
             }
         }
         if let parameterOverrides = parameterOverrides {
             var parameterOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterOverrides)
-            for __listofparametervalue0 in parameterOverrides {
-                try parameterOverridesContainer.encode(__listofparametervalue0)
+            for parametervalue0 in parameterOverrides {
+                try parameterOverridesContainer.encode(parametervalue0)
             }
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for __listof__string0 in resourceTypes {
-                try resourceTypesContainer.encode(__listof__string0)
+            for __string0 in resourceTypes {
+                try resourceTypesContainer.encode(__string0)
             }
         }
         if let rollbackConfiguration = self.rollbackConfiguration {
@@ -1198,8 +1198,8 @@ extension CreateCloudFormationChangeSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for __listoftag0 in tags {
-                try tagsContainer.encode(__listoftag0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let templateId = self.templateId {
@@ -2920,8 +2920,8 @@ extension ServerlessApplicationRepositoryClientTypes.ParameterDefinition: Swift.
         }
         if let allowedValues = allowedValues {
             var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
-            for __listof__string0 in allowedValues {
-                try allowedValuesContainer.encode(__listof__string0)
+            for __string0 in allowedValues {
+                try allowedValuesContainer.encode(__string0)
             }
         }
         if let constraintDescription = self.constraintDescription {
@@ -2953,8 +2953,8 @@ extension ServerlessApplicationRepositoryClientTypes.ParameterDefinition: Swift.
         }
         if let referencedByResources = referencedByResources {
             var referencedByResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referencedByResources)
-            for __listof__string0 in referencedByResources {
-                try referencedByResourcesContainer.encode(__listof__string0)
+            for __string0 in referencedByResources {
+                try referencedByResourcesContainer.encode(__string0)
             }
         }
         if let type = self.type {
@@ -3133,8 +3133,8 @@ extension PutApplicationPolicyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statements = statements {
             var statementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statements)
-            for __listofapplicationpolicystatement0 in statements {
-                try statementsContainer.encode(__listofapplicationpolicystatement0)
+            for applicationpolicystatement0 in statements {
+                try statementsContainer.encode(applicationpolicystatement0)
             }
         }
     }
@@ -3285,8 +3285,8 @@ extension ServerlessApplicationRepositoryClientTypes.RollbackConfiguration: Swif
         }
         if let rollbackTriggers = rollbackTriggers {
             var rollbackTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rollbackTriggers)
-            for __listofrollbacktrigger0 in rollbackTriggers {
-                try rollbackTriggersContainer.encode(__listofrollbacktrigger0)
+            for rollbacktrigger0 in rollbackTriggers {
+                try rollbackTriggersContainer.encode(rollbacktrigger0)
             }
         }
     }
@@ -3640,8 +3640,8 @@ extension UpdateApplicationInput: Swift.Encodable {
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for __listof__string0 in labels {
-                try labelsContainer.encode(__listof__string0)
+            for __string0 in labels {
+                try labelsContainer.encode(__string0)
             }
         }
         if let readmeBody = self.readmeBody {
@@ -3969,14 +3969,14 @@ extension ServerlessApplicationRepositoryClientTypes.Version: Swift.Codable {
         }
         if let parameterDefinitions = parameterDefinitions {
             var parameterDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterDefinitions)
-            for __listofparameterdefinition0 in parameterDefinitions {
-                try parameterDefinitionsContainer.encode(__listofparameterdefinition0)
+            for parameterdefinition0 in parameterDefinitions {
+                try parameterDefinitionsContainer.encode(parameterdefinition0)
             }
         }
         if let requiredCapabilities = requiredCapabilities {
             var requiredCapabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiredCapabilities)
-            for __listofcapability0 in requiredCapabilities {
-                try requiredCapabilitiesContainer.encode(__listofcapability0.rawValue)
+            for capability0 in requiredCapabilities {
+                try requiredCapabilitiesContainer.encode(capability0.rawValue)
             }
         }
         if let resourcesSupported = self.resourcesSupported {

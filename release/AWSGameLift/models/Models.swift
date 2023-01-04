@@ -16,8 +16,8 @@ extension AcceptMatchInput: Swift.Encodable {
         }
         if let playerIds = playerIds {
             var playerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playerIds)
-            for stringlist0 in playerIds {
-                try playerIdsContainer.encode(stringlist0)
+            for nonzeroandmaxstring0 in playerIds {
+                try playerIdsContainer.encode(nonzeroandmaxstring0)
             }
         }
         if let ticketId = self.ticketId {
@@ -307,14 +307,14 @@ extension GameLiftClientTypes.AttributeValue: Swift.Codable {
         }
         if let sdm = sdm {
             var sdmContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sdm)
-            for (dictKey0, playerattributestringdoublemap0) in sdm {
-                try sdmContainer.encode(playerattributestringdoublemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, playerAttributeStringDoubleMap0) in sdm {
+                try sdmContainer.encode(playerAttributeStringDoubleMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sl = sl {
             var slContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sl)
-            for playerattributestringlist0 in sl {
-                try slContainer.encode(playerattributestringlist0)
+            for playerattributestring0 in sl {
+                try slContainer.encode(playerattributestring0)
             }
         }
     }
@@ -1202,8 +1202,8 @@ extension CreateAliasInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1377,8 +1377,8 @@ extension CreateBuildInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let version = self.version {
@@ -1611,8 +1611,8 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let ec2InboundPermissions = ec2InboundPermissions {
             var ec2InboundPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InboundPermissions)
-            for ippermissionslist0 in ec2InboundPermissions {
-                try ec2InboundPermissionsContainer.encode(ippermissionslist0)
+            for ippermission0 in ec2InboundPermissions {
+                try ec2InboundPermissionsContainer.encode(ippermission0)
             }
         }
         if let ec2InstanceType = self.ec2InstanceType {
@@ -1626,20 +1626,20 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let locations = locations {
             var locationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .locations)
-            for locationconfigurationlist0 in locations {
-                try locationsContainer.encode(locationconfigurationlist0)
+            for locationconfiguration0 in locations {
+                try locationsContainer.encode(locationconfiguration0)
             }
         }
         if let logPaths = logPaths {
             var logPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logPaths)
-            for stringlist0 in logPaths {
-                try logPathsContainer.encode(stringlist0)
+            for nonzeroandmaxstring0 in logPaths {
+                try logPathsContainer.encode(nonzeroandmaxstring0)
             }
         }
         if let metricGroups = metricGroups {
             var metricGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricGroups)
-            for metricgrouplist0 in metricGroups {
-                try metricGroupsContainer.encode(metricgrouplist0)
+            for metricgroup0 in metricGroups {
+                try metricGroupsContainer.encode(metricgroup0)
             }
         }
         if let name = self.name {
@@ -1671,8 +1671,8 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1943,8 +1943,8 @@ extension CreateFleetLocationsInput: Swift.Encodable {
         }
         if let locations = locations {
             var locationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .locations)
-            for locationconfigurationlist0 in locations {
-                try locationsContainer.encode(locationconfigurationlist0)
+            for locationconfiguration0 in locations {
+                try locationsContainer.encode(locationconfiguration0)
             }
         }
     }
@@ -2234,8 +2234,8 @@ extension CreateGameServerGroupInput: Swift.Encodable {
         }
         if let instanceDefinitions = instanceDefinitions {
             var instanceDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceDefinitions)
-            for instancedefinitions0 in instanceDefinitions {
-                try instanceDefinitionsContainer.encode(instancedefinitions0)
+            for instancedefinition0 in instanceDefinitions {
+                try instanceDefinitionsContainer.encode(instancedefinition0)
             }
         }
         if let launchTemplate = self.launchTemplate {
@@ -2252,14 +2252,14 @@ extension CreateGameServerGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcSubnets = vpcSubnets {
             var vpcSubnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSubnets)
-            for vpcsubnets0 in vpcSubnets {
-                try vpcSubnetsContainer.encode(vpcsubnets0)
+            for vpcsubnet0 in vpcSubnets {
+                try vpcSubnetsContainer.encode(vpcsubnet0)
             }
         }
     }
@@ -2516,8 +2516,8 @@ extension CreateGameSessionInput: Swift.Encodable {
         }
         if let gameProperties = gameProperties {
             var gamePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameProperties)
-            for gamepropertylist0 in gameProperties {
-                try gamePropertiesContainer.encode(gamepropertylist0)
+            for gameproperty0 in gameProperties {
+                try gamePropertiesContainer.encode(gameproperty0)
             }
         }
         if let gameSessionData = self.gameSessionData {
@@ -2760,8 +2760,8 @@ extension CreateGameSessionQueueInput: Swift.Encodable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for gamesessionqueuedestinationlist0 in destinations {
-                try destinationsContainer.encode(gamesessionqueuedestinationlist0)
+            for gamesessionqueuedestination0 in destinations {
+                try destinationsContainer.encode(gamesessionqueuedestination0)
             }
         }
         if let filterConfiguration = self.filterConfiguration {
@@ -2775,8 +2775,8 @@ extension CreateGameSessionQueueInput: Swift.Encodable {
         }
         if let playerLatencyPolicies = playerLatencyPolicies {
             var playerLatencyPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playerLatencyPolicies)
-            for playerlatencypolicylist0 in playerLatencyPolicies {
-                try playerLatencyPoliciesContainer.encode(playerlatencypolicylist0)
+            for playerlatencypolicy0 in playerLatencyPolicies {
+                try playerLatencyPoliciesContainer.encode(playerlatencypolicy0)
             }
         }
         if let priorityConfiguration = self.priorityConfiguration {
@@ -2784,8 +2784,8 @@ extension CreateGameSessionQueueInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timeoutInSeconds = self.timeoutInSeconds {
@@ -3006,8 +3006,8 @@ extension CreateLocationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3182,8 +3182,8 @@ extension CreateMatchmakingConfigurationInput: Swift.Encodable {
         }
         if let gameProperties = gameProperties {
             var gamePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameProperties)
-            for gamepropertylist0 in gameProperties {
-                try gamePropertiesContainer.encode(gamepropertylist0)
+            for gameproperty0 in gameProperties {
+                try gamePropertiesContainer.encode(gameproperty0)
             }
         }
         if let gameSessionData = self.gameSessionData {
@@ -3191,8 +3191,8 @@ extension CreateMatchmakingConfigurationInput: Swift.Encodable {
         }
         if let gameSessionQueueArns = gameSessionQueueArns {
             var gameSessionQueueArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameSessionQueueArns)
-            for queuearnslist0 in gameSessionQueueArns {
-                try gameSessionQueueArnsContainer.encode(queuearnslist0)
+            for arnstringmodel0 in gameSessionQueueArns {
+                try gameSessionQueueArnsContainer.encode(arnstringmodel0)
             }
         }
         if let name = self.name {
@@ -3209,8 +3209,8 @@ extension CreateMatchmakingConfigurationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3487,8 +3487,8 @@ extension CreateMatchmakingRuleSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3789,14 +3789,14 @@ extension CreatePlayerSessionsInput: Swift.Encodable {
         }
         if let playerDataMap = playerDataMap {
             var playerDataMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .playerDataMap)
-            for (dictKey0, playerdatamap0) in playerDataMap {
-                try playerDataMapContainer.encode(playerdatamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, playerDataMap0) in playerDataMap {
+                try playerDataMapContainer.encode(playerDataMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let playerIds = playerIds {
             var playerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playerIds)
-            for playeridlist0 in playerIds {
-                try playerIdsContainer.encode(playeridlist0)
+            for nonzeroandmaxstring0 in playerIds {
+                try playerIdsContainer.encode(nonzeroandmaxstring0)
             }
         }
     }
@@ -3975,8 +3975,8 @@ extension CreateScriptInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let version = self.version {
@@ -4613,8 +4613,8 @@ extension DeleteFleetLocationsInput: Swift.Encodable {
         }
         if let locations = locations {
             var locationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .locations)
-            for locationlist0 in locations {
-                try locationsContainer.encode(locationlist0)
+            for locationstringmodel0 in locations {
+                try locationsContainer.encode(locationstringmodel0)
             }
         }
     }
@@ -6395,8 +6395,8 @@ extension DescribeFleetAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fleetIds = fleetIds {
             var fleetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fleetIds)
-            for fleetidorarnlist0 in fleetIds {
-                try fleetIdsContainer.encode(fleetidorarnlist0)
+            for fleetidorarn0 in fleetIds {
+                try fleetIdsContainer.encode(fleetidorarn0)
             }
         }
         if let limit = self.limit {
@@ -6566,8 +6566,8 @@ extension DescribeFleetCapacityInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fleetIds = fleetIds {
             var fleetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fleetIds)
-            for fleetidorarnlist0 in fleetIds {
-                try fleetIdsContainer.encode(fleetidorarnlist0)
+            for fleetidorarn0 in fleetIds {
+                try fleetIdsContainer.encode(fleetidorarn0)
             }
         }
         if let limit = self.limit {
@@ -6928,8 +6928,8 @@ extension DescribeFleetLocationAttributesInput: Swift.Encodable {
         }
         if let locations = locations {
             var locationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .locations)
-            for locationlist0 in locations {
-                try locationsContainer.encode(locationlist0)
+            for locationstringmodel0 in locations {
+                try locationsContainer.encode(locationstringmodel0)
             }
         }
         if let nextToken = self.nextToken {
@@ -7571,8 +7571,8 @@ extension DescribeFleetUtilizationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fleetIds = fleetIds {
             var fleetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fleetIds)
-            for fleetidorarnlist0 in fleetIds {
-                try fleetIdsContainer.encode(fleetidorarnlist0)
+            for fleetidorarn0 in fleetIds {
+                try fleetIdsContainer.encode(fleetidorarn0)
             }
         }
         if let limit = self.limit {
@@ -7924,8 +7924,8 @@ extension DescribeGameServerInstancesInput: Swift.Encodable {
         }
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for gameserverinstanceids0 in instanceIds {
-                try instanceIdsContainer.encode(gameserverinstanceids0)
+            for gameserverinstanceid0 in instanceIds {
+                try instanceIdsContainer.encode(gameserverinstanceid0)
             }
         }
         if let limit = self.limit {
@@ -8504,8 +8504,8 @@ extension DescribeGameSessionQueuesInput: Swift.Encodable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for gamesessionqueuenameorarnlist0 in names {
-                try namesContainer.encode(gamesessionqueuenameorarnlist0)
+            for gamesessionqueuenameorarn0 in names {
+                try namesContainer.encode(gamesessionqueuenameorarn0)
             }
         }
         if let nextToken = self.nextToken {
@@ -9073,8 +9073,8 @@ extension DescribeMatchmakingConfigurationsInput: Swift.Encodable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for matchmakingconfigurationnamelist0 in names {
-                try namesContainer.encode(matchmakingconfigurationnamelist0)
+            for matchmakingconfigurationname0 in names {
+                try namesContainer.encode(matchmakingconfigurationname0)
             }
         }
         if let nextToken = self.nextToken {
@@ -9248,8 +9248,8 @@ extension DescribeMatchmakingInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ticketIds = ticketIds {
             var ticketIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ticketIds)
-            for matchmakingidlist0 in ticketIds {
-                try ticketIdsContainer.encode(matchmakingidlist0)
+            for matchmakingidstringmodel0 in ticketIds {
+                try ticketIdsContainer.encode(matchmakingidstringmodel0)
             }
         }
     }
@@ -9389,8 +9389,8 @@ extension DescribeMatchmakingRuleSetsInput: Swift.Encodable {
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for matchmakingrulesetnamelist0 in names {
-                try namesContainer.encode(matchmakingrulesetnamelist0)
+            for matchmakingrulesetname0 in names {
+                try namesContainer.encode(matchmakingrulesetname0)
             }
         }
         if let nextToken = self.nextToken {
@@ -11292,8 +11292,8 @@ extension GameLiftClientTypes.FilterConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedLocations = allowedLocations {
             var allowedLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedLocations)
-            for locationlist0 in allowedLocations {
-                try allowedLocationsContainer.encode(locationlist0)
+            for locationstringmodel0 in allowedLocations {
+                try allowedLocationsContainer.encode(locationstringmodel0)
             }
         }
     }
@@ -11428,14 +11428,14 @@ extension GameLiftClientTypes.FleetAttributes: Swift.Codable {
         }
         if let logPaths = logPaths {
             var logPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logPaths)
-            for stringlist0 in logPaths {
-                try logPathsContainer.encode(stringlist0)
+            for nonzeroandmaxstring0 in logPaths {
+                try logPathsContainer.encode(nonzeroandmaxstring0)
             }
         }
         if let metricGroups = metricGroups {
             var metricGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricGroups)
-            for metricgrouplist0 in metricGroups {
-                try metricGroupsContainer.encode(metricgrouplist0)
+            for metricgroup0 in metricGroups {
+                try metricGroupsContainer.encode(metricgroup0)
             }
         }
         if let name = self.name {
@@ -11467,8 +11467,8 @@ extension GameLiftClientTypes.FleetAttributes: Swift.Codable {
         }
         if let stoppedActions = stoppedActions {
             var stoppedActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stoppedActions)
-            for fleetactionlist0 in stoppedActions {
-                try stoppedActionsContainer.encode(fleetactionlist0.rawValue)
+            for fleetaction0 in stoppedActions {
+                try stoppedActionsContainer.encode(fleetaction0.rawValue)
             }
         }
         if let terminationTime = self.terminationTime {
@@ -12281,8 +12281,8 @@ extension GameLiftClientTypes.GameServerGroup: Swift.Codable {
         }
         if let instanceDefinitions = instanceDefinitions {
             var instanceDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceDefinitions)
-            for instancedefinitions0 in instanceDefinitions {
-                try instanceDefinitionsContainer.encode(instancedefinitions0)
+            for instancedefinition0 in instanceDefinitions {
+                try instanceDefinitionsContainer.encode(instancedefinition0)
             }
         }
         if let lastUpdatedTime = self.lastUpdatedTime {
@@ -12299,8 +12299,8 @@ extension GameLiftClientTypes.GameServerGroup: Swift.Codable {
         }
         if let suspendedActions = suspendedActions {
             var suspendedActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suspendedActions)
-            for gameservergroupactions0 in suspendedActions {
-                try suspendedActionsContainer.encode(gameservergroupactions0.rawValue)
+            for gameservergroupaction0 in suspendedActions {
+                try suspendedActionsContainer.encode(gameservergroupaction0.rawValue)
             }
         }
     }
@@ -13117,8 +13117,8 @@ extension GameLiftClientTypes.GameSession: Swift.Codable {
         }
         if let gameProperties = gameProperties {
             var gamePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameProperties)
-            for gamepropertylist0 in gameProperties {
-                try gamePropertiesContainer.encode(gamepropertylist0)
+            for gameproperty0 in gameProperties {
+                try gamePropertiesContainer.encode(gameproperty0)
             }
         }
         if let gameSessionData = self.gameSessionData {
@@ -13328,8 +13328,8 @@ extension GameLiftClientTypes.GameSessionConnectionInfo: Swift.Codable {
         }
         if let matchedPlayerSessions = matchedPlayerSessions {
             var matchedPlayerSessionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchedPlayerSessions)
-            for matchedplayersessionlist0 in matchedPlayerSessions {
-                try matchedPlayerSessionsContainer.encode(matchedplayersessionlist0)
+            for matchedplayersession0 in matchedPlayerSessions {
+                try matchedPlayerSessionsContainer.encode(matchedplayersession0)
             }
         }
         if let port = self.port {
@@ -13533,8 +13533,8 @@ extension GameLiftClientTypes.GameSessionPlacement: Swift.Codable {
         }
         if let gameProperties = gameProperties {
             var gamePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameProperties)
-            for gamepropertylist0 in gameProperties {
-                try gamePropertiesContainer.encode(gamepropertylist0)
+            for gameproperty0 in gameProperties {
+                try gamePropertiesContainer.encode(gameproperty0)
             }
         }
         if let gameSessionArn = self.gameSessionArn {
@@ -13566,8 +13566,8 @@ extension GameLiftClientTypes.GameSessionPlacement: Swift.Codable {
         }
         if let placedPlayerSessions = placedPlayerSessions {
             var placedPlayerSessionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placedPlayerSessions)
-            for placedplayersessionlist0 in placedPlayerSessions {
-                try placedPlayerSessionsContainer.encode(placedplayersessionlist0)
+            for placedplayersession0 in placedPlayerSessions {
+                try placedPlayerSessionsContainer.encode(placedplayersession0)
             }
         }
         if let placementId = self.placementId {
@@ -13575,8 +13575,8 @@ extension GameLiftClientTypes.GameSessionPlacement: Swift.Codable {
         }
         if let playerLatencies = playerLatencies {
             var playerLatenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playerLatencies)
-            for playerlatencylist0 in playerLatencies {
-                try playerLatenciesContainer.encode(playerlatencylist0)
+            for playerlatency0 in playerLatencies {
+                try playerLatenciesContainer.encode(playerlatency0)
             }
         }
         if let port = self.port {
@@ -13820,8 +13820,8 @@ extension GameLiftClientTypes.GameSessionQueue: Swift.Codable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for gamesessionqueuedestinationlist0 in destinations {
-                try destinationsContainer.encode(gamesessionqueuedestinationlist0)
+            for gamesessionqueuedestination0 in destinations {
+                try destinationsContainer.encode(gamesessionqueuedestination0)
             }
         }
         if let filterConfiguration = self.filterConfiguration {
@@ -13838,8 +13838,8 @@ extension GameLiftClientTypes.GameSessionQueue: Swift.Codable {
         }
         if let playerLatencyPolicies = playerLatencyPolicies {
             var playerLatencyPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playerLatencyPolicies)
-            for playerlatencypolicylist0 in playerLatencyPolicies {
-                try playerLatencyPoliciesContainer.encode(playerlatencypolicylist0)
+            for playerlatencypolicy0 in playerLatencyPolicies {
+                try playerLatencyPoliciesContainer.encode(playerlatencypolicy0)
             }
         }
         if let priorityConfiguration = self.priorityConfiguration {
@@ -16467,8 +16467,8 @@ extension ListLocationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for locationfilterlist0 in filters {
-                try filtersContainer.encode(locationfilterlist0.rawValue)
+            for locationfilter0 in filters {
+                try filtersContainer.encode(locationfilter0.rawValue)
             }
         }
         if let limit = self.limit {
@@ -16910,8 +16910,8 @@ extension GameLiftClientTypes.LocationAttributes: Swift.Codable {
         }
         if let stoppedActions = stoppedActions {
             var stoppedActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stoppedActions)
-            for fleetactionlist0 in stoppedActions {
-                try stoppedActionsContainer.encode(fleetactionlist0.rawValue)
+            for fleetaction0 in stoppedActions {
+                try stoppedActionsContainer.encode(fleetaction0.rawValue)
             }
         }
         if let updateStatus = self.updateStatus {
@@ -17261,8 +17261,8 @@ extension GameLiftClientTypes.MatchmakingConfiguration: Swift.Codable {
         }
         if let gameProperties = gameProperties {
             var gamePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameProperties)
-            for gamepropertylist0 in gameProperties {
-                try gamePropertiesContainer.encode(gamepropertylist0)
+            for gameproperty0 in gameProperties {
+                try gamePropertiesContainer.encode(gameproperty0)
             }
         }
         if let gameSessionData = self.gameSessionData {
@@ -17270,8 +17270,8 @@ extension GameLiftClientTypes.MatchmakingConfiguration: Swift.Codable {
         }
         if let gameSessionQueueArns = gameSessionQueueArns {
             var gameSessionQueueArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameSessionQueueArns)
-            for queuearnslist0 in gameSessionQueueArns {
-                try gameSessionQueueArnsContainer.encode(queuearnslist0)
+            for arnstringmodel0 in gameSessionQueueArns {
+                try gameSessionQueueArnsContainer.encode(arnstringmodel0)
             }
         }
         if let name = self.name {
@@ -17590,8 +17590,8 @@ extension GameLiftClientTypes.MatchmakingTicket: Swift.Codable {
         }
         if let players = players {
             var playersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .players)
-            for playerlist0 in players {
-                try playersContainer.encode(playerlist0)
+            for player0 in players {
+                try playersContainer.encode(player0)
             }
         }
         if let startTime = self.startTime {
@@ -17980,14 +17980,14 @@ extension GameLiftClientTypes.Player: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let latencyInMs = latencyInMs {
             var latencyInMsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .latencyInMs)
-            for (dictKey0, latencymap0) in latencyInMs {
-                try latencyInMsContainer.encode(latencymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, latencyMap0) in latencyInMs {
+                try latencyInMsContainer.encode(latencyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let playerAttributes = playerAttributes {
             var playerAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .playerAttributes)
-            for (dictKey0, playerattributemap0) in playerAttributes {
-                try playerAttributesContainer.encode(playerattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, playerAttributeMap0) in playerAttributes {
+                try playerAttributesContainer.encode(playerAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let playerId = self.playerId {
@@ -18429,14 +18429,14 @@ extension GameLiftClientTypes.PriorityConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let locationOrder = locationOrder {
             var locationOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .locationOrder)
-            for locationlist0 in locationOrder {
-                try locationOrderContainer.encode(locationlist0)
+            for locationstringmodel0 in locationOrder {
+                try locationOrderContainer.encode(locationstringmodel0)
             }
         }
         if let priorityOrder = priorityOrder {
             var priorityOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .priorityOrder)
-            for prioritytypelist0 in priorityOrder {
-                try priorityOrderContainer.encode(prioritytypelist0.rawValue)
+            for prioritytype0 in priorityOrder {
+                try priorityOrderContainer.encode(prioritytype0.rawValue)
             }
         }
     }
@@ -19494,8 +19494,8 @@ extension ResumeGameServerGroupInput: Swift.Encodable {
         }
         if let resumeActions = resumeActions {
             var resumeActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resumeActions)
-            for gameservergroupactions0 in resumeActions {
-                try resumeActionsContainer.encode(gameservergroupactions0.rawValue)
+            for gameservergroupaction0 in resumeActions {
+                try resumeActionsContainer.encode(gameservergroupaction0.rawValue)
             }
         }
     }
@@ -19731,8 +19731,8 @@ extension GameLiftClientTypes.RuntimeConfiguration: Swift.Codable {
         }
         if let serverProcesses = serverProcesses {
             var serverProcessesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverProcesses)
-            for serverprocesslist0 in serverProcesses {
-                try serverProcessesContainer.encode(serverprocesslist0)
+            for serverprocess0 in serverProcesses {
+                try serverProcessesContainer.encode(serverprocess0)
             }
         }
     }
@@ -20574,8 +20574,8 @@ extension StartFleetActionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for fleetactionlist0 in actions {
-                try actionsContainer.encode(fleetactionlist0.rawValue)
+            for fleetaction0 in actions {
+                try actionsContainer.encode(fleetaction0.rawValue)
             }
         }
         if let fleetId = self.fleetId {
@@ -20745,14 +20745,14 @@ extension StartGameSessionPlacementInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let desiredPlayerSessions = desiredPlayerSessions {
             var desiredPlayerSessionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .desiredPlayerSessions)
-            for desiredplayersessionlist0 in desiredPlayerSessions {
-                try desiredPlayerSessionsContainer.encode(desiredplayersessionlist0)
+            for desiredplayersession0 in desiredPlayerSessions {
+                try desiredPlayerSessionsContainer.encode(desiredplayersession0)
             }
         }
         if let gameProperties = gameProperties {
             var gamePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameProperties)
-            for gamepropertylist0 in gameProperties {
-                try gamePropertiesContainer.encode(gamepropertylist0)
+            for gameproperty0 in gameProperties {
+                try gamePropertiesContainer.encode(gameproperty0)
             }
         }
         if let gameSessionData = self.gameSessionData {
@@ -20772,8 +20772,8 @@ extension StartGameSessionPlacementInput: Swift.Encodable {
         }
         if let playerLatencies = playerLatencies {
             var playerLatenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playerLatencies)
-            for playerlatencylist0 in playerLatencies {
-                try playerLatenciesContainer.encode(playerlatencylist0)
+            for playerlatency0 in playerLatencies {
+                try playerLatenciesContainer.encode(playerlatency0)
             }
         }
     }
@@ -20986,8 +20986,8 @@ extension StartMatchBackfillInput: Swift.Encodable {
         }
         if let players = players {
             var playersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .players)
-            for playerlist0 in players {
-                try playersContainer.encode(playerlist0)
+            for player0 in players {
+                try playersContainer.encode(player0)
             }
         }
         if let ticketId = self.ticketId {
@@ -21152,8 +21152,8 @@ extension StartMatchmakingInput: Swift.Encodable {
         }
         if let players = players {
             var playersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .players)
-            for playerlist0 in players {
-                try playersContainer.encode(playerlist0)
+            for player0 in players {
+                try playersContainer.encode(player0)
             }
         }
         if let ticketId = self.ticketId {
@@ -21303,8 +21303,8 @@ extension StopFleetActionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for fleetactionlist0 in actions {
-                try actionsContainer.encode(fleetactionlist0.rawValue)
+            for fleetaction0 in actions {
+                try actionsContainer.encode(fleetaction0.rawValue)
             }
         }
         if let fleetId = self.fleetId {
@@ -21674,8 +21674,8 @@ extension SuspendGameServerGroupInput: Swift.Encodable {
         }
         if let suspendActions = suspendActions {
             var suspendActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suspendActions)
-            for gameservergroupactions0 in suspendActions {
-                try suspendActionsContainer.encode(gameservergroupactions0.rawValue)
+            for gameservergroupaction0 in suspendActions {
+                try suspendActionsContainer.encode(gameservergroupaction0.rawValue)
             }
         }
     }
@@ -21863,8 +21863,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -22254,8 +22254,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -22670,8 +22670,8 @@ extension UpdateFleetAttributesInput: Swift.Encodable {
         }
         if let metricGroups = metricGroups {
             var metricGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricGroups)
-            for metricgrouplist0 in metricGroups {
-                try metricGroupsContainer.encode(metricgrouplist0)
+            for metricgroup0 in metricGroups {
+                try metricGroupsContainer.encode(metricgroup0)
             }
         }
         if let name = self.name {
@@ -23074,14 +23074,14 @@ extension UpdateFleetPortSettingsInput: Swift.Encodable {
         }
         if let inboundPermissionAuthorizations = inboundPermissionAuthorizations {
             var inboundPermissionAuthorizationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inboundPermissionAuthorizations)
-            for ippermissionslist0 in inboundPermissionAuthorizations {
-                try inboundPermissionAuthorizationsContainer.encode(ippermissionslist0)
+            for ippermission0 in inboundPermissionAuthorizations {
+                try inboundPermissionAuthorizationsContainer.encode(ippermission0)
             }
         }
         if let inboundPermissionRevocations = inboundPermissionRevocations {
             var inboundPermissionRevocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inboundPermissionRevocations)
-            for ippermissionslist0 in inboundPermissionRevocations {
-                try inboundPermissionRevocationsContainer.encode(ippermissionslist0)
+            for ippermission0 in inboundPermissionRevocations {
+                try inboundPermissionRevocationsContainer.encode(ippermission0)
             }
         }
     }
@@ -23263,8 +23263,8 @@ extension UpdateGameServerGroupInput: Swift.Encodable {
         }
         if let instanceDefinitions = instanceDefinitions {
             var instanceDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceDefinitions)
-            for instancedefinitions0 in instanceDefinitions {
-                try instanceDefinitionsContainer.encode(instancedefinitions0)
+            for instancedefinition0 in instanceDefinitions {
+                try instanceDefinitionsContainer.encode(instancedefinition0)
             }
         }
         if let roleArn = self.roleArn {
@@ -23782,8 +23782,8 @@ extension UpdateGameSessionQueueInput: Swift.Encodable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for gamesessionqueuedestinationlist0 in destinations {
-                try destinationsContainer.encode(gamesessionqueuedestinationlist0)
+            for gamesessionqueuedestination0 in destinations {
+                try destinationsContainer.encode(gamesessionqueuedestination0)
             }
         }
         if let filterConfiguration = self.filterConfiguration {
@@ -23797,8 +23797,8 @@ extension UpdateGameSessionQueueInput: Swift.Encodable {
         }
         if let playerLatencyPolicies = playerLatencyPolicies {
             var playerLatencyPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playerLatencyPolicies)
-            for playerlatencypolicylist0 in playerLatencyPolicies {
-                try playerLatencyPoliciesContainer.encode(playerlatencypolicylist0)
+            for playerlatencypolicy0 in playerLatencyPolicies {
+                try playerLatencyPoliciesContainer.encode(playerlatencypolicy0)
             }
         }
         if let priorityConfiguration = self.priorityConfiguration {
@@ -24031,8 +24031,8 @@ extension UpdateMatchmakingConfigurationInput: Swift.Encodable {
         }
         if let gameProperties = gameProperties {
             var gamePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameProperties)
-            for gamepropertylist0 in gameProperties {
-                try gamePropertiesContainer.encode(gamepropertylist0)
+            for gameproperty0 in gameProperties {
+                try gamePropertiesContainer.encode(gameproperty0)
             }
         }
         if let gameSessionData = self.gameSessionData {
@@ -24040,8 +24040,8 @@ extension UpdateMatchmakingConfigurationInput: Swift.Encodable {
         }
         if let gameSessionQueueArns = gameSessionQueueArns {
             var gameSessionQueueArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gameSessionQueueArns)
-            for queuearnslist0 in gameSessionQueueArns {
-                try gameSessionQueueArnsContainer.encode(queuearnslist0)
+            for arnstringmodel0 in gameSessionQueueArns {
+                try gameSessionQueueArnsContainer.encode(arnstringmodel0)
             }
         }
         if let name = self.name {

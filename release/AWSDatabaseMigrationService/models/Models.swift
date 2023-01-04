@@ -123,8 +123,8 @@ extension AddTagsToResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1408,8 +1408,8 @@ extension CreateEndpointInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let username = self.username {
@@ -1830,8 +1830,8 @@ extension CreateEventSubscriptionInput: Swift.Encodable {
         }
         if let eventCategories = eventCategories {
             var eventCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventCategories)
-            for eventcategorieslist0 in eventCategories {
-                try eventCategoriesContainer.encode(eventcategorieslist0)
+            for string0 in eventCategories {
+                try eventCategoriesContainer.encode(string0)
             }
         }
         if let snsTopicArn = self.snsTopicArn {
@@ -1839,8 +1839,8 @@ extension CreateEventSubscriptionInput: Swift.Encodable {
         }
         if let sourceIds = sourceIds {
             var sourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceIds)
-            for sourceidslist0 in sourceIds {
-                try sourceIdsContainer.encode(sourceidslist0)
+            for string0 in sourceIds {
+                try sourceIdsContainer.encode(string0)
             }
         }
         if let sourceType = self.sourceType {
@@ -1851,8 +1851,8 @@ extension CreateEventSubscriptionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2315,14 +2315,14 @@ extension CreateReplicationInstanceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
-            for vpcsecuritygroupidlist0 in vpcSecurityGroupIds {
-                try vpcSecurityGroupIdsContainer.encode(vpcsecuritygroupidlist0)
+            for string0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(string0)
             }
         }
     }
@@ -2612,14 +2612,14 @@ extension CreateReplicationSubnetGroupInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidentifierlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidentifierlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2830,8 +2830,8 @@ extension CreateReplicationTaskInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let targetEndpointArn = self.targetEndpointArn {
@@ -3211,8 +3211,8 @@ extension DatabaseMigrationClientTypes.DatabaseResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let collectors = collectors {
             var collectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .collectors)
-            for collectorslist0 in collectors {
-                try collectorsContainer.encode(collectorslist0)
+            for collectorshortinforesponse0 in collectors {
+                try collectorsContainer.encode(collectorshortinforesponse0)
             }
         }
         if let databaseId = self.databaseId {
@@ -4011,8 +4011,8 @@ extension DeleteFleetAdvisorDatabasesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let databaseIds = databaseIds {
             var databaseIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .databaseIds)
-            for stringlist0 in databaseIds {
-                try databaseIdsContainer.encode(stringlist0)
+            for string0 in databaseIds {
+                try databaseIdsContainer.encode(string0)
             }
         }
     }
@@ -4895,8 +4895,8 @@ extension DescribeCertificatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -5060,8 +5060,8 @@ extension DescribeConnectionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -5379,8 +5379,8 @@ extension DescribeEndpointTypesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -5544,8 +5544,8 @@ extension DescribeEndpointsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -5722,8 +5722,8 @@ extension DescribeEventCategoriesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let sourceType = self.sourceType {
@@ -5867,8 +5867,8 @@ extension DescribeEventSubscriptionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -6057,14 +6057,14 @@ extension DescribeEventsInput: Swift.Encodable {
         }
         if let eventCategories = eventCategories {
             var eventCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventCategories)
-            for eventcategorieslist0 in eventCategories {
-                try eventCategoriesContainer.encode(eventcategorieslist0)
+            for string0 in eventCategories {
+                try eventCategoriesContainer.encode(string0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -6294,8 +6294,8 @@ extension DescribeFleetAdvisorCollectorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxRecords = self.maxRecords {
@@ -6466,8 +6466,8 @@ extension DescribeFleetAdvisorDatabasesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxRecords = self.maxRecords {
@@ -6787,8 +6787,8 @@ extension DescribeFleetAdvisorSchemaObjectSummaryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxRecords = self.maxRecords {
@@ -6957,8 +6957,8 @@ extension DescribeFleetAdvisorSchemasInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxRecords = self.maxRecords {
@@ -7285,8 +7285,8 @@ extension DescribePendingMaintenanceActionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -7744,8 +7744,8 @@ extension DescribeReplicationInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -7923,8 +7923,8 @@ extension DescribeReplicationSubnetGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -8255,8 +8255,8 @@ extension DescribeReplicationTaskAssessmentRunsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -8422,8 +8422,8 @@ extension DescribeReplicationTaskIndividualAssessmentsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -8590,8 +8590,8 @@ extension DescribeReplicationTasksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -8939,8 +8939,8 @@ extension DescribeTableStatisticsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let marker = self.marker {
@@ -9926,8 +9926,8 @@ extension DatabaseMigrationClientTypes.EndpointSetting: Swift.Codable {
         }
         if let enumValues = enumValues {
             var enumValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enumValues)
-            for endpointsettingenumvalues0 in enumValues {
-                try enumValuesContainer.encode(endpointsettingenumvalues0)
+            for string0 in enumValues {
+                try enumValuesContainer.encode(string0)
             }
         }
         if let intValueMax = self.intValueMax {
@@ -10084,8 +10084,8 @@ extension DatabaseMigrationClientTypes.Event: Swift.Codable {
         }
         if let eventCategories = eventCategories {
             var eventCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventCategories)
-            for eventcategorieslist0 in eventCategories {
-                try eventCategoriesContainer.encode(eventcategorieslist0)
+            for string0 in eventCategories {
+                try eventCategoriesContainer.encode(string0)
             }
         }
         if let message = self.message {
@@ -10165,8 +10165,8 @@ extension DatabaseMigrationClientTypes.EventCategoryGroup: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventCategories = eventCategories {
             var eventCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventCategories)
-            for eventcategorieslist0 in eventCategories {
-                try eventCategoriesContainer.encode(eventcategorieslist0)
+            for string0 in eventCategories {
+                try eventCategoriesContainer.encode(string0)
             }
         }
         if let sourceType = self.sourceType {
@@ -10238,8 +10238,8 @@ extension DatabaseMigrationClientTypes.EventSubscription: Swift.Codable {
         }
         if let eventCategoriesList = eventCategoriesList {
             var eventCategoriesListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventCategoriesList)
-            for eventcategorieslist0 in eventCategoriesList {
-                try eventCategoriesListContainer.encode(eventcategorieslist0)
+            for string0 in eventCategoriesList {
+                try eventCategoriesListContainer.encode(string0)
             }
         }
         if let snsTopicArn = self.snsTopicArn {
@@ -10247,8 +10247,8 @@ extension DatabaseMigrationClientTypes.EventSubscription: Swift.Codable {
         }
         if let sourceIdsList = sourceIdsList {
             var sourceIdsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceIdsList)
-            for sourceidslist0 in sourceIdsList {
-                try sourceIdsListContainer.encode(sourceidslist0)
+            for string0 in sourceIdsList {
+                try sourceIdsListContainer.encode(string0)
             }
         }
         if let sourceType = self.sourceType {
@@ -10364,8 +10364,8 @@ extension DatabaseMigrationClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluelist0 in values {
-                try valuesContainer.encode(filtervaluelist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -10864,8 +10864,8 @@ extension ImportCertificateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12065,8 +12065,8 @@ extension ListTagsForResourceInput: Swift.Encodable {
         }
         if let resourceArnList = resourceArnList {
             var resourceArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArnList)
-            for arnlist0 in resourceArnList {
-                try resourceArnListContainer.encode(arnlist0)
+            for string0 in resourceArnList {
+                try resourceArnListContainer.encode(string0)
             }
         }
     }
@@ -12984,8 +12984,8 @@ extension ModifyEventSubscriptionInput: Swift.Encodable {
         }
         if let eventCategories = eventCategories {
             var eventCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventCategories)
-            for eventcategorieslist0 in eventCategories {
-                try eventCategoriesContainer.encode(eventcategorieslist0)
+            for string0 in eventCategories {
+                try eventCategoriesContainer.encode(string0)
             }
         }
         if let snsTopicArn = self.snsTopicArn {
@@ -13210,8 +13210,8 @@ extension ModifyReplicationInstanceInput: Swift.Encodable {
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
-            for vpcsecuritygroupidlist0 in vpcSecurityGroupIds {
-                try vpcSecurityGroupIdsContainer.encode(vpcsecuritygroupidlist0)
+            for string0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(string0)
             }
         }
     }
@@ -13449,8 +13449,8 @@ extension ModifyReplicationSubnetGroupInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidentifierlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidentifierlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }
@@ -14507,8 +14507,8 @@ extension DatabaseMigrationClientTypes.OracleSettings: Swift.Codable {
         }
         if let extraArchivedLogDestIds = extraArchivedLogDestIds {
             var extraArchivedLogDestIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extraArchivedLogDestIds)
-            for integerlist0 in extraArchivedLogDestIds {
-                try extraArchivedLogDestIdsContainer.encode(integerlist0)
+            for integer0 in extraArchivedLogDestIds {
+                try extraArchivedLogDestIdsContainer.encode(integer0)
             }
         }
         if let failTasksOnLobTruncation = self.failTasksOnLobTruncation {
@@ -14885,8 +14885,8 @@ extension DatabaseMigrationClientTypes.OrderableReplicationInstance: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzoneslist0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzoneslist0)
+            for string0 in availabilityZones {
+                try availabilityZonesContainer.encode(string0)
             }
         }
         if defaultAllocatedStorage != 0 {
@@ -16291,8 +16291,8 @@ extension ReloadTablesInput: Swift.Encodable {
         }
         if let tablesToReload = tablesToReload {
             var tablesToReloadContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tablesToReload)
-            for tablelisttoreload0 in tablesToReload {
-                try tablesToReloadContainer.encode(tablelisttoreload0)
+            for tabletoreload0 in tablesToReload {
+                try tablesToReloadContainer.encode(tabletoreload0)
             }
         }
     }
@@ -16437,8 +16437,8 @@ extension RemoveTagsFromResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for keylist0 in tagKeys {
-                try tagKeysContainer.encode(keylist0)
+            for string0 in tagKeys {
+                try tagKeysContainer.encode(string0)
             }
         }
     }
@@ -16644,8 +16644,8 @@ extension DatabaseMigrationClientTypes.ReplicationInstance: Swift.Codable {
         }
         if let replicationInstanceIpv6Addresses = replicationInstanceIpv6Addresses {
             var replicationInstanceIpv6AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationInstanceIpv6Addresses)
-            for replicationinstanceipv6addresslist0 in replicationInstanceIpv6Addresses {
-                try replicationInstanceIpv6AddressesContainer.encode(replicationinstanceipv6addresslist0)
+            for string0 in replicationInstanceIpv6Addresses {
+                try replicationInstanceIpv6AddressesContainer.encode(string0)
             }
         }
         if let replicationInstancePrivateIpAddress = self.replicationInstancePrivateIpAddress {
@@ -16653,8 +16653,8 @@ extension DatabaseMigrationClientTypes.ReplicationInstance: Swift.Codable {
         }
         if let replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses {
             var replicationInstancePrivateIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationInstancePrivateIpAddresses)
-            for replicationinstanceprivateipaddresslist0 in replicationInstancePrivateIpAddresses {
-                try replicationInstancePrivateIpAddressesContainer.encode(replicationinstanceprivateipaddresslist0)
+            for string0 in replicationInstancePrivateIpAddresses {
+                try replicationInstancePrivateIpAddressesContainer.encode(string0)
             }
         }
         if let replicationInstancePublicIpAddress = self.replicationInstancePublicIpAddress {
@@ -16662,8 +16662,8 @@ extension DatabaseMigrationClientTypes.ReplicationInstance: Swift.Codable {
         }
         if let replicationInstancePublicIpAddresses = replicationInstancePublicIpAddresses {
             var replicationInstancePublicIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationInstancePublicIpAddresses)
-            for replicationinstancepublicipaddresslist0 in replicationInstancePublicIpAddresses {
-                try replicationInstancePublicIpAddressesContainer.encode(replicationinstancepublicipaddresslist0)
+            for string0 in replicationInstancePublicIpAddresses {
+                try replicationInstancePublicIpAddressesContainer.encode(string0)
             }
         }
         if let replicationInstanceStatus = self.replicationInstanceStatus {
@@ -16677,8 +16677,8 @@ extension DatabaseMigrationClientTypes.ReplicationInstance: Swift.Codable {
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
             var vpcSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroups)
-            for vpcsecuritygroupmembershiplist0 in vpcSecurityGroups {
-                try vpcSecurityGroupsContainer.encode(vpcsecuritygroupmembershiplist0)
+            for vpcsecuritygroupmembership0 in vpcSecurityGroups {
+                try vpcSecurityGroupsContainer.encode(vpcsecuritygroupmembership0)
             }
         }
     }
@@ -17076,14 +17076,14 @@ extension DatabaseMigrationClientTypes.ReplicationSubnetGroup: Swift.Codable {
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for subnetlist0 in subnets {
-                try subnetsContainer.encode(subnetlist0)
+            for subnet0 in subnets {
+                try subnetsContainer.encode(subnet0)
             }
         }
         if let supportedNetworkTypes = supportedNetworkTypes {
             var supportedNetworkTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedNetworkTypes)
-            for stringlist0 in supportedNetworkTypes {
-                try supportedNetworkTypesContainer.encode(stringlist0)
+            for string0 in supportedNetworkTypes {
+                try supportedNetworkTypesContainer.encode(string0)
             }
         }
         if let vpcId = self.vpcId {
@@ -18140,8 +18140,8 @@ extension DatabaseMigrationClientTypes.ResourcePendingMaintenanceActions: Swift.
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pendingMaintenanceActionDetails = pendingMaintenanceActionDetails {
             var pendingMaintenanceActionDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pendingMaintenanceActionDetails)
-            for pendingmaintenanceactiondetails0 in pendingMaintenanceActionDetails {
-                try pendingMaintenanceActionDetailsContainer.encode(pendingmaintenanceactiondetails0)
+            for pendingmaintenanceaction0 in pendingMaintenanceActionDetails {
+                try pendingMaintenanceActionDetailsContainer.encode(pendingmaintenanceaction0)
             }
         }
         if let resourceIdentifier = self.resourceIdentifier {
@@ -19486,14 +19486,14 @@ extension StartReplicationTaskAssessmentRunInput: Swift.Encodable {
         }
         if let exclude = exclude {
             var excludeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclude)
-            for excludetestlist0 in exclude {
-                try excludeContainer.encode(excludetestlist0)
+            for string0 in exclude {
+                try excludeContainer.encode(string0)
             }
         }
         if let includeOnly = includeOnly {
             var includeOnlyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeOnly)
-            for includetestlist0 in includeOnly {
-                try includeOnlyContainer.encode(includetestlist0)
+            for string0 in includeOnly {
+                try includeOnlyContainer.encode(string0)
             }
         }
         if let replicationTaskArn = self.replicationTaskArn {

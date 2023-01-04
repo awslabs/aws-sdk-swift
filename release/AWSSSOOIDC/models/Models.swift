@@ -161,8 +161,8 @@ extension CreateTokenInput: Swift.Encodable {
         }
         if let scope = scope {
             var scopeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scope)
-            for scopes0 in scope {
-                try scopeContainer.encode(scopes0)
+            for scope0 in scope {
+                try scopeContainer.encode(scope0)
             }
         }
     }
@@ -837,8 +837,8 @@ extension RegisterClientInput: Swift.Encodable {
         }
         if let scopes = scopes {
             var scopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scopes)
-            for scopes0 in scopes {
-                try scopesContainer.encode(scopes0)
+            for scope0 in scopes {
+                try scopesContainer.encode(scope0)
             }
         }
     }

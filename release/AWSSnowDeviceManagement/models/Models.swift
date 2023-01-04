@@ -384,14 +384,14 @@ extension CreateTaskInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
-            for targetlist0 in targets {
-                try targetsContainer.encode(targetlist0)
+            for string0 in targets {
+                try targetsContainer.encode(string0)
             }
         }
     }
@@ -575,8 +575,8 @@ extension DescribeDeviceEc2InstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for instanceidslist0 in instanceIds {
-                try instanceIdsContainer.encode(instanceidslist0)
+            for string0 in instanceIds {
+                try instanceIdsContainer.encode(string0)
             }
         }
     }
@@ -1324,8 +1324,8 @@ extension SnowDeviceManagementClientTypes.DeviceSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1581,8 +1581,8 @@ extension SnowDeviceManagementClientTypes.Instance: Swift.Codable {
         }
         if let blockDeviceMappings = blockDeviceMappings {
             var blockDeviceMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockDeviceMappings)
-            for instanceblockdevicemappinglist0 in blockDeviceMappings {
-                try blockDeviceMappingsContainer.encode(instanceblockdevicemappinglist0)
+            for instanceblockdevicemapping0 in blockDeviceMappings {
+                try blockDeviceMappingsContainer.encode(instanceblockdevicemapping0)
             }
         }
         if let cpuOptions = self.cpuOptions {
@@ -1611,8 +1611,8 @@ extension SnowDeviceManagementClientTypes.Instance: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroupidentifierlist0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroupidentifierlist0)
+            for securitygroupidentifier0 in securityGroups {
+                try securityGroupsContainer.encode(securitygroupidentifier0)
             }
         }
         if let state = self.state {
@@ -3148,8 +3148,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3293,8 +3293,8 @@ extension SnowDeviceManagementClientTypes.TaskSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let taskArn = self.taskArn {

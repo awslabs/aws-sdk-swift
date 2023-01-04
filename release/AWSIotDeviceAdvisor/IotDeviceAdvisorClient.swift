@@ -224,7 +224,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateSuiteDefinitionInput, CreateSuiteDefinitionOutputResponse, CreateSuiteDefinitionOutputError>(id: "createSuiteDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSuiteDefinitionInput, CreateSuiteDefinitionOutputResponse, CreateSuiteDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSuiteDefinitionInput, CreateSuiteDefinitionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateSuiteDefinitionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSuiteDefinitionOutputResponse, CreateSuiteDefinitionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -258,7 +261,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteSuiteDefinitionInput, DeleteSuiteDefinitionOutputResponse, DeleteSuiteDefinitionOutputError>(id: "deleteSuiteDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSuiteDefinitionInput, DeleteSuiteDefinitionOutputResponse, DeleteSuiteDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSuiteDefinitionInput, DeleteSuiteDefinitionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteSuiteDefinitionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSuiteDefinitionOutputResponse, DeleteSuiteDefinitionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -289,7 +295,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<GetEndpointInput, GetEndpointOutputResponse, GetEndpointOutputError>(id: "getEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEndpointInput, GetEndpointOutputResponse, GetEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEndpointInput, GetEndpointOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<GetEndpointOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEndpointOutputResponse, GetEndpointOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -321,7 +330,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<GetSuiteDefinitionInput, GetSuiteDefinitionOutputResponse, GetSuiteDefinitionOutputError>(id: "getSuiteDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSuiteDefinitionInput, GetSuiteDefinitionOutputResponse, GetSuiteDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSuiteDefinitionInput, GetSuiteDefinitionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<GetSuiteDefinitionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSuiteDefinitionOutputResponse, GetSuiteDefinitionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -353,7 +365,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<GetSuiteRunInput, GetSuiteRunOutputResponse, GetSuiteRunOutputError>(id: "getSuiteRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSuiteRunInput, GetSuiteRunOutputResponse, GetSuiteRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSuiteRunInput, GetSuiteRunOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<GetSuiteRunOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSuiteRunOutputResponse, GetSuiteRunOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -384,7 +399,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<GetSuiteRunReportInput, GetSuiteRunReportOutputResponse, GetSuiteRunReportOutputError>(id: "getSuiteRunReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSuiteRunReportInput, GetSuiteRunReportOutputResponse, GetSuiteRunReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSuiteRunReportInput, GetSuiteRunReportOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<GetSuiteRunReportOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSuiteRunReportOutputResponse, GetSuiteRunReportOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -415,7 +433,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutputResponse, ListSuiteDefinitionsOutputError>(id: "listSuiteDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutputResponse, ListSuiteDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListSuiteDefinitionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSuiteDefinitionsOutputResponse, ListSuiteDefinitionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -447,7 +468,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<ListSuiteRunsInput, ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>(id: "listSuiteRuns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuiteRunsInput, ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSuiteRunsInput, ListSuiteRunsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListSuiteRunsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -479,7 +503,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListTagsForResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -510,7 +537,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<StartSuiteRunInput, StartSuiteRunOutputResponse, StartSuiteRunOutputError>(id: "startSuiteRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSuiteRunInput, StartSuiteRunOutputResponse, StartSuiteRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSuiteRunInput, StartSuiteRunOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<StartSuiteRunOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSuiteRunOutputResponse, StartSuiteRunOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -544,7 +574,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<StopSuiteRunInput, StopSuiteRunOutputResponse, StopSuiteRunOutputError>(id: "stopSuiteRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopSuiteRunInput, StopSuiteRunOutputResponse, StopSuiteRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopSuiteRunInput, StopSuiteRunOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<StopSuiteRunOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopSuiteRunOutputResponse, StopSuiteRunOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -575,7 +608,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<TagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -609,7 +645,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UntagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -641,7 +680,10 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateSuiteDefinitionInput, UpdateSuiteDefinitionOutputResponse, UpdateSuiteDefinitionOutputError>(id: "updateSuiteDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSuiteDefinitionInput, UpdateSuiteDefinitionOutputResponse, UpdateSuiteDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSuiteDefinitionInput, UpdateSuiteDefinitionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateSuiteDefinitionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSuiteDefinitionOutputResponse, UpdateSuiteDefinitionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

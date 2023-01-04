@@ -11,8 +11,8 @@ extension AddFlowMediaStreamsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let mediaStreams = mediaStreams {
             var mediaStreamsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaStreams)
-            for __listofaddmediastreamrequest0 in mediaStreams {
-                try mediaStreamsContainer.encode(__listofaddmediastreamrequest0)
+            for addmediastreamrequest0 in mediaStreams {
+                try mediaStreamsContainer.encode(addmediastreamrequest0)
             }
         }
     }
@@ -226,8 +226,8 @@ extension AddFlowOutputsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for __listofaddoutputrequest0 in outputs {
-                try outputsContainer.encode(__listofaddoutputrequest0)
+            for addoutputrequest0 in outputs {
+                try outputsContainer.encode(addoutputrequest0)
             }
         }
     }
@@ -389,8 +389,8 @@ extension AddFlowSourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for __listofsetsourcerequest0 in sources {
-                try sourcesContainer.encode(__listofsetsourcerequest0)
+            for setsourcerequest0 in sources {
+                try sourcesContainer.encode(setsourcerequest0)
             }
         }
     }
@@ -550,8 +550,8 @@ extension AddFlowVpcInterfacesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let vpcInterfaces = vpcInterfaces {
             var vpcInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcInterfaces)
-            for __listofvpcinterfacerequest0 in vpcInterfaces {
-                try vpcInterfacesContainer.encode(__listofvpcinterfacerequest0)
+            for vpcinterfacerequest0 in vpcInterfaces {
+                try vpcInterfacesContainer.encode(vpcinterfacerequest0)
             }
         }
     }
@@ -870,8 +870,8 @@ extension MediaConnectClientTypes.AddOutputRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cidrAllowList = cidrAllowList {
             var cidrAllowListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrAllowList)
-            for __listof__string0 in cidrAllowList {
-                try cidrAllowListContainer.encode(__listof__string0)
+            for __string0 in cidrAllowList {
+                try cidrAllowListContainer.encode(__string0)
             }
         }
         if let description = self.description {
@@ -888,8 +888,8 @@ extension MediaConnectClientTypes.AddOutputRequest: Swift.Codable {
         }
         if let mediaStreamOutputConfigurations = mediaStreamOutputConfigurations {
             var mediaStreamOutputConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaStreamOutputConfigurations)
-            for __listofmediastreamoutputconfigurationrequest0 in mediaStreamOutputConfigurations {
-                try mediaStreamOutputConfigurationsContainer.encode(__listofmediastreamoutputconfigurationrequest0)
+            for mediastreamoutputconfigurationrequest0 in mediaStreamOutputConfigurations {
+                try mediaStreamOutputConfigurationsContainer.encode(mediastreamoutputconfigurationrequest0)
             }
         }
         if let minLatency = self.minLatency {
@@ -1258,8 +1258,8 @@ extension CreateFlowInput: Swift.Encodable {
         }
         if let entitlements = entitlements {
             var entitlementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlements)
-            for __listofgrantentitlementrequest0 in entitlements {
-                try entitlementsContainer.encode(__listofgrantentitlementrequest0)
+            for grantentitlementrequest0 in entitlements {
+                try entitlementsContainer.encode(grantentitlementrequest0)
             }
         }
         if let maintenance = self.maintenance {
@@ -1267,8 +1267,8 @@ extension CreateFlowInput: Swift.Encodable {
         }
         if let mediaStreams = mediaStreams {
             var mediaStreamsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaStreams)
-            for __listofaddmediastreamrequest0 in mediaStreams {
-                try mediaStreamsContainer.encode(__listofaddmediastreamrequest0)
+            for addmediastreamrequest0 in mediaStreams {
+                try mediaStreamsContainer.encode(addmediastreamrequest0)
             }
         }
         if let name = self.name {
@@ -1276,8 +1276,8 @@ extension CreateFlowInput: Swift.Encodable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for __listofaddoutputrequest0 in outputs {
-                try outputsContainer.encode(__listofaddoutputrequest0)
+            for addoutputrequest0 in outputs {
+                try outputsContainer.encode(addoutputrequest0)
             }
         }
         if let source = self.source {
@@ -1288,14 +1288,14 @@ extension CreateFlowInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for __listofsetsourcerequest0 in sources {
-                try sourcesContainer.encode(__listofsetsourcerequest0)
+            for setsourcerequest0 in sources {
+                try sourcesContainer.encode(setsourcerequest0)
             }
         }
         if let vpcInterfaces = vpcInterfaces {
             var vpcInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcInterfaces)
-            for __listofvpcinterfacerequest0 in vpcInterfaces {
-                try vpcInterfacesContainer.encode(__listofvpcinterfacerequest0)
+            for vpcinterfacerequest0 in vpcInterfaces {
+                try vpcInterfacesContainer.encode(vpcinterfacerequest0)
             }
         }
     }
@@ -2444,8 +2444,8 @@ extension MediaConnectClientTypes.Entitlement: Swift.Codable {
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for __listof__string0 in subscribers {
-                try subscribersContainer.encode(__listof__string0)
+            for __string0 in subscribers {
+                try subscribersContainer.encode(__string0)
             }
         }
     }
@@ -2680,8 +2680,8 @@ extension MediaConnectClientTypes.Flow: Swift.Codable {
         }
         if let entitlements = entitlements {
             var entitlementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlements)
-            for __listofentitlement0 in entitlements {
-                try entitlementsContainer.encode(__listofentitlement0)
+            for entitlement0 in entitlements {
+                try entitlementsContainer.encode(entitlement0)
             }
         }
         if let flowArn = self.flowArn {
@@ -2692,8 +2692,8 @@ extension MediaConnectClientTypes.Flow: Swift.Codable {
         }
         if let mediaStreams = mediaStreams {
             var mediaStreamsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaStreams)
-            for __listofmediastream0 in mediaStreams {
-                try mediaStreamsContainer.encode(__listofmediastream0)
+            for mediastream0 in mediaStreams {
+                try mediaStreamsContainer.encode(mediastream0)
             }
         }
         if let name = self.name {
@@ -2701,8 +2701,8 @@ extension MediaConnectClientTypes.Flow: Swift.Codable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for __listofoutput0 in outputs {
-                try outputsContainer.encode(__listofoutput0)
+            for output0 in outputs {
+                try outputsContainer.encode(output0)
             }
         }
         if let source = self.source {
@@ -2713,8 +2713,8 @@ extension MediaConnectClientTypes.Flow: Swift.Codable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for __listofsource0 in sources {
-                try sourcesContainer.encode(__listofsource0)
+            for source0 in sources {
+                try sourcesContainer.encode(source0)
             }
         }
         if let status = self.status {
@@ -2722,8 +2722,8 @@ extension MediaConnectClientTypes.Flow: Swift.Codable {
         }
         if let vpcInterfaces = vpcInterfaces {
             var vpcInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcInterfaces)
-            for __listofvpcinterface0 in vpcInterfaces {
-                try vpcInterfacesContainer.encode(__listofvpcinterface0)
+            for vpcinterface0 in vpcInterfaces {
+                try vpcInterfacesContainer.encode(vpcinterface0)
             }
         }
     }
@@ -3153,8 +3153,8 @@ extension MediaConnectClientTypes.GrantEntitlementRequest: Swift.Codable {
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for __listof__string0 in subscribers {
-                try subscribersContainer.encode(__listof__string0)
+            for __string0 in subscribers {
+                try subscribersContainer.encode(__string0)
             }
         }
     }
@@ -3285,8 +3285,8 @@ extension GrantFlowEntitlementsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entitlements = entitlements {
             var entitlementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entitlements)
-            for __listofgrantentitlementrequest0 in entitlements {
-                try entitlementsContainer.encode(__listofgrantentitlementrequest0)
+            for grantentitlementrequest0 in entitlements {
+                try entitlementsContainer.encode(grantentitlementrequest0)
             }
         }
     }
@@ -4838,8 +4838,8 @@ extension MediaConnectClientTypes.MediaStreamOutputConfiguration: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinationConfigurations = destinationConfigurations {
             var destinationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationConfigurations)
-            for __listofdestinationconfiguration0 in destinationConfigurations {
-                try destinationConfigurationsContainer.encode(__listofdestinationconfiguration0)
+            for destinationconfiguration0 in destinationConfigurations {
+                try destinationConfigurationsContainer.encode(destinationconfiguration0)
             }
         }
         if let encodingName = self.encodingName {
@@ -4917,8 +4917,8 @@ extension MediaConnectClientTypes.MediaStreamOutputConfigurationRequest: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinationConfigurations = destinationConfigurations {
             var destinationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationConfigurations)
-            for __listofdestinationconfigurationrequest0 in destinationConfigurations {
-                try destinationConfigurationsContainer.encode(__listofdestinationconfigurationrequest0)
+            for destinationconfigurationrequest0 in destinationConfigurations {
+                try destinationConfigurationsContainer.encode(destinationconfigurationrequest0)
             }
         }
         if let encodingName = self.encodingName {
@@ -4998,8 +4998,8 @@ extension MediaConnectClientTypes.MediaStreamSourceConfiguration: Swift.Codable 
         }
         if let inputConfigurations = inputConfigurations {
             var inputConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputConfigurations)
-            for __listofinputconfiguration0 in inputConfigurations {
-                try inputConfigurationsContainer.encode(__listofinputconfiguration0)
+            for inputconfiguration0 in inputConfigurations {
+                try inputConfigurationsContainer.encode(inputconfiguration0)
             }
         }
         if let mediaStreamName = self.mediaStreamName {
@@ -5067,8 +5067,8 @@ extension MediaConnectClientTypes.MediaStreamSourceConfigurationRequest: Swift.C
         }
         if let inputConfigurations = inputConfigurations {
             var inputConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputConfigurations)
-            for __listofinputconfigurationrequest0 in inputConfigurations {
-                try inputConfigurationsContainer.encode(__listofinputconfigurationrequest0)
+            for inputconfigurationrequest0 in inputConfigurations {
+                try inputConfigurationsContainer.encode(inputconfigurationrequest0)
             }
         }
         if let mediaStreamName = self.mediaStreamName {
@@ -5166,8 +5166,8 @@ extension MediaConnectClientTypes.Messages: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for __listof__string0 in errors {
-                try errorsContainer.encode(__listof__string0)
+            for __string0 in errors {
+                try errorsContainer.encode(__string0)
             }
         }
     }
@@ -5446,8 +5446,8 @@ extension MediaConnectClientTypes.Output: Swift.Codable {
         }
         if let mediaStreamOutputConfigurations = mediaStreamOutputConfigurations {
             var mediaStreamOutputConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaStreamOutputConfigurations)
-            for __listofmediastreamoutputconfiguration0 in mediaStreamOutputConfigurations {
-                try mediaStreamOutputConfigurationsContainer.encode(__listofmediastreamoutputconfiguration0)
+            for mediastreamoutputconfiguration0 in mediaStreamOutputConfigurations {
+                try mediaStreamOutputConfigurationsContainer.encode(mediastreamoutputconfiguration0)
             }
         }
         if let name = self.name {
@@ -6882,8 +6882,8 @@ extension MediaConnectClientTypes.SetSourceRequest: Swift.Codable {
         }
         if let mediaStreamSourceConfigurations = mediaStreamSourceConfigurations {
             var mediaStreamSourceConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaStreamSourceConfigurations)
-            for __listofmediastreamsourceconfigurationrequest0 in mediaStreamSourceConfigurations {
-                try mediaStreamSourceConfigurationsContainer.encode(__listofmediastreamsourceconfigurationrequest0)
+            for mediastreamsourceconfigurationrequest0 in mediaStreamSourceConfigurations {
+                try mediaStreamSourceConfigurationsContainer.encode(mediastreamsourceconfigurationrequest0)
             }
         }
         if let minLatency = self.minLatency {
@@ -7092,8 +7092,8 @@ extension MediaConnectClientTypes.Source: Swift.Codable {
         }
         if let mediaStreamSourceConfigurations = mediaStreamSourceConfigurations {
             var mediaStreamSourceConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaStreamSourceConfigurations)
-            for __listofmediastreamsourceconfiguration0 in mediaStreamSourceConfigurations {
-                try mediaStreamSourceConfigurationsContainer.encode(__listofmediastreamsourceconfiguration0)
+            for mediastreamsourceconfiguration0 in mediaStreamSourceConfigurations {
+                try mediaStreamSourceConfigurationsContainer.encode(mediastreamsourceconfiguration0)
             }
         }
         if let name = self.name {
@@ -7614,8 +7614,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7838,8 +7838,8 @@ extension MediaConnectClientTypes.Transport: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cidrAllowList = cidrAllowList {
             var cidrAllowListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrAllowList)
-            for __listof__string0 in cidrAllowList {
-                try cidrAllowListContainer.encode(__listof__string0)
+            for __string0 in cidrAllowList {
+                try cidrAllowListContainer.encode(__string0)
             }
         }
         if let maxBitrate = self.maxBitrate {
@@ -8274,8 +8274,8 @@ extension UpdateFlowEntitlementInput: Swift.Encodable {
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for __listof__string0 in subscribers {
-                try subscribersContainer.encode(__listof__string0)
+            for __string0 in subscribers {
+                try subscribersContainer.encode(__string0)
             }
         }
     }
@@ -8766,8 +8766,8 @@ extension UpdateFlowOutputInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cidrAllowList = cidrAllowList {
             var cidrAllowListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrAllowList)
-            for __listof__string0 in cidrAllowList {
-                try cidrAllowListContainer.encode(__listof__string0)
+            for __string0 in cidrAllowList {
+                try cidrAllowListContainer.encode(__string0)
             }
         }
         if let description = self.description {
@@ -8784,8 +8784,8 @@ extension UpdateFlowOutputInput: Swift.Encodable {
         }
         if let mediaStreamOutputConfigurations = mediaStreamOutputConfigurations {
             var mediaStreamOutputConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaStreamOutputConfigurations)
-            for __listofmediastreamoutputconfigurationrequest0 in mediaStreamOutputConfigurations {
-                try mediaStreamOutputConfigurationsContainer.encode(__listofmediastreamoutputconfigurationrequest0)
+            for mediastreamoutputconfigurationrequest0 in mediaStreamOutputConfigurations {
+                try mediaStreamOutputConfigurationsContainer.encode(mediastreamoutputconfigurationrequest0)
             }
         }
         if let minLatency = self.minLatency {
@@ -9169,8 +9169,8 @@ extension UpdateFlowSourceInput: Swift.Encodable {
         }
         if let mediaStreamSourceConfigurations = mediaStreamSourceConfigurations {
             var mediaStreamSourceConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mediaStreamSourceConfigurations)
-            for __listofmediastreamsourceconfigurationrequest0 in mediaStreamSourceConfigurations {
-                try mediaStreamSourceConfigurationsContainer.encode(__listofmediastreamsourceconfigurationrequest0)
+            for mediastreamsourceconfigurationrequest0 in mediaStreamSourceConfigurations {
+                try mediaStreamSourceConfigurationsContainer.encode(mediastreamsourceconfigurationrequest0)
             }
         }
         if let minLatency = self.minLatency {
@@ -9546,8 +9546,8 @@ extension MediaConnectClientTypes.VpcInterface: Swift.Codable {
         }
         if let networkInterfaceIds = networkInterfaceIds {
             var networkInterfaceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaceIds)
-            for __listof__string0 in networkInterfaceIds {
-                try networkInterfaceIdsContainer.encode(__listof__string0)
+            for __string0 in networkInterfaceIds {
+                try networkInterfaceIdsContainer.encode(__string0)
             }
         }
         if let networkInterfaceType = self.networkInterfaceType {
@@ -9558,8 +9558,8 @@ extension MediaConnectClientTypes.VpcInterface: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for __listof__string0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(__listof__string0)
+            for __string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(__string0)
             }
         }
         if let subnetId = self.subnetId {
@@ -9701,8 +9701,8 @@ extension MediaConnectClientTypes.VpcInterfaceRequest: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for __listof__string0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(__listof__string0)
+            for __string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(__string0)
             }
         }
         if let subnetId = self.subnetId {

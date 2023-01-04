@@ -844,8 +844,8 @@ extension BatchAssociateServiceActionWithProvisioningArtifactInput: Swift.Encoda
         }
         if let serviceActionAssociations = serviceActionAssociations {
             var serviceActionAssociationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceActionAssociations)
-            for serviceactionassociations0 in serviceActionAssociations {
-                try serviceActionAssociationsContainer.encode(serviceactionassociations0)
+            for serviceactionassociation0 in serviceActionAssociations {
+                try serviceActionAssociationsContainer.encode(serviceactionassociation0)
             }
         }
     }
@@ -994,8 +994,8 @@ extension BatchDisassociateServiceActionFromProvisioningArtifactInput: Swift.Enc
         }
         if let serviceActionAssociations = serviceActionAssociations {
             var serviceActionAssociationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceActionAssociations)
-            for serviceactionassociations0 in serviceActionAssociations {
-                try serviceActionAssociationsContainer.encode(serviceactionassociations0)
+            for serviceactionassociation0 in serviceActionAssociations {
+                try serviceActionAssociationsContainer.encode(serviceactionassociation0)
             }
         }
     }
@@ -1498,8 +1498,8 @@ extension CopyProductInput: Swift.Encodable {
         }
         if let copyOptions = copyOptions {
             var copyOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .copyOptions)
-            for copyoptions0 in copyOptions {
-                try copyOptionsContainer.encode(copyoptions0.rawValue)
+            for copyoption0 in copyOptions {
+                try copyOptionsContainer.encode(copyoption0.rawValue)
             }
         }
         if let idempotencyToken = self.idempotencyToken {
@@ -1510,10 +1510,10 @@ extension CopyProductInput: Swift.Encodable {
         }
         if let sourceProvisioningArtifactIdentifiers = sourceProvisioningArtifactIdentifiers {
             var sourceProvisioningArtifactIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceProvisioningArtifactIdentifiers)
-            for sourceprovisioningartifactproperties0 in sourceProvisioningArtifactIdentifiers {
-                var sourceprovisioningartifactproperties0Container = sourceProvisioningArtifactIdentifiersContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
-                for (dictKey1, sourceprovisioningartifactpropertiesmap1) in sourceprovisioningartifactproperties0 {
-                    try sourceprovisioningartifactproperties0Container.encode(sourceprovisioningartifactpropertiesmap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+            for sourceprovisioningartifactpropertiesmap0 in sourceProvisioningArtifactIdentifiers {
+                var sourceprovisioningartifactpropertiesmap0Container = sourceProvisioningArtifactIdentifiersContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, sourceProvisioningArtifactPropertiesMap1) in sourceprovisioningartifactpropertiesmap0 {
+                    try sourceprovisioningartifactpropertiesmap0Container.encode(sourceProvisioningArtifactPropertiesMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
                 }
             }
         }
@@ -2001,8 +2001,8 @@ extension CreatePortfolioInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for addtags0 in tags {
-                try tagsContainer.encode(addtags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2428,8 +2428,8 @@ extension CreateProductInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for addtags0 in tags {
-                try tagsContainer.encode(addtags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2709,8 +2709,8 @@ extension CreateProvisionedProductPlanInput: Swift.Encodable {
         }
         if let notificationArns = notificationArns {
             var notificationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationArns)
-            for notificationarns0 in notificationArns {
-                try notificationArnsContainer.encode(notificationarns0)
+            for notificationarn0 in notificationArns {
+                try notificationArnsContainer.encode(notificationarn0)
             }
         }
         if let pathId = self.pathId {
@@ -2733,14 +2733,14 @@ extension CreateProvisionedProductPlanInput: Swift.Encodable {
         }
         if let provisioningParameters = provisioningParameters {
             var provisioningParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .provisioningParameters)
-            for updateprovisioningparameters0 in provisioningParameters {
-                try provisioningParametersContainer.encode(updateprovisioningparameters0)
+            for updateprovisioningparameter0 in provisioningParameters {
+                try provisioningParametersContainer.encode(updateprovisioningparameter0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3211,8 +3211,8 @@ extension CreateServiceActionInput: Swift.Encodable {
         }
         if let definition = definition {
             var definitionContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .definition)
-            for (dictKey0, serviceactiondefinitionmap0) in definition {
-                try definitionContainer.encode(serviceactiondefinitionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, serviceActionDefinitionMap0) in definition {
+                try definitionContainer.encode(serviceActionDefinitionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let definitionType = self.definitionType {
@@ -8139,8 +8139,11 @@ extension ExecuteProvisionedProductServiceActionInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, executionparametermap0) in parameters {
-                try parametersContainer.encode(executionparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, executionParameterMap0) in parameters {
+                var executionParameterMap0Container = parametersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for executionparametervalue1 in executionParameterMap0 {
+                    try executionParameterMap0Container.encode(executionparametervalue1)
+                }
             }
         }
         if let provisionedProductId = self.provisionedProductId {
@@ -8321,8 +8324,8 @@ extension ServiceCatalogClientTypes.ExecutionParameter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultValues = defaultValues {
             var defaultValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultValues)
-            for executionparametervaluelist0 in defaultValues {
-                try defaultValuesContainer.encode(executionparametervaluelist0)
+            for executionparametervalue0 in defaultValues {
+                try defaultValuesContainer.encode(executionparametervalue0)
             }
         }
         if let name = self.name {
@@ -8562,8 +8565,8 @@ extension GetProvisionedProductOutputsInput: Swift.Encodable {
         }
         if let outputKeys = outputKeys {
             var outputKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputKeys)
-            for outputkeys0 in outputKeys {
-                try outputKeysContainer.encode(outputkeys0)
+            for outputkey0 in outputKeys {
+                try outputKeysContainer.encode(outputkey0)
             }
         }
         if pageSize != 0 {
@@ -9219,8 +9222,8 @@ extension ServiceCatalogClientTypes.LaunchPathSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let constraintSummaries = constraintSummaries {
             var constraintSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .constraintSummaries)
-            for constraintsummaries0 in constraintSummaries {
-                try constraintSummariesContainer.encode(constraintsummaries0)
+            for constraintsummary0 in constraintSummaries {
+                try constraintSummariesContainer.encode(constraintsummary0)
             }
         }
         if let id = self.id {
@@ -9231,8 +9234,8 @@ extension ServiceCatalogClientTypes.LaunchPathSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12708,8 +12711,8 @@ extension ServiceCatalogClientTypes.ParameterConstraints: Swift.Codable {
         }
         if let allowedValues = allowedValues {
             var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
-            for allowedvalues0 in allowedValues {
-                try allowedValuesContainer.encode(allowedvalues0)
+            for string0 in allowedValues {
+                try allowedValuesContainer.encode(string0)
             }
         }
         if let constraintDescription = self.constraintDescription {
@@ -13520,8 +13523,8 @@ extension ProvisionProductInput: Swift.Encodable {
         }
         if let notificationArns = notificationArns {
             var notificationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationArns)
-            for notificationarns0 in notificationArns {
-                try notificationArnsContainer.encode(notificationarns0)
+            for notificationarn0 in notificationArns {
+                try notificationArnsContainer.encode(notificationarn0)
             }
         }
         if let pathId = self.pathId {
@@ -13550,8 +13553,8 @@ extension ProvisionProductInput: Swift.Encodable {
         }
         if let provisioningParameters = provisioningParameters {
             var provisioningParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .provisioningParameters)
-            for provisioningparameters0 in provisioningParameters {
-                try provisioningParametersContainer.encode(provisioningparameters0)
+            for provisioningparameter0 in provisioningParameters {
+                try provisioningParametersContainer.encode(provisioningparameter0)
             }
         }
         if let provisioningPreferences = self.provisioningPreferences {
@@ -13559,8 +13562,8 @@ extension ProvisionProductInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -13870,8 +13873,8 @@ extension ServiceCatalogClientTypes.ProvisionedProductAttribute: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -14268,8 +14271,8 @@ extension ServiceCatalogClientTypes.ProvisionedProductPlanDetails: Swift.Codable
         }
         if let notificationArns = notificationArns {
             var notificationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationArns)
-            for notificationarns0 in notificationArns {
-                try notificationArnsContainer.encode(notificationarns0)
+            for notificationarn0 in notificationArns {
+                try notificationArnsContainer.encode(notificationarn0)
             }
         }
         if let pathId = self.pathId {
@@ -14298,8 +14301,8 @@ extension ServiceCatalogClientTypes.ProvisionedProductPlanDetails: Swift.Codable
         }
         if let provisioningParameters = provisioningParameters {
             var provisioningParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .provisioningParameters)
-            for updateprovisioningparameters0 in provisioningParameters {
-                try provisioningParametersContainer.encode(updateprovisioningparameters0)
+            for updateprovisioningparameter0 in provisioningParameters {
+                try provisioningParametersContainer.encode(updateprovisioningparameter0)
             }
         }
         if let status = self.status {
@@ -14310,8 +14313,8 @@ extension ServiceCatalogClientTypes.ProvisionedProductPlanDetails: Swift.Codable
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let updatedTime = self.updatedTime {
@@ -15039,14 +15042,14 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactPreferences: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stackSetAccounts = stackSetAccounts {
             var stackSetAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackSetAccounts)
-            for stacksetaccounts0 in stackSetAccounts {
-                try stackSetAccountsContainer.encode(stacksetaccounts0)
+            for accountid0 in stackSetAccounts {
+                try stackSetAccountsContainer.encode(accountid0)
             }
         }
         if let stackSetRegions = stackSetRegions {
             var stackSetRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackSetRegions)
-            for stacksetregions0 in stackSetRegions {
-                try stackSetRegionsContainer.encode(stacksetregions0)
+            for region0 in stackSetRegions {
+                try stackSetRegionsContainer.encode(region0)
             }
         }
     }
@@ -15117,8 +15120,8 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactProperties: Swift.Codabl
         }
         if let info = info {
             var infoContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .info)
-            for (dictKey0, provisioningartifactinfo0) in info {
-                try infoContainer.encode(provisioningartifactinfo0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, provisioningArtifactInfo0) in info {
+                try infoContainer.encode(provisioningArtifactInfo0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -15245,8 +15248,8 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactSummary: Swift.Codable {
         }
         if let provisioningArtifactMetadata = provisioningArtifactMetadata {
             var provisioningArtifactMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .provisioningArtifactMetadata)
-            for (dictKey0, provisioningartifactinfo0) in provisioningArtifactMetadata {
-                try provisioningArtifactMetadataContainer.encode(provisioningartifactinfo0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, provisioningArtifactInfo0) in provisioningArtifactMetadata {
+                try provisioningArtifactMetadataContainer.encode(provisioningArtifactInfo0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -15446,8 +15449,8 @@ extension ServiceCatalogClientTypes.ProvisioningPreferences: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stackSetAccounts = stackSetAccounts {
             var stackSetAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackSetAccounts)
-            for stacksetaccounts0 in stackSetAccounts {
-                try stackSetAccountsContainer.encode(stacksetaccounts0)
+            for accountid0 in stackSetAccounts {
+                try stackSetAccountsContainer.encode(accountid0)
             }
         }
         if let stackSetFailureToleranceCount = self.stackSetFailureToleranceCount {
@@ -15464,8 +15467,8 @@ extension ServiceCatalogClientTypes.ProvisioningPreferences: Swift.Codable {
         }
         if let stackSetRegions = stackSetRegions {
             var stackSetRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackSetRegions)
-            for stacksetregions0 in stackSetRegions {
-                try stackSetRegionsContainer.encode(stacksetregions0)
+            for region0 in stackSetRegions {
+                try stackSetRegionsContainer.encode(region0)
             }
         }
     }
@@ -15587,8 +15590,8 @@ extension ServiceCatalogClientTypes.RecordDetail: Swift.Codable {
         }
         if let recordErrors = recordErrors {
             var recordErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordErrors)
-            for recorderrors0 in recordErrors {
-                try recordErrorsContainer.encode(recorderrors0)
+            for recorderror0 in recordErrors {
+                try recordErrorsContainer.encode(recorderror0)
             }
         }
         if let recordId = self.recordId {
@@ -15596,8 +15599,8 @@ extension ServiceCatalogClientTypes.RecordDetail: Swift.Codable {
         }
         if let recordTags = recordTags {
             var recordTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordTags)
-            for recordtags0 in recordTags {
-                try recordTagsContainer.encode(recordtags0)
+            for recordtag0 in recordTags {
+                try recordTagsContainer.encode(recordtag0)
             }
         }
         if let recordType = self.recordType {
@@ -16183,8 +16186,8 @@ extension ServiceCatalogClientTypes.ResourceChange: Swift.Codable {
         }
         if let details = details {
             var detailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .details)
-            for resourcechangedetails0 in details {
-                try detailsContainer.encode(resourcechangedetails0)
+            for resourcechangedetail0 in details {
+                try detailsContainer.encode(resourcechangedetail0)
             }
         }
         if let logicalResourceId = self.logicalResourceId {
@@ -16201,8 +16204,8 @@ extension ServiceCatalogClientTypes.ResourceChange: Swift.Codable {
         }
         if let scope = scope {
             var scopeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scope)
-            for scope0 in scope {
-                try scopeContainer.encode(scope0.rawValue)
+            for resourceattribute0 in scope {
+                try scopeContainer.encode(resourceattribute0.rawValue)
             }
         }
     }
@@ -16763,8 +16766,11 @@ extension SearchProductsAsAdminInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
-            for (dictKey0, productviewfilters0) in filters {
-                try filtersContainer.encode(productviewfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, productViewFilters0) in filters {
+                var productViewFilters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for productviewfiltervalue1 in productViewFilters0 {
+                    try productViewFilters0Container.encode(productviewfiltervalue1)
+                }
             }
         }
         if pageSize != 0 {
@@ -17001,8 +17007,11 @@ extension SearchProductsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
-            for (dictKey0, productviewfilters0) in filters {
-                try filtersContainer.encode(productviewfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, productViewFilters0) in filters {
+                var productViewFilters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for productviewfiltervalue1 in productViewFilters0 {
+                    try productViewFilters0Container.encode(productviewfiltervalue1)
+                }
             }
         }
         if pageSize != 0 {
@@ -17245,8 +17254,11 @@ extension SearchProvisionedProductsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
-            for (dictKey0, provisionedproductfilters0) in filters {
-                try filtersContainer.encode(provisionedproductfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, provisionedProductFilters0) in filters {
+                var provisionedProductFilters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for provisionedproductviewfiltervalue1 in provisionedProductFilters0 {
+                    try provisionedProductFilters0Container.encode(provisionedproductviewfiltervalue1)
+                }
             }
         }
         if pageSize != 0 {
@@ -17636,8 +17648,8 @@ extension ServiceCatalogClientTypes.ServiceActionDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let definition = definition {
             var definitionContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .definition)
-            for (dictKey0, serviceactiondefinitionmap0) in definition {
-                try definitionContainer.encode(serviceactiondefinitionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, serviceActionDefinitionMap0) in definition {
+                try definitionContainer.encode(serviceActionDefinitionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let serviceActionSummary = self.serviceActionSummary {
@@ -17758,14 +17770,14 @@ extension ServiceCatalogClientTypes.ShareDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let shareErrors = shareErrors {
             var shareErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shareErrors)
-            for shareerrors0 in shareErrors {
-                try shareErrorsContainer.encode(shareerrors0)
+            for shareerror0 in shareErrors {
+                try shareErrorsContainer.encode(shareerror0)
             }
         }
         if let successfulShares = successfulShares {
             var successfulSharesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .successfulShares)
-            for successfulshares0 in successfulShares {
-                try successfulSharesContainer.encode(successfulshares0)
+            for accountid0 in successfulShares {
+                try successfulSharesContainer.encode(accountid0)
             }
         }
     }
@@ -17828,8 +17840,8 @@ extension ServiceCatalogClientTypes.ShareError: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accounts = accounts {
             var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
-            for namespaces0 in accounts {
-                try accountsContainer.encode(namespaces0)
+            for accountid0 in accounts {
+                try accountsContainer.encode(accountid0)
             }
         }
         if let error = self.error {
@@ -18485,8 +18497,8 @@ extension ServiceCatalogClientTypes.TagOptionSummary: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for tagoptionvalues0 in values {
-                try valuesContainer.encode(tagoptionvalues0)
+            for tagoptionvalue0 in values {
+                try valuesContainer.encode(tagoptionvalue0)
             }
         }
     }
@@ -18899,8 +18911,8 @@ extension UpdatePortfolioInput: Swift.Encodable {
         }
         if let addTags = addTags {
             var addTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addTags)
-            for addtags0 in addTags {
-                try addTagsContainer.encode(addtags0)
+            for tag0 in addTags {
+                try addTagsContainer.encode(tag0)
             }
         }
         if let description = self.description {
@@ -18917,8 +18929,8 @@ extension UpdatePortfolioInput: Swift.Encodable {
         }
         if let removeTags = removeTags {
             var removeTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeTags)
-            for tagkeys0 in removeTags {
-                try removeTagsContainer.encode(tagkeys0)
+            for tagkey0 in removeTags {
+                try removeTagsContainer.encode(tagkey0)
             }
         }
     }
@@ -19335,8 +19347,8 @@ extension UpdateProductInput: Swift.Encodable {
         }
         if let addTags = addTags {
             var addTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addTags)
-            for addtags0 in addTags {
-                try addTagsContainer.encode(addtags0)
+            for tag0 in addTags {
+                try addTagsContainer.encode(tag0)
             }
         }
         if let description = self.description {
@@ -19356,8 +19368,8 @@ extension UpdateProductInput: Swift.Encodable {
         }
         if let removeTags = removeTags {
             var removeTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeTags)
-            for tagkeys0 in removeTags {
-                try removeTagsContainer.encode(tagkeys0)
+            for tagkey0 in removeTags {
+                try removeTagsContainer.encode(tagkey0)
             }
         }
         if let sourceConnection = self.sourceConnection {
@@ -19660,8 +19672,8 @@ extension UpdateProvisionedProductInput: Swift.Encodable {
         }
         if let provisioningParameters = provisioningParameters {
             var provisioningParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .provisioningParameters)
-            for updateprovisioningparameters0 in provisioningParameters {
-                try provisioningParametersContainer.encode(updateprovisioningparameters0)
+            for updateprovisioningparameter0 in provisioningParameters {
+                try provisioningParametersContainer.encode(updateprovisioningparameter0)
             }
         }
         if let provisioningPreferences = self.provisioningPreferences {
@@ -19669,8 +19681,8 @@ extension UpdateProvisionedProductInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let updateToken = self.updateToken {
@@ -19920,8 +19932,8 @@ extension UpdateProvisionedProductPropertiesInput: Swift.Encodable {
         }
         if let provisionedProductProperties = provisionedProductProperties {
             var provisionedProductPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .provisionedProductProperties)
-            for (dictKey0, provisionedproductproperties0) in provisionedProductProperties {
-                try provisionedProductPropertiesContainer.encode(provisionedproductproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, provisionedProductProperties0) in provisionedProductProperties {
+                try provisionedProductPropertiesContainer.encode(provisionedProductProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -20400,8 +20412,8 @@ extension ServiceCatalogClientTypes.UpdateProvisioningPreferences: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stackSetAccounts = stackSetAccounts {
             var stackSetAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackSetAccounts)
-            for stacksetaccounts0 in stackSetAccounts {
-                try stackSetAccountsContainer.encode(stacksetaccounts0)
+            for accountid0 in stackSetAccounts {
+                try stackSetAccountsContainer.encode(accountid0)
             }
         }
         if let stackSetFailureToleranceCount = self.stackSetFailureToleranceCount {
@@ -20421,8 +20433,8 @@ extension ServiceCatalogClientTypes.UpdateProvisioningPreferences: Swift.Codable
         }
         if let stackSetRegions = stackSetRegions {
             var stackSetRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackSetRegions)
-            for stacksetregions0 in stackSetRegions {
-                try stackSetRegionsContainer.encode(stacksetregions0)
+            for region0 in stackSetRegions {
+                try stackSetRegionsContainer.encode(region0)
             }
         }
     }
@@ -20520,8 +20532,8 @@ extension UpdateServiceActionInput: Swift.Encodable {
         }
         if let definition = definition {
             var definitionContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .definition)
-            for (dictKey0, serviceactiondefinitionmap0) in definition {
-                try definitionContainer.encode(serviceactiondefinitionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, serviceActionDefinitionMap0) in definition {
+                try definitionContainer.encode(serviceActionDefinitionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {

@@ -109,8 +109,8 @@ extension BatchGetFieldInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for batchgetfieldidentifierlist0 in fields {
-                try fieldsContainer.encode(batchgetfieldidentifierlist0)
+            for fieldidentifier0 in fields {
+                try fieldsContainer.encode(fieldidentifier0)
             }
         }
     }
@@ -278,8 +278,8 @@ extension BatchPutFieldOptionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let options = options {
             var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
-            for fieldoptionslist0 in options {
-                try optionsContainer.encode(fieldoptionslist0)
+            for fieldoption0 in options {
+                try optionsContainer.encode(fieldoption0)
             }
         }
     }
@@ -436,8 +436,8 @@ extension ConnectCasesClientTypes.CaseEventIncludedData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldidentifierlist0 in fields {
-                try fieldsContainer.encode(fieldidentifierlist0)
+            for fieldidentifier0 in fields {
+                try fieldsContainer.encode(fieldidentifier0)
             }
         }
     }
@@ -488,8 +488,8 @@ extension ConnectCasesClientTypes.CaseFilter: Swift.Codable {
         switch self {
             case let .andall(andall):
                 var andallContainer = container.nestedUnkeyedContainer(forKey: .andall)
-                for casefilterlist0 in andall {
-                    try andallContainer.encode(casefilterlist0)
+                for casefilter0 in andall {
+                    try andallContainer.encode(casefilter0)
                 }
             case let .field(field):
                 try container.encode(field, forKey: .field)
@@ -844,8 +844,8 @@ extension ConnectCasesClientTypes.ContactFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channel = channel {
             var channelContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channel)
-            for channellist0 in channel {
-                try channelContainer.encode(channellist0)
+            for channel0 in channel {
+                try channelContainer.encode(channel0)
             }
         }
         if let contactArn = self.contactArn {
@@ -905,8 +905,8 @@ extension CreateCaseInput: Swift.Encodable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldvaluelist0 in fields {
-                try fieldsContainer.encode(fieldvaluelist0)
+            for fieldvalue0 in fields {
+                try fieldsContainer.encode(fieldvalue0)
             }
         }
         if let templateId = self.templateId {
@@ -1721,8 +1721,8 @@ extension CreateTemplateInput: Swift.Encodable {
         }
         if let requiredFields = requiredFields {
             var requiredFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiredFields)
-            for requiredfieldlist0 in requiredFields {
-                try requiredFieldsContainer.encode(requiredfieldlist0)
+            for requiredfield0 in requiredFields {
+                try requiredFieldsContainer.encode(requiredfield0)
             }
         }
         if let status = self.status {
@@ -2240,8 +2240,8 @@ extension ConnectCasesClientTypes.FieldGroup: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldlist0 in fields {
-                try fieldsContainer.encode(fieldlist0)
+            for fielditem0 in fields {
+                try fieldsContainer.encode(fielditem0)
             }
         }
         if let name = self.name {
@@ -2846,8 +2846,8 @@ extension GetCaseInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldidentifierlist0 in fields {
-                try fieldsContainer.encode(fieldidentifierlist0)
+            for fieldidentifier0 in fields {
+                try fieldsContainer.encode(fieldidentifier0)
             }
         }
         if let nextToken = self.nextToken {
@@ -3238,6 +3238,10 @@ extension ConnectCasesClientTypes.GetFieldResponse: Swift.Codable {
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tags0) in tags {
+                guard let tags0 = tags0 else {
+                    try tagsContainer.encodeNil(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                    continue
+                }
                 try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
@@ -3821,8 +3825,8 @@ extension ConnectCasesClientTypes.LayoutSections: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let sections = sections {
             var sectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sections)
-            for sectionslist0 in sections {
-                try sectionsContainer.encode(sectionslist0)
+            for section0 in sections {
+                try sectionsContainer.encode(section0)
             }
         }
     }
@@ -5412,8 +5416,8 @@ extension SearchCasesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldidentifierlist0 in fields {
-                try fieldsContainer.encode(fieldidentifierlist0)
+            for fieldidentifier0 in fields {
+                try fieldsContainer.encode(fieldidentifier0)
             }
         }
         if let filter = self.filter {
@@ -5430,8 +5434,8 @@ extension SearchCasesInput: Swift.Encodable {
         }
         if let sorts = sorts {
             var sortsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sorts)
-            for sortlist0 in sorts {
-                try sortsContainer.encode(sortlist0)
+            for sort0 in sorts {
+                try sortsContainer.encode(sort0)
             }
         }
     }
@@ -5641,13 +5645,17 @@ extension ConnectCasesClientTypes.SearchCasesResponseItem: Swift.Codable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldvaluelist0 in fields {
-                try fieldsContainer.encode(fieldvaluelist0)
+            for fieldvalue0 in fields {
+                try fieldsContainer.encode(fieldvalue0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tags0) in tags {
+                guard let tags0 = tags0 else {
+                    try tagsContainer.encodeNil(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                    continue
+                }
                 try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
@@ -5727,8 +5735,8 @@ extension SearchRelatedItemsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for relateditemfilterlist0 in filters {
-                try filtersContainer.encode(relateditemfilterlist0)
+            for relateditemtypefilter0 in filters {
+                try filtersContainer.encode(relateditemtypefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5927,6 +5935,10 @@ extension ConnectCasesClientTypes.SearchRelatedItemsResponseItem: Swift.Codable 
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tags0) in tags {
+                guard let tags0 = tags0 else {
+                    try tagsContainer.encodeNil(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                    continue
+                }
                 try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
@@ -6140,6 +6152,10 @@ extension TagResourceInput: Swift.Encodable {
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tags0) in tags {
+                guard let tags0 = tags0 else {
+                    try tagsContainer.encodeNil(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                    continue
+                }
                 try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
@@ -6493,8 +6509,8 @@ extension UpdateCaseInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldvaluelist0 in fields {
-                try fieldsContainer.encode(fieldvaluelist0)
+            for fieldvalue0 in fields {
+                try fieldsContainer.encode(fieldvalue0)
             }
         }
     }
@@ -6858,8 +6874,8 @@ extension UpdateTemplateInput: Swift.Encodable {
         }
         if let requiredFields = requiredFields {
             var requiredFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiredFields)
-            for requiredfieldlist0 in requiredFields {
-                try requiredFieldsContainer.encode(requiredfieldlist0)
+            for requiredfield0 in requiredFields {
+                try requiredFieldsContainer.encode(requiredfield0)
             }
         }
         if let status = self.status {

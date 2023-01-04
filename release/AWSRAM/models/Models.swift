@@ -168,14 +168,14 @@ extension AssociateResourceShareInput: Swift.Encodable {
         }
         if let principals = principals {
             var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
-            for principalarnoridlist0 in principals {
-                try principalsContainer.encode(principalarnoridlist0)
+            for string0 in principals {
+                try principalsContainer.encode(string0)
             }
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for string0 in resourceArns {
+                try resourceArnsContainer.encode(string0)
             }
         }
         if let resourceShareArn = self.resourceShareArn {
@@ -582,26 +582,26 @@ extension CreateResourceShareInput: Swift.Encodable {
         }
         if let permissionArns = permissionArns {
             var permissionArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissionArns)
-            for permissionarnlist0 in permissionArns {
-                try permissionArnsContainer.encode(permissionarnlist0)
+            for string0 in permissionArns {
+                try permissionArnsContainer.encode(string0)
             }
         }
         if let principals = principals {
             var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
-            for principalarnoridlist0 in principals {
-                try principalsContainer.encode(principalarnoridlist0)
+            for string0 in principals {
+                try principalsContainer.encode(string0)
             }
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for string0 in resourceArns {
+                try resourceArnsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -987,14 +987,14 @@ extension DisassociateResourceShareInput: Swift.Encodable {
         }
         if let principals = principals {
             var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
-            for principalarnoridlist0 in principals {
-                try principalsContainer.encode(principalarnoridlist0)
+            for string0 in principals {
+                try principalsContainer.encode(string0)
             }
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for string0 in resourceArns {
+                try resourceArnsContainer.encode(string0)
             }
         }
         if let resourceShareArn = self.resourceShareArn {
@@ -1594,8 +1594,8 @@ extension GetResourcePoliciesInput: Swift.Encodable {
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for string0 in resourceArns {
+                try resourceArnsContainer.encode(string0)
             }
         }
     }
@@ -1794,8 +1794,8 @@ extension GetResourceShareAssociationsInput: Swift.Encodable {
         }
         if let resourceShareArns = resourceShareArns {
             var resourceShareArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceShareArns)
-            for resourcesharearnlist0 in resourceShareArns {
-                try resourceShareArnsContainer.encode(resourcesharearnlist0)
+            for string0 in resourceShareArns {
+                try resourceShareArnsContainer.encode(string0)
             }
         }
     }
@@ -2009,14 +2009,14 @@ extension GetResourceShareInvitationsInput: Swift.Encodable {
         }
         if let resourceShareArns = resourceShareArns {
             var resourceShareArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceShareArns)
-            for resourcesharearnlist0 in resourceShareArns {
-                try resourceShareArnsContainer.encode(resourcesharearnlist0)
+            for string0 in resourceShareArns {
+                try resourceShareArnsContainer.encode(string0)
             }
         }
         if let resourceShareInvitationArns = resourceShareInvitationArns {
             var resourceShareInvitationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceShareInvitationArns)
-            for resourceshareinvitationarnlist0 in resourceShareInvitationArns {
-                try resourceShareInvitationArnsContainer.encode(resourceshareinvitationarnlist0)
+            for string0 in resourceShareInvitationArns {
+                try resourceShareInvitationArnsContainer.encode(string0)
             }
         }
     }
@@ -2225,8 +2225,8 @@ extension GetResourceSharesInput: Swift.Encodable {
         }
         if let resourceShareArns = resourceShareArns {
             var resourceShareArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceShareArns)
-            for resourcesharearnlist0 in resourceShareArns {
-                try resourceShareArnsContainer.encode(resourcesharearnlist0)
+            for string0 in resourceShareArns {
+                try resourceShareArnsContainer.encode(string0)
             }
         }
         if let resourceShareStatus = self.resourceShareStatus {
@@ -2234,8 +2234,8 @@ extension GetResourceSharesInput: Swift.Encodable {
         }
         if let tagFilters = tagFilters {
             var tagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagFilters)
-            for tagfilters0 in tagFilters {
-                try tagFiltersContainer.encode(tagfilters0)
+            for tagfilter0 in tagFilters {
+                try tagFiltersContainer.encode(tagfilter0)
             }
         }
     }
@@ -3356,8 +3356,8 @@ extension ListPrincipalsInput: Swift.Encodable {
         }
         if let principals = principals {
             var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
-            for principalarnoridlist0 in principals {
-                try principalsContainer.encode(principalarnoridlist0)
+            for string0 in principals {
+                try principalsContainer.encode(string0)
             }
         }
         if let resourceArn = self.resourceArn {
@@ -3368,8 +3368,8 @@ extension ListPrincipalsInput: Swift.Encodable {
         }
         if let resourceShareArns = resourceShareArns {
             var resourceShareArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceShareArns)
-            for resourcesharearnlist0 in resourceShareArns {
-                try resourceShareArnsContainer.encode(resourcesharearnlist0)
+            for string0 in resourceShareArns {
+                try resourceShareArnsContainer.encode(string0)
             }
         }
         if let resourceType = self.resourceType {
@@ -3947,8 +3947,8 @@ extension ListResourcesInput: Swift.Encodable {
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for string0 in resourceArns {
+                try resourceArnsContainer.encode(string0)
             }
         }
         if let resourceOwner = self.resourceOwner {
@@ -3959,8 +3959,8 @@ extension ListResourcesInput: Swift.Encodable {
         }
         if let resourceShareArns = resourceShareArns {
             var resourceShareArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceShareArns)
-            for resourcesharearnlist0 in resourceShareArns {
-                try resourceShareArnsContainer.encode(resourcesharearnlist0)
+            for string0 in resourceShareArns {
+                try resourceShareArnsContainer.encode(string0)
             }
         }
         if let resourceType = self.resourceType {
@@ -5006,8 +5006,8 @@ extension RAMClientTypes.ResourceShare: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5370,8 +5370,8 @@ extension RAMClientTypes.ResourceShareInvitation: Swift.Codable {
         }
         if let resourceShareAssociations = resourceShareAssociations {
             var resourceShareAssociationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceShareAssociations)
-            for resourceshareassociationlist0 in resourceShareAssociations {
-                try resourceShareAssociationsContainer.encode(resourceshareassociationlist0)
+            for resourceshareassociation0 in resourceShareAssociations {
+                try resourceShareAssociationsContainer.encode(resourceshareassociation0)
             }
         }
         if let resourceShareInvitationArn = self.resourceShareInvitationArn {
@@ -6307,8 +6307,8 @@ extension RAMClientTypes.TagFilter: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for tagvaluelist0 in tagValues {
-                try tagValuesContainer.encode(tagvaluelist0)
+            for tagvalue0 in tagValues {
+                try tagValuesContainer.encode(tagvalue0)
             }
         }
     }
@@ -6470,8 +6470,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6695,8 +6695,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

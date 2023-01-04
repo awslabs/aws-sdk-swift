@@ -65,14 +65,14 @@ extension ConnectContactLensClientTypes.Categories: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let matchedCategories = matchedCategories {
             var matchedCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchedCategories)
-            for matchedcategories0 in matchedCategories {
-                try matchedCategoriesContainer.encode(matchedcategories0)
+            for categoryname0 in matchedCategories {
+                try matchedCategoriesContainer.encode(categoryname0)
             }
         }
         if let matchedDetails = matchedDetails {
             var matchedDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .matchedDetails)
-            for (dictKey0, matcheddetails0) in matchedDetails {
-                try matchedDetailsContainer.encode(matcheddetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, matchedDetails0) in matchedDetails {
+                try matchedDetailsContainer.encode(matchedDetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -135,8 +135,8 @@ extension ConnectContactLensClientTypes.CategoryDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pointsOfInterest = pointsOfInterest {
             var pointsOfInterestContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pointsOfInterest)
-            for pointsofinterest0 in pointsOfInterest {
-                try pointsOfInterestContainer.encode(pointsofinterest0)
+            for pointofinterest0 in pointsOfInterest {
+                try pointsOfInterestContainer.encode(pointofinterest0)
             }
         }
     }
@@ -804,8 +804,8 @@ extension ConnectContactLensClientTypes.Transcript: Swift.Codable {
         }
         if let issuesDetected = issuesDetected {
             var issuesDetectedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issuesDetected)
-            for issuesdetected0 in issuesDetected {
-                try issuesDetectedContainer.encode(issuesdetected0)
+            for issuedetected0 in issuesDetected {
+                try issuesDetectedContainer.encode(issuedetected0)
             }
         }
         if let participantId = self.participantId {

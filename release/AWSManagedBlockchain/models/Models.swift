@@ -676,8 +676,8 @@ extension CreateNetworkInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, inputtagmap0) in tags {
-                try tagsContainer.encode(inputtagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, inputTagMap0) in tags {
+                try tagsContainer.encode(inputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let votingPolicy = self.votingPolicy {
@@ -905,8 +905,8 @@ extension CreateNodeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, inputtagmap0) in tags {
-                try tagsContainer.encode(inputtagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, inputTagMap0) in tags {
+                try tagsContainer.encode(inputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1101,8 +1101,8 @@ extension CreateProposalInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, inputtagmap0) in tags {
-                try tagsContainer.encode(inputtagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, inputTagMap0) in tags {
+                try tagsContainer.encode(inputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3730,8 +3730,8 @@ extension ManagedBlockchainClientTypes.Member: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, outputtagmap0) in tags {
-                try tagsContainer.encode(outputtagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, outputTagMap0) in tags {
+                try tagsContainer.encode(outputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3871,8 +3871,8 @@ extension ManagedBlockchainClientTypes.MemberConfiguration: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, inputtagmap0) in tags {
-                try tagsContainer.encode(inputtagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, inputTagMap0) in tags {
+                try tagsContainer.encode(inputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4385,8 +4385,8 @@ extension ManagedBlockchainClientTypes.Network: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, outputtagmap0) in tags {
-                try tagsContainer.encode(outputtagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, outputTagMap0) in tags {
+                try tagsContainer.encode(outputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let votingPolicy = self.votingPolicy {
@@ -4902,8 +4902,8 @@ extension ManagedBlockchainClientTypes.Node: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, outputtagmap0) in tags {
-                try tagsContainer.encode(outputtagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, outputTagMap0) in tags {
+                try tagsContainer.encode(outputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5507,8 +5507,8 @@ extension ManagedBlockchainClientTypes.Proposal: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, outputtagmap0) in tags {
-                try tagsContainer.encode(outputtagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, outputTagMap0) in tags {
+                try tagsContainer.encode(outputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let yesVoteCount = self.yesVoteCount {
@@ -5646,14 +5646,14 @@ extension ManagedBlockchainClientTypes.ProposalActions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let invitations = invitations {
             var invitationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .invitations)
-            for inviteactionlist0 in invitations {
-                try invitationsContainer.encode(inviteactionlist0)
+            for inviteaction0 in invitations {
+                try invitationsContainer.encode(inviteaction0)
             }
         }
         if let removals = removals {
             var removalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removals)
-            for removeactionlist0 in removals {
-                try removalsContainer.encode(removeactionlist0)
+            for removeaction0 in removals {
+                try removalsContainer.encode(removeaction0)
             }
         }
     }
@@ -6229,8 +6229,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, inputtagmap0) in tags {
-                try tagsContainer.encode(inputtagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, inputTagMap0) in tags {
+                try tagsContainer.encode(inputTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

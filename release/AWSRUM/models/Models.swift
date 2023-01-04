@@ -100,8 +100,8 @@ extension RUMClientTypes.AppMonitor: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -215,14 +215,14 @@ extension RUMClientTypes.AppMonitorConfiguration: Swift.Codable {
         }
         if let excludedPages = excludedPages {
             var excludedPagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedPages)
-            for pages0 in excludedPages {
-                try excludedPagesContainer.encode(pages0)
+            for url0 in excludedPages {
+                try excludedPagesContainer.encode(url0)
             }
         }
         if let favoritePages = favoritePages {
             var favoritePagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .favoritePages)
-            for favoritepages0 in favoritePages {
-                try favoritePagesContainer.encode(favoritepages0)
+            for string0 in favoritePages {
+                try favoritePagesContainer.encode(string0)
             }
         }
         if let guestRoleArn = self.guestRoleArn {
@@ -233,8 +233,8 @@ extension RUMClientTypes.AppMonitorConfiguration: Swift.Codable {
         }
         if let includedPages = includedPages {
             var includedPagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includedPages)
-            for pages0 in includedPages {
-                try includedPagesContainer.encode(pages0)
+            for url0 in includedPages {
+                try includedPagesContainer.encode(url0)
             }
         }
         if sessionSampleRate != 0.0 {
@@ -242,8 +242,8 @@ extension RUMClientTypes.AppMonitorConfiguration: Swift.Codable {
         }
         if let telemetries = telemetries {
             var telemetriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .telemetries)
-            for telemetries0 in telemetries {
-                try telemetriesContainer.encode(telemetries0.rawValue)
+            for telemetry0 in telemetries {
+                try telemetriesContainer.encode(telemetry0.rawValue)
             }
         }
     }
@@ -566,8 +566,8 @@ extension BatchCreateRumMetricDefinitionsInput: Swift.Encodable {
         }
         if let metricDefinitions = metricDefinitions {
             var metricDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricDefinitions)
-            for metricdefinitionsrequest0 in metricDefinitions {
-                try metricDefinitionsContainer.encode(metricdefinitionsrequest0)
+            for metricdefinitionrequest0 in metricDefinitions {
+                try metricDefinitionsContainer.encode(metricdefinitionrequest0)
             }
         }
     }
@@ -1244,8 +1244,8 @@ extension CreateAppMonitorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1744,8 +1744,8 @@ extension GetAppMonitorDataInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for queryfilters0 in filters {
-                try filtersContainer.encode(queryfilters0)
+            for queryfilter0 in filters {
+                try filtersContainer.encode(queryfilter0)
             }
         }
         if maxResults != 0 {
@@ -2503,8 +2503,8 @@ extension RUMClientTypes.MetricDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensionKeys = dimensionKeys {
             var dimensionKeysContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dimensionKeys)
-            for (dictKey0, dimensionkeysmap0) in dimensionKeys {
-                try dimensionKeysContainer.encode(dimensionkeysmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dimensionKeysMap0) in dimensionKeys {
+                try dimensionKeysContainer.encode(dimensionKeysMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let eventPattern = self.eventPattern {
@@ -2601,8 +2601,8 @@ extension RUMClientTypes.MetricDefinitionRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensionKeys = dimensionKeys {
             var dimensionKeysContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dimensionKeys)
-            for (dictKey0, dimensionkeysmap0) in dimensionKeys {
-                try dimensionKeysContainer.encode(dimensionkeysmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dimensionKeysMap0) in dimensionKeys {
+                try dimensionKeysContainer.encode(dimensionKeysMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let eventPattern = self.eventPattern {
@@ -2849,8 +2849,8 @@ extension PutRumEventsInput: Swift.Encodable {
         }
         if let rumEvents = rumEvents {
             var rumEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rumEvents)
-            for rumeventlist0 in rumEvents {
-                try rumEventsContainer.encode(rumeventlist0)
+            for rumevent0 in rumEvents {
+                try rumEventsContainer.encode(rumevent0)
             }
         }
         if let userDetails = self.userDetails {
@@ -3113,8 +3113,8 @@ extension RUMClientTypes.QueryFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for queryfiltervaluelist0 in values {
-                try valuesContainer.encode(queryfiltervaluelist0)
+            for queryfiltervalue0 in values {
+                try valuesContainer.encode(queryfiltervalue0)
             }
         }
     }
@@ -3407,8 +3407,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

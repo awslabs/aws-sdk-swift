@@ -107,8 +107,8 @@ extension AssociateRepositoryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -441,8 +441,8 @@ extension CodeGuruReviewerClientTypes.CodeReview: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let analysisTypes = analysisTypes {
             var analysisTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analysisTypes)
-            for analysistypes0 in analysisTypes {
-                try analysisTypesContainer.encode(analysistypes0.rawValue)
+            for analysistype0 in analysisTypes {
+                try analysisTypesContainer.encode(analysistype0.rawValue)
             }
         }
         if let associationArn = self.associationArn {
@@ -785,8 +785,8 @@ extension CodeGuruReviewerClientTypes.CodeReviewType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let analysisTypes = analysisTypes {
             var analysisTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analysisTypes)
-            for analysistypes0 in analysisTypes {
-                try analysisTypesContainer.encode(analysistypes0.rawValue)
+            for analysistype0 in analysisTypes {
+                try analysisTypesContainer.encode(analysistype0.rawValue)
             }
         }
         if let repositoryAnalysis = self.repositoryAnalysis {
@@ -2854,8 +2854,8 @@ extension PutRecommendationFeedbackInput: Swift.Encodable {
         }
         if let reactions = reactions {
             var reactionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reactions)
-            for reactions0 in reactions {
-                try reactionsContainer.encode(reactions0.rawValue)
+            for reaction0 in reactions {
+                try reactionsContainer.encode(reaction0.rawValue)
             }
         }
         if let recommendationId = self.recommendationId {
@@ -3080,8 +3080,8 @@ extension CodeGuruReviewerClientTypes.RecommendationFeedback: Swift.Codable {
         }
         if let reactions = reactions {
             var reactionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reactions)
-            for reactions0 in reactions {
-                try reactionsContainer.encode(reactions0.rawValue)
+            for reaction0 in reactions {
+                try reactionsContainer.encode(reaction0.rawValue)
             }
         }
         if let recommendationId = self.recommendationId {
@@ -3165,8 +3165,8 @@ extension CodeGuruReviewerClientTypes.RecommendationFeedbackSummary: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let reactions = reactions {
             var reactionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reactions)
-            for reactions0 in reactions {
-                try reactionsContainer.encode(reactions0.rawValue)
+            for reaction0 in reactions {
+                try reactionsContainer.encode(reaction0.rawValue)
             }
         }
         if let recommendationId = self.recommendationId {
@@ -3940,8 +3940,8 @@ extension CodeGuruReviewerClientTypes.RuleMetadata: Swift.Codable {
         }
         if let ruleTags = ruleTags {
             var ruleTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ruleTags)
-            for ruletags0 in ruleTags {
-                try ruleTagsContainer.encode(ruletags0)
+            for ruletag0 in ruleTags {
+                try ruleTagsContainer.encode(ruletag0)
             }
         }
         if let shortDescription = self.shortDescription {
@@ -4268,8 +4268,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

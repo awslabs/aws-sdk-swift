@@ -210,7 +210,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     public func addAttachmentsToSet(input: AddAttachmentsToSetInput) async throws -> AddAttachmentsToSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -228,7 +228,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(id: "addAttachmentsToSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<AddAttachmentsToSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -249,7 +252,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     public func addCommunicationToCase(input: AddCommunicationToCaseInput) async throws -> AddCommunicationToCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -267,7 +270,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(id: "addCommunicationToCase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<AddCommunicationToCaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -295,7 +301,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -313,7 +319,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateCaseInput, CreateCaseOutputResponse, CreateCaseOutputError>(id: "createCase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCaseInput, CreateCaseOutputResponse, CreateCaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCaseInput, CreateCaseOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateCaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCaseOutputResponse, CreateCaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -334,7 +343,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     public func describeAttachment(input: DescribeAttachmentInput) async throws -> DescribeAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -352,7 +361,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeAttachmentInput, DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(id: "describeAttachment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAttachmentInput, DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAttachmentInput, DescribeAttachmentOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeAttachmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -380,7 +392,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     public func describeCases(input: DescribeCasesInput) async throws -> DescribeCasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -398,7 +410,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeCasesInput, DescribeCasesOutputResponse, DescribeCasesOutputError>(id: "describeCases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCasesInput, DescribeCasesOutputResponse, DescribeCasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCasesInput, DescribeCasesOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeCasesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCasesOutputResponse, DescribeCasesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -419,7 +434,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     public func describeCommunications(input: DescribeCommunicationsInput) async throws -> DescribeCommunicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -437,7 +452,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(id: "describeCommunications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeCommunicationsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -458,7 +476,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -476,7 +494,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>(id: "describeServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeServicesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -497,7 +518,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     public func describeSeverityLevels(input: DescribeSeverityLevelsInput) async throws -> DescribeSeverityLevelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -515,7 +536,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(id: "describeSeverityLevels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeSeverityLevelsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -536,7 +560,10 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    ///
+    /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     public func describeTrustedAdvisorCheckRefreshStatuses(input: DescribeTrustedAdvisorCheckRefreshStatusesInput) async throws -> DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -554,7 +581,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(id: "describeTrustedAdvisorCheckRefreshStatuses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeTrustedAdvisorCheckRefreshStatusesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -593,7 +623,10 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    ///
+    /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     public func describeTrustedAdvisorCheckResult(input: DescribeTrustedAdvisorCheckResultInput) async throws -> DescribeTrustedAdvisorCheckResultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -611,7 +644,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(id: "describeTrustedAdvisorCheckResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeTrustedAdvisorCheckResultOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -632,7 +668,10 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    ///
+    /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     public func describeTrustedAdvisorCheckSummaries(input: DescribeTrustedAdvisorCheckSummariesInput) async throws -> DescribeTrustedAdvisorCheckSummariesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -650,7 +689,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(id: "describeTrustedAdvisorCheckSummaries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeTrustedAdvisorCheckSummariesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -667,13 +709,16 @@ extension SupportClient: SupportClientProtocol {
         return result
     }
 
-    /// Returns information about all available Trusted Advisor checks, including the name, ID, category, description, and metadata. You must specify a language code. The Amazon Web Services Support API currently supports English ("en") and Japanese ("ja"). The response contains a [TrustedAdvisorCheckDescription] object for each check. You must set the Amazon Web Services Region to us-east-1.
+    /// Returns information about all available Trusted Advisor checks, including the name, ID, category, description, and metadata. You must specify a language code. The response contains a [TrustedAdvisorCheckDescription] object for each check. You must set the Amazon Web Services Region to us-east-1.
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
     /// * The names and descriptions for Trusted Advisor checks are subject to change. We recommend that you specify the check ID in your code to uniquely identify a check.
+    ///
+    ///
+    /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     public func describeTrustedAdvisorChecks(input: DescribeTrustedAdvisorChecksInput) async throws -> DescribeTrustedAdvisorChecksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -691,7 +736,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(id: "describeTrustedAdvisorChecks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeTrustedAdvisorChecksOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -712,7 +760,10 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    ///
+    /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     public func refreshTrustedAdvisorCheck(input: RefreshTrustedAdvisorCheckInput) async throws -> RefreshTrustedAdvisorCheckOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -730,7 +781,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(id: "refreshTrustedAdvisorCheck")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<RefreshTrustedAdvisorCheckOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -751,7 +805,7 @@ extension SupportClient: SupportClientProtocol {
     ///
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
-    /// * If you call the Amazon Web Services Support API from an account that does not have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     public func resolveCase(input: ResolveCaseInput) async throws -> ResolveCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -769,7 +823,10 @@ extension SupportClient: SupportClientProtocol {
         var operation = ClientRuntime.OperationStack<ResolveCaseInput, ResolveCaseOutputResponse, ResolveCaseOutputError>(id: "resolveCase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveCaseInput, ResolveCaseOutputResponse, ResolveCaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveCaseInput, ResolveCaseOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ResolveCaseOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResolveCaseOutputResponse, ResolveCaseOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

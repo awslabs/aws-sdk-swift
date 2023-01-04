@@ -401,8 +401,8 @@ extension CreateDomainInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2346,8 +2346,8 @@ extension VoiceIDClientTypes.FraudDetectionResult: Swift.Codable {
         }
         if let reasons = reasons {
             var reasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reasons)
-            for frauddetectionreasons0 in reasons {
-                try reasonsContainer.encode(frauddetectionreasons0.rawValue)
+            for frauddetectionreason0 in reasons {
+                try reasonsContainer.encode(frauddetectionreason0.rawValue)
             }
         }
         if let riskDetails = self.riskDetails {
@@ -5341,8 +5341,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5508,8 +5508,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

@@ -165,8 +165,8 @@ extension CreateIdentityPoolInput: Swift.Encodable {
         }
         if let cognitoIdentityProviders = cognitoIdentityProviders {
             var cognitoIdentityProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cognitoIdentityProviders)
-            for cognitoidentityproviderlist0 in cognitoIdentityProviders {
-                try cognitoIdentityProvidersContainer.encode(cognitoidentityproviderlist0)
+            for cognitoidentityprovider0 in cognitoIdentityProviders {
+                try cognitoIdentityProvidersContainer.encode(cognitoidentityprovider0)
             }
         }
         if let developerProviderName = self.developerProviderName {
@@ -177,26 +177,26 @@ extension CreateIdentityPoolInput: Swift.Encodable {
         }
         if let identityPoolTags = identityPoolTags {
             var identityPoolTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .identityPoolTags)
-            for (dictKey0, identitypooltagstype0) in identityPoolTags {
-                try identityPoolTagsContainer.encode(identitypooltagstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityPoolTagsType0) in identityPoolTags {
+                try identityPoolTagsContainer.encode(identityPoolTagsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let openIdConnectProviderARNs = openIdConnectProviderARNs {
             var openIdConnectProviderARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .openIdConnectProviderARNs)
-            for oidcproviderlist0 in openIdConnectProviderARNs {
-                try openIdConnectProviderARNsContainer.encode(oidcproviderlist0)
+            for arnstring0 in openIdConnectProviderARNs {
+                try openIdConnectProviderARNsContainer.encode(arnstring0)
             }
         }
         if let samlProviderARNs = samlProviderARNs {
             var samlProviderARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .samlProviderARNs)
-            for samlproviderlist0 in samlProviderARNs {
-                try samlProviderARNsContainer.encode(samlproviderlist0)
+            for arnstring0 in samlProviderARNs {
+                try samlProviderARNsContainer.encode(arnstring0)
             }
         }
         if let supportedLoginProviders = supportedLoginProviders {
             var supportedLoginProvidersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .supportedLoginProviders)
-            for (dictKey0, identityproviders0) in supportedLoginProviders {
-                try supportedLoginProvidersContainer.encode(identityproviders0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityProviders0) in supportedLoginProviders {
+                try supportedLoginProvidersContainer.encode(identityProviders0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -634,8 +634,8 @@ extension DeleteIdentitiesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let identityIdsToDelete = identityIdsToDelete {
             var identityIdsToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identityIdsToDelete)
-            for identityidlist0 in identityIdsToDelete {
-                try identityIdsToDeleteContainer.encode(identityidlist0)
+            for identityid0 in identityIdsToDelete {
+                try identityIdsToDeleteContainer.encode(identityid0)
             }
         }
     }
@@ -1426,8 +1426,8 @@ extension GetCredentialsForIdentityInput: Swift.Encodable {
         }
         if let logins = logins {
             var loginsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logins)
-            for (dictKey0, loginsmap0) in logins {
-                try loginsContainer.encode(loginsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loginsMap0) in logins {
+                try loginsContainer.encode(loginsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1599,8 +1599,8 @@ extension GetIdInput: Swift.Encodable {
         }
         if let logins = logins {
             var loginsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logins)
-            for (dictKey0, loginsmap0) in logins {
-                try loginsContainer.encode(loginsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loginsMap0) in logins {
+                try loginsContainer.encode(loginsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1937,14 +1937,14 @@ extension GetOpenIdTokenForDeveloperIdentityInput: Swift.Encodable {
         }
         if let logins = logins {
             var loginsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logins)
-            for (dictKey0, loginsmap0) in logins {
-                try loginsContainer.encode(loginsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loginsMap0) in logins {
+                try loginsContainer.encode(loginsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let principalTags = principalTags {
             var principalTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .principalTags)
-            for (dictKey0, principaltags0) in principalTags {
-                try principalTagsContainer.encode(principaltags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, principalTags0) in principalTags {
+                try principalTagsContainer.encode(principalTags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tokenDuration = self.tokenDuration {
@@ -2139,8 +2139,8 @@ extension GetOpenIdTokenInput: Swift.Encodable {
         }
         if let logins = logins {
             var loginsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logins)
-            for (dictKey0, loginsmap0) in logins {
-                try loginsContainer.encode(loginsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loginsMap0) in logins {
+                try loginsContainer.encode(loginsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2477,8 +2477,8 @@ extension CognitoIdentityClientTypes.IdentityDescription: Swift.Codable {
         }
         if let logins = logins {
             var loginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logins)
-            for loginslist0 in logins {
-                try loginsContainer.encode(loginslist0)
+            for identityprovidername0 in logins {
+                try loginsContainer.encode(identityprovidername0)
             }
         }
     }
@@ -3982,8 +3982,8 @@ extension CognitoIdentityClientTypes.RulesConfigurationType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for mappingruleslist0 in rules {
-                try rulesContainer.encode(mappingruleslist0)
+            for mappingrule0 in rules {
+                try rulesContainer.encode(mappingrule0)
             }
         }
     }
@@ -4035,14 +4035,14 @@ extension SetIdentityPoolRolesInput: Swift.Encodable {
         }
         if let roleMappings = roleMappings {
             var roleMappingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .roleMappings)
-            for (dictKey0, rolemappingmap0) in roleMappings {
-                try roleMappingsContainer.encode(rolemappingmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, roleMappingMap0) in roleMappings {
+                try roleMappingsContainer.encode(roleMappingMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let roles = roles {
             var rolesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .roles)
-            for (dictKey0, rolesmap0) in roles {
-                try rolesContainer.encode(rolesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, rolesMap0) in roles {
+                try rolesContainer.encode(rolesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4181,8 +4181,8 @@ extension SetPrincipalTagAttributeMapInput: Swift.Encodable {
         }
         if let principalTags = principalTags {
             var principalTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .principalTags)
-            for (dictKey0, principaltags0) in principalTags {
-                try principalTagsContainer.encode(principaltags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, principalTags0) in principalTags {
+                try principalTagsContainer.encode(principalTags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDefaults = self.useDefaults {
@@ -4383,8 +4383,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, identitypooltagstype0) in tags {
-                try tagsContainer.encode(identitypooltagstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityPoolTagsType0) in tags {
+                try tagsContainer.encode(identityPoolTagsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4680,14 +4680,14 @@ extension UnlinkIdentityInput: Swift.Encodable {
         }
         if let logins = logins {
             var loginsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logins)
-            for (dictKey0, loginsmap0) in logins {
-                try loginsContainer.encode(loginsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loginsMap0) in logins {
+                try loginsContainer.encode(loginsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let loginsToRemove = loginsToRemove {
             var loginsToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loginsToRemove)
-            for loginslist0 in loginsToRemove {
-                try loginsToRemoveContainer.encode(loginslist0)
+            for identityprovidername0 in loginsToRemove {
+                try loginsToRemoveContainer.encode(identityprovidername0)
             }
         }
     }
@@ -4867,8 +4867,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for identitypooltagslisttype0 in tagKeys {
-                try tagKeysContainer.encode(identitypooltagslisttype0)
+            for tagkeystype0 in tagKeys {
+                try tagKeysContainer.encode(tagkeystype0)
             }
         }
     }
@@ -4991,8 +4991,8 @@ extension UpdateIdentityPoolInput: Swift.Encodable {
         }
         if let cognitoIdentityProviders = cognitoIdentityProviders {
             var cognitoIdentityProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cognitoIdentityProviders)
-            for cognitoidentityproviderlist0 in cognitoIdentityProviders {
-                try cognitoIdentityProvidersContainer.encode(cognitoidentityproviderlist0)
+            for cognitoidentityprovider0 in cognitoIdentityProviders {
+                try cognitoIdentityProvidersContainer.encode(cognitoidentityprovider0)
             }
         }
         if let developerProviderName = self.developerProviderName {
@@ -5006,26 +5006,26 @@ extension UpdateIdentityPoolInput: Swift.Encodable {
         }
         if let identityPoolTags = identityPoolTags {
             var identityPoolTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .identityPoolTags)
-            for (dictKey0, identitypooltagstype0) in identityPoolTags {
-                try identityPoolTagsContainer.encode(identitypooltagstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityPoolTagsType0) in identityPoolTags {
+                try identityPoolTagsContainer.encode(identityPoolTagsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let openIdConnectProviderARNs = openIdConnectProviderARNs {
             var openIdConnectProviderARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .openIdConnectProviderARNs)
-            for oidcproviderlist0 in openIdConnectProviderARNs {
-                try openIdConnectProviderARNsContainer.encode(oidcproviderlist0)
+            for arnstring0 in openIdConnectProviderARNs {
+                try openIdConnectProviderARNsContainer.encode(arnstring0)
             }
         }
         if let samlProviderARNs = samlProviderARNs {
             var samlProviderARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .samlProviderARNs)
-            for samlproviderlist0 in samlProviderARNs {
-                try samlProviderARNsContainer.encode(samlproviderlist0)
+            for arnstring0 in samlProviderARNs {
+                try samlProviderARNsContainer.encode(arnstring0)
             }
         }
         if let supportedLoginProviders = supportedLoginProviders {
             var supportedLoginProvidersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .supportedLoginProviders)
-            for (dictKey0, identityproviders0) in supportedLoginProviders {
-                try supportedLoginProvidersContainer.encode(identityproviders0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityProviders0) in supportedLoginProviders {
+                try supportedLoginProvidersContainer.encode(identityProviders0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

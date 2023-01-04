@@ -216,8 +216,8 @@ extension MarketplaceCatalogClientTypes.Change: Swift.Codable {
         }
         if let entityTags = entityTags {
             var entityTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTags)
-            for taglist0 in entityTags {
-                try entityTagsContainer.encode(taglist0)
+            for tag0 in entityTags {
+                try entityTagsContainer.encode(tag0)
             }
         }
     }
@@ -309,8 +309,8 @@ extension MarketplaceCatalogClientTypes.ChangeSetSummaryListItem: Swift.Codable 
         }
         if let entityIdList = entityIdList {
             var entityIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityIdList)
-            for resourceidlist0 in entityIdList {
-                try entityIdListContainer.encode(resourceidlist0)
+            for resourceid0 in entityIdList {
+                try entityIdListContainer.encode(resourceid0)
             }
         }
         if let failureCode = self.failureCode {
@@ -464,8 +464,8 @@ extension MarketplaceCatalogClientTypes.ChangeSummary: Swift.Codable {
         }
         if let errorDetailList = errorDetailList {
             var errorDetailListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorDetailList)
-            for errordetaillist0 in errorDetailList {
-                try errorDetailListContainer.encode(errordetaillist0)
+            for errordetail0 in errorDetailList {
+                try errorDetailListContainer.encode(errordetail0)
             }
         }
     }
@@ -1128,8 +1128,8 @@ extension MarketplaceCatalogClientTypes.Filter: Swift.Codable {
         }
         if let valueList = valueList {
             var valueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .valueList)
-            for valuelist0 in valueList {
-                try valueListContainer.encode(valuelist0)
+            for filtervaluecontent0 in valueList {
+                try valueListContainer.encode(filtervaluecontent0)
             }
         }
     }
@@ -1254,8 +1254,8 @@ extension ListChangeSetsInput: Swift.Encodable {
         }
         if let filterList = filterList {
             var filterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterList)
-            for filterlist0 in filterList {
-                try filterListContainer.encode(filterlist0)
+            for filter0 in filterList {
+                try filterListContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -1454,8 +1454,8 @@ extension ListEntitiesInput: Swift.Encodable {
         }
         if let filterList = filterList {
             var filterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterList)
-            for filterlist0 in filterList {
-                try filterListContainer.encode(filterlist0)
+            for filter0 in filterList {
+                try filterListContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -2084,8 +2084,8 @@ extension StartChangeSetInput: Swift.Encodable {
         }
         if let changeSet = changeSet {
             var changeSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .changeSet)
-            for requestedchangelist0 in changeSet {
-                try changeSetContainer.encode(requestedchangelist0)
+            for change0 in changeSet {
+                try changeSetContainer.encode(change0)
             }
         }
         if let changeSetName = self.changeSetName {
@@ -2093,8 +2093,8 @@ extension StartChangeSetInput: Swift.Encodable {
         }
         if let changeSetTags = changeSetTags {
             var changeSetTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .changeSetTags)
-            for taglist0 in changeSetTags {
-                try changeSetTagsContainer.encode(taglist0)
+            for tag0 in changeSetTags {
+                try changeSetTagsContainer.encode(tag0)
             }
         }
         if let clientRequestToken = self.clientRequestToken {
@@ -2334,8 +2334,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2499,8 +2499,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

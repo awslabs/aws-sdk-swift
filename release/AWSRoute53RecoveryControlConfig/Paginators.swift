@@ -26,6 +26,15 @@ extension ListAssociatedRoute53HealthChecksInput: ClientRuntime.PaginateToken {
         )}
 }
 
+/// This paginator transforms the `AsyncSequence` returned by `listAssociatedRoute53HealthChecksPaginated`
+/// to access the nested member `[Swift.String]`
+/// - Returns: `[Swift.String]`
+extension PaginatorSequence where Input == ListAssociatedRoute53HealthChecksInput, Output == ListAssociatedRoute53HealthChecksOutputResponse {
+    public func healthCheckIds() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.healthCheckIds }
+    }
+}
+
 /// Paginate over `[ListClustersOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -46,6 +55,15 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
+/// to access the nested member `[Route53RecoveryControlConfigClientTypes.Cluster]`
+/// - Returns: `[Route53RecoveryControlConfigClientTypes.Cluster]`
+extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutputResponse {
+    public func clusters() async throws -> [Route53RecoveryControlConfigClientTypes.Cluster] {
+        return try await self.asyncCompactMap { item in item.clusters }
+    }
 }
 
 /// Paginate over `[ListControlPanelsOutputResponse]` results.
@@ -71,6 +89,15 @@ extension ListControlPanelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+/// This paginator transforms the `AsyncSequence` returned by `listControlPanelsPaginated`
+/// to access the nested member `[Route53RecoveryControlConfigClientTypes.ControlPanel]`
+/// - Returns: `[Route53RecoveryControlConfigClientTypes.ControlPanel]`
+extension PaginatorSequence where Input == ListControlPanelsInput, Output == ListControlPanelsOutputResponse {
+    public func controlPanels() async throws -> [Route53RecoveryControlConfigClientTypes.ControlPanel] {
+        return try await self.asyncCompactMap { item in item.controlPanels }
+    }
+}
+
 /// Paginate over `[ListRoutingControlsOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -94,6 +121,15 @@ extension ListRoutingControlsInput: ClientRuntime.PaginateToken {
         )}
 }
 
+/// This paginator transforms the `AsyncSequence` returned by `listRoutingControlsPaginated`
+/// to access the nested member `[Route53RecoveryControlConfigClientTypes.RoutingControl]`
+/// - Returns: `[Route53RecoveryControlConfigClientTypes.RoutingControl]`
+extension PaginatorSequence where Input == ListRoutingControlsInput, Output == ListRoutingControlsOutputResponse {
+    public func routingControls() async throws -> [Route53RecoveryControlConfigClientTypes.RoutingControl] {
+        return try await self.asyncCompactMap { item in item.routingControls }
+    }
+}
+
 /// Paginate over `[ListSafetyRulesOutputResponse]` results.
 ///
 /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -115,4 +151,13 @@ extension ListSafetyRulesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+/// This paginator transforms the `AsyncSequence` returned by `listSafetyRulesPaginated`
+/// to access the nested member `[Route53RecoveryControlConfigClientTypes.Rule]`
+/// - Returns: `[Route53RecoveryControlConfigClientTypes.Rule]`
+extension PaginatorSequence where Input == ListSafetyRulesInput, Output == ListSafetyRulesOutputResponse {
+    public func safetyRules() async throws -> [Route53RecoveryControlConfigClientTypes.Rule] {
+        return try await self.asyncCompactMap { item in item.safetyRules }
+    }
 }

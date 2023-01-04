@@ -540,14 +540,14 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let hyperParameters = hyperParameters {
             var hyperParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .hyperParameters)
-            for (dictKey0, hyperparameters0) in hyperParameters {
-                try hyperParametersContainer.encode(hyperparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, hyperParameters0) in hyperParameters {
+                try hyperParametersContainer.encode(hyperParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let inputDataConfig = inputDataConfig {
             var inputDataConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputDataConfig)
-            for inputconfiglist0 in inputDataConfig {
-                try inputDataConfigContainer.encode(inputconfiglist0)
+            for inputfileconfig0 in inputDataConfig {
+                try inputDataConfigContainer.encode(inputfileconfig0)
             }
         }
         if let instanceConfig = self.instanceConfig {
@@ -567,8 +567,8 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -847,8 +847,8 @@ extension CreateQuantumTaskInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2710,8 +2710,8 @@ extension BraketClientTypes.JobSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2990,8 +2990,8 @@ extension BraketClientTypes.QuantumTaskSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3241,8 +3241,8 @@ extension BraketClientTypes.SearchDevicesFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for string256list0 in values {
-                try valuesContainer.encode(string256list0)
+            for string2560 in values {
+                try valuesContainer.encode(string2560)
             }
         }
     }
@@ -3298,8 +3298,8 @@ extension SearchDevicesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for searchdevicesfilterlist0 in filters {
-                try filtersContainer.encode(searchdevicesfilterlist0)
+            for searchdevicesfilter0 in filters {
+                try filtersContainer.encode(searchdevicesfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3477,8 +3477,8 @@ extension BraketClientTypes.SearchJobsFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for string256list0 in values {
-                try valuesContainer.encode(string256list0)
+            for string2560 in values {
+                try valuesContainer.encode(string2560)
             }
         }
     }
@@ -3588,8 +3588,8 @@ extension SearchJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for searchjobsfilterlist0 in filters {
-                try filtersContainer.encode(searchjobsfilterlist0)
+            for searchjobsfilter0 in filters {
+                try filtersContainer.encode(searchjobsfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3767,8 +3767,8 @@ extension BraketClientTypes.SearchQuantumTasksFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for string256list0 in values {
-                try valuesContainer.encode(string256list0)
+            for string2560 in values {
+                try valuesContainer.encode(string2560)
             }
         }
     }
@@ -3875,8 +3875,8 @@ extension SearchQuantumTasksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for searchquantumtasksfilterlist0 in filters {
-                try filtersContainer.encode(searchquantumtasksfilterlist0)
+            for searchquantumtasksfilter0 in filters {
+                try filtersContainer.encode(searchquantumtasksfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4098,8 +4098,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

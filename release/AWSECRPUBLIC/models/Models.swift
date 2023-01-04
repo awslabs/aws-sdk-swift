@@ -58,8 +58,8 @@ extension BatchCheckLayerAvailabilityInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let layerDigests = layerDigests {
             var layerDigestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerDigests)
-            for batchedoperationlayerdigestlist0 in layerDigests {
-                try layerDigestsContainer.encode(batchedoperationlayerdigestlist0)
+            for batchedoperationlayerdigest0 in layerDigests {
+                try layerDigestsContainer.encode(batchedoperationlayerdigest0)
             }
         }
         if let registryId = self.registryId {
@@ -240,8 +240,8 @@ extension BatchDeleteImageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let imageIds = imageIds {
             var imageIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageIds)
-            for imageidentifierlist0 in imageIds {
-                try imageIdsContainer.encode(imageidentifierlist0)
+            for imageidentifier0 in imageIds {
+                try imageIdsContainer.encode(imageidentifier0)
             }
         }
         if let registryId = self.registryId {
@@ -421,8 +421,8 @@ extension CompleteLayerUploadInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let layerDigests = layerDigests {
             var layerDigestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerDigests)
-            for layerdigestlist0 in layerDigests {
-                try layerDigestsContainer.encode(layerdigestlist0)
+            for layerdigest0 in layerDigests {
+                try layerDigestsContainer.encode(layerdigest0)
             }
         }
         if let registryId = self.registryId {
@@ -635,8 +635,8 @@ extension CreateRepositoryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1258,8 +1258,8 @@ extension DescribeImagesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let imageIds = imageIds {
             var imageIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageIds)
-            for imageidentifierlist0 in imageIds {
-                try imageIdsContainer.encode(imageidentifierlist0)
+            for imageidentifier0 in imageIds {
+                try imageIdsContainer.encode(imageidentifier0)
             }
         }
         if let maxResults = self.maxResults {
@@ -1608,8 +1608,8 @@ extension DescribeRepositoriesInput: Swift.Encodable {
         }
         if let repositoryNames = repositoryNames {
             var repositoryNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositoryNames)
-            for repositorynamelist0 in repositoryNames {
-                try repositoryNamesContainer.encode(repositorynamelist0)
+            for repositoryname0 in repositoryNames {
+                try repositoryNamesContainer.encode(repositoryname0)
             }
         }
     }
@@ -2441,8 +2441,8 @@ extension ECRPUBLICClientTypes.ImageDetail: Swift.Codable {
         }
         if let imageTags = imageTags {
             var imageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageTags)
-            for imagetaglist0 in imageTags {
-                try imageTagsContainer.encode(imagetaglist0)
+            for imagetag0 in imageTags {
+                try imageTagsContainer.encode(imagetag0)
             }
         }
         if let registryId = self.registryId {
@@ -4377,8 +4377,8 @@ extension ECRPUBLICClientTypes.Registry: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aliases = aliases {
             var aliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliases)
-            for registryaliaslist0 in aliases {
-                try aliasesContainer.encode(registryaliaslist0)
+            for registryalias0 in aliases {
+                try aliasesContainer.encode(registryalias0)
             }
         }
         if let registryArn = self.registryArn {
@@ -4792,8 +4792,8 @@ extension ECRPUBLICClientTypes.RepositoryCatalogData: Swift.Codable {
         }
         if let architectures = architectures {
             var architecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architectures)
-            for architecturelist0 in architectures {
-                try architecturesContainer.encode(architecturelist0)
+            for architecture0 in architectures {
+                try architecturesContainer.encode(architecture0)
             }
         }
         if let description = self.description {
@@ -4807,8 +4807,8 @@ extension ECRPUBLICClientTypes.RepositoryCatalogData: Swift.Codable {
         }
         if let operatingSystems = operatingSystems {
             var operatingSystemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operatingSystems)
-            for operatingsystemlist0 in operatingSystems {
-                try operatingSystemsContainer.encode(operatingsystemlist0)
+            for operatingsystem0 in operatingSystems {
+                try operatingSystemsContainer.encode(operatingsystem0)
             }
         }
         if let usageText = self.usageText {
@@ -4910,8 +4910,8 @@ extension ECRPUBLICClientTypes.RepositoryCatalogDataInput: Swift.Codable {
         }
         if let architectures = architectures {
             var architecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architectures)
-            for architecturelist0 in architectures {
-                try architecturesContainer.encode(architecturelist0)
+            for architecture0 in architectures {
+                try architecturesContainer.encode(architecture0)
             }
         }
         if let description = self.description {
@@ -4922,8 +4922,8 @@ extension ECRPUBLICClientTypes.RepositoryCatalogDataInput: Swift.Codable {
         }
         if let operatingSystems = operatingSystems {
             var operatingSystemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operatingSystems)
-            for operatingsystemlist0 in operatingSystems {
-                try operatingSystemsContainer.encode(operatingsystemlist0)
+            for operatingsystem0 in operatingSystems {
+                try operatingSystemsContainer.encode(operatingsystem0)
             }
         }
         if let usageText = self.usageText {
@@ -5458,8 +5458,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5675,8 +5675,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

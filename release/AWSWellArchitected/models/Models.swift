@@ -98,8 +98,8 @@ extension WellArchitectedClientTypes.AdditionalResources: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let content = content {
             var contentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .content)
-            for urls0 in content {
-                try contentContainer.encode(urls0)
+            for choicecontent0 in content {
+                try contentContainer.encode(choicecontent0)
             }
         }
         if let type = self.type {
@@ -167,14 +167,14 @@ extension WellArchitectedClientTypes.Answer: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let choiceAnswers = choiceAnswers {
             var choiceAnswersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .choiceAnswers)
-            for choiceanswers0 in choiceAnswers {
-                try choiceAnswersContainer.encode(choiceanswers0)
+            for choiceanswer0 in choiceAnswers {
+                try choiceAnswersContainer.encode(choiceanswer0)
             }
         }
         if let choices = choices {
             var choicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .choices)
-            for choices0 in choices {
-                try choicesContainer.encode(choices0)
+            for choice0 in choices {
+                try choicesContainer.encode(choice0)
             }
         }
         if let helpfulResourceDisplayText = self.helpfulResourceDisplayText {
@@ -212,8 +212,8 @@ extension WellArchitectedClientTypes.Answer: Swift.Codable {
         }
         if let selectedChoices = selectedChoices {
             var selectedChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedChoices)
-            for selectedchoices0 in selectedChoices {
-                try selectedChoicesContainer.encode(selectedchoices0)
+            for choiceid0 in selectedChoices {
+                try selectedChoicesContainer.encode(choiceid0)
             }
         }
     }
@@ -404,14 +404,14 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let choiceAnswerSummaries = choiceAnswerSummaries {
             var choiceAnswerSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .choiceAnswerSummaries)
-            for choiceanswersummaries0 in choiceAnswerSummaries {
-                try choiceAnswerSummariesContainer.encode(choiceanswersummaries0)
+            for choiceanswersummary0 in choiceAnswerSummaries {
+                try choiceAnswerSummariesContainer.encode(choiceanswersummary0)
             }
         }
         if let choices = choices {
             var choicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .choices)
-            for choices0 in choices {
-                try choicesContainer.encode(choices0)
+            for choice0 in choices {
+                try choicesContainer.encode(choice0)
             }
         }
         if isApplicable != false {
@@ -434,8 +434,8 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
         }
         if let selectedChoices = selectedChoices {
             var selectedChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedChoices)
-            for selectedchoices0 in selectedChoices {
-                try selectedChoicesContainer.encode(selectedchoices0)
+            for choiceid0 in selectedChoices {
+                try selectedChoicesContainer.encode(choiceid0)
             }
         }
     }
@@ -547,8 +547,8 @@ extension AssociateLensesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lensAliases = lensAliases {
             var lensAliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lensAliases)
-            for lensaliases0 in lensAliases {
-                try lensAliasesContainer.encode(lensaliases0)
+            for lensalias0 in lensAliases {
+                try lensAliasesContainer.encode(lensalias0)
             }
         }
     }
@@ -931,8 +931,8 @@ extension WellArchitectedClientTypes.CheckSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountSummary = accountSummary {
             var accountSummaryContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .accountSummary)
-            for (dictKey0, accountsummary0) in accountSummary {
-                try accountSummaryContainer.encode(accountsummary0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, accountSummary0) in accountSummary {
+                try accountSummaryContainer.encode(accountSummary0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let choiceId = self.choiceId {
@@ -1073,8 +1073,8 @@ extension WellArchitectedClientTypes.Choice: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalResources = additionalResources {
             var additionalResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalResources)
-            for additionalresourceslist0 in additionalResources {
-                try additionalResourcesContainer.encode(additionalresourceslist0)
+            for additionalresources0 in additionalResources {
+                try additionalResourcesContainer.encode(additionalresources0)
             }
         }
         if let choiceId = self.choiceId {
@@ -2075,14 +2075,14 @@ extension CreateWorkloadInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for workloadaccountids0 in accountIds {
-                try accountIdsContainer.encode(workloadaccountids0)
+            for awsaccountid0 in accountIds {
+                try accountIdsContainer.encode(awsaccountid0)
             }
         }
         if let applications = applications {
             var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
-            for workloadapplications0 in applications {
-                try applicationsContainer.encode(workloadapplications0)
+            for applicationarn0 in applications {
+                try applicationsContainer.encode(applicationarn0)
             }
         }
         if let architecturalDesign = self.architecturalDesign {
@@ -2090,8 +2090,8 @@ extension CreateWorkloadInput: Swift.Encodable {
         }
         if let awsRegions = awsRegions {
             var awsRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsRegions)
-            for workloadawsregions0 in awsRegions {
-                try awsRegionsContainer.encode(workloadawsregions0)
+            for awsregion0 in awsRegions {
+                try awsRegionsContainer.encode(awsregion0)
             }
         }
         if let clientRequestToken = self.clientRequestToken {
@@ -2114,14 +2114,14 @@ extension CreateWorkloadInput: Swift.Encodable {
         }
         if let lenses = lenses {
             var lensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lenses)
-            for workloadlenses0 in lenses {
-                try lensesContainer.encode(workloadlenses0)
+            for lensalias0 in lenses {
+                try lensesContainer.encode(lensalias0)
             }
         }
         if let nonAwsRegions = nonAwsRegions {
             var nonAwsRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nonAwsRegions)
-            for workloadnonawsregions0 in nonAwsRegions {
-                try nonAwsRegionsContainer.encode(workloadnonawsregions0)
+            for workloadnonawsregion0 in nonAwsRegions {
+                try nonAwsRegionsContainer.encode(workloadnonawsregion0)
             }
         }
         if let notes = self.notes {
@@ -2129,8 +2129,8 @@ extension CreateWorkloadInput: Swift.Encodable {
         }
         if let pillarPriorities = pillarPriorities {
             var pillarPrioritiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillarPriorities)
-            for workloadpillarpriorities0 in pillarPriorities {
-                try pillarPrioritiesContainer.encode(workloadpillarpriorities0)
+            for pillarid0 in pillarPriorities {
+                try pillarPrioritiesContainer.encode(pillarid0)
             }
         }
         if let reviewOwner = self.reviewOwner {
@@ -2138,8 +2138,8 @@ extension CreateWorkloadInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let workloadName = self.workloadName {
@@ -3131,8 +3131,8 @@ extension DisassociateLensesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lensAliases = lensAliases {
             var lensAliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lensAliases)
-            for lensaliases0 in lensAliases {
-                try lensAliasesContainer.encode(lensaliases0)
+            for lensalias0 in lensAliases {
+                try lensAliasesContainer.encode(lensalias0)
             }
         }
     }
@@ -4367,8 +4367,8 @@ extension ImportLensInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4580,8 +4580,8 @@ extension WellArchitectedClientTypes.ImprovementSummary: Swift.Codable {
         }
         if let improvementPlans = improvementPlans {
             var improvementPlansContainer = encodeContainer.nestedUnkeyedContainer(forKey: .improvementPlans)
-            for choiceimprovementplans0 in improvementPlans {
-                try improvementPlansContainer.encode(choiceimprovementplans0)
+            for choiceimprovementplan0 in improvementPlans {
+                try improvementPlansContainer.encode(choiceimprovementplan0)
             }
         }
         if let pillarId = self.pillarId {
@@ -4747,8 +4747,8 @@ extension WellArchitectedClientTypes.Lens: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4860,14 +4860,14 @@ extension WellArchitectedClientTypes.LensReview: Swift.Codable {
         }
         if let pillarReviewSummaries = pillarReviewSummaries {
             var pillarReviewSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillarReviewSummaries)
-            for pillarreviewsummaries0 in pillarReviewSummaries {
-                try pillarReviewSummariesContainer.encode(pillarreviewsummaries0)
+            for pillarreviewsummary0 in pillarReviewSummaries {
+                try pillarReviewSummariesContainer.encode(pillarreviewsummary0)
             }
         }
         if let riskCounts = riskCounts {
             var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
-            for (dictKey0, riskcounts0) in riskCounts {
-                try riskCountsContainer.encode(riskcounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, riskCounts0) in riskCounts {
+                try riskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updatedAt = self.updatedAt {
@@ -5055,8 +5055,8 @@ extension WellArchitectedClientTypes.LensReviewSummary: Swift.Codable {
         }
         if let riskCounts = riskCounts {
             var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
-            for (dictKey0, riskcounts0) in riskCounts {
-                try riskCountsContainer.encode(riskcounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, riskCounts0) in riskCounts {
+                try riskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updatedAt = self.updatedAt {
@@ -8083,8 +8083,8 @@ extension WellArchitectedClientTypes.PillarDifference: Swift.Codable {
         }
         if let questionDifferences = questionDifferences {
             var questionDifferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .questionDifferences)
-            for questiondifferences0 in questionDifferences {
-                try questionDifferencesContainer.encode(questiondifferences0)
+            for questiondifference0 in questionDifferences {
+                try questionDifferencesContainer.encode(questiondifference0)
             }
         }
     }
@@ -8160,8 +8160,8 @@ extension WellArchitectedClientTypes.PillarReviewSummary: Swift.Codable {
         }
         if let riskCounts = riskCounts {
             var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
-            for (dictKey0, riskcounts0) in riskCounts {
-                try riskCountsContainer.encode(riskcounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, riskCounts0) in riskCounts {
+                try riskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8800,8 +8800,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9099,8 +9099,8 @@ extension UpdateAnswerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let choiceUpdates = choiceUpdates {
             var choiceUpdatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .choiceUpdates)
-            for (dictKey0, choiceupdates0) in choiceUpdates {
-                try choiceUpdatesContainer.encode(choiceupdates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, choiceUpdates0) in choiceUpdates {
+                try choiceUpdatesContainer.encode(choiceUpdates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if isApplicable != false {
@@ -9114,8 +9114,8 @@ extension UpdateAnswerInput: Swift.Encodable {
         }
         if let selectedChoices = selectedChoices {
             var selectedChoicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedChoices)
-            for selectedchoices0 in selectedChoices {
-                try selectedChoicesContainer.encode(selectedchoices0)
+            for choiceid0 in selectedChoices {
+                try selectedChoicesContainer.encode(choiceid0)
             }
         }
     }
@@ -9434,8 +9434,8 @@ extension UpdateLensReviewInput: Swift.Encodable {
         }
         if let pillarNotes = pillarNotes {
             var pillarNotesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .pillarNotes)
-            for (dictKey0, pillarnotes0) in pillarNotes {
-                try pillarNotesContainer.encode(pillarnotes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, pillarNotes0) in pillarNotes {
+                try pillarNotesContainer.encode(pillarNotes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9747,14 +9747,14 @@ extension UpdateWorkloadInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for workloadaccountids0 in accountIds {
-                try accountIdsContainer.encode(workloadaccountids0)
+            for awsaccountid0 in accountIds {
+                try accountIdsContainer.encode(awsaccountid0)
             }
         }
         if let applications = applications {
             var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
-            for workloadapplications0 in applications {
-                try applicationsContainer.encode(workloadapplications0)
+            for applicationarn0 in applications {
+                try applicationsContainer.encode(applicationarn0)
             }
         }
         if let architecturalDesign = self.architecturalDesign {
@@ -9762,8 +9762,8 @@ extension UpdateWorkloadInput: Swift.Encodable {
         }
         if let awsRegions = awsRegions {
             var awsRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsRegions)
-            for workloadawsregions0 in awsRegions {
-                try awsRegionsContainer.encode(workloadawsregions0)
+            for awsregion0 in awsRegions {
+                try awsRegionsContainer.encode(awsregion0)
             }
         }
         if let description = self.description {
@@ -9789,8 +9789,8 @@ extension UpdateWorkloadInput: Swift.Encodable {
         }
         if let nonAwsRegions = nonAwsRegions {
             var nonAwsRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nonAwsRegions)
-            for workloadnonawsregions0 in nonAwsRegions {
-                try nonAwsRegionsContainer.encode(workloadnonawsregions0)
+            for workloadnonawsregion0 in nonAwsRegions {
+                try nonAwsRegionsContainer.encode(workloadnonawsregion0)
             }
         }
         if let notes = self.notes {
@@ -9798,8 +9798,8 @@ extension UpdateWorkloadInput: Swift.Encodable {
         }
         if let pillarPriorities = pillarPriorities {
             var pillarPrioritiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillarPriorities)
-            for workloadpillarpriorities0 in pillarPriorities {
-                try pillarPrioritiesContainer.encode(workloadpillarpriorities0)
+            for pillarid0 in pillarPriorities {
+                try pillarPrioritiesContainer.encode(pillarid0)
             }
         }
         if let reviewOwner = self.reviewOwner {
@@ -10592,8 +10592,8 @@ extension WellArchitectedClientTypes.VersionDifferences: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pillarDifferences = pillarDifferences {
             var pillarDifferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillarDifferences)
-            for pillardifferences0 in pillarDifferences {
-                try pillarDifferencesContainer.encode(pillardifferences0)
+            for pillardifference0 in pillarDifferences {
+                try pillarDifferencesContainer.encode(pillardifference0)
             }
         }
     }
@@ -10663,14 +10663,14 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for workloadaccountids0 in accountIds {
-                try accountIdsContainer.encode(workloadaccountids0)
+            for awsaccountid0 in accountIds {
+                try accountIdsContainer.encode(awsaccountid0)
             }
         }
         if let applications = applications {
             var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
-            for workloadapplications0 in applications {
-                try applicationsContainer.encode(workloadapplications0)
+            for applicationarn0 in applications {
+                try applicationsContainer.encode(applicationarn0)
             }
         }
         if let architecturalDesign = self.architecturalDesign {
@@ -10678,8 +10678,8 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         }
         if let awsRegions = awsRegions {
             var awsRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsRegions)
-            for workloadawsregions0 in awsRegions {
-                try awsRegionsContainer.encode(workloadawsregions0)
+            for awsregion0 in awsRegions {
+                try awsRegionsContainer.encode(awsregion0)
             }
         }
         if let description = self.description {
@@ -10705,14 +10705,14 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         }
         if let lenses = lenses {
             var lensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lenses)
-            for workloadlenses0 in lenses {
-                try lensesContainer.encode(workloadlenses0)
+            for lensalias0 in lenses {
+                try lensesContainer.encode(lensalias0)
             }
         }
         if let nonAwsRegions = nonAwsRegions {
             var nonAwsRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nonAwsRegions)
-            for workloadnonawsregions0 in nonAwsRegions {
-                try nonAwsRegionsContainer.encode(workloadnonawsregions0)
+            for workloadnonawsregion0 in nonAwsRegions {
+                try nonAwsRegionsContainer.encode(workloadnonawsregion0)
             }
         }
         if let notes = self.notes {
@@ -10723,8 +10723,8 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         }
         if let pillarPriorities = pillarPriorities {
             var pillarPrioritiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillarPriorities)
-            for workloadpillarpriorities0 in pillarPriorities {
-                try pillarPrioritiesContainer.encode(workloadpillarpriorities0)
+            for pillarid0 in pillarPriorities {
+                try pillarPrioritiesContainer.encode(pillarid0)
             }
         }
         if let reviewOwner = self.reviewOwner {
@@ -10735,8 +10735,8 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         }
         if let riskCounts = riskCounts {
             var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
-            for (dictKey0, riskcounts0) in riskCounts {
-                try riskCountsContainer.encode(riskcounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, riskCounts0) in riskCounts {
+                try riskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let shareInvitationId = self.shareInvitationId {
@@ -10744,8 +10744,8 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updatedAt = self.updatedAt {
@@ -11354,8 +11354,8 @@ extension WellArchitectedClientTypes.WorkloadSummary: Swift.Codable {
         }
         if let lenses = lenses {
             var lensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lenses)
-            for workloadlenses0 in lenses {
-                try lensesContainer.encode(workloadlenses0)
+            for lensalias0 in lenses {
+                try lensesContainer.encode(lensalias0)
             }
         }
         if let owner = self.owner {
@@ -11363,8 +11363,8 @@ extension WellArchitectedClientTypes.WorkloadSummary: Swift.Codable {
         }
         if let riskCounts = riskCounts {
             var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
-            for (dictKey0, riskcounts0) in riskCounts {
-                try riskCountsContainer.encode(riskcounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, riskCounts0) in riskCounts {
+                try riskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updatedAt = self.updatedAt {

@@ -152,7 +152,7 @@ extension TransferClientTypes {
     public struct As2ConnectorConfig: Swift.Equatable {
         /// Specifies whether the AS2 file is compressed.
         public var compression: TransferClientTypes.CompressionEnum?
-        /// The algorithm that is used to encrypt the file. You can only specify NONE if the URL for your connector uses HTTPS. This ensures that no traffic is sent in clear text.
+        /// The algorithm that is used to encrypt the file.
         public var encryptionAlgorithm: TransferClientTypes.EncryptionAlg?
         /// A unique identifier for the AS2 local profile.
         public var localProfileId: Swift.String?
@@ -162,7 +162,7 @@ extension TransferClientTypes {
         ///
         /// * NONE: Specifies that no MDN response is required.
         public var mdnResponse: TransferClientTypes.MdnResponse?
-        /// The signing algorithm for the MDN response. If set to DEFAULT (or not set at all), the value for SigningAlgorithm is used.
+        /// The signing algorithm for the MDN response. If set to DEFAULT (or not set at all), the value for SigningAlogorithm is used.
         public var mdnSigningAlgorithm: TransferClientTypes.MdnSigningAlg?
         /// Used as the Subject HTTP header attribute in AS2 messages that are being sent with the connector.
         public var messageSubject: Swift.String?
@@ -499,8 +499,8 @@ extension CreateAccessInput: Swift.Encodable {
         }
         if let homeDirectoryMappings = homeDirectoryMappings {
             var homeDirectoryMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .homeDirectoryMappings)
-            for homedirectorymappings0 in homeDirectoryMappings {
-                try homeDirectoryMappingsContainer.encode(homedirectorymappings0)
+            for homedirectorymapentry0 in homeDirectoryMappings {
+                try homeDirectoryMappingsContainer.encode(homedirectorymapentry0)
             }
         }
         if let homeDirectoryType = self.homeDirectoryType {
@@ -537,10 +537,7 @@ public struct CreateAccessInput: Swift.Equatable {
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
     /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users.
     public var homeDirectoryType: TransferClientTypes.HomeDirectoryType?
-    /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}. This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument.
-    ///
-    ///
-    /// For an example of a session policy, see [Example session policy](https://docs.aws.amazon.com/transfer/latest/userguide/session-policy.html). For more information, see [AssumeRole](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) in the Security Token Service API Reference.
+    /// A session policy for your user so that you can use the same Identity and Access Management (IAM) role across multiple users. This policy scopes down a user's access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}. This policy applies only when the domain of ServerId is Amazon S3. Amazon EFS does not use session policies. For session policies, Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a session policy, see [Example session policy](https://docs.aws.amazon.com/transfer/latest/userguide/session-policy.html). For more information, see [AssumeRole](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) in the Security Token Service API Reference.
     public var policy: Swift.String?
     /// The full POSIX identity, including user ID (Uid), group ID (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to your Amazon EFS file systems. The POSIX permissions that are set on files and directories in your file system determine the level of access your users get when transferring files into and out of your Amazon EFS file systems.
     public var posixProfile: TransferClientTypes.PosixProfile?
@@ -746,8 +743,8 @@ extension CreateAgreementInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -953,8 +950,8 @@ extension CreateConnectorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let url = self.url {
@@ -1130,8 +1127,8 @@ extension CreateProfileInput: Swift.Encodable {
         }
         if let certificateIds = certificateIds {
             var certificateIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateIds)
-            for certificateids0 in certificateIds {
-                try certificateIdsContainer.encode(certificateids0)
+            for certificateid0 in certificateIds {
+                try certificateIdsContainer.encode(certificateid0)
             }
         }
         if let profileType = self.profileType {
@@ -1139,8 +1136,8 @@ extension CreateProfileInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1361,8 +1358,8 @@ extension CreateServerInput: Swift.Encodable {
         }
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for protocols0 in protocols {
-                try protocolsContainer.encode(protocols0.rawValue)
+            for protocol0 in protocols {
+                try protocolsContainer.encode(protocol0.rawValue)
             }
         }
         if let securityPolicyName = self.securityPolicyName {
@@ -1370,8 +1367,8 @@ extension CreateServerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let workflowDetails = self.workflowDetails {
@@ -1457,7 +1454,7 @@ public struct CreateServerInput: Swift.Equatable {
     public var securityPolicyName: Swift.String?
     /// Key-value pairs that can be used to group and search for servers.
     public var tags: [TransferClientTypes.Tag]?
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
     public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
     public init (
@@ -1683,8 +1680,8 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let homeDirectoryMappings = homeDirectoryMappings {
             var homeDirectoryMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .homeDirectoryMappings)
-            for homedirectorymappings0 in homeDirectoryMappings {
-                try homeDirectoryMappingsContainer.encode(homedirectorymappings0)
+            for homedirectorymapentry0 in homeDirectoryMappings {
+                try homeDirectoryMappingsContainer.encode(homedirectorymapentry0)
             }
         }
         if let homeDirectoryType = self.homeDirectoryType {
@@ -1707,8 +1704,8 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userName = self.userName {
@@ -1740,13 +1737,7 @@ public struct CreateUserInput: Swift.Equatable {
     /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. The three standard SSH public key format elements are , , and an optional , with spaces between each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
-    ///
-    /// * For RSA keys, the key type is ssh-rsa.
-    ///
-    /// * For ED25519 keys, the key type is ssh-ed25519.
-    ///
-    /// * For ECDSA keys, the key type is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
+    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
     public var sshPublicKeyBody: Swift.String?
     /// Key-value pairs that can be used to group and search for users. Tags are metadata attached to users for any purpose.
     public var tags: [TransferClientTypes.Tag]?
@@ -1948,20 +1939,20 @@ extension CreateWorkflowInput: Swift.Encodable {
         }
         if let onExceptionSteps = onExceptionSteps {
             var onExceptionStepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .onExceptionSteps)
-            for workflowsteps0 in onExceptionSteps {
-                try onExceptionStepsContainer.encode(workflowsteps0)
+            for workflowstep0 in onExceptionSteps {
+                try onExceptionStepsContainer.encode(workflowstep0)
             }
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for workflowsteps0 in steps {
-                try stepsContainer.encode(workflowsteps0)
+            for workflowstep0 in steps {
+                try stepsContainer.encode(workflowstep0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2237,6 +2228,78 @@ extension TransferClientTypes {
             self = CustomStepStatus(rawValue: rawValue) ?? CustomStepStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension TransferClientTypes.DecryptStepDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationFileLocation = "DestinationFileLocation"
+        case name = "Name"
+        case overwriteExisting = "OverwriteExisting"
+        case sourceFileLocation = "SourceFileLocation"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationFileLocation = self.destinationFileLocation {
+            try encodeContainer.encode(destinationFileLocation, forKey: .destinationFileLocation)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let overwriteExisting = self.overwriteExisting {
+            try encodeContainer.encode(overwriteExisting.rawValue, forKey: .overwriteExisting)
+        }
+        if let sourceFileLocation = self.sourceFileLocation {
+            try encodeContainer.encode(sourceFileLocation, forKey: .sourceFileLocation)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(TransferClientTypes.EncryptionType.self, forKey: .type)
+        type = typeDecoded
+        let sourceFileLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceFileLocation)
+        sourceFileLocation = sourceFileLocationDecoded
+        let overwriteExistingDecoded = try containerValues.decodeIfPresent(TransferClientTypes.OverwriteExisting.self, forKey: .overwriteExisting)
+        overwriteExisting = overwriteExistingDecoded
+        let destinationFileLocationDecoded = try containerValues.decodeIfPresent(TransferClientTypes.InputFileLocation.self, forKey: .destinationFileLocation)
+        destinationFileLocation = destinationFileLocationDecoded
+    }
+}
+
+extension TransferClientTypes {
+    public struct DecryptStepDetails: Swift.Equatable {
+        /// Specifies the location for the file being copied. Only applicable for the Copy type of workflow steps.
+        /// This member is required.
+        public var destinationFileLocation: TransferClientTypes.InputFileLocation?
+        public var name: Swift.String?
+        public var overwriteExisting: TransferClientTypes.OverwriteExisting?
+        public var sourceFileLocation: Swift.String?
+        /// This member is required.
+        public var type: TransferClientTypes.EncryptionType?
+
+        public init (
+            destinationFileLocation: TransferClientTypes.InputFileLocation? = nil,
+            name: Swift.String? = nil,
+            overwriteExisting: TransferClientTypes.OverwriteExisting? = nil,
+            sourceFileLocation: Swift.String? = nil,
+            type: TransferClientTypes.EncryptionType? = nil
+        )
+        {
+            self.destinationFileLocation = destinationFileLocation
+            self.name = name
+            self.overwriteExisting = overwriteExisting
+            self.sourceFileLocation = sourceFileLocation
+            self.type = type
+        }
+    }
+
 }
 
 extension DeleteAccessInput: Swift.Encodable {
@@ -4651,8 +4714,8 @@ extension TransferClientTypes.DescribedAccess: Swift.Codable {
         }
         if let homeDirectoryMappings = homeDirectoryMappings {
             var homeDirectoryMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .homeDirectoryMappings)
-            for homedirectorymappings0 in homeDirectoryMappings {
-                try homeDirectoryMappingsContainer.encode(homedirectorymappings0)
+            for homedirectorymapentry0 in homeDirectoryMappings {
+                try homeDirectoryMappingsContainer.encode(homedirectorymapentry0)
             }
         }
         if let homeDirectoryType = self.homeDirectoryType {
@@ -4782,8 +4845,8 @@ extension TransferClientTypes.DescribedAgreement: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4930,8 +4993,8 @@ extension TransferClientTypes.DescribedCertificate: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -5088,8 +5151,8 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let url = self.url {
@@ -5301,8 +5364,8 @@ extension TransferClientTypes.DescribedHostKey: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -5409,8 +5472,8 @@ extension TransferClientTypes.DescribedProfile: Swift.Codable {
         }
         if let certificateIds = certificateIds {
             var certificateIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateIds)
-            for certificateids0 in certificateIds {
-                try certificateIdsContainer.encode(certificateids0)
+            for certificateid0 in certificateIds {
+                try certificateIdsContainer.encode(certificateid0)
             }
         }
         if let profileId = self.profileId {
@@ -5421,8 +5484,8 @@ extension TransferClientTypes.DescribedProfile: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5519,26 +5582,26 @@ extension TransferClientTypes.DescribedSecurityPolicy: Swift.Codable {
         }
         if let sshCiphers = sshCiphers {
             var sshCiphersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sshCiphers)
-            for securitypolicyoptions0 in sshCiphers {
-                try sshCiphersContainer.encode(securitypolicyoptions0)
+            for securitypolicyoption0 in sshCiphers {
+                try sshCiphersContainer.encode(securitypolicyoption0)
             }
         }
         if let sshKexs = sshKexs {
             var sshKexsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sshKexs)
-            for securitypolicyoptions0 in sshKexs {
-                try sshKexsContainer.encode(securitypolicyoptions0)
+            for securitypolicyoption0 in sshKexs {
+                try sshKexsContainer.encode(securitypolicyoption0)
             }
         }
         if let sshMacs = sshMacs {
             var sshMacsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sshMacs)
-            for securitypolicyoptions0 in sshMacs {
-                try sshMacsContainer.encode(securitypolicyoptions0)
+            for securitypolicyoption0 in sshMacs {
+                try sshMacsContainer.encode(securitypolicyoption0)
             }
         }
         if let tlsCiphers = tlsCiphers {
             var tlsCiphersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tlsCiphers)
-            for securitypolicyoptions0 in tlsCiphers {
-                try tlsCiphersContainer.encode(securitypolicyoptions0)
+            for securitypolicyoption0 in tlsCiphers {
+                try tlsCiphersContainer.encode(securitypolicyoption0)
             }
         }
     }
@@ -5696,8 +5759,8 @@ extension TransferClientTypes.DescribedServer: Swift.Codable {
         }
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for protocols0 in protocols {
-                try protocolsContainer.encode(protocols0.rawValue)
+            for protocol0 in protocols {
+                try protocolsContainer.encode(protocol0.rawValue)
             }
         }
         if let securityPolicyName = self.securityPolicyName {
@@ -5711,8 +5774,8 @@ extension TransferClientTypes.DescribedServer: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userCount = self.userCount {
@@ -5853,7 +5916,7 @@ extension TransferClientTypes {
         public var tags: [TransferClientTypes.Tag]?
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public var userCount: Swift.Int?
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
         public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
         public init (
@@ -5926,8 +5989,8 @@ extension TransferClientTypes.DescribedUser: Swift.Codable {
         }
         if let homeDirectoryMappings = homeDirectoryMappings {
             var homeDirectoryMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .homeDirectoryMappings)
-            for homedirectorymappings0 in homeDirectoryMappings {
-                try homeDirectoryMappingsContainer.encode(homedirectorymappings0)
+            for homedirectorymapentry0 in homeDirectoryMappings {
+                try homeDirectoryMappingsContainer.encode(homedirectorymapentry0)
             }
         }
         if let homeDirectoryType = self.homeDirectoryType {
@@ -5944,14 +6007,14 @@ extension TransferClientTypes.DescribedUser: Swift.Codable {
         }
         if let sshPublicKeys = sshPublicKeys {
             var sshPublicKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sshPublicKeys)
-            for sshpublickeys0 in sshPublicKeys {
-                try sshPublicKeysContainer.encode(sshpublickeys0)
+            for sshpublickey0 in sshPublicKeys {
+                try sshPublicKeysContainer.encode(sshpublickey0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userName = self.userName {
@@ -6084,20 +6147,20 @@ extension TransferClientTypes.DescribedWorkflow: Swift.Codable {
         }
         if let onExceptionSteps = onExceptionSteps {
             var onExceptionStepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .onExceptionSteps)
-            for workflowsteps0 in onExceptionSteps {
-                try onExceptionStepsContainer.encode(workflowsteps0)
+            for workflowstep0 in onExceptionSteps {
+                try onExceptionStepsContainer.encode(workflowstep0)
             }
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for workflowsteps0 in steps {
-                try stepsContainer.encode(workflowsteps0)
+            for workflowstep0 in steps {
+                try stepsContainer.encode(workflowstep0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let workflowId = self.workflowId {
@@ -6301,6 +6364,35 @@ extension TransferClientTypes {
     }
 }
 
+extension TransferClientTypes {
+    public enum EncryptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case pgp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionType] {
+            return [
+                .pgp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .pgp: return "PGP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EncryptionType(rawValue: rawValue) ?? EncryptionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension TransferClientTypes.EndpointDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addressAllocationIds = "AddressAllocationIds"
@@ -6314,20 +6406,20 @@ extension TransferClientTypes.EndpointDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addressAllocationIds = addressAllocationIds {
             var addressAllocationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addressAllocationIds)
-            for addressallocationids0 in addressAllocationIds {
-                try addressAllocationIdsContainer.encode(addressallocationids0)
+            for addressallocationid0 in addressAllocationIds {
+                try addressAllocationIdsContainer.encode(addressallocationid0)
             }
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcEndpointId = self.vpcEndpointId {
@@ -6570,14 +6662,14 @@ extension TransferClientTypes.ExecutionResults: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let onExceptionSteps = onExceptionSteps {
             var onExceptionStepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .onExceptionSteps)
-            for executionstepresults0 in onExceptionSteps {
-                try onExceptionStepsContainer.encode(executionstepresults0)
+            for executionstepresult0 in onExceptionSteps {
+                try onExceptionStepsContainer.encode(executionstepresult0)
             }
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for executionstepresults0 in steps {
-                try stepsContainer.encode(executionstepresults0)
+            for executionstepresult0 in steps {
+                try stepsContainer.encode(executionstepresult0)
             }
         }
     }
@@ -6997,8 +7089,8 @@ extension ImportCertificateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let usage = self.usage {
@@ -7204,8 +7296,8 @@ extension ImportHostKeyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -10643,8 +10735,8 @@ extension TransferClientTypes.PosixProfile: Swift.Codable {
         }
         if let secondaryGids = secondaryGids {
             var secondaryGidsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryGids)
-            for secondarygids0 in secondaryGids {
-                try secondaryGidsContainer.encode(secondarygids0)
+            for posixid0 in secondaryGids {
+                try secondaryGidsContainer.encode(posixid0)
             }
         }
         if let uid = self.uid {
@@ -10780,8 +10872,8 @@ extension TransferClientTypes.ProtocolDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let as2Transports = as2Transports {
             var as2TransportsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .as2Transports)
-            for as2transports0 in as2Transports {
-                try as2TransportsContainer.encode(as2transports0.rawValue)
+            for as2transport0 in as2Transports {
+                try as2TransportsContainer.encode(as2transport0.rawValue)
             }
         }
         if let passiveIp = self.passiveIp {
@@ -11515,8 +11607,8 @@ extension StartFileTransferInput: Swift.Encodable {
         }
         if let sendFilePaths = sendFilePaths {
             var sendFilePathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sendFilePaths)
-            for filepaths0 in sendFilePaths {
-                try sendFilePathsContainer.encode(filepaths0)
+            for filepath0 in sendFilePaths {
+                try sendFilePathsContainer.encode(filepath0)
             }
         }
     }
@@ -11928,8 +12020,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12043,8 +12135,8 @@ extension TransferClientTypes.TagStepDetails: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for s3tags0 in tags {
-                try tagsContainer.encode(s3tags0)
+            for s3tag0 in tags {
+                try tagsContainer.encode(s3tag0)
             }
         }
     }
@@ -12387,8 +12479,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -12507,8 +12599,8 @@ extension UpdateAccessInput: Swift.Encodable {
         }
         if let homeDirectoryMappings = homeDirectoryMappings {
             var homeDirectoryMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .homeDirectoryMappings)
-            for homedirectorymappings0 in homeDirectoryMappings {
-                try homeDirectoryMappingsContainer.encode(homedirectorymappings0)
+            for homedirectorymapentry0 in homeDirectoryMappings {
+                try homeDirectoryMappingsContainer.encode(homedirectorymapentry0)
             }
         }
         if let homeDirectoryType = self.homeDirectoryType {
@@ -13415,8 +13507,8 @@ extension UpdateProfileInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateIds = certificateIds {
             var certificateIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateIds)
-            for certificateids0 in certificateIds {
-                try certificateIdsContainer.encode(certificateids0)
+            for certificateid0 in certificateIds {
+                try certificateIdsContainer.encode(certificateid0)
             }
         }
         if let profileId = self.profileId {
@@ -13602,8 +13694,8 @@ extension UpdateServerInput: Swift.Encodable {
         }
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for protocols0 in protocols {
-                try protocolsContainer.encode(protocols0.rawValue)
+            for protocol0 in protocols {
+                try protocolsContainer.encode(protocol0.rawValue)
             }
         }
         if let securityPolicyName = self.securityPolicyName {
@@ -13692,7 +13784,7 @@ public struct UpdateServerInput: Swift.Equatable {
     /// A system-assigned unique identifier for a server instance that the user account is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
     public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
     public init (
@@ -13897,8 +13989,8 @@ extension UpdateUserInput: Swift.Encodable {
         }
         if let homeDirectoryMappings = homeDirectoryMappings {
             var homeDirectoryMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .homeDirectoryMappings)
-            for homedirectorymappings0 in homeDirectoryMappings {
-                try homeDirectoryMappingsContainer.encode(homedirectorymappings0)
+            for homedirectorymapentry0 in homeDirectoryMappings {
+                try homeDirectoryMappingsContainer.encode(homedirectorymapentry0)
             }
         }
         if let homeDirectoryType = self.homeDirectoryType {
@@ -14190,7 +14282,7 @@ extension TransferClientTypes.WorkflowDetail: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
     public struct WorkflowDetail: Swift.Equatable {
         /// Includes the necessary permissions for S3, EFS, and Lambda operations that Transfer can assume, so that all workflow steps can operate on the required resources
         /// This member is required.
@@ -14221,14 +14313,14 @@ extension TransferClientTypes.WorkflowDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let onPartialUpload = onPartialUpload {
             var onPartialUploadContainer = encodeContainer.nestedUnkeyedContainer(forKey: .onPartialUpload)
-            for onpartialuploadworkflowdetails0 in onPartialUpload {
-                try onPartialUploadContainer.encode(onpartialuploadworkflowdetails0)
+            for workflowdetail0 in onPartialUpload {
+                try onPartialUploadContainer.encode(workflowdetail0)
             }
         }
         if let onUpload = onUpload {
             var onUploadContainer = encodeContainer.nestedUnkeyedContainer(forKey: .onUpload)
-            for onuploadworkflowdetails0 in onUpload {
-                try onUploadContainer.encode(onuploadworkflowdetails0)
+            for workflowdetail0 in onUpload {
+                try onUploadContainer.encode(workflowdetail0)
             }
         }
     }
@@ -14284,6 +14376,7 @@ extension TransferClientTypes.WorkflowStep: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyStepDetails = "CopyStepDetails"
         case customStepDetails = "CustomStepDetails"
+        case decryptStepDetails = "DecryptStepDetails"
         case deleteStepDetails = "DeleteStepDetails"
         case tagStepDetails = "TagStepDetails"
         case type = "Type"
@@ -14296,6 +14389,9 @@ extension TransferClientTypes.WorkflowStep: Swift.Codable {
         }
         if let customStepDetails = self.customStepDetails {
             try encodeContainer.encode(customStepDetails, forKey: .customStepDetails)
+        }
+        if let decryptStepDetails = self.decryptStepDetails {
+            try encodeContainer.encode(decryptStepDetails, forKey: .decryptStepDetails)
         }
         if let deleteStepDetails = self.deleteStepDetails {
             try encodeContainer.encode(deleteStepDetails, forKey: .deleteStepDetails)
@@ -14320,6 +14416,8 @@ extension TransferClientTypes.WorkflowStep: Swift.Codable {
         deleteStepDetails = deleteStepDetailsDecoded
         let tagStepDetailsDecoded = try containerValues.decodeIfPresent(TransferClientTypes.TagStepDetails.self, forKey: .tagStepDetails)
         tagStepDetails = tagStepDetailsDecoded
+        let decryptStepDetailsDecoded = try containerValues.decodeIfPresent(TransferClientTypes.DecryptStepDetails.self, forKey: .decryptStepDetails)
+        decryptStepDetails = decryptStepDetailsDecoded
     }
 }
 
@@ -14336,6 +14434,7 @@ extension TransferClientTypes {
         public var copyStepDetails: TransferClientTypes.CopyStepDetails?
         /// Details for a step that invokes a lambda function. Consists of the lambda function name, target, and timeout (in seconds).
         public var customStepDetails: TransferClientTypes.CustomStepDetails?
+        public var decryptStepDetails: TransferClientTypes.DecryptStepDetails?
         /// Details for a step that deletes the file.
         public var deleteStepDetails: TransferClientTypes.DeleteStepDetails?
         /// Details for a step that creates one or more tags. You specify one or more tags: each tag contains a key/value pair.
@@ -14354,6 +14453,7 @@ extension TransferClientTypes {
         public init (
             copyStepDetails: TransferClientTypes.CopyStepDetails? = nil,
             customStepDetails: TransferClientTypes.CustomStepDetails? = nil,
+            decryptStepDetails: TransferClientTypes.DecryptStepDetails? = nil,
             deleteStepDetails: TransferClientTypes.DeleteStepDetails? = nil,
             tagStepDetails: TransferClientTypes.TagStepDetails? = nil,
             type: TransferClientTypes.WorkflowStepType? = nil
@@ -14361,6 +14461,7 @@ extension TransferClientTypes {
         {
             self.copyStepDetails = copyStepDetails
             self.customStepDetails = customStepDetails
+            self.decryptStepDetails = decryptStepDetails
             self.deleteStepDetails = deleteStepDetails
             self.tagStepDetails = tagStepDetails
             self.type = type
@@ -14373,6 +14474,7 @@ extension TransferClientTypes {
     public enum WorkflowStepType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case copy
         case custom
+        case decrypt
         case delete
         case tag
         case sdkUnknown(Swift.String)
@@ -14381,6 +14483,7 @@ extension TransferClientTypes {
             return [
                 .copy,
                 .custom,
+                .decrypt,
                 .delete,
                 .tag,
                 .sdkUnknown("")
@@ -14394,6 +14497,7 @@ extension TransferClientTypes {
             switch self {
             case .copy: return "COPY"
             case .custom: return "CUSTOM"
+            case .decrypt: return "DECRYPT"
             case .delete: return "DELETE"
             case .tag: return "TAG"
             case let .sdkUnknown(s): return s

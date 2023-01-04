@@ -63,8 +63,8 @@ extension DataBrewClientTypes.AllowedStatistics: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statistics = statistics {
             var statisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statistics)
-            for statisticlist0 in statistics {
-                try statisticsContainer.encode(statisticlist0)
+            for statistic0 in statistics {
+                try statisticsContainer.encode(statistic0)
             }
         }
     }
@@ -143,8 +143,8 @@ extension BatchDeleteRecipeVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recipeVersions = recipeVersions {
             var recipeVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recipeVersions)
-            for recipeversionlist0 in recipeVersions {
-                try recipeVersionsContainer.encode(recipeversionlist0)
+            for recipeversion0 in recipeVersions {
+                try recipeVersionsContainer.encode(recipeversion0)
             }
         }
     }
@@ -344,8 +344,8 @@ extension DataBrewClientTypes.ColumnStatisticsConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let selectors = selectors {
             var selectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectors)
-            for columnselectorlist0 in selectors {
-                try selectorsContainer.encode(columnselectorlist0)
+            for columnselector0 in selectors {
+                try selectorsContainer.encode(columnselector0)
             }
         }
         if let statistics = self.statistics {
@@ -583,8 +583,8 @@ extension CreateDatasetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -800,8 +800,8 @@ extension CreateProfileJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if timeout != 0 {
@@ -809,8 +809,8 @@ extension CreateProfileJobInput: Swift.Encodable {
         }
         if let validationConfigurations = validationConfigurations {
             var validationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validationConfigurations)
-            for validationconfigurationlist0 in validationConfigurations {
-                try validationConfigurationsContainer.encode(validationconfigurationlist0)
+            for validationconfiguration0 in validationConfigurations {
+                try validationConfigurationsContainer.encode(validationconfiguration0)
             }
         }
     }
@@ -1081,8 +1081,8 @@ extension CreateProjectInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1263,14 +1263,14 @@ extension CreateRecipeInput: Swift.Encodable {
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for recipesteplist0 in steps {
-                try stepsContainer.encode(recipesteplist0)
+            for recipestep0 in steps {
+                try stepsContainer.encode(recipestep0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1377,14 +1377,14 @@ extension CreateRecipeJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataCatalogOutputs = dataCatalogOutputs {
             var dataCatalogOutputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataCatalogOutputs)
-            for datacatalogoutputlist0 in dataCatalogOutputs {
-                try dataCatalogOutputsContainer.encode(datacatalogoutputlist0)
+            for datacatalogoutput0 in dataCatalogOutputs {
+                try dataCatalogOutputsContainer.encode(datacatalogoutput0)
             }
         }
         if let databaseOutputs = databaseOutputs {
             var databaseOutputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .databaseOutputs)
-            for databaseoutputlist0 in databaseOutputs {
-                try databaseOutputsContainer.encode(databaseoutputlist0)
+            for databaseoutput0 in databaseOutputs {
+                try databaseOutputsContainer.encode(databaseoutput0)
             }
         }
         if let datasetName = self.datasetName {
@@ -1410,8 +1410,8 @@ extension CreateRecipeJobInput: Swift.Encodable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for outputlist0 in outputs {
-                try outputsContainer.encode(outputlist0)
+            for output0 in outputs {
+                try outputsContainer.encode(output0)
             }
         }
         if let projectName = self.projectName {
@@ -1425,8 +1425,8 @@ extension CreateRecipeJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if timeout != 0 {
@@ -1782,14 +1782,14 @@ extension CreateRulesetInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rulelist0 in rules {
-                try rulesContainer.encode(rulelist0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetArn = self.targetArn {
@@ -1968,8 +1968,8 @@ extension CreateScheduleInput: Swift.Encodable {
         }
         if let jobNames = jobNames {
             var jobNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobNames)
-            for jobnamelist0 in jobNames {
-                try jobNamesContainer.encode(jobnamelist0)
+            for jobname0 in jobNames {
+                try jobNamesContainer.encode(jobname0)
             }
         }
         if let name = self.name {
@@ -1977,8 +1977,8 @@ extension CreateScheduleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2619,8 +2619,8 @@ extension DataBrewClientTypes.Dataset: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5329,14 +5329,14 @@ extension DataBrewClientTypes.EntityDetectorConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedStatistics = allowedStatistics {
             var allowedStatisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedStatistics)
-            for allowedstatisticlist0 in allowedStatistics {
-                try allowedStatisticsContainer.encode(allowedstatisticlist0)
+            for allowedstatistics0 in allowedStatistics {
+                try allowedStatisticsContainer.encode(allowedstatistics0)
             }
         }
         if let entityTypes = entityTypes {
             var entityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTypes)
-            for entitytypelist0 in entityTypes {
-                try entityTypesContainer.encode(entitytypelist0)
+            for entitytype0 in entityTypes {
+                try entityTypesContainer.encode(entitytype0)
             }
         }
     }
@@ -5444,14 +5444,14 @@ extension DataBrewClientTypes.ExcelOptions: Swift.Codable {
         }
         if let sheetIndexes = sheetIndexes {
             var sheetIndexesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheetIndexes)
-            for sheetindexlist0 in sheetIndexes {
-                try sheetIndexesContainer.encode(sheetindexlist0)
+            for sheetindex0 in sheetIndexes {
+                try sheetIndexesContainer.encode(sheetindex0)
             }
         }
         if let sheetNames = sheetNames {
             var sheetNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheetNames)
-            for sheetnamelist0 in sheetNames {
-                try sheetNamesContainer.encode(sheetnamelist0)
+            for sheetname0 in sheetNames {
+                try sheetNamesContainer.encode(sheetname0)
             }
         }
     }
@@ -5578,8 +5578,8 @@ extension DataBrewClientTypes.FilterExpression: Swift.Codable {
         }
         if let valuesMap = valuesMap {
             var valuesMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .valuesMap)
-            for (dictKey0, valuesmap0) in valuesMap {
-                try valuesMapContainer.encode(valuesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, valuesMap0) in valuesMap {
+                try valuesMapContainer.encode(valuesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5878,14 +5878,14 @@ extension DataBrewClientTypes.Job: Swift.Codable {
         }
         if let dataCatalogOutputs = dataCatalogOutputs {
             var dataCatalogOutputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataCatalogOutputs)
-            for datacatalogoutputlist0 in dataCatalogOutputs {
-                try dataCatalogOutputsContainer.encode(datacatalogoutputlist0)
+            for datacatalogoutput0 in dataCatalogOutputs {
+                try dataCatalogOutputsContainer.encode(datacatalogoutput0)
             }
         }
         if let databaseOutputs = databaseOutputs {
             var databaseOutputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .databaseOutputs)
-            for databaseoutputlist0 in databaseOutputs {
-                try databaseOutputsContainer.encode(databaseoutputlist0)
+            for databaseoutput0 in databaseOutputs {
+                try databaseOutputsContainer.encode(databaseoutput0)
             }
         }
         if let datasetName = self.datasetName {
@@ -5920,8 +5920,8 @@ extension DataBrewClientTypes.Job: Swift.Codable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for outputlist0 in outputs {
-                try outputsContainer.encode(outputlist0)
+            for output0 in outputs {
+                try outputsContainer.encode(output0)
             }
         }
         if let projectName = self.projectName {
@@ -5938,8 +5938,8 @@ extension DataBrewClientTypes.Job: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if timeout != 0 {
@@ -5950,8 +5950,8 @@ extension DataBrewClientTypes.Job: Swift.Codable {
         }
         if let validationConfigurations = validationConfigurations {
             var validationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validationConfigurations)
-            for validationconfigurationlist0 in validationConfigurations {
-                try validationConfigurationsContainer.encode(validationconfigurationlist0)
+            for validationconfiguration0 in validationConfigurations {
+                try validationConfigurationsContainer.encode(validationconfiguration0)
             }
         }
     }
@@ -6203,14 +6203,14 @@ extension DataBrewClientTypes.JobRun: Swift.Codable {
         }
         if let dataCatalogOutputs = dataCatalogOutputs {
             var dataCatalogOutputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataCatalogOutputs)
-            for datacatalogoutputlist0 in dataCatalogOutputs {
-                try dataCatalogOutputsContainer.encode(datacatalogoutputlist0)
+            for datacatalogoutput0 in dataCatalogOutputs {
+                try dataCatalogOutputsContainer.encode(datacatalogoutput0)
             }
         }
         if let databaseOutputs = databaseOutputs {
             var databaseOutputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .databaseOutputs)
-            for databaseoutputlist0 in databaseOutputs {
-                try databaseOutputsContainer.encode(databaseoutputlist0)
+            for databaseoutput0 in databaseOutputs {
+                try databaseOutputsContainer.encode(databaseoutput0)
             }
         }
         if let datasetName = self.datasetName {
@@ -6236,8 +6236,8 @@ extension DataBrewClientTypes.JobRun: Swift.Codable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for outputlist0 in outputs {
-                try outputsContainer.encode(outputlist0)
+            for output0 in outputs {
+                try outputsContainer.encode(output0)
             }
         }
         if let recipeReference = self.recipeReference {
@@ -6257,8 +6257,8 @@ extension DataBrewClientTypes.JobRun: Swift.Codable {
         }
         if let validationConfigurations = validationConfigurations {
             var validationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validationConfigurations)
-            for validationconfigurationlist0 in validationConfigurations {
-                try validationConfigurationsContainer.encode(validationconfigurationlist0)
+            for validationconfiguration0 in validationConfigurations {
+                try validationConfigurationsContainer.encode(validationconfiguration0)
             }
         }
     }
@@ -7966,8 +7966,8 @@ extension DataBrewClientTypes.Output: Swift.Codable {
         }
         if let partitionColumns = partitionColumns {
             var partitionColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionColumns)
-            for columnnamelist0 in partitionColumns {
-                try partitionColumnsContainer.encode(columnnamelist0)
+            for columnname0 in partitionColumns {
+                try partitionColumnsContainer.encode(columnname0)
             }
         }
     }
@@ -8178,8 +8178,8 @@ extension DataBrewClientTypes.PathOptions: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, pathparametersmap0) in parameters {
-                try parametersContainer.encode(pathparametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, pathParametersMap0) in parameters {
+                try parametersContainer.encode(pathParametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8240,8 +8240,8 @@ extension DataBrewClientTypes.ProfileConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnStatisticsConfigurations = columnStatisticsConfigurations {
             var columnStatisticsConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnStatisticsConfigurations)
-            for columnstatisticsconfigurationlist0 in columnStatisticsConfigurations {
-                try columnStatisticsConfigurationsContainer.encode(columnstatisticsconfigurationlist0)
+            for columnstatisticsconfiguration0 in columnStatisticsConfigurations {
+                try columnStatisticsConfigurationsContainer.encode(columnstatisticsconfiguration0)
             }
         }
         if let datasetStatisticsConfiguration = self.datasetStatisticsConfiguration {
@@ -8252,8 +8252,8 @@ extension DataBrewClientTypes.ProfileConfiguration: Swift.Codable {
         }
         if let profileColumns = profileColumns {
             var profileColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profileColumns)
-            for columnselectorlist0 in profileColumns {
-                try profileColumnsContainer.encode(columnselectorlist0)
+            for columnselector0 in profileColumns {
+                try profileColumnsContainer.encode(columnselector0)
             }
         }
     }
@@ -8378,8 +8378,8 @@ extension DataBrewClientTypes.Project: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8673,14 +8673,14 @@ extension DataBrewClientTypes.Recipe: Swift.Codable {
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for recipesteplist0 in steps {
-                try stepsContainer.encode(recipesteplist0)
+            for recipestep0 in steps {
+                try stepsContainer.encode(recipestep0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8818,8 +8818,8 @@ extension DataBrewClientTypes.RecipeAction: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametermap0) in parameters {
-                try parametersContainer.encode(parametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parameterMap0) in parameters {
+                try parametersContainer.encode(parameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8922,8 +8922,8 @@ extension DataBrewClientTypes.RecipeStep: Swift.Codable {
         }
         if let conditionExpressions = conditionExpressions {
             var conditionExpressionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditionExpressions)
-            for conditionexpressionlist0 in conditionExpressions {
-                try conditionExpressionsContainer.encode(conditionexpressionlist0)
+            for conditionexpression0 in conditionExpressions {
+                try conditionExpressionsContainer.encode(conditionexpression0)
             }
         }
     }
@@ -9091,8 +9091,8 @@ extension DataBrewClientTypes.Rule: Swift.Codable {
         }
         if let columnSelectors = columnSelectors {
             var columnSelectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnSelectors)
-            for columnselectorlist0 in columnSelectors {
-                try columnSelectorsContainer.encode(columnselectorlist0)
+            for columnselector0 in columnSelectors {
+                try columnSelectorsContainer.encode(columnselector0)
             }
         }
         if disabled != false {
@@ -9103,8 +9103,8 @@ extension DataBrewClientTypes.Rule: Swift.Codable {
         }
         if let substitutionMap = substitutionMap {
             var substitutionMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .substitutionMap)
-            for (dictKey0, valuesmap0) in substitutionMap {
-                try substitutionMapContainer.encode(valuesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, valuesMap0) in substitutionMap {
+                try substitutionMapContainer.encode(valuesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let threshold = self.threshold {
@@ -9231,8 +9231,8 @@ extension DataBrewClientTypes.RulesetItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targetArn = self.targetArn {
@@ -9569,8 +9569,8 @@ extension DataBrewClientTypes.Schedule: Swift.Codable {
         }
         if let jobNames = jobNames {
             var jobNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobNames)
-            for jobnamelist0 in jobNames {
-                try jobNamesContainer.encode(jobnamelist0)
+            for jobname0 in jobNames {
+                try jobNamesContainer.encode(jobname0)
             }
         }
         if let lastModifiedBy = self.lastModifiedBy {
@@ -9587,8 +9587,8 @@ extension DataBrewClientTypes.Schedule: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -10279,8 +10279,8 @@ extension DataBrewClientTypes.StatisticOverride: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametermap0) in parameters {
-                try parametersContainer.encode(parametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parameterMap0) in parameters {
+                try parametersContainer.encode(parameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let statistic = self.statistic {
@@ -10338,14 +10338,14 @@ extension DataBrewClientTypes.StatisticsConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let includedStatistics = includedStatistics {
             var includedStatisticsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includedStatistics)
-            for statisticlist0 in includedStatistics {
-                try includedStatisticsContainer.encode(statisticlist0)
+            for statistic0 in includedStatistics {
+                try includedStatisticsContainer.encode(statistic0)
             }
         }
         if let overrides = overrides {
             var overridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .overrides)
-            for statisticoverridelist0 in overrides {
-                try overridesContainer.encode(statisticoverridelist0)
+            for statisticoverride0 in overrides {
+                try overridesContainer.encode(statisticoverride0)
             }
         }
     }
@@ -10511,8 +10511,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -11030,8 +11030,8 @@ extension UpdateProfileJobInput: Swift.Encodable {
         }
         if let validationConfigurations = validationConfigurations {
             var validationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validationConfigurations)
-            for validationconfigurationlist0 in validationConfigurations {
-                try validationConfigurationsContainer.encode(validationconfigurationlist0)
+            for validationconfiguration0 in validationConfigurations {
+                try validationConfigurationsContainer.encode(validationconfiguration0)
             }
         }
     }
@@ -11399,8 +11399,8 @@ extension UpdateRecipeInput: Swift.Encodable {
         }
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for recipesteplist0 in steps {
-                try stepsContainer.encode(recipesteplist0)
+            for recipestep0 in steps {
+                try stepsContainer.encode(recipestep0)
             }
         }
     }
@@ -11483,14 +11483,14 @@ extension UpdateRecipeJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataCatalogOutputs = dataCatalogOutputs {
             var dataCatalogOutputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataCatalogOutputs)
-            for datacatalogoutputlist0 in dataCatalogOutputs {
-                try dataCatalogOutputsContainer.encode(datacatalogoutputlist0)
+            for datacatalogoutput0 in dataCatalogOutputs {
+                try dataCatalogOutputsContainer.encode(datacatalogoutput0)
             }
         }
         if let databaseOutputs = databaseOutputs {
             var databaseOutputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .databaseOutputs)
-            for databaseoutputlist0 in databaseOutputs {
-                try databaseOutputsContainer.encode(databaseoutputlist0)
+            for databaseoutput0 in databaseOutputs {
+                try databaseOutputsContainer.encode(databaseoutput0)
             }
         }
         if let encryptionKeyArn = self.encryptionKeyArn {
@@ -11510,8 +11510,8 @@ extension UpdateRecipeJobInput: Swift.Encodable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for outputlist0 in outputs {
-                try outputsContainer.encode(outputlist0)
+            for output0 in outputs {
+                try outputsContainer.encode(output0)
             }
         }
         if let roleArn = self.roleArn {
@@ -11816,8 +11816,8 @@ extension UpdateRulesetInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rulelist0 in rules {
-                try rulesContainer.encode(rulelist0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
     }
@@ -11962,8 +11962,8 @@ extension UpdateScheduleInput: Swift.Encodable {
         }
         if let jobNames = jobNames {
             var jobNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobNames)
-            for jobnamelist0 in jobNames {
-                try jobNamesContainer.encode(jobnamelist0)
+            for jobname0 in jobNames {
+                try jobNamesContainer.encode(jobname0)
             }
         }
     }
@@ -12244,8 +12244,8 @@ extension DataBrewClientTypes.ViewFrame: Swift.Codable {
         }
         if let hiddenColumns = hiddenColumns {
             var hiddenColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hiddenColumns)
-            for hiddencolumnlist0 in hiddenColumns {
-                try hiddenColumnsContainer.encode(hiddencolumnlist0)
+            for columnname0 in hiddenColumns {
+                try hiddenColumnsContainer.encode(columnname0)
             }
         }
         if let rowRange = self.rowRange {

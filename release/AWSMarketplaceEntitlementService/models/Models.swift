@@ -186,8 +186,11 @@ extension GetEntitlementsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, getentitlementfilters0) in filter {
-                try filterContainer.encode(getentitlementfilters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, getEntitlementFilters0) in filter {
+                var getEntitlementFilters0Container = filterContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for filtervalue1 in getEntitlementFilters0 {
+                    try getEntitlementFilters0Container.encode(filtervalue1)
+                }
             }
         }
         if let maxResults = self.maxResults {

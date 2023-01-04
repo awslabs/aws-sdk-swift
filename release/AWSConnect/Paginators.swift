@@ -25,7 +25,8 @@ extension GetCurrentMetricDataInput: ClientRuntime.PaginateToken {
             groupings: self.groupings,
             instanceId: self.instanceId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            sortCriteria: self.sortCriteria
         )}
 }
 

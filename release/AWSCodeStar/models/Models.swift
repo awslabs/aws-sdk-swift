@@ -423,8 +423,8 @@ extension CreateProjectInput: Swift.Encodable {
         }
         if let sourceCode = sourceCode {
             var sourceCodeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceCode)
-            for sourcecode0 in sourceCode {
-                try sourceCodeContainer.encode(sourcecode0)
+            for code0 in sourceCode {
+                try sourceCodeContainer.encode(code0)
             }
         }
         if let tags = tags {
@@ -3329,8 +3329,8 @@ extension CodeStarClientTypes.Toolchain: Swift.Codable {
         }
         if let stackParameters = stackParameters {
             var stackParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .stackParameters)
-            for (dictKey0, templateparametermap0) in stackParameters {
-                try stackParametersContainer.encode(templateparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateParameterMap0) in stackParameters {
+                try stackParametersContainer.encode(templateParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3429,8 +3429,8 @@ extension UntagProjectInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagkeys0 in tags {
-                try tagsContainer.encode(tagkeys0)
+            for tagkey0 in tags {
+                try tagsContainer.encode(tagkey0)
             }
         }
     }

@@ -304,8 +304,8 @@ extension KendraClientTypes.AlfrescoConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let blogFieldMappings = blogFieldMappings {
             var blogFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blogFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in blogFieldMappings {
-                try blogFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in blogFieldMappings {
+                try blogFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if crawlComments != false {
@@ -316,26 +316,26 @@ extension KendraClientTypes.AlfrescoConfiguration: Swift.Codable {
         }
         if let documentLibraryFieldMappings = documentLibraryFieldMappings {
             var documentLibraryFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentLibraryFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in documentLibraryFieldMappings {
-                try documentLibraryFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in documentLibraryFieldMappings {
+                try documentLibraryFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let entityFilter = entityFilter {
             var entityFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityFilter)
-            for entityfilter0 in entityFilter {
-                try entityFilterContainer.encode(entityfilter0.rawValue)
+            for alfrescoentity0 in entityFilter {
+                try entityFilterContainer.encode(alfrescoentity0.rawValue)
             }
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let secretArn = self.secretArn {
@@ -355,8 +355,8 @@ extension KendraClientTypes.AlfrescoConfiguration: Swift.Codable {
         }
         if let wikiFieldMappings = wikiFieldMappings {
             var wikiFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .wikiFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in wikiFieldMappings {
-                try wikiFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in wikiFieldMappings {
+                try wikiFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
     }
@@ -564,8 +564,8 @@ extension AssociateEntitiesToExperienceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entityList = entityList {
             var entityListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityList)
-            for associateentitylist0 in entityList {
-                try entityListContainer.encode(associateentitylist0)
+            for entityconfiguration0 in entityList {
+                try entityListContainer.encode(entityconfiguration0)
             }
         }
         if let id = self.id {
@@ -738,8 +738,8 @@ extension AssociatePersonasToEntitiesInput: Swift.Encodable {
         }
         if let personas = personas {
             var personasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .personas)
-            for entitypersonaconfigurationlist0 in personas {
-                try personasContainer.encode(entitypersonaconfigurationlist0)
+            for entitypersonaconfiguration0 in personas {
+                try personasContainer.encode(entitypersonaconfiguration0)
             }
         }
     }
@@ -907,8 +907,8 @@ extension KendraClientTypes.AttributeFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let andAllFilters = andAllFilters {
             var andAllFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andAllFilters)
-            for attributefilterlist0 in andAllFilters {
-                try andAllFiltersContainer.encode(attributefilterlist0)
+            for attributefilter0 in andAllFilters {
+                try andAllFiltersContainer.encode(attributefilter0)
             }
         }
         if let containsAll = self.containsAll {
@@ -937,8 +937,8 @@ extension KendraClientTypes.AttributeFilter: Swift.Codable {
         }
         if let orAllFilters = orAllFilters {
             var orAllFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orAllFilters)
-            for attributefilterlist0 in orAllFilters {
-                try orAllFiltersContainer.encode(attributefilterlist0)
+            for attributefilter0 in orAllFilters {
+                try orAllFiltersContainer.encode(attributefilter0)
             }
         }
     }
@@ -1052,8 +1052,8 @@ extension KendraClientTypes.AuthenticationConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let basicAuthentication = basicAuthentication {
             var basicAuthenticationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .basicAuthentication)
-            for basicauthenticationconfigurationlist0 in basicAuthentication {
-                try basicAuthenticationContainer.encode(basicauthenticationconfigurationlist0)
+            for basicauthenticationconfiguration0 in basicAuthentication {
+                try basicAuthenticationContainer.encode(basicauthenticationconfiguration0)
             }
         }
     }
@@ -1162,8 +1162,8 @@ extension BatchDeleteDocumentInput: Swift.Encodable {
         }
         if let documentIdList = documentIdList {
             var documentIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentIdList)
-            for documentidlist0 in documentIdList {
-                try documentIdListContainer.encode(documentidlist0)
+            for documentid0 in documentIdList {
+                try documentIdListContainer.encode(documentid0)
             }
         }
         if let indexId = self.indexId {
@@ -1380,8 +1380,8 @@ extension BatchGetDocumentStatusInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let documentInfoList = documentInfoList {
             var documentInfoListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentInfoList)
-            for documentinfolist0 in documentInfoList {
-                try documentInfoListContainer.encode(documentinfolist0)
+            for documentinfo0 in documentInfoList {
+                try documentInfoListContainer.encode(documentinfo0)
             }
         }
         if let indexId = self.indexId {
@@ -1614,8 +1614,8 @@ extension BatchPutDocumentInput: Swift.Encodable {
         }
         if let documents = documents {
             var documentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documents)
-            for documentlist0 in documents {
-                try documentsContainer.encode(documentlist0)
+            for document0 in documents {
+                try documentsContainer.encode(document0)
             }
         }
         if let indexId = self.indexId {
@@ -1865,8 +1865,8 @@ extension KendraClientTypes.BoxConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let commentFieldMappings = commentFieldMappings {
             var commentFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .commentFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in commentFieldMappings {
-                try commentFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in commentFieldMappings {
+                try commentFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if crawlComments != false {
@@ -1883,20 +1883,20 @@ extension KendraClientTypes.BoxConfiguration: Swift.Codable {
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let fileFieldMappings = fileFieldMappings {
             var fileFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fileFieldMappings {
-                try fileFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fileFieldMappings {
+                try fileFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let secretArn = self.secretArn {
@@ -1904,8 +1904,8 @@ extension KendraClientTypes.BoxConfiguration: Swift.Codable {
         }
         if let taskFieldMappings = taskFieldMappings {
             var taskFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taskFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in taskFieldMappings {
-                try taskFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in taskFieldMappings {
+                try taskFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if useChangeLog != false {
@@ -1916,8 +1916,8 @@ extension KendraClientTypes.BoxConfiguration: Swift.Codable {
         }
         if let webLinkFieldMappings = webLinkFieldMappings {
             var webLinkFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .webLinkFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in webLinkFieldMappings {
-                try webLinkFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in webLinkFieldMappings {
+                try webLinkFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
     }
@@ -2283,8 +2283,8 @@ extension KendraClientTypes.ColumnConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let changeDetectingColumns = changeDetectingColumns {
             var changeDetectingColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .changeDetectingColumns)
-            for changedetectingcolumns0 in changeDetectingColumns {
-                try changeDetectingColumnsContainer.encode(changedetectingcolumns0)
+            for columnname0 in changeDetectingColumns {
+                try changeDetectingColumnsContainer.encode(columnname0)
             }
         }
         if let documentDataColumnName = self.documentDataColumnName {
@@ -2298,8 +2298,8 @@ extension KendraClientTypes.ColumnConfiguration: Swift.Codable {
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
     }
@@ -2493,8 +2493,8 @@ extension KendraClientTypes.ConfluenceAttachmentConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachmentFieldMappings = attachmentFieldMappings {
             var attachmentFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachmentFieldMappings)
-            for confluenceattachmentfieldmappingslist0 in attachmentFieldMappings {
-                try attachmentFieldMappingsContainer.encode(confluenceattachmentfieldmappingslist0)
+            for confluenceattachmenttoindexfieldmapping0 in attachmentFieldMappings {
+                try attachmentFieldMappingsContainer.encode(confluenceattachmenttoindexfieldmapping0)
             }
         }
         if crawlAttachments != false {
@@ -2695,8 +2695,8 @@ extension KendraClientTypes.ConfluenceBlogConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let blogFieldMappings = blogFieldMappings {
             var blogFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blogFieldMappings)
-            for confluenceblogfieldmappingslist0 in blogFieldMappings {
-                try blogFieldMappingsContainer.encode(confluenceblogfieldmappingslist0)
+            for confluenceblogtoindexfieldmapping0 in blogFieldMappings {
+                try blogFieldMappingsContainer.encode(confluenceblogtoindexfieldmapping0)
             }
         }
     }
@@ -2870,14 +2870,14 @@ extension KendraClientTypes.ConfluenceConfiguration: Swift.Codable {
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let pageConfiguration = self.pageConfiguration {
@@ -3022,8 +3022,8 @@ extension KendraClientTypes.ConfluencePageConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pageFieldMappings = pageFieldMappings {
             var pageFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pageFieldMappings)
-            for confluencepagefieldmappingslist0 in pageFieldMappings {
-                try pageFieldMappingsContainer.encode(confluencepagefieldmappingslist0)
+            for confluencepagetoindexfieldmapping0 in pageFieldMappings {
+                try pageFieldMappingsContainer.encode(confluencepagetoindexfieldmapping0)
             }
         }
     }
@@ -3196,20 +3196,20 @@ extension KendraClientTypes.ConfluenceSpaceConfiguration: Swift.Codable {
         }
         if let excludeSpaces = excludeSpaces {
             var excludeSpacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeSpaces)
-            for confluencespacelist0 in excludeSpaces {
-                try excludeSpacesContainer.encode(confluencespacelist0)
+            for confluencespaceidentifier0 in excludeSpaces {
+                try excludeSpacesContainer.encode(confluencespaceidentifier0)
             }
         }
         if let includeSpaces = includeSpaces {
             var includeSpacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeSpaces)
-            for confluencespacelist0 in includeSpaces {
-                try includeSpacesContainer.encode(confluencespacelist0)
+            for confluencespaceidentifier0 in includeSpaces {
+                try includeSpacesContainer.encode(confluencespaceidentifier0)
             }
         }
         if let spaceFieldMappings = spaceFieldMappings {
             var spaceFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .spaceFieldMappings)
-            for confluencespacefieldmappingslist0 in spaceFieldMappings {
-                try spaceFieldMappingsContainer.encode(confluencespacefieldmappingslist0)
+            for confluencespacetoindexfieldmapping0 in spaceFieldMappings {
+                try spaceFieldMappingsContainer.encode(confluencespacetoindexfieldmapping0)
             }
         }
     }
@@ -3504,8 +3504,8 @@ extension KendraClientTypes.ContentSourceConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataSourceIds = dataSourceIds {
             var dataSourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSourceIds)
-            for datasourceidlist0 in dataSourceIds {
-                try dataSourceIdsContainer.encode(datasourceidlist0)
+            for datasourceid0 in dataSourceIds {
+                try dataSourceIdsContainer.encode(datasourceid0)
             }
         }
         if directPutContent != false {
@@ -3513,8 +3513,8 @@ extension KendraClientTypes.ContentSourceConfiguration: Swift.Codable {
         }
         if let faqIds = faqIds {
             var faqIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .faqIds)
-            for faqidslist0 in faqIds {
-                try faqIdsContainer.encode(faqidslist0)
+            for faqid0 in faqIds {
+                try faqIdsContainer.encode(faqid0)
             }
         }
     }
@@ -3692,8 +3692,8 @@ extension CreateAccessControlConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessControlList = accessControlList {
             var accessControlListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessControlList)
-            for principallist0 in accessControlList {
-                try accessControlListContainer.encode(principallist0)
+            for principal0 in accessControlList {
+                try accessControlListContainer.encode(principal0)
             }
         }
         if let clientToken = self.clientToken {
@@ -3704,8 +3704,8 @@ extension CreateAccessControlConfigurationInput: Swift.Encodable {
         }
         if let hierarchicalAccessControlList = hierarchicalAccessControlList {
             var hierarchicalAccessControlListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hierarchicalAccessControlList)
-            for hierarchicalprincipallist0 in hierarchicalAccessControlList {
-                try hierarchicalAccessControlListContainer.encode(hierarchicalprincipallist0)
+            for hierarchicalprincipal0 in hierarchicalAccessControlList {
+                try hierarchicalAccessControlListContainer.encode(hierarchicalprincipal0)
             }
         }
         if let indexId = self.indexId {
@@ -3934,8 +3934,8 @@ extension CreateDataSourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -4385,8 +4385,8 @@ extension CreateFaqInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4614,8 +4614,8 @@ extension CreateIndexInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userContextPolicy = self.userContextPolicy {
@@ -4626,8 +4626,8 @@ extension CreateIndexInput: Swift.Encodable {
         }
         if let userTokenConfigurations = userTokenConfigurations {
             var userTokenConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userTokenConfigurations)
-            for usertokenconfigurationlist0 in userTokenConfigurations {
-                try userTokenConfigurationsContainer.encode(usertokenconfigurationlist0)
+            for usertokenconfiguration0 in userTokenConfigurations {
+                try userTokenConfigurationsContainer.encode(usertokenconfiguration0)
             }
         }
     }
@@ -4867,8 +4867,8 @@ extension CreateQuerySuggestionsBlockListInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5077,8 +5077,8 @@ extension CreateThesaurusInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5266,8 +5266,8 @@ extension KendraClientTypes.CustomDocumentEnrichmentConfiguration: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inlineConfigurations = inlineConfigurations {
             var inlineConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inlineConfigurations)
-            for inlinecustomdocumentenrichmentconfigurationlist0 in inlineConfigurations {
-                try inlineConfigurationsContainer.encode(inlinecustomdocumentenrichmentconfigurationlist0)
+            for inlinecustomdocumentenrichmentconfiguration0 in inlineConfigurations {
+                try inlineConfigurationsContainer.encode(inlinecustomdocumentenrichmentconfiguration0)
             }
         }
         if let postExtractionHookConfiguration = self.postExtractionHookConfiguration {
@@ -6142,14 +6142,14 @@ extension KendraClientTypes.DataSourceVpcConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for vpcsecuritygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(vpcsecuritygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
     }
@@ -9294,8 +9294,8 @@ extension DisassociateEntitiesFromExperienceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entityList = entityList {
             var entityListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityList)
-            for disassociateentitylist0 in entityList {
-                try entityListContainer.encode(disassociateentitylist0)
+            for entityconfiguration0 in entityList {
+                try entityListContainer.encode(entityconfiguration0)
             }
         }
         if let id = self.id {
@@ -9460,8 +9460,8 @@ extension DisassociatePersonasFromEntitiesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entityIds = entityIds {
             var entityIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityIds)
-            for entityidslist0 in entityIds {
-                try entityIdsContainer.encode(entityidslist0)
+            for entityid0 in entityIds {
+                try entityIdsContainer.encode(entityid0)
             }
         }
         if let id = self.id {
@@ -9635,14 +9635,14 @@ extension KendraClientTypes.Document: Swift.Codable {
         }
         if let accessControlList = accessControlList {
             var accessControlListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessControlList)
-            for principallist0 in accessControlList {
-                try accessControlListContainer.encode(principallist0)
+            for principal0 in accessControlList {
+                try accessControlListContainer.encode(principal0)
             }
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for documentattributelist0 in attributes {
-                try attributesContainer.encode(documentattributelist0)
+            for documentattribute0 in attributes {
+                try attributesContainer.encode(documentattribute0)
             }
         }
         if let blob = self.blob {
@@ -9653,8 +9653,8 @@ extension KendraClientTypes.Document: Swift.Codable {
         }
         if let hierarchicalAccessControlList = hierarchicalAccessControlList {
             var hierarchicalAccessControlListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hierarchicalAccessControlList)
-            for hierarchicalprincipallist0 in hierarchicalAccessControlList {
-                try hierarchicalAccessControlListContainer.encode(hierarchicalprincipallist0)
+            for hierarchicalprincipal0 in hierarchicalAccessControlList {
+                try hierarchicalAccessControlListContainer.encode(hierarchicalprincipal0)
             }
         }
         if let id = self.id {
@@ -9944,8 +9944,8 @@ extension KendraClientTypes.DocumentAttributeValue: Swift.Codable {
         }
         if let stringListValue = stringListValue {
             var stringListValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringListValue)
-            for documentattributestringlistvalue0 in stringListValue {
-                try stringListValueContainer.encode(documentattributestringlistvalue0)
+            for string0 in stringListValue {
+                try stringListValueContainer.encode(string0)
             }
         }
         if let stringValue = self.stringValue {
@@ -10020,8 +10020,8 @@ extension KendraClientTypes.DocumentAttributeValueCountPair: Swift.Codable {
         }
         if let facetResults = facetResults {
             var facetResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .facetResults)
-            for facetresultlist0 in facetResults {
-                try facetResultsContainer.encode(facetresultlist0)
+            for facetresult0 in facetResults {
+                try facetResultsContainer.encode(facetresult0)
             }
         }
     }
@@ -10118,8 +10118,8 @@ extension KendraClientTypes.DocumentInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for documentattributelist0 in attributes {
-                try attributesContainer.encode(documentattributelist0)
+            for documentattribute0 in attributes {
+                try attributesContainer.encode(documentattribute0)
             }
         }
         if let documentId = self.documentId {
@@ -10840,8 +10840,8 @@ extension KendraClientTypes.ExperiencesSummary: Swift.Codable {
         }
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpoints)
-            for experienceendpoints0 in endpoints {
-                try endpointsContainer.encode(experienceendpoints0)
+            for experienceendpoint0 in endpoints {
+                try endpointsContainer.encode(experienceendpoint0)
             }
         }
         if let id = self.id {
@@ -10925,8 +10925,8 @@ extension KendraClientTypes.Facet: Swift.Codable {
         }
         if let facets = facets {
             var facetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .facets)
-            for facetlist0 in facets {
-                try facetsContainer.encode(facetlist0)
+            for facet0 in facets {
+                try facetsContainer.encode(facet0)
             }
         }
         if maxResults != 0 {
@@ -10992,8 +10992,8 @@ extension KendraClientTypes.FacetResult: Swift.Codable {
         }
         if let documentAttributeValueCountPairs = documentAttributeValueCountPairs {
             var documentAttributeValueCountPairsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentAttributeValueCountPairs)
-            for documentattributevaluecountpairlist0 in documentAttributeValueCountPairs {
-                try documentAttributeValueCountPairsContainer.encode(documentattributevaluecountpairlist0)
+            for documentattributevaluecountpair0 in documentAttributeValueCountPairs {
+                try documentAttributeValueCountPairsContainer.encode(documentattributevaluecountpair0)
             }
         }
         if let documentAttributeValueType = self.documentAttributeValueType {
@@ -11312,14 +11312,14 @@ extension KendraClientTypes.FsxConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let fileSystemId = self.fileSystemId {
@@ -11330,8 +11330,8 @@ extension KendraClientTypes.FsxConfiguration: Swift.Codable {
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let secretArn = self.secretArn {
@@ -11897,26 +11897,26 @@ extension KendraClientTypes.GitHubConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let exclusionFileNamePatterns = exclusionFileNamePatterns {
             var exclusionFileNamePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionFileNamePatterns)
-            for stringlist0 in exclusionFileNamePatterns {
-                try exclusionFileNamePatternsContainer.encode(stringlist0)
+            for string0 in exclusionFileNamePatterns {
+                try exclusionFileNamePatternsContainer.encode(string0)
             }
         }
         if let exclusionFileTypePatterns = exclusionFileTypePatterns {
             var exclusionFileTypePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionFileTypePatterns)
-            for stringlist0 in exclusionFileTypePatterns {
-                try exclusionFileTypePatternsContainer.encode(stringlist0)
+            for string0 in exclusionFileTypePatterns {
+                try exclusionFileTypePatternsContainer.encode(string0)
             }
         }
         if let exclusionFolderNamePatterns = exclusionFolderNamePatterns {
             var exclusionFolderNamePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionFolderNamePatterns)
-            for stringlist0 in exclusionFolderNamePatterns {
-                try exclusionFolderNamePatternsContainer.encode(stringlist0)
+            for string0 in exclusionFolderNamePatterns {
+                try exclusionFolderNamePatternsContainer.encode(string0)
             }
         }
         if let gitHubCommitConfigurationFieldMappings = gitHubCommitConfigurationFieldMappings {
             var gitHubCommitConfigurationFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gitHubCommitConfigurationFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in gitHubCommitConfigurationFieldMappings {
-                try gitHubCommitConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in gitHubCommitConfigurationFieldMappings {
+                try gitHubCommitConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let gitHubDocumentCrawlProperties = self.gitHubDocumentCrawlProperties {
@@ -11924,62 +11924,62 @@ extension KendraClientTypes.GitHubConfiguration: Swift.Codable {
         }
         if let gitHubIssueAttachmentConfigurationFieldMappings = gitHubIssueAttachmentConfigurationFieldMappings {
             var gitHubIssueAttachmentConfigurationFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gitHubIssueAttachmentConfigurationFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in gitHubIssueAttachmentConfigurationFieldMappings {
-                try gitHubIssueAttachmentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in gitHubIssueAttachmentConfigurationFieldMappings {
+                try gitHubIssueAttachmentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let gitHubIssueCommentConfigurationFieldMappings = gitHubIssueCommentConfigurationFieldMappings {
             var gitHubIssueCommentConfigurationFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gitHubIssueCommentConfigurationFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in gitHubIssueCommentConfigurationFieldMappings {
-                try gitHubIssueCommentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in gitHubIssueCommentConfigurationFieldMappings {
+                try gitHubIssueCommentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let gitHubIssueDocumentConfigurationFieldMappings = gitHubIssueDocumentConfigurationFieldMappings {
             var gitHubIssueDocumentConfigurationFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gitHubIssueDocumentConfigurationFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in gitHubIssueDocumentConfigurationFieldMappings {
-                try gitHubIssueDocumentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in gitHubIssueDocumentConfigurationFieldMappings {
+                try gitHubIssueDocumentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let gitHubPullRequestCommentConfigurationFieldMappings = gitHubPullRequestCommentConfigurationFieldMappings {
             var gitHubPullRequestCommentConfigurationFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gitHubPullRequestCommentConfigurationFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in gitHubPullRequestCommentConfigurationFieldMappings {
-                try gitHubPullRequestCommentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in gitHubPullRequestCommentConfigurationFieldMappings {
+                try gitHubPullRequestCommentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let gitHubPullRequestDocumentAttachmentConfigurationFieldMappings = gitHubPullRequestDocumentAttachmentConfigurationFieldMappings {
             var gitHubPullRequestDocumentAttachmentConfigurationFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gitHubPullRequestDocumentAttachmentConfigurationFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in gitHubPullRequestDocumentAttachmentConfigurationFieldMappings {
-                try gitHubPullRequestDocumentAttachmentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in gitHubPullRequestDocumentAttachmentConfigurationFieldMappings {
+                try gitHubPullRequestDocumentAttachmentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let gitHubPullRequestDocumentConfigurationFieldMappings = gitHubPullRequestDocumentConfigurationFieldMappings {
             var gitHubPullRequestDocumentConfigurationFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gitHubPullRequestDocumentConfigurationFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in gitHubPullRequestDocumentConfigurationFieldMappings {
-                try gitHubPullRequestDocumentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in gitHubPullRequestDocumentConfigurationFieldMappings {
+                try gitHubPullRequestDocumentConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let gitHubRepositoryConfigurationFieldMappings = gitHubRepositoryConfigurationFieldMappings {
             var gitHubRepositoryConfigurationFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gitHubRepositoryConfigurationFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in gitHubRepositoryConfigurationFieldMappings {
-                try gitHubRepositoryConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in gitHubRepositoryConfigurationFieldMappings {
+                try gitHubRepositoryConfigurationFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let inclusionFileNamePatterns = inclusionFileNamePatterns {
             var inclusionFileNamePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionFileNamePatterns)
-            for stringlist0 in inclusionFileNamePatterns {
-                try inclusionFileNamePatternsContainer.encode(stringlist0)
+            for string0 in inclusionFileNamePatterns {
+                try inclusionFileNamePatternsContainer.encode(string0)
             }
         }
         if let inclusionFileTypePatterns = inclusionFileTypePatterns {
             var inclusionFileTypePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionFileTypePatterns)
-            for stringlist0 in inclusionFileTypePatterns {
-                try inclusionFileTypePatternsContainer.encode(stringlist0)
+            for string0 in inclusionFileTypePatterns {
+                try inclusionFileTypePatternsContainer.encode(string0)
             }
         }
         if let inclusionFolderNamePatterns = inclusionFolderNamePatterns {
             var inclusionFolderNamePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionFolderNamePatterns)
-            for stringlist0 in inclusionFolderNamePatterns {
-                try inclusionFolderNamePatternsContainer.encode(stringlist0)
+            for string0 in inclusionFolderNamePatterns {
+                try inclusionFolderNamePatternsContainer.encode(string0)
             }
         }
         if let onPremiseConfiguration = self.onPremiseConfiguration {
@@ -11987,8 +11987,8 @@ extension KendraClientTypes.GitHubConfiguration: Swift.Codable {
         }
         if let repositoryFilter = repositoryFilter {
             var repositoryFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositoryFilter)
-            for repositorynames0 in repositoryFilter {
-                try repositoryFilterContainer.encode(repositorynames0)
+            for repositoryname0 in repositoryFilter {
+                try repositoryFilterContainer.encode(repositoryname0)
             }
         }
         if let saaSConfiguration = self.saaSConfiguration {
@@ -12405,38 +12405,38 @@ extension KendraClientTypes.GoogleDriveConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let excludeMimeTypes = excludeMimeTypes {
             var excludeMimeTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeMimeTypes)
-            for excludemimetypeslist0 in excludeMimeTypes {
-                try excludeMimeTypesContainer.encode(excludemimetypeslist0)
+            for mimetype0 in excludeMimeTypes {
+                try excludeMimeTypesContainer.encode(mimetype0)
             }
         }
         if let excludeSharedDrives = excludeSharedDrives {
             var excludeSharedDrivesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeSharedDrives)
-            for excludeshareddriveslist0 in excludeSharedDrives {
-                try excludeSharedDrivesContainer.encode(excludeshareddriveslist0)
+            for shareddriveid0 in excludeSharedDrives {
+                try excludeSharedDrivesContainer.encode(shareddriveid0)
             }
         }
         if let excludeUserAccounts = excludeUserAccounts {
             var excludeUserAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeUserAccounts)
-            for excludeuseraccountslist0 in excludeUserAccounts {
-                try excludeUserAccountsContainer.encode(excludeuseraccountslist0)
+            for useraccount0 in excludeUserAccounts {
+                try excludeUserAccountsContainer.encode(useraccount0)
             }
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let secretArn = self.secretArn {
@@ -12569,14 +12569,14 @@ extension KendraClientTypes.GroupMembers: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let memberGroups = memberGroups {
             var memberGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .memberGroups)
-            for membergroups0 in memberGroups {
-                try memberGroupsContainer.encode(membergroups0)
+            for membergroup0 in memberGroups {
+                try memberGroupsContainer.encode(membergroup0)
             }
         }
         if let memberUsers = memberUsers {
             var memberUsersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .memberUsers)
-            for memberusers0 in memberUsers {
-                try memberUsersContainer.encode(memberusers0)
+            for memberuser0 in memberUsers {
+                try memberUsersContainer.encode(memberuser0)
             }
         }
         if let s3PathforGroupMembers = self.s3PathforGroupMembers {
@@ -12766,8 +12766,8 @@ extension KendraClientTypes.HierarchicalPrincipal: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let principalList = principalList {
             var principalListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principalList)
-            for principallist0 in principalList {
-                try principalListContainer.encode(principallist0)
+            for principal0 in principalList {
+                try principalListContainer.encode(principal0)
             }
         }
     }
@@ -13433,44 +13433,44 @@ extension KendraClientTypes.JiraConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachmentFieldMappings = attachmentFieldMappings {
             var attachmentFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachmentFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in attachmentFieldMappings {
-                try attachmentFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in attachmentFieldMappings {
+                try attachmentFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let commentFieldMappings = commentFieldMappings {
             var commentFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .commentFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in commentFieldMappings {
-                try commentFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in commentFieldMappings {
+                try commentFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let issueFieldMappings = issueFieldMappings {
             var issueFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issueFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in issueFieldMappings {
-                try issueFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in issueFieldMappings {
+                try issueFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let issueSubEntityFilter = issueSubEntityFilter {
             var issueSubEntityFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issueSubEntityFilter)
-            for issuesubentityfilter0 in issueSubEntityFilter {
-                try issueSubEntityFilterContainer.encode(issuesubentityfilter0.rawValue)
+            for issuesubentity0 in issueSubEntityFilter {
+                try issueSubEntityFilterContainer.encode(issuesubentity0.rawValue)
             }
         }
         if let issueType = issueType {
             var issueTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issueType)
-            for issuetype0 in issueType {
-                try issueTypeContainer.encode(issuetype0)
+            for string0 in issueType {
+                try issueTypeContainer.encode(string0)
             }
         }
         if let jiraAccountUrl = self.jiraAccountUrl {
@@ -13478,14 +13478,14 @@ extension KendraClientTypes.JiraConfiguration: Swift.Codable {
         }
         if let project = project {
             var projectContainer = encodeContainer.nestedUnkeyedContainer(forKey: .project)
-            for project0 in project {
-                try projectContainer.encode(project0)
+            for string0 in project {
+                try projectContainer.encode(string0)
             }
         }
         if let projectFieldMappings = projectFieldMappings {
             var projectFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .projectFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in projectFieldMappings {
-                try projectFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in projectFieldMappings {
+                try projectFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let secretArn = self.secretArn {
@@ -13493,8 +13493,8 @@ extension KendraClientTypes.JiraConfiguration: Swift.Codable {
         }
         if let status = status {
             var statusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .status)
-            for jirastatus0 in status {
-                try statusContainer.encode(jirastatus0)
+            for string0 in status {
+                try statusContainer.encode(string0)
             }
         }
         if useChangeLog != false {
@@ -13505,8 +13505,8 @@ extension KendraClientTypes.JiraConfiguration: Swift.Codable {
         }
         if let workLogFieldMappings = workLogFieldMappings {
             var workLogFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workLogFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in workLogFieldMappings {
-                try workLogFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in workLogFieldMappings {
+                try workLogFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
     }
@@ -16108,20 +16108,20 @@ extension KendraClientTypes.OneDriveConfiguration: Swift.Codable {
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let oneDriveUsers = self.oneDriveUsers {
@@ -16234,8 +16234,8 @@ extension KendraClientTypes.OneDriveUsers: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let oneDriveUserList = oneDriveUserList {
             var oneDriveUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .oneDriveUserList)
-            for onedriveuserlist0 in oneDriveUserList {
-                try oneDriveUserListContainer.encode(onedriveuserlist0)
+            for onedriveuser0 in oneDriveUserList {
+                try oneDriveUserListContainer.encode(onedriveuser0)
             }
         }
         if let oneDriveUserS3Path = self.oneDriveUserS3Path {
@@ -16818,14 +16818,14 @@ extension QueryInput: Swift.Encodable {
         }
         if let documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations {
             var documentRelevanceOverrideConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentRelevanceOverrideConfigurations)
-            for documentrelevanceoverrideconfigurationlist0 in documentRelevanceOverrideConfigurations {
-                try documentRelevanceOverrideConfigurationsContainer.encode(documentrelevanceoverrideconfigurationlist0)
+            for documentrelevanceconfiguration0 in documentRelevanceOverrideConfigurations {
+                try documentRelevanceOverrideConfigurationsContainer.encode(documentrelevanceconfiguration0)
             }
         }
         if let facets = facets {
             var facetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .facets)
-            for facetlist0 in facets {
-                try facetsContainer.encode(facetlist0)
+            for facet0 in facets {
+                try facetsContainer.encode(facet0)
             }
         }
         if let indexId = self.indexId {
@@ -16845,8 +16845,8 @@ extension QueryInput: Swift.Encodable {
         }
         if let requestedDocumentAttributes = requestedDocumentAttributes {
             var requestedDocumentAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestedDocumentAttributes)
-            for documentattributekeylist0 in requestedDocumentAttributes {
-                try requestedDocumentAttributesContainer.encode(documentattributekeylist0)
+            for documentattributekey0 in requestedDocumentAttributes {
+                try requestedDocumentAttributesContainer.encode(documentattributekey0)
             }
         }
         if let sortingConfiguration = self.sortingConfiguration {
@@ -17235,14 +17235,14 @@ extension KendraClientTypes.QueryResultItem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalAttributes = additionalAttributes {
             var additionalAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalAttributes)
-            for additionalresultattributelist0 in additionalAttributes {
-                try additionalAttributesContainer.encode(additionalresultattributelist0)
+            for additionalresultattribute0 in additionalAttributes {
+                try additionalAttributesContainer.encode(additionalresultattribute0)
             }
         }
         if let documentAttributes = documentAttributes {
             var documentAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentAttributes)
-            for documentattributelist0 in documentAttributes {
-                try documentAttributesContainer.encode(documentattributelist0)
+            for documentattribute0 in documentAttributes {
+                try documentAttributesContainer.encode(documentattribute0)
             }
         }
         if let documentExcerpt = self.documentExcerpt {
@@ -17600,8 +17600,8 @@ extension KendraClientTypes.QuipConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachmentFieldMappings = attachmentFieldMappings {
             var attachmentFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachmentFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in attachmentFieldMappings {
-                try attachmentFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in attachmentFieldMappings {
+                try attachmentFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if crawlAttachments != false {
@@ -17618,26 +17618,26 @@ extension KendraClientTypes.QuipConfiguration: Swift.Codable {
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let folderIds = folderIds {
             var folderIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folderIds)
-            for folderidlist0 in folderIds {
-                try folderIdsContainer.encode(folderidlist0)
+            for folderid0 in folderIds {
+                try folderIdsContainer.encode(folderid0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let messageFieldMappings = messageFieldMappings {
             var messageFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in messageFieldMappings {
-                try messageFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in messageFieldMappings {
+                try messageFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let secretArn = self.secretArn {
@@ -17645,8 +17645,8 @@ extension KendraClientTypes.QuipConfiguration: Swift.Codable {
         }
         if let threadFieldMappings = threadFieldMappings {
             var threadFieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .threadFieldMappings)
-            for datasourcetoindexfieldmappinglist0 in threadFieldMappings {
-                try threadFieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in threadFieldMappings {
+                try threadFieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let vpcConfiguration = self.vpcConfiguration {
@@ -17858,8 +17858,8 @@ extension KendraClientTypes.Relevance: Swift.Codable {
         }
         if let valueImportanceMap = valueImportanceMap {
             var valueImportanceMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .valueImportanceMap)
-            for (dictKey0, valueimportancemap0) in valueImportanceMap {
-                try valueImportanceMapContainer.encode(valueimportancemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, valueImportanceMap0) in valueImportanceMap {
+                try valueImportanceMapContainer.encode(valueImportanceMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -18230,20 +18230,20 @@ extension KendraClientTypes.S3DataSourceConfiguration: Swift.Codable {
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let inclusionPrefixes = inclusionPrefixes {
             var inclusionPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPrefixes)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPrefixes {
-                try inclusionPrefixesContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPrefixes {
+                try inclusionPrefixesContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
     }
@@ -18453,14 +18453,14 @@ extension KendraClientTypes.SalesforceChatterFeedConfiguration: Swift.Codable {
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let includeFilterTypes = includeFilterTypes {
             var includeFilterTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeFilterTypes)
-            for salesforcechatterfeedincludefiltertypes0 in includeFilterTypes {
-                try includeFilterTypesContainer.encode(salesforcechatterfeedincludefiltertypes0.rawValue)
+            for salesforcechatterfeedincludefiltertype0 in includeFilterTypes {
+                try includeFilterTypesContainer.encode(salesforcechatterfeedincludefiltertype0.rawValue)
             }
         }
     }
@@ -18580,14 +18580,14 @@ extension KendraClientTypes.SalesforceConfiguration: Swift.Codable {
         }
         if let excludeAttachmentFilePatterns = excludeAttachmentFilePatterns {
             var excludeAttachmentFilePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeAttachmentFilePatterns)
-            for datasourceinclusionsexclusionsstrings0 in excludeAttachmentFilePatterns {
-                try excludeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in excludeAttachmentFilePatterns {
+                try excludeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let includeAttachmentFilePatterns = includeAttachmentFilePatterns {
             var includeAttachmentFilePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeAttachmentFilePatterns)
-            for datasourceinclusionsexclusionsstrings0 in includeAttachmentFilePatterns {
-                try includeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in includeAttachmentFilePatterns {
+                try includeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let knowledgeArticleConfiguration = self.knowledgeArticleConfiguration {
@@ -18604,8 +18604,8 @@ extension KendraClientTypes.SalesforceConfiguration: Swift.Codable {
         }
         if let standardObjectConfigurations = standardObjectConfigurations {
             var standardObjectConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .standardObjectConfigurations)
-            for salesforcestandardobjectconfigurationlist0 in standardObjectConfigurations {
-                try standardObjectConfigurationsContainer.encode(salesforcestandardobjectconfigurationlist0)
+            for salesforcestandardobjectconfiguration0 in standardObjectConfigurations {
+                try standardObjectConfigurationsContainer.encode(salesforcestandardobjectconfiguration0)
             }
         }
     }
@@ -18740,8 +18740,8 @@ extension KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration: S
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let name = self.name {
@@ -18812,14 +18812,14 @@ extension KendraClientTypes.SalesforceKnowledgeArticleConfiguration: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customKnowledgeArticleTypeConfigurations = customKnowledgeArticleTypeConfigurations {
             var customKnowledgeArticleTypeConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customKnowledgeArticleTypeConfigurations)
-            for salesforcecustomknowledgearticletypeconfigurationlist0 in customKnowledgeArticleTypeConfigurations {
-                try customKnowledgeArticleTypeConfigurationsContainer.encode(salesforcecustomknowledgearticletypeconfigurationlist0)
+            for salesforcecustomknowledgearticletypeconfiguration0 in customKnowledgeArticleTypeConfigurations {
+                try customKnowledgeArticleTypeConfigurationsContainer.encode(salesforcecustomknowledgearticletypeconfiguration0)
             }
         }
         if let includedStates = includedStates {
             var includedStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includedStates)
-            for salesforceknowledgearticlestatelist0 in includedStates {
-                try includedStatesContainer.encode(salesforceknowledgearticlestatelist0.rawValue)
+            for salesforceknowledgearticlestate0 in includedStates {
+                try includedStatesContainer.encode(salesforceknowledgearticlestate0.rawValue)
             }
         }
         if let standardKnowledgeArticleTypeConfiguration = self.standardKnowledgeArticleTypeConfiguration {
@@ -18933,8 +18933,8 @@ extension KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration:
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
     }
@@ -18997,8 +18997,8 @@ extension KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration: Swi
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
     }
@@ -19059,8 +19059,8 @@ extension KendraClientTypes.SalesforceStandardObjectConfiguration: Swift.Codable
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let name = self.name {
@@ -19349,8 +19349,8 @@ extension KendraClientTypes.SeedUrlConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let seedUrls = seedUrls {
             var seedUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .seedUrls)
-            for seedurllist0 in seedUrls {
-                try seedUrlsContainer.encode(seedurllist0)
+            for seedurl0 in seedUrls {
+                try seedUrlsContainer.encode(seedurl0)
             }
         }
         if let webCrawlerMode = self.webCrawlerMode {
@@ -19622,14 +19622,14 @@ extension KendraClientTypes.ServiceNowKnowledgeArticleConfiguration: Swift.Codab
         }
         if let excludeAttachmentFilePatterns = excludeAttachmentFilePatterns {
             var excludeAttachmentFilePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeAttachmentFilePatterns)
-            for datasourceinclusionsexclusionsstrings0 in excludeAttachmentFilePatterns {
-                try excludeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in excludeAttachmentFilePatterns {
+                try excludeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let filterQuery = self.filterQuery {
@@ -19637,8 +19637,8 @@ extension KendraClientTypes.ServiceNowKnowledgeArticleConfiguration: Swift.Codab
         }
         if let includeAttachmentFilePatterns = includeAttachmentFilePatterns {
             var includeAttachmentFilePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeAttachmentFilePatterns)
-            for datasourceinclusionsexclusionsstrings0 in includeAttachmentFilePatterns {
-                try includeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in includeAttachmentFilePatterns {
+                try includeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
     }
@@ -19753,20 +19753,20 @@ extension KendraClientTypes.ServiceNowServiceCatalogConfiguration: Swift.Codable
         }
         if let excludeAttachmentFilePatterns = excludeAttachmentFilePatterns {
             var excludeAttachmentFilePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeAttachmentFilePatterns)
-            for datasourceinclusionsexclusionsstrings0 in excludeAttachmentFilePatterns {
-                try excludeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in excludeAttachmentFilePatterns {
+                try excludeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let includeAttachmentFilePatterns = includeAttachmentFilePatterns {
             var includeAttachmentFilePatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeAttachmentFilePatterns)
-            for datasourceinclusionsexclusionsstrings0 in includeAttachmentFilePatterns {
-                try includeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in includeAttachmentFilePatterns {
+                try includeAttachmentFilePatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
     }
@@ -19938,20 +19938,20 @@ extension KendraClientTypes.SharePointConfiguration: Swift.Codable {
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let proxyConfiguration = self.proxyConfiguration {
@@ -19968,8 +19968,8 @@ extension KendraClientTypes.SharePointConfiguration: Swift.Codable {
         }
         if let urls = urls {
             var urlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .urls)
-            for sharepointurllist0 in urls {
-                try urlsContainer.encode(sharepointurllist0)
+            for url0 in urls {
+                try urlsContainer.encode(url0)
             }
         }
         if useChangeLog != false {
@@ -20199,8 +20199,8 @@ extension KendraClientTypes.SiteMapsConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let siteMaps = siteMaps {
             var siteMapsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .siteMaps)
-            for sitemapslist0 in siteMaps {
-                try siteMapsContainer.encode(sitemapslist0)
+            for sitemap0 in siteMaps {
+                try siteMapsContainer.encode(sitemap0)
             }
         }
     }
@@ -20266,20 +20266,20 @@ extension KendraClientTypes.SlackConfiguration: Swift.Codable {
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let lookBackPeriod = self.lookBackPeriod {
@@ -20287,14 +20287,14 @@ extension KendraClientTypes.SlackConfiguration: Swift.Codable {
         }
         if let privateChannelFilter = privateChannelFilter {
             var privateChannelFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .privateChannelFilter)
-            for privatechannelfilter0 in privateChannelFilter {
-                try privateChannelFilterContainer.encode(privatechannelfilter0)
+            for string0 in privateChannelFilter {
+                try privateChannelFilterContainer.encode(string0)
             }
         }
         if let publicChannelFilter = publicChannelFilter {
             var publicChannelFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publicChannelFilter)
-            for publicchannelfilter0 in publicChannelFilter {
-                try publicChannelFilterContainer.encode(publicchannelfilter0)
+            for string0 in publicChannelFilter {
+                try publicChannelFilterContainer.encode(string0)
             }
         }
         if let secretArn = self.secretArn {
@@ -20305,8 +20305,8 @@ extension KendraClientTypes.SlackConfiguration: Swift.Codable {
         }
         if let slackEntityList = slackEntityList {
             var slackEntityListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .slackEntityList)
-            for slackentitylist0 in slackEntityList {
-                try slackEntityListContainer.encode(slackentitylist0.rawValue)
+            for slackentity0 in slackEntityList {
+                try slackEntityListContainer.encode(slackentity0.rawValue)
             }
         }
         if let teamId = self.teamId {
@@ -20629,8 +20629,8 @@ extension KendraClientTypes.SpellCorrectedQuery: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let corrections = corrections {
             var correctionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .corrections)
-            for correctionlist0 in corrections {
-                try correctionsContainer.encode(correctionlist0)
+            for correction0 in corrections {
+                try correctionsContainer.encode(correction0)
             }
         }
         if let suggestedQueryText = self.suggestedQueryText {
@@ -21061,8 +21061,8 @@ extension SubmitFeedbackInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clickFeedbackItems = clickFeedbackItems {
             var clickFeedbackItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clickFeedbackItems)
-            for clickfeedbacklist0 in clickFeedbackItems {
-                try clickFeedbackItemsContainer.encode(clickfeedbacklist0)
+            for clickfeedback0 in clickFeedbackItems {
+                try clickFeedbackItemsContainer.encode(clickfeedback0)
             }
         }
         if let indexId = self.indexId {
@@ -21073,8 +21073,8 @@ extension SubmitFeedbackInput: Swift.Encodable {
         }
         if let relevanceFeedbackItems = relevanceFeedbackItems {
             var relevanceFeedbackItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relevanceFeedbackItems)
-            for relevancefeedbacklist0 in relevanceFeedbackItems {
-                try relevanceFeedbackItemsContainer.encode(relevancefeedbacklist0)
+            for relevancefeedback0 in relevanceFeedbackItems {
+                try relevanceFeedbackItemsContainer.encode(relevancefeedback0)
             }
         }
     }
@@ -21300,8 +21300,8 @@ extension KendraClientTypes.SuggestionTextWithHighlights: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let highlights = highlights {
             var highlightsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .highlights)
-            for suggestionhighlightlist0 in highlights {
-                try highlightsContainer.encode(suggestionhighlightlist0)
+            for suggestionhighlight0 in highlights {
+                try highlightsContainer.encode(suggestionhighlight0)
             }
         }
         if let text = self.text {
@@ -21457,8 +21457,8 @@ extension KendraClientTypes.TableExcerpt: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rows = rows {
             var rowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rows)
-            for tablerowlist0 in rows {
-                try rowsContainer.encode(tablerowlist0)
+            for tablerow0 in rows {
+                try rowsContainer.encode(tablerow0)
             }
         }
         if let totalNumberOfRows = self.totalNumberOfRows {
@@ -21513,8 +21513,8 @@ extension KendraClientTypes.TableRow: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cells = cells {
             var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
-            for tablecelllist0 in cells {
-                try cellsContainer.encode(tablecelllist0)
+            for tablecell0 in cells {
+                try cellsContainer.encode(tablecell0)
             }
         }
     }
@@ -21611,8 +21611,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -21803,8 +21803,8 @@ extension KendraClientTypes.TextWithHighlights: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let highlights = highlights {
             var highlightsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .highlights)
-            for highlightlist0 in highlights {
-                try highlightsContainer.encode(highlightlist0)
+            for highlight0 in highlights {
+                try highlightsContainer.encode(highlight0)
             }
         }
         if let text = self.text {
@@ -22111,8 +22111,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -22225,8 +22225,8 @@ extension UpdateAccessControlConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessControlList = accessControlList {
             var accessControlListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accessControlList)
-            for principallist0 in accessControlList {
-                try accessControlListContainer.encode(principallist0)
+            for principal0 in accessControlList {
+                try accessControlListContainer.encode(principal0)
             }
         }
         if let description = self.description {
@@ -22234,8 +22234,8 @@ extension UpdateAccessControlConfigurationInput: Swift.Encodable {
         }
         if let hierarchicalAccessControlList = hierarchicalAccessControlList {
             var hierarchicalAccessControlListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hierarchicalAccessControlList)
-            for hierarchicalprincipallist0 in hierarchicalAccessControlList {
-                try hierarchicalAccessControlListContainer.encode(hierarchicalprincipallist0)
+            for hierarchicalprincipal0 in hierarchicalAccessControlList {
+                try hierarchicalAccessControlListContainer.encode(hierarchicalprincipal0)
             }
         }
         if let id = self.id {
@@ -22761,8 +22761,8 @@ extension UpdateIndexInput: Swift.Encodable {
         }
         if let documentMetadataConfigurationUpdates = documentMetadataConfigurationUpdates {
             var documentMetadataConfigurationUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentMetadataConfigurationUpdates)
-            for documentmetadataconfigurationlist0 in documentMetadataConfigurationUpdates {
-                try documentMetadataConfigurationUpdatesContainer.encode(documentmetadataconfigurationlist0)
+            for documentmetadataconfiguration0 in documentMetadataConfigurationUpdates {
+                try documentMetadataConfigurationUpdatesContainer.encode(documentmetadataconfiguration0)
             }
         }
         if let id = self.id {
@@ -22782,8 +22782,8 @@ extension UpdateIndexInput: Swift.Encodable {
         }
         if let userTokenConfigurations = userTokenConfigurations {
             var userTokenConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userTokenConfigurations)
-            for usertokenconfigurationlist0 in userTokenConfigurations {
-                try userTokenConfigurationsContainer.encode(usertokenconfigurationlist0)
+            for usertokenconfiguration0 in userTokenConfigurations {
+                try userTokenConfigurationsContainer.encode(usertokenconfiguration0)
             }
         }
     }
@@ -23459,14 +23459,14 @@ extension KendraClientTypes.UserContext: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataSourceGroups = dataSourceGroups {
             var dataSourceGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSourceGroups)
-            for datasourcegroups0 in dataSourceGroups {
-                try dataSourceGroupsContainer.encode(datasourcegroups0)
+            for datasourcegroup0 in dataSourceGroups {
+                try dataSourceGroupsContainer.encode(datasourcegroup0)
             }
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for groups0 in groups {
-                try groupsContainer.encode(groups0)
+            for principalname0 in groups {
+                try groupsContainer.encode(principalname0)
             }
         }
         if let token = self.token {
@@ -23884,14 +23884,14 @@ extension KendraClientTypes.WebCrawlerConfiguration: Swift.Codable {
         }
         if let urlExclusionPatterns = urlExclusionPatterns {
             var urlExclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .urlExclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in urlExclusionPatterns {
-                try urlExclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in urlExclusionPatterns {
+                try urlExclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let urlInclusionPatterns = urlInclusionPatterns {
             var urlInclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .urlInclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in urlInclusionPatterns {
-                try urlInclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in urlInclusionPatterns {
+                try urlInclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let urls = self.urls {
@@ -24041,20 +24041,20 @@ extension KendraClientTypes.WorkDocsConfiguration: Swift.Codable {
         }
         if let exclusionPatterns = exclusionPatterns {
             var exclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in exclusionPatterns {
-                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in exclusionPatterns {
+                try exclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let fieldMappings = fieldMappings {
             var fieldMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldMappings)
-            for datasourcetoindexfieldmappinglist0 in fieldMappings {
-                try fieldMappingsContainer.encode(datasourcetoindexfieldmappinglist0)
+            for datasourcetoindexfieldmapping0 in fieldMappings {
+                try fieldMappingsContainer.encode(datasourcetoindexfieldmapping0)
             }
         }
         if let inclusionPatterns = inclusionPatterns {
             var inclusionPatternsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inclusionPatterns)
-            for datasourceinclusionsexclusionsstrings0 in inclusionPatterns {
-                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstrings0)
+            for datasourceinclusionsexclusionsstringsmember0 in inclusionPatterns {
+                try inclusionPatternsContainer.encode(datasourceinclusionsexclusionsstringsmember0)
             }
         }
         if let organizationId = self.organizationId {

@@ -224,7 +224,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutputResponse, AssociateFirewallPolicyOutputError>(id: "associateFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutputResponse, AssociateFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<AssociateFirewallPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateFirewallPolicyOutputResponse, AssociateFirewallPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -259,7 +262,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<AssociateSubnetsInput, AssociateSubnetsOutputResponse, AssociateSubnetsOutputError>(id: "associateSubnets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSubnetsInput, AssociateSubnetsOutputResponse, AssociateSubnetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSubnetsInput, AssociateSubnetsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<AssociateSubnetsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSubnetsOutputResponse, AssociateSubnetsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -294,7 +300,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateFirewallInput, CreateFirewallOutputResponse, CreateFirewallOutputError>(id: "createFirewall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFirewallInput, CreateFirewallOutputResponse, CreateFirewallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFirewallInput, CreateFirewallOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateFirewallOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFirewallOutputResponse, CreateFirewallOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -329,7 +338,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateFirewallPolicyInput, CreateFirewallPolicyOutputResponse, CreateFirewallPolicyOutputError>(id: "createFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutputResponse, CreateFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateFirewallPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFirewallPolicyOutputResponse, CreateFirewallPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -364,7 +376,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateRuleGroupInput, CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>(id: "createRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRuleGroupInput, CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRuleGroupInput, CreateRuleGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateRuleGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -399,7 +414,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteFirewallInput, DeleteFirewallOutputResponse, DeleteFirewallOutputError>(id: "deleteFirewall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFirewallInput, DeleteFirewallOutputResponse, DeleteFirewallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFirewallInput, DeleteFirewallOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteFirewallOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFirewallOutputResponse, DeleteFirewallOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -434,7 +452,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutputResponse, DeleteFirewallPolicyOutputError>(id: "deleteFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutputResponse, DeleteFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteFirewallPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFirewallPolicyOutputResponse, DeleteFirewallPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -469,7 +490,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteResourcePolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -504,7 +528,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteRuleGroupInput, DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>(id: "deleteRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteRuleGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -539,7 +566,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeFirewallInput, DescribeFirewallOutputResponse, DescribeFirewallOutputError>(id: "describeFirewall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFirewallInput, DescribeFirewallOutputResponse, DescribeFirewallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFirewallInput, DescribeFirewallOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeFirewallOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFirewallOutputResponse, DescribeFirewallOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -574,7 +604,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutputResponse, DescribeFirewallPolicyOutputError>(id: "describeFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutputResponse, DescribeFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeFirewallPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFirewallPolicyOutputResponse, DescribeFirewallPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -609,7 +642,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutputResponse, DescribeLoggingConfigurationOutputError>(id: "describeLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutputResponse, DescribeLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeLoggingConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLoggingConfigurationOutputResponse, DescribeLoggingConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -644,7 +680,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(id: "describeResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeResourcePolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -679,7 +718,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeRuleGroupInput, DescribeRuleGroupOutputResponse, DescribeRuleGroupOutputError>(id: "describeRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutputResponse, DescribeRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeRuleGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRuleGroupOutputResponse, DescribeRuleGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -714,7 +756,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutputResponse, DescribeRuleGroupMetadataOutputError>(id: "describeRuleGroupMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutputResponse, DescribeRuleGroupMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeRuleGroupMetadataOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRuleGroupMetadataOutputResponse, DescribeRuleGroupMetadataOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -749,7 +794,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<DisassociateSubnetsInput, DisassociateSubnetsOutputResponse, DisassociateSubnetsOutputError>(id: "disassociateSubnets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutputResponse, DisassociateSubnetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DisassociateSubnetsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSubnetsOutputResponse, DisassociateSubnetsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -784,7 +832,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<ListFirewallPoliciesInput, ListFirewallPoliciesOutputResponse, ListFirewallPoliciesOutputError>(id: "listFirewallPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutputResponse, ListFirewallPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListFirewallPoliciesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFirewallPoliciesOutputResponse, ListFirewallPoliciesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -819,7 +870,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<ListFirewallsInput, ListFirewallsOutputResponse, ListFirewallsOutputError>(id: "listFirewalls")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFirewallsInput, ListFirewallsOutputResponse, ListFirewallsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFirewallsInput, ListFirewallsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListFirewallsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFirewallsOutputResponse, ListFirewallsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -854,7 +908,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<ListRuleGroupsInput, ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>(id: "listRuleGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRuleGroupsInput, ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRuleGroupsInput, ListRuleGroupsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListRuleGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -889,7 +946,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListTagsForResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -931,7 +991,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(id: "putResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<PutResourcePolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -966,7 +1029,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<TagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1001,7 +1067,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UntagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1036,7 +1105,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutputResponse, UpdateFirewallDeleteProtectionOutputError>(id: "updateFirewallDeleteProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutputResponse, UpdateFirewallDeleteProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateFirewallDeleteProtectionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFirewallDeleteProtectionOutputResponse, UpdateFirewallDeleteProtectionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1071,7 +1143,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutputResponse, UpdateFirewallDescriptionOutputError>(id: "updateFirewallDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutputResponse, UpdateFirewallDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateFirewallDescriptionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFirewallDescriptionOutputResponse, UpdateFirewallDescriptionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1106,7 +1181,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutputResponse, UpdateFirewallEncryptionConfigurationOutputError>(id: "updateFirewallEncryptionConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutputResponse, UpdateFirewallEncryptionConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateFirewallEncryptionConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFirewallEncryptionConfigurationOutputResponse, UpdateFirewallEncryptionConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1141,7 +1219,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutputResponse, UpdateFirewallPolicyOutputError>(id: "updateFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutputResponse, UpdateFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateFirewallPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFirewallPolicyOutputResponse, UpdateFirewallPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1176,7 +1257,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutputResponse, UpdateFirewallPolicyChangeProtectionOutputError>(id: "updateFirewallPolicyChangeProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutputResponse, UpdateFirewallPolicyChangeProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateFirewallPolicyChangeProtectionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFirewallPolicyChangeProtectionOutputResponse, UpdateFirewallPolicyChangeProtectionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1220,7 +1304,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutputResponse, UpdateLoggingConfigurationOutputError>(id: "updateLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutputResponse, UpdateLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateLoggingConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLoggingConfigurationOutputResponse, UpdateLoggingConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1255,7 +1342,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateRuleGroupInput, UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>(id: "updateRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateRuleGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1290,7 +1380,10 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutputResponse, UpdateSubnetChangeProtectionOutputError>(id: "updateSubnetChangeProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutputResponse, UpdateSubnetChangeProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateSubnetChangeProtectionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSubnetChangeProtectionOutputResponse, UpdateSubnetChangeProtectionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

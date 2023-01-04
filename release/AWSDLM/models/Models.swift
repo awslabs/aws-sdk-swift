@@ -12,8 +12,8 @@ extension DLMClientTypes.Action: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let crossRegionCopy = crossRegionCopy {
             var crossRegionCopyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .crossRegionCopy)
-            for crossregioncopyactionlist0 in crossRegionCopy {
-                try crossRegionCopyContainer.encode(crossregioncopyactionlist0)
+            for crossregioncopyaction0 in crossRegionCopy {
+                try crossRegionCopyContainer.encode(crossregioncopyaction0)
             }
         }
         if let name = self.name {
@@ -158,8 +158,8 @@ extension CreateLifecyclePolicyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -336,8 +336,8 @@ extension DLMClientTypes.CreateRule: Swift.Codable {
         }
         if let times = times {
             var timesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .times)
-            for timeslist0 in times {
-                try timesContainer.encode(timeslist0)
+            for time0 in times {
+                try timesContainer.encode(time0)
             }
         }
     }
@@ -830,8 +830,8 @@ extension DLMClientTypes.EventParameters: Swift.Codable {
         }
         if let snapshotOwner = snapshotOwner {
             var snapshotOwnerContainer = encodeContainer.nestedUnkeyedContainer(forKey: .snapshotOwner)
-            for snapshotownerlist0 in snapshotOwner {
-                try snapshotOwnerContainer.encode(snapshotownerlist0)
+            for awsaccountid0 in snapshotOwner {
+                try snapshotOwnerContainer.encode(awsaccountid0)
             }
         }
     }
@@ -999,8 +999,8 @@ extension DLMClientTypes.FastRestoreRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzonelist0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzonelist0)
+            for availabilityzone0 in availabilityZones {
+                try availabilityZonesContainer.encode(availabilityzone0)
             }
         }
         if count != 0 {
@@ -1590,8 +1590,8 @@ extension DLMClientTypes.LifecyclePolicy: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1707,8 +1707,8 @@ extension DLMClientTypes.LifecyclePolicySummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1993,8 +1993,8 @@ extension DLMClientTypes.Parameters: Swift.Codable {
         }
         if let excludeDataVolumeTags = excludeDataVolumeTags {
             var excludeDataVolumeTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeDataVolumeTags)
-            for excludedatavolumetaglist0 in excludeDataVolumeTags {
-                try excludeDataVolumeTagsContainer.encode(excludedatavolumetaglist0)
+            for tag0 in excludeDataVolumeTags {
+                try excludeDataVolumeTagsContainer.encode(tag0)
             }
         }
         if let noReboot = self.noReboot {
@@ -2062,8 +2062,8 @@ extension DLMClientTypes.PolicyDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionlist0 in actions {
-                try actionsContainer.encode(actionlist0)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
             }
         }
         if let eventSource = self.eventSource {
@@ -2077,26 +2077,26 @@ extension DLMClientTypes.PolicyDetails: Swift.Codable {
         }
         if let resourceLocations = resourceLocations {
             var resourceLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceLocations)
-            for resourcelocationlist0 in resourceLocations {
-                try resourceLocationsContainer.encode(resourcelocationlist0.rawValue)
+            for resourcelocationvalues0 in resourceLocations {
+                try resourceLocationsContainer.encode(resourcelocationvalues0.rawValue)
             }
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for resourcetypevalueslist0 in resourceTypes {
-                try resourceTypesContainer.encode(resourcetypevalueslist0.rawValue)
+            for resourcetypevalues0 in resourceTypes {
+                try resourceTypesContainer.encode(resourcetypevalues0.rawValue)
             }
         }
         if let schedules = schedules {
             var schedulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schedules)
-            for schedulelist0 in schedules {
-                try schedulesContainer.encode(schedulelist0)
+            for schedule0 in schedules {
+                try schedulesContainer.encode(schedule0)
             }
         }
         if let targetTags = targetTags {
             var targetTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetTags)
-            for targettaglist0 in targetTags {
-                try targetTagsContainer.encode(targettaglist0)
+            for tag0 in targetTags {
+                try targetTagsContainer.encode(tag0)
             }
         }
     }
@@ -2580,8 +2580,8 @@ extension DLMClientTypes.Schedule: Swift.Codable {
         }
         if let crossRegionCopyRules = crossRegionCopyRules {
             var crossRegionCopyRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .crossRegionCopyRules)
-            for crossregioncopyrules0 in crossRegionCopyRules {
-                try crossRegionCopyRulesContainer.encode(crossregioncopyrules0)
+            for crossregioncopyrule0 in crossRegionCopyRules {
+                try crossRegionCopyRulesContainer.encode(crossregioncopyrule0)
             }
         }
         if let deprecateRule = self.deprecateRule {
@@ -2598,20 +2598,20 @@ extension DLMClientTypes.Schedule: Swift.Codable {
         }
         if let shareRules = shareRules {
             var shareRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shareRules)
-            for sharerules0 in shareRules {
-                try shareRulesContainer.encode(sharerules0)
+            for sharerule0 in shareRules {
+                try shareRulesContainer.encode(sharerule0)
             }
         }
         if let tagsToAdd = tagsToAdd {
             var tagsToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsToAdd)
-            for tagstoaddlist0 in tagsToAdd {
-                try tagsToAddContainer.encode(tagstoaddlist0)
+            for tag0 in tagsToAdd {
+                try tagsToAddContainer.encode(tag0)
             }
         }
         if let variableTags = variableTags {
             var variableTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variableTags)
-            for variabletagslist0 in variableTags {
-                try variableTagsContainer.encode(variabletagslist0)
+            for tag0 in variableTags {
+                try variableTagsContainer.encode(tag0)
             }
         }
     }
@@ -2778,8 +2778,8 @@ extension DLMClientTypes.ShareRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetAccounts = targetAccounts {
             var targetAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetAccounts)
-            for sharetargetaccountlist0 in targetAccounts {
-                try targetAccountsContainer.encode(sharetargetaccountlist0)
+            for awsaccountid0 in targetAccounts {
+                try targetAccountsContainer.encode(awsaccountid0)
             }
         }
         if unshareInterval != 0 {
@@ -2891,8 +2891,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

@@ -224,7 +224,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<AddInstanceFleetInput, AddInstanceFleetOutputResponse, AddInstanceFleetOutputError>(id: "addInstanceFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddInstanceFleetInput, AddInstanceFleetOutputResponse, AddInstanceFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddInstanceFleetInput, AddInstanceFleetOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<AddInstanceFleetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddInstanceFleetOutputResponse, AddInstanceFleetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -259,7 +262,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<AddInstanceGroupsInput, AddInstanceGroupsOutputResponse, AddInstanceGroupsOutputError>(id: "addInstanceGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutputResponse, AddInstanceGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<AddInstanceGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddInstanceGroupsOutputResponse, AddInstanceGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -276,7 +282,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// AddJobFlowSteps adds new steps to a running cluster. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using SSH to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For more information on how to do this, see [Add More than 256 Steps to a Cluster](https://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html) in the Amazon EMR Management Guide. A step specifies the location of a JAR file stored either on the master node of the cluster or in Amazon S3. Each step is performed by the main function of the main class of the JAR file. The main class can be specified either in the manifest of the JAR or by using the MainFunction parameter of the step. Amazon EMR executes each step in the order listed. For a step to be considered complete, the main function must exit with a zero exit code and all Hadoop jobs started while the step was running must have completed and run successfully. You can only add steps to a cluster that is in one of the following states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING. The string values passed into HadoopJarStep object cannot exceed a total of 10240 characters.
+    /// AddJobFlowSteps adds new steps to a running cluster. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using SSH to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. A step specifies the location of a JAR file stored either on the master node of the cluster or in Amazon S3. Each step is performed by the main function of the main class of the JAR file. The main class can be specified either in the manifest of the JAR or by using the MainFunction parameter of the step. Amazon EMR executes each step in the order listed. For a step to be considered complete, the main function must exit with a zero exit code and all Hadoop jobs started while the step was running must have completed and run successfully. You can only add steps to a cluster that is in one of the following states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING. The string values passed into HadoopJarStep object cannot exceed a total of 10240 characters.
     public func addJobFlowSteps(input: AddJobFlowStepsInput) async throws -> AddJobFlowStepsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -294,7 +300,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<AddJobFlowStepsInput, AddJobFlowStepsOutputResponse, AddJobFlowStepsOutputError>(id: "addJobFlowSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutputResponse, AddJobFlowStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<AddJobFlowStepsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddJobFlowStepsOutputResponse, AddJobFlowStepsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -329,7 +338,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>(id: "addTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<AddTagsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsOutputResponse, AddTagsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -364,7 +376,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<CancelStepsInput, CancelStepsOutputResponse, CancelStepsOutputError>(id: "cancelSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelStepsInput, CancelStepsOutputResponse, CancelStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelStepsInput, CancelStepsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CancelStepsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelStepsOutputResponse, CancelStepsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -399,7 +414,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutputResponse, CreateSecurityConfigurationOutputError>(id: "createSecurityConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutputResponse, CreateSecurityConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateSecurityConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSecurityConfigurationOutputResponse, CreateSecurityConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -434,7 +452,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateStudioInput, CreateStudioOutputResponse, CreateStudioOutputError>(id: "createStudio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStudioInput, CreateStudioOutputResponse, CreateStudioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStudioInput, CreateStudioOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateStudioOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStudioOutputResponse, CreateStudioOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -451,7 +472,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a session policy to refine Studio permissions for that user or group. Use CreateStudioSessionMapping to assign users to a Studio when you use Amazon Web Services SSO authentication. For instructions on how to assign users to a Studio when you use IAM authentication, see [Assign a user or group to your EMR Studio](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-studio-manage-users.html#emr-studio-assign-users-groups).
+    /// Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a session policy to refine Studio permissions for that user or group. Use CreateStudioSessionMapping to assign users to a Studio when you use IAM Identity Center authentication. For instructions on how to assign users to a Studio when you use IAM authentication, see [Assign a user or group to your EMR Studio](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-studio-manage-users.html#emr-studio-assign-users-groups).
     public func createStudioSessionMapping(input: CreateStudioSessionMappingInput) async throws -> CreateStudioSessionMappingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -469,7 +490,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutputResponse, CreateStudioSessionMappingOutputError>(id: "createStudioSessionMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutputResponse, CreateStudioSessionMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateStudioSessionMappingOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStudioSessionMappingOutputResponse, CreateStudioSessionMappingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -504,7 +528,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutputResponse, DeleteSecurityConfigurationOutputError>(id: "deleteSecurityConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutputResponse, DeleteSecurityConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteSecurityConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSecurityConfigurationOutputResponse, DeleteSecurityConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -539,7 +566,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteStudioInput, DeleteStudioOutputResponse, DeleteStudioOutputError>(id: "deleteStudio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStudioInput, DeleteStudioOutputResponse, DeleteStudioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStudioInput, DeleteStudioOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteStudioOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStudioOutputResponse, DeleteStudioOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -574,7 +604,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutputResponse, DeleteStudioSessionMappingOutputError>(id: "deleteStudioSessionMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutputResponse, DeleteStudioSessionMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteStudioSessionMappingOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStudioSessionMappingOutputResponse, DeleteStudioSessionMappingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -609,7 +642,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeClusterInput, DescribeClusterOutputResponse, DescribeClusterOutputError>(id: "describeCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterInput, DescribeClusterOutputResponse, DescribeClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterInput, DescribeClusterOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeClusterOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeClusterOutputResponse, DescribeClusterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -652,7 +688,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeJobFlowsInput, DescribeJobFlowsOutputResponse, DescribeJobFlowsOutputError>(id: "describeJobFlows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutputResponse, DescribeJobFlowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeJobFlowsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeJobFlowsOutputResponse, DescribeJobFlowsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -687,7 +726,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutputResponse, DescribeNotebookExecutionOutputError>(id: "describeNotebookExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutputResponse, DescribeNotebookExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeNotebookExecutionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeNotebookExecutionOutputResponse, DescribeNotebookExecutionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -722,7 +764,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeReleaseLabelInput, DescribeReleaseLabelOutputResponse, DescribeReleaseLabelOutputError>(id: "describeReleaseLabel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutputResponse, DescribeReleaseLabelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeReleaseLabelOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReleaseLabelOutputResponse, DescribeReleaseLabelOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -757,7 +802,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutputResponse, DescribeSecurityConfigurationOutputError>(id: "describeSecurityConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutputResponse, DescribeSecurityConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeSecurityConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSecurityConfigurationOutputResponse, DescribeSecurityConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -792,7 +840,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeStepInput, DescribeStepOutputResponse, DescribeStepOutputError>(id: "describeStep")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStepInput, DescribeStepOutputResponse, DescribeStepOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStepInput, DescribeStepOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeStepOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStepOutputResponse, DescribeStepOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -827,7 +878,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeStudioInput, DescribeStudioOutputResponse, DescribeStudioOutputError>(id: "describeStudio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStudioInput, DescribeStudioOutputResponse, DescribeStudioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStudioInput, DescribeStudioOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeStudioOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStudioOutputResponse, DescribeStudioOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -862,7 +916,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutputResponse, GetAutoTerminationPolicyOutputError>(id: "getAutoTerminationPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutputResponse, GetAutoTerminationPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<GetAutoTerminationPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAutoTerminationPolicyOutputResponse, GetAutoTerminationPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -897,7 +954,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>(id: "getBlockPublicAccessConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<GetBlockPublicAccessConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -910,6 +970,44 @@ extension EMRClient: EMRClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Provides Temporary, basic HTTP credentials that are associated with a given runtime IAM role and used by a cluster with fine-grained access control activated. You can use these credentials to connect to cluster endpoints that support username-based and password-based authentication.
+    public func getClusterSessionCredentials(input: GetClusterSessionCredentialsInput) async throws -> GetClusterSessionCredentialsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getClusterSessionCredentials")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "elasticmapreduce")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>(id: "getClusterSessionCredentials")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutputResponse>())
+        guard let region = config.region else {
+            throw SdkError<GetClusterSessionCredentialsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutputResponse>(xAmzTarget: "ElasticMapReduce.GetClusterSessionCredentials"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutputResponse>(xmlName: "GetClusterSessionCredentialsInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -932,7 +1030,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutputResponse, GetManagedScalingPolicyOutputError>(id: "getManagedScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutputResponse, GetManagedScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<GetManagedScalingPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetManagedScalingPolicyOutputResponse, GetManagedScalingPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -967,7 +1068,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<GetStudioSessionMappingInput, GetStudioSessionMappingOutputResponse, GetStudioSessionMappingOutputError>(id: "getStudioSessionMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutputResponse, GetStudioSessionMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<GetStudioSessionMappingOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStudioSessionMappingOutputResponse, GetStudioSessionMappingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1002,7 +1106,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListBootstrapActionsInput, ListBootstrapActionsOutputResponse, ListBootstrapActionsOutputError>(id: "listBootstrapActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutputResponse, ListBootstrapActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListBootstrapActionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBootstrapActionsOutputResponse, ListBootstrapActionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1037,7 +1144,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListClustersInput, ListClustersOutputResponse, ListClustersOutputError>(id: "listClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutputResponse, ListClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClustersInput, ListClustersOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListClustersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListClustersOutputResponse, ListClustersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1072,7 +1182,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListInstanceFleetsInput, ListInstanceFleetsOutputResponse, ListInstanceFleetsOutputError>(id: "listInstanceFleets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutputResponse, ListInstanceFleetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListInstanceFleetsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceFleetsOutputResponse, ListInstanceFleetsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1107,7 +1220,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListInstanceGroupsInput, ListInstanceGroupsOutputResponse, ListInstanceGroupsOutputError>(id: "listInstanceGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutputResponse, ListInstanceGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListInstanceGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceGroupsOutputResponse, ListInstanceGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1142,7 +1258,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>(id: "listInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListInstancesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1177,7 +1296,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListNotebookExecutionsInput, ListNotebookExecutionsOutputResponse, ListNotebookExecutionsOutputError>(id: "listNotebookExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutputResponse, ListNotebookExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListNotebookExecutionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNotebookExecutionsOutputResponse, ListNotebookExecutionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1212,7 +1334,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListReleaseLabelsInput, ListReleaseLabelsOutputResponse, ListReleaseLabelsOutputError>(id: "listReleaseLabels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutputResponse, ListReleaseLabelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListReleaseLabelsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListReleaseLabelsOutputResponse, ListReleaseLabelsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1247,7 +1372,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutputResponse, ListSecurityConfigurationsOutputError>(id: "listSecurityConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutputResponse, ListSecurityConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListSecurityConfigurationsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSecurityConfigurationsOutputResponse, ListSecurityConfigurationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1282,7 +1410,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListStepsInput, ListStepsOutputResponse, ListStepsOutputError>(id: "listSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStepsInput, ListStepsOutputResponse, ListStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStepsInput, ListStepsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListStepsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStepsOutputResponse, ListStepsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1317,7 +1448,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutputResponse, ListStudioSessionMappingsOutputError>(id: "listStudioSessionMappings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutputResponse, ListStudioSessionMappingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListStudioSessionMappingsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStudioSessionMappingsOutputResponse, ListStudioSessionMappingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1352,7 +1486,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ListStudiosInput, ListStudiosOutputResponse, ListStudiosOutputError>(id: "listStudios")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStudiosInput, ListStudiosOutputResponse, ListStudiosOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStudiosInput, ListStudiosOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListStudiosOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStudiosOutputResponse, ListStudiosOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1387,7 +1524,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyClusterInput, ModifyClusterOutputResponse, ModifyClusterOutputError>(id: "modifyCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterInput, ModifyClusterOutputResponse, ModifyClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterInput, ModifyClusterOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ModifyClusterOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyClusterOutputResponse, ModifyClusterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1422,7 +1562,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyInstanceFleetInput, ModifyInstanceFleetOutputResponse, ModifyInstanceFleetOutputError>(id: "modifyInstanceFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutputResponse, ModifyInstanceFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ModifyInstanceFleetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyInstanceFleetOutputResponse, ModifyInstanceFleetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1457,7 +1600,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutputResponse, ModifyInstanceGroupsOutputError>(id: "modifyInstanceGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutputResponse, ModifyInstanceGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ModifyInstanceGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyInstanceGroupsOutputResponse, ModifyInstanceGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1492,7 +1638,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutputResponse, PutAutoScalingPolicyOutputError>(id: "putAutoScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutputResponse, PutAutoScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<PutAutoScalingPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAutoScalingPolicyOutputResponse, PutAutoScalingPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1527,7 +1676,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutputResponse, PutAutoTerminationPolicyOutputError>(id: "putAutoTerminationPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutputResponse, PutAutoTerminationPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<PutAutoTerminationPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAutoTerminationPolicyOutputResponse, PutAutoTerminationPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1562,7 +1714,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutputResponse, PutBlockPublicAccessConfigurationOutputError>(id: "putBlockPublicAccessConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutputResponse, PutBlockPublicAccessConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<PutBlockPublicAccessConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBlockPublicAccessConfigurationOutputResponse, PutBlockPublicAccessConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1597,7 +1752,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutputResponse, PutManagedScalingPolicyOutputError>(id: "putManagedScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutputResponse, PutManagedScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<PutManagedScalingPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutManagedScalingPolicyOutputResponse, PutManagedScalingPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1632,7 +1790,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutputResponse, RemoveAutoScalingPolicyOutputError>(id: "removeAutoScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutputResponse, RemoveAutoScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<RemoveAutoScalingPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveAutoScalingPolicyOutputResponse, RemoveAutoScalingPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1667,7 +1828,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutputResponse, RemoveAutoTerminationPolicyOutputError>(id: "removeAutoTerminationPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutputResponse, RemoveAutoTerminationPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<RemoveAutoTerminationPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveAutoTerminationPolicyOutputResponse, RemoveAutoTerminationPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1702,7 +1866,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutputResponse, RemoveManagedScalingPolicyOutputError>(id: "removeManagedScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutputResponse, RemoveManagedScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<RemoveManagedScalingPolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveManagedScalingPolicyOutputResponse, RemoveManagedScalingPolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1737,7 +1904,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>(id: "removeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<RemoveTagsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1754,7 +1924,7 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
-    /// RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps specified. After the steps complete, the cluster stops and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the [JobFlowInstancesConfig]KeepJobFlowAliveWhenNoSteps parameter is set to TRUE, the cluster transitions to the WAITING state rather than shutting down after the steps have completed. For additional protection, you can set the [JobFlowInstancesConfig]TerminationProtected parameter to TRUE to lock the cluster and prevent it from being terminated by API call, user intervention, or in the event of a job flow error. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For more information on how to do this, see [Add More than 256 Steps to a Cluster](https://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html) in the Amazon EMR Management Guide. For long running clusters, we recommend that you periodically store your results. The instance fleets configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can contain InstanceFleets parameters or InstanceGroups parameters, but not both.
+    /// RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps specified. After the steps complete, the cluster stops and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the [JobFlowInstancesConfig]KeepJobFlowAliveWhenNoSteps parameter is set to TRUE, the cluster transitions to the WAITING state rather than shutting down after the steps have completed. For additional protection, you can set the [JobFlowInstancesConfig]TerminationProtected parameter to TRUE to lock the cluster and prevent it from being terminated by API call, user intervention, or in the event of a job flow error. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For long-running clusters, we recommend that you periodically store your results. The instance fleets configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can contain InstanceFleets parameters or InstanceGroups parameters, but not both.
     public func runJobFlow(input: RunJobFlowInput) async throws -> RunJobFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1772,7 +1942,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<RunJobFlowInput, RunJobFlowOutputResponse, RunJobFlowOutputError>(id: "runJobFlow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RunJobFlowInput, RunJobFlowOutputResponse, RunJobFlowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RunJobFlowInput, RunJobFlowOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<RunJobFlowOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RunJobFlowOutputResponse, RunJobFlowOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1807,7 +1980,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<SetTerminationProtectionInput, SetTerminationProtectionOutputResponse, SetTerminationProtectionOutputError>(id: "setTerminationProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutputResponse, SetTerminationProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<SetTerminationProtectionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetTerminationProtectionOutputResponse, SetTerminationProtectionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1842,7 +2018,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutputResponse, SetVisibleToAllUsersOutputError>(id: "setVisibleToAllUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutputResponse, SetVisibleToAllUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<SetVisibleToAllUsersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetVisibleToAllUsersOutputResponse, SetVisibleToAllUsersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1877,7 +2056,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<StartNotebookExecutionInput, StartNotebookExecutionOutputResponse, StartNotebookExecutionOutputError>(id: "startNotebookExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutputResponse, StartNotebookExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<StartNotebookExecutionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartNotebookExecutionOutputResponse, StartNotebookExecutionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1912,7 +2094,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<StopNotebookExecutionInput, StopNotebookExecutionOutputResponse, StopNotebookExecutionOutputError>(id: "stopNotebookExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutputResponse, StopNotebookExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<StopNotebookExecutionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopNotebookExecutionOutputResponse, StopNotebookExecutionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1947,7 +2132,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<TerminateJobFlowsInput, TerminateJobFlowsOutputResponse, TerminateJobFlowsOutputError>(id: "terminateJobFlows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutputResponse, TerminateJobFlowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<TerminateJobFlowsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TerminateJobFlowsOutputResponse, TerminateJobFlowsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1982,7 +2170,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateStudioInput, UpdateStudioOutputResponse, UpdateStudioOutputError>(id: "updateStudio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStudioInput, UpdateStudioOutputResponse, UpdateStudioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStudioInput, UpdateStudioOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateStudioOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStudioOutputResponse, UpdateStudioOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2017,7 +2208,10 @@ extension EMRClient: EMRClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutputResponse, UpdateStudioSessionMappingOutputError>(id: "updateStudioSessionMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutputResponse, UpdateStudioSessionMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateStudioSessionMappingOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStudioSessionMappingOutputResponse, UpdateStudioSessionMappingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

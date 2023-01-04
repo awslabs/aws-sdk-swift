@@ -13,8 +13,8 @@ extension IoTAnalyticsClientTypes.AddAttributesActivity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, attributenamemapping0) in attributes {
-                try attributesContainer.encode(attributenamemapping0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeNameMapping0) in attributes {
+                try attributesContainer.encode(attributeNameMapping0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -139,8 +139,8 @@ extension BatchPutMessageInput: Swift.Encodable {
         }
         if let messages = messages {
             var messagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messages)
-            for messages0 in messages {
-                try messagesContainer.encode(messages0)
+            for message0 in messages {
+                try messagesContainer.encode(message0)
             }
         }
     }
@@ -544,8 +544,8 @@ extension IoTAnalyticsClientTypes.ChannelMessages: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let s3Paths = s3Paths {
             var s3PathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Paths)
-            for s3pathchannelmessages0 in s3Paths {
-                try s3PathsContainer.encode(s3pathchannelmessages0)
+            for s3pathchannelmessage0 in s3Paths {
+                try s3PathsContainer.encode(s3pathchannelmessage0)
             }
         }
     }
@@ -927,8 +927,8 @@ extension IoTAnalyticsClientTypes.ContainerDatasetAction: Swift.Codable {
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variables)
-            for variables0 in variables {
-                try variablesContainer.encode(variables0)
+            for variable0 in variables {
+                try variablesContainer.encode(variable0)
             }
         }
     }
@@ -1007,8 +1007,8 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1317,14 +1317,14 @@ extension CreateDatasetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for datasetactions0 in actions {
-                try actionsContainer.encode(datasetactions0)
+            for datasetaction0 in actions {
+                try actionsContainer.encode(datasetaction0)
             }
         }
         if let contentDeliveryRules = contentDeliveryRules {
             var contentDeliveryRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contentDeliveryRules)
-            for datasetcontentdeliveryrules0 in contentDeliveryRules {
-                try contentDeliveryRulesContainer.encode(datasetcontentdeliveryrules0)
+            for datasetcontentdeliveryrule0 in contentDeliveryRules {
+                try contentDeliveryRulesContainer.encode(datasetcontentdeliveryrule0)
             }
         }
         if let datasetName = self.datasetName {
@@ -1332,8 +1332,8 @@ extension CreateDatasetInput: Swift.Encodable {
         }
         if let lateDataRules = lateDataRules {
             var lateDataRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lateDataRules)
-            for latedatarules0 in lateDataRules {
-                try lateDataRulesContainer.encode(latedatarules0)
+            for latedatarule0 in lateDataRules {
+                try lateDataRulesContainer.encode(latedatarule0)
             }
         }
         if let retentionPeriod = self.retentionPeriod {
@@ -1341,14 +1341,14 @@ extension CreateDatasetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let triggers = triggers {
             var triggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggers)
-            for datasettriggers0 in triggers {
-                try triggersContainer.encode(datasettriggers0)
+            for datasettrigger0 in triggers {
+                try triggersContainer.encode(datasettrigger0)
             }
         }
         if let versioningConfiguration = self.versioningConfiguration {
@@ -1616,8 +1616,8 @@ extension CreateDatastoreInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1811,8 +1811,8 @@ extension CreatePipelineInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pipelineActivities = pipelineActivities {
             var pipelineActivitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineActivities)
-            for pipelineactivities0 in pipelineActivities {
-                try pipelineActivitiesContainer.encode(pipelineactivities0)
+            for pipelineactivity0 in pipelineActivities {
+                try pipelineActivitiesContainer.encode(pipelineactivity0)
             }
         }
         if let pipelineName = self.pipelineName {
@@ -1820,8 +1820,8 @@ extension CreatePipelineInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2223,8 +2223,8 @@ extension IoTAnalyticsClientTypes.Dataset: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for datasetactions0 in actions {
-                try actionsContainer.encode(datasetactions0)
+            for datasetaction0 in actions {
+                try actionsContainer.encode(datasetaction0)
             }
         }
         if let arn = self.arn {
@@ -2232,8 +2232,8 @@ extension IoTAnalyticsClientTypes.Dataset: Swift.Codable {
         }
         if let contentDeliveryRules = contentDeliveryRules {
             var contentDeliveryRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contentDeliveryRules)
-            for datasetcontentdeliveryrules0 in contentDeliveryRules {
-                try contentDeliveryRulesContainer.encode(datasetcontentdeliveryrules0)
+            for datasetcontentdeliveryrule0 in contentDeliveryRules {
+                try contentDeliveryRulesContainer.encode(datasetcontentdeliveryrule0)
             }
         }
         if let creationTime = self.creationTime {
@@ -2244,8 +2244,8 @@ extension IoTAnalyticsClientTypes.Dataset: Swift.Codable {
         }
         if let lateDataRules = lateDataRules {
             var lateDataRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lateDataRules)
-            for latedatarules0 in lateDataRules {
-                try lateDataRulesContainer.encode(latedatarules0)
+            for latedatarule0 in lateDataRules {
+                try lateDataRulesContainer.encode(latedatarule0)
             }
         }
         if let name = self.name {
@@ -2259,8 +2259,8 @@ extension IoTAnalyticsClientTypes.Dataset: Swift.Codable {
         }
         if let triggers = triggers {
             var triggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggers)
-            for datasettriggers0 in triggers {
-                try triggersContainer.encode(datasettriggers0)
+            for datasettrigger0 in triggers {
+                try triggersContainer.encode(datasettrigger0)
             }
         }
         if let versioningConfiguration = self.versioningConfiguration {
@@ -2895,8 +2895,8 @@ extension IoTAnalyticsClientTypes.DatasetSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for datasetactionsummaries0 in actions {
-                try actionsContainer.encode(datasetactionsummaries0)
+            for datasetactionsummary0 in actions {
+                try actionsContainer.encode(datasetactionsummary0)
             }
         }
         if let creationTime = self.creationTime {
@@ -2913,8 +2913,8 @@ extension IoTAnalyticsClientTypes.DatasetSummary: Swift.Codable {
         }
         if let triggers = triggers {
             var triggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggers)
-            for datasettriggers0 in triggers {
-                try triggersContainer.encode(datasettriggers0)
+            for datasettrigger0 in triggers {
+                try triggersContainer.encode(datasettrigger0)
             }
         }
     }
@@ -3332,8 +3332,8 @@ extension IoTAnalyticsClientTypes.DatastorePartitions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let partitions = partitions {
             var partitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitions)
-            for partitions0 in partitions {
-                try partitionsContainer.encode(partitions0)
+            for datastorepartition0 in partitions {
+                try partitionsContainer.encode(datastorepartition0)
             }
         }
     }
@@ -6814,8 +6814,8 @@ extension IoTAnalyticsClientTypes.Pipeline: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activities = activities {
             var activitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .activities)
-            for pipelineactivities0 in activities {
-                try activitiesContainer.encode(pipelineactivities0)
+            for pipelineactivity0 in activities {
+                try activitiesContainer.encode(pipelineactivity0)
             }
         }
         if let arn = self.arn {
@@ -6832,8 +6832,8 @@ extension IoTAnalyticsClientTypes.Pipeline: Swift.Codable {
         }
         if let reprocessingSummaries = reprocessingSummaries {
             var reprocessingSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reprocessingSummaries)
-            for reprocessingsummaries0 in reprocessingSummaries {
-                try reprocessingSummariesContainer.encode(reprocessingsummaries0)
+            for reprocessingsummary0 in reprocessingSummaries {
+                try reprocessingSummariesContainer.encode(reprocessingsummary0)
             }
         }
     }
@@ -7055,8 +7055,8 @@ extension IoTAnalyticsClientTypes.PipelineSummary: Swift.Codable {
         }
         if let reprocessingSummaries = reprocessingSummaries {
             var reprocessingSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reprocessingSummaries)
-            for reprocessingsummaries0 in reprocessingSummaries {
-                try reprocessingSummariesContainer.encode(reprocessingsummaries0)
+            for reprocessingsummary0 in reprocessingSummaries {
+                try reprocessingSummariesContainer.encode(reprocessingsummary0)
             }
         }
     }
@@ -7243,8 +7243,8 @@ extension IoTAnalyticsClientTypes.RemoveAttributesActivity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributenames0 in attributes {
-                try attributesContainer.encode(attributenames0)
+            for attributename0 in attributes {
+                try attributesContainer.encode(attributename0)
             }
         }
         if let name = self.name {
@@ -7620,8 +7620,8 @@ extension RunPipelineActivityInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let payloads = payloads {
             var payloadsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .payloads)
-            for messagepayloads0 in payloads {
-                try payloadsContainer.encode(messagepayloads0.base64EncodedString())
+            for messagepayload0 in payloads {
+                try payloadsContainer.encode(messagepayload0.base64EncodedString())
             }
         }
         if let pipelineActivity = self.pipelineActivity {
@@ -8036,8 +8036,8 @@ extension IoTAnalyticsClientTypes.SchemaDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for columns0 in columns {
-                try columnsContainer.encode(columns0)
+            for column0 in columns {
+                try columnsContainer.encode(column0)
             }
         }
     }
@@ -8085,8 +8085,8 @@ extension IoTAnalyticsClientTypes.SelectAttributesActivity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributenames0 in attributes {
-                try attributesContainer.encode(attributenames0)
+            for attributename0 in attributes {
+                try attributesContainer.encode(attributename0)
             }
         }
         if let name = self.name {
@@ -8285,8 +8285,8 @@ extension IoTAnalyticsClientTypes.SqlQueryDatasetAction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for queryfilters0 in filters {
-                try filtersContainer.encode(queryfilters0)
+            for queryfilter0 in filters {
+                try filtersContainer.encode(queryfilter0)
             }
         }
         if let sqlQuery = self.sqlQuery {
@@ -8541,8 +8541,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -9007,20 +9007,20 @@ extension UpdateDatasetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for datasetactions0 in actions {
-                try actionsContainer.encode(datasetactions0)
+            for datasetaction0 in actions {
+                try actionsContainer.encode(datasetaction0)
             }
         }
         if let contentDeliveryRules = contentDeliveryRules {
             var contentDeliveryRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contentDeliveryRules)
-            for datasetcontentdeliveryrules0 in contentDeliveryRules {
-                try contentDeliveryRulesContainer.encode(datasetcontentdeliveryrules0)
+            for datasetcontentdeliveryrule0 in contentDeliveryRules {
+                try contentDeliveryRulesContainer.encode(datasetcontentdeliveryrule0)
             }
         }
         if let lateDataRules = lateDataRules {
             var lateDataRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lateDataRules)
-            for latedatarules0 in lateDataRules {
-                try lateDataRulesContainer.encode(latedatarules0)
+            for latedatarule0 in lateDataRules {
+                try lateDataRulesContainer.encode(latedatarule0)
             }
         }
         if let retentionPeriod = self.retentionPeriod {
@@ -9028,8 +9028,8 @@ extension UpdateDatasetInput: Swift.Encodable {
         }
         if let triggers = triggers {
             var triggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggers)
-            for datasettriggers0 in triggers {
-                try triggersContainer.encode(datasettriggers0)
+            for datasettrigger0 in triggers {
+                try triggersContainer.encode(datasettrigger0)
             }
         }
         if let versioningConfiguration = self.versioningConfiguration {
@@ -9325,8 +9325,8 @@ extension UpdatePipelineInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pipelineActivities = pipelineActivities {
             var pipelineActivitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineActivities)
-            for pipelineactivities0 in pipelineActivities {
-                try pipelineActivitiesContainer.encode(pipelineactivities0)
+            for pipelineactivity0 in pipelineActivities {
+                try pipelineActivitiesContainer.encode(pipelineactivity0)
             }
         }
     }

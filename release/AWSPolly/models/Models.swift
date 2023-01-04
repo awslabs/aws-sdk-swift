@@ -2152,8 +2152,8 @@ extension StartSpeechSynthesisTaskInput: Swift.Encodable {
         }
         if let lexiconNames = lexiconNames {
             var lexiconNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lexiconNames)
-            for lexiconnamelist0 in lexiconNames {
-                try lexiconNamesContainer.encode(lexiconnamelist0)
+            for lexiconname0 in lexiconNames {
+                try lexiconNamesContainer.encode(lexiconname0)
             }
         }
         if let outputFormat = self.outputFormat {
@@ -2173,8 +2173,8 @@ extension StartSpeechSynthesisTaskInput: Swift.Encodable {
         }
         if let speechMarkTypes = speechMarkTypes {
             var speechMarkTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .speechMarkTypes)
-            for speechmarktypelist0 in speechMarkTypes {
-                try speechMarkTypesContainer.encode(speechmarktypelist0.rawValue)
+            for speechmarktype0 in speechMarkTypes {
+                try speechMarkTypesContainer.encode(speechmarktype0.rawValue)
             }
         }
         if let text = self.text {
@@ -2450,8 +2450,8 @@ extension PollyClientTypes.SynthesisTask: Swift.Codable {
         }
         if let lexiconNames = lexiconNames {
             var lexiconNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lexiconNames)
-            for lexiconnamelist0 in lexiconNames {
-                try lexiconNamesContainer.encode(lexiconnamelist0)
+            for lexiconname0 in lexiconNames {
+                try lexiconNamesContainer.encode(lexiconname0)
             }
         }
         if let outputFormat = self.outputFormat {
@@ -2471,8 +2471,8 @@ extension PollyClientTypes.SynthesisTask: Swift.Codable {
         }
         if let speechMarkTypes = speechMarkTypes {
             var speechMarkTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .speechMarkTypes)
-            for speechmarktypelist0 in speechMarkTypes {
-                try speechMarkTypesContainer.encode(speechmarktypelist0.rawValue)
+            for speechmarktype0 in speechMarkTypes {
+                try speechMarkTypesContainer.encode(speechmarktype0.rawValue)
             }
         }
         if let taskId = self.taskId {
@@ -2692,8 +2692,8 @@ extension SynthesizeSpeechInput: Swift.Encodable {
         }
         if let lexiconNames = lexiconNames {
             var lexiconNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lexiconNames)
-            for lexiconnamelist0 in lexiconNames {
-                try lexiconNamesContainer.encode(lexiconnamelist0)
+            for lexiconname0 in lexiconNames {
+                try lexiconNamesContainer.encode(lexiconname0)
             }
         }
         if let outputFormat = self.outputFormat {
@@ -2704,8 +2704,8 @@ extension SynthesizeSpeechInput: Swift.Encodable {
         }
         if let speechMarkTypes = speechMarkTypes {
             var speechMarkTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .speechMarkTypes)
-            for speechmarktypelist0 in speechMarkTypes {
-                try speechMarkTypesContainer.encode(speechmarktypelist0.rawValue)
+            for speechmarktype0 in speechMarkTypes {
+                try speechMarkTypesContainer.encode(speechmarktype0.rawValue)
             }
         }
         if let text = self.text {
@@ -3336,8 +3336,8 @@ extension PollyClientTypes.Voice: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalLanguageCodes = additionalLanguageCodes {
             var additionalLanguageCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalLanguageCodes)
-            for languagecodelist0 in additionalLanguageCodes {
-                try additionalLanguageCodesContainer.encode(languagecodelist0.rawValue)
+            for languagecode0 in additionalLanguageCodes {
+                try additionalLanguageCodesContainer.encode(languagecode0.rawValue)
             }
         }
         if let gender = self.gender {
@@ -3357,8 +3357,8 @@ extension PollyClientTypes.Voice: Swift.Codable {
         }
         if let supportedEngines = supportedEngines {
             var supportedEnginesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedEngines)
-            for enginelist0 in supportedEngines {
-                try supportedEnginesContainer.encode(enginelist0.rawValue)
+            for engine0 in supportedEngines {
+                try supportedEnginesContainer.encode(engine0.rawValue)
             }
         }
     }

@@ -28,8 +28,8 @@ extension CreateSavingsPlanInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let upfrontPaymentAmount = self.upfrontPaymentAmount {
@@ -322,8 +322,8 @@ extension DescribeSavingsPlanRatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for savingsplanratefilterlist0 in filters {
-                try filtersContainer.encode(savingsplanratefilterlist0)
+            for savingsplanratefilter0 in filters {
+                try filtersContainer.encode(savingsplanratefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -514,8 +514,8 @@ extension DescribeSavingsPlansInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for savingsplanfilterlist0 in filters {
-                try filtersContainer.encode(savingsplanfilterlist0)
+            for savingsplanfilter0 in filters {
+                try filtersContainer.encode(savingsplanfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -526,20 +526,20 @@ extension DescribeSavingsPlansInput: Swift.Encodable {
         }
         if let savingsPlanArns = savingsPlanArns {
             var savingsPlanArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .savingsPlanArns)
-            for savingsplanarnlist0 in savingsPlanArns {
-                try savingsPlanArnsContainer.encode(savingsplanarnlist0)
+            for savingsplanarn0 in savingsPlanArns {
+                try savingsPlanArnsContainer.encode(savingsplanarn0)
             }
         }
         if let savingsPlanIds = savingsPlanIds {
             var savingsPlanIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .savingsPlanIds)
-            for savingsplanidlist0 in savingsPlanIds {
-                try savingsPlanIdsContainer.encode(savingsplanidlist0)
+            for savingsplanid0 in savingsPlanIds {
+                try savingsPlanIdsContainer.encode(savingsplanid0)
             }
         }
         if let states = states {
             var statesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .states)
-            for savingsplanstatelist0 in states {
-                try statesContainer.encode(savingsplanstatelist0.rawValue)
+            for savingsplanstate0 in states {
+                try statesContainer.encode(savingsplanstate0.rawValue)
             }
         }
     }
@@ -673,8 +673,8 @@ extension DescribeSavingsPlansOfferingRatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for savingsplanofferingratefilterslist0 in filters {
-                try filtersContainer.encode(savingsplanofferingratefilterslist0)
+            for savingsplanofferingratefilterelement0 in filters {
+                try filtersContainer.encode(savingsplanofferingratefilterelement0)
             }
         }
         if maxResults != 0 {
@@ -685,44 +685,44 @@ extension DescribeSavingsPlansOfferingRatesInput: Swift.Encodable {
         }
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for savingsplanrateoperationlist0 in operations {
-                try operationsContainer.encode(savingsplanrateoperationlist0)
+            for savingsplanrateoperation0 in operations {
+                try operationsContainer.encode(savingsplanrateoperation0)
             }
         }
         if let products = products {
             var productsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .products)
-            for savingsplanproducttypelist0 in products {
-                try productsContainer.encode(savingsplanproducttypelist0.rawValue)
+            for savingsplanproducttype0 in products {
+                try productsContainer.encode(savingsplanproducttype0.rawValue)
             }
         }
         if let savingsPlanOfferingIds = savingsPlanOfferingIds {
             var savingsPlanOfferingIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .savingsPlanOfferingIds)
-            for uuids0 in savingsPlanOfferingIds {
-                try savingsPlanOfferingIdsContainer.encode(uuids0)
+            for uuid0 in savingsPlanOfferingIds {
+                try savingsPlanOfferingIdsContainer.encode(uuid0)
             }
         }
         if let savingsPlanPaymentOptions = savingsPlanPaymentOptions {
             var savingsPlanPaymentOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .savingsPlanPaymentOptions)
-            for savingsplanpaymentoptionlist0 in savingsPlanPaymentOptions {
-                try savingsPlanPaymentOptionsContainer.encode(savingsplanpaymentoptionlist0.rawValue)
+            for savingsplanpaymentoption0 in savingsPlanPaymentOptions {
+                try savingsPlanPaymentOptionsContainer.encode(savingsplanpaymentoption0.rawValue)
             }
         }
         if let savingsPlanTypes = savingsPlanTypes {
             var savingsPlanTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .savingsPlanTypes)
-            for savingsplantypelist0 in savingsPlanTypes {
-                try savingsPlanTypesContainer.encode(savingsplantypelist0.rawValue)
+            for savingsplantype0 in savingsPlanTypes {
+                try savingsPlanTypesContainer.encode(savingsplantype0.rawValue)
             }
         }
         if let serviceCodes = serviceCodes {
             var serviceCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceCodes)
-            for savingsplanrateservicecodelist0 in serviceCodes {
-                try serviceCodesContainer.encode(savingsplanrateservicecodelist0.rawValue)
+            for savingsplanrateservicecode0 in serviceCodes {
+                try serviceCodesContainer.encode(savingsplanrateservicecode0.rawValue)
             }
         }
         if let usageTypes = usageTypes {
             var usageTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usageTypes)
-            for savingsplanrateusagetypelist0 in usageTypes {
-                try usageTypesContainer.encode(savingsplanrateusagetypelist0)
+            for savingsplanrateusagetype0 in usageTypes {
+                try usageTypesContainer.encode(savingsplanrateusagetype0)
             }
         }
     }
@@ -1011,26 +1011,26 @@ extension DescribeSavingsPlansOfferingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let currencies = currencies {
             var currenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .currencies)
-            for currencylist0 in currencies {
-                try currenciesContainer.encode(currencylist0.rawValue)
+            for currencycode0 in currencies {
+                try currenciesContainer.encode(currencycode0.rawValue)
             }
         }
         if let descriptions = descriptions {
             var descriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .descriptions)
-            for savingsplandescriptionslist0 in descriptions {
-                try descriptionsContainer.encode(savingsplandescriptionslist0)
+            for savingsplandescription0 in descriptions {
+                try descriptionsContainer.encode(savingsplandescription0)
             }
         }
         if let durations = durations {
             var durationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .durations)
-            for durationslist0 in durations {
-                try durationsContainer.encode(durationslist0)
+            for savingsplansduration0 in durations {
+                try durationsContainer.encode(savingsplansduration0)
             }
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for savingsplanofferingfilterslist0 in filters {
-                try filtersContainer.encode(savingsplanofferingfilterslist0)
+            for savingsplanofferingfilterelement0 in filters {
+                try filtersContainer.encode(savingsplanofferingfilterelement0)
             }
         }
         if maxResults != 0 {
@@ -1041,26 +1041,26 @@ extension DescribeSavingsPlansOfferingsInput: Swift.Encodable {
         }
         if let offeringIds = offeringIds {
             var offeringIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .offeringIds)
-            for uuids0 in offeringIds {
-                try offeringIdsContainer.encode(uuids0)
+            for uuid0 in offeringIds {
+                try offeringIdsContainer.encode(uuid0)
             }
         }
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for savingsplanoperationlist0 in operations {
-                try operationsContainer.encode(savingsplanoperationlist0)
+            for savingsplanoperation0 in operations {
+                try operationsContainer.encode(savingsplanoperation0)
             }
         }
         if let paymentOptions = paymentOptions {
             var paymentOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paymentOptions)
-            for savingsplanpaymentoptionlist0 in paymentOptions {
-                try paymentOptionsContainer.encode(savingsplanpaymentoptionlist0.rawValue)
+            for savingsplanpaymentoption0 in paymentOptions {
+                try paymentOptionsContainer.encode(savingsplanpaymentoption0.rawValue)
             }
         }
         if let planTypes = planTypes {
             var planTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .planTypes)
-            for savingsplantypelist0 in planTypes {
-                try planTypesContainer.encode(savingsplantypelist0.rawValue)
+            for savingsplantype0 in planTypes {
+                try planTypesContainer.encode(savingsplantype0.rawValue)
             }
         }
         if let productType = self.productType {
@@ -1068,14 +1068,14 @@ extension DescribeSavingsPlansOfferingsInput: Swift.Encodable {
         }
         if let serviceCodes = serviceCodes {
             var serviceCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceCodes)
-            for savingsplanservicecodelist0 in serviceCodes {
-                try serviceCodesContainer.encode(savingsplanservicecodelist0)
+            for savingsplanservicecode0 in serviceCodes {
+                try serviceCodesContainer.encode(savingsplanservicecode0)
             }
         }
         if let usageTypes = usageTypes {
             var usageTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usageTypes)
-            for savingsplanusagetypelist0 in usageTypes {
-                try usageTypesContainer.encode(savingsplanusagetypelist0)
+            for savingsplanusagetype0 in usageTypes {
+                try usageTypesContainer.encode(savingsplanusagetype0)
             }
         }
     }
@@ -1831,8 +1831,8 @@ extension SavingsplansClientTypes.SavingsPlan: Swift.Codable {
         }
         if let productTypes = productTypes {
             var productTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productTypes)
-            for savingsplanproducttypelist0 in productTypes {
-                try productTypesContainer.encode(savingsplanproducttypelist0.rawValue)
+            for savingsplanproducttype0 in productTypes {
+                try productTypesContainer.encode(savingsplanproducttype0.rawValue)
             }
         }
         if let recurringPaymentAmount = self.recurringPaymentAmount {
@@ -1858,8 +1858,8 @@ extension SavingsplansClientTypes.SavingsPlan: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if termDurationInSeconds != 0 {
@@ -2026,8 +2026,8 @@ extension SavingsplansClientTypes.SavingsPlanFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for listofstrings0 in values {
-                try valuesContainer.encode(listofstrings0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -2110,14 +2110,14 @@ extension SavingsplansClientTypes.SavingsPlanOffering: Swift.Codable {
         }
         if let productTypes = productTypes {
             var productTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .productTypes)
-            for savingsplanproducttypelist0 in productTypes {
-                try productTypesContainer.encode(savingsplanproducttypelist0.rawValue)
+            for savingsplanproducttype0 in productTypes {
+                try productTypesContainer.encode(savingsplanproducttype0.rawValue)
             }
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for savingsplanofferingpropertylist0 in properties {
-                try propertiesContainer.encode(savingsplanofferingpropertylist0)
+            for savingsplanofferingproperty0 in properties {
+                try propertiesContainer.encode(savingsplanofferingproperty0)
             }
         }
         if let serviceCode = self.serviceCode {
@@ -2274,8 +2274,8 @@ extension SavingsplansClientTypes.SavingsPlanOfferingFilterElement: Swift.Codabl
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalueslist0 in values {
-                try valuesContainer.encode(filtervalueslist0)
+            for jsonsafefiltervaluestring0 in values {
+                try valuesContainer.encode(jsonsafefiltervaluestring0)
             }
         }
     }
@@ -2417,8 +2417,8 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRate: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for savingsplanofferingratepropertylist0 in properties {
-                try propertiesContainer.encode(savingsplanofferingratepropertylist0)
+            for savingsplanofferingrateproperty0 in properties {
+                try propertiesContainer.encode(savingsplanofferingrateproperty0)
             }
         }
         if let rate = self.rate {
@@ -2525,8 +2525,8 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement: Swift.Co
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalueslist0 in values {
-                try valuesContainer.encode(filtervalueslist0)
+            for jsonsafefiltervaluestring0 in values {
+                try valuesContainer.encode(jsonsafefiltervaluestring0)
             }
         }
     }
@@ -2712,8 +2712,8 @@ extension SavingsplansClientTypes.SavingsPlanRate: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for savingsplanratepropertylist0 in properties {
-                try propertiesContainer.encode(savingsplanratepropertylist0)
+            for savingsplanrateproperty0 in properties {
+                try propertiesContainer.encode(savingsplanrateproperty0)
             }
         }
         if let rate = self.rate {
@@ -2817,8 +2817,8 @@ extension SavingsplansClientTypes.SavingsPlanRateFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for listofstrings0 in values {
-                try valuesContainer.encode(listofstrings0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -3315,8 +3315,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3426,8 +3426,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

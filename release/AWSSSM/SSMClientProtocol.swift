@@ -3,15 +3,15 @@
 import AWSClientRuntime
 import ClientRuntime
 
-/// Amazon Web Services Systems Manager is a collection of capabilities to help you manage your applications and infrastructure running in the Amazon Web Services Cloud;. Systems Manager simplifies application and resource management, shortens the time to detect and resolve operational problems, and helps you manage your Amazon Web Services resources securely at scale. This reference is intended to be used with the [Amazon Web Services Systems Manager User Guide](https://docs.aws.amazon.com/systems-manager/latest/userguide/). To get started, verify prerequisites. For more information, see [Setting up Amazon Web Services Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html). Related resources
+/// Amazon Web Services Systems Manager is the operations hub for your Amazon Web Services applications and resources and a secure end-to-end management solution for hybrid cloud environments that enables safe and secure operations at scale. This reference is intended to be used with the [Amazon Web Services Systems Manager User Guide](https://docs.aws.amazon.com/systems-manager/latest/userguide/). To get started, see [Setting up Amazon Web Services Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html). Related resources
 ///
-/// * For information about how to use a Query API, see [Making API requests](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/making-api-requests.html).
+/// * For information about each of the capabilities that comprise Systems Manager, see [Systems Manager capabilities](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/what-is-systems-manager.html#systems-manager-capabilities) in the Amazon Web Services Systems Manager User Guide.
 ///
-/// * For information about other API operations you can perform on EC2 instances, see the [Amazon EC2 API Reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/).
+/// * For details about predefined runbooks for Automation, a capability of Amazon Web Services Systems Manager, see the [Systems Manager Automation runbook reference](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-runbook-reference.html) .
 ///
-/// * For information about AppConfig, a capability of Systems Manager, see the [AppConfig User Guide](https://docs.aws.amazon.com/appconfig/latest/userguide/) and the [AppConfig API Reference](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/).
+/// * For information about AppConfig, a capability of Systems Manager, see the [AppConfig User Guide](https://docs.aws.amazon.com/appconfig/latest/userguide/) and the [AppConfig API Reference](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/) .
 ///
-/// * For information about Incident Manager, a capability of Systems Manager, see the [Incident Manager User Guide](https://docs.aws.amazon.com/incident-manager/latest/userguide/) and the [Incident Manager API Reference](https://docs.aws.amazon.com/incident-manager/latest/APIReference/).
+/// * For information about Incident Manager, a capability of Systems Manager, see the [Systems Manager Incident Manager User Guide](https://docs.aws.amazon.com/incident-manager/latest/userguide/) and the [Systems Manager Incident Manager API Reference](https://docs.aws.amazon.com/incident-manager/latest/APIReference/) .
 public protocol SSMClientProtocol {
     /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your automations, documents, managed nodes, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed nodes that helps you track each node's owner and stack level. For example:
     ///

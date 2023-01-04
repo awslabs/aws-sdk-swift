@@ -65,8 +65,8 @@ extension BatchPutMetricsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metricData = metricData {
             var metricDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricData)
-            for rawmetricdatalist0 in metricData {
-                try metricDataContainer.encode(rawmetricdatalist0)
+            for rawmetricdata0 in metricData {
+                try metricDataContainer.encode(rawmetricdata0)
             }
         }
         if let trialComponentName = self.trialComponentName {

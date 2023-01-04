@@ -16,8 +16,8 @@ extension SESv2ClientTypes.AccountDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalContactEmailAddresses = additionalContactEmailAddresses {
             var additionalContactEmailAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalContactEmailAddresses)
-            for additionalcontactemailaddresses0 in additionalContactEmailAddresses {
-                try additionalContactEmailAddressesContainer.encode(additionalcontactemailaddresses0)
+            for additionalcontactemailaddress0 in additionalContactEmailAddresses {
+                try additionalContactEmailAddressesContainer.encode(additionalcontactemailaddress0)
             }
         }
         if let contactLanguage = self.contactLanguage {
@@ -273,8 +273,8 @@ extension BatchGetMetricDataInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let queries = queries {
             var queriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queries)
-            for batchgetmetricdataqueries0 in queries {
-                try queriesContainer.encode(batchgetmetricdataqueries0)
+            for batchgetmetricdataquery0 in queries {
+                try queriesContainer.encode(batchgetmetricdataquery0)
             }
         }
     }
@@ -730,8 +730,8 @@ extension SESv2ClientTypes.BulkEmailEntry: Swift.Codable {
         }
         if let replacementTags = replacementTags {
             var replacementTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replacementTags)
-            for messagetaglist0 in replacementTags {
-                try replacementTagsContainer.encode(messagetaglist0)
+            for messagetag0 in replacementTags {
+                try replacementTagsContainer.encode(messagetag0)
             }
         }
     }
@@ -940,8 +940,8 @@ extension SESv2ClientTypes.CloudWatchDestination: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensionConfigurations = dimensionConfigurations {
             var dimensionConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionConfigurations)
-            for cloudwatchdimensionconfigurations0 in dimensionConfigurations {
-                try dimensionConfigurationsContainer.encode(cloudwatchdimensionconfigurations0)
+            for cloudwatchdimensionconfiguration0 in dimensionConfigurations {
+                try dimensionConfigurationsContainer.encode(cloudwatchdimensionconfiguration0)
             }
         }
     }
@@ -1168,14 +1168,14 @@ extension SESv2ClientTypes.Contact: Swift.Codable {
         }
         if let topicDefaultPreferences = topicDefaultPreferences {
             var topicDefaultPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicDefaultPreferences)
-            for topicpreferencelist0 in topicDefaultPreferences {
-                try topicDefaultPreferencesContainer.encode(topicpreferencelist0)
+            for topicpreference0 in topicDefaultPreferences {
+                try topicDefaultPreferencesContainer.encode(topicpreference0)
             }
         }
         if let topicPreferences = topicPreferences {
             var topicPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicPreferences)
-            for topicpreferencelist0 in topicPreferences {
-                try topicPreferencesContainer.encode(topicpreferencelist0)
+            for topicpreference0 in topicPreferences {
+                try topicPreferencesContainer.encode(topicpreference0)
             }
         }
         if unsubscribeAll != false {
@@ -1596,8 +1596,8 @@ extension CreateConfigurationSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let trackingOptions = self.trackingOptions {
@@ -1771,8 +1771,8 @@ extension CreateContactInput: Swift.Encodable {
         }
         if let topicPreferences = topicPreferences {
             var topicPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicPreferences)
-            for topicpreferencelist0 in topicPreferences {
-                try topicPreferencesContainer.encode(topicpreferencelist0)
+            for topicpreference0 in topicPreferences {
+                try topicPreferencesContainer.encode(topicpreference0)
             }
         }
         if unsubscribeAll != false {
@@ -1875,14 +1875,14 @@ extension CreateContactListInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let topics = topics {
             var topicsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topics)
-            for topics0 in topics {
-                try topicsContainer.encode(topics0)
+            for topic0 in topics {
+                try topicsContainer.encode(topic0)
             }
         }
     }
@@ -2213,8 +2213,8 @@ extension CreateDedicatedIpPoolInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2343,8 +2343,8 @@ extension CreateDeliverabilityTestReportInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2533,8 +2533,8 @@ extension CreateEmailIdentityInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3126,8 +3126,8 @@ extension SESv2ClientTypes.DailyVolume: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainIspPlacements = domainIspPlacements {
             var domainIspPlacementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainIspPlacements)
-            for domainispplacements0 in domainIspPlacements {
-                try domainIspPlacementsContainer.encode(domainispplacements0)
+            for domainispplacement0 in domainIspPlacements {
+                try domainIspPlacementsContainer.encode(domainispplacement0)
             }
         }
         if let startDate = self.startDate {
@@ -4344,20 +4344,20 @@ extension SESv2ClientTypes.Destination: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bccAddresses = bccAddresses {
             var bccAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bccAddresses)
-            for emailaddresslist0 in bccAddresses {
-                try bccAddressesContainer.encode(emailaddresslist0)
+            for emailaddress0 in bccAddresses {
+                try bccAddressesContainer.encode(emailaddress0)
             }
         }
         if let ccAddresses = ccAddresses {
             var ccAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ccAddresses)
-            for emailaddresslist0 in ccAddresses {
-                try ccAddressesContainer.encode(emailaddresslist0)
+            for emailaddress0 in ccAddresses {
+                try ccAddressesContainer.encode(emailaddress0)
             }
         }
         if let toAddresses = toAddresses {
             var toAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .toAddresses)
-            for emailaddresslist0 in toAddresses {
-                try toAddressesContainer.encode(emailaddresslist0)
+            for emailaddress0 in toAddresses {
+                try toAddressesContainer.encode(emailaddress0)
             }
         }
     }
@@ -4493,8 +4493,8 @@ extension SESv2ClientTypes.DkimAttributes: Swift.Codable {
         }
         if let tokens = tokens {
             var tokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokens)
-            for dnstokenlist0 in tokens {
-                try tokensContainer.encode(dnstokenlist0)
+            for dnstoken0 in tokens {
+                try tokensContainer.encode(dnstoken0)
             }
         }
     }
@@ -4785,8 +4785,8 @@ extension SESv2ClientTypes.DomainDeliverabilityCampaign: Swift.Codable {
         }
         if let esps = esps {
             var espsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .esps)
-            for esps0 in esps {
-                try espsContainer.encode(esps0)
+            for esp0 in esps {
+                try espsContainer.encode(esp0)
             }
         }
         if let firstSeenDateTime = self.firstSeenDateTime {
@@ -4815,8 +4815,8 @@ extension SESv2ClientTypes.DomainDeliverabilityCampaign: Swift.Codable {
         }
         if let sendingIps = sendingIps {
             var sendingIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sendingIps)
-            for iplist0 in sendingIps {
-                try sendingIpsContainer.encode(iplist0)
+            for ip0 in sendingIps {
+                try sendingIpsContainer.encode(ip0)
             }
         }
         if let spamCount = self.spamCount {
@@ -5269,8 +5269,8 @@ extension SESv2ClientTypes.EventDestination: Swift.Codable {
         }
         if let matchingEventTypes = matchingEventTypes {
             var matchingEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingEventTypes)
-            for eventtypes0 in matchingEventTypes {
-                try matchingEventTypesContainer.encode(eventtypes0.rawValue)
+            for eventtype0 in matchingEventTypes {
+                try matchingEventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let name = self.name {
@@ -5377,8 +5377,8 @@ extension SESv2ClientTypes.EventDestinationDefinition: Swift.Codable {
         }
         if let matchingEventTypes = matchingEventTypes {
             var matchingEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingEventTypes)
-            for eventtypes0 in matchingEventTypes {
-                try matchingEventTypesContainer.encode(eventtypes0.rawValue)
+            for eventtype0 in matchingEventTypes {
+                try matchingEventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let pinpointDestination = self.pinpointDestination {
@@ -8704,8 +8704,8 @@ extension SESv2ClientTypes.InboxPlacementTrackingOption: Swift.Codable {
         }
         if let trackedIsps = trackedIsps {
             var trackedIspsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trackedIsps)
-            for ispnamelist0 in trackedIsps {
-                try trackedIspsContainer.encode(ispnamelist0)
+            for ispname0 in trackedIsps {
+                try trackedIspsContainer.encode(ispname0)
             }
         }
     }
@@ -10614,8 +10614,8 @@ extension ListRecommendationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, listrecommendationsfilter0) in filter {
-                try filterContainer.encode(listrecommendationsfilter0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, listRecommendationsFilter0) in filter {
+                try filterContainer.encode(listRecommendationsFilter0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let nextToken = self.nextToken {
@@ -11536,14 +11536,14 @@ extension SESv2ClientTypes.MetricDataResult: Swift.Codable {
         }
         if let timestamps = timestamps {
             var timestampsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timestamps)
-            for timestamplist0 in timestamps {
-                try timestampsContainer.encodeTimestamp(timestamplist0, format: .epochSeconds)
+            for timestamp0 in timestamps {
+                try timestampsContainer.encodeTimestamp(timestamp0, format: .epochSeconds)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for metricvaluelist0 in values {
-                try valuesContainer.encode(metricvaluelist0)
+            for counter0 in values {
+                try valuesContainer.encode(counter0)
             }
         }
     }
@@ -11735,8 +11735,8 @@ extension SESv2ClientTypes.OverallVolume: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainIspPlacements = domainIspPlacements {
             var domainIspPlacementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainIspPlacements)
-            for domainispplacements0 in domainIspPlacements {
-                try domainIspPlacementsContainer.encode(domainispplacements0)
+            for domainispplacement0 in domainIspPlacements {
+                try domainIspPlacementsContainer.encode(domainispplacement0)
             }
         }
         if let readRatePercent = self.readRatePercent {
@@ -12003,8 +12003,8 @@ extension PutAccountDetailsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalContactEmailAddresses = additionalContactEmailAddresses {
             var additionalContactEmailAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalContactEmailAddresses)
-            for additionalcontactemailaddresses0 in additionalContactEmailAddresses {
-                try additionalContactEmailAddressesContainer.encode(additionalcontactemailaddresses0)
+            for additionalcontactemailaddress0 in additionalContactEmailAddresses {
+                try additionalContactEmailAddressesContainer.encode(additionalcontactemailaddress0)
             }
         }
         if let contactLanguage = self.contactLanguage {
@@ -12241,8 +12241,8 @@ extension PutAccountSuppressionAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let suppressedReasons = suppressedReasons {
             var suppressedReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suppressedReasons)
-            for suppressionlistreasons0 in suppressedReasons {
-                try suppressedReasonsContainer.encode(suppressionlistreasons0.rawValue)
+            for suppressionlistreason0 in suppressedReasons {
+                try suppressedReasonsContainer.encode(suppressionlistreason0.rawValue)
             }
         }
     }
@@ -12714,8 +12714,8 @@ extension PutConfigurationSetSuppressionOptionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let suppressedReasons = suppressedReasons {
             var suppressedReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suppressedReasons)
-            for suppressionlistreasons0 in suppressedReasons {
-                try suppressedReasonsContainer.encode(suppressionlistreasons0.rawValue)
+            for suppressionlistreason0 in suppressedReasons {
+                try suppressedReasonsContainer.encode(suppressionlistreason0.rawValue)
             }
         }
     }
@@ -13201,8 +13201,8 @@ extension PutDeliverabilityDashboardOptionInput: Swift.Encodable {
         }
         if let subscribedDomains = subscribedDomains {
             var subscribedDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribedDomains)
-            for domaindeliverabilitytrackingoptions0 in subscribedDomains {
-                try subscribedDomainsContainer.encode(domaindeliverabilitytrackingoptions0)
+            for domaindeliverabilitytrackingoption0 in subscribedDomains {
+                try subscribedDomainsContainer.encode(domaindeliverabilitytrackingoption0)
             }
         }
     }
@@ -14490,8 +14490,8 @@ extension SendBulkEmailInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bulkEmailEntries = bulkEmailEntries {
             var bulkEmailEntriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bulkEmailEntries)
-            for bulkemailentrylist0 in bulkEmailEntries {
-                try bulkEmailEntriesContainer.encode(bulkemailentrylist0)
+            for bulkemailentry0 in bulkEmailEntries {
+                try bulkEmailEntriesContainer.encode(bulkemailentry0)
             }
         }
         if let configurationSetName = self.configurationSetName {
@@ -14502,8 +14502,8 @@ extension SendBulkEmailInput: Swift.Encodable {
         }
         if let defaultEmailTags = defaultEmailTags {
             var defaultEmailTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultEmailTags)
-            for messagetaglist0 in defaultEmailTags {
-                try defaultEmailTagsContainer.encode(messagetaglist0)
+            for messagetag0 in defaultEmailTags {
+                try defaultEmailTagsContainer.encode(messagetag0)
             }
         }
         if let feedbackForwardingEmailAddress = self.feedbackForwardingEmailAddress {
@@ -14520,8 +14520,8 @@ extension SendBulkEmailInput: Swift.Encodable {
         }
         if let replyToAddresses = replyToAddresses {
             var replyToAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replyToAddresses)
-            for emailaddresslist0 in replyToAddresses {
-                try replyToAddressesContainer.encode(emailaddresslist0)
+            for emailaddress0 in replyToAddresses {
+                try replyToAddressesContainer.encode(emailaddress0)
             }
         }
     }
@@ -14920,8 +14920,8 @@ extension SendEmailInput: Swift.Encodable {
         }
         if let emailTags = emailTags {
             var emailTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emailTags)
-            for messagetaglist0 in emailTags {
-                try emailTagsContainer.encode(messagetaglist0)
+            for messagetag0 in emailTags {
+                try emailTagsContainer.encode(messagetag0)
             }
         }
         if let feedbackForwardingEmailAddress = self.feedbackForwardingEmailAddress {
@@ -14941,8 +14941,8 @@ extension SendEmailInput: Swift.Encodable {
         }
         if let replyToAddresses = replyToAddresses {
             var replyToAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replyToAddresses)
-            for emailaddresslist0 in replyToAddresses {
-                try replyToAddressesContainer.encode(emailaddresslist0)
+            for emailaddress0 in replyToAddresses {
+                try replyToAddressesContainer.encode(emailaddress0)
             }
         }
     }
@@ -15542,8 +15542,8 @@ extension SESv2ClientTypes.SuppressionAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let suppressedReasons = suppressedReasons {
             var suppressedReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suppressedReasons)
-            for suppressionlistreasons0 in suppressedReasons {
-                try suppressedReasonsContainer.encode(suppressionlistreasons0.rawValue)
+            for suppressionlistreason0 in suppressedReasons {
+                try suppressedReasonsContainer.encode(suppressionlistreason0.rawValue)
             }
         }
     }
@@ -15707,8 +15707,8 @@ extension SESv2ClientTypes.SuppressionOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let suppressedReasons = suppressedReasons {
             var suppressedReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suppressedReasons)
-            for suppressionlistreasons0 in suppressedReasons {
-                try suppressedReasonsContainer.encode(suppressionlistreasons0.rawValue)
+            for suppressionlistreason0 in suppressedReasons {
+                try suppressedReasonsContainer.encode(suppressionlistreason0.rawValue)
             }
         }
     }
@@ -15817,8 +15817,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -16587,8 +16587,8 @@ extension UpdateContactInput: Swift.Encodable {
         }
         if let topicPreferences = topicPreferences {
             var topicPreferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicPreferences)
-            for topicpreferencelist0 in topicPreferences {
-                try topicPreferencesContainer.encode(topicpreferencelist0)
+            for topicpreference0 in topicPreferences {
+                try topicPreferencesContainer.encode(topicpreference0)
             }
         }
         if unsubscribeAll != false {
@@ -16685,8 +16685,8 @@ extension UpdateContactListInput: Swift.Encodable {
         }
         if let topics = topics {
             var topicsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topics)
-            for topics0 in topics {
-                try topicsContainer.encode(topics0)
+            for topic0 in topics {
+                try topicsContainer.encode(topic0)
             }
         }
     }

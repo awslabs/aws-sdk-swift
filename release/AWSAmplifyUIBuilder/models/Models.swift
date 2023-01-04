@@ -22,8 +22,8 @@ extension AmplifyUIBuilderClientTypes.ActionParameters: Swift.Codable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fields)
-            for (dictKey0, componentproperties0) in fields {
-                try fieldsContainer.encode(componentproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentProperties0) in fields {
+                try fieldsContainer.encode(componentProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let global = self.global {
@@ -157,20 +157,20 @@ extension AmplifyUIBuilderClientTypes.Component: Swift.Codable {
         }
         if let bindingProperties = bindingProperties {
             var bindingPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .bindingProperties)
-            for (dictKey0, componentbindingproperties0) in bindingProperties {
-                try bindingPropertiesContainer.encode(componentbindingproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentBindingProperties0) in bindingProperties {
+                try bindingPropertiesContainer.encode(componentBindingProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let children = children {
             var childrenContainer = encodeContainer.nestedUnkeyedContainer(forKey: .children)
-            for componentchildlist0 in children {
-                try childrenContainer.encode(componentchildlist0)
+            for componentchild0 in children {
+                try childrenContainer.encode(componentchild0)
             }
         }
         if let collectionProperties = collectionProperties {
             var collectionPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .collectionProperties)
-            for (dictKey0, componentcollectionproperties0) in collectionProperties {
-                try collectionPropertiesContainer.encode(componentcollectionproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentCollectionProperties0) in collectionProperties {
+                try collectionPropertiesContainer.encode(componentCollectionProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let componentType = self.componentType {
@@ -184,8 +184,8 @@ extension AmplifyUIBuilderClientTypes.Component: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .events)
-            for (dictKey0, componentevents0) in events {
-                try eventsContainer.encode(componentevents0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentEvents0) in events {
+                try eventsContainer.encode(componentEvents0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let id = self.id {
@@ -199,14 +199,17 @@ extension AmplifyUIBuilderClientTypes.Component: Swift.Codable {
         }
         if let overrides = overrides {
             var overridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .overrides)
-            for (dictKey0, componentoverrides0) in overrides {
-                try overridesContainer.encode(componentoverrides0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentOverrides0) in overrides {
+                var componentOverrides0Container = overridesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, componentOverridesValue1) in componentOverrides0 {
+                    try componentOverrides0Container.encode(componentOverridesValue1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, componentproperties0) in properties {
-                try propertiesContainer.encode(componentproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentProperties0) in properties {
+                try propertiesContainer.encode(componentProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let schemaVersion = self.schemaVersion {
@@ -223,8 +226,8 @@ extension AmplifyUIBuilderClientTypes.Component: Swift.Codable {
         }
         if let variants = variants {
             var variantsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variants)
-            for componentvariants0 in variants {
-                try variantsContainer.encode(componentvariants0)
+            for componentvariant0 in variants {
+                try variantsContainer.encode(componentvariant0)
             }
         }
     }
@@ -523,8 +526,8 @@ extension AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValueProperties:
         }
         if let predicates = predicates {
             var predicatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .predicates)
-            for predicatelist0 in predicates {
-                try predicatesContainer.encode(predicatelist0)
+            for predicate0 in predicates {
+                try predicatesContainer.encode(predicate0)
             }
         }
         if let slotName = self.slotName {
@@ -623,8 +626,8 @@ extension AmplifyUIBuilderClientTypes.ComponentChild: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let children = children {
             var childrenContainer = encodeContainer.nestedUnkeyedContainer(forKey: .children)
-            for componentchildlist0 in children {
-                try childrenContainer.encode(componentchildlist0)
+            for componentchild0 in children {
+                try childrenContainer.encode(componentchild0)
             }
         }
         if let componentType = self.componentType {
@@ -632,8 +635,8 @@ extension AmplifyUIBuilderClientTypes.ComponentChild: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .events)
-            for (dictKey0, componentevents0) in events {
-                try eventsContainer.encode(componentevents0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentEvents0) in events {
+                try eventsContainer.encode(componentEvents0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -641,8 +644,8 @@ extension AmplifyUIBuilderClientTypes.ComponentChild: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, componentproperties0) in properties {
-                try propertiesContainer.encode(componentproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentProperties0) in properties {
+                try propertiesContainer.encode(componentProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sourceId = self.sourceId {
@@ -840,8 +843,8 @@ extension AmplifyUIBuilderClientTypes.ComponentDataConfiguration: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let identifiers = identifiers {
             var identifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identifiers)
-            for identifierlist0 in identifiers {
-                try identifiersContainer.encode(identifierlist0)
+            for string0 in identifiers {
+                try identifiersContainer.encode(string0)
             }
         }
         if let model = self.model {
@@ -852,8 +855,8 @@ extension AmplifyUIBuilderClientTypes.ComponentDataConfiguration: Swift.Codable 
         }
         if let sort = sort {
             var sortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sort)
-            for sortpropertylist0 in sort {
-                try sortContainer.encode(sortpropertylist0)
+            for sortproperty0 in sort {
+                try sortContainer.encode(sortproperty0)
             }
         }
     }
@@ -999,8 +1002,8 @@ extension AmplifyUIBuilderClientTypes.ComponentProperty: Swift.Codable {
         }
         if let bindings = bindings {
             var bindingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .bindings)
-            for (dictKey0, formbindings0) in bindings {
-                try bindingsContainer.encode(formbindings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, formBindings0) in bindings {
+                try bindingsContainer.encode(formBindings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let collectionBindingProperties = self.collectionBindingProperties {
@@ -1011,8 +1014,8 @@ extension AmplifyUIBuilderClientTypes.ComponentProperty: Swift.Codable {
         }
         if let concat = concat {
             var concatContainer = encodeContainer.nestedUnkeyedContainer(forKey: .concat)
-            for componentpropertylist0 in concat {
-                try concatContainer.encode(componentpropertylist0)
+            for componentproperty0 in concat {
+                try concatContainer.encode(componentproperty0)
             }
         }
         if let condition = self.condition {
@@ -1308,14 +1311,17 @@ extension AmplifyUIBuilderClientTypes.ComponentVariant: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let overrides = overrides {
             var overridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .overrides)
-            for (dictKey0, componentoverrides0) in overrides {
-                try overridesContainer.encode(componentoverrides0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentOverrides0) in overrides {
+                var componentOverrides0Container = overridesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, componentOverridesValue1) in componentOverrides0 {
+                    try componentOverrides0Container.encode(componentOverridesValue1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let variantValues = variantValues {
             var variantValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variantValues)
-            for (dictKey0, componentvariantvalues0) in variantValues {
-                try variantValuesContainer.encode(componentvariantvalues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentVariantValues0) in variantValues {
+                try variantValuesContainer.encode(componentVariantValues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1394,20 +1400,20 @@ extension AmplifyUIBuilderClientTypes.CreateComponentData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bindingProperties = bindingProperties {
             var bindingPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .bindingProperties)
-            for (dictKey0, componentbindingproperties0) in bindingProperties {
-                try bindingPropertiesContainer.encode(componentbindingproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentBindingProperties0) in bindingProperties {
+                try bindingPropertiesContainer.encode(componentBindingProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let children = children {
             var childrenContainer = encodeContainer.nestedUnkeyedContainer(forKey: .children)
-            for componentchildlist0 in children {
-                try childrenContainer.encode(componentchildlist0)
+            for componentchild0 in children {
+                try childrenContainer.encode(componentchild0)
             }
         }
         if let collectionProperties = collectionProperties {
             var collectionPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .collectionProperties)
-            for (dictKey0, componentcollectionproperties0) in collectionProperties {
-                try collectionPropertiesContainer.encode(componentcollectionproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentCollectionProperties0) in collectionProperties {
+                try collectionPropertiesContainer.encode(componentCollectionProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let componentType = self.componentType {
@@ -1415,8 +1421,8 @@ extension AmplifyUIBuilderClientTypes.CreateComponentData: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .events)
-            for (dictKey0, componentevents0) in events {
-                try eventsContainer.encode(componentevents0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentEvents0) in events {
+                try eventsContainer.encode(componentEvents0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -1424,14 +1430,17 @@ extension AmplifyUIBuilderClientTypes.CreateComponentData: Swift.Codable {
         }
         if let overrides = overrides {
             var overridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .overrides)
-            for (dictKey0, componentoverrides0) in overrides {
-                try overridesContainer.encode(componentoverrides0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentOverrides0) in overrides {
+                var componentOverrides0Container = overridesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, componentOverridesValue1) in componentOverrides0 {
+                    try componentOverrides0Container.encode(componentOverridesValue1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, componentproperties0) in properties {
-                try propertiesContainer.encode(componentproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentProperties0) in properties {
+                try propertiesContainer.encode(componentProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let schemaVersion = self.schemaVersion {
@@ -1448,8 +1457,8 @@ extension AmplifyUIBuilderClientTypes.CreateComponentData: Swift.Codable {
         }
         if let variants = variants {
             var variantsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variants)
-            for componentvariants0 in variants {
-                try variantsContainer.encode(componentvariants0)
+            for componentvariant0 in variants {
+                try variantsContainer.encode(componentvariant0)
             }
         }
     }
@@ -1842,8 +1851,8 @@ extension AmplifyUIBuilderClientTypes.CreateFormData: Swift.Codable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fields)
-            for (dictKey0, fieldsmap0) in fields {
-                try fieldsContainer.encode(fieldsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, fieldsMap0) in fields {
+                try fieldsContainer.encode(fieldsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let formActionType = self.formActionType {
@@ -1857,8 +1866,8 @@ extension AmplifyUIBuilderClientTypes.CreateFormData: Swift.Codable {
         }
         if let sectionalElements = sectionalElements {
             var sectionalElementsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sectionalElements)
-            for (dictKey0, sectionalelementmap0) in sectionalElements {
-                try sectionalElementsContainer.encode(sectionalelementmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, sectionalElementMap0) in sectionalElements {
+                try sectionalElementsContainer.encode(sectionalElementMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let style = self.style {
@@ -2183,8 +2192,8 @@ extension AmplifyUIBuilderClientTypes.CreateThemeData: Swift.Codable {
         }
         if let overrides = overrides {
             var overridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .overrides)
-            for themevalueslist0 in overrides {
-                try overridesContainer.encode(themevalueslist0)
+            for themevalues0 in overrides {
+                try overridesContainer.encode(themevalues0)
             }
         }
         if let tags = tags {
@@ -2195,8 +2204,8 @@ extension AmplifyUIBuilderClientTypes.CreateThemeData: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for themevalueslist0 in values {
-                try valuesContainer.encode(themevalueslist0)
+            for themevalues0 in values {
+                try valuesContainer.encode(themevalues0)
             }
         }
     }
@@ -3396,8 +3405,8 @@ extension AmplifyUIBuilderClientTypes.FieldConfig: Swift.Codable {
         }
         if let validations = validations {
             var validationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validations)
-            for validationslist0 in validations {
-                try validationsContainer.encode(validationslist0)
+            for fieldvalidationconfiguration0 in validations {
+                try validationsContainer.encode(fieldvalidationconfiguration0)
             }
         }
     }
@@ -3703,14 +3712,14 @@ extension AmplifyUIBuilderClientTypes.FieldValidationConfiguration: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let numValues = numValues {
             var numValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .numValues)
-            for numvalues0 in numValues {
-                try numValuesContainer.encode(numvalues0)
+            for integer0 in numValues {
+                try numValuesContainer.encode(integer0)
             }
         }
         if let strValues = strValues {
             var strValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .strValues)
-            for strvalues0 in strValues {
-                try strValuesContainer.encode(strvalues0)
+            for string0 in strValues {
+                try strValuesContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -3842,8 +3851,8 @@ extension AmplifyUIBuilderClientTypes.Form: Swift.Codable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fields)
-            for (dictKey0, fieldsmap0) in fields {
-                try fieldsContainer.encode(fieldsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, fieldsMap0) in fields {
+                try fieldsContainer.encode(fieldsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let formActionType = self.formActionType {
@@ -3860,8 +3869,8 @@ extension AmplifyUIBuilderClientTypes.Form: Swift.Codable {
         }
         if let sectionalElements = sectionalElements {
             var sectionalElementsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sectionalElements)
-            for (dictKey0, sectionalelementmap0) in sectionalElements {
-                try sectionalElementsContainer.encode(sectionalelementmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, sectionalElementMap0) in sectionalElements {
+                try sectionalElementsContainer.encode(sectionalElementMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let style = self.style {
@@ -5631,8 +5640,8 @@ extension AmplifyUIBuilderClientTypes.Predicate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let and = and {
             var andContainer = encodeContainer.nestedUnkeyedContainer(forKey: .and)
-            for predicatelist0 in and {
-                try andContainer.encode(predicatelist0)
+            for predicate0 in and {
+                try andContainer.encode(predicate0)
             }
         }
         if let field = self.field {
@@ -5646,8 +5655,8 @@ extension AmplifyUIBuilderClientTypes.Predicate: Swift.Codable {
         }
         if let or = or {
             var orContainer = encodeContainer.nestedUnkeyedContainer(forKey: .or)
-            for predicatelist0 in or {
-                try orContainer.encode(predicatelist0)
+            for predicate0 in or {
+                try orContainer.encode(predicate0)
             }
         }
     }
@@ -6458,8 +6467,8 @@ extension AmplifyUIBuilderClientTypes.Theme: Swift.Codable {
         }
         if let overrides = overrides {
             var overridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .overrides)
-            for themevalueslist0 in overrides {
-                try overridesContainer.encode(themevalueslist0)
+            for themevalues0 in overrides {
+                try overridesContainer.encode(themevalues0)
             }
         }
         if let tags = tags {
@@ -6470,8 +6479,8 @@ extension AmplifyUIBuilderClientTypes.Theme: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for themevalueslist0 in values {
-                try valuesContainer.encode(themevalueslist0)
+            for themevalues0 in values {
+                try valuesContainer.encode(themevalues0)
             }
         }
     }
@@ -6659,8 +6668,8 @@ extension AmplifyUIBuilderClientTypes.ThemeValue: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let children = children {
             var childrenContainer = encodeContainer.nestedUnkeyedContainer(forKey: .children)
-            for themevalueslist0 in children {
-                try childrenContainer.encode(themevalueslist0)
+            for themevalues0 in children {
+                try childrenContainer.encode(themevalues0)
             }
         }
         if let value = self.value {
@@ -6853,20 +6862,20 @@ extension AmplifyUIBuilderClientTypes.UpdateComponentData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bindingProperties = bindingProperties {
             var bindingPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .bindingProperties)
-            for (dictKey0, componentbindingproperties0) in bindingProperties {
-                try bindingPropertiesContainer.encode(componentbindingproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentBindingProperties0) in bindingProperties {
+                try bindingPropertiesContainer.encode(componentBindingProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let children = children {
             var childrenContainer = encodeContainer.nestedUnkeyedContainer(forKey: .children)
-            for componentchildlist0 in children {
-                try childrenContainer.encode(componentchildlist0)
+            for componentchild0 in children {
+                try childrenContainer.encode(componentchild0)
             }
         }
         if let collectionProperties = collectionProperties {
             var collectionPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .collectionProperties)
-            for (dictKey0, componentcollectionproperties0) in collectionProperties {
-                try collectionPropertiesContainer.encode(componentcollectionproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentCollectionProperties0) in collectionProperties {
+                try collectionPropertiesContainer.encode(componentCollectionProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let componentType = self.componentType {
@@ -6874,8 +6883,8 @@ extension AmplifyUIBuilderClientTypes.UpdateComponentData: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .events)
-            for (dictKey0, componentevents0) in events {
-                try eventsContainer.encode(componentevents0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentEvents0) in events {
+                try eventsContainer.encode(componentEvents0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let id = self.id {
@@ -6886,14 +6895,17 @@ extension AmplifyUIBuilderClientTypes.UpdateComponentData: Swift.Codable {
         }
         if let overrides = overrides {
             var overridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .overrides)
-            for (dictKey0, componentoverrides0) in overrides {
-                try overridesContainer.encode(componentoverrides0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentOverrides0) in overrides {
+                var componentOverrides0Container = overridesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, componentOverridesValue1) in componentOverrides0 {
+                    try componentOverrides0Container.encode(componentOverridesValue1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, componentproperties0) in properties {
-                try propertiesContainer.encode(componentproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, componentProperties0) in properties {
+                try propertiesContainer.encode(componentProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let schemaVersion = self.schemaVersion {
@@ -6904,8 +6916,8 @@ extension AmplifyUIBuilderClientTypes.UpdateComponentData: Swift.Codable {
         }
         if let variants = variants {
             var variantsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variants)
-            for componentvariants0 in variants {
-                try variantsContainer.encode(componentvariants0)
+            for componentvariant0 in variants {
+                try variantsContainer.encode(componentvariant0)
             }
         }
     }
@@ -7288,8 +7300,8 @@ extension AmplifyUIBuilderClientTypes.UpdateFormData: Swift.Codable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fields)
-            for (dictKey0, fieldsmap0) in fields {
-                try fieldsContainer.encode(fieldsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, fieldsMap0) in fields {
+                try fieldsContainer.encode(fieldsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let formActionType = self.formActionType {
@@ -7303,8 +7315,8 @@ extension AmplifyUIBuilderClientTypes.UpdateFormData: Swift.Codable {
         }
         if let sectionalElements = sectionalElements {
             var sectionalElementsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sectionalElements)
-            for (dictKey0, sectionalelementmap0) in sectionalElements {
-                try sectionalElementsContainer.encode(sectionalelementmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, sectionalElementMap0) in sectionalElements {
+                try sectionalElementsContainer.encode(sectionalElementMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let style = self.style {
@@ -7610,14 +7622,14 @@ extension AmplifyUIBuilderClientTypes.UpdateThemeData: Swift.Codable {
         }
         if let overrides = overrides {
             var overridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .overrides)
-            for themevalueslist0 in overrides {
-                try overridesContainer.encode(themevalueslist0)
+            for themevalues0 in overrides {
+                try overridesContainer.encode(themevalues0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for themevalueslist0 in values {
-                try valuesContainer.encode(themevalueslist0)
+            for themevalues0 in values {
+                try valuesContainer.encode(themevalues0)
             }
         }
     }
@@ -7934,8 +7946,8 @@ extension AmplifyUIBuilderClientTypes.ValueMappings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for valuemappinglist0 in values {
-                try valuesContainer.encode(valuemappinglist0)
+            for valuemapping0 in values {
+                try valuesContainer.encode(valuemapping0)
             }
         }
     }

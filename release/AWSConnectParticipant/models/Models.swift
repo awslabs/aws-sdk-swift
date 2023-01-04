@@ -134,7 +134,7 @@ extension ConnectParticipantClientTypes {
         public var attachmentId: Swift.String?
         /// A case-sensitive name of the attachment being uploaded.
         public var attachmentName: Swift.String?
-        /// Describes the MIME file type of the attachment. For a list of supported file types, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits) in the Amazon Connect Administrator Guide.
+        /// Describes the MIME file type of the attachment. For a list of supported file types, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html) in the Amazon Connect Administrator Guide.
         public var contentType: Swift.String?
         /// Status of the attachment.
         public var status: ConnectParticipantClientTypes.ArtifactStatus?
@@ -162,6 +162,8 @@ extension ConnectParticipantClientTypes {
         case connectionAck
         case event
         case message
+        case messageDelivered
+        case messageRead
         case participantJoined
         case participantLeft
         case transferFailed
@@ -176,6 +178,8 @@ extension ConnectParticipantClientTypes {
                 .connectionAck,
                 .event,
                 .message,
+                .messageDelivered,
+                .messageRead,
                 .participantJoined,
                 .participantLeft,
                 .transferFailed,
@@ -195,6 +199,8 @@ extension ConnectParticipantClientTypes {
             case .connectionAck: return "CONNECTION_ACK"
             case .event: return "EVENT"
             case .message: return "MESSAGE"
+            case .messageDelivered: return "MESSAGE_DELIVERED"
+            case .messageRead: return "MESSAGE_READ"
             case .participantJoined: return "PARTICIPANT_JOINED"
             case .participantLeft: return "PARTICIPANT_LEFT"
             case .transferFailed: return "TRANSFER_FAILED"
@@ -221,8 +227,8 @@ extension CompleteAttachmentUploadInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachmentIds = attachmentIds {
             var attachmentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachmentIds)
-            for attachmentidlist0 in attachmentIds {
-                try attachmentIdsContainer.encode(attachmentidlist0)
+            for artifactid0 in attachmentIds {
+                try attachmentIdsContainer.encode(artifactid0)
             }
         }
         if let clientToken = self.clientToken {
@@ -251,7 +257,7 @@ public struct CompleteAttachmentUploadInput: Swift.Equatable {
     /// A list of unique identifiers for the attachments.
     /// This member is required.
     public var attachmentIds: [Swift.String]?
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     /// This member is required.
     public var clientToken: Swift.String?
     /// The authentication token associated with the participant's connection.
@@ -484,8 +490,8 @@ extension CreateParticipantConnectionInput: Swift.Encodable {
         }
         if let type = type {
             var typeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .type)
-            for connectiontypelist0 in type {
-                try typeContainer.encode(connectiontypelist0.rawValue)
+            for connectiontype0 in type {
+                try typeContainer.encode(connectiontype0.rawValue)
             }
         }
     }
@@ -513,8 +519,7 @@ public struct CreateParticipantConnectionInput: Swift.Equatable {
     /// This is a header parameter. The ParticipantToken as obtained from [StartChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html) API response.
     /// This member is required.
     public var participantToken: Swift.String?
-    /// Type of connection information required.
-    /// This member is required.
+    /// Type of connection information required. This can be omitted if ConnectParticipant is true.
     public var type: [ConnectParticipantClientTypes.ConnectionType]?
 
     public init (
@@ -546,9 +551,9 @@ extension CreateParticipantConnectionInputBody: Swift.Decodable {
         var typeDecoded0:[ConnectParticipantClientTypes.ConnectionType]? = nil
         if let typeContainer = typeContainer {
             typeDecoded0 = [ConnectParticipantClientTypes.ConnectionType]()
-            for string0 in typeContainer {
-                if let string0 = string0 {
-                    typeDecoded0?.append(string0)
+            for enum0 in typeContainer {
+                if let enum0 = enum0 {
+                    typeDecoded0?.append(enum0)
                 }
             }
         }
@@ -667,7 +672,7 @@ extension DisconnectParticipantInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisconnectParticipantInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The authentication token associated with the participant's connection.
     /// This member is required.
@@ -1160,6 +1165,7 @@ extension ConnectParticipantClientTypes.Item: Swift.Codable {
         case contentType = "ContentType"
         case displayName = "DisplayName"
         case id = "Id"
+        case messageMetadata = "MessageMetadata"
         case participantId = "ParticipantId"
         case participantRole = "ParticipantRole"
         case type = "Type"
@@ -1172,8 +1178,8 @@ extension ConnectParticipantClientTypes.Item: Swift.Codable {
         }
         if let attachments = attachments {
             var attachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachments)
-            for attachments0 in attachments {
-                try attachmentsContainer.encode(attachments0)
+            for attachmentitem0 in attachments {
+                try attachmentsContainer.encode(attachmentitem0)
             }
         }
         if let content = self.content {
@@ -1187,6 +1193,9 @@ extension ConnectParticipantClientTypes.Item: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let messageMetadata = self.messageMetadata {
+            try encodeContainer.encode(messageMetadata, forKey: .messageMetadata)
         }
         if let participantId = self.participantId {
             try encodeContainer.encode(participantId, forKey: .participantId)
@@ -1228,6 +1237,8 @@ extension ConnectParticipantClientTypes.Item: Swift.Codable {
             }
         }
         attachments = attachmentsDecoded0
+        let messageMetadataDecoded = try containerValues.decodeIfPresent(ConnectParticipantClientTypes.MessageMetadata.self, forKey: .messageMetadata)
+        messageMetadata = messageMetadataDecoded
     }
 }
 
@@ -1246,6 +1257,8 @@ extension ConnectParticipantClientTypes {
         public var displayName: Swift.String?
         /// The ID of the item.
         public var id: Swift.String?
+        /// The metadata related to the message. Currently this supports only information related to message receipts.
+        public var messageMetadata: ConnectParticipantClientTypes.MessageMetadata?
         /// The ID of the sender in the session.
         public var participantId: Swift.String?
         /// The role of the sender. For example, is it a customer, agent, or system.
@@ -1260,6 +1273,7 @@ extension ConnectParticipantClientTypes {
             contentType: Swift.String? = nil,
             displayName: Swift.String? = nil,
             id: Swift.String? = nil,
+            messageMetadata: ConnectParticipantClientTypes.MessageMetadata? = nil,
             participantId: Swift.String? = nil,
             participantRole: ConnectParticipantClientTypes.ParticipantRole? = nil,
             type: ConnectParticipantClientTypes.ChatItemType? = nil
@@ -1271,9 +1285,67 @@ extension ConnectParticipantClientTypes {
             self.contentType = contentType
             self.displayName = displayName
             self.id = id
+            self.messageMetadata = messageMetadata
             self.participantId = participantId
             self.participantRole = participantRole
             self.type = type
+        }
+    }
+
+}
+
+extension ConnectParticipantClientTypes.MessageMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageId = "MessageId"
+        case receipts = "Receipts"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let messageId = self.messageId {
+            try encodeContainer.encode(messageId, forKey: .messageId)
+        }
+        if let receipts = receipts {
+            var receiptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .receipts)
+            for receipt0 in receipts {
+                try receiptsContainer.encode(receipt0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
+        messageId = messageIdDecoded
+        let receiptsContainer = try containerValues.decodeIfPresent([ConnectParticipantClientTypes.Receipt?].self, forKey: .receipts)
+        var receiptsDecoded0:[ConnectParticipantClientTypes.Receipt]? = nil
+        if let receiptsContainer = receiptsContainer {
+            receiptsDecoded0 = [ConnectParticipantClientTypes.Receipt]()
+            for structure0 in receiptsContainer {
+                if let structure0 = structure0 {
+                    receiptsDecoded0?.append(structure0)
+                }
+            }
+        }
+        receipts = receiptsDecoded0
+    }
+}
+
+extension ConnectParticipantClientTypes {
+    /// Contains metadata related to a message.
+    public struct MessageMetadata: Swift.Equatable {
+        /// The identifier of the message that contains the metadata information.
+        public var messageId: Swift.String?
+        /// The list of receipt information for a message for different recipients.
+        public var receipts: [ConnectParticipantClientTypes.Receipt]?
+
+        public init (
+            messageId: Swift.String? = nil,
+            receipts: [ConnectParticipantClientTypes.Receipt]? = nil
+        )
+        {
+            self.messageId = messageId
+            self.receipts = receipts
         }
     }
 
@@ -1312,6 +1384,61 @@ extension ConnectParticipantClientTypes {
             self = ParticipantRole(rawValue: rawValue) ?? ParticipantRole.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ConnectParticipantClientTypes.Receipt: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveredTimestamp = "DeliveredTimestamp"
+        case readTimestamp = "ReadTimestamp"
+        case recipientParticipantId = "RecipientParticipantId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveredTimestamp = self.deliveredTimestamp {
+            try encodeContainer.encode(deliveredTimestamp, forKey: .deliveredTimestamp)
+        }
+        if let readTimestamp = self.readTimestamp {
+            try encodeContainer.encode(readTimestamp, forKey: .readTimestamp)
+        }
+        if let recipientParticipantId = self.recipientParticipantId {
+            try encodeContainer.encode(recipientParticipantId, forKey: .recipientParticipantId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveredTimestampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveredTimestamp)
+        deliveredTimestamp = deliveredTimestampDecoded
+        let readTimestampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readTimestamp)
+        readTimestamp = readTimestampDecoded
+        let recipientParticipantIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recipientParticipantId)
+        recipientParticipantId = recipientParticipantIdDecoded
+    }
+}
+
+extension ConnectParticipantClientTypes {
+    /// The receipt for the message delivered to the recipient.
+    public struct Receipt: Swift.Equatable {
+        /// The time when the message was delivered to the recipient.
+        public var deliveredTimestamp: Swift.String?
+        /// The time when the message was read by the recipient.
+        public var readTimestamp: Swift.String?
+        /// The identifier of the recipient of the message.
+        public var recipientParticipantId: Swift.String?
+
+        public init (
+            deliveredTimestamp: Swift.String? = nil,
+            readTimestamp: Swift.String? = nil,
+            recipientParticipantId: Swift.String? = nil
+        )
+        {
+            self.deliveredTimestamp = deliveredTimestamp
+            self.readTimestamp = readTimestamp
+            self.recipientParticipantId = recipientParticipantId
+        }
+    }
+
 }
 
 extension ConnectParticipantClientTypes {
@@ -1384,18 +1511,22 @@ extension SendEventInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SendEventInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The authentication token associated with the participant's connection.
     /// This member is required.
     public var connectionToken: Swift.String?
-    /// The content of the event to be sent (for example, message text). This is not yet supported.
+    /// The content of the event to be sent (for example, message text). For content related to message receipts, this is supported in the form of a JSON string. Sample Content: "{\"messageId\":\"11111111-aaaa-bbbb-cccc-EXAMPLE01234\"}"
     public var content: Swift.String?
     /// The content type of the request. Supported types are:
     ///
     /// * application/vnd.amazonaws.connect.event.typing
     ///
     /// * application/vnd.amazonaws.connect.event.connection.acknowledged
+    ///
+    /// * application/vnd.amazonaws.connect.event.message.delivered
+    ///
+    /// * application/vnd.amazonaws.connect.event.message.read
     /// This member is required.
     public var contentType: Swift.String?
 
@@ -1554,15 +1685,19 @@ extension SendMessageInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SendMessageInput: Swift.Equatable {
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The authentication token associated with the connection.
     /// This member is required.
     public var connectionToken: Swift.String?
     /// The content of the message.
+    ///
+    /// * For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.
+    ///
+    /// * For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.
     /// This member is required.
     public var content: Swift.String?
-    /// The type of the content. Supported types are text/plain.
+    /// The type of the content. Supported types are text/plain, text/markdown, and application/json.
     /// This member is required.
     public var contentType: Swift.String?
 
@@ -1816,13 +1951,13 @@ public struct StartAttachmentUploadInput: Swift.Equatable {
     /// The size of the attachment in bytes.
     /// This member is required.
     public var attachmentSizeInBytes: Swift.Int
-    /// A unique case sensitive identifier to support idempotency of request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     /// This member is required.
     public var clientToken: Swift.String?
     /// The authentication token associated with the participant's connection.
     /// This member is required.
     public var connectionToken: Swift.String?
-    /// Describes the MIME file type of the attachment. For a list of supported file types, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits) in the Amazon Connect Administrator Guide.
+    /// Describes the MIME file type of the attachment. For a list of supported file types, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html) in the Amazon Connect Administrator Guide.
     /// This member is required.
     public var contentType: Swift.String?
 
@@ -2070,8 +2205,8 @@ extension ConnectParticipantClientTypes.UploadMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let headersToInclude = headersToInclude {
             var headersToIncludeContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .headersToInclude)
-            for (dictKey0, uploadmetadatasignedheaders0) in headersToInclude {
-                try headersToIncludeContainer.encode(uploadmetadatasignedheaders0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, uploadMetadataSignedHeaders0) in headersToInclude {
+                try headersToIncludeContainer.encode(uploadMetadataSignedHeaders0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let url = self.url {

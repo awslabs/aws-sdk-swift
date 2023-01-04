@@ -54,8 +54,8 @@ extension LexModelsV2ClientTypes.AggregatedUtterancesFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -427,8 +427,8 @@ extension LexModelsV2ClientTypes.AssociatedTranscriptFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -729,8 +729,8 @@ extension BatchCreateCustomVocabularyItemInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customVocabularyItemList = customVocabularyItemList {
             var customVocabularyItemListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customVocabularyItemList)
-            for createcustomvocabularyitemslist0 in customVocabularyItemList {
-                try customVocabularyItemListContainer.encode(createcustomvocabularyitemslist0)
+            for newcustomvocabularyitem0 in customVocabularyItemList {
+                try customVocabularyItemListContainer.encode(newcustomvocabularyitem0)
             }
         }
     }
@@ -942,8 +942,8 @@ extension BatchDeleteCustomVocabularyItemInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customVocabularyItemList = customVocabularyItemList {
             var customVocabularyItemListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customVocabularyItemList)
-            for deletecustomvocabularyitemslist0 in customVocabularyItemList {
-                try customVocabularyItemListContainer.encode(deletecustomvocabularyitemslist0)
+            for customvocabularyentryid0 in customVocabularyItemList {
+                try customVocabularyItemListContainer.encode(customvocabularyentryid0)
             }
         }
     }
@@ -1155,8 +1155,8 @@ extension BatchUpdateCustomVocabularyItemInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customVocabularyItemList = customVocabularyItemList {
             var customVocabularyItemListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customVocabularyItemList)
-            for updatecustomvocabularyitemslist0 in customVocabularyItemList {
-                try customVocabularyItemListContainer.encode(updatecustomvocabularyitemslist0)
+            for customvocabularyitem0 in customVocabularyItemList {
+                try customVocabularyItemListContainer.encode(customvocabularyitem0)
             }
         }
     }
@@ -1657,8 +1657,8 @@ extension LexModelsV2ClientTypes.BotFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -1788,8 +1788,8 @@ extension LexModelsV2ClientTypes.BotImportSpecification: Swift.Codable {
         }
         if let botTags = botTags {
             var botTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .botTags)
-            for (dictKey0, tagmap0) in botTags {
-                try botTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in botTags {
+                try botTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let dataPrivacy = self.dataPrivacy {
@@ -1803,8 +1803,8 @@ extension LexModelsV2ClientTypes.BotImportSpecification: Swift.Codable {
         }
         if let testBotAliasTags = testBotAliasTags {
             var testBotAliasTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .testBotAliasTags)
-            for (dictKey0, tagmap0) in testBotAliasTags {
-                try testBotAliasTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in testBotAliasTags {
+                try testBotAliasTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1958,8 +1958,8 @@ extension LexModelsV2ClientTypes.BotLocaleFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -3575,8 +3575,8 @@ extension LexModelsV2ClientTypes.CompositeSlotTypeSetting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let subSlots = subSlots {
             var subSlotsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subSlots)
-            for subslottypelist0 in subSlots {
-                try subSlotsContainer.encode(subslottypelist0)
+            for subslottypecomposition0 in subSlots {
+                try subSlotsContainer.encode(subslottypecomposition0)
             }
         }
     }
@@ -3731,8 +3731,8 @@ extension LexModelsV2ClientTypes.ConditionalSpecification: Swift.Codable {
         }
         if let conditionalBranches = conditionalBranches {
             var conditionalBranchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditionalBranches)
-            for conditionalbranches0 in conditionalBranches {
-                try conditionalBranchesContainer.encode(conditionalbranches0)
+            for conditionalbranch0 in conditionalBranches {
+                try conditionalBranchesContainer.encode(conditionalbranch0)
             }
         }
         if let defaultBranch = self.defaultBranch {
@@ -3849,14 +3849,14 @@ extension LexModelsV2ClientTypes.ConversationLogSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let audioLogSettings = audioLogSettings {
             var audioLogSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audioLogSettings)
-            for audiologsettingslist0 in audioLogSettings {
-                try audioLogSettingsContainer.encode(audiologsettingslist0)
+            for audiologsetting0 in audioLogSettings {
+                try audioLogSettingsContainer.encode(audiologsetting0)
             }
         }
         if let textLogSettings = textLogSettings {
             var textLogSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textLogSettings)
-            for textlogsettingslist0 in textLogSettings {
-                try textLogSettingsContainer.encode(textlogsettingslist0)
+            for textlogsetting0 in textLogSettings {
+                try textLogSettingsContainer.encode(textlogsetting0)
             }
         }
     }
@@ -3923,8 +3923,8 @@ extension CreateBotAliasInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let botAliasLocaleSettings = botAliasLocaleSettings {
             var botAliasLocaleSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .botAliasLocaleSettings)
-            for (dictKey0, botaliaslocalesettingsmap0) in botAliasLocaleSettings {
-                try botAliasLocaleSettingsContainer.encode(botaliaslocalesettingsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, botAliasLocaleSettingsMap0) in botAliasLocaleSettings {
+                try botAliasLocaleSettingsContainer.encode(botAliasLocaleSettingsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let botAliasName = self.botAliasName {
@@ -3944,8 +3944,8 @@ extension CreateBotAliasInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4269,8 +4269,8 @@ extension CreateBotInput: Swift.Encodable {
         }
         if let botTags = botTags {
             var botTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .botTags)
-            for (dictKey0, tagmap0) in botTags {
-                try botTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in botTags {
+                try botTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let dataPrivacy = self.dataPrivacy {
@@ -4287,8 +4287,8 @@ extension CreateBotInput: Swift.Encodable {
         }
         if let testBotAliasTags = testBotAliasTags {
             var testBotAliasTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .testBotAliasTags)
-            for (dictKey0, tagmap0) in testBotAliasTags {
-                try testBotAliasTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in testBotAliasTags {
+                try testBotAliasTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4851,8 +4851,8 @@ extension CreateBotVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let botVersionLocaleSpecification = botVersionLocaleSpecification {
             var botVersionLocaleSpecificationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .botVersionLocaleSpecification)
-            for (dictKey0, botversionlocalespecification0) in botVersionLocaleSpecification {
-                try botVersionLocaleSpecificationContainer.encode(botversionlocalespecification0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, botVersionLocaleSpecification0) in botVersionLocaleSpecification {
+                try botVersionLocaleSpecificationContainer.encode(botVersionLocaleSpecification0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -5276,8 +5276,8 @@ extension CreateIntentInput: Swift.Encodable {
         }
         if let inputContexts = inputContexts {
             var inputContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputContexts)
-            for inputcontextslist0 in inputContexts {
-                try inputContextsContainer.encode(inputcontextslist0)
+            for inputcontext0 in inputContexts {
+                try inputContextsContainer.encode(inputcontext0)
             }
         }
         if let intentClosingSetting = self.intentClosingSetting {
@@ -5294,8 +5294,8 @@ extension CreateIntentInput: Swift.Encodable {
         }
         if let outputContexts = outputContexts {
             var outputContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputContexts)
-            for outputcontextslist0 in outputContexts {
-                try outputContextsContainer.encode(outputcontextslist0)
+            for outputcontext0 in outputContexts {
+                try outputContextsContainer.encode(outputcontext0)
             }
         }
         if let parentIntentSignature = self.parentIntentSignature {
@@ -5303,8 +5303,8 @@ extension CreateIntentInput: Swift.Encodable {
         }
         if let sampleUtterances = sampleUtterances {
             var sampleUtterancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sampleUtterances)
-            for sampleutteranceslist0 in sampleUtterances {
-                try sampleUtterancesContainer.encode(sampleutteranceslist0)
+            for sampleutterance0 in sampleUtterances {
+                try sampleUtterancesContainer.encode(sampleutterance0)
             }
         }
     }
@@ -5896,14 +5896,17 @@ extension CreateResourcePolicyStatementInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let action = action {
             var actionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .action)
-            for operationlist0 in action {
-                try actionContainer.encode(operationlist0)
+            for operation0 in action {
+                try actionContainer.encode(operation0)
             }
         }
         if let condition = condition {
             var conditionContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .condition)
-            for (dictKey0, conditionmap0) in condition {
-                try conditionContainer.encode(conditionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, conditionMap0) in condition {
+                var conditionMap0Container = conditionContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, conditionKeyValueMap1) in conditionMap0 {
+                    try conditionMap0Container.encode(conditionKeyValueMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let effect = self.effect {
@@ -5911,8 +5914,8 @@ extension CreateResourcePolicyStatementInput: Swift.Encodable {
         }
         if let principal = principal {
             var principalContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principal)
-            for principallist0 in principal {
-                try principalContainer.encode(principallist0)
+            for principal0 in principal {
+                try principalContainer.encode(principal0)
             }
         }
         if let statementId = self.statementId {
@@ -6511,8 +6514,8 @@ extension CreateSlotTypeInput: Swift.Encodable {
         }
         if let slotTypeValues = slotTypeValues {
             var slotTypeValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .slotTypeValues)
-            for slottypevalues0 in slotTypeValues {
-                try slotTypeValuesContainer.encode(slottypevalues0)
+            for slottypevalue0 in slotTypeValues {
+                try slotTypeValuesContainer.encode(slottypevalue0)
             }
         }
         if let valueSelectionSetting = self.valueSelectionSetting {
@@ -11971,8 +11974,8 @@ extension LexModelsV2ClientTypes.DialogState: Swift.Codable {
         }
         if let sessionAttributes = sessionAttributes {
             var sessionAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sessionAttributes)
-            for (dictKey0, stringmap0) in sessionAttributes {
-                try sessionAttributesContainer.encode(stringmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stringMap0) in sessionAttributes {
+                try sessionAttributesContainer.encode(stringMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -12214,8 +12217,8 @@ extension LexModelsV2ClientTypes.ExportFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -12755,8 +12758,8 @@ extension LexModelsV2ClientTypes.FulfillmentStartResponseSpecification: Swift.Co
         }
         if let messageGroups = messageGroups {
             var messageGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageGroups)
-            for messagegroupslist0 in messageGroups {
-                try messageGroupsContainer.encode(messagegroupslist0)
+            for messagegroup0 in messageGroups {
+                try messageGroupsContainer.encode(messagegroup0)
             }
         }
     }
@@ -12824,8 +12827,8 @@ extension LexModelsV2ClientTypes.FulfillmentUpdateResponseSpecification: Swift.C
         }
         if let messageGroups = messageGroups {
             var messageGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageGroups)
-            for messagegroupslist0 in messageGroups {
-                try messageGroupsContainer.encode(messagegroupslist0)
+            for messagegroup0 in messageGroups {
+                try messageGroupsContainer.encode(messagegroup0)
             }
         }
     }
@@ -13046,8 +13049,8 @@ extension LexModelsV2ClientTypes.ImageResponseCard: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let buttons = buttons {
             var buttonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .buttons)
-            for buttonslist0 in buttons {
-                try buttonsContainer.encode(buttonslist0)
+            for button0 in buttons {
+                try buttonsContainer.encode(button0)
             }
         }
         if let imageUrl = self.imageUrl {
@@ -13161,8 +13164,8 @@ extension LexModelsV2ClientTypes.ImportFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -13923,8 +13926,8 @@ extension LexModelsV2ClientTypes.IntentFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -14050,8 +14053,8 @@ extension LexModelsV2ClientTypes.IntentOverride: Swift.Codable {
         }
         if let slots = slots {
             var slotsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .slots)
-            for (dictKey0, slotvalueoverridemap0) in slots {
-                try slotsContainer.encode(slotvalueoverridemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, slotValueOverrideMap0) in slots {
+                try slotsContainer.encode(slotValueOverrideMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14226,8 +14229,8 @@ extension LexModelsV2ClientTypes.IntentSummary: Swift.Codable {
         }
         if let inputContexts = inputContexts {
             var inputContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputContexts)
-            for inputcontextslist0 in inputContexts {
-                try inputContextsContainer.encode(inputcontextslist0)
+            for inputcontext0 in inputContexts {
+                try inputContextsContainer.encode(inputcontext0)
             }
         }
         if let intentId = self.intentId {
@@ -14241,8 +14244,8 @@ extension LexModelsV2ClientTypes.IntentSummary: Swift.Codable {
         }
         if let outputContexts = outputContexts {
             var outputContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputContexts)
-            for outputcontextslist0 in outputContexts {
-                try outputContextsContainer.encode(outputcontextslist0)
+            for outputcontext0 in outputContexts {
+                try outputContextsContainer.encode(outputcontext0)
             }
         }
         if let parentIntentSignature = self.parentIntentSignature {
@@ -14542,8 +14545,8 @@ extension ListAggregatedUtterancesInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for aggregatedutterancesfilters0 in filters {
-                try filtersContainer.encode(aggregatedutterancesfilters0)
+            for aggregatedutterancesfilter0 in filters {
+                try filtersContainer.encode(aggregatedutterancesfilter0)
             }
         }
         if let localeId = self.localeId {
@@ -15021,8 +15024,8 @@ extension ListBotLocalesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for botlocalefilters0 in filters {
-                try filtersContainer.encode(botlocalefilters0)
+            for botlocalefilter0 in filters {
+                try filtersContainer.encode(botlocalefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -15618,8 +15621,8 @@ extension ListBotsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for botfilters0 in filters {
-                try filtersContainer.encode(botfilters0)
+            for botfilter0 in filters {
+                try filtersContainer.encode(botfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -16367,8 +16370,8 @@ extension ListExportsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for exportfilters0 in filters {
-                try filtersContainer.encode(exportfilters0)
+            for exportfilter0 in filters {
+                try filtersContainer.encode(exportfilter0)
             }
         }
         if let localeId = self.localeId {
@@ -16614,8 +16617,8 @@ extension ListImportsInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for importfilters0 in filters {
-                try filtersContainer.encode(importfilters0)
+            for importfilter0 in filters {
+                try filtersContainer.encode(importfilter0)
             }
         }
         if let localeId = self.localeId {
@@ -16852,8 +16855,8 @@ extension ListIntentsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for intentfilters0 in filters {
-                try filtersContainer.encode(intentfilters0)
+            for intentfilter0 in filters {
+                try filtersContainer.encode(intentfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -17310,8 +17313,8 @@ extension ListSlotTypesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for slottypefilters0 in filters {
-                try filtersContainer.encode(slottypefilters0)
+            for slottypefilter0 in filters {
+                try filtersContainer.encode(slottypefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -17547,8 +17550,8 @@ extension ListSlotsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for slotfilters0 in filters {
-                try filtersContainer.encode(slotfilters0)
+            for slotfilter0 in filters {
+                try filtersContainer.encode(slotfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -18012,8 +18015,8 @@ extension LexModelsV2ClientTypes.MessageGroup: Swift.Codable {
         }
         if let variations = variations {
             var variationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variations)
-            for messagevariationslist0 in variations {
-                try variationsContainer.encode(messagevariationslist0)
+            for message0 in variations {
+                try variationsContainer.encode(message0)
             }
         }
     }
@@ -18315,8 +18318,8 @@ extension LexModelsV2ClientTypes.PathFormat: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let objectPrefixes = objectPrefixes {
             var objectPrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectPrefixes)
-            for objectprefixes0 in objectPrefixes {
-                try objectPrefixesContainer.encode(objectprefixes0)
+            for objectprefix0 in objectPrefixes {
+                try objectPrefixesContainer.encode(objectprefix0)
             }
         }
     }
@@ -18846,8 +18849,8 @@ extension LexModelsV2ClientTypes.PromptSpecification: Swift.Codable {
         }
         if let messageGroups = messageGroups {
             var messageGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageGroups)
-            for messagegroupslist0 in messageGroups {
-                try messageGroupsContainer.encode(messagegroupslist0)
+            for messagegroup0 in messageGroups {
+                try messageGroupsContainer.encode(messagegroup0)
             }
         }
         if let messageSelectionStrategy = self.messageSelectionStrategy {
@@ -18855,8 +18858,8 @@ extension LexModelsV2ClientTypes.PromptSpecification: Swift.Codable {
         }
         if let promptAttemptsSpecification = promptAttemptsSpecification {
             var promptAttemptsSpecificationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .promptAttemptsSpecification)
-            for (dictKey0, promptattemptsspecificationmap0) in promptAttemptsSpecification {
-                try promptAttemptsSpecificationContainer.encode(promptattemptsspecificationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, promptAttemptsSpecificationMap0) in promptAttemptsSpecification {
+                try promptAttemptsSpecificationContainer.encode(promptAttemptsSpecificationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -19107,8 +19110,8 @@ extension LexModelsV2ClientTypes.ResponseSpecification: Swift.Codable {
         }
         if let messageGroups = messageGroups {
             var messageGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageGroups)
-            for messagegroupslist0 in messageGroups {
-                try messageGroupsContainer.encode(messagegroupslist0)
+            for messagegroup0 in messageGroups {
+                try messageGroupsContainer.encode(messagegroup0)
             }
         }
     }
@@ -19406,8 +19409,8 @@ extension SearchAssociatedTranscriptsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for associatedtranscriptfilters0 in filters {
-                try filtersContainer.encode(associatedtranscriptfilters0)
+            for associatedtranscriptfilter0 in filters {
+                try filtersContainer.encode(associatedtranscriptfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -19964,8 +19967,8 @@ extension LexModelsV2ClientTypes.SlotDefaultValueSpecification: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultValueList = defaultValueList {
             var defaultValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultValueList)
-            for slotdefaultvaluelist0 in defaultValueList {
-                try defaultValueListContainer.encode(slotdefaultvaluelist0)
+            for slotdefaultvalue0 in defaultValueList {
+                try defaultValueListContainer.encode(slotdefaultvalue0)
             }
         }
     }
@@ -20020,8 +20023,8 @@ extension LexModelsV2ClientTypes.SlotFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -20442,8 +20445,8 @@ extension LexModelsV2ClientTypes.SlotTypeFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -20777,8 +20780,8 @@ extension LexModelsV2ClientTypes.SlotTypeValue: Swift.Codable {
         }
         if let synonyms = synonyms {
             var synonymsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .synonyms)
-            for synonymlist0 in synonyms {
-                try synonymsContainer.encode(synonymlist0)
+            for samplevalue0 in synonyms {
+                try synonymsContainer.encode(samplevalue0)
             }
         }
     }
@@ -20876,8 +20879,8 @@ extension LexModelsV2ClientTypes.SlotValueElicitationSetting: Swift.Codable {
         }
         if let sampleUtterances = sampleUtterances {
             var sampleUtterancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sampleUtterances)
-            for sampleutteranceslist0 in sampleUtterances {
-                try sampleUtterancesContainer.encode(sampleutteranceslist0)
+            for sampleutterance0 in sampleUtterances {
+                try sampleUtterancesContainer.encode(sampleutterance0)
             }
         }
         if let slotCaptureSetting = self.slotCaptureSetting {
@@ -20971,8 +20974,8 @@ extension LexModelsV2ClientTypes.SlotValueOverride: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for slotvalues0 in values {
-                try valuesContainer.encode(slotvalues0)
+            for slotvalueoverride0 in values {
+                try valuesContainer.encode(slotvalueoverride0)
             }
         }
     }
@@ -21698,8 +21701,8 @@ extension LexModelsV2ClientTypes.StillWaitingResponseSpecification: Swift.Codabl
         }
         if let messageGroups = messageGroups {
             var messageGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messageGroups)
-            for messagegroupslist0 in messageGroups {
-                try messageGroupsContainer.encode(messagegroupslist0)
+            for messagegroup0 in messageGroups {
+                try messageGroupsContainer.encode(messagegroup0)
             }
         }
         if let timeoutInSeconds = self.timeoutInSeconds {
@@ -21943,8 +21946,8 @@ extension LexModelsV2ClientTypes.SubSlotSetting: Swift.Codable {
         }
         if let slotSpecifications = slotSpecifications {
             var slotSpecificationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .slotSpecifications)
-            for (dictKey0, subslotspecificationmap0) in slotSpecifications {
-                try slotSpecificationsContainer.encode(subslotspecificationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, subSlotSpecificationMap0) in slotSpecifications {
+                try slotSpecificationsContainer.encode(subSlotSpecificationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -22052,8 +22055,8 @@ extension LexModelsV2ClientTypes.SubSlotValueElicitationSetting: Swift.Codable {
         }
         if let sampleUtterances = sampleUtterances {
             var sampleUtterancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sampleUtterances)
-            for sampleutteranceslist0 in sampleUtterances {
-                try sampleUtterancesContainer.encode(sampleutteranceslist0)
+            for sampleutterance0 in sampleUtterances {
+                try sampleUtterancesContainer.encode(sampleutterance0)
             }
         }
         if let waitAndContinueSpecification = self.waitAndContinueSpecification {
@@ -22121,8 +22124,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -22636,8 +22639,8 @@ extension UpdateBotAliasInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let botAliasLocaleSettings = botAliasLocaleSettings {
             var botAliasLocaleSettingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .botAliasLocaleSettings)
-            for (dictKey0, botaliaslocalesettingsmap0) in botAliasLocaleSettings {
-                try botAliasLocaleSettingsContainer.encode(botaliaslocalesettingsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, botAliasLocaleSettingsMap0) in botAliasLocaleSettings {
+                try botAliasLocaleSettingsContainer.encode(botAliasLocaleSettingsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let botAliasName = self.botAliasName {
@@ -23948,8 +23951,8 @@ extension UpdateIntentInput: Swift.Encodable {
         }
         if let inputContexts = inputContexts {
             var inputContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputContexts)
-            for inputcontextslist0 in inputContexts {
-                try inputContextsContainer.encode(inputcontextslist0)
+            for inputcontext0 in inputContexts {
+                try inputContextsContainer.encode(inputcontext0)
             }
         }
         if let intentClosingSetting = self.intentClosingSetting {
@@ -23966,8 +23969,8 @@ extension UpdateIntentInput: Swift.Encodable {
         }
         if let outputContexts = outputContexts {
             var outputContextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputContexts)
-            for outputcontextslist0 in outputContexts {
-                try outputContextsContainer.encode(outputcontextslist0)
+            for outputcontext0 in outputContexts {
+                try outputContextsContainer.encode(outputcontext0)
             }
         }
         if let parentIntentSignature = self.parentIntentSignature {
@@ -23975,14 +23978,14 @@ extension UpdateIntentInput: Swift.Encodable {
         }
         if let sampleUtterances = sampleUtterances {
             var sampleUtterancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sampleUtterances)
-            for sampleutteranceslist0 in sampleUtterances {
-                try sampleUtterancesContainer.encode(sampleutteranceslist0)
+            for sampleutterance0 in sampleUtterances {
+                try sampleUtterancesContainer.encode(sampleutterance0)
             }
         }
         if let slotPriorities = slotPriorities {
             var slotPrioritiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .slotPriorities)
-            for slotprioritieslist0 in slotPriorities {
-                try slotPrioritiesContainer.encode(slotprioritieslist0)
+            for slotpriority0 in slotPriorities {
+                try slotPrioritiesContainer.encode(slotpriority0)
             }
         }
     }
@@ -25026,8 +25029,8 @@ extension UpdateSlotTypeInput: Swift.Encodable {
         }
         if let slotTypeValues = slotTypeValues {
             var slotTypeValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .slotTypeValues)
-            for slottypevalues0 in slotTypeValues {
-                try slotTypeValuesContainer.encode(slottypevalues0)
+            for slottypevalue0 in slotTypeValues {
+                try slotTypeValuesContainer.encode(slottypevalue0)
             }
         }
         if let valueSelectionSetting = self.valueSelectionSetting {

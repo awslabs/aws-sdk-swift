@@ -78,8 +78,8 @@ extension CreateLinkInput: Swift.Encodable {
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for resourcetypesinput0 in resourceTypes {
-                try resourceTypesContainer.encode(resourcetypesinput0.rawValue)
+            for resourcetype0 in resourceTypes {
+                try resourceTypesContainer.encode(resourcetype0.rawValue)
             }
         }
         if let sinkIdentifier = self.sinkIdentifier {
@@ -87,8 +87,8 @@ extension CreateLinkInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmapinput0) in tags {
-                try tagsContainer.encode(tagmapinput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMapInput0) in tags {
+                try tagsContainer.encode(tagMapInput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -341,8 +341,8 @@ extension CreateSinkInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmapinput0) in tags {
-                try tagsContainer.encode(tagmapinput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMapInput0) in tags {
+                try tagsContainer.encode(tagMapInput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1383,8 +1383,8 @@ extension OAMClientTypes.ListAttachedLinksItem: Swift.Codable {
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for resourcetypesoutput0 in resourceTypes {
-                try resourceTypesContainer.encode(resourcetypesoutput0)
+            for string0 in resourceTypes {
+                try resourceTypesContainer.encode(string0)
             }
         }
     }
@@ -1603,8 +1603,8 @@ extension OAMClientTypes.ListLinksItem: Swift.Codable {
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for resourcetypesoutput0 in resourceTypes {
-                try resourceTypesContainer.encode(resourcetypesoutput0)
+            for string0 in resourceTypes {
+                try resourceTypesContainer.encode(string0)
             }
         }
         if let sinkArn = self.sinkArn {
@@ -2438,8 +2438,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmapinput0) in tags {
-                try tagsContainer.encode(tagmapinput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMapInput0) in tags {
+                try tagsContainer.encode(tagMapInput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2685,8 +2685,8 @@ extension UpdateLinkInput: Swift.Encodable {
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for resourcetypesinput0 in resourceTypes {
-                try resourceTypesContainer.encode(resourcetypesinput0.rawValue)
+            for resourcetype0 in resourceTypes {
+                try resourceTypesContainer.encode(resourcetype0.rawValue)
             }
         }
     }

@@ -36,8 +36,8 @@ extension ActivateGatewayInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let tapeDriveType = self.tapeDriveType {
@@ -287,8 +287,8 @@ extension AddCacheInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let diskIds = diskIds {
             var diskIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .diskIds)
-            for diskids0 in diskIds {
-                try diskIdsContainer.encode(diskids0)
+            for diskid0 in diskIds {
+                try diskIdsContainer.encode(diskid0)
             }
         }
         if let gatewayARN = self.gatewayARN {
@@ -428,8 +428,8 @@ extension AddTagsToResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -565,8 +565,8 @@ extension AddUploadBufferInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let diskIds = diskIds {
             var diskIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .diskIds)
-            for diskids0 in diskIds {
-                try diskIdsContainer.encode(diskids0)
+            for diskid0 in diskIds {
+                try diskIdsContainer.encode(diskid0)
             }
         }
         if let gatewayARN = self.gatewayARN {
@@ -703,8 +703,8 @@ extension AddWorkingStorageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let diskIds = diskIds {
             var diskIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .diskIds)
-            for diskids0 in diskIds {
-                try diskIdsContainer.encode(diskids0)
+            for diskid0 in diskIds {
+                try diskIdsContainer.encode(diskid0)
             }
         }
         if let gatewayARN = self.gatewayARN {
@@ -1016,8 +1016,8 @@ extension AssociateFileSystemInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userName = self.userName {
@@ -1388,8 +1388,8 @@ extension StorageGatewayClientTypes.AutomaticTapeCreationPolicyInfo: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let automaticTapeCreationRules = automaticTapeCreationRules {
             var automaticTapeCreationRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .automaticTapeCreationRules)
-            for automatictapecreationrules0 in automaticTapeCreationRules {
-                try automaticTapeCreationRulesContainer.encode(automatictapecreationrules0)
+            for automatictapecreationrule0 in automaticTapeCreationRules {
+                try automaticTapeCreationRulesContainer.encode(automatictapecreationrule0)
             }
         }
         if let gatewayARN = self.gatewayARN {
@@ -1570,8 +1570,8 @@ extension StorageGatewayClientTypes.BandwidthRateLimitInterval: Swift.Codable {
         }
         if let daysOfWeek = daysOfWeek {
             var daysOfWeekContainer = encodeContainer.nestedUnkeyedContainer(forKey: .daysOfWeek)
-            for daysofweek0 in daysOfWeek {
-                try daysOfWeekContainer.encode(daysofweek0)
+            for dayofweek0 in daysOfWeek {
+                try daysOfWeekContainer.encode(dayofweek0)
             }
         }
         if let endHourOfDay = self.endHourOfDay {
@@ -2248,8 +2248,8 @@ extension CreateCachediSCSIVolumeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let targetName = self.targetName {
@@ -2494,8 +2494,8 @@ extension CreateNFSFileShareInput: Swift.Encodable {
         }
         if let clientList = clientList {
             var clientListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientList)
-            for fileshareclientlist0 in clientList {
-                try clientListContainer.encode(fileshareclientlist0)
+            for ipv4addresscidr0 in clientList {
+                try clientListContainer.encode(ipv4addresscidr0)
             }
         }
         if let clientToken = self.clientToken {
@@ -2545,8 +2545,8 @@ extension CreateNFSFileShareInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcEndpointDNSName = self.vpcEndpointDNSName {
@@ -2881,8 +2881,8 @@ extension CreateSMBFileShareInput: Swift.Encodable {
         }
         if let adminUserList = adminUserList {
             var adminUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adminUserList)
-            for userlist0 in adminUserList {
-                try adminUserListContainer.encode(userlist0)
+            for userlistuser0 in adminUserList {
+                try adminUserListContainer.encode(userlistuser0)
             }
         }
         if let auditDestinationARN = self.auditDestinationARN {
@@ -2917,8 +2917,8 @@ extension CreateSMBFileShareInput: Swift.Encodable {
         }
         if let invalidUserList = invalidUserList {
             var invalidUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .invalidUserList)
-            for userlist0 in invalidUserList {
-                try invalidUserListContainer.encode(userlist0)
+            for userlistuser0 in invalidUserList {
+                try invalidUserListContainer.encode(userlistuser0)
             }
         }
         if let kmsEncrypted = self.kmsEncrypted {
@@ -2953,8 +2953,8 @@ extension CreateSMBFileShareInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcEndpointDNSName = self.vpcEndpointDNSName {
@@ -2962,8 +2962,8 @@ extension CreateSMBFileShareInput: Swift.Encodable {
         }
         if let validUserList = validUserList {
             var validUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validUserList)
-            for userlist0 in validUserList {
-                try validUserListContainer.encode(userlist0)
+            for userlistuser0 in validUserList {
+                try validUserListContainer.encode(userlistuser0)
             }
         }
     }
@@ -3324,8 +3324,8 @@ extension CreateSnapshotFromVolumeRecoveryPointInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeARN = self.volumeARN {
@@ -3496,8 +3496,8 @@ extension CreateSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeARN = self.volumeARN {
@@ -3688,8 +3688,8 @@ extension CreateStorediSCSIVolumeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let targetName = self.targetName {
@@ -3932,8 +3932,8 @@ extension CreateTapePoolInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4109,8 +4109,8 @@ extension CreateTapeWithBarcodeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let tapeBarcode = self.tapeBarcode {
@@ -4330,8 +4330,8 @@ extension CreateTapesInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let tapeBarcodePrefix = self.tapeBarcodePrefix {
@@ -6368,8 +6368,8 @@ extension DescribeCachediSCSIVolumesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let volumeARNs = volumeARNs {
             var volumeARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeARNs)
-            for volumearns0 in volumeARNs {
-                try volumeARNsContainer.encode(volumearns0)
+            for volumearn0 in volumeARNs {
+                try volumeARNsContainer.encode(volumearn0)
             }
         }
     }
@@ -6635,8 +6635,8 @@ extension DescribeFileSystemAssociationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fileSystemAssociationARNList = fileSystemAssociationARNList {
             var fileSystemAssociationARNListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemAssociationARNList)
-            for filesystemassociationarnlist0 in fileSystemAssociationARNList {
-                try fileSystemAssociationARNListContainer.encode(filesystemassociationarnlist0)
+            for filesystemassociationarn0 in fileSystemAssociationARNList {
+                try fileSystemAssociationARNListContainer.encode(filesystemassociationarn0)
             }
         }
     }
@@ -7286,8 +7286,8 @@ extension DescribeNFSFileSharesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fileShareARNList = fileShareARNList {
             var fileShareARNListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileShareARNList)
-            for filesharearnlist0 in fileShareARNList {
-                try fileShareARNListContainer.encode(filesharearnlist0)
+            for filesharearn0 in fileShareARNList {
+                try fileShareARNListContainer.encode(filesharearn0)
             }
         }
     }
@@ -7422,8 +7422,8 @@ extension DescribeSMBFileSharesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fileShareARNList = fileShareARNList {
             var fileShareARNListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileShareARNList)
-            for filesharearnlist0 in fileShareARNList {
-                try fileShareARNListContainer.encode(filesharearnlist0)
+            for filesharearn0 in fileShareARNList {
+                try fileShareARNListContainer.encode(filesharearn0)
             }
         }
     }
@@ -7924,8 +7924,8 @@ extension DescribeStorediSCSIVolumesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let volumeARNs = volumeARNs {
             var volumeARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeARNs)
-            for volumearns0 in volumeARNs {
-                try volumeARNsContainer.encode(volumearns0)
+            for volumearn0 in volumeARNs {
+                try volumeARNsContainer.encode(volumearn0)
             }
         }
     }
@@ -8099,8 +8099,8 @@ extension DescribeTapeArchivesInput: Swift.Encodable {
         }
         if let tapeARNs = tapeARNs {
             var tapeARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tapeARNs)
-            for tapearns0 in tapeARNs {
-                try tapeARNsContainer.encode(tapearns0)
+            for tapearn0 in tapeARNs {
+                try tapeARNsContainer.encode(tapearn0)
             }
         }
     }
@@ -8440,8 +8440,8 @@ extension DescribeTapesInput: Swift.Encodable {
         }
         if let tapeARNs = tapeARNs {
             var tapeARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tapeARNs)
-            for tapearns0 in tapeARNs {
-                try tapeARNsContainer.encode(tapearns0)
+            for tapearn0 in tapeARNs {
+                try tapeARNsContainer.encode(tapearn0)
             }
         }
     }
@@ -8774,8 +8774,8 @@ extension DescribeVTLDevicesInput: Swift.Encodable {
         }
         if let vtlDeviceARNs = vtlDeviceARNs {
             var vtlDeviceARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vtlDeviceARNs)
-            for vtldevicearns0 in vtlDeviceARNs {
-                try vtlDeviceARNsContainer.encode(vtldevicearns0)
+            for vtldevicearn0 in vtlDeviceARNs {
+                try vtlDeviceARNsContainer.encode(vtldevicearn0)
             }
         }
     }
@@ -9553,8 +9553,8 @@ extension StorageGatewayClientTypes.Disk: Swift.Codable {
         }
         if let diskAttributeList = diskAttributeList {
             var diskAttributeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .diskAttributeList)
-            for diskattributelist0 in diskAttributeList {
-                try diskAttributeListContainer.encode(diskattributelist0)
+            for diskattribute0 in diskAttributeList {
+                try diskAttributeListContainer.encode(diskattribute0)
             }
         }
         if let diskId = self.diskId {
@@ -9657,8 +9657,8 @@ extension StorageGatewayClientTypes.EndpointNetworkConfiguration: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ipAddresses = ipAddresses {
             var ipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddresses)
-            for ipaddresslist0 in ipAddresses {
-                try ipAddressesContainer.encode(ipaddresslist0)
+            for ipv4address0 in ipAddresses {
+                try ipAddressesContainer.encode(ipv4address0)
             }
         }
     }
@@ -10047,8 +10047,8 @@ extension StorageGatewayClientTypes.FileSystemAssociationInfo: Swift.Codable {
         }
         if let fileSystemAssociationStatusDetails = fileSystemAssociationStatusDetails {
             var fileSystemAssociationStatusDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemAssociationStatusDetails)
-            for filesystemassociationstatusdetails0 in fileSystemAssociationStatusDetails {
-                try fileSystemAssociationStatusDetailsContainer.encode(filesystemassociationstatusdetails0)
+            for filesystemassociationstatusdetail0 in fileSystemAssociationStatusDetails {
+                try fileSystemAssociationStatusDetailsContainer.encode(filesystemassociationstatusdetail0)
             }
         }
         if let gatewayARN = self.gatewayARN {
@@ -10059,8 +10059,8 @@ extension StorageGatewayClientTypes.FileSystemAssociationInfo: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -10594,8 +10594,8 @@ extension JoinDomainInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainControllers = domainControllers {
             var domainControllersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainControllers)
-            for hosts0 in domainControllers {
-                try domainControllersContainer.encode(hosts0)
+            for host0 in domainControllers {
+                try domainControllersContainer.encode(host0)
             }
         }
         if let domainName = self.domainName {
@@ -11726,8 +11726,8 @@ extension ListTapePoolsInput: Swift.Encodable {
         }
         if let poolARNs = poolARNs {
             var poolARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .poolARNs)
-            for poolarns0 in poolARNs {
-                try poolARNsContainer.encode(poolarns0)
+            for poolarn0 in poolARNs {
+                try poolARNsContainer.encode(poolarn0)
             }
         }
     }
@@ -11893,8 +11893,8 @@ extension ListTapesInput: Swift.Encodable {
         }
         if let tapeARNs = tapeARNs {
             var tapeARNsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tapeARNs)
-            for tapearns0 in tapeARNs {
-                try tapeARNsContainer.encode(tapearns0)
+            for tapearn0 in tapeARNs {
+                try tapeARNsContainer.encode(tapearn0)
             }
         }
     }
@@ -12592,8 +12592,8 @@ extension StorageGatewayClientTypes.NFSFileShareInfo: Swift.Codable {
         }
         if let clientList = clientList {
             var clientListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientList)
-            for fileshareclientlist0 in clientList {
-                try clientListContainer.encode(fileshareclientlist0)
+            for ipv4addresscidr0 in clientList {
+                try clientListContainer.encode(ipv4addresscidr0)
             }
         }
         if let defaultStorageClass = self.defaultStorageClass {
@@ -12652,8 +12652,8 @@ extension StorageGatewayClientTypes.NFSFileShareInfo: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcEndpointDNSName = self.vpcEndpointDNSName {
@@ -13203,8 +13203,8 @@ extension RefreshCacheInput: Swift.Encodable {
         }
         if let folderList = folderList {
             var folderListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folderList)
-            for folderlist0 in folderList {
-                try folderListContainer.encode(folderlist0)
+            for folder0 in folderList {
+                try folderListContainer.encode(folder0)
             }
         }
         if let recursive = self.recursive {
@@ -13363,8 +13363,8 @@ extension RemoveTagsFromResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -13934,8 +13934,8 @@ extension StorageGatewayClientTypes.SMBFileShareInfo: Swift.Codable {
         }
         if let adminUserList = adminUserList {
             var adminUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adminUserList)
-            for userlist0 in adminUserList {
-                try adminUserListContainer.encode(userlist0)
+            for userlistuser0 in adminUserList {
+                try adminUserListContainer.encode(userlistuser0)
             }
         }
         if let auditDestinationARN = self.auditDestinationARN {
@@ -13976,8 +13976,8 @@ extension StorageGatewayClientTypes.SMBFileShareInfo: Swift.Codable {
         }
         if let invalidUserList = invalidUserList {
             var invalidUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .invalidUserList)
-            for userlist0 in invalidUserList {
-                try invalidUserListContainer.encode(userlist0)
+            for userlistuser0 in invalidUserList {
+                try invalidUserListContainer.encode(userlistuser0)
             }
         }
         if kmsEncrypted != false {
@@ -14015,8 +14015,8 @@ extension StorageGatewayClientTypes.SMBFileShareInfo: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcEndpointDNSName = self.vpcEndpointDNSName {
@@ -14024,8 +14024,8 @@ extension StorageGatewayClientTypes.SMBFileShareInfo: Swift.Codable {
         }
         if let validUserList = validUserList {
             var validUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validUserList)
-            for userlist0 in validUserList {
-                try validUserListContainer.encode(userlist0)
+            for userlistuser0 in validUserList {
+                try validUserListContainer.encode(userlistuser0)
             }
         }
     }
@@ -14266,8 +14266,8 @@ extension StorageGatewayClientTypes.SMBLocalGroups: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let gatewayAdmins = gatewayAdmins {
             var gatewayAdminsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gatewayAdmins)
-            for userlist0 in gatewayAdmins {
-                try gatewayAdminsContainer.encode(userlist0)
+            for userlistuser0 in gatewayAdmins {
+                try gatewayAdminsContainer.encode(userlistuser0)
             }
         }
     }
@@ -15022,8 +15022,8 @@ extension StorageGatewayClientTypes.StorageGatewayError: Swift.Codable {
         }
         if let errorDetails = errorDetails {
             var errorDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .errorDetails)
-            for (dictKey0, errordetails0) in errorDetails {
-                try errorDetailsContainer.encode(errordetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, errorDetails0) in errorDetails {
+                try errorDetailsContainer.encode(errorDetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -15810,8 +15810,8 @@ extension UpdateAutomaticTapeCreationPolicyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let automaticTapeCreationRules = automaticTapeCreationRules {
             var automaticTapeCreationRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .automaticTapeCreationRules)
-            for automatictapecreationrules0 in automaticTapeCreationRules {
-                try automaticTapeCreationRulesContainer.encode(automatictapecreationrules0)
+            for automatictapecreationrule0 in automaticTapeCreationRules {
+                try automaticTapeCreationRulesContainer.encode(automatictapecreationrule0)
             }
         }
         if let gatewayARN = self.gatewayARN {
@@ -16091,8 +16091,8 @@ extension UpdateBandwidthRateLimitScheduleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bandwidthRateLimitIntervals = bandwidthRateLimitIntervals {
             var bandwidthRateLimitIntervalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bandwidthRateLimitIntervals)
-            for bandwidthratelimitintervals0 in bandwidthRateLimitIntervals {
-                try bandwidthRateLimitIntervalsContainer.encode(bandwidthratelimitintervals0)
+            for bandwidthratelimitinterval0 in bandwidthRateLimitIntervals {
+                try bandwidthRateLimitIntervalsContainer.encode(bandwidthratelimitinterval0)
             }
         }
         if let gatewayARN = self.gatewayARN {
@@ -17050,8 +17050,8 @@ extension UpdateNFSFileShareInput: Swift.Encodable {
         }
         if let clientList = clientList {
             var clientListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientList)
-            for fileshareclientlist0 in clientList {
-                try clientListContainer.encode(fileshareclientlist0)
+            for ipv4addresscidr0 in clientList {
+                try clientListContainer.encode(ipv4addresscidr0)
             }
         }
         if let defaultStorageClass = self.defaultStorageClass {
@@ -17352,8 +17352,8 @@ extension UpdateSMBFileShareInput: Swift.Encodable {
         }
         if let adminUserList = adminUserList {
             var adminUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adminUserList)
-            for userlist0 in adminUserList {
-                try adminUserListContainer.encode(userlist0)
+            for userlistuser0 in adminUserList {
+                try adminUserListContainer.encode(userlistuser0)
             }
         }
         if let auditDestinationARN = self.auditDestinationARN {
@@ -17379,8 +17379,8 @@ extension UpdateSMBFileShareInput: Swift.Encodable {
         }
         if let invalidUserList = invalidUserList {
             var invalidUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .invalidUserList)
-            for userlist0 in invalidUserList {
-                try invalidUserListContainer.encode(userlist0)
+            for userlistuser0 in invalidUserList {
+                try invalidUserListContainer.encode(userlistuser0)
             }
         }
         if let kmsEncrypted = self.kmsEncrypted {
@@ -17409,8 +17409,8 @@ extension UpdateSMBFileShareInput: Swift.Encodable {
         }
         if let validUserList = validUserList {
             var validUserListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validUserList)
-            for userlist0 in validUserList {
-                try validUserListContainer.encode(userlist0)
+            for userlistuser0 in validUserList {
+                try validUserListContainer.encode(userlistuser0)
             }
         }
     }
@@ -18089,8 +18089,8 @@ extension UpdateSnapshotScheduleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeARN = self.volumeARN {

@@ -393,8 +393,8 @@ extension IoTEventsClientTypes.AlarmEventActions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alarmActions = alarmActions {
             var alarmActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alarmActions)
-            for alarmactions0 in alarmActions {
-                try alarmActionsContainer.encode(alarmactions0)
+            for alarmaction0 in alarmActions {
+                try alarmActionsContainer.encode(alarmaction0)
             }
         }
     }
@@ -646,8 +646,8 @@ extension IoTEventsClientTypes.AlarmNotification: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let notificationActions = notificationActions {
             var notificationActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationActions)
-            for notificationactions0 in notificationActions {
-                try notificationActionsContainer.encode(notificationactions0)
+            for notificationaction0 in notificationActions {
+                try notificationActionsContainer.encode(notificationaction0)
             }
         }
     }
@@ -734,8 +734,8 @@ extension IoTEventsClientTypes.AnalysisResult: Swift.Codable {
         }
         if let locations = locations {
             var locationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .locations)
-            for analysisresultlocations0 in locations {
-                try locationsContainer.encode(analysisresultlocations0)
+            for analysisresultlocation0 in locations {
+                try locationsContainer.encode(analysisresultlocation0)
             }
         }
         if let message = self.message {
@@ -1276,8 +1276,8 @@ extension CreateAlarmModelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1557,8 +1557,8 @@ extension CreateDetectorModelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1754,8 +1754,8 @@ extension CreateInputInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3038,8 +3038,8 @@ extension IoTEventsClientTypes.DetectorModelDefinition: Swift.Codable {
         }
         if let states = states {
             var statesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .states)
-            for states0 in states {
-                try statesContainer.encode(states0)
+            for state0 in states {
+                try statesContainer.encode(state0)
             }
         }
     }
@@ -3621,8 +3621,8 @@ extension IoTEventsClientTypes.EmailRecipients: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let to = to {
             var toContainer = encodeContainer.nestedUnkeyedContainer(forKey: .to)
-            for recipientdetails0 in to {
-                try toContainer.encode(recipientdetails0)
+            for recipientdetail0 in to {
+                try toContainer.encode(recipientdetail0)
             }
         }
     }
@@ -3702,8 +3702,8 @@ extension IoTEventsClientTypes.Event: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actions0 in actions {
-                try actionsContainer.encode(actions0)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
             }
         }
         if let condition = self.condition {
@@ -4141,8 +4141,8 @@ extension IoTEventsClientTypes.InputDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributes0 in attributes {
-                try attributesContainer.encode(attributes0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
     }
@@ -5879,8 +5879,8 @@ extension IoTEventsClientTypes.LoggingOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let detectorDebugOptions = detectorDebugOptions {
             var detectorDebugOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detectorDebugOptions)
-            for detectordebugoptions0 in detectorDebugOptions {
-                try detectorDebugOptionsContainer.encode(detectordebugoptions0)
+            for detectordebugoption0 in detectorDebugOptions {
+                try detectorDebugOptionsContainer.encode(detectordebugoption0)
             }
         }
         if enabled != false {
@@ -5961,14 +5961,14 @@ extension IoTEventsClientTypes.NotificationAction: Swift.Codable {
         }
         if let emailConfigurations = emailConfigurations {
             var emailConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emailConfigurations)
-            for emailconfigurations0 in emailConfigurations {
-                try emailConfigurationsContainer.encode(emailconfigurations0)
+            for emailconfiguration0 in emailConfigurations {
+                try emailConfigurationsContainer.encode(emailconfiguration0)
             }
         }
         if let smsConfigurations = smsConfigurations {
             var smsConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .smsConfigurations)
-            for smsconfigurations0 in smsConfigurations {
-                try smsConfigurationsContainer.encode(smsconfigurations0)
+            for smsconfiguration0 in smsConfigurations {
+                try smsConfigurationsContainer.encode(smsconfiguration0)
             }
         }
     }
@@ -6071,8 +6071,8 @@ extension IoTEventsClientTypes.OnEnterLifecycle: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for events0 in events {
-                try eventsContainer.encode(events0)
+            for event0 in events {
+                try eventsContainer.encode(event0)
             }
         }
     }
@@ -6118,8 +6118,8 @@ extension IoTEventsClientTypes.OnExitLifecycle: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for events0 in events {
-                try eventsContainer.encode(events0)
+            for event0 in events {
+                try eventsContainer.encode(event0)
             }
         }
     }
@@ -6166,14 +6166,14 @@ extension IoTEventsClientTypes.OnInputLifecycle: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for events0 in events {
-                try eventsContainer.encode(events0)
+            for event0 in events {
+                try eventsContainer.encode(event0)
             }
         }
         if let transitionEvents = transitionEvents {
             var transitionEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transitionEvents)
-            for transitionevents0 in transitionEvents {
-                try transitionEventsContainer.encode(transitionevents0)
+            for transitionevent0 in transitionEvents {
+                try transitionEventsContainer.encode(transitionevent0)
             }
         }
     }
@@ -6703,8 +6703,8 @@ extension IoTEventsClientTypes.SMSConfiguration: Swift.Codable {
         }
         if let recipients = recipients {
             var recipientsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recipients)
-            for recipientdetails0 in recipients {
-                try recipientsContainer.encode(recipientdetails0)
+            for recipientdetail0 in recipients {
+                try recipientsContainer.encode(recipientdetail0)
             }
         }
         if let senderId = self.senderId {
@@ -7361,8 +7361,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7539,8 +7539,8 @@ extension IoTEventsClientTypes.TransitionEvent: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actions0 in actions {
-                try actionsContainer.encode(actions0)
+            for action0 in actions {
+                try actionsContainer.encode(action0)
             }
         }
         if let condition = self.condition {

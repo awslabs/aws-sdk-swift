@@ -121,8 +121,8 @@ extension EFSClientTypes.AccessPointDescription: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -537,8 +537,8 @@ extension CreateAccessPointInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -834,8 +834,8 @@ extension CreateFileSystemInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let throughputMode = self.throughputMode {
@@ -1235,8 +1235,8 @@ extension CreateMountTargetInput: Swift.Encodable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroups0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroups0)
+            for securitygroup0 in securityGroups {
+                try securityGroupsContainer.encode(securitygroup0)
             }
         }
         if let subnetId = self.subnetId {
@@ -1506,8 +1506,8 @@ extension CreateReplicationConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for destinationstocreate0 in destinations {
-                try destinationsContainer.encode(destinationstocreate0)
+            for destinationtocreate0 in destinations {
+                try destinationsContainer.encode(destinationtocreate0)
             }
         }
     }
@@ -1720,8 +1720,8 @@ extension CreateTagsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2228,8 +2228,8 @@ extension DeleteTagsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -4013,8 +4013,8 @@ extension EFSClientTypes.FileSystemDescription: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let throughputMode = self.throughputMode {
@@ -5042,8 +5042,8 @@ extension ModifyMountTargetSecurityGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroups0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroups0)
+            for securitygroup0 in securityGroups {
+                try securityGroupsContainer.encode(securitygroup0)
             }
         }
     }
@@ -5637,8 +5637,8 @@ extension EFSClientTypes.PosixUser: Swift.Codable {
         }
         if let secondaryGids = secondaryGids {
             var secondaryGidsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryGids)
-            for secondarygids0 in secondaryGids {
-                try secondaryGidsContainer.encode(secondarygids0)
+            for gid0 in secondaryGids {
+                try secondaryGidsContainer.encode(gid0)
             }
         }
         if let uid = self.uid {
@@ -6090,8 +6090,8 @@ extension PutLifecycleConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lifecyclePolicies = lifecyclePolicies {
             var lifecyclePoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lifecyclePolicies)
-            for lifecyclepolicies0 in lifecyclePolicies {
-                try lifecyclePoliciesContainer.encode(lifecyclepolicies0)
+            for lifecyclepolicy0 in lifecyclePolicies {
+                try lifecyclePoliciesContainer.encode(lifecyclepolicy0)
             }
         }
     }
@@ -6251,8 +6251,8 @@ extension EFSClientTypes.ReplicationConfigurationDescription: Swift.Codable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for destinations0 in destinations {
-                try destinationsContainer.encode(destinations0)
+            for destination0 in destinations {
+                try destinationsContainer.encode(destination0)
             }
         }
         if let originalSourceFileSystemArn = self.originalSourceFileSystemArn {
@@ -6483,8 +6483,8 @@ extension EFSClientTypes.ResourceIdPreference: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for resources0 in resources {
-                try resourcesContainer.encode(resources0.rawValue)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0.rawValue)
             }
         }
     }
@@ -6891,8 +6891,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }

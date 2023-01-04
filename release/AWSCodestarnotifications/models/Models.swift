@@ -185,8 +185,8 @@ extension CreateNotificationRuleInput: Swift.Encodable {
         }
         if let eventTypeIds = eventTypeIds {
             var eventTypeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTypeIds)
-            for eventtypeids0 in eventTypeIds {
-                try eventTypeIdsContainer.encode(eventtypeids0)
+            for eventtypeid0 in eventTypeIds {
+                try eventTypeIdsContainer.encode(eventtypeid0)
             }
         }
         if let name = self.name {
@@ -206,8 +206,8 @@ extension CreateNotificationRuleInput: Swift.Encodable {
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
-            for targets0 in targets {
-                try targetsContainer.encode(targets0)
+            for target0 in targets {
+                try targetsContainer.encode(target0)
             }
         }
     }
@@ -1157,8 +1157,8 @@ extension ListEventTypesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for listeventtypesfilters0 in filters {
-                try filtersContainer.encode(listeventtypesfilters0)
+            for listeventtypesfilter0 in filters {
+                try filtersContainer.encode(listeventtypesfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -1409,8 +1409,8 @@ extension ListNotificationRulesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for listnotificationrulesfilters0 in filters {
-                try filtersContainer.encode(listnotificationrulesfilters0)
+            for listnotificationrulesfilter0 in filters {
+                try filtersContainer.encode(listnotificationrulesfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -1780,8 +1780,8 @@ extension ListTargetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for listtargetsfilters0 in filters {
-                try filtersContainer.encode(listtargetsfilters0)
+            for listtargetsfilter0 in filters {
+                try filtersContainer.encode(listtargetsfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -2813,8 +2813,8 @@ extension UpdateNotificationRuleInput: Swift.Encodable {
         }
         if let eventTypeIds = eventTypeIds {
             var eventTypeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTypeIds)
-            for eventtypeids0 in eventTypeIds {
-                try eventTypeIdsContainer.encode(eventtypeids0)
+            for eventtypeid0 in eventTypeIds {
+                try eventTypeIdsContainer.encode(eventtypeid0)
             }
         }
         if let name = self.name {
@@ -2825,8 +2825,8 @@ extension UpdateNotificationRuleInput: Swift.Encodable {
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
-            for targets0 in targets {
-                try targetsContainer.encode(targets0)
+            for target0 in targets {
+                try targetsContainer.encode(target0)
             }
         }
     }

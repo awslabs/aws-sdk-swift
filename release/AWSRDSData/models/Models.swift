@@ -69,28 +69,28 @@ extension RDSDataClientTypes.ArrayValue: Swift.Codable {
         switch self {
             case let .arrayvalues(arrayvalues):
                 var arrayvaluesContainer = container.nestedUnkeyedContainer(forKey: .arrayvalues)
-                for arrayofarray0 in arrayvalues {
-                    try arrayvaluesContainer.encode(arrayofarray0)
+                for arrayvalue0 in arrayvalues {
+                    try arrayvaluesContainer.encode(arrayvalue0)
                 }
             case let .booleanvalues(booleanvalues):
                 var booleanvaluesContainer = container.nestedUnkeyedContainer(forKey: .booleanvalues)
-                for booleanarray0 in booleanvalues {
-                    try booleanvaluesContainer.encode(booleanarray0)
+                for boxedboolean0 in booleanvalues {
+                    try booleanvaluesContainer.encode(boxedboolean0)
                 }
             case let .doublevalues(doublevalues):
                 var doublevaluesContainer = container.nestedUnkeyedContainer(forKey: .doublevalues)
-                for doublearray0 in doublevalues {
-                    try doublevaluesContainer.encode(doublearray0)
+                for boxeddouble0 in doublevalues {
+                    try doublevaluesContainer.encode(boxeddouble0)
                 }
             case let .longvalues(longvalues):
                 var longvaluesContainer = container.nestedUnkeyedContainer(forKey: .longvalues)
-                for longarray0 in longvalues {
-                    try longvaluesContainer.encode(longarray0)
+                for boxedlong0 in longvalues {
+                    try longvaluesContainer.encode(boxedlong0)
                 }
             case let .stringvalues(stringvalues):
                 var stringvaluesContainer = container.nestedUnkeyedContainer(forKey: .stringvalues)
-                for stringarray0 in stringvalues {
-                    try stringvaluesContainer.encode(stringarray0)
+                for string0 in stringvalues {
+                    try stringvaluesContainer.encode(string0)
                 }
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
@@ -262,10 +262,10 @@ extension BatchExecuteStatementInput: Swift.Encodable {
         }
         if let parameterSets = parameterSets {
             var parameterSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterSets)
-            for sqlparametersets0 in parameterSets {
-                var sqlparametersets0Container = parameterSetsContainer.nestedUnkeyedContainer()
-                for sqlparameterslist1 in sqlparametersets0 {
-                    try sqlparametersets0Container.encode(sqlparameterslist1)
+            for sqlparameterslist0 in parameterSets {
+                var sqlparameterslist0Container = parameterSetsContainer.nestedUnkeyedContainer()
+                for sqlparameter1 in sqlparameterslist0 {
+                    try sqlparameterslist0Container.encode(sqlparameter1)
                 }
             }
         }
@@ -1200,8 +1200,8 @@ extension ExecuteStatementInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for sqlparameterslist0 in parameters {
-                try parametersContainer.encode(sqlparameterslist0)
+            for sqlparameter0 in parameters {
+                try parametersContainer.encode(sqlparameter0)
             }
         }
         if let resourceArn = self.resourceArn {
@@ -1768,8 +1768,8 @@ extension RDSDataClientTypes.Record: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for row0 in values {
-                try valuesContainer.encode(row0)
+            for value0 in values {
+                try valuesContainer.encode(value0)
             }
         }
     }
@@ -1848,8 +1848,8 @@ extension RDSDataClientTypes.ResultFrame: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let records = records {
             var recordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .records)
-            for records0 in records {
-                try recordsContainer.encode(records0)
+            for record0 in records {
+                try recordsContainer.encode(record0)
             }
         }
         if let resultSetMetadata = self.resultSetMetadata {
@@ -1908,8 +1908,8 @@ extension RDSDataClientTypes.ResultSetMetadata: Swift.Codable {
         }
         if let columnMetadata = columnMetadata {
             var columnMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnMetadata)
-            for metadata0 in columnMetadata {
-                try columnMetadataContainer.encode(metadata0)
+            for columnmetadata0 in columnMetadata {
+                try columnMetadataContainer.encode(columnmetadata0)
             }
         }
     }
@@ -2354,8 +2354,8 @@ extension RDSDataClientTypes.StructValue: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for arrayvaluelist0 in attributes {
-                try attributesContainer.encode(arrayvaluelist0)
+            for value0 in attributes {
+                try attributesContainer.encode(value0)
             }
         }
     }
@@ -2445,8 +2445,8 @@ extension RDSDataClientTypes.UpdateResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let generatedFields = generatedFields {
             var generatedFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .generatedFields)
-            for fieldlist0 in generatedFields {
-                try generatedFieldsContainer.encode(fieldlist0)
+            for field0 in generatedFields {
+                try generatedFieldsContainer.encode(field0)
             }
         }
     }
@@ -2503,8 +2503,8 @@ extension RDSDataClientTypes.Value: Swift.Codable {
         switch self {
             case let .arrayvalues(arrayvalues):
                 var arrayvaluesContainer = container.nestedUnkeyedContainer(forKey: .arrayvalues)
-                for arrayvaluelist0 in arrayvalues {
-                    try arrayvaluesContainer.encode(arrayvaluelist0)
+                for value0 in arrayvalues {
+                    try arrayvaluesContainer.encode(value0)
                 }
             case let .bigintvalue(bigintvalue):
                 try container.encode(bigintvalue, forKey: .bigintvalue)

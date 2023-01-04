@@ -161,8 +161,8 @@ extension CreateSecretInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addReplicaRegions = addReplicaRegions {
             var addReplicaRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addReplicaRegions)
-            for addreplicaregionlisttype0 in addReplicaRegions {
-                try addReplicaRegionsContainer.encode(addreplicaregionlisttype0)
+            for replicaregiontype0 in addReplicaRegions {
+                try addReplicaRegionsContainer.encode(replicaregiontype0)
             }
         }
         if let clientRequestToken = self.clientRequestToken {
@@ -188,8 +188,8 @@ extension CreateSecretInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglisttype0 in tags {
-                try tagsContainer.encode(taglisttype0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -888,6 +888,7 @@ extension DescribeSecretOutputResponse: ClientRuntime.HttpResponseBinding {
             self.lastChangedDate = output.lastChangedDate
             self.lastRotatedDate = output.lastRotatedDate
             self.name = output.name
+            self.nextRotationDate = output.nextRotationDate
             self.owningService = output.owningService
             self.primaryRegion = output.primaryRegion
             self.replicationStatus = output.replicationStatus
@@ -906,6 +907,7 @@ extension DescribeSecretOutputResponse: ClientRuntime.HttpResponseBinding {
             self.lastChangedDate = nil
             self.lastRotatedDate = nil
             self.name = nil
+            self.nextRotationDate = nil
             self.owningService = nil
             self.primaryRegion = nil
             self.replicationStatus = nil
@@ -937,6 +939,7 @@ public struct DescribeSecretOutputResponse: Swift.Equatable {
     public var lastRotatedDate: ClientRuntime.Date?
     /// The name of the secret.
     public var name: Swift.String?
+    public var nextRotationDate: ClientRuntime.Date?
     /// The ID of the service that created this secret. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     public var owningService: Swift.String?
     /// The Region the secret is in. If a secret is replicated to other Regions, the replicas are listed in ReplicationStatus.
@@ -979,6 +982,7 @@ public struct DescribeSecretOutputResponse: Swift.Equatable {
         lastChangedDate: ClientRuntime.Date? = nil,
         lastRotatedDate: ClientRuntime.Date? = nil,
         name: Swift.String? = nil,
+        nextRotationDate: ClientRuntime.Date? = nil,
         owningService: Swift.String? = nil,
         primaryRegion: Swift.String? = nil,
         replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]? = nil,
@@ -998,6 +1002,7 @@ public struct DescribeSecretOutputResponse: Swift.Equatable {
         self.lastChangedDate = lastChangedDate
         self.lastRotatedDate = lastRotatedDate
         self.name = name
+        self.nextRotationDate = nextRotationDate
         self.owningService = owningService
         self.primaryRegion = primaryRegion
         self.replicationStatus = replicationStatus
@@ -1021,6 +1026,7 @@ struct DescribeSecretOutputResponseBody: Swift.Equatable {
     let lastChangedDate: ClientRuntime.Date?
     let lastAccessedDate: ClientRuntime.Date?
     let deletedDate: ClientRuntime.Date?
+    let nextRotationDate: ClientRuntime.Date?
     let tags: [SecretsManagerClientTypes.Tag]?
     let versionIdsToStages: [Swift.String:[Swift.String]]?
     let owningService: Swift.String?
@@ -1040,6 +1046,7 @@ extension DescribeSecretOutputResponseBody: Swift.Decodable {
         case lastChangedDate = "LastChangedDate"
         case lastRotatedDate = "LastRotatedDate"
         case name = "Name"
+        case nextRotationDate = "NextRotationDate"
         case owningService = "OwningService"
         case primaryRegion = "PrimaryRegion"
         case replicationStatus = "ReplicationStatus"
@@ -1074,6 +1081,8 @@ extension DescribeSecretOutputResponseBody: Swift.Decodable {
         lastAccessedDate = lastAccessedDateDecoded
         let deletedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .deletedDate)
         deletedDate = deletedDateDecoded
+        let nextRotationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .nextRotationDate)
+        nextRotationDate = nextRotationDateDecoded
         let tagsContainer = try containerValues.decodeIfPresent([SecretsManagerClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[SecretsManagerClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -1188,8 +1197,8 @@ extension SecretsManagerClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervaluesstringlist0 in values {
-                try valuesContainer.encode(filtervaluesstringlist0)
+            for filtervaluestringtype0 in values {
+                try valuesContainer.encode(filtervaluestringtype0)
             }
         }
     }
@@ -1249,6 +1258,7 @@ extension SecretsManagerClientTypes {
         case all
         case description
         case name
+        case owningService
         case primaryRegion
         case tagKey
         case tagValue
@@ -1259,6 +1269,7 @@ extension SecretsManagerClientTypes {
                 .all,
                 .description,
                 .name,
+                .owningService,
                 .primaryRegion,
                 .tagKey,
                 .tagValue,
@@ -1274,6 +1285,7 @@ extension SecretsManagerClientTypes {
             case .all: return "all"
             case .description: return "description"
             case .name: return "name"
+            case .owningService: return "owning-service"
             case .primaryRegion: return "primary-region"
             case .tagKey: return "tag-key"
             case .tagValue: return "tag-value"
@@ -2306,6 +2318,7 @@ extension ListSecretVersionIdsOutputResponseBody: Swift.Decodable {
 extension ListSecretsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
+        case includePlannedDeletion = "IncludePlannedDeletion"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case sortOrder = "SortOrder"
@@ -2315,9 +2328,12 @@ extension ListSecretsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterslisttype0 in filters {
-                try filtersContainer.encode(filterslisttype0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
+        }
+        if let includePlannedDeletion = self.includePlannedDeletion {
+            try encodeContainer.encode(includePlannedDeletion, forKey: .includePlannedDeletion)
         }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
@@ -2340,6 +2356,7 @@ extension ListSecretsInput: ClientRuntime.URLPathProvider {
 public struct ListSecretsInput: Swift.Equatable {
     /// The filters to apply to the list of secrets.
     public var filters: [SecretsManagerClientTypes.Filter]?
+    public var includePlannedDeletion: Swift.Bool?
     /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call ListSecrets again with the value from NextToken.
     public var maxResults: Swift.Int?
     /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call ListSecrets again with this value.
@@ -2349,12 +2366,14 @@ public struct ListSecretsInput: Swift.Equatable {
 
     public init (
         filters: [SecretsManagerClientTypes.Filter]? = nil,
+        includePlannedDeletion: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SecretsManagerClientTypes.SortOrderType? = nil
     )
     {
         self.filters = filters
+        self.includePlannedDeletion = includePlannedDeletion
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortOrder = sortOrder
@@ -2362,6 +2381,7 @@ public struct ListSecretsInput: Swift.Equatable {
 }
 
 struct ListSecretsInputBody: Swift.Equatable {
+    let includePlannedDeletion: Swift.Bool?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [SecretsManagerClientTypes.Filter]?
@@ -2371,6 +2391,7 @@ struct ListSecretsInputBody: Swift.Equatable {
 extension ListSecretsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
+        case includePlannedDeletion = "IncludePlannedDeletion"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case sortOrder = "SortOrder"
@@ -2378,6 +2399,8 @@ extension ListSecretsInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let includePlannedDeletionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePlannedDeletion)
+        includePlannedDeletion = includePlannedDeletionDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
@@ -2826,8 +2849,8 @@ extension PutSecretValueInput: Swift.Encodable {
         }
         if let versionStages = versionStages {
             var versionStagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versionStages)
-            for secretversionstagestype0 in versionStages {
-                try versionStagesContainer.encode(secretversionstagestype0)
+            for secretversionstagetype0 in versionStages {
+                try versionStagesContainer.encode(secretversionstagetype0)
             }
         }
     }
@@ -3044,8 +3067,8 @@ extension RemoveRegionsFromReplicationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let removeReplicaRegions = removeReplicaRegions {
             var removeReplicaRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeReplicaRegions)
-            for removereplicaregionlisttype0 in removeReplicaRegions {
-                try removeReplicaRegionsContainer.encode(removereplicaregionlisttype0)
+            for regiontype0 in removeReplicaRegions {
+                try removeReplicaRegionsContainer.encode(regiontype0)
             }
         }
         if let secretId = self.secretId {
@@ -3251,8 +3274,8 @@ extension ReplicateSecretToRegionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addReplicaRegions = addReplicaRegions {
             var addReplicaRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addReplicaRegions)
-            for addreplicaregionlisttype0 in addReplicaRegions {
-                try addReplicaRegionsContainer.encode(addreplicaregionlisttype0)
+            for replicaregiontype0 in addReplicaRegions {
+                try addReplicaRegionsContainer.encode(replicaregiontype0)
             }
         }
         if forceOverwriteReplicaSecret != false {
@@ -3970,6 +3993,7 @@ extension SecretsManagerClientTypes.SecretListEntry: Swift.Codable {
         case lastChangedDate = "LastChangedDate"
         case lastRotatedDate = "LastRotatedDate"
         case name = "Name"
+        case nextRotationDate = "NextRotationDate"
         case owningService = "OwningService"
         case primaryRegion = "PrimaryRegion"
         case rotationEnabled = "RotationEnabled"
@@ -4008,6 +4032,9 @@ extension SecretsManagerClientTypes.SecretListEntry: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let nextRotationDate = self.nextRotationDate {
+            try encodeContainer.encodeTimestamp(nextRotationDate, format: .epochSeconds, forKey: .nextRotationDate)
+        }
         if let owningService = self.owningService {
             try encodeContainer.encode(owningService, forKey: .owningService)
         }
@@ -4025,14 +4052,17 @@ extension SecretsManagerClientTypes.SecretListEntry: Swift.Codable {
         }
         if let secretVersionsToStages = secretVersionsToStages {
             var secretVersionsToStagesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .secretVersionsToStages)
-            for (dictKey0, secretversionstostagesmaptype0) in secretVersionsToStages {
-                try secretVersionsToStagesContainer.encode(secretversionstostagesmaptype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, secretVersionsToStagesMapType0) in secretVersionsToStages {
+                var secretVersionsToStagesMapType0Container = secretVersionsToStagesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for secretversionstagetype1 in secretVersionsToStagesMapType0 {
+                    try secretVersionsToStagesMapType0Container.encode(secretversionstagetype1)
+                }
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglisttype0 in tags {
-                try tagsContainer.encode(taglisttype0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4061,6 +4091,8 @@ extension SecretsManagerClientTypes.SecretListEntry: Swift.Codable {
         lastAccessedDate = lastAccessedDateDecoded
         let deletedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .deletedDate)
         deletedDate = deletedDateDecoded
+        let nextRotationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .nextRotationDate)
+        nextRotationDate = nextRotationDateDecoded
         let tagsContainer = try containerValues.decodeIfPresent([SecretsManagerClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[SecretsManagerClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -4120,6 +4152,7 @@ extension SecretsManagerClientTypes {
         public var lastRotatedDate: ClientRuntime.Date?
         /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod.
         public var name: Swift.String?
+        public var nextRotationDate: ClientRuntime.Date?
         /// Returns the name of the service that created the secret.
         public var owningService: Swift.String?
         /// The Region where Secrets Manager originated the secret.
@@ -4145,6 +4178,7 @@ extension SecretsManagerClientTypes {
             lastChangedDate: ClientRuntime.Date? = nil,
             lastRotatedDate: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
+            nextRotationDate: ClientRuntime.Date? = nil,
             owningService: Swift.String? = nil,
             primaryRegion: Swift.String? = nil,
             rotationEnabled: Swift.Bool? = nil,
@@ -4163,6 +4197,7 @@ extension SecretsManagerClientTypes {
             self.lastChangedDate = lastChangedDate
             self.lastRotatedDate = lastRotatedDate
             self.name = name
+            self.nextRotationDate = nextRotationDate
             self.owningService = owningService
             self.primaryRegion = primaryRegion
             self.rotationEnabled = rotationEnabled
@@ -4191,8 +4226,8 @@ extension SecretsManagerClientTypes.SecretVersionsListEntry: Swift.Codable {
         }
         if let kmsKeyIds = kmsKeyIds {
             var kmsKeyIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .kmsKeyIds)
-            for kmskeyidlisttype0 in kmsKeyIds {
-                try kmsKeyIdsContainer.encode(kmskeyidlisttype0)
+            for kmskeyidtype0 in kmsKeyIds {
+                try kmsKeyIdsContainer.encode(kmskeyidtype0)
             }
         }
         if let lastAccessedDate = self.lastAccessedDate {
@@ -4203,8 +4238,8 @@ extension SecretsManagerClientTypes.SecretVersionsListEntry: Swift.Codable {
         }
         if let versionStages = versionStages {
             var versionStagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versionStages)
-            for secretversionstagestype0 in versionStages {
-                try versionStagesContainer.encode(secretversionstagestype0)
+            for secretversionstagetype0 in versionStages {
+                try versionStagesContainer.encode(secretversionstagetype0)
             }
         }
     }
@@ -4516,8 +4551,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglisttype0 in tags {
-                try tagsContainer.encode(taglisttype0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4627,8 +4662,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylisttype0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylisttype0)
+            for tagkeytype0 in tagKeys {
+                try tagKeysContainer.encode(tagkeytype0)
             }
         }
     }
