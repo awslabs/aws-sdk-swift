@@ -88,14 +88,14 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
 
         writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
         writer.addImport(ClientRuntimeTypes.Http.SdkHttpRequest)
+        writer.addFoundationImport()
 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock(
-                "public func presignURL(config: \$N, expiration: \$N) async throws -> \$T {", "}",
+                "public func presignURL(config: \$N, expiration: Foundation.TimeInterval) async throws -> \$T {", "}",
                 serviceConfig.typeProtocol,
-                SwiftTypes.Int64,
                 ClientRuntimeTypes.Core.URL
             ) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
